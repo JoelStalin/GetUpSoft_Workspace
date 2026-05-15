@@ -1,0 +1,471 @@
+﻿{
+    "generatedAt":  "2026-05-15T12:01:56.6465837-04:00",
+    "workspaceRoot":  "C:\\Users\\yoeli\\Documents\\GetUpSoft_Workspace",
+    "top":  5,
+    "projectCount":  9,
+    "familyCount":  6,
+    "families":  [
+                     {
+                         "family":  "ai-automation",
+                         "description":  "Agent orchestration, automation, and AI workflow work.",
+                         "projectCount":  1,
+                         "projects":  [
+                                          {
+                                              "name":  "03_AI_Automation",
+                                              "path":  "C:\\Users\\yoeli\\Documents\\GetUpSoft_Workspace\\03_AI_Automation",
+                                              "family":  "ai-automation",
+                                              "familyDescription":  "Agent orchestration, automation, and AI workflow work.",
+                                              "familySeedSkills":  [
+                                                                       "agency-agents",
+                                                                       "mcp-builder",
+                                                                       "connect",
+                                                                       "skill-share",
+                                                                       "create-plan"
+                                                                   ],
+                                              "signals":  [
+                                                              "automation"
+                                                          ],
+                                              "recommendedSkills":  [
+                                                                        "agency-agents [71] - Use The Agency specialist-agent library as Codex-compatible reference personas and workflows. Applies when the user asks to use agency-agents, The Agency, or a named Agency specialist such as Frontend Developer, Reality Checker, Evidence Collector, Backend Architect, Growth Hacker, etc.",
+                                                                        "webapp-testing [71] - Toolkit for interacting with and testing local web applications using Playwright. Supports verifying frontend functionality, debugging UI behavior, capturing browser screenshots, and viewing browser logs.",
+                                                                        "skill-share [68] - A skill that creates new Claude skills and automatically shares them on Slack using Rube for seamless team collaboration and skill discovery.",
+                                                                        "components-build [64] - Build modern, composable, and accessible React UI components following the components.build specification. Use when creating, reviewing, or refactoring component libraries, design systems, or any reusable UI components. Triggers on tasks involving component APIs, composition patterns, accessibility, styling systems, or TypeScript props.",
+                                                                        "mcp-builder [64] - Guide for creating high-quality MCP (Model Context Protocol) servers that enable LLMs to interact with external services through well-designed tools. Use when building MCP servers to integrate external APIs or services, whether in Python (FastMCP) or Node/TypeScript (MCP SDK)."
+                                                                    ],
+                                              "cavemanBrief":  "CAVEMAN BRIEF\r\nPrompt tokens: workspace, project, family:, ai-automation, project:, 03, ai, automation, path:, c:, users, yoeli, documents, getupsoft, signals:, family, seed, skills:, agency-agents, mcp-builder, connect, skill-share, create-plan, select, the, best, codex, skills, for, this, prefer, most, specific, first, consider, policy:, normalize, request, with, caveman, before, selecting, use, shared, skill, bundle, in, agents, when, multiagent, coordination, helps, include, webapp-testing, browser, ui, verification, relevant\r\nWorkspace skill count: 97\r\n\r\nRecommended skills\r\n- agency-agents [71] - Use The Agency specialist-agent library as Codex-compatible reference personas and workflows. Applies when the user asks to use agency-agents, The Agency, or a named Agency specialist such as Frontend Developer, Reality Checker, Evidence Collector, Backend Architect, Growth Hacker, etc.\r\n- webapp-testing [71] - Toolkit for interacting with and testing local web applications using Playwright. Supports verifying frontend functionality, debugging UI behavior, capturing browser screenshots, and viewing browser logs.\r\n- skill-share [68] - A skill that creates new Claude skills and automatically shares them on Slack using Rube for seamless team collaboration and skill discovery.\r\n- components-build [64] - Build modern, composable, and accessible React UI components following the components.build specification. Use when creating, reviewing, or refactoring component libraries, design systems, or any reusable UI components. Triggers on tasks involving component APIs, composition patterns, accessibility, styling systems, or TypeScript props.\r\n- mcp-builder [64] - Guide for creating high-quality MCP (Model Context Protocol) servers that enable LLMs to interact with external services through well-designed tools. Use when building MCP servers to integrate external APIs or services, whether in Python (FastMCP) or Node/TypeScript (MCP SDK)."
+                                          }
+                                      ]
+                     },
+                     {
+                         "family":  "docs-knowledge",
+                         "description":  "Documentation, knowledge base, policy, and research work.",
+                         "projectCount":  2,
+                         "projects":  [
+                                          {
+                                              "name":  "_Knowledge_Center",
+                                              "path":  "C:\\Users\\yoeli\\Documents\\GetUpSoft_Workspace\\_Knowledge_Center",
+                                              "family":  "docs-knowledge",
+                                              "familyDescription":  "Documentation, knowledge base, policy, and research work.",
+                                              "familySeedSkills":  [
+                                                                       "content-research-writer",
+                                                                       "notion-research-documentation",
+                                                                       "notion-knowledge-capture",
+                                                                       "internal-comms",
+                                                                       "create-plan"
+                                                                   ],
+                                              "signals":  [
+                                                              "documentation"
+                                                          ],
+                                              "recommendedSkills":  [
+                                                                        "agency-agents [72] - Use The Agency specialist-agent library as Codex-compatible reference personas and workflows. Applies when the user asks to use agency-agents, The Agency, or a named Agency specialist such as Frontend Developer, Reality Checker, Evidence Collector, Backend Architect, Growth Hacker, etc.",
+                                                                        "webapp-testing [72] - Toolkit for interacting with and testing local web applications using Playwright. Supports verifying frontend functionality, debugging UI behavior, capturing browser screenshots, and viewing browser logs.",
+                                                                        "skill-share [69] - A skill that creates new Claude skills and automatically shares them on Slack using Rube for seamless team collaboration and skill discovery.",
+                                                                        "components-build [65] - Build modern, composable, and accessible React UI components following the components.build specification. Use when creating, reviewing, or refactoring component libraries, design systems, or any reusable UI components. Triggers on tasks involving component APIs, composition patterns, accessibility, styling systems, or TypeScript props.",
+                                                                        "content-research-writer [65] - Assists in writing high-quality content by conducting research, adding citations, improving hooks, iterating on outlines, and providing real-time feedback on each section. Transforms your writing process from solo effort to collaborative partnership."
+                                                                    ],
+                                              "cavemanBrief":  "CAVEMAN BRIEF\r\nPrompt tokens: workspace, project, family:, docs-knowledge, project:, knowledge, center, path:, c:, users, yoeli, documents, getupsoft, signals:, documentation, family, seed, skills:, content-research-writer, notion-research-documentation, notion-knowledge-capture, internal-comms, create-plan, select, the, best, codex, skills, for, this, prefer, most, specific, first, consider, policy:, normalize, request, with, caveman, before, selecting, use, shared, skill, bundle, in, agents, agency-agents, when, multiagent, coordination, helps, include, webapp-testing, browser, ui, verification, relevant\r\nWorkspace skill count: 97\r\n\r\nRecommended skills\r\n- agency-agents [72] - Use The Agency specialist-agent library as Codex-compatible reference personas and workflows. Applies when the user asks to use agency-agents, The Agency, or a named Agency specialist such as Frontend Developer, Reality Checker, Evidence Collector, Backend Architect, Growth Hacker, etc.\r\n- webapp-testing [72] - Toolkit for interacting with and testing local web applications using Playwright. Supports verifying frontend functionality, debugging UI behavior, capturing browser screenshots, and viewing browser logs.\r\n- skill-share [69] - A skill that creates new Claude skills and automatically shares them on Slack using Rube for seamless team collaboration and skill discovery.\r\n- components-build [65] - Build modern, composable, and accessible React UI components following the components.build specification. Use when creating, reviewing, or refactoring component libraries, design systems, or any reusable UI components. Triggers on tasks involving component APIs, composition patterns, accessibility, styling systems, or TypeScript props.\r\n- content-research-writer [65] - Assists in writing high-quality content by conducting research, adding citations, improving hooks, iterating on outlines, and providing real-time feedback on each section. Transforms your writing process from solo effort to collaborative partnership."
+                                          },
+                                          {
+                                              "name":  "legal",
+                                              "path":  "C:\\Users\\yoeli\\Documents\\GetUpSoft_Workspace\\legal",
+                                              "family":  "docs-knowledge",
+                                              "familyDescription":  "Documentation, knowledge base, policy, and research work.",
+                                              "familySeedSkills":  [
+                                                                       "content-research-writer",
+                                                                       "notion-research-documentation",
+                                                                       "notion-knowledge-capture",
+                                                                       "internal-comms",
+                                                                       "create-plan"
+                                                                   ],
+                                              "signals":  [
+                                                              "documentation"
+                                                          ],
+                                              "recommendedSkills":  [
+                                                                        "agency-agents [71] - Use The Agency specialist-agent library as Codex-compatible reference personas and workflows. Applies when the user asks to use agency-agents, The Agency, or a named Agency specialist such as Frontend Developer, Reality Checker, Evidence Collector, Backend Architect, Growth Hacker, etc.",
+                                                                        "webapp-testing [71] - Toolkit for interacting with and testing local web applications using Playwright. Supports verifying frontend functionality, debugging UI behavior, capturing browser screenshots, and viewing browser logs.",
+                                                                        "skill-share [68] - A skill that creates new Claude skills and automatically shares them on Slack using Rube for seamless team collaboration and skill discovery.",
+                                                                        "components-build [64] - Build modern, composable, and accessible React UI components following the components.build specification. Use when creating, reviewing, or refactoring component libraries, design systems, or any reusable UI components. Triggers on tasks involving component APIs, composition patterns, accessibility, styling systems, or TypeScript props.",
+                                                                        "content-research-writer [64] - Assists in writing high-quality content by conducting research, adding citations, improving hooks, iterating on outlines, and providing real-time feedback on each section. Transforms your writing process from solo effort to collaborative partnership."
+                                                                    ],
+                                              "cavemanBrief":  "CAVEMAN BRIEF\r\nPrompt tokens: workspace, project, family:, docs-knowledge, project:, legal, path:, c:, users, yoeli, documents, getupsoft, signals:, documentation, family, seed, skills:, content-research-writer, notion-research-documentation, notion-knowledge-capture, internal-comms, create-plan, select, the, best, codex, skills, for, this, prefer, most, specific, first, consider, policy:, normalize, request, with, caveman, before, selecting, use, shared, skill, bundle, in, agents, agency-agents, when, multiagent, coordination, helps, include, webapp-testing, browser, ui, verification, relevant\r\nWorkspace skill count: 97\r\n\r\nRecommended skills\r\n- agency-agents [71] - Use The Agency specialist-agent library as Codex-compatible reference personas and workflows. Applies when the user asks to use agency-agents, The Agency, or a named Agency specialist such as Frontend Developer, Reality Checker, Evidence Collector, Backend Architect, Growth Hacker, etc.\r\n- webapp-testing [71] - Toolkit for interacting with and testing local web applications using Playwright. Supports verifying frontend functionality, debugging UI behavior, capturing browser screenshots, and viewing browser logs.\r\n- skill-share [68] - A skill that creates new Claude skills and automatically shares them on Slack using Rube for seamless team collaboration and skill discovery.\r\n- components-build [64] - Build modern, composable, and accessible React UI components following the components.build specification. Use when creating, reviewing, or refactoring component libraries, design systems, or any reusable UI components. Triggers on tasks involving component APIs, composition patterns, accessibility, styling systems, or TypeScript props.\r\n- content-research-writer [64] - Assists in writing high-quality content by conducting research, adding citations, improving hooks, iterating on outlines, and providing real-time feedback on each section. Transforms your writing process from solo effort to collaborative partnership."
+                                          }
+                                      ]
+                     },
+                     {
+                         "family":  "erp-odoo",
+                         "description":  "ERP, back-office, accounting, database, and workflow work.",
+                         "projectCount":  1,
+                         "projects":  [
+                                          {
+                                              "name":  "02_Odoo_ERP",
+                                              "path":  "C:\\Users\\yoeli\\Documents\\GetUpSoft_Workspace\\02_Odoo_ERP",
+                                              "family":  "erp-odoo",
+                                              "familyDescription":  "ERP, back-office, accounting, database, and workflow work.",
+                                              "familySeedSkills":  [
+                                                                       "create-plan",
+                                                                       "support-ticket-triage",
+                                                                       "spreadsheet-formula-helper",
+                                                                       "internal-comms",
+                                                                       "authorized-security-testing"
+                                                                   ],
+                                              "signals":  [
+                                                              "erp"
+                                                          ],
+                                              "recommendedSkills":  [
+                                                                        "agency-agents [72] - Use The Agency specialist-agent library as Codex-compatible reference personas and workflows. Applies when the user asks to use agency-agents, The Agency, or a named Agency specialist such as Frontend Developer, Reality Checker, Evidence Collector, Backend Architect, Growth Hacker, etc.",
+                                                                        "webapp-testing [72] - Toolkit for interacting with and testing local web applications using Playwright. Supports verifying frontend functionality, debugging UI behavior, capturing browser screenshots, and viewing browser logs.",
+                                                                        "skill-share [69] - A skill that creates new Claude skills and automatically shares them on Slack using Rube for seamless team collaboration and skill discovery.",
+                                                                        "authorized-security-testing [65] - Defensive security auditing for projects the user owns or is explicitly authorized to test. Use when the task is to review application security, run non-destructive checks, validate auth/session handling, inspect headers/TLS/configuration, review dependencies and secrets, or produce prioritized remediation notes. Do not use for offensive exploitation, malware, credential theft, phishing, stealth, or public-target attack workflows.",
+                                                                        "components-build [65] - Build modern, composable, and accessible React UI components following the components.build specification. Use when creating, reviewing, or refactoring component libraries, design systems, or any reusable UI components. Triggers on tasks involving component APIs, composition patterns, accessibility, styling systems, or TypeScript props."
+                                                                    ],
+                                              "cavemanBrief":  "CAVEMAN BRIEF\r\nPrompt tokens: workspace, project, family:, erp-odoo, project:, 02, odoo, erp, path:, c:, users, yoeli, documents, getupsoft, signals:, family, seed, skills:, create-plan, support-ticket-triage, spreadsheet-formula-helper, internal-comms, authorized-security-testing, select, the, best, codex, skills, for, this, prefer, most, specific, first, consider, policy:, normalize, request, with, caveman, before, selecting, use, shared, skill, bundle, in, agents, agency-agents, when, multiagent, coordination, helps, include, webapp-testing, browser, ui, verification, relevant\r\nWorkspace skill count: 97\r\n\r\nRecommended skills\r\n- agency-agents [72] - Use The Agency specialist-agent library as Codex-compatible reference personas and workflows. Applies when the user asks to use agency-agents, The Agency, or a named Agency specialist such as Frontend Developer, Reality Checker, Evidence Collector, Backend Architect, Growth Hacker, etc.\r\n- webapp-testing [72] - Toolkit for interacting with and testing local web applications using Playwright. Supports verifying frontend functionality, debugging UI behavior, capturing browser screenshots, and viewing browser logs.\r\n- skill-share [69] - A skill that creates new Claude skills and automatically shares them on Slack using Rube for seamless team collaboration and skill discovery.\r\n- authorized-security-testing [65] - Defensive security auditing for projects the user owns or is explicitly authorized to test. Use when the task is to review application security, run non-destructive checks, validate auth/session handling, inspect headers/TLS/configuration, review dependencies and secrets, or produce prioritized remediation notes. Do not use for offensive exploitation, malware, credential theft, phishing, stealth, or public-target attack workflows.\r\n- components-build [65] - Build modern, composable, and accessible React UI components following the components.build specification. Use when creating, reviewing, or refactoring component libraries, design systems, or any reusable UI components. Triggers on tasks involving component APIs, composition patterns, accessibility, styling systems, or TypeScript props."
+                                          }
+                                      ]
+                     },
+                     {
+                         "family":  "general",
+                         "description":  "Mixed or uncategorized project work.",
+                         "projectCount":  1,
+                         "projects":  [
+                                          {
+                                              "name":  "miniverse",
+                                              "path":  "C:\\Users\\yoeli\\Documents\\GetUpSoft_Workspace\\miniverse",
+                                              "family":  "general",
+                                              "familyDescription":  "Mixed or uncategorized project work.",
+                                              "familySeedSkills":  [
+                                                                       "create-plan",
+                                                                       "agency-agents"
+                                                                   ],
+                                              "signals":  [
+
+                                                          ],
+                                              "recommendedSkills":  [
+                                                                        "agency-agents [66] - Use The Agency specialist-agent library as Codex-compatible reference personas and workflows. Applies when the user asks to use agency-agents, The Agency, or a named Agency specialist such as Frontend Developer, Reality Checker, Evidence Collector, Backend Architect, Growth Hacker, etc.",
+                                                                        "webapp-testing [66] - Toolkit for interacting with and testing local web applications using Playwright. Supports verifying frontend functionality, debugging UI behavior, capturing browser screenshots, and viewing browser logs.",
+                                                                        "skill-share [63] - A skill that creates new Claude skills and automatically shares them on Slack using Rube for seamless team collaboration and skill discovery.",
+                                                                        "components-build [59] - Build modern, composable, and accessible React UI components following the components.build specification. Use when creating, reviewing, or refactoring component libraries, design systems, or any reusable UI components. Triggers on tasks involving component APIs, composition patterns, accessibility, styling systems, or TypeScript props.",
+                                                                        "mcp-builder [59] - Guide for creating high-quality MCP (Model Context Protocol) servers that enable LLMs to interact with external services through well-designed tools. Use when building MCP servers to integrate external APIs or services, whether in Python (FastMCP) or Node/TypeScript (MCP SDK)."
+                                                                    ],
+                                              "cavemanBrief":  "CAVEMAN BRIEF\r\nPrompt tokens: workspace, project, family:, general, project:, miniverse, path:, c:, users, yoeli, documents, getupsoft, signals:, family, seed, skills:, create-plan, agency-agents, select, the, best, codex, skills, for, this, prefer, most, specific, first, consider, policy:, normalize, request, with, caveman, before, selecting, use, shared, skill, bundle, in, agents, when, multiagent, coordination, helps, include, webapp-testing, browser, ui, verification, relevant\r\nWorkspace skill count: 97\r\n\r\nRecommended skills\r\n- agency-agents [66] - Use The Agency specialist-agent library as Codex-compatible reference personas and workflows. Applies when the user asks to use agency-agents, The Agency, or a named Agency specialist such as Frontend Developer, Reality Checker, Evidence Collector, Backend Architect, Growth Hacker, etc.\r\n- webapp-testing [66] - Toolkit for interacting with and testing local web applications using Playwright. Supports verifying frontend functionality, debugging UI behavior, capturing browser screenshots, and viewing browser logs.\r\n- skill-share [63] - A skill that creates new Claude skills and automatically shares them on Slack using Rube for seamless team collaboration and skill discovery.\r\n- components-build [59] - Build modern, composable, and accessible React UI components following the components.build specification. Use when creating, reviewing, or refactoring component libraries, design systems, or any reusable UI components. Triggers on tasks involving component APIs, composition patterns, accessibility, styling systems, or TypeScript props.\r\n- mcp-builder [59] - Guide for creating high-quality MCP (Model Context Protocol) servers that enable LLMs to interact with external services through well-designed tools. Use when building MCP servers to integrate external APIs or services, whether in Python (FastMCP) or Node/TypeScript (MCP SDK)."
+                                          }
+                                      ]
+                     },
+                     {
+                         "family":  "platform-core",
+                         "description":  "Core platform, shared libraries, and foundation work.",
+                         "projectCount":  3,
+                         "projects":  [
+                                          {
+                                              "name":  "01_Core_Platform",
+                                              "path":  "C:\\Users\\yoeli\\Documents\\GetUpSoft_Workspace\\01_Core_Platform",
+                                              "family":  "platform-core",
+                                              "familyDescription":  "Core platform, shared libraries, and foundation work.",
+                                              "familySeedSkills":  [
+                                                                       "create-plan",
+                                                                       "agency-agents",
+                                                                       "components-build",
+                                                                       "mcp-builder"
+                                                                   ],
+                                              "signals":  [
+
+                                                          ],
+                                              "recommendedSkills":  [
+                                                                        "agency-agents [70] - Use The Agency specialist-agent library as Codex-compatible reference personas and workflows. Applies when the user asks to use agency-agents, The Agency, or a named Agency specialist such as Frontend Developer, Reality Checker, Evidence Collector, Backend Architect, Growth Hacker, etc.",
+                                                                        "webapp-testing [70] - Toolkit for interacting with and testing local web applications using Playwright. Supports verifying frontend functionality, debugging UI behavior, capturing browser screenshots, and viewing browser logs.",
+                                                                        "skill-share [67] - A skill that creates new Claude skills and automatically shares them on Slack using Rube for seamless team collaboration and skill discovery.",
+                                                                        "components-build [63] - Build modern, composable, and accessible React UI components following the components.build specification. Use when creating, reviewing, or refactoring component libraries, design systems, or any reusable UI components. Triggers on tasks involving component APIs, composition patterns, accessibility, styling systems, or TypeScript props.",
+                                                                        "mcp-builder [63] - Guide for creating high-quality MCP (Model Context Protocol) servers that enable LLMs to interact with external services through well-designed tools. Use when building MCP servers to integrate external APIs or services, whether in Python (FastMCP) or Node/TypeScript (MCP SDK)."
+                                                                    ],
+                                              "cavemanBrief":  "CAVEMAN BRIEF\r\nPrompt tokens: workspace, project, family:, platform-core, project:, 01, core, platform, path:, c:, users, yoeli, documents, getupsoft, signals:, family, seed, skills:, create-plan, agency-agents, components-build, mcp-builder, select, the, best, codex, skills, for, this, prefer, most, specific, first, consider, policy:, normalize, request, with, caveman, before, selecting, use, shared, skill, bundle, in, agents, when, multiagent, coordination, helps, include, webapp-testing, browser, ui, verification, relevant\r\nWorkspace skill count: 97\r\n\r\nRecommended skills\r\n- agency-agents [70] - Use The Agency specialist-agent library as Codex-compatible reference personas and workflows. Applies when the user asks to use agency-agents, The Agency, or a named Agency specialist such as Frontend Developer, Reality Checker, Evidence Collector, Backend Architect, Growth Hacker, etc.\r\n- webapp-testing [70] - Toolkit for interacting with and testing local web applications using Playwright. Supports verifying frontend functionality, debugging UI behavior, capturing browser screenshots, and viewing browser logs.\r\n- skill-share [67] - A skill that creates new Claude skills and automatically shares them on Slack using Rube for seamless team collaboration and skill discovery.\r\n- components-build [63] - Build modern, composable, and accessible React UI components following the components.build specification. Use when creating, reviewing, or refactoring component libraries, design systems, or any reusable UI components. Triggers on tasks involving component APIs, composition patterns, accessibility, styling systems, or TypeScript props.\r\n- mcp-builder [63] - Guide for creating high-quality MCP (Model Context Protocol) servers that enable LLMs to interact with external services through well-designed tools. Use when building MCP servers to integrate external APIs or services, whether in Python (FastMCP) or Node/TypeScript (MCP SDK)."
+                                          },
+                                          {
+                                              "name":  "04_Archive_Legacy",
+                                              "path":  "C:\\Users\\yoeli\\Documents\\GetUpSoft_Workspace\\04_Archive_Legacy",
+                                              "family":  "platform-core",
+                                              "familyDescription":  "Core platform, shared libraries, and foundation work.",
+                                              "familySeedSkills":  [
+                                                                       "create-plan",
+                                                                       "agency-agents",
+                                                                       "components-build",
+                                                                       "mcp-builder"
+                                                                   ],
+                                              "signals":  [
+
+                                                          ],
+                                              "recommendedSkills":  [
+                                                                        "agency-agents [70] - Use The Agency specialist-agent library as Codex-compatible reference personas and workflows. Applies when the user asks to use agency-agents, The Agency, or a named Agency specialist such as Frontend Developer, Reality Checker, Evidence Collector, Backend Architect, Growth Hacker, etc.",
+                                                                        "webapp-testing [70] - Toolkit for interacting with and testing local web applications using Playwright. Supports verifying frontend functionality, debugging UI behavior, capturing browser screenshots, and viewing browser logs.",
+                                                                        "skill-share [67] - A skill that creates new Claude skills and automatically shares them on Slack using Rube for seamless team collaboration and skill discovery.",
+                                                                        "components-build [63] - Build modern, composable, and accessible React UI components following the components.build specification. Use when creating, reviewing, or refactoring component libraries, design systems, or any reusable UI components. Triggers on tasks involving component APIs, composition patterns, accessibility, styling systems, or TypeScript props.",
+                                                                        "mcp-builder [63] - Guide for creating high-quality MCP (Model Context Protocol) servers that enable LLMs to interact with external services through well-designed tools. Use when building MCP servers to integrate external APIs or services, whether in Python (FastMCP) or Node/TypeScript (MCP SDK)."
+                                                                    ],
+                                              "cavemanBrief":  "CAVEMAN BRIEF\r\nPrompt tokens: workspace, project, family:, platform-core, project:, 04, archive, legacy, path:, c:, users, yoeli, documents, getupsoft, signals:, family, seed, skills:, create-plan, agency-agents, components-build, mcp-builder, select, the, best, codex, skills, for, this, prefer, most, specific, first, consider, policy:, normalize, request, with, caveman, before, selecting, use, shared, skill, bundle, in, agents, when, multiagent, coordination, helps, include, webapp-testing, browser, ui, verification, relevant\r\nWorkspace skill count: 97\r\n\r\nRecommended skills\r\n- agency-agents [70] - Use The Agency specialist-agent library as Codex-compatible reference personas and workflows. Applies when the user asks to use agency-agents, The Agency, or a named Agency specialist such as Frontend Developer, Reality Checker, Evidence Collector, Backend Architect, Growth Hacker, etc.\r\n- webapp-testing [70] - Toolkit for interacting with and testing local web applications using Playwright. Supports verifying frontend functionality, debugging UI behavior, capturing browser screenshots, and viewing browser logs.\r\n- skill-share [67] - A skill that creates new Claude skills and automatically shares them on Slack using Rube for seamless team collaboration and skill discovery.\r\n- components-build [63] - Build modern, composable, and accessible React UI components following the components.build specification. Use when creating, reviewing, or refactoring component libraries, design systems, or any reusable UI components. Triggers on tasks involving component APIs, composition patterns, accessibility, styling systems, or TypeScript props.\r\n- mcp-builder [63] - Guide for creating high-quality MCP (Model Context Protocol) servers that enable LLMs to interact with external services through well-designed tools. Use when building MCP servers to integrate external APIs or services, whether in Python (FastMCP) or Node/TypeScript (MCP SDK)."
+                                          },
+                                          {
+                                              "name":  "06_E_Commerce_Lux",
+                                              "path":  "C:\\Users\\yoeli\\Documents\\GetUpSoft_Workspace\\06_E_Commerce_Lux",
+                                              "family":  "platform-core",
+                                              "familyDescription":  "Core platform, shared libraries, and foundation work.",
+                                              "familySeedSkills":  [
+                                                                       "create-plan",
+                                                                       "agency-agents",
+                                                                       "components-build",
+                                                                       "mcp-builder"
+                                                                   ],
+                                              "signals":  [
+
+                                                          ],
+                                              "recommendedSkills":  [
+                                                                        "agency-agents [70] - Use The Agency specialist-agent library as Codex-compatible reference personas and workflows. Applies when the user asks to use agency-agents, The Agency, or a named Agency specialist such as Frontend Developer, Reality Checker, Evidence Collector, Backend Architect, Growth Hacker, etc.",
+                                                                        "webapp-testing [70] - Toolkit for interacting with and testing local web applications using Playwright. Supports verifying frontend functionality, debugging UI behavior, capturing browser screenshots, and viewing browser logs.",
+                                                                        "skill-share [67] - A skill that creates new Claude skills and automatically shares them on Slack using Rube for seamless team collaboration and skill discovery.",
+                                                                        "components-build [63] - Build modern, composable, and accessible React UI components following the components.build specification. Use when creating, reviewing, or refactoring component libraries, design systems, or any reusable UI components. Triggers on tasks involving component APIs, composition patterns, accessibility, styling systems, or TypeScript props.",
+                                                                        "mcp-builder [63] - Guide for creating high-quality MCP (Model Context Protocol) servers that enable LLMs to interact with external services through well-designed tools. Use when building MCP servers to integrate external APIs or services, whether in Python (FastMCP) or Node/TypeScript (MCP SDK)."
+                                                                    ],
+                                              "cavemanBrief":  "CAVEMAN BRIEF\r\nPrompt tokens: workspace, project, family:, platform-core, project:, 06, commerce, lux, path:, c:, users, yoeli, documents, getupsoft, signals:, family, seed, skills:, create-plan, agency-agents, components-build, mcp-builder, select, the, best, codex, skills, for, this, prefer, most, specific, first, consider, policy:, normalize, request, with, caveman, before, selecting, use, shared, skill, bundle, in, agents, when, multiagent, coordination, helps, include, webapp-testing, browser, ui, verification, relevant\r\nWorkspace skill count: 97\r\n\r\nRecommended skills\r\n- agency-agents [70] - Use The Agency specialist-agent library as Codex-compatible reference personas and workflows. Applies when the user asks to use agency-agents, The Agency, or a named Agency specialist such as Frontend Developer, Reality Checker, Evidence Collector, Backend Architect, Growth Hacker, etc.\r\n- webapp-testing [70] - Toolkit for interacting with and testing local web applications using Playwright. Supports verifying frontend functionality, debugging UI behavior, capturing browser screenshots, and viewing browser logs.\r\n- skill-share [67] - A skill that creates new Claude skills and automatically shares them on Slack using Rube for seamless team collaboration and skill discovery.\r\n- components-build [63] - Build modern, composable, and accessible React UI components following the components.build specification. Use when creating, reviewing, or refactoring component libraries, design systems, or any reusable UI components. Triggers on tasks involving component APIs, composition patterns, accessibility, styling systems, or TypeScript props.\r\n- mcp-builder [63] - Guide for creating high-quality MCP (Model Context Protocol) servers that enable LLMs to interact with external services through well-designed tools. Use when building MCP servers to integrate external APIs or services, whether in Python (FastMCP) or Node/TypeScript (MCP SDK)."
+                                          }
+                                      ]
+                     },
+                     {
+                         "family":  "tooling",
+                         "description":  "Workspace tooling, scripts, and operational automation work.",
+                         "projectCount":  1,
+                         "projects":  [
+                                          {
+                                              "name":  "scripts",
+                                              "path":  "C:\\Users\\yoeli\\Documents\\GetUpSoft_Workspace\\scripts",
+                                              "family":  "tooling",
+                                              "familyDescription":  "Workspace tooling, scripts, and operational automation work.",
+                                              "familySeedSkills":  [
+                                                                       "create-plan",
+                                                                       "skill-share",
+                                                                       "agency-agents",
+                                                                       "skill-installer"
+                                                                   ],
+                                              "signals":  [
+                                                              "automation"
+                                                          ],
+                                              "recommendedSkills":  [
+                                                                        "agency-agents [69] - Use The Agency specialist-agent library as Codex-compatible reference personas and workflows. Applies when the user asks to use agency-agents, The Agency, or a named Agency specialist such as Frontend Developer, Reality Checker, Evidence Collector, Backend Architect, Growth Hacker, etc.",
+                                                                        "webapp-testing [69] - Toolkit for interacting with and testing local web applications using Playwright. Supports verifying frontend functionality, debugging UI behavior, capturing browser screenshots, and viewing browser logs.",
+                                                                        "skill-share [66] - A skill that creates new Claude skills and automatically shares them on Slack using Rube for seamless team collaboration and skill discovery.",
+                                                                        "components-build [62] - Build modern, composable, and accessible React UI components following the components.build specification. Use when creating, reviewing, or refactoring component libraries, design systems, or any reusable UI components. Triggers on tasks involving component APIs, composition patterns, accessibility, styling systems, or TypeScript props.",
+                                                                        "mcp-builder [62] - Guide for creating high-quality MCP (Model Context Protocol) servers that enable LLMs to interact with external services through well-designed tools. Use when building MCP servers to integrate external APIs or services, whether in Python (FastMCP) or Node/TypeScript (MCP SDK)."
+                                                                    ],
+                                              "cavemanBrief":  "CAVEMAN BRIEF\r\nPrompt tokens: workspace, project, family:, tooling, project:, scripts, path:, c:, users, yoeli, documents, getupsoft, signals:, automation, family, seed, skills:, create-plan, skill-share, agency-agents, skill-installer, select, the, best, codex, skills, for, this, prefer, most, specific, first, consider, policy:, normalize, request, with, caveman, before, selecting, use, shared, skill, bundle, in, agents, when, multiagent, coordination, helps, include, webapp-testing, browser, ui, verification, relevant\r\nWorkspace skill count: 97\r\n\r\nRecommended skills\r\n- agency-agents [69] - Use The Agency specialist-agent library as Codex-compatible reference personas and workflows. Applies when the user asks to use agency-agents, The Agency, or a named Agency specialist such as Frontend Developer, Reality Checker, Evidence Collector, Backend Architect, Growth Hacker, etc.\r\n- webapp-testing [69] - Toolkit for interacting with and testing local web applications using Playwright. Supports verifying frontend functionality, debugging UI behavior, capturing browser screenshots, and viewing browser logs.\r\n- skill-share [66] - A skill that creates new Claude skills and automatically shares them on Slack using Rube for seamless team collaboration and skill discovery.\r\n- components-build [62] - Build modern, composable, and accessible React UI components following the components.build specification. Use when creating, reviewing, or refactoring component libraries, design systems, or any reusable UI components. Triggers on tasks involving component APIs, composition patterns, accessibility, styling systems, or TypeScript props.\r\n- mcp-builder [62] - Guide for creating high-quality MCP (Model Context Protocol) servers that enable LLMs to interact with external services through well-designed tools. Use when building MCP servers to integrate external APIs or services, whether in Python (FastMCP) or Node/TypeScript (MCP SDK)."
+                                          }
+                                      ]
+                     }
+                 ],
+    "projects":  [
+                     {
+                         "name":  "_Knowledge_Center",
+                         "path":  "C:\\Users\\yoeli\\Documents\\GetUpSoft_Workspace\\_Knowledge_Center",
+                         "family":  "docs-knowledge",
+                         "familyDescription":  "Documentation, knowledge base, policy, and research work.",
+                         "familySeedSkills":  [
+                                                  "content-research-writer",
+                                                  "notion-research-documentation",
+                                                  "notion-knowledge-capture",
+                                                  "internal-comms",
+                                                  "create-plan"
+                                              ],
+                         "signals":  [
+                                         "documentation"
+                                     ],
+                         "recommendedSkills":  [
+                                                   "agency-agents [72] - Use The Agency specialist-agent library as Codex-compatible reference personas and workflows. Applies when the user asks to use agency-agents, The Agency, or a named Agency specialist such as Frontend Developer, Reality Checker, Evidence Collector, Backend Architect, Growth Hacker, etc.",
+                                                   "webapp-testing [72] - Toolkit for interacting with and testing local web applications using Playwright. Supports verifying frontend functionality, debugging UI behavior, capturing browser screenshots, and viewing browser logs.",
+                                                   "skill-share [69] - A skill that creates new Claude skills and automatically shares them on Slack using Rube for seamless team collaboration and skill discovery.",
+                                                   "components-build [65] - Build modern, composable, and accessible React UI components following the components.build specification. Use when creating, reviewing, or refactoring component libraries, design systems, or any reusable UI components. Triggers on tasks involving component APIs, composition patterns, accessibility, styling systems, or TypeScript props.",
+                                                   "content-research-writer [65] - Assists in writing high-quality content by conducting research, adding citations, improving hooks, iterating on outlines, and providing real-time feedback on each section. Transforms your writing process from solo effort to collaborative partnership."
+                                               ],
+                         "cavemanBrief":  "CAVEMAN BRIEF\r\nPrompt tokens: workspace, project, family:, docs-knowledge, project:, knowledge, center, path:, c:, users, yoeli, documents, getupsoft, signals:, documentation, family, seed, skills:, content-research-writer, notion-research-documentation, notion-knowledge-capture, internal-comms, create-plan, select, the, best, codex, skills, for, this, prefer, most, specific, first, consider, policy:, normalize, request, with, caveman, before, selecting, use, shared, skill, bundle, in, agents, agency-agents, when, multiagent, coordination, helps, include, webapp-testing, browser, ui, verification, relevant\r\nWorkspace skill count: 97\r\n\r\nRecommended skills\r\n- agency-agents [72] - Use The Agency specialist-agent library as Codex-compatible reference personas and workflows. Applies when the user asks to use agency-agents, The Agency, or a named Agency specialist such as Frontend Developer, Reality Checker, Evidence Collector, Backend Architect, Growth Hacker, etc.\r\n- webapp-testing [72] - Toolkit for interacting with and testing local web applications using Playwright. Supports verifying frontend functionality, debugging UI behavior, capturing browser screenshots, and viewing browser logs.\r\n- skill-share [69] - A skill that creates new Claude skills and automatically shares them on Slack using Rube for seamless team collaboration and skill discovery.\r\n- components-build [65] - Build modern, composable, and accessible React UI components following the components.build specification. Use when creating, reviewing, or refactoring component libraries, design systems, or any reusable UI components. Triggers on tasks involving component APIs, composition patterns, accessibility, styling systems, or TypeScript props.\r\n- content-research-writer [65] - Assists in writing high-quality content by conducting research, adding citations, improving hooks, iterating on outlines, and providing real-time feedback on each section. Transforms your writing process from solo effort to collaborative partnership."
+                     },
+                     {
+                         "name":  "01_Core_Platform",
+                         "path":  "C:\\Users\\yoeli\\Documents\\GetUpSoft_Workspace\\01_Core_Platform",
+                         "family":  "platform-core",
+                         "familyDescription":  "Core platform, shared libraries, and foundation work.",
+                         "familySeedSkills":  [
+                                                  "create-plan",
+                                                  "agency-agents",
+                                                  "components-build",
+                                                  "mcp-builder"
+                                              ],
+                         "signals":  [
+
+                                     ],
+                         "recommendedSkills":  [
+                                                   "agency-agents [70] - Use The Agency specialist-agent library as Codex-compatible reference personas and workflows. Applies when the user asks to use agency-agents, The Agency, or a named Agency specialist such as Frontend Developer, Reality Checker, Evidence Collector, Backend Architect, Growth Hacker, etc.",
+                                                   "webapp-testing [70] - Toolkit for interacting with and testing local web applications using Playwright. Supports verifying frontend functionality, debugging UI behavior, capturing browser screenshots, and viewing browser logs.",
+                                                   "skill-share [67] - A skill that creates new Claude skills and automatically shares them on Slack using Rube for seamless team collaboration and skill discovery.",
+                                                   "components-build [63] - Build modern, composable, and accessible React UI components following the components.build specification. Use when creating, reviewing, or refactoring component libraries, design systems, or any reusable UI components. Triggers on tasks involving component APIs, composition patterns, accessibility, styling systems, or TypeScript props.",
+                                                   "mcp-builder [63] - Guide for creating high-quality MCP (Model Context Protocol) servers that enable LLMs to interact with external services through well-designed tools. Use when building MCP servers to integrate external APIs or services, whether in Python (FastMCP) or Node/TypeScript (MCP SDK)."
+                                               ],
+                         "cavemanBrief":  "CAVEMAN BRIEF\r\nPrompt tokens: workspace, project, family:, platform-core, project:, 01, core, platform, path:, c:, users, yoeli, documents, getupsoft, signals:, family, seed, skills:, create-plan, agency-agents, components-build, mcp-builder, select, the, best, codex, skills, for, this, prefer, most, specific, first, consider, policy:, normalize, request, with, caveman, before, selecting, use, shared, skill, bundle, in, agents, when, multiagent, coordination, helps, include, webapp-testing, browser, ui, verification, relevant\r\nWorkspace skill count: 97\r\n\r\nRecommended skills\r\n- agency-agents [70] - Use The Agency specialist-agent library as Codex-compatible reference personas and workflows. Applies when the user asks to use agency-agents, The Agency, or a named Agency specialist such as Frontend Developer, Reality Checker, Evidence Collector, Backend Architect, Growth Hacker, etc.\r\n- webapp-testing [70] - Toolkit for interacting with and testing local web applications using Playwright. Supports verifying frontend functionality, debugging UI behavior, capturing browser screenshots, and viewing browser logs.\r\n- skill-share [67] - A skill that creates new Claude skills and automatically shares them on Slack using Rube for seamless team collaboration and skill discovery.\r\n- components-build [63] - Build modern, composable, and accessible React UI components following the components.build specification. Use when creating, reviewing, or refactoring component libraries, design systems, or any reusable UI components. Triggers on tasks involving component APIs, composition patterns, accessibility, styling systems, or TypeScript props.\r\n- mcp-builder [63] - Guide for creating high-quality MCP (Model Context Protocol) servers that enable LLMs to interact with external services through well-designed tools. Use when building MCP servers to integrate external APIs or services, whether in Python (FastMCP) or Node/TypeScript (MCP SDK)."
+                     },
+                     {
+                         "name":  "02_Odoo_ERP",
+                         "path":  "C:\\Users\\yoeli\\Documents\\GetUpSoft_Workspace\\02_Odoo_ERP",
+                         "family":  "erp-odoo",
+                         "familyDescription":  "ERP, back-office, accounting, database, and workflow work.",
+                         "familySeedSkills":  [
+                                                  "create-plan",
+                                                  "support-ticket-triage",
+                                                  "spreadsheet-formula-helper",
+                                                  "internal-comms",
+                                                  "authorized-security-testing"
+                                              ],
+                         "signals":  [
+                                         "erp"
+                                     ],
+                         "recommendedSkills":  [
+                                                   "agency-agents [72] - Use The Agency specialist-agent library as Codex-compatible reference personas and workflows. Applies when the user asks to use agency-agents, The Agency, or a named Agency specialist such as Frontend Developer, Reality Checker, Evidence Collector, Backend Architect, Growth Hacker, etc.",
+                                                   "webapp-testing [72] - Toolkit for interacting with and testing local web applications using Playwright. Supports verifying frontend functionality, debugging UI behavior, capturing browser screenshots, and viewing browser logs.",
+                                                   "skill-share [69] - A skill that creates new Claude skills and automatically shares them on Slack using Rube for seamless team collaboration and skill discovery.",
+                                                   "authorized-security-testing [65] - Defensive security auditing for projects the user owns or is explicitly authorized to test. Use when the task is to review application security, run non-destructive checks, validate auth/session handling, inspect headers/TLS/configuration, review dependencies and secrets, or produce prioritized remediation notes. Do not use for offensive exploitation, malware, credential theft, phishing, stealth, or public-target attack workflows.",
+                                                   "components-build [65] - Build modern, composable, and accessible React UI components following the components.build specification. Use when creating, reviewing, or refactoring component libraries, design systems, or any reusable UI components. Triggers on tasks involving component APIs, composition patterns, accessibility, styling systems, or TypeScript props."
+                                               ],
+                         "cavemanBrief":  "CAVEMAN BRIEF\r\nPrompt tokens: workspace, project, family:, erp-odoo, project:, 02, odoo, erp, path:, c:, users, yoeli, documents, getupsoft, signals:, family, seed, skills:, create-plan, support-ticket-triage, spreadsheet-formula-helper, internal-comms, authorized-security-testing, select, the, best, codex, skills, for, this, prefer, most, specific, first, consider, policy:, normalize, request, with, caveman, before, selecting, use, shared, skill, bundle, in, agents, agency-agents, when, multiagent, coordination, helps, include, webapp-testing, browser, ui, verification, relevant\r\nWorkspace skill count: 97\r\n\r\nRecommended skills\r\n- agency-agents [72] - Use The Agency specialist-agent library as Codex-compatible reference personas and workflows. Applies when the user asks to use agency-agents, The Agency, or a named Agency specialist such as Frontend Developer, Reality Checker, Evidence Collector, Backend Architect, Growth Hacker, etc.\r\n- webapp-testing [72] - Toolkit for interacting with and testing local web applications using Playwright. Supports verifying frontend functionality, debugging UI behavior, capturing browser screenshots, and viewing browser logs.\r\n- skill-share [69] - A skill that creates new Claude skills and automatically shares them on Slack using Rube for seamless team collaboration and skill discovery.\r\n- authorized-security-testing [65] - Defensive security auditing for projects the user owns or is explicitly authorized to test. Use when the task is to review application security, run non-destructive checks, validate auth/session handling, inspect headers/TLS/configuration, review dependencies and secrets, or produce prioritized remediation notes. Do not use for offensive exploitation, malware, credential theft, phishing, stealth, or public-target attack workflows.\r\n- components-build [65] - Build modern, composable, and accessible React UI components following the components.build specification. Use when creating, reviewing, or refactoring component libraries, design systems, or any reusable UI components. Triggers on tasks involving component APIs, composition patterns, accessibility, styling systems, or TypeScript props."
+                     },
+                     {
+                         "name":  "03_AI_Automation",
+                         "path":  "C:\\Users\\yoeli\\Documents\\GetUpSoft_Workspace\\03_AI_Automation",
+                         "family":  "ai-automation",
+                         "familyDescription":  "Agent orchestration, automation, and AI workflow work.",
+                         "familySeedSkills":  [
+                                                  "agency-agents",
+                                                  "mcp-builder",
+                                                  "connect",
+                                                  "skill-share",
+                                                  "create-plan"
+                                              ],
+                         "signals":  [
+                                         "automation"
+                                     ],
+                         "recommendedSkills":  [
+                                                   "agency-agents [71] - Use The Agency specialist-agent library as Codex-compatible reference personas and workflows. Applies when the user asks to use agency-agents, The Agency, or a named Agency specialist such as Frontend Developer, Reality Checker, Evidence Collector, Backend Architect, Growth Hacker, etc.",
+                                                   "webapp-testing [71] - Toolkit for interacting with and testing local web applications using Playwright. Supports verifying frontend functionality, debugging UI behavior, capturing browser screenshots, and viewing browser logs.",
+                                                   "skill-share [68] - A skill that creates new Claude skills and automatically shares them on Slack using Rube for seamless team collaboration and skill discovery.",
+                                                   "components-build [64] - Build modern, composable, and accessible React UI components following the components.build specification. Use when creating, reviewing, or refactoring component libraries, design systems, or any reusable UI components. Triggers on tasks involving component APIs, composition patterns, accessibility, styling systems, or TypeScript props.",
+                                                   "mcp-builder [64] - Guide for creating high-quality MCP (Model Context Protocol) servers that enable LLMs to interact with external services through well-designed tools. Use when building MCP servers to integrate external APIs or services, whether in Python (FastMCP) or Node/TypeScript (MCP SDK)."
+                                               ],
+                         "cavemanBrief":  "CAVEMAN BRIEF\r\nPrompt tokens: workspace, project, family:, ai-automation, project:, 03, ai, automation, path:, c:, users, yoeli, documents, getupsoft, signals:, family, seed, skills:, agency-agents, mcp-builder, connect, skill-share, create-plan, select, the, best, codex, skills, for, this, prefer, most, specific, first, consider, policy:, normalize, request, with, caveman, before, selecting, use, shared, skill, bundle, in, agents, when, multiagent, coordination, helps, include, webapp-testing, browser, ui, verification, relevant\r\nWorkspace skill count: 97\r\n\r\nRecommended skills\r\n- agency-agents [71] - Use The Agency specialist-agent library as Codex-compatible reference personas and workflows. Applies when the user asks to use agency-agents, The Agency, or a named Agency specialist such as Frontend Developer, Reality Checker, Evidence Collector, Backend Architect, Growth Hacker, etc.\r\n- webapp-testing [71] - Toolkit for interacting with and testing local web applications using Playwright. Supports verifying frontend functionality, debugging UI behavior, capturing browser screenshots, and viewing browser logs.\r\n- skill-share [68] - A skill that creates new Claude skills and automatically shares them on Slack using Rube for seamless team collaboration and skill discovery.\r\n- components-build [64] - Build modern, composable, and accessible React UI components following the components.build specification. Use when creating, reviewing, or refactoring component libraries, design systems, or any reusable UI components. Triggers on tasks involving component APIs, composition patterns, accessibility, styling systems, or TypeScript props.\r\n- mcp-builder [64] - Guide for creating high-quality MCP (Model Context Protocol) servers that enable LLMs to interact with external services through well-designed tools. Use when building MCP servers to integrate external APIs or services, whether in Python (FastMCP) or Node/TypeScript (MCP SDK)."
+                     },
+                     {
+                         "name":  "04_Archive_Legacy",
+                         "path":  "C:\\Users\\yoeli\\Documents\\GetUpSoft_Workspace\\04_Archive_Legacy",
+                         "family":  "platform-core",
+                         "familyDescription":  "Core platform, shared libraries, and foundation work.",
+                         "familySeedSkills":  [
+                                                  "create-plan",
+                                                  "agency-agents",
+                                                  "components-build",
+                                                  "mcp-builder"
+                                              ],
+                         "signals":  [
+
+                                     ],
+                         "recommendedSkills":  [
+                                                   "agency-agents [70] - Use The Agency specialist-agent library as Codex-compatible reference personas and workflows. Applies when the user asks to use agency-agents, The Agency, or a named Agency specialist such as Frontend Developer, Reality Checker, Evidence Collector, Backend Architect, Growth Hacker, etc.",
+                                                   "webapp-testing [70] - Toolkit for interacting with and testing local web applications using Playwright. Supports verifying frontend functionality, debugging UI behavior, capturing browser screenshots, and viewing browser logs.",
+                                                   "skill-share [67] - A skill that creates new Claude skills and automatically shares them on Slack using Rube for seamless team collaboration and skill discovery.",
+                                                   "components-build [63] - Build modern, composable, and accessible React UI components following the components.build specification. Use when creating, reviewing, or refactoring component libraries, design systems, or any reusable UI components. Triggers on tasks involving component APIs, composition patterns, accessibility, styling systems, or TypeScript props.",
+                                                   "mcp-builder [63] - Guide for creating high-quality MCP (Model Context Protocol) servers that enable LLMs to interact with external services through well-designed tools. Use when building MCP servers to integrate external APIs or services, whether in Python (FastMCP) or Node/TypeScript (MCP SDK)."
+                                               ],
+                         "cavemanBrief":  "CAVEMAN BRIEF\r\nPrompt tokens: workspace, project, family:, platform-core, project:, 04, archive, legacy, path:, c:, users, yoeli, documents, getupsoft, signals:, family, seed, skills:, create-plan, agency-agents, components-build, mcp-builder, select, the, best, codex, skills, for, this, prefer, most, specific, first, consider, policy:, normalize, request, with, caveman, before, selecting, use, shared, skill, bundle, in, agents, when, multiagent, coordination, helps, include, webapp-testing, browser, ui, verification, relevant\r\nWorkspace skill count: 97\r\n\r\nRecommended skills\r\n- agency-agents [70] - Use The Agency specialist-agent library as Codex-compatible reference personas and workflows. Applies when the user asks to use agency-agents, The Agency, or a named Agency specialist such as Frontend Developer, Reality Checker, Evidence Collector, Backend Architect, Growth Hacker, etc.\r\n- webapp-testing [70] - Toolkit for interacting with and testing local web applications using Playwright. Supports verifying frontend functionality, debugging UI behavior, capturing browser screenshots, and viewing browser logs.\r\n- skill-share [67] - A skill that creates new Claude skills and automatically shares them on Slack using Rube for seamless team collaboration and skill discovery.\r\n- components-build [63] - Build modern, composable, and accessible React UI components following the components.build specification. Use when creating, reviewing, or refactoring component libraries, design systems, or any reusable UI components. Triggers on tasks involving component APIs, composition patterns, accessibility, styling systems, or TypeScript props.\r\n- mcp-builder [63] - Guide for creating high-quality MCP (Model Context Protocol) servers that enable LLMs to interact with external services through well-designed tools. Use when building MCP servers to integrate external APIs or services, whether in Python (FastMCP) or Node/TypeScript (MCP SDK)."
+                     },
+                     {
+                         "name":  "06_E_Commerce_Lux",
+                         "path":  "C:\\Users\\yoeli\\Documents\\GetUpSoft_Workspace\\06_E_Commerce_Lux",
+                         "family":  "platform-core",
+                         "familyDescription":  "Core platform, shared libraries, and foundation work.",
+                         "familySeedSkills":  [
+                                                  "create-plan",
+                                                  "agency-agents",
+                                                  "components-build",
+                                                  "mcp-builder"
+                                              ],
+                         "signals":  [
+
+                                     ],
+                         "recommendedSkills":  [
+                                                   "agency-agents [70] - Use The Agency specialist-agent library as Codex-compatible reference personas and workflows. Applies when the user asks to use agency-agents, The Agency, or a named Agency specialist such as Frontend Developer, Reality Checker, Evidence Collector, Backend Architect, Growth Hacker, etc.",
+                                                   "webapp-testing [70] - Toolkit for interacting with and testing local web applications using Playwright. Supports verifying frontend functionality, debugging UI behavior, capturing browser screenshots, and viewing browser logs.",
+                                                   "skill-share [67] - A skill that creates new Claude skills and automatically shares them on Slack using Rube for seamless team collaboration and skill discovery.",
+                                                   "components-build [63] - Build modern, composable, and accessible React UI components following the components.build specification. Use when creating, reviewing, or refactoring component libraries, design systems, or any reusable UI components. Triggers on tasks involving component APIs, composition patterns, accessibility, styling systems, or TypeScript props.",
+                                                   "mcp-builder [63] - Guide for creating high-quality MCP (Model Context Protocol) servers that enable LLMs to interact with external services through well-designed tools. Use when building MCP servers to integrate external APIs or services, whether in Python (FastMCP) or Node/TypeScript (MCP SDK)."
+                                               ],
+                         "cavemanBrief":  "CAVEMAN BRIEF\r\nPrompt tokens: workspace, project, family:, platform-core, project:, 06, commerce, lux, path:, c:, users, yoeli, documents, getupsoft, signals:, family, seed, skills:, create-plan, agency-agents, components-build, mcp-builder, select, the, best, codex, skills, for, this, prefer, most, specific, first, consider, policy:, normalize, request, with, caveman, before, selecting, use, shared, skill, bundle, in, agents, when, multiagent, coordination, helps, include, webapp-testing, browser, ui, verification, relevant\r\nWorkspace skill count: 97\r\n\r\nRecommended skills\r\n- agency-agents [70] - Use The Agency specialist-agent library as Codex-compatible reference personas and workflows. Applies when the user asks to use agency-agents, The Agency, or a named Agency specialist such as Frontend Developer, Reality Checker, Evidence Collector, Backend Architect, Growth Hacker, etc.\r\n- webapp-testing [70] - Toolkit for interacting with and testing local web applications using Playwright. Supports verifying frontend functionality, debugging UI behavior, capturing browser screenshots, and viewing browser logs.\r\n- skill-share [67] - A skill that creates new Claude skills and automatically shares them on Slack using Rube for seamless team collaboration and skill discovery.\r\n- components-build [63] - Build modern, composable, and accessible React UI components following the components.build specification. Use when creating, reviewing, or refactoring component libraries, design systems, or any reusable UI components. Triggers on tasks involving component APIs, composition patterns, accessibility, styling systems, or TypeScript props.\r\n- mcp-builder [63] - Guide for creating high-quality MCP (Model Context Protocol) servers that enable LLMs to interact with external services through well-designed tools. Use when building MCP servers to integrate external APIs or services, whether in Python (FastMCP) or Node/TypeScript (MCP SDK)."
+                     },
+                     {
+                         "name":  "legal",
+                         "path":  "C:\\Users\\yoeli\\Documents\\GetUpSoft_Workspace\\legal",
+                         "family":  "docs-knowledge",
+                         "familyDescription":  "Documentation, knowledge base, policy, and research work.",
+                         "familySeedSkills":  [
+                                                  "content-research-writer",
+                                                  "notion-research-documentation",
+                                                  "notion-knowledge-capture",
+                                                  "internal-comms",
+                                                  "create-plan"
+                                              ],
+                         "signals":  [
+                                         "documentation"
+                                     ],
+                         "recommendedSkills":  [
+                                                   "agency-agents [71] - Use The Agency specialist-agent library as Codex-compatible reference personas and workflows. Applies when the user asks to use agency-agents, The Agency, or a named Agency specialist such as Frontend Developer, Reality Checker, Evidence Collector, Backend Architect, Growth Hacker, etc.",
+                                                   "webapp-testing [71] - Toolkit for interacting with and testing local web applications using Playwright. Supports verifying frontend functionality, debugging UI behavior, capturing browser screenshots, and viewing browser logs.",
+                                                   "skill-share [68] - A skill that creates new Claude skills and automatically shares them on Slack using Rube for seamless team collaboration and skill discovery.",
+                                                   "components-build [64] - Build modern, composable, and accessible React UI components following the components.build specification. Use when creating, reviewing, or refactoring component libraries, design systems, or any reusable UI components. Triggers on tasks involving component APIs, composition patterns, accessibility, styling systems, or TypeScript props.",
+                                                   "content-research-writer [64] - Assists in writing high-quality content by conducting research, adding citations, improving hooks, iterating on outlines, and providing real-time feedback on each section. Transforms your writing process from solo effort to collaborative partnership."
+                                               ],
+                         "cavemanBrief":  "CAVEMAN BRIEF\r\nPrompt tokens: workspace, project, family:, docs-knowledge, project:, legal, path:, c:, users, yoeli, documents, getupsoft, signals:, documentation, family, seed, skills:, content-research-writer, notion-research-documentation, notion-knowledge-capture, internal-comms, create-plan, select, the, best, codex, skills, for, this, prefer, most, specific, first, consider, policy:, normalize, request, with, caveman, before, selecting, use, shared, skill, bundle, in, agents, agency-agents, when, multiagent, coordination, helps, include, webapp-testing, browser, ui, verification, relevant\r\nWorkspace skill count: 97\r\n\r\nRecommended skills\r\n- agency-agents [71] - Use The Agency specialist-agent library as Codex-compatible reference personas and workflows. Applies when the user asks to use agency-agents, The Agency, or a named Agency specialist such as Frontend Developer, Reality Checker, Evidence Collector, Backend Architect, Growth Hacker, etc.\r\n- webapp-testing [71] - Toolkit for interacting with and testing local web applications using Playwright. Supports verifying frontend functionality, debugging UI behavior, capturing browser screenshots, and viewing browser logs.\r\n- skill-share [68] - A skill that creates new Claude skills and automatically shares them on Slack using Rube for seamless team collaboration and skill discovery.\r\n- components-build [64] - Build modern, composable, and accessible React UI components following the components.build specification. Use when creating, reviewing, or refactoring component libraries, design systems, or any reusable UI components. Triggers on tasks involving component APIs, composition patterns, accessibility, styling systems, or TypeScript props.\r\n- content-research-writer [64] - Assists in writing high-quality content by conducting research, adding citations, improving hooks, iterating on outlines, and providing real-time feedback on each section. Transforms your writing process from solo effort to collaborative partnership."
+                     },
+                     {
+                         "name":  "miniverse",
+                         "path":  "C:\\Users\\yoeli\\Documents\\GetUpSoft_Workspace\\miniverse",
+                         "family":  "general",
+                         "familyDescription":  "Mixed or uncategorized project work.",
+                         "familySeedSkills":  [
+                                                  "create-plan",
+                                                  "agency-agents"
+                                              ],
+                         "signals":  [
+
+                                     ],
+                         "recommendedSkills":  [
+                                                   "agency-agents [66] - Use The Agency specialist-agent library as Codex-compatible reference personas and workflows. Applies when the user asks to use agency-agents, The Agency, or a named Agency specialist such as Frontend Developer, Reality Checker, Evidence Collector, Backend Architect, Growth Hacker, etc.",
+                                                   "webapp-testing [66] - Toolkit for interacting with and testing local web applications using Playwright. Supports verifying frontend functionality, debugging UI behavior, capturing browser screenshots, and viewing browser logs.",
+                                                   "skill-share [63] - A skill that creates new Claude skills and automatically shares them on Slack using Rube for seamless team collaboration and skill discovery.",
+                                                   "components-build [59] - Build modern, composable, and accessible React UI components following the components.build specification. Use when creating, reviewing, or refactoring component libraries, design systems, or any reusable UI components. Triggers on tasks involving component APIs, composition patterns, accessibility, styling systems, or TypeScript props.",
+                                                   "mcp-builder [59] - Guide for creating high-quality MCP (Model Context Protocol) servers that enable LLMs to interact with external services through well-designed tools. Use when building MCP servers to integrate external APIs or services, whether in Python (FastMCP) or Node/TypeScript (MCP SDK)."
+                                               ],
+                         "cavemanBrief":  "CAVEMAN BRIEF\r\nPrompt tokens: workspace, project, family:, general, project:, miniverse, path:, c:, users, yoeli, documents, getupsoft, signals:, family, seed, skills:, create-plan, agency-agents, select, the, best, codex, skills, for, this, prefer, most, specific, first, consider, policy:, normalize, request, with, caveman, before, selecting, use, shared, skill, bundle, in, agents, when, multiagent, coordination, helps, include, webapp-testing, browser, ui, verification, relevant\r\nWorkspace skill count: 97\r\n\r\nRecommended skills\r\n- agency-agents [66] - Use The Agency specialist-agent library as Codex-compatible reference personas and workflows. Applies when the user asks to use agency-agents, The Agency, or a named Agency specialist such as Frontend Developer, Reality Checker, Evidence Collector, Backend Architect, Growth Hacker, etc.\r\n- webapp-testing [66] - Toolkit for interacting with and testing local web applications using Playwright. Supports verifying frontend functionality, debugging UI behavior, capturing browser screenshots, and viewing browser logs.\r\n- skill-share [63] - A skill that creates new Claude skills and automatically shares them on Slack using Rube for seamless team collaboration and skill discovery.\r\n- components-build [59] - Build modern, composable, and accessible React UI components following the components.build specification. Use when creating, reviewing, or refactoring component libraries, design systems, or any reusable UI components. Triggers on tasks involving component APIs, composition patterns, accessibility, styling systems, or TypeScript props.\r\n- mcp-builder [59] - Guide for creating high-quality MCP (Model Context Protocol) servers that enable LLMs to interact with external services through well-designed tools. Use when building MCP servers to integrate external APIs or services, whether in Python (FastMCP) or Node/TypeScript (MCP SDK)."
+                     },
+                     {
+                         "name":  "scripts",
+                         "path":  "C:\\Users\\yoeli\\Documents\\GetUpSoft_Workspace\\scripts",
+                         "family":  "tooling",
+                         "familyDescription":  "Workspace tooling, scripts, and operational automation work.",
+                         "familySeedSkills":  [
+                                                  "create-plan",
+                                                  "skill-share",
+                                                  "agency-agents",
+                                                  "skill-installer"
+                                              ],
+                         "signals":  [
+                                         "automation"
+                                     ],
+                         "recommendedSkills":  [
+                                                   "agency-agents [69] - Use The Agency specialist-agent library as Codex-compatible reference personas and workflows. Applies when the user asks to use agency-agents, The Agency, or a named Agency specialist such as Frontend Developer, Reality Checker, Evidence Collector, Backend Architect, Growth Hacker, etc.",
+                                                   "webapp-testing [69] - Toolkit for interacting with and testing local web applications using Playwright. Supports verifying frontend functionality, debugging UI behavior, capturing browser screenshots, and viewing browser logs.",
+                                                   "skill-share [66] - A skill that creates new Claude skills and automatically shares them on Slack using Rube for seamless team collaboration and skill discovery.",
+                                                   "components-build [62] - Build modern, composable, and accessible React UI components following the components.build specification. Use when creating, reviewing, or refactoring component libraries, design systems, or any reusable UI components. Triggers on tasks involving component APIs, composition patterns, accessibility, styling systems, or TypeScript props.",
+                                                   "mcp-builder [62] - Guide for creating high-quality MCP (Model Context Protocol) servers that enable LLMs to interact with external services through well-designed tools. Use when building MCP servers to integrate external APIs or services, whether in Python (FastMCP) or Node/TypeScript (MCP SDK)."
+                                               ],
+                         "cavemanBrief":  "CAVEMAN BRIEF\r\nPrompt tokens: workspace, project, family:, tooling, project:, scripts, path:, c:, users, yoeli, documents, getupsoft, signals:, automation, family, seed, skills:, create-plan, skill-share, agency-agents, skill-installer, select, the, best, codex, skills, for, this, prefer, most, specific, first, consider, policy:, normalize, request, with, caveman, before, selecting, use, shared, skill, bundle, in, agents, when, multiagent, coordination, helps, include, webapp-testing, browser, ui, verification, relevant\r\nWorkspace skill count: 97\r\n\r\nRecommended skills\r\n- agency-agents [69] - Use The Agency specialist-agent library as Codex-compatible reference personas and workflows. Applies when the user asks to use agency-agents, The Agency, or a named Agency specialist such as Frontend Developer, Reality Checker, Evidence Collector, Backend Architect, Growth Hacker, etc.\r\n- webapp-testing [69] - Toolkit for interacting with and testing local web applications using Playwright. Supports verifying frontend functionality, debugging UI behavior, capturing browser screenshots, and viewing browser logs.\r\n- skill-share [66] - A skill that creates new Claude skills and automatically shares them on Slack using Rube for seamless team collaboration and skill discovery.\r\n- components-build [62] - Build modern, composable, and accessible React UI components following the components.build specification. Use when creating, reviewing, or refactoring component libraries, design systems, or any reusable UI components. Triggers on tasks involving component APIs, composition patterns, accessibility, styling systems, or TypeScript props.\r\n- mcp-builder [62] - Guide for creating high-quality MCP (Model Context Protocol) servers that enable LLMs to interact with external services through well-designed tools. Use when building MCP servers to integrate external APIs or services, whether in Python (FastMCP) or Node/TypeScript (MCP SDK)."
+                     }
+                 ]
+}

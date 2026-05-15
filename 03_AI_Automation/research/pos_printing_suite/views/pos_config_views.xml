@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="view_pos_config_form_printing_suite" model="ir.ui.view">
+        <field name="name">pos.config.form.printing.suite</field>
+        <field name="model">pos.config</field>
+        <field name="inherit_id" ref="point_of_sale.pos_config_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//form/sheet" position="inside">
+                <group string="POS Printing Suite">
+                    <field name="printing_mode"/>
+                    <field name="print_device_id" options="{'no_create': True}"
+                           domain="[('company_id', '=', company_id), ('pos_config_id', '=', id)]"
+                           invisible="printing_mode != 'local_agent'"/>
+                    <field name="local_printer_cashier_name" placeholder="e.g. EPSON TM-T20II"
+                           invisible="printing_mode != 'local_agent'"/>
+                    <field name="local_printer_kitchen_name" placeholder="e.g. Kitchen Receipt"
+                           invisible="printing_mode != 'local_agent'"/>
+                    <field name="local_printer_print_as_image" invisible="printing_mode != 'local_agent'"/>
+                    <field name="local_printer_image_width" invisible="printing_mode != 'local_agent' or not local_printer_print_as_image"/>
+                    <field name="any_printer_ip" help="Only for HW Proxy mode (legacy)."
+                           invisible="printing_mode != 'hw_proxy'"/>
+                </group>
+            </xpath>
+        </field>
+    </record>
+</odoo>

@@ -1,0 +1,24 @@
+meta {
+  name: odoologing
+  type: http
+  seq: 5
+}
+
+post {
+  url: https://cel.flai.com.do/web/session/authenticate
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "jsonrpc": "2.0",
+    "method": "call",
+    "params": {
+      "db": "cel",
+      "login": "celadmin@flai.com.do",
+      "password": "cel$16"
+    }
+  }
+  
+}

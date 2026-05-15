@@ -1,0 +1,42 @@
+# GetUpSoft Workspace Agent Rules
+
+This workspace is multiagent by default. Every agent working here must follow the shared skill policy below.
+
+## Start-of-work sequence
+
+1. Run `.\scripts\agent_start.ps1`.
+2. If needed, re-run `.\scripts\workspace_bootstrap.ps1`.
+3. Read `task-ledger\skill-recommendations.md` for the current project families.
+4. Normalize the task prompt with `.\scripts\caveman_route.ps1` before selecting skills.
+5. Use the shared skill bundle in `.agents\skills`.
+6. Prefer the most specific skill set available for the project family.
+
+## Shared skills
+
+- `.agents\skills` is the live shared bundle for the workspace.
+- `skills-lock.json` is the pinned inventory.
+- Any new skill installed in Codex should be propagated into the workspace bundle.
+
+## Skill selection policy
+
+- Always review the available skills before starting a project task.
+- Use `agency-agents` for role coordination, review flow, and handoffs.
+- Use `webapp-testing` for browser, UI, or Selenium-style validation.
+- Use `authorized-security-testing` only for explicitly authorized defensive checks.
+- Avoid generic skills when a more specific workspace skill exists.
+
+## Project recommendation policy
+
+- The workspace keeps project-family recommendations in `task-ledger/skill-recommendations.json` and `.md`.
+- The generator groups projects by family and recommends the best-fit skills per family.
+- Re-run the generator when the workspace layout or skill bundle changes.
+
+## Design projects
+
+- Use the shared Stitch MCP manifest in `mcp-servers.shared.json` for any project that needs UI or design work.
+- Run `.\scripts\stitch_mcp_bootstrap.ps1` to validate Stitch availability.
+- If `GOOGLE_CLOUD_PROJECT` is not set, Stitch is scaffolded but not ready.
+
+## Operational rule
+
+If a task touches a project, the agent must check the bootstrap output before writing code or running tests.

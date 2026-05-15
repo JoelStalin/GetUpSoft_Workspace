@@ -1,0 +1,612 @@
+﻿Fecha: 2026-05-10 14:34:03
+Archivo Original: agent-continuity-hub-copilot-brief-final.md
+CategorÃ­a Asignada: General
+AcciÃ³n: Recuperado de Descargas y Centralizado.
+Estado: Pendiente de RevisiÃ³n TÃ©cnica.
+-----------------------------------
+Fecha: 2026-05-10 14:34:03
+Archivo Original: agent-continuity-hub-copilot-brief-v2.md
+CategorÃ­a Asignada: General
+AcciÃ³n: Recuperado de Descargas y Centralizado.
+Estado: Pendiente de RevisiÃ³n TÃ©cnica.
+-----------------------------------
+Fecha: 2026-05-10 14:34:03
+Archivo Original: agent-continuity-hub-copilot-brief-v3.md
+CategorÃ­a Asignada: General
+AcciÃ³n: Recuperado de Descargas y Centralizado.
+Estado: Pendiente de RevisiÃ³n TÃ©cnica.
+-----------------------------------
+Fecha: 2026-05-10 14:34:04
+Archivo Original: agent-continuity-hub-copilot-brief-v4.md
+CategorÃ­a Asignada: General
+AcciÃ³n: Recuperado de Descargas y Centralizado.
+Estado: Pendiente de RevisiÃ³n TÃ©cnica.
+-----------------------------------
+Fecha: 2026-05-10 14:34:04
+Archivo Original: agent-continuity-hub-copilot-brief.md
+CategorÃ­a Asignada: General
+AcciÃ³n: Recuperado de Descargas y Centralizado.
+Estado: Pendiente de RevisiÃ³n TÃ©cnica.
+-----------------------------------
+Fecha: 2026-05-10 14:34:04
+Archivo Original: AgentFS_RAG_PDF_First.md
+CategorÃ­a Asignada: General
+AcciÃ³n: Recuperado de Descargas y Centralizado.
+Estado: Pendiente de RevisiÃ³n TÃ©cnica.
+-----------------------------------
+Fecha: 2026-05-10 14:34:04
+Archivo Original: AIHUB_UNIVERSAL_INTEGRATED_PROMPT.md
+CategorÃ­a Asignada: AI_Automation
+AcciÃ³n: Recuperado de Descargas y Centralizado.
+Estado: Pendiente de RevisiÃ³n TÃ©cnica.
+-----------------------------------
+Fecha: 2026-05-10 14:34:04
+Archivo Original: automatizacion_obtencion_firma_digital_dgii.md
+CategorÃ­a Asignada: DGII_EasyCount
+AcciÃ³n: Recuperado de Descargas y Centralizado.
+Estado: Pendiente de RevisiÃ³n TÃ©cnica.
+-----------------------------------
+Fecha: 2026-05-10 14:34:04
+Archivo Original: chefalitas_odoo18_fix_owl_printing_mode.md
+CategorÃ­a Asignada: Odoo_ERP
+AcciÃ³n: Recuperado de Descargas y Centralizado.
+Estado: Pendiente de RevisiÃ³n TÃ©cnica.
+-----------------------------------
+Fecha: 2026-05-10 14:34:04
+Archivo Original: Comparativo_y_mejoras_POS_any_printer_local_Odoo18.md
+CategorÃ­a Asignada: Odoo_ERP
+AcciÃ³n: Recuperado de Descargas y Centralizado.
+Estado: Pendiente de RevisiÃ³n TÃ©cnica.
+-----------------------------------
+Fecha: 2026-05-10 14:34:04
+Archivo Original: cursor_cambios_en_rdenes_de_carga_de_se.md
+CategorÃ­a Asignada: General
+AcciÃ³n: Recuperado de Descargas y Centralizado.
+Estado: Pendiente de RevisiÃ³n TÃ©cnica.
+-----------------------------------
+Fecha: 2026-05-10 14:34:04
+Archivo Original: DGII_Codex_Prompt.md
+CategorÃ­a Asignada: DGII_EasyCount
+AcciÃ³n: Recuperado de Descargas y Centralizado.
+Estado: Pendiente de RevisiÃ³n TÃ©cnica.
+-----------------------------------
+Fecha: 2026-05-10 14:34:04
+Archivo Original: DGII_eCF_Compliance_Update_Prompt.md
+CategorÃ­a Asignada: DGII_EasyCount
+AcciÃ³n: Recuperado de Descargas y Centralizado.
+Estado: Pendiente de RevisiÃ³n TÃ©cnica.
+-----------------------------------
+Fecha: 2026-05-10 14:34:04
+Archivo Original: DGII_eCF_Compliance_Update_Prompt_PDFFirst (1).md
+CategorÃ­a Asignada: DGII_EasyCount
+AcciÃ³n: Recuperado de Descargas y Centralizado.
+Estado: Pendiente de RevisiÃ³n TÃ©cnica.
+-----------------------------------
+Fecha: 2026-05-10 14:34:04
+Archivo Original: DGII_eCF_Compliance_Update_Prompt_PDFFirst.md
+CategorÃ­a Asignada: DGII_EasyCount
+AcciÃ³n: Recuperado de Descargas y Centralizado.
+Estado: Pendiente de RevisiÃ³n TÃ©cnica.
+-----------------------------------
+Fecha: 2026-05-10 14:34:04
+Archivo Original: diagnostico-error-control-content_script.md
+CategorÃ­a Asignada: General
+AcciÃ³n: Recuperado de Descargas y Centralizado.
+Estado: Pendiente de RevisiÃ³n TÃ©cnica.
+-----------------------------------
+Fecha: 2026-05-10 14:34:04
+Archivo Original: EasyCounting_prompt_integracion_LLM_memoria.md
+CategorÃ­a Asignada: General
+AcciÃ³n: Recuperado de Descargas y Centralizado.
+Estado: Pendiente de RevisiÃ³n TÃ©cnica.
+-----------------------------------
+Fecha: 2026-05-10 14:34:04
+Archivo Original: fastapi-migracion-nginx-prompt.md
+CategorÃ­a Asignada: General
+AcciÃ³n: Recuperado de Descargas y Centralizado.
+Estado: Pendiente de RevisiÃ³n TÃ©cnica.
+-----------------------------------
+Fecha: 2026-05-10 14:34:05
+Archivo Original: galantes-master-prompt-optimized.md
+CategorÃ­a Asignada: Galantes_Lux
+AcciÃ³n: Recuperado de Descargas y Centralizado.
+Estado: Pendiente de RevisiÃ³n TÃ©cnica.
+-----------------------------------
+Fecha: 2026-05-10 14:34:05
+Archivo Original: galantes-master-prompt-v3.md
+CategorÃ­a Asignada: Galantes_Lux
+AcciÃ³n: Recuperado de Descargas y Centralizado.
+Estado: Pendiente de RevisiÃ³n TÃ©cnica.
+-----------------------------------
+Fecha: 2026-05-10 14:34:05
+Archivo Original: galantesjewelry_prompt_maestro.md
+CategorÃ­a Asignada: Galantes_Lux
+AcciÃ³n: Recuperado de Descargas y Centralizado.
+Estado: Pendiente de RevisiÃ³n TÃ©cnica.
+-----------------------------------
+Fecha: 2026-05-10 14:34:05
+Archivo Original: galantesjewelry_prompt_maestro_v2 (1).md
+CategorÃ­a Asignada: Galantes_Lux
+AcciÃ³n: Recuperado de Descargas y Centralizado.
+Estado: Pendiente de RevisiÃ³n TÃ©cnica.
+-----------------------------------
+Fecha: 2026-05-10 14:34:05
+Archivo Original: galantesjewelry_prompt_maestro_v2.md
+CategorÃ­a Asignada: Galantes_Lux
+AcciÃ³n: Recuperado de Descargas y Centralizado.
+Estado: Pendiente de RevisiÃ³n TÃ©cnica.
+-----------------------------------
+Fecha: 2026-05-10 14:34:05
+Archivo Original: galantes_shop_prompt.md
+CategorÃ­a Asignada: Galantes_Lux
+AcciÃ³n: Recuperado de Descargas y Centralizado.
+Estado: Pendiente de RevisiÃ³n TÃ©cnica.
+-----------------------------------
+Fecha: 2026-05-10 14:34:05
+Archivo Original: gemini.md
+CategorÃ­a Asignada: General
+AcciÃ³n: Recuperado de Descargas y Centralizado.
+Estado: Pendiente de RevisiÃ³n TÃ©cnica.
+-----------------------------------
+Fecha: 2026-05-10 14:34:05
+Archivo Original: GETUPNET_ENCF_PROMPT_v2.md
+CategorÃ­a Asignada: GetUpNet
+AcciÃ³n: Recuperado de Descargas y Centralizado.
+Estado: Pendiente de RevisiÃ³n TÃ©cnica.
+-----------------------------------
+Fecha: 2026-05-10 14:34:05
+Archivo Original: GETUPNET_ENCF_PROMPT_v2_AWS.md
+CategorÃ­a Asignada: GetUpNet
+AcciÃ³n: Recuperado de Descargas y Centralizado.
+Estado: Pendiente de RevisiÃ³n TÃ©cnica.
+-----------------------------------
+Fecha: 2026-05-10 14:34:05
+Archivo Original: instalar_skills_claude.md
+CategorÃ­a Asignada: General
+AcciÃ³n: Recuperado de Descargas y Centralizado.
+Estado: Pendiente de RevisiÃ³n TÃ©cnica.
+-----------------------------------
+Fecha: 2026-05-10 14:34:05
+Archivo Original: localprinteragent_fixes.md
+CategorÃ­a Asignada: General
+AcciÃ³n: Recuperado de Descargas y Centralizado.
+Estado: Pendiente de RevisiÃ³n TÃ©cnica.
+-----------------------------------
+Fecha: 2026-05-10 14:34:05
+Archivo Original: localprinteragent_windows_1053_fix.md
+CategorÃ­a Asignada: General
+AcciÃ³n: Recuperado de Descargas y Centralizado.
+Estado: Pendiente de RevisiÃ³n TÃ©cnica.
+-----------------------------------
+Fecha: 2026-05-10 14:34:05
+Archivo Original: master_orchestrator_v5 (1).md
+CategorÃ­a Asignada: AI_Automation
+AcciÃ³n: Recuperado de Descargas y Centralizado.
+Estado: Pendiente de RevisiÃ³n TÃ©cnica.
+-----------------------------------
+Fecha: 2026-05-10 14:34:05
+Archivo Original: master_orchestrator_v5.md
+CategorÃ­a Asignada: AI_Automation
+AcciÃ³n: Recuperado de Descargas y Centralizado.
+Estado: Pendiente de RevisiÃ³n TÃ©cnica.
+-----------------------------------
+Fecha: 2026-05-10 14:34:06
+Archivo Original: mega_prompt_google_calendar_nodejs_orquestador.md
+CategorÃ­a Asignada: General
+AcciÃ³n: Recuperado de Descargas y Centralizado.
+Estado: Pendiente de RevisiÃ³n TÃ©cnica.
+-----------------------------------
+Fecha: 2026-05-10 14:34:06
+Archivo Original: mega_prompt_google_calendar_nodejs_orquestador_memoria_odoo (1).md
+CategorÃ­a Asignada: Odoo_ERP
+AcciÃ³n: Recuperado de Descargas y Centralizado.
+Estado: Pendiente de RevisiÃ³n TÃ©cnica.
+-----------------------------------
+Fecha: 2026-05-10 14:34:06
+Archivo Original: mega_prompt_google_calendar_nodejs_orquestador_memoria_odoo.md
+CategorÃ­a Asignada: Odoo_ERP
+AcciÃ³n: Recuperado de Descargas y Centralizado.
+Estado: Pendiente de RevisiÃ³n TÃ©cnica.
+-----------------------------------
+Fecha: 2026-05-10 14:34:06
+Archivo Original: odoo15_restriccion_plan_pruebas_v17.md
+CategorÃ­a Asignada: Odoo_ERP
+AcciÃ³n: Recuperado de Descargas y Centralizado.
+Estado: Pendiente de RevisiÃ³n TÃ©cnica.
+-----------------------------------
+Fecha: 2026-05-10 14:34:06
+Archivo Original: odoo15_restriccion_y_alternativas.md
+CategorÃ­a Asignada: Odoo_ERP
+AcciÃ³n: Recuperado de Descargas y Centralizado.
+Estado: Pendiente de RevisiÃ³n TÃ©cnica.
+-----------------------------------
+Fecha: 2026-05-10 14:34:06
+Archivo Original: odoo18_pos_printing_suite_compat_fix_prompt.md
+CategorÃ­a Asignada: Odoo_ERP
+AcciÃ³n: Recuperado de Descargas y Centralizado.
+Estado: Pendiente de RevisiÃ³n TÃ©cnica.
+-----------------------------------
+Fecha: 2026-05-10 14:34:06
+Archivo Original: odoo18_pos_printing_suite_fix_prompt (1).md
+CategorÃ­a Asignada: Odoo_ERP
+AcciÃ³n: Recuperado de Descargas y Centralizado.
+Estado: Pendiente de RevisiÃ³n TÃ©cnica.
+-----------------------------------
+Fecha: 2026-05-10 14:34:06
+Archivo Original: odoo18_pos_printing_suite_fix_prompt.md
+CategorÃ­a Asignada: Odoo_ERP
+AcciÃ³n: Recuperado de Descargas y Centralizado.
+Estado: Pendiente de RevisiÃ³n TÃ©cnica.
+-----------------------------------
+Fecha: 2026-05-10 14:34:06
+Archivo Original: odoo19_bin_packing_prompt (1).md
+CategorÃ­a Asignada: Odoo_ERP
+AcciÃ³n: Recuperado de Descargas y Centralizado.
+Estado: Pendiente de RevisiÃ³n TÃ©cnica.
+-----------------------------------
+Fecha: 2026-05-10 14:34:06
+Archivo Original: odoo19_bin_packing_prompt.md
+CategorÃ­a Asignada: Odoo_ERP
+AcciÃ³n: Recuperado de Descargas y Centralizado.
+Estado: Pendiente de RevisiÃ³n TÃ©cnica.
+-----------------------------------
+Fecha: 2026-05-10 14:34:06
+Archivo Original: odoo19_modulo_agenda.md
+CategorÃ­a Asignada: Odoo_ERP
+AcciÃ³n: Recuperado de Descargas y Centralizado.
+Estado: Pendiente de RevisiÃ³n TÃ©cnica.
+-----------------------------------
+Fecha: 2026-05-10 14:34:06
+Archivo Original: Odoo_Architect_AI_Cross_Version_v15-v18.md
+CategorÃ­a Asignada: Odoo_ERP
+AcciÃ³n: Recuperado de Descargas y Centralizado.
+Estado: Pendiente de RevisiÃ³n TÃ©cnica.
+-----------------------------------
+Fecha: 2026-05-10 14:34:06
+Archivo Original: odoo_prompt_completo.md
+CategorÃ­a Asignada: Odoo_ERP
+AcciÃ³n: Recuperado de Descargas y Centralizado.
+Estado: Pendiente de RevisiÃ³n TÃ©cnica.
+-----------------------------------
+Fecha: 2026-05-10 14:34:06
+Archivo Original: prompt-invoice-endpoint.md
+CategorÃ­a Asignada: General
+AcciÃ³n: Recuperado de Descargas y Centralizado.
+Estado: Pendiente de RevisiÃ³n TÃ©cnica.
+-----------------------------------
+Fecha: 2026-05-10 14:34:06
+Archivo Original: PROMPT_AUDITORIA_ARQUITECTURA_TESTING_DGII_ENCF.md
+CategorÃ­a Asignada: DGII_EasyCount
+AcciÃ³n: Recuperado de Descargas y Centralizado.
+Estado: Pendiente de RevisiÃ³n TÃ©cnica.
+-----------------------------------
+Fecha: 2026-05-10 14:34:06
+Archivo Original: PROMPT_AUDITORIA_ODOO_POS_PRINTING_SUITE.md
+CategorÃ­a Asignada: Odoo_ERP
+AcciÃ³n: Recuperado de Descargas y Centralizado.
+Estado: Pendiente de RevisiÃ³n TÃ©cnica.
+-----------------------------------
+Fecha: 2026-05-10 14:34:07
+Archivo Original: Prompt_AutoDeps_and_Install.md
+CategorÃ­a Asignada: General
+AcciÃ³n: Recuperado de Descargas y Centralizado.
+Estado: Pendiente de RevisiÃ³n TÃ©cnica.
+-----------------------------------
+Fecha: 2026-05-10 14:34:07
+Archivo Original: prompt_automatizacion_dgii.md
+CategorÃ­a Asignada: DGII_EasyCount
+AcciÃ³n: Recuperado de Descargas y Centralizado.
+Estado: Pendiente de RevisiÃ³n TÃ©cnica.
+-----------------------------------
+Fecha: 2026-05-10 14:34:07
+Archivo Original: prompt_boton_sync_discount_carrier_y_cron_diario.md
+CategorÃ­a Asignada: General
+AcciÃ³n: Recuperado de Descargas y Centralizado.
+Estado: Pendiente de RevisiÃ³n TÃ©cnica.
+-----------------------------------
+Fecha: 2026-05-10 14:34:07
+Archivo Original: prompt_branding_ceo_facturacion (1).md
+CategorÃ­a Asignada: General
+AcciÃ³n: Recuperado de Descargas y Centralizado.
+Estado: Pendiente de RevisiÃ³n TÃ©cnica.
+-----------------------------------
+Fecha: 2026-05-10 14:34:07
+Archivo Original: prompt_branding_ceo_facturacion.md
+CategorÃ­a Asignada: General
+AcciÃ³n: Recuperado de Descargas y Centralizado.
+Estado: Pendiente de RevisiÃ³n TÃ©cnica.
+-----------------------------------
+Fecha: 2026-05-10 14:34:07
+Archivo Original: prompt_chatgpt_dgii.md
+CategorÃ­a Asignada: DGII_EasyCount
+AcciÃ³n: Recuperado de Descargas y Centralizado.
+Estado: Pendiente de RevisiÃ³n TÃ©cnica.
+-----------------------------------
+Fecha: 2026-05-10 14:34:07
+Archivo Original: prompt_claude_selenium_live_demo_safe.md
+CategorÃ­a Asignada: General
+AcciÃ³n: Recuperado de Descargas y Centralizado.
+Estado: Pendiente de RevisiÃ³n TÃ©cnica.
+-----------------------------------
+Fecha: 2026-05-10 14:34:07
+Archivo Original: Prompt_Codex_dgii_encf.md
+CategorÃ­a Asignada: DGII_EasyCount
+AcciÃ³n: Recuperado de Descargas y Centralizado.
+Estado: Pendiente de RevisiÃ³n TÃ©cnica.
+-----------------------------------
+Fecha: 2026-05-10 14:34:07
+Archivo Original: prompt_codex_fix_docker_gunicorn.md
+CategorÃ­a Asignada: General
+AcciÃ³n: Recuperado de Descargas y Centralizado.
+Estado: Pendiente de RevisiÃ³n TÃ©cnica.
+-----------------------------------
+Fecha: 2026-05-10 14:34:07
+Archivo Original: prompt_codex_fix_odoo18.md
+CategorÃ­a Asignada: Odoo_ERP
+AcciÃ³n: Recuperado de Descargas y Centralizado.
+Estado: Pendiente de RevisiÃ³n TÃ©cnica.
+-----------------------------------
+Fecha: 2026-05-10 14:34:07
+Archivo Original: PROMPT_Codex_Fix_Odoo_I18N.md
+CategorÃ­a Asignada: Odoo_ERP
+AcciÃ³n: Recuperado de Descargas y Centralizado.
+Estado: Pendiente de RevisiÃ³n TÃ©cnica.
+-----------------------------------
+Fecha: 2026-05-10 14:34:07
+Archivo Original: prompt_codex_migracion_odoo_15_a_18_con_docker_y_ci_cd.md
+CategorÃ­a Asignada: Odoo_ERP
+AcciÃ³n: Recuperado de Descargas y Centralizado.
+Estado: Pendiente de RevisiÃ³n TÃ©cnica.
+-----------------------------------
+Fecha: 2026-05-10 14:34:07
+Archivo Original: prompt_codex_migracion_odoo_15_a_18_docker_ci_cd_hardened.md
+CategorÃ­a Asignada: Odoo_ERP
+AcciÃ³n: Recuperado de Descargas y Centralizado.
+Estado: Pendiente de RevisiÃ³n TÃ©cnica.
+-----------------------------------
+Fecha: 2026-05-10 14:34:07
+Archivo Original: prompt_codex_odoo_batch_tracking_corte.md
+CategorÃ­a Asignada: Odoo_ERP
+AcciÃ³n: Recuperado de Descargas y Centralizado.
+Estado: Pendiente de RevisiÃ³n TÃ©cnica.
+-----------------------------------
+Fecha: 2026-05-10 14:34:07
+Archivo Original: prompt_codex_pos_any_printer_local.md
+CategorÃ­a Asignada: General
+AcciÃ³n: Recuperado de Descargas y Centralizado.
+Estado: Pendiente de RevisiÃ³n TÃ©cnica.
+-----------------------------------
+Fecha: 2026-05-10 14:34:07
+Archivo Original: prompt_codex_pos_printing_suite_msi.md
+CategorÃ­a Asignada: General
+AcciÃ³n: Recuperado de Descargas y Centralizado.
+Estado: Pendiente de RevisiÃ³n TÃ©cnica.
+-----------------------------------
+Fecha: 2026-05-10 14:34:07
+Archivo Original: prompt_codex_rutas_portales.md
+CategorÃ­a Asignada: General
+AcciÃ³n: Recuperado de Descargas y Centralizado.
+Estado: Pendiente de RevisiÃ³n TÃ©cnica.
+-----------------------------------
+Fecha: 2026-05-10 14:34:08
+Archivo Original: prompt_dgii_gpt53_codex.md
+CategorÃ­a Asignada: DGII_EasyCount
+AcciÃ³n: Recuperado de Descargas y Centralizado.
+Estado: Pendiente de RevisiÃ³n TÃ©cnica.
+-----------------------------------
+Fecha: 2026-05-10 14:34:08
+Archivo Original: Prompt_Endpoints_ENFC.md
+CategorÃ­a Asignada: General
+AcciÃ³n: Recuperado de Descargas y Centralizado.
+Estado: Pendiente de RevisiÃ³n TÃ©cnica.
+-----------------------------------
+Fecha: 2026-05-10 14:34:08
+Archivo Original: prompt_fix_pos_printing_suite_odoo18_img.md
+CategorÃ­a Asignada: Odoo_ERP
+AcciÃ³n: Recuperado de Descargas y Centralizado.
+Estado: Pendiente de RevisiÃ³n TÃ©cnica.
+-----------------------------------
+Fecha: 2026-05-10 14:34:08
+Archivo Original: prompt_getupsoft_aws_route53_ssh_selenium.md
+CategorÃ­a Asignada: General
+AcciÃ³n: Recuperado de Descargas y Centralizado.
+Estado: Pendiente de RevisiÃ³n TÃ©cnica.
+-----------------------------------
+Fecha: 2026-05-10 14:34:08
+Archivo Original: prompt_homologacion_descuentos_odoo_v17_con_validacion_gps_exo.md
+CategorÃ­a Asignada: Odoo_ERP
+AcciÃ³n: Recuperado de Descargas y Centralizado.
+Estado: Pendiente de RevisiÃ³n TÃ©cnica.
+-----------------------------------
+Fecha: 2026-05-10 14:34:08
+Archivo Original: prompt_maestro_agente_analisis_repositorio_mercado_pricing (1).md
+CategorÃ­a Asignada: General
+AcciÃ³n: Recuperado de Descargas y Centralizado.
+Estado: Pendiente de RevisiÃ³n TÃ©cnica.
+-----------------------------------
+Fecha: 2026-05-10 14:34:08
+Archivo Original: prompt_maestro_agente_analisis_repositorio_mercado_pricing.md
+CategorÃ­a Asignada: General
+AcciÃ³n: Recuperado de Descargas y Centralizado.
+Estado: Pendiente de RevisiÃ³n TÃ©cnica.
+-----------------------------------
+Fecha: 2026-05-10 14:34:08
+Archivo Original: PROMPT_MAESTRO_Codex_GetUpNet_ENCF.md
+CategorÃ­a Asignada: GetUpNet
+AcciÃ³n: Recuperado de Descargas y Centralizado.
+Estado: Pendiente de RevisiÃ³n TÃ©cnica.
+-----------------------------------
+Fecha: 2026-05-10 14:34:08
+Archivo Original: prompt_maestro_easycounting_odoo19_dgii.md
+CategorÃ­a Asignada: DGII_EasyCount
+AcciÃ³n: Recuperado de Descargas y Centralizado.
+Estado: Pendiente de RevisiÃ³n TÃ©cnica.
+-----------------------------------
+Fecha: 2026-05-10 14:34:08
+Archivo Original: prompt_maestro_easycounting_odoo19_dgii_v2.md
+CategorÃ­a Asignada: DGII_EasyCount
+AcciÃ³n: Recuperado de Descargas y Centralizado.
+Estado: Pendiente de RevisiÃ³n TÃ©cnica.
+-----------------------------------
+Fecha: 2026-05-10 14:34:08
+Archivo Original: prompt_maestro_galantes_android_docker.md
+CategorÃ­a Asignada: Galantes_Lux
+AcciÃ³n: Recuperado de Descargas y Centralizado.
+Estado: Pendiente de RevisiÃ³n TÃ©cnica.
+-----------------------------------
+Fecha: 2026-05-10 14:34:08
+Archivo Original: prompt_maestro_galantes_android_docker_v2.md
+CategorÃ­a Asignada: Galantes_Lux
+AcciÃ³n: Recuperado de Descargas y Centralizado.
+Estado: Pendiente de RevisiÃ³n TÃ©cnica.
+-----------------------------------
+Fecha: 2026-05-10 14:34:08
+Archivo Original: Prompt_Maestro_GetUpNet_ENCF.pdf
+CategorÃ­a Asignada: GetUpNet
+AcciÃ³n: Recuperado de Descargas y Centralizado.
+Estado: Pendiente de RevisiÃ³n TÃ©cnica.
+-----------------------------------
+Fecha: 2026-05-10 14:34:08
+Archivo Original: prompt_maestro_integracion_ecf_dgii.md
+CategorÃ­a Asignada: DGII_EasyCount
+AcciÃ³n: Recuperado de Descargas y Centralizado.
+Estado: Pendiente de RevisiÃ³n TÃ©cnica.
+-----------------------------------
+Fecha: 2026-05-10 14:34:08
+Archivo Original: PROMPT_MAESTRO_ODOO15_REPORTE_CONTABLE_COMPLETO.md
+CategorÃ­a Asignada: Odoo_ERP
+AcciÃ³n: Recuperado de Descargas y Centralizado.
+Estado: Pendiente de RevisiÃ³n TÃ©cnica.
+-----------------------------------
+Fecha: 2026-05-10 14:34:09
+Archivo Original: prompt_maestro_unificado (1).md
+CategorÃ­a Asignada: General
+AcciÃ³n: Recuperado de Descargas y Centralizado.
+Estado: Pendiente de RevisiÃ³n TÃ©cnica.
+-----------------------------------
+Fecha: 2026-05-10 14:34:09
+Archivo Original: prompt_maestro_unificado.md
+CategorÃ­a Asignada: General
+AcciÃ³n: Recuperado de Descargas y Centralizado.
+Estado: Pendiente de RevisiÃ³n TÃ©cnica.
+-----------------------------------
+Fecha: 2026-05-10 14:34:09
+Archivo Original: prompt_maestro_v_4_get_up_net_encf.md
+CategorÃ­a Asignada: General
+AcciÃ³n: Recuperado de Descargas y Centralizado.
+Estado: Pendiente de RevisiÃ³n TÃ©cnica.
+-----------------------------------
+Fecha: 2026-05-10 14:34:09
+Archivo Original: prompt_migracion_odoo15_a_18_codex.pdf
+CategorÃ­a Asignada: Odoo_ERP
+AcciÃ³n: Recuperado de Descargas y Centralizado.
+Estado: Pendiente de RevisiÃ³n TÃ©cnica.
+-----------------------------------
+Fecha: 2026-05-10 14:34:09
+Archivo Original: prompt_migracion_odoo15_a_19.md
+CategorÃ­a Asignada: Odoo_ERP
+AcciÃ³n: Recuperado de Descargas y Centralizado.
+Estado: Pendiente de RevisiÃ³n TÃ©cnica.
+-----------------------------------
+Fecha: 2026-05-10 14:34:09
+Archivo Original: prompt_migracion_vistas_odoo18_attrs_states.md
+CategorÃ­a Asignada: Odoo_ERP
+AcciÃ³n: Recuperado de Descargas y Centralizado.
+Estado: Pendiente de RevisiÃ³n TÃ©cnica.
+-----------------------------------
+Fecha: 2026-05-10 14:34:09
+Archivo Original: prompt_modificar_descuentos_pendientes.md
+CategorÃ­a Asignada: General
+AcciÃ³n: Recuperado de Descargas y Centralizado.
+Estado: Pendiente de RevisiÃ³n TÃ©cnica.
+-----------------------------------
+Fecha: 2026-05-10 14:34:09
+Archivo Original: prompt_odoo15_reporte_contable_campos_explicitos_repo_local.md
+CategorÃ­a Asignada: Odoo_ERP
+AcciÃ³n: Recuperado de Descargas y Centralizado.
+Estado: Pendiente de RevisiÃ³n TÃ©cnica.
+-----------------------------------
+Fecha: 2026-05-10 14:34:09
+Archivo Original: prompt_odoo15_to_19_direct_edits_en.md
+CategorÃ­a Asignada: Odoo_ERP
+AcciÃ³n: Recuperado de Descargas y Centralizado.
+Estado: Pendiente de RevisiÃ³n TÃ©cnica.
+-----------------------------------
+Fecha: 2026-05-10 14:34:09
+Archivo Original: prompt_odoo15_to_19_direct_edits_en_with_docker_readme.md
+CategorÃ­a Asignada: Odoo_ERP
+AcciÃ³n: Recuperado de Descargas y Centralizado.
+Estado: Pendiente de RevisiÃ³n TÃ©cnica.
+-----------------------------------
+Fecha: 2026-05-10 14:34:09
+Archivo Original: prompt_odoo15_to_19_robust_en.md
+CategorÃ­a Asignada: Odoo_ERP
+AcciÃ³n: Recuperado de Descargas y Centralizado.
+Estado: Pendiente de RevisiÃ³n TÃ©cnica.
+-----------------------------------
+Fecha: 2026-05-10 14:34:09
+Archivo Original: prompt_odoo19_bin_packing (1).md
+CategorÃ­a Asignada: Odoo_ERP
+AcciÃ³n: Recuperado de Descargas y Centralizado.
+Estado: Pendiente de RevisiÃ³n TÃ©cnica.
+-----------------------------------
+Fecha: 2026-05-10 14:34:09
+Archivo Original: prompt_odoo19_bin_packing.md
+CategorÃ­a Asignada: Odoo_ERP
+AcciÃ³n: Recuperado de Descargas y Centralizado.
+Estado: Pendiente de RevisiÃ³n TÃ©cnica.
+-----------------------------------
+Fecha: 2026-05-10 14:34:09
+Archivo Original: prompt_odoo19_bin_packing_batch.md
+CategorÃ­a Asignada: Odoo_ERP
+AcciÃ³n: Recuperado de Descargas y Centralizado.
+Estado: Pendiente de RevisiÃ³n TÃ©cnica.
+-----------------------------------
+Fecha: 2026-05-10 14:34:09
+Archivo Original: prompt_pos_any_printer_local.md
+CategorÃ­a Asignada: General
+AcciÃ³n: Recuperado de Descargas y Centralizado.
+Estado: Pendiente de RevisiÃ³n TÃ©cnica.
+-----------------------------------
+Fecha: 2026-05-10 14:34:09
+Archivo Original: Prompt_Reparacion_Dirigida_custom_accounting_report_Odoo15.md
+CategorÃ­a Asignada: Odoo_ERP
+AcciÃ³n: Recuperado de Descargas y Centralizado.
+Estado: Pendiente de RevisiÃ³n TÃ©cnica.
+-----------------------------------
+Fecha: 2026-05-10 14:34:09
+Archivo Original: Prompt_Unificacion_Modulos_POS_Printer_Suite_Odoo18.md
+CategorÃ­a Asignada: Odoo_ERP
+AcciÃ³n: Recuperado de Descargas y Centralizado.
+Estado: Pendiente de RevisiÃ³n TÃ©cnica.
+-----------------------------------
+Fecha: 2026-05-10 14:34:10
+Archivo Original: PROMPT_UPGRADE_Odoo15_a_19_Jabiyaprod (1).md
+CategorÃ­a Asignada: Odoo_ERP
+AcciÃ³n: Recuperado de Descargas y Centralizado.
+Estado: Pendiente de RevisiÃ³n TÃ©cnica.
+-----------------------------------
+Fecha: 2026-05-10 14:34:10
+Archivo Original: PROMPT_UPGRADE_Odoo15_a_19_Jabiyaprod.md
+CategorÃ­a Asignada: Odoo_ERP
+AcciÃ³n: Recuperado de Descargas y Centralizado.
+Estado: Pendiente de RevisiÃ³n TÃ©cnica.
+-----------------------------------
+Fecha: 2026-05-10 14:34:10
+Archivo Original: stock_picking_bin_packing (1).md
+CategorÃ­a Asignada: General
+AcciÃ³n: Recuperado de Descargas y Centralizado.
+Estado: Pendiente de RevisiÃ³n TÃ©cnica.
+-----------------------------------
+Fecha: 2026-05-10 14:34:10
+Archivo Original: stock_picking_bin_packing.md
+CategorÃ­a Asignada: General
+AcciÃ³n: Recuperado de Descargas y Centralizado.
+Estado: Pendiente de RevisiÃ³n TÃ©cnica.
+-----------------------------------
+Fecha: 2026-05-10 14:34:10
+Archivo Original: _prompt_debug.txt
+CategorÃ­a Asignada: General
+AcciÃ³n: Recuperado de Descargas y Centralizado.
+Estado: Pendiente de RevisiÃ³n TÃ©cnica.
+-----------------------------------

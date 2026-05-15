@@ -1,0 +1,50 @@
+# Secrets - NEVER commit
+.env
+.env.*
+!.env.example
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+.venv/
+venv/
+env/
+*.egg-info/
+dist/
+build/
+.pytest_cache/
+
+# Node
+node_modules/
+.npm/
+*.log
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Backups / large binaries / test artifacts
+05_Backups/
+_Knowledge_Center/Shared_Tests/
+*.zip
+*.tar.gz
+*.rar
+*.7z
+*.bak
+*.dump
+*.sql.gz
+
+# Compiled
+*.pyc
+*.class
+*.o
+*.so
+*.dll

@@ -1,0 +1,128 @@
+upstream odoo {
+    server 127.0.0.1:8069;
+}
+
+upstream odoo-chat {
+    server 127.0.0.1:8072;
+}
+
+
+server {
+    server_name chefalitasyalgomas.com.do;
+
+    client_max_body_size 512M;
+
+    proxy_read_timeout 720s;
+    proxy_connect_timeout 720s;
+    proxy_send_timeout 720s;
+
+    # Proxy headers
+    proxy_set_header X-Forwarded-Host   $host;
+    proxy_set_header X-Forwarded-For    $proxy_add_x_forwarded_for;
+    proxy_set_header X-Forwarded-Proto  $scheme;
+    proxy_set_header X-Real-IP          $remote_addr;
+
+    # Log files
+    access_log /var/log/nginx/odoo-docker.access.log;
+    error_log /var/log/nginx/odoo-docker.error.log;
+
+    location /longpolling {
+        proxy_pass http://odoo-chat;
+    }
+
+    location / {
+        proxy_pass http://odoo; 
+       if ($request_method = 'OPTIONS') {
+            add_header 'Access-Control-Allow-Origin' $http_origin always;
+            add_header 'Access-Control-Allow-Methods' 'GET, PATCH, POST, PUT, OPTIONS, DELETE' always;
+            add_header 'Access-Control-Allow-Headers' 'content-type,x-openerp-session-id,DNT,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Range' always;
+            add_header 'Access-Control-Allow-Credentials' 'true' always;
+            add_header 'Access-Control-Expose-Headers' '*' always;
+            return 204;
+        }
+
+       if ($request_method = 'POST') {
+            add_header 'Access-Control-Allow-Origin' $http_origin always;
+            add_header 'Access-Control-Allow-Methods' 'GET, PATCH, POST, PUT, OPTIONS, DELETE' always;
+            add_header 'Access-Control-Expose-Headers' '*' always;
+            add_header 'Access-Control-Allow-Credentials' 'true' always;
+            add_header 'Access-Control-Allow-Headers' '*' always;
+        }
+
+        if ($request_method = 'PATCH') {
+            add_header 'Access-Control-Allow-Origin' $http_origin always;
+            add_header 'Access-Control-Allow-Methods' 'GET, PATCH, POST, PUT, OPTIONS, DELETE' always;
+            add_header 'Access-Control-Expose-Headers' '*' always;
+            add_header 'Access-Control-Allow-Credentials' 'true' always;
+            add_header 'Access-Control-Allow-Headers' '*' always;
+        }
+
+
+        if ($request_method = 'PUT') {
+            add_header 'Access-Control-Allow-Origin' $http_origin always;
+            add_header 'Access-Control-Allow-Methods' 'GET, PATCH, POST, PUT, OPTIONS, DELETE' always;
+            add_header 'Access-Control-Expose-Headers' '*' always;
+            add_header 'Access-Control-Allow-Credentials' 'true' always;
+            add_header 'Access-Control-Allow-Headers' '*' always;
+        }
+
+        if ($request_method = 'GET') {
+            add_header 'Access-Control-Allow-Origin' $http_origin always;
+            add_header 'Access-Control-Allow-Methods' 'GET, PATCH, POST, OPTIONS, DELETE' always;
+            add_header 'Access-Control-Allow-Credentials' 'true' always;
+            add_header 'Access-Control-Expose-Headers' '*' always;
+            add_header 'Access-Control-Allow-Headers' '*' always;
+        }
+
+if ($request_method = 'DELETE') {
+            add_header 'Access-Control-Allow-Origin' $http_origin always;
+            add_header 'Access-Control-Allow-Methods' 'GET, PATCH, POST, PUT, OPTIONS, DELETE' always;
+            add_header 'Access-Control-Expose-Headers' '*' always;
+            add_header 'Access-Control-Allow-Credentials' 'true' always;
+            add_header 'Access-Control-Allow-Headers' '*' always;
+        }
+
+
+    }
+
+    location ~* /web/static/ {
+        proxy_cache_valid 200 90m;
+        proxy_buffering on;
+        expires 864000;
+        proxy_pass http://odoo;
+    }
+
+    # Gzip related settings
+    gzip on;
+    gzip_types text/css text/less text/plain text/xml application/xml application/json application/javascript;
+
+
+
+
+    listen 443 ssl; # managed by Certbot
+    ssl_certificate /etc/letsencrypt/live/chefalitasyalgomas.com.do/fullchain.pem; # managed by Certbot
+    ssl_certificate_key /etc/letsencrypt/live/chefalitasyalgomas.com.do/privkey.pem; # managed by Certbot
+    include /etc/letsencrypt/options-ssl-nginx.conf; # managed by Certbot
+    ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem; # managed by Certbot
+
+}
+
+
+
+
+
+
+
+
+server {
+    if ($host = chefalitasyalgomas.com.do) {
+        return 301 https://$host$request_uri;
+    } # managed by Certbot
+
+
+    server_name chefalitasyalgomas.com.do;
+    listen 80;
+    return 404; # managed by Certbot
+
+
+}

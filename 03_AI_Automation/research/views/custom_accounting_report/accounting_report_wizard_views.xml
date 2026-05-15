@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- Vista Tree de Líneas del Reporte -->
+    <record id="view_custom_accounting_report_line_tree" model="ir.ui.view">
+        <field name="name">custom.accounting.report.line.tree</field>
+        <field name="model">custom.accounting.report.line</field>
+        <field name="arch" type="xml">
+            <tree string="Líneas del Reporte Contable" decoration-muted="state == 'cancel'">
+                <field name="date"/>
+                <field name="journal_name"/>
+                <field name="move_name"/>
+                <field name="ref" optional="hide"/>
+                <field name="account_code"/>
+                <field name="account_name"/>
+                <field name="partner_name" optional="show"/>
+                <field name="partner_vat" optional="hide"/>
+                <field name="name" optional="show"/>
+                <field name="debit" sum="Total Débito"/>
+                <field name="credit" sum="Total Crédito"/>
+                <field name="balance" sum="Total Balance"/>
+                <field name="analytic_account_name" optional="hide"/>
+                <field name="analytic_tag_names" optional="hide"/>
+                <field name="product_name" optional="hide"/>
+                <field name="quantity" optional="hide"/>
+                <field name="load_numbers" optional="hide"/>
+                <field name="load_qty" optional="hide"/>
+                <field name="is_automatic_line" optional="hide"/>
+                <field name="line_type" optional="hide"/>
+                <field name="load_id_exo" optional="show" string="Id Carga"/>
+                <field name="no_carga" optional="show"/>
+                <field name="shipper_exo" optional="show"/>
+                <field name="transportista_exo" optional="show"/>
+                <field name="estatus_carga" optional="show"/>
+                <field name="fact_shipper" optional="hide"/>
+                <field name="fact_transportista" optional="hide"/>
+                <field name="monto_fact_shipper" optional="hide"/>
+                <field name="monto_fact_transportista" optional="hide"/>
+                <field name="bloque" optional="show"/>
+                <field name="fecha_carga" optional="show"/>
+                <field name="warehouse" optional="show"/>
+                <field name="estatus_fact_shipper" optional="hide"/>
+                <field name="estatus_fact_transportista" optional="hide"/>
+                <field name="tipo_facturacion" optional="show"/>
+                <field name="state" optional="show"/>
+                <field name="move_type" optional="hide"/>
+                <field name="currency_name" optional="hide"/>
+                <field name="matching_number" optional="hide"/>
+                <field name="currency_id" invisible="1"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Vista Pivot de Líneas -->
+    <record id="view_custom_accounting_report_line_pivot" model="ir.ui.view">
+        <field name="name">custom.accounting.report.line.pivot</field>
+        <field name="model">custom.accounting.report.line</field>
+        <field name="arch" type="xml">
+            <pivot string="Análisis Contable">
+                <field name="journal_name" type="row"/>
+                <field name="account_code" type="row"/>
+                <field name="date" type="col" interval="month"/>
+                <field name="debit" type="measure"/>
+                <field name="credit" type="measure"/>
+                <field name="balance" type="measure"/>
+            </pivot>
+        </field>
+    </record>
+
+    <!-- Vista Graph de Líneas -->
+    <record id="view_custom_accounting_report_line_graph" model="ir.ui.view">
+        <field name="name">custom.accounting.report.line.graph</field>
+        <field name="model">custom.accounting.report.line</field>
+        <field name="arch" type="xml">
+            <graph string="Gráfico Contable" type="bar">
+                <field name="journal_name"/>
+                <field name="debit" type="measure"/>
+                <field name="credit" type="measure"/>
+            </graph>
+        </field>
+    </record>
+
+    <!-- Vista Form del Wizard -->
+    <record id="view_custom_accounting_report_wizard_form" model="ir.ui.view">
+        <field name="name">custom.accounting.report.wizard.form</field>
+        <field name="model">custom.accounting.report.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Reporte Contable Personalizado">
+                <group>
+                    <group string="Período">
+                        <field name="date_from"/>
+                        <field name="date_to"/>
+                        <field name="company_id" groups="base.group_multi_company"/>
+                    </group>
+                    <group string="Filtros">
+                        <field name="target_move"/>
+                        <field name="move_type"/>
+                    </group>
+                </group>
+                <group>
+                    <group string="Filtros Adicionales">
+                        <field name="journal_ids" widget="many2many_tags" 
+                               domain="[('company_id', '=', company_id)]"/>
+                        <field name="account_ids" widget="many2many_tags"
+                               domain="[('company_id', '=', company_id)]"/>
+                        <field name="partner_ids" widget="many2many_tags"/>
+                        <field name="analytic_account_ids" widget="many2many_tags"
+                               domain="[('company_id', '=', company_id)]"/>
+                    </group>
+                    <group string="Opciones de Visualización">
+                        <field name="show_partner_details"/>
+                        <field name="show_analytic"/>
+                        <field name="show_product"/>
+                        <field name="show_exo_fields"/>
+                    </group>
+                </group>
+                
+                <group string="Totales" attrs="{'invisible': [('line_ids', '=', [])]}">
+                    <group>
+                        <field name="total_debit"/>
+                        <field name="total_credit"/>
+                    </group>
+                    <group>
+                        <field name="total_balance"/>
+                        <field name="currency_id" invisible="1"/>
+                    </group>
+                </group>
+                
+                <notebook attrs="{'invisible': [('line_ids', '=', [])]}">
+                    <page string="Líneas del Reporte" name="lines">
+                        <field name="line_ids" readonly="1">
+                            <tree decoration-muted="state == 'cancel'" limit="100">
+                                <field name="date"/>
+                                <field name="journal_name"/>
+                                <field name="move_name"/>
+                                <field name="account_code"/>
+                                <field name="account_name"/>
+                                <field name="partner_name"/>
+                                <field name="name"/>
+                                <field name="debit" sum="Total"/>
+                                <field name="credit" sum="Total"/>
+                                <field name="balance" sum="Total"/>
+                                <field name="state"/>
+                                <field name="currency_id" invisible="1"/>
+                            </tree>
+                        </field>
+                    </page>
+                </notebook>
+                
+                <footer>
+                    <button name="action_generate_report" type="object" 
+                            string="Generar Reporte" class="btn-primary"/>
+                    <button name="action_view_lines" type="object" 
+                            string="Ver en Pantalla" class="btn-secondary"
+                            attrs="{'invisible': [('line_ids', '=', [])]}"/>
+                    <button name="action_print_pdf" type="object" 
+                            string="Imprimir PDF" class="btn-secondary"
+                            attrs="{'invisible': [('line_ids', '=', [])]}"/>
+                    <button name="action_export_xlsx" type="object" 
+                            string="Exportar Excel" class="btn-secondary"
+                            attrs="{'invisible': [('line_ids', '=', [])]}"/>
+                    <button string="Cerrar" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <!-- Acción del Wizard -->
+    <record id="action_custom_accounting_report_wizard" model="ir.actions.act_window">
+        <field name="name">Reporte Contable Personalizado</field>
+        <field name="res_model">custom.accounting.report.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+        <field name="context">{}</field>
+    </record>
+
+    <!-- Menú en Contabilidad → Informes -->
+    <menuitem id="menu_custom_accounting_report"
+              name="Reporte Contable Personalizado"
+              parent="account.menu_finance_reports"
+              action="action_custom_accounting_report_wizard"
+              sequence="100"
+              groups="account.group_account_user,account.group_account_manager"/>
+
+    <!-- Acción de Reporte PDF -->
+    <record id="action_report_accounting_pdf" model="ir.actions.report">
+        <field name="name">Reporte Contable PDF</field>
+        <field name="model">custom.accounting.report.wizard</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">exo_api.report_accounting_template</field>
+        <field name="report_file">exo_api.report_accounting_template</field>
+        <field name="print_report_name">'Reporte_Contable_%s_%s' % (object.date_from, object.date_to)</field>
+        <field name="binding_type">report</field>
+    </record>
+
+    <!-- Acción de Reporte XLSX -->
+    <record id="action_report_accounting_xlsx" model="ir.actions.report">
+        <field name="name">Reporte Contable Excel</field>
+        <field name="model">custom.accounting.report.wizard</field>
+        <field name="report_type">xlsx</field>
+        <field name="report_name">exo_api.report_accounting_xlsx</field>
+        <field name="report_file">exo_api.report_accounting_xlsx</field>
+        <field name="print_report_name">'Reporte_Contable_%s_%s' % (object.date_from, object.date_to)</field>
+        <field name="binding_type">report</field>
+    </record>
+
+</odoo>
