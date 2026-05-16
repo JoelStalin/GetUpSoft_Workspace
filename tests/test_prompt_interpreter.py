@@ -59,3 +59,14 @@ def test_prompt_interpreter_processes_jarvis_event() -> None:
 
     assert result.source_type == "transcript"
     assert result.detected_intent == "bugfix"
+
+
+def test_prompt_interpreter_respects_scrum_management_voice_hint() -> None:
+    listener = JarvisListener()
+    interpreter = PromptInterpreter(jarvis_listener=listener)
+
+    event = listener.listen("Jarvis crea tarea para backlog", "transcript")
+    result = interpreter.process_jarvis_event(event)
+
+    assert event.voice_command.intent_hint == "scrum-management"
+    assert result.detected_intent == "scrum-management"

@@ -67,6 +67,10 @@ epics:
         title: "Redacción básica de secretos en transcripciones"
         status: "done"
         priority: "high"
+      - id: "US-JARVIS-018"
+        title: "Exponer historial Jarvis por CLI con activación opcional y borrado explícito"
+        status: "done"
+        priority: "medium"
   - id: "EPIC-JARVIS-005"
     title: "Future Desktop Bridge"
     goal: "Preparar fases futuras sin contaminarlas en el MVP."
@@ -127,3 +131,9 @@ sprint_provider_local:
   objective: "Extraer un provider Vosk explícito y seleccionable sin romper el contrato Jarvis."
   stories:
     - "US-JARVIS-017"
+
+sprint_history_ops:
+  id: "SPRINT-JARVIS-3"
+  objective: "Exponer transcript history en CLI con opt-in y operaciones básicas."
+  stories:
+    - "US-JARVIS-018"

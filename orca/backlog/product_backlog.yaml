@@ -151,3 +151,7 @@ epics:
         title: "Extraer Vosk como provider local explícito y seleccionable desde Jarvis"
         status: "done"
         priority: "high"
+      - id: "US-029"
+        title: "Exponer transcript history de Jarvis por CLI con opt-in y borrado explícito"
+        status: "done"
+        priority: "medium"

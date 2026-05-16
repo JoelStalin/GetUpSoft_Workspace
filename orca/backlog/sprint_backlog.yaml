@@ -116,3 +116,13 @@ sprints:
       - "VoskSTTProvider"
       - "selección de provider en CLI"
       - "pruebas unitarias del provider"
+  - id: "SPRINT-10"
+    title: "Jarvis History Operations"
+    objective: "Exponer transcript history por CLI con activación opt-in y limpieza explícita."
+    status: "done"
+    stories:
+      - "US-029"
+    deliverables:
+      - "flag store-history"
+      - "jarvis history list"
+      - "jarvis history clear"

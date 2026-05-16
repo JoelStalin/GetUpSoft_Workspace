@@ -183,16 +183,26 @@ class PromptInterpreter:
         self.jarvis_listener = jarvis_listener or JarvisListener()
 
     def interpret_text(self, text: str, source_type: SourceType = "text") -> InterpretationOutput:
+        return self._interpret_text(text, source_type=source_type)
+
+    def _interpret_text(
+        self,
+        text: str,
+        *,
+        source_type: SourceType,
+        intent_hint_override: str | None = None,
+    ) -> InterpretationOutput:
         translation = self.translator.canonicalize(text)
         normalized_prompt = self.normalizer.normalize(translation.text)
         rules = self.rule_extractor.extract(normalized_prompt)
-        prediction = self.classifier.predict(normalized_prompt, rule_hint=rules.intent_hint)
+        effective_intent_hint = intent_hint_override or rules.intent_hint
+        prediction = self.classifier.predict(normalized_prompt, rule_hint=effective_intent_hint)
         skill = self.skill_router.select(prediction.label)
         scrum_mapping = self.scrum_mapper.map_request(
             normalized_prompt=normalized_prompt,
             detected_intent=prediction.label,
             selected_skill=skill,
-            extracted_rules=rules.__dict__,
+            extracted_rules={**rules.__dict__, "intent_hint": effective_intent_hint},
             confidence=prediction.confidence,
         )
         prompt_payload = self.prompt_builder.build(
@@ -205,7 +215,7 @@ class PromptInterpreter:
         error_payload = self.error_prompt_generator.generate(
             normalized_prompt=normalized_prompt,
             detected_intent=prediction.label,
-            probable_cause=rules.action,
+            probable_cause=effective_intent_hint or rules.action,
         )
 
         combined_prompt = ModelPromptOutput(
@@ -258,4 +268,11 @@ class PromptInterpreter:
     def process_jarvis_event(self, event: JarvisEvent) -> InterpretationOutput:
         prompt_text = event.voice_command.command_text or event.normalized_transcript
         source_type: SourceType = "audio" if event.source_type == "audio_ref" else "transcript"
-        return self.interpret_text(prompt_text, source_type=source_type)
+        intent_hint_override = event.voice_command.intent_hint
+        if intent_hint_override not in IntentClassifier.labels:
+            intent_hint_override = None
+        return self._interpret_text(
+            prompt_text,
+            source_type=source_type,
+            intent_hint_override=intent_hint_override,
+        )

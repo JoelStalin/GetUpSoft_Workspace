@@ -85,6 +85,14 @@ orca jarvis audio sample_bug.wav --provider mock
 orca jarvis audio .\sample.wav --provider vosk
 ```
 
+10. Guardar y consultar historial local de Jarvis:
+
+```powershell
+orca jarvis transcript "Jarvis crea tarea para backlog" --store-history
+orca jarvis history list --limit 5
+orca jarvis history clear
+```
+
 ## Estructura funcional
 
 - `docs/`: visión, arquitectura, ADRs, investigación y proceso Scrum.

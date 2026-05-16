@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import json
 from pathlib import Path
+from typing import Literal
 
 import typer
 
@@ -9,6 +10,7 @@ from orca.audio.jarvis_listener import JarvisListener
 from orca.audio.providers.mock_stt_provider import MockSTTProvider
 from orca.audio.providers.vosk_stt_provider import VoskSTTProvider
 from orca.audio.stt_provider import STTProvider
+from orca.audio.transcript_history import TranscriptHistory
 from orca.config import get_settings
 from orca.core.prompt_interpreter import PromptInterpreter
 from orca.integrations.n8n_contract import build_n8n_contract
@@ -19,6 +21,7 @@ from orca.storage.error_registry import ErrorRegistry
 
 app = typer.Typer(help="ORCA offline prompt interpreter")
 jarvis_app = typer.Typer(help="Jarvis voice-oriented commands")
+jarvis_history_app = typer.Typer(help="Manage local Jarvis transcript history")
 affected_file_option = typer.Option([], "--affected-file")
 validation_step_option = typer.Option([], "--validation-step")
 
@@ -94,26 +97,42 @@ def record_error(
     typer.echo(json.dumps(record.__dict__, ensure_ascii=False, indent=2))
 
 
+def _resolve_transcript_history(*, enabled: bool) -> TranscriptHistory:
+    settings = get_settings()
+    return TranscriptHistory(settings.transcript_history_path, enabled=enabled)
+
+
+def _build_jarvis_result_payload(
+    interpreter: PromptInterpreter,
+    listener: JarvisListener,
+    input_value: str,
+    source_type: Literal["transcript", "audio_ref"],
+) -> dict[str, object]:
+    event = listener.listen(input_value, source_type=source_type)
+    interpreted = interpreter.process_jarvis_event(event)
+    return {
+        "transcript": event.transcript,
+        "normalized_transcript": event.normalized_transcript,
+        "voice_command": event.voice_command.model_dump(mode="json"),
+        "orca_interpreter_result": interpreted.model_dump(mode="json"),
+    }
+
+
 @jarvis_app.command("transcript")
-def jarvis_transcript(text: str) -> None:
+def jarvis_transcript(text: str, store_history: bool = False) -> None:
     """Process an already transcribed Jarvis command."""
     settings = get_settings()
-    listener = JarvisListener(settings)
-    interpreter = PromptInterpreter(settings, jarvis_listener=listener)
-    event = listener.listen(text, source_type="transcript")
-    result = interpreter.process_jarvis_event(event)
-    OutputAdapter().to_terminal(
-        {
-            "transcript": event.transcript,
-            "normalized_transcript": event.normalized_transcript,
-            "voice_command": event.voice_command.model_dump(mode="json"),
-            "orca_interpreter_result": result.model_dump(mode="json"),
-        }
+    listener = JarvisListener(
+        settings,
+        transcript_history=_resolve_transcript_history(enabled=store_history),
     )
+    interpreter = PromptInterpreter(settings, jarvis_listener=listener)
+    payload = _build_jarvis_result_payload(interpreter, listener, text, "transcript")
+    OutputAdapter().to_terminal(payload)
 
 
 @jarvis_app.command("audio")
-def jarvis_audio(path: str, provider: str = "mock") -> None:
+def jarvis_audio(path: str, provider: str = "mock", store_history: bool = False) -> None:
     """Process a Jarvis audio reference using a configured provider."""
     settings = get_settings()
     stt_provider: STTProvider | None = None
@@ -126,21 +145,33 @@ def jarvis_audio(path: str, provider: str = "mock") -> None:
         )
     elif provider == "vosk":
         stt_provider = VoskSTTProvider(settings)
-    listener = JarvisListener(settings, stt_provider=stt_provider)
-    interpreter = PromptInterpreter(settings, jarvis_listener=listener)
-    event = listener.listen(path, source_type="audio_ref")
-    result = interpreter.process_jarvis_event(event)
-    OutputAdapter().to_terminal(
-        {
-            "transcript": event.transcript,
-            "normalized_transcript": event.normalized_transcript,
-            "voice_command": event.voice_command.model_dump(mode="json"),
-            "orca_interpreter_result": result.model_dump(mode="json"),
-        }
+    listener = JarvisListener(
+        settings,
+        stt_provider=stt_provider,
+        transcript_history=_resolve_transcript_history(enabled=store_history),
     )
+    interpreter = PromptInterpreter(settings, jarvis_listener=listener)
+    payload = _build_jarvis_result_payload(interpreter, listener, path, "audio_ref")
+    OutputAdapter().to_terminal(payload)
+
+
+@jarvis_history_app.command("list")
+def jarvis_history_list(limit: int = 10) -> None:
+    """List recent Jarvis transcript history entries."""
+    history = _resolve_transcript_history(enabled=True)
+    OutputAdapter().to_terminal(history.list_recent(limit=limit))
+
+
+@jarvis_history_app.command("clear")
+def jarvis_history_clear() -> None:
+    """Clear local Jarvis transcript history."""
+    history = _resolve_transcript_history(enabled=True)
+    history.clear()
+    typer.echo("Jarvis transcript history cleared.")
 
 
 app.add_typer(jarvis_app, name="jarvis")
+jarvis_app.add_typer(jarvis_history_app, name="history")
 
 
 def main() -> None:
