@@ -68,6 +68,13 @@ orca interpret --text "arregla el bug del login y agrega pruebas"
 - No consume tokens de IA para clasificación o normalización.
 - La integración futura con modelos externos solo consume prompts ya normalizados por ORCA.
 
+## Política de ejecución autónoma
+
+- ORCA debe avanzar por defecto sin pedir confirmaciones innecesarias.
+- Si existe una suposición razonable y de bajo riesgo, ORCA debe continuar.
+- Una tarea no se considera terminada hasta cerrar código, pruebas, documentación y backlog.
+- Solo debe detenerse por bloqueos reales: permisos faltantes, ambigüedad destructiva o riesgo inseguro.
+
 ## Referencias
 
 - [Vision](docs/vision.md)

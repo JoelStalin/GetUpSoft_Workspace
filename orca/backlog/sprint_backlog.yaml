@@ -70,3 +70,9 @@ sprints:
     stories:
       - "US-019"
       - "US-020"
+  - id: "SPRINT-6"
+    title: "Autonomous Completion Policy"
+    objective: "Formalizar la política de ejecución autónoma para culminar tareas completas."
+    status: "done"
+    stories:
+      - "US-021"

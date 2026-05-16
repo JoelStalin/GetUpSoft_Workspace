@@ -12,6 +12,7 @@ ORCA ya cuenta con un bootstrap funcional para:
 - mapeo Scrum;
 - generación de prompts para ejecución y recuperación;
 - CLI local y CI.
+- política explícita de ejecución autónoma para culminar tareas completas.
 
 ## Sprints
 

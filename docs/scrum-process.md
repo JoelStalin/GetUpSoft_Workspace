@@ -6,6 +6,14 @@
 2. Cada historia debe cumplir Definition of Ready antes de entrar al sprint backlog.
 3. La implementación debe referenciar historia, tareas técnicas, pruebas y documentación.
 4. La historia solo termina cuando cumple Definition of Done.
+5. Si el siguiente paso es razonable y seguro, ORCA continúa sin pedir permiso adicional.
+
+## Política de Autonomía
+
+- no pausar por preguntas de bajo riesgo;
+- preferir supuestos explícitos y reversibles;
+- cerrar el ciclo completo: análisis, diseño, implementación, pruebas, documentación y reporte;
+- detenerse solo ante bloqueo real, riesgo destructivo o falta de permisos.
 
 ## Definition of Ready
 

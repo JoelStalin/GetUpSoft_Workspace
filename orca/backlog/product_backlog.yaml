@@ -107,3 +107,11 @@ epics:
         title: "Definir contrato base para integración futura con n8n"
         status: "done"
         priority: "medium"
+  - id: "EPIC-8"
+    title: "Autonomous Delivery Policy"
+    goal: "Asegurar que ORCA cierre tareas completas sin pausas innecesarias."
+    stories:
+      - id: "US-021"
+        title: "Definir una política de ejecución autónoma en docs y prompts"
+        status: "done"
+        priority: "high"

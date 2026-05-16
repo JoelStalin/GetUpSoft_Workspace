@@ -10,6 +10,7 @@
 - Se mantuvo aislado el módulo legado `03_AI_Automation/orca`.
 - Se implementó el pipeline offline inicial para texto y audio mockeable.
 - Se habilitó backlog YAML, skills YAML, ADRs, CI y pruebas unitarias.
+- Se incorporó una política explícita de ejecución autónoma para culminar trabajo completo sin pausas innecesarias.
 
 ## CLIs detectados
 
