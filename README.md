@@ -67,6 +67,18 @@ uvicorn --factory orca.service.app:create_app --host 127.0.0.1 --port 8787
 ./scripts/deploy_orca_service.ps1
 ```
 
+7. Procesar un comando Jarvis ya transcrito:
+
+```powershell
+orca jarvis transcript "Jarvis arregla el bug del login y crea pruebas"
+```
+
+8. Procesar un `audio_ref` con provider mock:
+
+```powershell
+orca jarvis audio sample_bug.wav --provider mock
+```
+
 ## Estructura funcional
 
 - `docs/`: visión, arquitectura, ADRs, investigación y proceso Scrum.
@@ -95,3 +107,5 @@ uvicorn --factory orca.service.app:create_app --host 127.0.0.1 --port 8787
 - [Scrum Process](docs/scrum-process.md)
 - [Prompt Routing](docs/prompt-routing.md)
 - [ADR 0001](docs/adr/ADR-0001-local-prompt-interpreter.md)
+- [ADR 0003](docs/adr/ADR-0003-opentypeless-inspired-jarvis-pipeline.md)
+- [OpenTypeless Jarvis Integration](docs/integrations/opentypeless-jarvis-integration.md)

@@ -7,7 +7,7 @@ from typing import Literal
 
 from pydantic import BaseModel, Field
 
-from orca.audio.jarvis_listener import JarvisListener
+from orca.audio.jarvis_listener import JarvisEvent, JarvisListener
 from orca.config import OrcaSettings, get_settings
 from orca.core.error_prompt_generator import ErrorPromptGenerator
 from orca.core.intent_classifier import IntentClassifier
@@ -17,7 +17,7 @@ from orca.core.scrum_mapper import ScrumMapper
 from orca.core.skill_router import SkillRouter
 from orca.translation.offline_translator import OfflineTranslator
 
-SourceType = Literal["text", "script", "audio"]
+SourceType = Literal["text", "script", "audio", "transcript"]
 
 
 class ScrumOutput(BaseModel):
@@ -254,3 +254,8 @@ class PromptInterpreter:
     def interpret_audio(self, path: str | Path) -> InterpretationOutput:
         transcript = self.jarvis_listener.transcribe(path)
         return self.interpret_text(transcript, source_type="audio")
+
+    def process_jarvis_event(self, event: JarvisEvent) -> InterpretationOutput:
+        prompt_text = event.voice_command.command_text or event.normalized_transcript
+        source_type: SourceType = "audio" if event.source_type == "audio_ref" else "transcript"
+        return self.interpret_text(prompt_text, source_type=source_type)

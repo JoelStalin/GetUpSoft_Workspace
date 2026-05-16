@@ -48,3 +48,14 @@ def test_prompt_interpreter_processes_audio_with_same_pipeline() -> None:
 
     assert result.source_type == "audio"
     assert result.detected_intent == "bugfix"
+
+
+def test_prompt_interpreter_processes_jarvis_event() -> None:
+    listener = JarvisListener()
+    interpreter = PromptInterpreter(jarvis_listener=listener)
+
+    event = listener.listen("Jarvis arregla el bug del login y crea pruebas", "transcript")
+    result = interpreter.process_jarvis_event(event)
+
+    assert result.source_type == "transcript"
+    assert result.detected_intent == "bugfix"

@@ -15,6 +15,7 @@ class OrcaSettings(BaseModel):
     vosk_model_path: Path | None = None
     service_host: str = "127.0.0.1"
     service_port: int = 8787
+    transcript_history_enabled: bool = False
 
     @property
     def docs_dir(self) -> Path:
@@ -59,6 +60,10 @@ class OrcaSettings(BaseModel):
     @property
     def deploy_dir(self) -> Path:
         return self.project_root / "deploy"
+
+    @property
+    def transcript_history_path(self) -> Path:
+        return self.sqlite_dir / "jarvis_transcript_history.jsonl"
 
 
 def get_settings() -> OrcaSettings:
