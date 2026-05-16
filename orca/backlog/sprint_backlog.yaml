@@ -40,7 +40,7 @@ sprints:
   - id: "SPRINT-2"
     title: "ML Local"
     objective: "Agregar clasificador local entrenable con fallback por reglas."
-    status: "in_progress"
+    status: "done"
     stories:
       - "US-006"
     deliverables:
@@ -52,7 +52,7 @@ sprints:
   - id: "SPRINT-3"
     title: "Traducción y Audio"
     objective: "Agregar traducción offline y entrada Jarvis."
-    status: "in_progress"
+    status: "done"
     stories:
       - "US-007"
       - "US-011"
@@ -60,13 +60,13 @@ sprints:
   - id: "SPRINT-4"
     title: "Error Recovery"
     objective: "Generar prompts de continuación para modelos gratuitos."
-    status: "in_progress"
+    status: "done"
     stories:
       - "US-018"
   - id: "SPRINT-5"
     title: "Knowledge Vault and Orchestration Readiness"
     objective: "Preparar memoria Obsidian y contrato de integración futura con n8n."
-    status: "in_progress"
+    status: "done"
     stories:
       - "US-019"
       - "US-020"

@@ -11,6 +11,8 @@ class OrcaSettings(BaseModel):
     project_root: Path = Field(default_factory=lambda: Path(__file__).resolve().parent.parent)
     canonical_language: str = "es"
     low_confidence_threshold: float = 0.55
+    argos_package_dir: Path | None = None
+    vosk_model_path: Path | None = None
 
     @property
     def docs_dir(self) -> Path:
@@ -35,6 +37,22 @@ class OrcaSettings(BaseModel):
     @property
     def intent_model_path(self) -> Path:
         return self.project_root / ".artifacts" / "intent_classifier.joblib"
+
+    @property
+    def sqlite_dir(self) -> Path:
+        return self.project_root / ".artifacts"
+
+    @property
+    def error_registry_path(self) -> Path:
+        return self.sqlite_dir / "orca_errors.sqlite3"
+
+    @property
+    def obsidian_vault_dir(self) -> Path:
+        return self.docs_dir / "obsidian-vault"
+
+    @property
+    def n8n_dir(self) -> Path:
+        return self.project_root / "orca" / "integrations"
 
 
 def get_settings() -> OrcaSettings:

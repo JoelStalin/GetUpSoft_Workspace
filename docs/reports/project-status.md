@@ -17,13 +17,14 @@ ORCA ya cuenta con un bootstrap funcional para:
 
 - `SPRINT-0`: completado
 - `SPRINT-1`: completado
-- `SPRINT-2`: en progreso
-- `SPRINT-3`: en progreso
-- `SPRINT-4`: en progreso
+- `SPRINT-2`: completado
+- `SPRINT-3`: completado
+- `SPRINT-4`: completado
+- `SPRINT-5`: completado
 
 ## Próximos focos
 
-1. cerrar `US-006` con métricas persistidas y mayor robustez híbrida;
-2. avanzar `US-007` con estrategia offline de traducción configurada;
-3. avanzar `US-011` y `US-012` con pipeline Jarvis real basado en Vosk;
-4. incorporar memoria Obsidian y plan de integración futura con n8n.
+1. persistir métricas y artefactos de entrenamiento del clasificador local;
+2. agregar pruebas de integración opcionales para Argos y Vosk reales;
+3. ampliar el vault Obsidian con sincronización bidireccional y plantillas de memoria;
+4. convertir el contrato n8n en un adaptador ejecutable con archivos o webhook local.

@@ -23,10 +23,15 @@
 - `codex`
 - `copilot`
 
-## Historia activa
+## Historias cerradas en la sesión
 
-- `US-006`: robustecer la clasificación híbrida reglas + ML local.
-- `US-019`: preparar exportación Markdown para un vault compatible con Obsidian.
+- `US-006`
+- `US-007`
+- `US-011`
+- `US-012`
+- `US-018`
+- `US-019`
+- `US-020`
 
 ## Bloqueos
 
@@ -35,7 +40,6 @@
 ## Deuda técnica
 
 - Persistir métricas del entrenamiento en archivo versionable.
-- Implementar transcripción Vosk completa con modelo local configurable.
-- Sustituir traducción mínima por pipeline Argos administrado por configuración.
+- Añadir pruebas de integración con modelos Argos/Vosk reales cuando existan localmente.
 - Ampliar la integración de Obsidian a sincronización bidireccional.
 - Definir adaptador ejecutable para n8n además del contrato documental.
