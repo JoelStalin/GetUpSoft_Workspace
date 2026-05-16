@@ -11,6 +11,7 @@
 - Se implementó el pipeline offline inicial para texto y audio mockeable.
 - Se habilitó backlog YAML, skills YAML, ADRs, CI y pruebas unitarias.
 - Se incorporó una política explícita de ejecución autónoma para culminar trabajo completo sin pausas innecesarias.
+- Se agregó una API HTTP local con health check y contrato de despliegue remoto por SSH + `systemd`.
 
 ## CLIs detectados
 

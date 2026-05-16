@@ -35,6 +35,13 @@ La nueva base ORCA vive en la raíz del repositorio y se separa deliberadamente 
 - pruebas automatizadas
 - CI
 
+### 5. Exposición operativa
+
+- `FastAPI` como capa HTTP local y desacoplada
+- `uvicorn` para proceso runtime
+- `systemd` para persistencia en servidor Linux
+- health check local para automatización y monitoreo
+
 ## Pipeline
 
 ```text
@@ -60,6 +67,8 @@ InputCollector
 - `spaCy` se usa como dependencia preparada para tokenización y patrones, pero el MVP no requiere modelos pesados descargados.
 - `Argos Translate` y `Vosk` son integraciones opcionales y desacopladas mediante wrappers.
 - `SQLite` queda reservado para el siguiente incremento; el bootstrap usa YAML y CSV versionados.
+- `FastAPI` expone el mismo contrato del intérprete sin introducir dependencia de LLMs remotos.
+- `systemd` fija el servicio en loopback y permite integrarlo luego con proxy o n8n.
 
 ## Aislamiento del legado
 

@@ -13,6 +13,8 @@ class OrcaSettings(BaseModel):
     low_confidence_threshold: float = 0.55
     argos_package_dir: Path | None = None
     vosk_model_path: Path | None = None
+    service_host: str = "127.0.0.1"
+    service_port: int = 8787
 
     @property
     def docs_dir(self) -> Path:
@@ -53,6 +55,10 @@ class OrcaSettings(BaseModel):
     @property
     def n8n_dir(self) -> Path:
         return self.project_root / "orca" / "integrations"
+
+    @property
+    def deploy_dir(self) -> Path:
+        return self.project_root / "deploy"
 
 
 def get_settings() -> OrcaSettings:

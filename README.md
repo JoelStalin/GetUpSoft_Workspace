@@ -52,7 +52,19 @@ pytest
 4. Interpretar un prompt:
 
 ```powershell
-orca interpret --text "arregla el bug del login y agrega pruebas"
+orca interpret "arregla el bug del login y agrega pruebas"
+```
+
+5. Levantar el servicio HTTP local:
+
+```powershell
+uvicorn --factory orca.service.app:create_app --host 127.0.0.1 --port 8787
+```
+
+6. Desplegar por SSH al host operativo:
+
+```powershell
+./scripts/deploy_orca_service.ps1
 ```
 
 ## Estructura funcional
@@ -61,6 +73,7 @@ orca interpret --text "arregla el bug del login y agrega pruebas"
 - `orca/`: núcleo offline, backlog YAML, skills YAML, traducción, audio y ML local.
 - `tests/`: pruebas unitarias del MVP.
 - `.github/`: plantillas ágiles y CI.
+- `deploy/`: automatización de instalación y unidad `systemd`.
 
 ## Restricciones del intérprete local
 

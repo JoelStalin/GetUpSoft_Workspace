@@ -76,3 +76,16 @@ sprints:
     status: "done"
     stories:
       - "US-021"
+  - id: "SPRINT-7"
+    title: "Deployment and Runtime Exposure"
+    objective: "Exponer ORCA como servicio HTTP y dejarlo desplegado en ssh.getupsoft.com.do."
+    status: "in_progress"
+    stories:
+      - "US-022"
+      - "US-023"
+    deliverables:
+      - "API HTTP local"
+      - "health check"
+      - "script de despliegue por SSH"
+      - "unidad systemd"
+      - "validación remota"

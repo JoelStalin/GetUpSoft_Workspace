@@ -9,16 +9,19 @@ description = "Offline-first ORCA backlog and prompt interpreter for GetUpSoft W
 readme = "README.md"
 requires-python = ">=3.11"
 dependencies = [
+  "fastapi>=0.115.0,<1.0.0",
   "joblib>=1.4.2",
   "pydantic>=2.8.2,<3.0.0",
   "pyyaml>=6.0.2",
   "scikit-learn>=1.5.1,<2.0.0",
   "spacy>=3.7.5,<4.0.0",
   "typer>=0.12.3,<1.0.0",
+  "uvicorn>=0.30.6,<1.0.0",
 ]
 
 [project.optional-dependencies]
 dev = [
+  "httpx>=0.27.0",
   "mypy>=1.11.1",
   "pytest>=8.3.2",
   "ruff>=0.6.1",

@@ -1,0 +1,16 @@
+[Unit]
+Description=GetUpSoft ORCA prompt interpreter service
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=ubuntu
+WorkingDirectory=/opt/getupsoft-orca/current
+Environment=PYTHONUNBUFFERED=1
+ExecStart=/opt/getupsoft-orca/current/.venv/bin/uvicorn --factory orca.service.app:create_app --host 127.0.0.1 --port 8787
+Restart=always
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target
