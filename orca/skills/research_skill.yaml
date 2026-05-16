@@ -1,0 +1,11 @@
+name: "research_skill"
+intents:
+  - "research"
+  - "documentation"
+summary: "Skill para análisis, comparativas, documentación y descubrimiento."
+prompt_template: |
+  Analyze the request, gather evidence from the existing codebase and constraints, and produce a concise technical recommendation.
+definition_of_ready_overrides:
+  - "Pregunta de investigación delimitada"
+definition_of_done_overrides:
+  - "Hallazgos y supuestos documentados"

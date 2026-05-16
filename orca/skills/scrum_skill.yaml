@@ -1,0 +1,13 @@
+name: "scrum_skill"
+intents:
+  - "scrum-management"
+  - "test"
+  - "deployment"
+  - "refactor"
+summary: "Skill por defecto para gobernanza, tareas transversales y refinamiento."
+prompt_template: |
+  Plan the work using Scrum artifacts, identify risks and dependencies, and convert the request into actionable technical tasks.
+definition_of_ready_overrides:
+  - "Criterios de aceptación mínimos presentes o generados"
+definition_of_done_overrides:
+  - "Backlog y documentación sincronizados"

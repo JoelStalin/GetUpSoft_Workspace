@@ -1,0 +1,58 @@
+[build-system]
+requires = ["hatchling>=1.25.0"]
+build-backend = "hatchling.build"
+
+[project]
+name = "getupsoft-orca"
+version = "0.1.0"
+description = "Offline-first ORCA backlog and prompt interpreter for GetUpSoft Workspace."
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+  "joblib>=1.4.2",
+  "pydantic>=2.8.2,<3.0.0",
+  "pyyaml>=6.0.2",
+  "scikit-learn>=1.5.1,<2.0.0",
+  "spacy>=3.7.5,<4.0.0",
+  "typer>=0.12.3,<1.0.0",
+]
+
+[project.optional-dependencies]
+dev = [
+  "mypy>=1.11.1",
+  "pytest>=8.3.2",
+  "ruff>=0.6.1",
+]
+translation = [
+  "argostranslate>=1.9.6",
+]
+audio = [
+  "vosk>=0.3.45",
+]
+full = [
+  "argostranslate>=1.9.6",
+  "vosk>=0.3.45",
+]
+
+[project.scripts]
+orca = "orca.cli:main"
+
+[tool.hatch.build.targets.wheel]
+packages = ["orca"]
+
+[tool.pytest.ini_options]
+addopts = "-q"
+testpaths = ["tests"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "B", "UP"]
+
+[tool.mypy]
+python_version = "3.11"
+strict = true
+packages = ["orca"]
+ignore_missing_imports = true

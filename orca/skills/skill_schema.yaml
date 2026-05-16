@@ -1,0 +1,15 @@
+version: 1
+required_fields:
+  - name
+  - intents
+  - summary
+  - prompt_template
+  - definition_of_ready_overrides
+  - definition_of_done_overrides
+properties:
+  name: "Unique skill identifier"
+  intents: "List of supported intents"
+  summary: "Short routing explanation"
+  prompt_template: "Prompt body template"
+  definition_of_ready_overrides: "Additional DoR checks"
+  definition_of_done_overrides: "Additional DoD checks"
