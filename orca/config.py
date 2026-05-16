@@ -1,0 +1,41 @@
+from __future__ import annotations
+
+from pathlib import Path
+
+from pydantic import BaseModel, ConfigDict, Field
+
+
+class OrcaSettings(BaseModel):
+    model_config = ConfigDict(frozen=True)
+
+    project_root: Path = Field(default_factory=lambda: Path(__file__).resolve().parent.parent)
+    canonical_language: str = "es"
+    low_confidence_threshold: float = 0.55
+
+    @property
+    def docs_dir(self) -> Path:
+        return self.project_root / "docs"
+
+    @property
+    def backlog_dir(self) -> Path:
+        return self.project_root / "orca" / "backlog"
+
+    @property
+    def skills_dir(self) -> Path:
+        return self.project_root / "orca" / "skills"
+
+    @property
+    def templates_dir(self) -> Path:
+        return self.project_root / "orca" / "templates"
+
+    @property
+    def sample_training_data_path(self) -> Path:
+        return self.project_root / "orca" / "ml" / "sample_training_data.csv"
+
+    @property
+    def intent_model_path(self) -> Path:
+        return self.project_root / ".artifacts" / "intent_classifier.joblib"
+
+
+def get_settings() -> OrcaSettings:
+    return OrcaSettings()
