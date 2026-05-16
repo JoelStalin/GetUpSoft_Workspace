@@ -26,6 +26,7 @@
 ## Historia activa
 
 - `US-006`: robustecer la clasificación híbrida reglas + ML local.
+- `US-019`: preparar exportación Markdown para un vault compatible con Obsidian.
 
 ## Bloqueos
 
@@ -36,4 +37,5 @@
 - Persistir métricas del entrenamiento en archivo versionable.
 - Implementar transcripción Vosk completa con modelo local configurable.
 - Sustituir traducción mínima por pipeline Argos administrado por configuración.
-- Integrar memoria Obsidian y planeación n8n en siguientes sprints.
+- Ampliar la integración de Obsidian a sincronización bidireccional.
+- Definir adaptador ejecutable para n8n además del contrato documental.
