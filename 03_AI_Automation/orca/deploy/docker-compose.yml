@@ -1,0 +1,25 @@
+﻿services:
+  app:
+    build:
+      context: ..
+      dockerfile: Dockerfile
+    container_name: orca
+    restart: unless-stopped
+    env_file:
+      - .env
+    volumes:
+      - ../data:/app/data
+      - ../config/models.json:/app/config/models.json:ro
+    networks:
+      - getupsoft-network
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8015/health', timeout=5).read()"]
+      interval: 30s
+      timeout: 5s
+      retries: 5
+      start_period: 20s
+
+networks:
+  getupsoft-network:
+    external: true
+

@@ -1,0 +1,3 @@
+module.exports=[16342,(a,b,c)=>{let{createClientModuleProxy:d}=a.r(71329);a.n(d("[project]/Galantesjewelry/node_modules/next/dist/client/components/builtin/global-error.js <module evaluation>"))},5898,(a,b,c)=>{let{createClientModuleProxy:d}=a.r(71329);a.n(d("[project]/Galantesjewelry/node_modules/next/dist/client/components/builtin/global-error.js"))},96540,a=>{"use strict";a.i(16342);var b=a.i(5898);a.n(b)},58153,a=>{a.n(a.i(96540))}];
+
+//# sourceMappingURL=0ucn_next_dist_client_components_builtin_global-error_117~533.js.map

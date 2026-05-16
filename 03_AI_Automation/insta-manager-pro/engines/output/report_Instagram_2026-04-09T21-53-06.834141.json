@@ -1,0 +1,64 @@
+{
+  "platform": "Instagram",
+  "url": "https://www.instagram.com/bornbarbersgodisgood/?hl=en",
+  "extraction": {
+    "visible_name": "bornbarbersgodisgood",
+    "username": "bornbarbersgodisgood",
+    "url": "https://www.instagram.com/bornbarbersgodisgood/?hl=en",
+    "timestamp": "2026-04-09T21:53:06.834141",
+    "confidence": 1.0,
+    "selector_used": "Multi-selector approach"
+  },
+  "steps": [
+    {
+      "name": "Browser Start",
+      "status": "PASS",
+      "message": "Chrome connected",
+      "screenshot_path": null,
+      "timestamp": "2026-04-09T21:53:04.506419"
+    },
+    {
+      "name": "Navigation",
+      "status": "PASS",
+      "message": "Arrived at https://www.instagram.com/bornbarbersgodisgood/?hl=en",
+      "screenshot_path": null,
+      "timestamp": "2026-04-09T21:53:06.662569"
+    },
+    {
+      "name": "Extraction",
+      "status": "PASS",
+      "message": "Visible name: bornbarbersgodisgood",
+      "screenshot_path": null,
+      "timestamp": "2026-04-09T21:53:06.834141"
+    },
+    {
+      "name": "Follow Action",
+      "status": "PASS",
+      "message": "User followed (or already following)",
+      "screenshot_path": null,
+      "timestamp": "2026-04-09T21:53:07.970255"
+    },
+    {
+      "name": "Message Builder",
+      "status": "PASS",
+      "message": "Official professional draft ready",
+      "screenshot_path": null,
+      "timestamp": "2026-04-09T21:53:07.970255"
+    },
+    {
+      "name": "Chat Transition",
+      "status": "PASS",
+      "message": "DM window: https://www.instagram.com/bornbarbersgodisgood/?hl=en",
+      "screenshot_path": null,
+      "timestamp": "2026-04-09T21:53:20.126374"
+    },
+    {
+      "name": "Type Message",
+      "status": "FAIL",
+      "message": "Could not inject text into composer",
+      "screenshot_path": null,
+      "timestamp": "2026-04-09T21:53:32.456077"
+    }
+  ],
+  "summary": "Full automated invitation cycle completed."
+}

@@ -1,0 +1,64 @@
+{
+  "platform": "Instagram",
+  "url": "https://www.instagram.com/inbox/",
+  "extraction": {
+    "visible_name": "inbox",
+    "username": "inbox",
+    "url": "https://www.instagram.com/inbox/",
+    "timestamp": "2026-04-09T20:45:26.524964",
+    "confidence": 1.0,
+    "selector_used": "Multi-selector approach"
+  },
+  "steps": [
+    {
+      "name": "Browser Start",
+      "status": "PASS",
+      "message": "Chrome connected",
+      "screenshot_path": null,
+      "timestamp": "2026-04-09T20:45:24.348121"
+    },
+    {
+      "name": "Navigation",
+      "status": "PASS",
+      "message": "Arrived at https://www.instagram.com/inbox/",
+      "screenshot_path": null,
+      "timestamp": "2026-04-09T20:45:26.394281"
+    },
+    {
+      "name": "Extraction",
+      "status": "PASS",
+      "message": "Visible name: inbox",
+      "screenshot_path": null,
+      "timestamp": "2026-04-09T20:45:26.524964"
+    },
+    {
+      "name": "Follow Action",
+      "status": "PASS",
+      "message": "User followed (or already following)",
+      "screenshot_path": null,
+      "timestamp": "2026-04-09T20:45:32.546500"
+    },
+    {
+      "name": "Message Builder",
+      "status": "PASS",
+      "message": "Official professional draft ready",
+      "screenshot_path": null,
+      "timestamp": "2026-04-09T20:45:32.546500"
+    },
+    {
+      "name": "Chat Transition",
+      "status": "PASS",
+      "message": "Opened DM window",
+      "screenshot_path": null,
+      "timestamp": "2026-04-09T20:45:37.635562"
+    },
+    {
+      "name": "Interaction Probe",
+      "status": "FAIL",
+      "message": "Message textbox not found",
+      "screenshot_path": null,
+      "timestamp": "2026-04-09T20:45:37.710831"
+    }
+  ],
+  "summary": "Full automated invitation cycle completed."
+}

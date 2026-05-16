@@ -1,0 +1,37 @@
+{
+  "project": "Galante's Jewelry Appointments",
+  "version": "1.0.0",
+  "entities": {
+    "AppointmentRequest": {
+      "fields": {
+        "id": "uuid",
+        "clientName": "string",
+        "clientEmail": "email",
+        "serviceType": "enum[REPARACIÓN, CONSULTA, DISEÑO]",
+        "description": "text",
+        "requestedDate": "ISO8601 Date",
+        "requestedTime": "HH:mm",
+        "status": "enum[PENDING, CONFIRMED, REJECTED]"
+      }
+    }
+  },
+  "integrations": {
+    "GoogleCalendar": {
+      "api_version": "v3",
+      "auth_method": "OAuth2",
+      "calendar_id": "primary",
+      "event_mapping": {
+        "summary": "Cita Joyería: {{serviceType}} - {{clientName}}",
+        "description": "Detalle: {{description}}\nCliente: {{clientName}} ({{clientEmail}})",
+        "start": {
+          "dateTime": "{{requestedDate}}T{{requestedTime}}:00Z",
+          "timeZone": "UTC"
+        },
+        "end": {
+          "dateTime": "{{requestedDate}}T{{requestedTime_end}}:00Z",
+          "timeZone": "UTC"
+        }
+      }
+    }
+  }
+}

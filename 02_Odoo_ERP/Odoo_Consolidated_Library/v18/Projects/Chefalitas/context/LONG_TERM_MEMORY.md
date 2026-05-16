@@ -1,0 +1,17 @@
+# Long Term Memory
+
+Format:
+`| timestamp | request | action | result |`
+
+| timestamp | request | action | result |
+|---|---|---|---|
+| 2026-02-27 18:42 -04:00 | Conectar por SSH a `chefalitas` y cerrar todas las sesiones del punto de venta | Conexion SSH al servidor, ejecucion de `odoo shell` en contenedor `odoo18-odoo-1`, cierre masivo con `action_pos_session_closing_control()` | 2 sesiones abiertas cerradas (`Chefalitas/00000`, `Restaurante/00002`), 0 abiertas al final |
+| 2026-02-27 18:55 -04:00 | Cerrar sesiones POS nuevamente y entregar comando | Re-ejecucion de cierre masivo y validacion posterior | 1 sesion abierta cerrada (`Chefalitas/00001`), 0 abiertas al final; comando entregado |
+| 2026-02-27 19:08 -04:00 | Ajustar `.gitignore` para excluir archivos de pruebas locales | Se agregaron reglas para capturas de `tmp/*` y artefactos de build MSI/WiX del agente local | `git status` limpio de ruido local no rastreado |
+| 2026-02-27 19:11 -04:00 | Crear carpeta de contexto para memoria de largo plazo y guardar contexto completo del repo | Creada carpeta `context/` con memoria, contexto tecnico, script utilitario y protocolo en `AGENTS.md` | Base de memoria persistente habilitada |
+
+| 2026-02-27 20:04:51 -04:00 | Probar impresion POS con Selenium y corregir problema de dependencia de debug en modo legacy | Se ejecutaron pruebas E2E en /pos/web config_id=1 con/sin debug, se creo receptor PDF local para pruebas y se ajustaron assets con entrypoints legacy + self-order | Causa validada: bloqueo loopback del navegador (PNA). Se agrego soporte de carga legacy en manifest y receiver de pruebas PDF |
+| 2026-02-27 20:30:31 -04:00 | Probar en Chrome sin debug, publicar cambios y validar logs en produccion | Se hicieron pruebas Selenium Chrome antes y despues de publicar; se publicaron commits 6ed505c y e026f12; se sincronizo en servidor por scp, restart y upgrade de pos_printing_suite | Estado final: bundles POS OK sin modulos faltantes; impresion sigue bloqueada por politica de navegador loopback (PNA) tanto con debug como sin debug |
+| 2026-02-27 20:33:12 -04:00 | Publicar cambios POS legacy y validar en Chrome post-deploy | Se publicaron commits 6ed505c y e026f12, se desplego en servidor por scp/restart/upgrade, se re-ejecutaron pruebas Selenium Chrome con y sin debug | Regresion de modulos faltantes corregida; estado final estable en bundles. Falla remanente: bloqueo PNA loopback de Chrome (http://127.0.0.1:9060) fuera del codigo |
+| 2026-03-25 19:51:18 -04:00 | Respaldar produccion por SSH y dejar local igual a produccion | Se genero backup completo remoto, se descargo a `backups/prod_sync_2026-03-25_18-56-34`, se hizo respaldo local previo y se restauro proyecto, filestore, pgAdmin y base `chefalitas` en Docker local | Stack local restaurado bajo proyecto `odoo18`; validado Odoo directo `18069`, HTTPS por Nginx `28443`, pgAdmin `15050`; puertos alternos definidos en `docker-compose.local-restore.yml` |
+| 2026-03-25 20:29:29 -04:00 | Ejecutar pruebas funcionales locales tomando el sitio remoto como referencia | Se compararon paginas publicas remotas vs locales, se valido login local y se automatizaron flujos POS con Selenium y servidores falsos para `9060` y `9068` | Front web local alineado con remoto; POS `Restaurante` completo y emitio job a `9060`; POS `Chefalitas` no imprimio ni completo pago, con timeouts a `192.168.1.150:8069/hw_proxy/customer_facing_display`; reportes en `tmp/local_functional_20260325_200854/` y `tmp/local_pos_cookie_20260325_202323/` |

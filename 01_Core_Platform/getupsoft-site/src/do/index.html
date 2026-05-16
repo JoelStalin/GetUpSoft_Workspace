@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- SEO AVANZADO LOCAL -->
+    <title>Getupsoft RD | Implementación Odoo ERP, Facturación Electrónica y Redes</title>
+    <meta name="description" content="Tu aliado tecnológico en República Dominicana. Especialistas en Odoo ERP, Facturación Electrónica (e-CF), Cableado Estructurado y Soporte Técnico. Unificamos software inteligente e infraestructura física para negocios locales.">
+    <meta name="keywords" content="Odoo Republica Dominicana, Facturacion Electronica RD, e-CF DGII, Cableado Estructurado, Servidores Santo Domingo, Soporte IT Dominicana, Starlink para empresas RD, Automatizacion de Procesos">
+    <link rel="canonical" href="https://getupsoft.com.do/" />
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://getupsoft.com.do/">
+    <meta property="og:title" content="Getupsoft RD | Soluciones Tecnológicas Reales">
+    <meta property="og:description" content="Implementación de Odoo, Redes y Soporte para el mercado dominicano. El software y el hardware de tu empresa bajo un solo proveedor.">
+    <meta property="og:image" content="https://getupsoft.com.do/assets/og-local.png">
+
+    <!-- JSON-LD Datos Estructurados -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "LocalBusiness",
+      "name": "Getupsoft República Dominicana",
+      "image": "https://getupsoft.com.do/assets/logo-rd.svg",
+      "@id": "https://getupsoft.com.do",
+      "url": "https://getupsoft.com.do",
+      "telephone": "+1XXXXXXXXXX",
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "Av. Principal",
+        "addressLocality": "Santo Domingo",
+        "addressRegion": "DN",
+        "postalCode": "10100",
+        "addressCountry": "DO"
+      },
+      "geo": {
+        "@type": "GeoCoordinates",
+        "latitude": 18.4861,
+        "longitude": -69.9312
+      },
+      "openingHoursSpecification": {
+        "@type": "OpeningHoursSpecification",
+        "dayOfWeek": [
+          "Monday",
+          "Tuesday",
+          "Wednesday",
+          "Thursday",
+          "Friday"
+        ],
+        "opens": "09:00",
+        "closes": "18:00"
+      },
+      "sameAs": [
+        "https://linkedin.com/company/getupsoft",
+        "https://instagram.com/getupsoft_"
+      ]
+    }
+    </script>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600&family=Space+Grotesk:wght@300;500;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        bgDeep: '#0F1115',
+                        bgSurface: '#161920',
+                        pastelMint: '#99F6E4',
+                        pastelGray: '#94A3B8',
+                        textMain: '#E2E8F0',
+                        textMuted: '#64748B'
+                    },
+                    fontFamily: {
+                        sans: ['Plus Jakarta Sans', 'sans-serif'],
+                        display: ['Space Grotesk', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { background-color: #0F1115; color: #E2E8F0; }
+        .glass { background: rgba(22, 25, 32, 0.8); backdrop-filter: blur(15px); border: 1px solid rgba(148, 163, 184, 0.05); }
+        .hero-pattern { background: radial-gradient(circle at 50% 120%, #134e4a, transparent 80%); }
+    </style>
+</head>
+<body class="antialiased selection:bg-pastelMint/30 text-sm hero-pattern">
+
+    <!-- Top Bar -->
+    <div class="bg-bgSurface text-textMuted text-[9px] tracking-[0.3em] uppercase py-3 px-6 flex justify-between items-center border-b border-white/5">
+        <p>¿Buscas consultoría estratégica e IA internacional?</p>
+        <a href="../global/index.html" class="hover:text-pastelMint transition-colors flex items-center group">
+            Visita Getupsoft Global 
+            <svg class="w-3 h-3 ml-2 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M14 5l7 7m0 0l-7 7m7-7H3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+        </a>
+    </div>
+
+    <!-- Header -->
+    <header class="sticky top-0 z-50 py-6 glass border-none">
+        <div class="container mx-auto px-8 flex justify-between items-center">
+            <a href="index.html" class="flex items-center space-x-3 group">
+                <div class="h-10 flex items-center"><svg viewBox="0 0 500 200" fill="none" xmlns="http://www.w3.org/2000/svg" class="h-full w-auto"><path d="M40 100C40 66.8629 66.8629 40 100 40C133.137 40 160 66.8629 160 100C160 133.137 133.137 160 100 160" stroke="#A5B4FC" stroke-width="12" stroke-linecap="round"/><path d="M100 70C100 70 130 85 130 100C130 115 100 130 100 130" stroke="#99F6E4" stroke-width="8" stroke-linecap="round" opacity="0.8"/><circle cx="100" cy="100" r="14" fill="white"/><circle cx="100" cy="100" r="6" fill="#0F1115"/><text x="180" y="115" font-family="Space Grotesk" font-size="52" font-weight="500" letter-spacing="-0.04em" fill="white">getupsoft</text></svg><span class="text-[10px] text-pastelGray ml-2 mt-2 font-bold tracking-widest uppercase">RD</span></div>
+            </a>
+            
+            <nav class="hidden md:flex space-x-10 text-[12px] font-medium text-textMuted tracking-wider uppercase">
+                <a href="odoo-erp.html" class="hover:text-textMain transition-colors">Odoo ERP</a>
+                <a href="productos.html" class="hover:text-textMain transition-colors">Productos</a>
+                <a href="soluciones-sector.html" class="hover:text-textMain transition-colors">Sectores</a>
+                <a href="nosotros.html" class="hover:text-textMain transition-colors">Nosotros</a>
+            </nav>
+
+            <a href="contacto.html" class="px-6 py-2 border border-pastelMint text-pastelMint rounded-full text-[11px] font-bold uppercase tracking-widest hover:bg-pastelMint hover:text-bgDeep transition-all">
+                Solicitar Diagnóstico
+            </a>
+        </div>
+    </header>
+
+    <!-- Hero Local 2.0 -->
+    <section class="container mx-auto px-8 pt-40 pb-56">
+        <div class="max-w-4xl">
+            <div class="inline-block px-3 py-1 bg-white/5 border border-white/10 rounded-full text-[10px] font-mono text-pastelMint mb-8 tracking-[0.2em] uppercase">
+                // Soluciones Tangibles: Software + Hardware
+            </div>
+            <h1 class="text-6xl md:text-8xl font-display font-light leading-[0.95] mb-12 tracking-tight">
+                Infraestructura y <span class="italic text-pastelMint">gestión</span> para el éxito local.
+            </h1>
+            <p class="text-xl text-textMuted leading-relaxed font-light mb-16 max-w-2xl">
+                Unificamos la implementación de Odoo ERP con redes empresariales de alta disponibilidad y servidores robustos. Soporte experto en República Dominicana.
+            </p>
+            <div class="flex items-center space-x-12">
+                <a href="contacto.html" class="px-10 py-5 bg-pastelMint text-bgDeep rounded-full font-bold text-[12px] uppercase tracking-[0.2em] hover:bg-white hover:scale-105 transition-all shadow-2xl shadow-pastelMint/20">
+                    Hablar con un experto
+                </a>
+                <a href="soluciones-sector.html" class="text-[11px] font-bold uppercase tracking-[0.2em] text-textMuted hover:text-textMain flex items-center group transition-colors">
+                    Ver por industria 
+                    <svg class="w-4 h-4 ml-3 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M17 8l4 4m0 0l-4 4m4-4H3" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path></svg>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- METODOLOGÍA RD (Enriquecimiento) -->
+    <section class="py-40 bg-bgSurface border-y border-white/5">
+        <div class="container mx-auto px-8">
+            <div class="text-center mb-32 text-white">
+                <h2 class="text-4xl font-display font-light mb-6 tracking-tight leading-snug">Nuestro proceso: De la <span class="text-pastelMint italic">red</span> a la <span class="text-pastelMint italic">factura</span>.</h2>
+                <p class="text-textMuted max-w-xl mx-auto font-light leading-relaxed">No solo instalamos programas. Construimos la infraestructura física necesaria para que tu gestión no se detenga nunca.</p>
+            </div>
+            
+            <div class="grid md:grid-cols-3 gap-24">
+                <div class="space-y-8">
+                    <div class="text-4xl font-display font-thin text-pastelMint opacity-30 italic">01 /</div>
+                    <h3 class="text-xl font-medium">Inspección Física</h3>
+                    <p class="text-textMuted leading-relaxed font-light">Auditamos el estado de tu cableado, WiFi y servidores. Sin una red sólida, el mejor software falla.</p>
+                </div>
+                <div class="space-y-8">
+                    <div class="text-4xl font-display font-thin text-pastelMint opacity-30 italic">02 /</div>
+                    <h3 class="text-xl font-medium">Montaje & Config</h3>
+                    <p class="text-textMuted leading-relaxed font-light">Implementamos Odoo y configuramos la facturación electrónica DGII sobre servidores optimizados.</p>
+                </div>
+                <div class="space-y-8">
+                    <div class="text-4xl font-display font-thin text-pastelMint opacity-30 italic">03 /</div>
+                    <h3 class="text-xl font-medium">Soporte Continuo</h3>
+                    <p class="text-textMuted leading-relaxed font-light">Asistencia técnica local remota y presencial. Estamos en tu misma zona horaria, listos para resolver.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- INFRA STACK (Enriquecimiento) -->
+    <section class="py-40">
+        <div class="container mx-auto px-8 flex flex-col md:flex-row items-center gap-24">
+            <div class="md:w-1/2">
+                <h2 class="text-3xl font-display font-light text-white mb-12 tracking-tight leading-snug">Tecnología <span class="italic text-pastelMint">robusta</span> para la operación diaria.</h2>
+                <div class="grid grid-cols-2 gap-x-12 gap-y-10">
+                    <div class="border-l border-pastelMint/20 pl-6">
+                        <p class="text-[10px] text-pastelMint uppercase tracking-[0.2em] mb-2 font-bold">Gestión</p>
+                        <p class="text-lg font-light">Odoo ERP Enterprise</p>
+                    </div>
+                    <div class="border-l border-pastelMint/20 pl-6">
+                        <p class="text-[10px] text-pastelMint uppercase tracking-[0.2em] mb-2 font-bold">Conectividad</p>
+                        <p class="text-lg font-light">Starlink Business & Ubiquiti</p>
+                    </div>
+                    <div class="border-l border-pastelMint/20 pl-6">
+                        <p class="text-[10px] text-pastelMint uppercase tracking-[0.2em] mb-2 font-bold">Respaldo</p>
+                        <p class="text-lg font-light">NAS & Cloud Hybrid</p>
+                    </div>
+                    <div class="border-l border-pastelMint/20 pl-6">
+                        <p class="text-[10px] text-pastelMint uppercase tracking-[0.2em] mb-2 font-bold">Fiscal</p>
+                        <p class="text-lg font-light">Facturación e-CF DGII</p>
+                    </div>
+                </div>
+            </div>
+            <div class="md:w-1/2 w-full">
+                <!-- SVG GENERATIVE: NETWORK FLOW -->
+                <div class="bg-bgSurface rounded-[3rem] border border-white/5 p-12 overflow-hidden shadow-2xl relative">
+                    <div class="absolute inset-0 bg-gradient-to-tr from-teal-900/10 to-transparent"></div>
+                    <svg viewBox="0 0 400 400" class="w-full h-auto opacity-60">
+                        <rect x="150" y="50" width="100" height="150" rx="10" stroke="#99F6E4" stroke-width="1" fill="none" />
+                        <circle cx="200" cy="125" r="20" stroke="#99F6E4" stroke-width="0.5" fill="none" />
+                        <!-- Connection Lines -->
+                        <path d="M200 200L100 300M200 200L300 300M200 200L200 350" stroke="white" stroke-width="0.2" stroke-dasharray="5 5" />
+                        <circle cx="100" cy="300" r="5" fill="#99F6E4" />
+                        <circle cx="300" cy="300" r="5" fill="#99F6E4" />
+                        <circle cx="200" cy="350" r="5" fill="#99F6E4" />
+                    </svg>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- PREGUNTAS FRECUENTES (Enriquecimiento) -->
+    <section class="py-40 bg-bgSurface/50">
+        <div class="container mx-auto px-8 max-w-4xl">
+            <h2 class="text-3xl font-display font-light text-white text-center mb-24 tracking-tight leading-snug">Resolviendo tus <span class="italic text-pastelMint">dudas operativas</span>.</h2>
+            <div class="space-y-12">
+                <div class="border-b border-white/5 pb-10">
+                    <h4 class="text-lg font-medium text-white mb-4">¿Ya es obligatoria la facturación electrónica?</h4>
+                    <p class="text-textMuted leading-relaxed font-light text-base">Sí, la DGII ha establecido un calendario de obligatoriedad según el tamaño de la empresa. En Getupsoft te ayudamos a migrar a Odoo ERP para cumplir con esta normativa de forma automática.</p>
+                </div>
+                <div class="border-b border-white/5 pb-10">
+                    <h4 class="text-lg font-medium text-white mb-4">¿Dan soporte fuera de Santo Domingo?</h4>
+                    <p class="text-textMuted leading-relaxed font-light text-base">Cubrimos todo el territorio nacional. Nuestras soluciones de conectividad satelital Starlink nos permiten garantizar internet de alta velocidad incluso en las zonas más remotas del país.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="py-24 border-t border-white/5 glass">
+        <div class="container mx-auto px-8 flex flex-col md:flex-row justify-between items-start gap-12">
+            <div class="max-w-xs space-y-6">
+                <div class="flex items-center space-x-3 grayscale opacity-70">
+                    <div class="w-5 h-5 bg-pastelMint rounded-full"></div>
+                    <span class="text-xs tracking-[0.3em] font-medium uppercase text-white">Getupsoft RD</span>
+                </div>
+                <p class="text-[11px] text-textMuted leading-loose font-light">Tu aliado tecnológico en República Dominicana. Unificamos software inteligente e infraestructura física para que tu negocio crezca sin límites.</p>
+            </div>
+            <div class="flex flex-wrap gap-24">
+                <div class="space-y-6">
+                    <p class="text-[10px] text-pastelMint uppercase tracking-[0.4em] font-bold">Navegación</p>
+                    <ul class="text-[11px] text-textMuted space-y-4 tracking-widest uppercase">
+                        <li><a href="index.html" class="hover:text-textMain transition-colors">Inicio</a></li>
+                        <li><a href="casos.html" class="hover:text-textMain transition-colors">Casos</a></li>
+                        <li><a href="contacto.html" class="hover:text-textMain transition-colors italic">Contacto</a></li>
+                    </ul>
+                </div>
+                <div class="space-y-6">
+                    <p class="text-[10px] text-pastelMint uppercase tracking-[0.4em] font-bold">Ecosistema</p>
+                    <a href="../global/index.html" class="text-[11px] text-textMuted hover:text-textMain transition-colors tracking-widest uppercase flex items-center">
+                        <span class="mr-2">🌐</span> Getupsoft Global (AI)
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="container mx-auto px-8 mt-24 text-center">
+            <p class="text-[10px] text-textMuted font-light opacity-50">&copy; 2026 Getupsoft República Dominicana. Todos los derechos reservados.</p>
+        </div>
+    </footer>
+
+</body>
+</html>

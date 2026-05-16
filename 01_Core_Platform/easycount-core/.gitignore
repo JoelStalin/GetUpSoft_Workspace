@@ -1,0 +1,49 @@
+# Python
+__pycache__/
+**/__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+htmlcov/
+.coverage
+
+# Virtual environments
+.venv/
+.venv312/
+.venv*/
+
+# Environment files
+.env
+.env.local
+.env.development
+.env.production
+.env.production.enc
+.poetry*
+
+# Node / Frontend
+node_modules/
+frontend/**/node_modules/
+frontend/**/dist/
+*.tsbuildinfo
+frontend/apps/admin-portal/src/**/*.js
+
+# Package manager lockfiles not used in this repo flow
+pnpm-lock.yaml
+package-lock.json
+
+# Logs and runtime artifacts
+logs/
+*.log
+
+# Test and automation artifacts
+tests/artifacts/
+e2e/artifacts/
+artifacts_live_dns/
+automation/browser/evidence/
+
+# Local debugging files
+seller_debug.png
+.DS_Store

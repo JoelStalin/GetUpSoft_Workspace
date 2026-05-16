@@ -1,0 +1,55 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Postulacion xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <PostulacionID>24257</PostulacionID>
+  <TipoRegistro>1</TipoRegistro>
+  <GrupoComprobante>31,32,33,34,41,43,44,45,46,47</GrupoComprobante>
+  <Contribuyente>
+    <RNCContribuyente>22500706423</RNCContribuyente>
+    <RazonSocial>JOEL STALIN MARTINEZ ESPINAL</RazonSocial>
+    <ActividadEconomica>729201</ActividadEconomica>
+    <Telefono>8492600983</Telefono>
+    <Direccion>RODEO, No. 7, APTO. CASA, EL ALMIRANTE</Direccion>
+    <Provincia>SANTO DOMINGO</Provincia>
+    <Municipio>SANTO DOMINGO ESTE</Municipio>
+    <Sector>EL ALMIRANTE</Sector>
+    <CorreoElectronico>JOELSTALIN2105@GMAIL.COM</CorreoElectronico>
+  </Contribuyente>
+  <Representante>
+    <RNCRepresentante>22500706423</RNCRepresentante>
+    <NombreRepresentante>JOEL STALIN MARTINEZ ESPINAL</NombreRepresentante>
+    <TelefonoRepresentante>8492600983</TelefonoRepresentante>
+    <DireccionRepresentante>RODEO, No. 7, APTO. CASA, EL ALMIRANTE</DireccionRepresentante>
+    <ProvinciaRepresentante>SANTO DOMINGO</ProvinciaRepresentante>
+    <MunicipioRepresentante>SANTO DOMINGO ESTE</MunicipioRepresentante>
+    <SectorRepresentante>EL ALMIRANTE</SectorRepresentante>
+    <CorreoElectronicoRepresentante>JOELSTALIN2105@GMAIL.COM</CorreoElectronicoRepresentante>
+  </Representante>
+  <Software>
+    <TipoDesarrollo>1</TipoDesarrollo>
+    <NombreSoftware>Easycouting</NombreSoftware>
+    <UrlRecepcion>api.getupsoft.com.do/fe/recepcion/api/ecf</UrlRecepcion>
+    <UrlAprobacionComercial>api.getupsoft.com.do/fe/aprobacioncomercial/api/ecf</UrlAprobacionComercial>
+    <UrlAutenticacion>api.getupsoft.com.do/fe/autenticacion/api/semilla</UrlAutenticacion>
+    <VersionSoftware>v1.0</VersionSoftware>
+  </Software>
+  <FechaSolicitud>2026-03-28T10:55:47.8231329-04:00</FechaSolicitud>
+  <Signature xmlns="http://www.w3.org/2000/09/xmldsig#">
+    <SignedInfo>
+      <CanonicalizationMethod Algorithm="http://www.w3.org/TR/2001/REC-xml-c14n-20010315" />
+      <SignatureMethod Algorithm="http://www.w3.org/2001/04/xmldsig-more#rsa-sha256" />
+      <Reference URI="">
+        <Transforms>
+          <Transform Algorithm="http://www.w3.org/2000/09/xmldsig#enveloped-signature" />
+        </Transforms>
+        <DigestMethod Algorithm="http://www.w3.org/2001/04/xmlenc#sha256" />
+        <DigestValue>5OQrbBdkmU0Q4Ey1/7Yzs7OOVy9QlCSclWBLWAn0pa8=</DigestValue>
+      </Reference>
+    </SignedInfo>
+    <SignatureValue>Pfz1KcXiVSWAsNtMbfpw7FTMPA4BgiyC2QUurIGzZdbbeNeYDx8tRqER92W60HeHxkisCt9Xnd4k4kYhWFO0qNPCsQY7Np98cHIj6ZYSYNJERj0OZQi3mqCiNihKpAN6mSgPo6UuWbiROA3hdIjqG1G8HH8VOiBbZE/n/2oHm5n+6BGMzLcVp/sy19/nBAC5aBXUoJ4GNrVnxeb261OxcmiCUnFq9aTTU/QfOAq7bwAlALrXaoWo3YvyUlHb/7PBJdY24oS4WgPypcLmlyGgc/FNQoRDIQLdDRwg5EIJXzpyyzCZMNHlRlgbn4g45qNp9C4nCGn0zpvlC5MLf7pVAg==</SignatureValue>
+    <KeyInfo>
+      <X509Data>
+        <X509Certificate>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</X509Certificate>
+      </X509Data>
+    </KeyInfo>
+  </Signature>
+</Postulacion>

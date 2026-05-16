@@ -1,0 +1,174 @@
+openapi: 3.1.0
+info:
+  title: GetUpSoft EasyCount Odoo Integration API
+  version: 1.0.0
+servers:
+  - url: https://api.getupsoft.com
+    description: Production BFF
+  - url: https://stg.getupsoft.com.do/api
+    description: Staging BFF
+paths:
+  /api/v1/customers:
+    post:
+      summary: Create or update an Odoo customer
+      operationId: upsertCustomer
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CustomerUpsert'
+      responses:
+        '200':
+          description: Customer synchronized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SyncResponse'
+  /api/v1/invoices:
+    post:
+      summary: Create an Odoo invoice request
+      operationId: createInvoice
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/InvoiceCreate'
+      responses:
+        '200':
+          description: Invoice created or reused idempotently
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SyncResponse'
+  /api/v1/payments:
+    post:
+      summary: Register a payment against an invoice
+      operationId: registerPayment
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PaymentRegister'
+      responses:
+        '200':
+          description: Payment synchronized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SyncResponse'
+  /api/v1/status/{externalId}:
+    get:
+      summary: Fetch synchronization status by external id
+      operationId: getSyncStatus
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: externalId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Current synchronization state
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StatusResponse'
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+  schemas:
+    CustomerUpsert:
+      type: object
+      required: [externalId, name, email]
+      properties:
+        externalId:
+          type: string
+        name:
+          type: string
+        email:
+          type: string
+          format: email
+        phone:
+          type: string
+        metadata:
+          type: object
+          additionalProperties: true
+    InvoiceCreate:
+      type: object
+      required: [externalId, customerExternalId, currency, lines]
+      properties:
+        externalId:
+          type: string
+        customerExternalId:
+          type: string
+        currency:
+          type: string
+          minLength: 3
+          maxLength: 3
+        lines:
+          type: array
+          items:
+            type: object
+            required: [description, quantity, unitPrice]
+            properties:
+              description:
+                type: string
+              quantity:
+                type: number
+              unitPrice:
+                type: number
+    PaymentRegister:
+      type: object
+      required: [externalId, invoiceExternalId, amount, currency, provider]
+      properties:
+        externalId:
+          type: string
+        invoiceExternalId:
+          type: string
+        amount:
+          type: number
+        currency:
+          type: string
+        provider:
+          type: string
+        providerReference:
+          type: string
+    SyncResponse:
+      type: object
+      required: [success, externalId, odooId, status]
+      properties:
+        success:
+          type: boolean
+        externalId:
+          type: string
+        odooId:
+          type: string
+        status:
+          type: string
+          enum: [synced, queued, failed]
+        message:
+          type: string
+    StatusResponse:
+      type: object
+      required: [externalId, status]
+      properties:
+        externalId:
+          type: string
+        status:
+          type: string
+          enum: [pending, synced, retrying, failed]
+        lastError:
+          type: string

@@ -1,0 +1,48 @@
+{
+  "url": "https://chefalitas.com.do/pos/web?config_id=1&from_backend=True&debug=assets",
+  "steps": [
+    {
+      "name": "login_submit",
+      "ok": true,
+      "detail": "https://chefalitas.com.do/en/website/search?search=&order=name+asc"
+    },
+    {
+      "name": "open_pos_url",
+      "ok": true,
+      "detail": "https://chefalitas.com.do/en/web/login?redirect=%2Fpos%2Fweb%3Fconfig_id%3D1%26from_backend%3DTrue%26debug%3Dassets"
+    },
+    {
+      "name": "select_table",
+      "ok": false,
+      "detail": "Message: \n"
+    },
+    {
+      "name": "add_product",
+      "ok": false,
+      "detail": "Message: \nStacktrace:\nSymbols not available. Dumping unresolved backtrace:\n\t0x7ff67cf56835\n\t0x7ff67cf56894\n\t0x7ff67d29ad2a\n\t0x7ff67ccf3696\n\t0x7ff67ccf3935\n\t0x7ff67cd313f7\n\t0x7ff67ccea307\n\t0x7ff67cd2f1e7\n\t0x7ff67cce9a1c\n\t0x7ff67cce8c76\n\t0x7ff67cce9843\n\t0x7ff67cdb0564\n\t0x7ff67cdaca03\n\t0x7ff67cdbd0c3\n\t0x7ff67cf70f18\n\t0x7ff67cf797f6\n\t0x7ff67cf5de74\n\t0x7ff67cf5dfb9\n\t0x7ff67cf4bdf2\n\t0x7ff9a492e8d7\n\t0x7ff9a538c48c\n"
+    },
+    {
+      "name": "go_payment",
+      "ok": false,
+      "detail": "Message: \nStacktrace:\nSymbols not available. Dumping unresolved backtrace:\n\t0x7ff67cf56835\n\t0x7ff67cf56894\n\t0x7ff67d29ad2a\n\t0x7ff67ccf3696\n\t0x7ff67ccf3935\n\t0x7ff67cd313f7\n\t0x7ff67ccea307\n\t0x7ff67cd2f1e7\n\t0x7ff67cce9a1c\n\t0x7ff67cce8c76\n\t0x7ff67cce9843\n\t0x7ff67cdb0564\n\t0x7ff67cdaca03\n\t0x7ff67cdbd0c3\n\t0x7ff67cf70f18\n\t0x7ff67cf797f6\n\t0x7ff67cf5de74\n\t0x7ff67cf5dfb9\n\t0x7ff67cf4bdf2\n\t0x7ff9a492e8d7\n\t0x7ff9a538c48c\n"
+    },
+    {
+      "name": "select_payment_method",
+      "ok": false,
+      "detail": "Message: \nStacktrace:\nSymbols not available. Dumping unresolved backtrace:\n\t0x7ff67cf56835\n\t0x7ff67cf56894\n\t0x7ff67d29ad2a\n\t0x7ff67ccf3696\n\t0x7ff67ccf3935\n\t0x7ff67cd313f7\n\t0x7ff67ccea307\n\t0x7ff67cd2f1e7\n\t0x7ff67cce9a1c\n\t0x7ff67cce8c76\n\t0x7ff67cce9843\n\t0x7ff67cdb0564\n\t0x7ff67cdaca03\n\t0x7ff67cdbd0c3\n\t0x7ff67cf70f18\n\t0x7ff67cf797f6\n\t0x7ff67cf5de74\n\t0x7ff67cf5dfb9\n\t0x7ff67cf4bdf2\n\t0x7ff9a492e8d7\n\t0x7ff9a538c48c\n"
+    },
+    {
+      "name": "validate_payment",
+      "ok": false,
+      "detail": "Message: \nStacktrace:\nSymbols not available. Dumping unresolved backtrace:\n\t0x7ff67cf56835\n\t0x7ff67cf56894\n\t0x7ff67d29ad2a\n\t0x7ff67ccf3696\n\t0x7ff67ccf3935\n\t0x7ff67cd313f7\n\t0x7ff67ccea307\n\t0x7ff67cd2f1e7\n\t0x7ff67cce9a1c\n\t0x7ff67cce8c76\n\t0x7ff67cce9843\n\t0x7ff67cdb0564\n\t0x7ff67cdaca03\n\t0x7ff67cdbd0c3\n\t0x7ff67cf70f18\n\t0x7ff67cf797f6\n\t0x7ff67cf5de74\n\t0x7ff67cf5dfb9\n\t0x7ff67cf4bdf2\n\t0x7ff9a492e8d7\n\t0x7ff9a538c48c\n"
+    },
+    {
+      "name": "print_receipt_button",
+      "ok": false,
+      "detail": "Message: \nStacktrace:\nSymbols not available. Dumping unresolved backtrace:\n\t0x7ff67cf56835\n\t0x7ff67cf56894\n\t0x7ff67d29ad2a\n\t0x7ff67ccf3696\n\t0x7ff67ccf3935\n\t0x7ff67cd313f7\n\t0x7ff67ccea307\n\t0x7ff67cd2f1e7\n\t0x7ff67cce9a1c\n\t0x7ff67cce8c76\n\t0x7ff67cce9843\n\t0x7ff67cdb0564\n\t0x7ff67cdaca03\n\t0x7ff67cdbd0c3\n\t0x7ff67cf70f18\n\t0x7ff67cf797f6\n\t0x7ff67cf5de74\n\t0x7ff67cf5dfb9\n\t0x7ff67cf4bdf2\n\t0x7ff9a492e8d7\n\t0x7ff9a538c48c\n"
+    }
+  ],
+  "errors": [],
+  "console": [],
+  "final_url": "https://chefalitas.com.do/en/web/login?redirect=%2Fpos%2Fweb%3Fconfig_id%3D1%26from_backend%3DTrue%26debug%3Dassets"
+}

@@ -1,0 +1,38 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: dark;
+}
+
+html {
+  scroll-behavior: smooth;
+  background-color: #020617;
+}
+
+body {
+  @apply min-h-screen bg-canvas text-ink antialiased;
+  font-family: "IBM Plex Sans", "Segoe UI", sans-serif;
+  background-image: 
+    radial-gradient(circle at 20% 20%, rgba(14, 165, 233, 0.05), transparent 40%),
+    radial-gradient(circle at 80% 80%, rgba(236, 72, 153, 0.05), transparent 40%),
+    url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.03'%3E%3Cpath d='M0 38.59V40h1.41l.3-.3 38.29-38.29.3-.3V0h-1.41l-.3.3L.3 38.29l-.3.3zM38.59 40H40v-1.41l-.3-.3L38.29 40l.3-.3zM0 1.41V0h1.41l.3.3L0 1.71l.3-.3z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+}
+
+.glass {
+  @apply bg-white/5 backdrop-blur-md border border-white/10;
+}
+
+.neo-glow {
+  box-shadow: 0 0 20px rgba(14, 165, 233, 0.15);
+}
+
+a {
+  @apply transition-all duration-300;
+}
+
+::selection {
+  background: rgba(14, 165, 233, 0.3);
+  color: white;
+}

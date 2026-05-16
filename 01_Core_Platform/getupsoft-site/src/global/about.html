@@ -1,0 +1,114 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <!-- SEO ADVANCED -->
+    <title>Architects of Scale: About Us | Getupsoft</title>
+    <meta name="description" content="Learn about our vision, mission, and the engineering philosophy behind our digital architectures.">
+    <meta name="keywords" content="Getupsoft vision, technical superiority">
+    <link rel="canonical" href="https://getupsoft.com/about.html" />
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://getupsoft.com/about.html">
+    <meta property="og:title" content="Architects of Scale: About Us | Getupsoft">
+    <meta property="og:description" content="Learn about our vision, mission, and the engineering philosophy behind our digital architectures.">
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:title" content="Architects of Scale: About Us | Getupsoft">
+    <meta property="twitter:description" content="Learn about our vision, mission, and the engineering philosophy behind our digital architectures.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600&family=Space+Grotesk:wght@300;500&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        bgDeep: '#0F1115',
+                        bgSurface: '#161920',
+                        pastelBlue: '#A5B4FC',
+                        pastelGray: '#94A3B8',
+                        textMain: '#E2E8F0',
+                        textMuted: '#64748B'
+                    },
+                    fontFamily: {
+                        sans: ['Plus Jakarta Sans', 'sans-serif'],
+                        display: ['Space Grotesk', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { background-color: #0F1115; color: #E2E8F0; }
+        .border-muted { border-color: rgba(148, 163, 184, 0.1); }
+    </style>
+</head>
+<body class="antialiased selection:bg-pastelBlue/30 text-sm">
+
+    <!-- Header -->
+    <header class="py-6 border-b border-muted">
+        <div class="container mx-auto px-8 flex justify-between items-center">
+            <a href="index.html" class="flex items-center space-x-3 group">
+                <div class="w-10 h-10"><svg viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-full h-full group-hover:scale-110 transition-transform"><path d="M40 100C40 66.8629 66.8629 40 100 40C133.137 40 160 66.8629 160 100C160 133.137 133.137 160 100 160" stroke="#A5B4FC" stroke-width="14" stroke-linecap="round"/><path d="M100 160L130 130" stroke="#94A3B8" stroke-width="14" stroke-linecap="round"/><path d="M100 160L70 130" stroke="#94A3B8" stroke-width="14" stroke-linecap="round"/></svg></div>
+                <span class="font-display text-lg tracking-tighter font-medium">getupsoft</span>
+            </a>
+            
+            <nav class="hidden md:flex space-x-10 text-[13px] font-medium text-textMuted">
+                <a href="ai-agents.html" class="hover:text-textMain transition-colors">AI Agents</a>
+                <a href="products.html" class="hover:text-textMain transition-colors">Products</a>
+                <a href="solutions.html" class="hover:text-textMain transition-colors">Solutions</a>
+                <a href="about.html" class="hover:text-textMain transition-colors">About</a>
+            </nav>
+
+            <a href="contact.html" class="text-[13px] font-medium text-pastelBlue">
+                Book Strategy
+            </a>
+        </div>
+    </header>
+
+    <main class="container mx-auto px-8 pt-24 pb-48">
+        <div class="max-w-3xl">
+            <div class="text-[11px] font-mono text-pastelBlue mb-8 tracking-widest uppercase opacity-60">Corporate Vision</div>
+            <h1 class="text-5xl md:text-6xl font-display font-light leading-tight mb-12 tracking-tight">
+                Closing the gap between <span class="italic text-pastelBlue">strategy and execution</span>.
+            </h1>
+            <p class="text-lg text-textMuted leading-relaxed font-light mb-16">
+                Getupsoft is more than a consulting firm; we are architects of the modern enterprise. We combine strategic digital transformation with high-performance engineering to build systems that scale effortlessly.
+            </p>
+        </div>
+
+        <div class="grid md:grid-cols-2 gap-24 mt-24">
+            <div>
+                <h3 class="text-xl font-medium mb-6">Our Mission</h3>
+                <p class="text-textMuted leading-relaxed font-light">To empower global organizations by integrating autonomous intelligence into their core operations, ensuring resilience, scalability, and technical superiority.</p>
+            </div>
+            <div>
+                <h3 class="text-xl font-medium mb-6">Our Approach</h3>
+                <p class="text-textMuted leading-relaxed font-light">We believe that software intelligence is only as strong as its underlying foundation. By mastering both high-level AI orchestration and foundational systems, we deliver uncompromising results.</p>
+            </div>
+        </div>
+    </main>
+
+    <footer class="py-20 border-t border-muted bg-bgSurface/30">
+        <div class="container mx-auto px-8 flex flex-col md:flex-row justify-between items-center gap-8 text-textMuted text-[11px]">
+            <div class="flex items-center space-x-3 grayscale opacity-50">
+                <div class="w-4 h-4 bg-pastelBlue rounded-full"></div>
+                <span class="tracking-widest font-medium uppercase">Getupsoft Global</span>
+            </div>
+            <div class="flex space-x-8 font-medium tracking-wider uppercase">
+                <a href="index.html" class="hover:text-textMain transition-colors">Home</a>
+                <a href="about.html" class="hover:text-textMain transition-colors text-textMain">About</a>
+                <a href="contact.html" class="hover:text-textMain transition-colors">Contact</a>
+                <a href="../do/index.html" class="hover:text-textMain transition-colors italic">Getupsoft RD</a>
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>
+
+
+

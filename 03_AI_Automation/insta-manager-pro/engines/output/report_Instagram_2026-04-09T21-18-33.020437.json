@@ -1,0 +1,71 @@
+{
+  "platform": "Instagram",
+  "url": "https://www.instagram.com/angelya_0203/",
+  "extraction": {
+    "visible_name": "angelya_0203",
+    "username": "angelya_0203",
+    "url": "https://www.instagram.com/angelya_0203/",
+    "timestamp": "2026-04-09T21:18:33.020437",
+    "confidence": 1.0,
+    "selector_used": "Multi-selector approach"
+  },
+  "steps": [
+    {
+      "name": "Browser Start",
+      "status": "PASS",
+      "message": "Chrome connected",
+      "screenshot_path": null,
+      "timestamp": "2026-04-09T21:18:30.253920"
+    },
+    {
+      "name": "Navigation",
+      "status": "PASS",
+      "message": "Arrived at https://www.instagram.com/angelya_0203/",
+      "screenshot_path": null,
+      "timestamp": "2026-04-09T21:18:32.748080"
+    },
+    {
+      "name": "Extraction",
+      "status": "PASS",
+      "message": "Visible name: angelya_0203",
+      "screenshot_path": null,
+      "timestamp": "2026-04-09T21:18:33.020437"
+    },
+    {
+      "name": "Follow Action",
+      "status": "PASS",
+      "message": "User followed (or already following)",
+      "screenshot_path": null,
+      "timestamp": "2026-04-09T21:18:33.663325"
+    },
+    {
+      "name": "Message Builder",
+      "status": "PASS",
+      "message": "Official professional draft ready",
+      "screenshot_path": null,
+      "timestamp": "2026-04-09T21:18:33.663325"
+    },
+    {
+      "name": "Chat Transition",
+      "status": "PASS",
+      "message": "Opened DM window",
+      "screenshot_path": null,
+      "timestamp": "2026-04-09T21:18:38.776391"
+    },
+    {
+      "name": "Type Message",
+      "status": "PASS",
+      "message": "Message drafted in textbox",
+      "screenshot_path": null,
+      "timestamp": "2026-04-09T21:18:40.322102"
+    },
+    {
+      "name": "Send Action",
+      "status": "PASS",
+      "message": "Message SENT to user",
+      "screenshot_path": null,
+      "timestamp": "2026-04-09T21:18:42.516439"
+    }
+  ],
+  "summary": "Full automated invitation cycle completed."
+}

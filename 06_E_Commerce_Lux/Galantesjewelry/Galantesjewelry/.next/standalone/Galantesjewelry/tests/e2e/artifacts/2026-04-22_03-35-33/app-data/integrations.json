@@ -1,0 +1,166 @@
+{
+  "google": {
+    "development": {
+      "provider": "google",
+      "environment": "development",
+      "enabled": false,
+      "googleClientId": "",
+      "javascriptOrigin": "http://localhost:3000",
+      "redirectUri": "http://localhost:3000/auth/google/callback",
+      "scopes": [
+        "openid",
+        "email",
+        "profile"
+      ],
+      "connectedGoogleEmail": "",
+      "oauthConnectedAt": null,
+      "encryptedSecrets": {},
+      "updatedAt": null,
+      "updatedBy": null
+    },
+    "staging": {
+      "provider": "google",
+      "environment": "staging",
+      "enabled": false,
+      "googleClientId": "",
+      "javascriptOrigin": "https://staging.galantesjewelry.com",
+      "redirectUri": "https://staging.galantesjewelry.com/auth/google/callback",
+      "scopes": [
+        "openid",
+        "email",
+        "profile"
+      ],
+      "connectedGoogleEmail": "",
+      "oauthConnectedAt": null,
+      "encryptedSecrets": {},
+      "updatedAt": null,
+      "updatedBy": null
+    },
+    "production": {
+      "provider": "google",
+      "environment": "production",
+      "enabled": false,
+      "googleClientId": "",
+      "javascriptOrigin": "https://galantesjewelry.com",
+      "redirectUri": "https://galantesjewelry.com/auth/google/callback",
+      "scopes": [
+        "openid",
+        "email",
+        "profile"
+      ],
+      "connectedGoogleEmail": "",
+      "oauthConnectedAt": null,
+      "encryptedSecrets": {},
+      "updatedAt": null,
+      "updatedBy": null
+    }
+  },
+  "appointments": {
+    "development": {
+      "provider": "appointments",
+      "environment": "development",
+      "googleCalendarEnabled": true,
+      "googleCalendarId": "mock-calendar",
+      "googleServiceAccountEmail": "mock-calendar@galantes.iam.gserviceaccount.com",
+      "gmailNotificationsEnabled": true,
+      "gmailRecipientInbox": "ceo@galantesjewelry.com",
+      "gmailSender": "joelstalin2105@gmail.com",
+      "appointmentDurationMinutes": 60,
+      "appointmentTimezone": "America/New_York",
+      "appointmentStartTime": "09:00",
+      "appointmentEndTime": "18:00",
+      "appointmentSlotIntervalMinutes": 30,
+      "appointmentAvailableWeekdays": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6
+      ],
+      "encryptedSecrets": {
+        "googlePrivateKey": "v1:QK9Dj6R6z8ebcrOL:Qy7VOCZPEUB1_xbg8uK3yQ:StQ1PMvMxc5X4GjSInUwA0WNVF6IH_IzLwJfGd0",
+        "gmailSmtpPassword": "v1:F18LdIg-JzQjcBiQ:7RwAFFyoUolpOIavGKvfLw:7QTgq4KQCzWpQTNNrv5JToTYqoOyhI2uc1-kluTzBQvB0AeD"
+      },
+      "updatedAt": "2026-04-22T07:35:46.256Z",
+      "updatedBy": "admin"
+    },
+    "staging": {
+      "provider": "appointments",
+      "environment": "staging",
+      "googleCalendarEnabled": false,
+      "googleCalendarId": "",
+      "googleServiceAccountEmail": "",
+      "gmailNotificationsEnabled": false,
+      "gmailRecipientInbox": "appointments@galantesjewelry.com",
+      "gmailSender": "",
+      "appointmentDurationMinutes": 60,
+      "appointmentTimezone": "America/New_York",
+      "appointmentStartTime": "09:00",
+      "appointmentEndTime": "18:00",
+      "appointmentSlotIntervalMinutes": 30,
+      "appointmentAvailableWeekdays": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6
+      ],
+      "encryptedSecrets": {},
+      "updatedAt": null,
+      "updatedBy": null
+    },
+    "production": {
+      "provider": "appointments",
+      "environment": "production",
+      "googleCalendarEnabled": false,
+      "googleCalendarId": "",
+      "googleServiceAccountEmail": "",
+      "gmailNotificationsEnabled": false,
+      "gmailRecipientInbox": "appointments@galantesjewelry.com",
+      "gmailSender": "",
+      "appointmentDurationMinutes": 60,
+      "appointmentTimezone": "America/New_York",
+      "appointmentStartTime": "09:00",
+      "appointmentEndTime": "18:00",
+      "appointmentSlotIntervalMinutes": 30,
+      "appointmentAvailableWeekdays": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6
+      ],
+      "encryptedSecrets": {},
+      "updatedAt": null,
+      "updatedBy": null
+    }
+  },
+  "audit": [
+    {
+      "id": "1776843346257-0b29fc04",
+      "timestamp": "2026-04-22T07:35:46.257Z",
+      "actor": "admin",
+      "provider": "appointments",
+      "environment": "development",
+      "action": "create",
+      "changedFields": [
+        "googleCalendarEnabled",
+        "gmailNotificationsEnabled",
+        "googleCalendarId",
+        "googleServiceAccountEmail",
+        "gmailRecipientInbox",
+        "gmailSender",
+        "googlePrivateKey",
+        "gmailSmtpPassword"
+      ],
+      "ipAddress": "::ffff:127.0.0.1",
+      "userAgent": "Python-urllib/3.12"
+    }
+  ]
+}

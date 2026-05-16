@@ -1,0 +1,57 @@
+{
+  "platform": "instagram.com",
+  "url": "https://www.instagram.com/",
+  "nombre_detectado": null,
+  "username_detectado": "About",
+  "mensaje_generado": "¡Hola! Espero que estés muy bien. Te escribe Daniello, el de la joyería (Galante's Jewelry). 🌊\n\nQuería saludarte personalmente y dejarte por acá nuestras páginas más profesionales para que me sigas por allá y sigamos conectados.\n\nHi! I hope you're doing well. It's Daniello from the jewelry store. 🌊\nI wanted to reach out personally to share our professional pages with you so we can stay connected.\n\nAcá te dejo los enlaces / Here are the links:\nFacebook: https://www.facebook.com/profile.php?id=61574429843836\nWeb: https://galantesjewelry.com/\n\n¡Gracias por el apoyo de siempre y que estés muy bien! / Thank you for your continued support, wishing you the best! 💎\n\nDaniello Galante\nCEO, Galante's Jewelry by the sea",
+  "selector_exitoso": null,
+  "probe_result": {
+    "field_found": true,
+    "element_selector": "input[type='text']",
+    "preloaded": false,
+    "send_blocked": true
+  },
+  "screenshots": [
+    "artifacts\\navigate_155420_206534.png",
+    "artifacts\\final_155535_783115.png"
+  ],
+  "status_by_step": [
+    {
+      "step": "Open browser",
+      "status": "PASS",
+      "detail": "",
+      "screenshot": null
+    },
+    {
+      "step": "Navigate to URL",
+      "status": "PASS",
+      "detail": "",
+      "screenshot": "artifacts\\navigate_155420_206534.png"
+    },
+    {
+      "step": "Extract visible name",
+      "status": "SKIPPED",
+      "detail": "name=None confidence=NONE",
+      "screenshot": null
+    },
+    {
+      "step": "Build draft message",
+      "status": "PASS",
+      "detail": "personalised=False",
+      "screenshot": null
+    },
+    {
+      "step": "Probe interaction field",
+      "status": "PASS",
+      "detail": "found=True preloaded=False send_blocked=True",
+      "screenshot": null
+    },
+    {
+      "step": "Send message",
+      "status": "SKIPPED",
+      "detail": "Send is hardcoded OFF — intentionally disabled",
+      "screenshot": null
+    }
+  ],
+  "timestamp": "2026-04-09T15:55:37.707900"
+}

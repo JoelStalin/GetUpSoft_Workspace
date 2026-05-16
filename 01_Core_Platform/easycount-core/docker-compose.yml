@@ -1,0 +1,145 @@
+services:
+  web:
+    build:
+      context: .
+      args:
+        INSTALL_BROWSER_AUTOMATION: ${INSTALL_BROWSER_AUTOMATION:-false}
+    image: dgii-ecf-web:latest
+    env_file: ${ENV_FILE:-.env}
+    depends_on:
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    environment:
+      TZ: ${TZ:-America/Santo_Domingo}
+      ARTIFACTS_ROOT: /app/tests/artifacts
+      STORAGE_BASE_PATH: /var/getupsoft/storage
+      BROWSER_MCP_BASE_URL: http://browser-mcp:8930
+    volumes:
+      - ./xsd:/app/xsd:ro
+      - ./alembic:/app/alembic:ro
+      - ./secrets:/secrets:ro
+      - ./tests/artifacts:/app/tests/artifacts
+      - ./logs:/app/logs
+      - storage_data:/var/getupsoft/storage
+    restart: unless-stopped
+    security_opt:
+      - no-new-privileges:true
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "python",
+          "-c",
+          "import urllib.request; urllib.request.urlopen('http://localhost:8000/readyz').read()",
+        ]
+      interval: 15s
+      timeout: 5s
+      retries: 10
+      start_period: 10s
+
+  browser-mcp:
+    build:
+      context: ./automation/browser-mcp
+      dockerfile: Dockerfile
+    environment:
+      BROWSER_MCP_SERVICE_HOST: 0.0.0.0
+      BROWSER_MCP_SERVICE_PORT: 8930
+      BROWSER_MCP_OUTPUT_ROOT: /artifacts/browser-mcp
+      BROWSER_MCP_SESSIONS_ROOT: /artifacts/browser-mcp/sessions
+      BROWSER_MCP_PROXY_ENABLED: "true"
+      BROWSER_MCP_PROXY_PORT: 8931
+      BROWSER_MCP_DEFAULT_BROWSER: ${BROWSER_MCP_DEFAULT_BROWSER:-chromium}
+      BROWSER_MCP_DEFAULT_HEADLESS: ${BROWSER_MCP_DEFAULT_HEADLESS:-true}
+      BROWSER_MCP_ALLOWED_ORIGINS: ${BROWSER_MCP_ALLOWED_ORIGINS:-}
+      BROWSER_MCP_BLOCKED_ORIGINS: ${BROWSER_MCP_BLOCKED_ORIGINS:-}
+      BROWSER_MCP_ACTION_TIMEOUT_MS: ${BROWSER_MCP_ACTION_TIMEOUT_MS:-20000}
+      BROWSER_MCP_NAVIGATION_TIMEOUT_MS: ${BROWSER_MCP_NAVIGATION_TIMEOUT_MS:-45000}
+      BROWSER_MCP_TRACE_DEFAULT: ${BROWSER_MCP_TRACE_DEFAULT:-true}
+      BROWSER_MCP_PDF_DEFAULT: ${BROWSER_MCP_PDF_DEFAULT:-false}
+      BROWSER_MCP_SCREENSHOT_DEFAULT: ${BROWSER_MCP_SCREENSHOT_DEFAULT:-true}
+      BROWSER_MCP_SAVE_SESSION_DEFAULT: ${BROWSER_MCP_SAVE_SESSION_DEFAULT:-false}
+    volumes:
+      - ./tests/artifacts:/artifacts
+    ports:
+      - "8930:8930"
+    restart: unless-stopped
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "node",
+          "-e",
+          "fetch('http://127.0.0.1:8930/healthz').then(r => process.exit(r.ok ? 0 : 1)).catch(() => process.exit(1))"
+        ]
+      interval: 15s
+      timeout: 5s
+      retries: 10
+      start_period: 20s
+
+  nginx:
+    image: nginx:1.27-alpine
+    volumes:
+      - ./ops/nginx.local.conf:/etc/nginx/conf.d/default.conf:ro
+    depends_on:
+      web:
+        condition: service_started
+    ports:
+      - "127.0.0.1:28080:80"
+    restart: unless-stopped
+
+  db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_DB: dgii
+      POSTGRES_USER: dgii
+      POSTGRES_PASSWORD: dgii
+      TZ: ${TZ:-America/Santo_Domingo}
+      PGTZ: ${TZ:-America/Santo_Domingo}
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U dgii -d dgii"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    restart: unless-stopped
+
+  redis:
+    image: redis:7-alpine
+    command: ["redis-server", "--appendonly", "no"]
+    environment:
+      TZ: ${TZ:-America/Santo_Domingo}
+    ports:
+      - "6379:6379"
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+
+  mailpit:
+    image: axllent/mailpit:latest
+    container_name: mailpit
+    command: ["--smtp-auth-allow-insecure"]
+    ports:
+      - "1025:1025"
+      - "8025:8025"
+    environment:
+      MP_SMTP_AUTH_ACCEPT_ANY: "true"
+      MP_SMTP_AUTH_FILE: ""
+      MP_WEBUI_AUTH_FILE: ""
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8025/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  pgdata:
+  storage_data:

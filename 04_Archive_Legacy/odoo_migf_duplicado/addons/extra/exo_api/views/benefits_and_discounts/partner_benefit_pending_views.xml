@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="view_partner_benefit_pending_tree" model="ir.ui.view">
+            <field name="name">partner.benefit.pending.tree</field>
+            <field name="model">partner.benefit.pending</field>
+            <field name="arch" type="xml">
+                <tree string="Beneficios Generados"
+                      decoration-muted="state == 'applied'"
+                      decoration-danger="state == 'pending'">
+                    <field name="generation_date"/>
+                    <field name="partner_id"/>
+                    <field name="partner_benefit_discount_id"/>
+                    <field name="benefit_discount_cicle_id"/>
+                    <field name="product_tmpl_id"/>
+                    <field name="quantity"/>
+                    <field name="amount"/>
+                    <field name="applied_amount" sum="Total Aplicado"/>
+                    <field name="state"/>
+                    <field name="move_id"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_partner_benefit_pending_form" model="ir.ui.view">
+            <field name="name">partner.benefit.pending.form</field>
+            <field name="model">partner.benefit.pending</field>
+            <field name="arch" type="xml">
+                <form string="Beneficio o Descuento Pendiente">
+                    <header>
+                        <button name="recompute_this_record"
+                                type="object"
+                                string="Recalcular Línea"
+                                class="btn-primary"
+                                confirm="¿Deseas recalcular esta línea?"/>
+                    </header>
+                    <sheet>
+                        <group>
+                            <field name="generation_date"/>
+                            <field name="partner_id"/>
+                            <field name="partner_benefit_discount_id"/>
+                            <field name="benefit_discount_cicle_id"/>
+                            <field name="product_tmpl_id"/>
+                            <field name="quantity"/>
+                            <field name="amount"/>
+                            <field name="applied_amount"/>
+                            <field name="state"/>
+                            <field name="move_id"/>
+                            <field name="move_line_id"/>
+                        </group>
+
+                        <!-- 🆕 Campo colapsable para mostrar los vehículos -->
+                        <group string="Vehículos (EXO)" colspan="2" groups="base.group_system" invisible="not vehicles_json">
+                            <field name="vehicles_json" widget="text" readonly="1" nolabel="1" style="white-space: pre-wrap;"/>
+                        </group>
+
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_partner_benefit_pending" model="ir.actions.act_window">
+            <field name="name">Beneficios/Descuentos Generados</field>
+            <field name="res_model">partner.benefit.pending</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Aún no se han generado beneficios o descuentos.
+                </p>
+                <p>
+                    Los beneficios recurrentes se generan automáticamente cada día.
+                    Aquí podrás ver un historial de todos los beneficios generados,
+                    el ciclo en que se originaron y si fueron aplicados en factura.
+                </p>
+            </field>
+        </record>
+
+        <record id="action_recompute_benefit_pending_global" model="ir.actions.server">
+            <field name="name">🔄 Recalcular Todos</field>
+            <field name="model_id" ref="model_partner_benefit_pending"/>
+            <field name="binding_model_id" ref="model_partner_benefit_pending"/>
+            <field name="state">code</field>
+            <field name="code">
+                action = env['partner.benefit.pending'].force_recompute_move_ids()
+            </field>
+        </record>
+
+        <menuitem 
+            id="menu_partner_benefit_pending_generated"
+            name="Beneficios Generados"
+            parent="benefits_and_discounts"
+            action="action_partner_benefit_pending"
+            sequence="2"/>
+
+    </data>
+</odoo>

@@ -1,0 +1,27 @@
+<odoo>
+  <data>
+
+    <record id="excel_transaction_bhd_payslip_run" model="ir.actions.report">
+      <field name="name">Transacciones BHD (Nómina)</field>
+      <field name="model">hr.payslip.run</field>
+      <field name="report_type">xlsx</field>
+      <field name="report_name">exo_api.payslip_run_bhd_xlsx</field>
+      <field name="report_file">exo_api.payslip_run_bhd_xlsx</field>
+      <field name="print_report_name">'BHD_' + (object.name or '').replace('/', '_')</field>
+      <field name="binding_model_id" ref="hr_payroll.model_hr_payslip_run"/>
+      <field name="binding_type">report</field>
+    </record>
+
+    <record id="excel_transaction_others_payslip_run" model="ir.actions.report">
+      <field name="name">Transacciones Otros Bancos (Nómina)</field>
+      <field name="model">hr.payslip.run</field>
+      <field name="report_type">xlsx</field>
+      <field name="report_name">exo_api.payslip_run_others_xlsx</field>
+      <field name="report_file">exo_api.payslip_run_others_xlsx</field>
+      <field name="print_report_name">'OTHERS_' + (object.name or '').replace('/', '_')</field>
+      <field name="binding_model_id" ref="hr_payroll.model_hr_payslip_run"/>
+      <field name="binding_type">report</field>
+    </record>
+
+  </data>
+</odoo>

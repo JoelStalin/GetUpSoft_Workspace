@@ -1,0 +1,12 @@
+services:
+  web:
+    command: uvicorn app.main:app --reload --reload-exclude .pytest_cache --reload-exclude tests/artifacts --reload-exclude logs --host 0.0.0.0 --port 8000
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./:/app
+      - ./xsd:/app/xsd:ro
+      - ./alembic:/app/alembic:ro
+      - ./secrets:/secrets:ro
+    environment:
+      - ENVIRONMENT=development

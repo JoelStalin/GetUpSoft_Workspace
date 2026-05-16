@@ -1,0 +1,1731 @@
+{
+  "version": "1.0",
+  "project": "Galantes Jewelry - Mega Prompt Maestro v3",
+  "phases": [
+    {
+      "id": "SETUP",
+      "name": "Phase 0 - Setup",
+      "tasks": [
+        {
+          "id": "SETUP-001",
+          "title": "Create core directory structure",
+          "description": "Create src/, bots/, memory/, task-ledger/, .agents/ directories with subfolders",
+          "status": "completed",
+          "priority": "high",
+          "assignee": "system",
+          "created": "2026-04-14T12:00:00Z",
+          "updated": "2026-04-14T12:00:00Z",
+          "evidence": [
+            "Directory structure created successfully"
+          ],
+          "dependencies": []
+        },
+        {
+          "id": "SETUP-002",
+          "title": "Create .env.example with all variables",
+          "description": "Extend existing .env.example with Google, SendGrid, Odoo, CLI orchestration variables",
+          "status": "completed",
+          "priority": "high",
+          "assignee": "system",
+          "created": "2026-04-14T12:00:00Z",
+          "updated": "2026-04-14T12:00:00Z",
+          "evidence": [
+            "Variables added for appointment system, orchestration, memory"
+          ],
+          "dependencies": []
+        },
+        {
+          "id": "SETUP-003",
+          "title": "Create/update AGENTS.md",
+          "description": "Extend existing AGENTS.md with appointment module rules and skills",
+          "status": "completed",
+          "priority": "medium",
+          "assignee": "system",
+          "created": "2026-04-14T12:00:00Z",
+          "updated": "2026-04-14T12:30:00Z",
+          "evidence": [
+            "Appointment system rules added to AGENTS.md"
+          ],
+          "dependencies": []
+        },
+        {
+          "id": "SETUP-004",
+          "title": "Create/update CLAUDE.md and GEMINI.md",
+          "description": "Create compact context files for Claude and modular context for Gemini",
+          "status": "completed",
+          "priority": "medium",
+          "assignee": "system",
+          "created": "2026-04-14T12:00:00Z",
+          "updated": "2026-04-14T12:30:00Z",
+          "evidence": [
+            "CLAUDE.md updated, GEMINI.md created with modular imports"
+          ],
+          "dependencies": []
+        },
+        {
+          "id": "SETUP-005",
+          "title": "Create base memory files",
+          "description": "Create memory/README.md and memory/current/ files (now.md, next-actions.md, etc.)",
+          "status": "completed",
+          "priority": "high",
+          "assignee": "system",
+          "created": "2026-04-14T12:00:00Z",
+          "updated": "2026-04-14T12:30:00Z",
+          "evidence": [
+            "Memory structure and current state files created"
+          ],
+          "dependencies": []
+        },
+        {
+          "id": "SETUP-006",
+          "title": "Create task-ledger base files",
+          "description": "Create tasks.json, tasks.md, execution-log.ndjson, handoffs.json",
+          "status": "completed",
+          "priority": "high",
+          "assignee": "system",
+          "created": "2026-04-14T12:00:00Z",
+          "updated": "2026-04-14T12:30:00Z",
+          "evidence": [
+            "Task ledger files created with Phase 0 tasks"
+          ],
+          "dependencies": []
+        }
+      ]
+    },
+    {
+      "id": "GC",
+      "name": "Phase 1A - Google Calendar Core",
+      "tasks": [
+        {
+          "id": "GC-001",
+          "title": "OAuth2 Configuration",
+          "description": "Create src/config/googleAuth.js for token lifecycle management",
+          "status": "completed",
+          "priority": "high",
+          "assignee": "system",
+          "created": "2026-04-14T12:30:00Z",
+          "updated": "2026-04-14T13:00:00Z",
+          "evidence": [
+            "src/config/googleAuth.js created with OAuth2 client, token management, refresh logic",
+            "Syntax validated successfully"
+          ],
+          "dependencies": []
+        },
+        {
+          "id": "GC-002",
+          "title": "Calendar Service",
+          "description": "Create src/services/calendarService.js for event insertion",
+          "status": "completed",
+          "priority": "high",
+          "assignee": "system",
+          "created": "2026-04-14T12:30:00Z",
+          "updated": "2026-04-14T13:05:00Z",
+          "evidence": [
+            "src/services/calendarService.js created with createCalendarEvent function, error handling for API codes",
+            "Syntax validated successfully"
+          ],
+          "dependencies": [
+            "GC-001"
+          ]
+        },
+        {
+          "id": "GC-003",
+          "title": "Email Service",
+          "description": "Create src/services/emailService.js for SendGrid integration",
+          "status": "completed",
+          "priority": "high",
+          "assignee": "system",
+          "created": "2026-04-14T12:30:00Z",
+          "updated": "2026-04-14T13:10:00Z",
+          "evidence": [
+            "src/services/emailService.js created with SendGrid integration, HTML/text email templates, error handling",
+            "Syntax validated successfully"
+          ],
+          "dependencies": []
+        },
+        {
+          "id": "GC-004",
+          "title": "Validation & Utils",
+          "description": "Create validation.js, dateTime.js, logger.js",
+          "status": "completed",
+          "priority": "high",
+          "assignee": "system",
+          "created": "2026-04-14T12:30:00Z",
+          "updated": "2026-04-14T13:15:00Z",
+          "evidence": [
+            "src/utils/validation.js created with payload validation, sanitization, email/date/time checks",
+            "src/utils/dateTime.js created with ISO UTC conversion, business hours validation, date calculations",
+            "src/utils/logger.js created with structured logging, levels, file output, service-specific loggers",
+            "All syntax validated successfully"
+          ],
+          "dependencies": []
+        },
+        {
+          "id": "GC-005",
+          "title": "Middlewares",
+          "description": "Create errorHandler.js and notFound.js",
+          "status": "completed",
+          "priority": "medium",
+          "assignee": "system",
+          "created": "2026-04-14T12:30:00Z",
+          "updated": "2026-04-14T13:20:00Z",
+          "evidence": [
+            "src/middlewares/errorHandler.js created with global error handling, specific error types, AppError class",
+            "src/middlewares/notFound.js created for 404 handling",
+            "All syntax validated successfully"
+          ],
+          "dependencies": []
+        },
+        {
+          "id": "GC-006",
+          "title": "Controller",
+          "description": "Create src/controllers/appointmentController.js",
+          "status": "completed",
+          "priority": "high",
+          "assignee": "system",
+          "created": "2026-04-14T12:30:00Z",
+          "updated": "2026-04-14T13:25:00Z",
+          "evidence": [
+            "src/controllers/appointmentController.js created with createAppointment function, validation, calendar/email integration, error handling",
+            "Syntax validated successfully"
+          ],
+          "dependencies": [
+            "GC-001",
+            "GC-002",
+            "GC-003",
+            "GC-004",
+            "GC-005"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "APP",
+      "name": "Phase 1B - Application Setup",
+      "tasks": [
+        {
+          "id": "APP-001",
+          "title": "Create routes and app.js",
+          "description": "Create src/routes/appointmentRoutes.js and app.js for Express server setup",
+          "status": "completed",
+          "priority": "high",
+          "assignee": "system",
+          "created": "2026-04-14T13:30:00Z",
+          "updated": "2026-04-14T13:35:00Z",
+          "evidence": [
+            "src/routes/appointmentRoutes.js created with POST /api/v1/appointments route",
+            "app.js created with Express setup, middlewares, routes, error handling",
+            "Syntax validated successfully"
+          ],
+          "dependencies": [
+            "GC-006"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "TEST",
+      "name": "Phase 1C - Validation & Testing",
+      "tasks": [
+        {
+          "id": "TEST-001",
+          "title": "Implement functional test bot",
+          "description": "Create bots/setupAndTestBot.js for environment verification and functional tests",
+          "status": "completed",
+          "priority": "high",
+          "assignee": "system",
+          "created": "2026-04-14T13:30:00Z",
+          "updated": "2026-04-14T14:00:00Z",
+          "evidence": [
+            "bots/setupAndTestBot.js created with comprehensive environment checks",
+            "All dependencies installed (express, body-parser, dotenv, @sendgrid/mail)",
+            ".env configured with required variables",
+            "token.json created with placeholder OAuth tokens",
+            "Bot executed successfully - all 15 checks/tests passed"
+          ],
+          "dependencies": [
+            "APP-001"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "ODOO_PREP",
+      "name": "Phase 1D - Odoo Preparation",
+      "tasks": [
+        {
+          "id": "ODOO-PREP-001",
+          "title": "Prepare Odoo integration transition",
+          "description": "Create src/config/odooClient.js and update memory for Odoo phase",
+          "status": "completed",
+          "priority": "medium",
+          "assignee": "system",
+          "created": "2026-04-14T13:30:00Z",
+          "updated": "2026-04-14T19:45:00Z",
+          "evidence": [
+            "Created src/config/odooClient.js with JSON-2 config parsing, endpoint builders, bearer auth headers, and timeout-aware request helpers",
+            "Added tests/unit/src/config/odooClient.test.ts covering env parsing, headers, endpoint URLs, success path, and error handling",
+            "Updated memory/current files for the Odoo preparation phase, including JSON-2 contract details and key consistency risks"
+          ],
+          "dependencies": [
+            "TEST-001"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "DEPLOY",
+      "name": "Phase 1E - Deployment Stabilization",
+      "tasks": [
+        {
+          "id": "DEPLOY-001",
+          "title": "Stabilize pending OAuth/Odoo changes for publication",
+          "description": "Validate local Claude changes, fix build/deployment regressions, run functional checks, and publish the branch safely.",
+          "status": "completed",
+          "priority": "high",
+          "assignee": "codex",
+          "created": "2026-04-15T18:20:00Z",
+          "updated": "2026-04-15T22:05:00Z",
+          "evidence": [
+            "Audited OAuth environment dependencies across lib/google-login.ts, lib/google-oauth.ts, admin OAuth routes, .env.example, and Termux/Cloudflare operational docs",
+            "Added context/operations/android_cloudflare_oauth_environment.md with exact Android Termux + Cloudflare Tunnel + Google OAuth runtime requirements",
+            "Added memory/current/blockers.md and refreshed memory/current/now.md with the active OAuth runtime mismatch and restart requirements",
+            "Validated google-login unit coverage after environment-hardening changes",
+            "Connected to the Android production host over SSH, corrected the runtime .env values, rebuilt with NODE_OPTIONS=--max-old-space-size=2048, and restarted the galantesjewelry service successfully",
+            "Verified production OAuth start routes now emit the correct Google redirect_uri values for both public and admin flows",
+            "Added tests/e2e/admin_google_oauth_smoke.py and passed Selenium browser validation against the live public and admin domains"
+          ],
+          "dependencies": [
+            "ODOO-PREP-001"
+          ]
+        },
+        {
+          "id": "DEPLOY-002",
+          "title": "Recover failed April 28 production deploy on GCP",
+          "description": "Restore Cloudflare tunnel, production CMS/integrations data, Odoo health, and rebuild the live web app from the current VM source.",
+          "status": "completed",
+          "priority": "high",
+          "assignee": "codex",
+          "created": "2026-04-28T16:40:00Z",
+          "updated": "2026-04-28T18:05:00Z",
+          "evidence": [
+            "Recovered production Cloudflare tunnel by restoring the complete .env.prod backup on the GCP VM and bringing up cloudflared first.",
+            "Recreated production Postgres/Odoo service state and verified odoo container returned to healthy status.",
+            "Restored CMS and integrations snapshots plus managed home/logo/favicon blobs on the VM and in galante_cms_settings so social links and cover assets survived restarts.",
+            "Hardened production web rebuilds by adding NODE_OPTIONS heap sizing in Dockerfile and excluding _codex_stage from .dockerignore.",
+            "Rebuilt the production web container from current VM source and verified the shop sidebar filters layout is live again.",
+            "Validated public home, /shop, admin login, and Odoo with HTTP checks plus Selenium functional smoke on April 28, 2026."
+          ],
+          "dependencies": [
+            "ODOO-INT-001"
+          ]
+        },
+        {
+          "id": "DEPLOY-003",
+          "title": "Repair post-recovery shop regressions and revalidate production",
+          "description": "Fix production shop interaction and PDP image issues, then run Selenium verification across the live environment.",
+          "status": "completed",
+          "priority": "high",
+          "assignee": "codex",
+          "created": "2026-04-28T18:10:00Z",
+          "updated": "2026-04-28T19:30:00Z",
+          "evidence": [
+            "Moved shop sorting, category filters, and pagination to direct URL navigation so production filtering works reliably again.",
+            "Aligned PDP product gallery image delivery with the direct product image route to eliminate the failing _next/image optimization path.",
+            "Disabled browser extensions inside the cloned Selenium runtime profile to prevent third-party content scripts from contaminating production verification.",
+            "Passed Selenium production verification on April 28, 2026 across home, shop, contact, bridal, collections, PDP, and /api/health with zero failed checks."
+          ],
+          "dependencies": [
+            "DEPLOY-002"
+          ]
+        },
+        {
+          "id": "DEPLOY-004",
+          "title": "Restore Google OAuth owner connection and production Calendar routing",
+          "description": "Reproduce the failing Google OAuth reconnection flow with the operational Chrome profile, fix the callback/token exchange path, restore the production calendar ID, and verify live Calendar creation on the CEO calendar.",
+          "status": "completed",
+          "priority": "high",
+          "assignee": "codex",
+          "created": "2026-04-28T19:35:00Z",
+          "updated": "2026-04-28T20:25:00Z",
+          "evidence": [
+            "Reproduced the exact Google OAuth policy error with Selenium using the persistent cloned Chrome Profile 9 runtime.",
+            "Fixed the admin OAuth callback so token exchange always uses the live request-derived redirect URI instead of a percent-encoded cookie value.",
+            "Completed production owner OAuth reconnection and persisted a fresh encrypted refresh token in data/integrations.json.",
+            "Restored production appointments.googleCalendarId to ceo@galantesjewelry.com from the admin panel.",
+            "Adjusted Calendar auth selection to prefer the configured service account for Calendar operations while keeping owner OAuth available for Gmail API mail delivery.",
+            "Validated with Selenium that /api/admin/verify-calendar returned success and produced an event whose decoded eid targets ceo@galantesjewelry.com."
+          ],
+          "dependencies": [
+            "DEPLOY-003"
+          ]
+        },
+        {
+          "id": "DEPLOY-005",
+          "title": "Harden customer account redirects",
+          "description": "Prevent blank account pages by redirecting unauthenticated users from /account/orders, /account/invoices, and order detail pages back to the login flow.",
+          "status": "completed",
+          "priority": "high",
+          "assignee": "codex",
+          "created": "2026-04-29T00:05:00Z",
+          "updated": "2026-04-29T00:22:00Z",
+          "evidence": [
+            "Updated app/account/orders/page.tsx, app/account/invoices/page.tsx, and app/account/orders/[id]/page.tsx to redirect unauthenticated users to /auth/login with the matching returnTo target.",
+            "Added tests/unit/app/account/account-pages.test.ts to verify the three redirect paths.",
+            "Rebuilt production web and verified the live /account redirects still return HTTP 307."
+          ],
+          "dependencies": [
+            "DEPLOY-004"
+          ]
+        },
+        {
+          "id": "DEPLOY-006",
+          "title": "Remove invalid Odoo CMS field lookup",
+          "description": "Stop the frontend Odoo settings client from requesting the missing shop_hero_image_url field and keep the local shop hero fallback intact.",
+          "status": "completed",
+          "priority": "medium",
+          "assignee": "codex",
+          "created": "2026-04-29T00:10:00Z",
+          "updated": "2026-04-29T00:22:00Z",
+          "evidence": [
+            "Removed shop_hero_image_url from the galante.cms.settings field list in lib/odoo/services.ts.",
+            "Added tests/unit/lib/odoo-services.test.ts to verify the client no longer requests the missing field.",
+            "Rebuilt production web and confirmed the Odoo Invalid field warning no longer appears in recent logs."
+          ],
+          "dependencies": [
+            "DEPLOY-005"
+          ]
+        },
+        {
+          "id": "DEPLOY-007",
+          "title": "Integrate secure shipping selection in checkout",
+          "description": "Expose carrier selection in checkout, recalculate insured shipping server-side, and persist the chosen shipping service into Odoo/Stripe.",
+          "status": "completed",
+          "priority": "high",
+          "assignee": "codex",
+          "created": "2026-04-29T22:00:00Z",
+          "updated": "2026-04-29T22:30:00Z",
+          "evidence": [
+            "Added ShippingSelector to app/checkout/page.tsx and wired the selected carrier into the Stripe checkout request.",
+            "Updated app/api/checkout/stripe/route.ts to validate the selected carrier on the server, recalculate insurance-based shipping, and add a shipping service line to the Odoo order.",
+            "Added an internal Galantes Secure Shipping service product in the Odoo addon so order totals match Stripe and the selected shipping service is recorded.",
+            "Hardened app/api/shipping/rates/route.ts and app/api/checkout/stripe/route.ts with a fast fallback when CMS settings are slow to hydrate from Odoo.",
+            "Validated with vitest, TypeScript, next build, and Selenium smoke on the local checkout flow using Profile 9."
+          ],
+          "dependencies": [
+            "DEPLOY-006"
+          ]
+        },
+        {
+          "id": "DEPLOY-008",
+          "title": "Repair broken skill reference paths and shared docs",
+          "description": "Restore missing skill reference files, fix stale relative links, and add compatibility docs for the shared skill tool registry and sample PRD outputs.",
+          "status": "completed",
+          "priority": "medium",
+          "assignee": "codex",
+          "created": "2026-05-01T02:11:53.2077348Z",
+          "updated": "2026-05-01T02:20:28.1242316Z",
+          "evidence": [
+            "Added shared .agents/skills/CLAUDE.md and .agents/skills/INSTALLATION.md anchors for package-level parent links.",
+            "Created shared .agents/tools registry plus email and paid-ads integration docs to satisfy cross-skill references.",
+            "Added missing skill reference docs for onboarding-cro, page-cro, paywall-upgrade-cro, programmatic-seo, seo-audit, email-sequence, competitor-alternatives, and code-to-prd.",
+            "Fixed stale relative links in c-level-advisor, engineering-skills, marketing-skills, pm-skills, ra-qm-skills, security-pen-testing, vercel-react-best-practices, and competitor-alternatives."
+          ],
+          "dependencies": [
+            "DEPLOY-007"
+          ]
+        },
+        {
+          "id": "DEPLOY-009",
+          "title": "Harden Odoo JSON-2 retry behavior for 404 responses",
+          "description": "Treat missing Odoo JSON-2 resources as non-retryable errors and add a regression test so sync calls fail fast on 404.",
+          "status": "completed",
+          "priority": "medium",
+          "assignee": "codex",
+          "created": "2026-05-01T02:23:48.3785570Z",
+          "updated": "2026-05-01T02:23:48.3785570Z",
+          "evidence": [
+            "Updated src/config/odooClient.js to stop retrying 404 responses alongside 401/403 and config errors.",
+            "Added a unit regression test proving Odoo 404 responses fail fast after a single fetch attempt.",
+            "Validated the targeted Odoo unit test suite with vitest."
+          ],
+          "dependencies": [
+            "DEPLOY-008"
+          ]
+        },
+        {
+          "id": "DEPLOY-010",
+          "title": "Add structured Odoo sync diagnostics",
+          "description": "Emit structured logs for appointment Odoo sync outcomes and cover the failure path with a unit test so sync problems are easier to audit.",
+          "status": "completed",
+          "priority": "medium",
+          "assignee": "codex",
+          "created": "2026-05-01T22:27:52Z",
+          "updated": "2026-05-01T22:31:00Z",
+          "evidence": [
+            "Updated lib/appointment-flow.ts to log structured Odoo sync success, skip, and failure diagnostics.",
+            "Added tests/unit/lib/appointment-flow.test.ts to cover the structured failure log path.",
+            "Validated the change with focused Vitest coverage and the repo lint task."
+          ],
+          "dependencies": [
+            "DEPLOY-009"
+          ]
+        },
+        {
+          "id": "DEPLOY-011",
+          "title": "Preserve runtime data during GCP repo sync",
+          "description": "Backup and restore the live data/ tree around the VM git reset so production content and operational state survive code syncs.",
+          "status": "completed",
+          "priority": "high",
+          "assignee": "codex",
+          "created": "2026-05-01T23:05:00Z",
+          "updated": "2026-05-01T23:05:00Z",
+          "evidence": [
+            "Updated scripts/gcp/02-push-to-vm.sh to back up data/ on the VM before git reset --hard and restore it after the sync finishes.",
+            "Added an EXIT trap so the backup is restored even if the sync fails partway through.",
+            "Validated the modified GCP shell scripts with bash -n using Git Bash."
+          ],
+          "dependencies": [
+            "DEPLOY-010"
+          ]
+        },
+        {
+          "id": "DEPLOY-012",
+          "title": "Create rollback backup of GCP production",
+          "description": "Capture a predeploy backup of the live GCP stack, including database, persistent volumes, app data, and runtime logs, so production can be rolled back if the next change fails.",
+          "status": "completed",
+          "priority": "high",
+          "assignee": "codex",
+          "created": "2026-05-01T02:39:23Z",
+          "updated": "2026-05-01T02:39:23Z",
+          "evidence": [
+            "Ran scripts/backup/predeploy-backup.sh on the GCP VM at /home/yoeli/galantesjewelry with ENV_FILE=.env.gcp and COMPOSE_FILE=docker-compose.gcp.yml.",
+            "Used sudo and an absolute BACKUP_BASE_DIR so Docker could snapshot the live postgres-data and odoo-data volumes without permission or mount-path errors.",
+            "Verified the backup directory /home/yoeli/galantesjewelry/backups/predeploy/20260501_023923 contains galantes_db.sql, postgres-data.tgz, odoo-data.tgz, app-data.tgz, and runtime logs/inspects."
+          ],
+          "dependencies": [
+            "DEPLOY-011"
+          ]
+        },
+        {
+          "id": "DEPLOY-013",
+          "title": "Promote runtime changes to GCP production",
+          "description": "Deploy the current runtime-only code changes to the live GCP web container and validate the public health endpoint after cutover.",
+          "status": "completed",
+          "priority": "high",
+          "assignee": "codex",
+          "created": "2026-05-01T04:34:30Z",
+          "updated": "2026-05-01T04:34:30Z",
+          "evidence": [
+            "Created a runtime-only release archive from app/, components/, lib/, scripts/, and src/ while excluding .agents, memory, task-ledger, backups, data, and test runtime artifacts.",
+            "Uploaded the release archive to the GCP VM and extracted it into /home/yoeli/galantesjewelry.",
+            "Rebuilt and recreated the galantes_web container with docker compose using .env.prod on the VM.",
+            "Validated that galantes_web is healthy and https://galantesjewelry.com/api/health returned ok."
+          ],
+          "dependencies": [
+            "DEPLOY-012"
+          ]
+        },
+        {
+          "id": "DEPLOY-014",
+          "title": "Protect customer addresses route with auth guard",
+          "description": "Add the missing customer-session redirect to /account/addresses so the customer options menu cannot land on an unprotected account screen.",
+          "status": "completed",
+          "priority": "medium",
+          "assignee": "codex",
+          "created": "2026-05-01T12:00:41.2090496Z",
+          "updated": "2026-05-01T12:05:00.0000000Z",
+          "evidence": [
+            "Added a customer-session guard to app/account/addresses/page.tsx so unauthenticated users are redirected to /auth/login?returnTo=/account/addresses.",
+            "Extended tests/unit/app/account/account-pages.test.ts with an addresses redirect regression test.",
+            "Validated the focused account-page test suite and repo lint."
+          ],
+          "dependencies": [
+            "DEPLOY-013"
+          ]
+        },
+        {
+          "id": "DEPLOY-015",
+          "title": "Preserve returnTo through customer login",
+          "description": "Make the customer login links remember the current URL so users return to the page they were on after signing in.",
+          "status": "completed",
+          "priority": "high",
+          "assignee": "codex",
+          "created": "2026-05-01T12:05:47.6732259Z",
+          "updated": "2026-05-01T12:05:47.6732259Z",
+          "evidence": [
+            "Added lib/customer-navigation.ts with buildCustomerLoginHref so customer login links preserve the current path and query string.",
+            "Updated components/Navbar.tsx to use the current pathname/search params for both desktop and mobile customer login links.",
+            "Added tests/unit/lib/customer-navigation.test.ts to cover cart return behavior and auth-page loop prevention.",
+            "Validated the focused tests and repo lint."
+          ],
+          "dependencies": [
+            "DEPLOY-014"
+          ]
+        },
+        {
+          "id": "DEPLOY-016",
+          "title": "Make customer sessions durable until logout",
+          "description": "Extend the customer session lifetime so authenticated customer sections remain available until the user explicitly signs out.",
+          "status": "completed",
+          "priority": "high",
+          "assignee": "codex",
+          "created": "2026-05-01T12:08:25.7877922Z",
+          "updated": "2026-05-01T12:08:25.7877922Z",
+          "evidence": [
+            "Updated lib/customer-auth.ts to reuse the long-lived Google session max age and set customer JWT expiry to the matching far-future date.",
+            "Added a customer-auth regression test covering token sign/verify for durable sessions.",
+            "Validated the customer auth, customer navigation, and account redirect test suites plus repo lint."
+          ],
+          "dependencies": [
+            "DEPLOY-015"
+          ]
+        },
+        {
+          "id": "DEPLOY-017",
+          "title": "Verify customer login returnTo with Selenium QA",
+          "description": "Run a real Selenium functional check against the current code to confirm the customer login link returns to the cart and logout blocks protected account pages.",
+          "status": "completed",
+          "priority": "high",
+          "assignee": "codex",
+          "created": "2026-05-01T12:25:51.0592235Z",
+          "updated": "2026-05-01T12:25:51.0592235Z",
+          "evidence": [
+            "Added scripts/verify_customer_login_return_to_profile9.py to exercise the cart -> login -> cart flow and confirm logout blocks /account/orders.",
+            "Started a local Next.js dev server on 127.0.0.1:3001 and ran the Selenium QA against the current code.",
+            "Validated the login link preserved returnTo=/cart, registration returned to /cart, logout returned home, and /account/orders redirected back to login after logout.",
+            "Captured browser console logs during the QA run, including the expected Odoo fallback warnings and the returnTo debug output."
+          ],
+          "dependencies": [
+            "DEPLOY-016"
+          ]
+        },
+        {
+          "id": "DEPLOY-018",
+          "title": "Centralize account auth guard and harden returnTo sanitization",
+          "description": "Move the customer account protection into the account layout and reject auth-page returnTo values so customer navigation cannot bounce through logout or other auth routes.",
+          "status": "completed",
+          "priority": "high",
+          "assignee": "codex",
+          "created": "2026-05-01T12:33:00Z",
+          "updated": "2026-05-01T12:33:00Z",
+          "evidence": [
+            "Updated app/account/layout.tsx to redirect unauthenticated users from the shared account layout instead of relying only on page-level guards.",
+            "Shared sanitizeCustomerReturnTo in lib/customer-navigation.ts and hardened it to reject /auth routes before login returns the user.",
+            "Updated app/auth/login/page.tsx to use the shared sanitizer and added regression tests for the account layout and auth-path returnTo handling.",
+            "Validated the targeted Vitest suites, repo lint, and a real Selenium QA run against http://127.0.0.1:3001 with browser console logs reviewed."
+          ],
+          "dependencies": [
+            "DEPLOY-017"
+          ]
+        },
+        {
+          "id": "DEPLOY-019",
+          "title": "Migrate Next interceptors and redeploy production invoices flow",
+          "description": "Move the request header logic to Next 16 proxy.ts, fix the GCP deploy scripts for the live stack, and verify the customer invoices route in production after the restart.",
+          "status": "completed",
+          "priority": "high",
+          "assignee": "codex",
+          "created": "2026-05-01T21:42:35Z",
+          "updated": "2026-05-01T21:42:35Z",
+          "evidence": [
+            "Replaced middleware.ts with proxy.ts so Next 16 builds without the middleware/proxy conflict while still injecting x-current-url for customer navigation.",
+            "Hardened scripts/gcp/lib/common.sh, scripts/gcp/02-push-to-vm.sh, and scripts/gcp/04-start-stack.sh so GCP deploys handle .env.gcp safely, use the correct VM repo path, and restart only the actual compose services.",
+            "Synced the codex/preserve-env-2026-04-30 branch to the production VM, rebuilt the web image successfully, and restarted the live stack.",
+            "Ran a real Selenium check against https://galantesjewelry.com that injected a production customer_session cookie and confirmed /account/invoices loads without redirecting to /auth/login."
+          ],
+          "dependencies": [
+            "DEPLOY-018"
+          ]
+        },
+        {
+          "id": "DEPLOY-020",
+          "title": "Restore production Odoo host routing",
+          "description": "Fix odoo.galantesjewelry.com so public traffic reaches the Odoo backend instead of the Next.js web container.",
+          "status": "completed",
+          "priority": "high",
+          "assignee": "codex",
+          "created": "2026-05-02T18:45:00Z",
+          "updated": "2026-05-02T18:45:00Z",
+          "evidence": [
+            "Confirmed the public host returned Next.js headers and /web/login returned a Next.js 404 before the fix.",
+            "Updated infra/nginx/nginx.conf to define $connection_upgrade, avoid a conflicting base default_server, and include /etc/nginx/conf.d/*.conf.",
+            "Installed the corrected nginx.conf on the GCP VM with a backup at infra/nginx/nginx.conf.bak-20260502-odoo-routing.",
+            "Recreated only galantes_nginx so Docker remounted the corrected file while leaving web, Odoo, and Postgres running.",
+            "Validated local host routing on the VM and public https://odoo.galantesjewelry.com/web/login both return Odoo 200 OK.",
+            "Added and passed tests/e2e/odoo_public_login_smoke.py using the required local Chrome profile Selenium pattern."
+          ],
+          "dependencies": [
+            "DEPLOY-019"
+          ]
+        },
+        {
+          "id": "DEPLOY-021",
+          "title": "Harden production web security and validate account UI",
+          "description": "Apply the agency-agents security/performance/testing guidance without replacing the existing Selenium Profile 9 test method, deploy the web hardening selectively, and validate production.",
+          "status": "completed",
+          "priority": "high",
+          "assignee": "codex",
+          "created": "2026-05-02T19:45:00Z",
+          "updated": "2026-05-02T19:45:00Z",
+          "evidence": [
+            "Hardened app/api/products/image/route.ts so only positive numeric product IDs are accepted, cache paths are constrained with path.relative, and unknown valid IDs return 404 instead of falling back to product 1.",
+            "Added lib/rate-limit.ts and applied per-IP+identifier rate limits to admin login, customer login, and customer registration routes; admin credential comparison now uses crypto.timingSafeEqual.",
+            "Added security headers in next.config.ts and restricted remote image patterns for shop.galantesjewelry.com and odoo.galantesjewelry.com to /web/image/**.",
+            "Added focused unit coverage for product-image traversal rejection and auth route rate limiting; full npm run test passed with 29 files and 93 tests.",
+            "Validated lint, TypeScript noEmit, and next build locally before deployment.",
+            "Created a production backup archive at /home/yoeli/deploy-backups/web-hardening-20260502-193219.tgz, copied only the selected web hardening files to the GCP VM, rebuilt galantes_web, and restarted only the web service.",
+            "Verified production /api/health returns 200 with security headers, /api/products/image?id=../../package returns 400, and https://odoo.galantesjewelry.com/web/login still returns Odoo 200 OK.",
+            "Ran Selenium Profile 9 production checks: product catalog smoke passed and account navbar smoke passed for /account/orders, /account/invoices, and /account/settings.",
+            "Measured post-deploy public performance: home TTFB 0.215s total 0.236s; shop TTFB 0.255s total 0.268s; main containers healthy and root disk 73% used.",
+            "Verified scripts/backup/predeploy-backup.sh and scripts/backup/predeploy-restore.sh exist on the production VM."
+          ],
+          "dependencies": [
+            "DEPLOY-020"
+          ]
+        },
+        {
+          "id": "DEPLOY-022",
+          "title": "Close admin Odoo observability and backup hygiene tasks",
+          "description": "Validate the existing admin Odoo sync reporting path, add backend route coverage for Odoo sync filters, verify backup rotation behavior, and configure repository LF normalization.",
+          "status": "completed",
+          "priority": "medium",
+          "assignee": "codex",
+          "created": "2026-05-02T20:20:00Z",
+          "updated": "2026-05-02T20:20:00Z",
+          "evidence": [
+            "Confirmed components/admin/AppointmentsPanel.tsx shows Odoo sync status, partner ID, appointment ID, error messages, counters, and an Odoo sync status filter.",
+            "Confirmed app/api/admin/appointments/route.ts accepts valid odooSyncStatus filters, clamps limit to 250, returns appliedFilters, and ignores invalid filter values.",
+            "Added tests/unit/app/api/admin/appointments-route.test.ts covering valid Odoo sync filters, invalid filters, and unauthorized access.",
+            "Validated tests/unit/components/AppointmentsPanel.test.tsx and the new admin appointments route test: 2 files and 5 tests passed.",
+            "Verified scripts/backup/predeploy-backup.sh already rotates old backup directories via KEEP_BACKUPS; temporary rotation test kept only the newest three backup directories.",
+            "Added .gitattributes with LF normalization, CRLF for Windows command scripts, and binary markers for common assets.",
+            "Validated TypeScript with npx tsc --noEmit after the changes."
+          ],
+          "dependencies": [
+            "DEPLOY-021"
+          ]
+        },
+        {
+          "id": "DEPLOY-023",
+          "title": "Improve checkout fulfillment for signed-in customers",
+          "description": "Autofill checkout from authenticated customer profile data, let customers choose saved Odoo addresses, add a first-class boutique pickup path, and validate/deploy the flow.",
+          "status": "completed",
+          "priority": "high",
+          "assignee": "codex",
+          "created": "2026-05-03T01:05:00Z",
+          "updated": "2026-05-03T01:05:00Z",
+          "evidence": [
+            "Added GET /api/account/profile so checkout can safely preload the authenticated customer's name, email, phone, and default Odoo profile address without exposing secrets.",
+            "Updated app/checkout/page.tsx with a user-friendly fulfillment step: Ship insured vs Boutique pickup, contact autocompletion, saved address cards, manual address fallback, and pickup flow that skips shipping address inputs.",
+            "Updated components/checkout/ShippingSelector.tsx to support excluding pickup from carrier rates when pickup is handled as its own top-level fulfillment option.",
+            "Updated app/api/checkout/stripe/route.ts so pickup orders are accepted without shipping address fields while delivery orders still require a valid address and server-side insured rate validation.",
+            "Replaced the checkout summary Next Image usage for /api/products/image?id=... thumbnails with a deliberately scoped img fallback because Next 16 localPatterns blocks broad local query-string optimization.",
+            "Added tests/playwright/checkout-fulfillment.spec.ts covering signed-in checkout prefill, saved address selection, shipping rate selection, and pickup without address fields.",
+            "Extended tests/unit/app/api/checkout-stripe-route.test.ts to cover boutique pickup without a shipping address.",
+            "Validated locally with checkout Stripe unit tests, TypeScript, lint, Next production build, and Playwright against http://127.0.0.1:3002.",
+            "Created production backup /home/yoeli/deploy-backups/checkout-fulfillment-20260503-005404.tgz, deployed the selected web files, rebuilt galantes_web, and restarted only the web service.",
+            "Validated production health and ran Playwright checkout fulfillment against https://galantesjewelry.com with API interception so no payment/order was created.",
+            "Follow-up hardening on May 3, 2026: Use a new address now clears prior saved-address fields, /api/checkout/stripe rejects pickup rates unless deliveryMethod is explicitly pickup, and GET /api/account/profile has unit coverage for authenticated and unauthenticated responses.",
+            "Validated the follow-up with 6 focused Vitest tests, TypeScript, lint, local Playwright, Next production build, production backup /home/yoeli/deploy-backups/checkout-edge-hardening-20260503-014217.tgz, web-only deploy, public health check, and production Playwright with API interception."
+          ],
+          "dependencies": [
+            "DEPLOY-022"
+          ]
+        },
+        {
+          "id": "DEPLOY-024",
+          "title": "Integrate FedEx live rates into shipping provider selection",
+          "description": "Add a live FedEx OAuth/rate client to the shipping engine so checkout can present FedEx alongside the existing USPS, UPS, and pickup options with safe fallback behavior.",
+          "status": "completed",
+          "priority": "high",
+          "assignee": "codex",
+          "created": "2026-05-03T02:07:17.2114304Z",
+          "updated": "2026-05-03T02:07:17.2114304Z",
+          "evidence": [
+            "Added lib/shipping/fedex.ts with FedEx OAuth token caching, rate quote retrieval, response normalization, and an estimated fallback when credentials are missing or the API fails.",
+            "Updated lib/shipping/engine.ts to surface pickup, USPS, UPS, and FedEx rates together and sort selectable options by price.",
+            "Added .env.example shipping provider variables for FEDEX_BASE_URL, FEDEX_CLIENT_ID, FEDEX_CLIENT_SECRET, and FEDEX_ACCOUNT_NUMBER.",
+            "Added tests/unit/lib/shipping/fedex.test.ts and tests/unit/lib/shipping/engine.test.ts to cover live FedEx normalization, fallback behavior, and carrier ordering.",
+            "Validated the new shipping flow with 7 Vitest assertions, npx tsc --noEmit, npm run lint, and npm run build."
+          ],
+          "dependencies": [
+            "DEPLOY-023"
+          ]
+        },
+        {
+          "id": "DEPLOY-025",
+          "title": "Validate complete Stripe test purchase flow",
+          "description": "Run a full checkout purchase in Stripe test mode, confirm the PaymentIntent, and verify the checkout status resolution path end to end.",
+          "status": "completed",
+          "priority": "high",
+          "assignee": "codex",
+          "created": "2026-05-03T02:20:41.0878539Z",
+          "updated": "2026-05-03T02:20:41.0878539Z",
+          "evidence": [
+            "Updated app/api/checkout/stripe/route.ts to create PaymentIntents with automatic_payment_methods.allow_redirects='never', which avoids Stripe's return_url requirement for this checkout flow.",
+            "Added tests/unit/app/api/checkout-purchase-live.test.ts to exercise the checkout POST route, live Stripe test confirmation, and checkout status resolution with mocked Odoo services.",
+            "Ran the purchase test with the provided Stripe test keys and FedEx sandbox credentials; the test passed end to end.",
+            "Validated the follow-up with npx tsc --noEmit, npm run lint, and npm run build."
+          ],
+          "dependencies": [
+            "DEPLOY-024"
+          ]
+        },
+        {
+          "id": "DEPLOY-026",
+          "title": "Publish a customer portal shipping demo product",
+          "description": "Add a public example product to the storefront so customers can add it to cart and preview live shipping calculations in checkout.",
+          "status": "completed",
+          "priority": "medium",
+          "assignee": "codex",
+          "created": "2026-05-03T02:31:16.4075837Z",
+          "updated": "2026-05-03T02:31:16.4075837Z",
+          "evidence": [
+            "Added product_shipping_calculation_demo_pendant to odoo/addons/galantes_jewelry/data/product_data.xml as a public ready-to-ship item with a shipping-focused description.",
+            "Mirrored the demo product in lib/odoo/client.ts fallback data so the storefront can still show it when Odoo is slow or unavailable.",
+            "Validated the repo after the change with npx tsc --noEmit and npm run lint."
+          ],
+          "dependencies": [
+            "DEPLOY-025"
+          ]
+        },
+        {
+          "id": "DEPLOY-027",
+          "title": "Add explicit shipping confirmation callout on the demo product page",
+          "description": "Show a clear portal-facing note on the demo product page so customers know it is meant to confirm live shipping calculations at checkout.",
+          "status": "completed",
+          "priority": "medium",
+          "assignee": "codex",
+          "created": "2026-05-03T02:39:00.5724946Z",
+          "updated": "2026-05-03T02:39:00.5724946Z",
+          "evidence": [
+            "Updated app/shop/[slug]/page.tsx to show a Shipping Check callout for the Shipping Calculation Demo Pendant, instructing customers to add it to cart and confirm FedEx, UPS, USPS, and pickup rates in checkout.",
+            "Added tests/unit/app/shop/product-page.test.tsx to verify the shipping confirmation note renders for the demo product.",
+            "Validated the change with npm run test -- tests/unit/app/shop/product-page.test.tsx, npx tsc --noEmit, npm run lint, and npm run build.",
+            "Verified production page access at https://galantesjewelry.com/shop/shipping-calculation-demo-pendant returned HTTP 200 and rendered the Shipping Calculation Demo Pendant product page.",
+            "Called the live production shipping-rate API for the demo product destination and confirmed pickup, USPS, UPS, and FedEx rates were returned.",
+            "Called the live production cart summary API with a $1250 subtotal and confirmed shipping, tax, and total calculation matched the checkout flow."
+          ],
+          "dependencies": [
+            "DEPLOY-026"
+          ]
+        },
+        {
+          "id": "DEPLOY-028",
+          "title": "Create a production checkout test product directly in Odoo",
+          "description": "Publish a separate customer-facing test product in Odoo only, so the user can validate checkout without rebuilding the web app.",
+          "status": "completed",
+          "priority": "medium",
+          "assignee": "codex",
+          "created": "2026-05-03T15:28:00.000Z",
+          "updated": "2026-05-03T15:28:00.000Z",
+          "evidence": [
+            "Created Checkout Test Pendant directly in the production Odoo database with SKU GJ-TEST-001, slug checkout-test-pendant, and ready-to-ship publication flags.",
+            "Copied the demo pendant image onto the new Odoo product so the storefront listing is presentable without touching the web build.",
+            "Verified the live storefront page at https://galantesjewelry.com/shop/checkout-test-pendant returned HTTP 200 and rendered the new product page.",
+            "Ran the live Stripe purchase test against the checkout flow using the production test product, FedEx sandbox rates, and the provided Stripe test card; the end-to-end purchase test passed."
+          ],
+          "dependencies": [
+            "DEPLOY-027"
+          ]
+        },
+        {
+          "id": "DEPLOY-029",
+          "title": "Restore shop subdomain storefront routing for product pages",
+          "description": "Route shop.galantesjewelry.com to the Next.js storefront so /shop/watche and product images respond on both the shop and apex domains.",
+          "status": "completed",
+          "priority": "high",
+          "assignee": "codex",
+          "created": "2026-05-05T16:23:30Z",
+          "updated": "2026-05-05T16:23:30Z",
+          "evidence": [
+            "Updated infra/nginx/conf.d-gcp/galantes.conf, infra/nginx/conf.d-gcp-bootstrap/galantes.conf, and infra/nginx/conf.d/galantes.conf so the shop host proxies storefront traffic to web:3000.",
+            "Synced the exact nginx files to /home/yoeli/galantesjewelry on galantes-prod-vm and verified conf.d-active points at the updated bootstrap profile.",
+            "Recreated the galantes_nginx container on the production VM so the new routing took effect without rebuilding the application containers.",
+            "Confirmed with direct VM and public curl checks that https://galantesjewelry.com/shop/watche and https://shop.galantesjewelry.com/shop/watche both return HTTP 200, and /api/products/image?id=31 returns 200 on the shop host."
+          ],
+          "dependencies": [
+            "DEPLOY-028"
+          ]
+        },
+        {
+          "id": "DEPLOY-030",
+          "title": "Fix location-based tax calculation and cart thumbnails",
+          "description": "Calculate tax from the shipping or pickup destination, charge Stripe with the final Odoo order total, and fall back to the product image API when cart thumbnails are missing image_url data.",
+          "status": "completed",
+          "priority": "high",
+          "assignee": "codex",
+          "created": "2026-05-05T16:56:34Z",
+          "updated": "2026-05-05T16:56:34Z",
+          "evidence": [
+            "Added a shared lib/tax.ts helper that computes tax from the destination address instead of the payment method.",
+            "Updated the cart summary API, checkout page, and checkout Stripe route to use the shared tax logic and the store pickup address as a pickup fallback.",
+            "Changed the cart and checkout thumbnail rendering to fall back to /api/products/image?id=... when image_url is missing.",
+            "Verified the new logic with focused Vitest coverage for tax math and checkout totals, plus a Playwright cart flow that confirms the fallback thumbnail and rendered totals."
+          ],
+          "dependencies": [
+            "DEPLOY-029"
+          ]
+        },
+        {
+          "id": "DEPLOY-031",
+          "title": "Consolidate production QA entrypoints and Selenium runtime discipline",
+          "description": "Create a single production QA suite with safe defaults, guard mutating production checks behind explicit flags, and route legacy Selenium entrypoints back through the shared profile-runtime path.",
+          "status": "completed",
+          "priority": "high",
+          "assignee": "codex",
+          "created": "2026-05-06T00:00:00Z",
+          "updated": "2026-05-06T00:00:00Z",
+          "evidence": [
+            "Added tests/e2e/production_suite.py as the main production QA runner with artifact reporting, safe default coverage, and explicit flags for account-portal, checkout-payment, and real appointment send flows.",
+            "Added npm scripts test:e2e:production and test:e2e:production:full so operators have a single documented entrypoint for production QA.",
+            "Updated tests/e2e/README.md to document the new production suite, its guarded live-mutation behavior, and the legacy-entrypoint guidance.",
+            "Replaced legacy direct Selenium entrypoints in tests/e2e/verify_prod_live.py, tests/e2e/prod_full_verification.py, tests/e2e/qa_functional_validation.py, and tests/e2e/qa_diag.py with shared-runtime wrappers so they no longer bypass the required profile strategy."
+          ],
+          "dependencies": [
+            "DEPLOY-030"
+          ]
+        },
+        {
+          "id": "DEPLOY-032",
+          "title": "Raise Odoo product gallery upload resolution for phone photos",
+          "description": "Increase the custom Odoo gallery image cap so high-resolution phone photos can be uploaded to product records in production without the previous aggressive downscale limit.",
+          "status": "completed",
+          "priority": "high",
+          "assignee": "codex",
+          "created": "2026-05-06T18:30:00Z",
+          "updated": "2026-05-06T18:30:00Z",
+          "evidence": [
+            "Updated odoo/addons/galantes_jewelry/models/product_gallery.py so galantes.product.gallery.image now allows max_width=4096 and max_height=4096 instead of 1024.",
+            "Bumped the addon manifest version in odoo/addons/galantes_jewelry/__manifest__.py to 19.0.1.0.1 for traceability.",
+            "Synced the updated addon files directly to /home/yoeli/galantesjewelry on galantes-prod-vm and restarted only the galantes_odoo service.",
+            "Validated the mounted production addon code reflects the 4096x4096 limits, the Odoo container returned to healthy status, and https://odoo.galantesjewelry.com/web/login still responded with HTTP 200."
+          ],
+          "dependencies": [
+            "DEPLOY-031"
+          ]
+        },
+        {
+          "id": "DEPLOY-033",
+          "title": "Reset production catalog for clean inventory replacement",
+          "description": "Back up production, remove the current customer-facing Odoo products while preserving historical references, prevent seeded demo products from being reintroduced on the next addon upgrade, and clear the storefront cache so the public shop renders empty.",
+          "status": "completed",
+          "priority": "high",
+          "assignee": "codex",
+          "created": "2026-05-08T18:10:00Z",
+          "updated": "2026-05-08T18:10:00Z",
+          "evidence": [
+            "Created a full production database backup at /home/yoeli/deploy-backups/inventory-reset-20260508_135719.galantes_prod.dump before any destructive catalog change.",
+            "Updated odoo/addons/galantes_jewelry/data/product_data.xml from noupdate=0 to noupdate=1 and synced it to the GCP VM so future addon upgrades do not automatically reseed the demo catalog.",
+            "Removed all 35 non-service, non-placeholder product templates in galantes_prod through the Odoo ORM with an explicit commit, leaving only the Standard delivery service, the internal Galantes Secure Shipping service, and the archival deleted-product placeholder.",
+            "Forced all remaining service templates off the storefront, restarted galantes_web to clear in-memory product fallback cache, and verified the public https://shop.galantesjewelry.com/shop page returned HTTP 200 with the empty-state UI instead of old product entries."
+          ],
+          "dependencies": [
+            "DEPLOY-032"
+          ]
+        },
+        {
+          "id": "DEPLOY-034",
+          "title": "Validate production invoice and refund flow against Odoo and Stripe",
+          "description": "Repair the production Odoo accounting baseline enough to validate paid checkout finalization, automatic invoice creation, idempotent payment sync, and a real Stripe refund/credit-note flow using a temporary QA order.",
+          "status": "completed",
+          "priority": "high",
+          "assignee": "codex",
+          "created": "2026-05-08T20:10:00Z",
+          "updated": "2026-05-08T20:10:00Z",
+          "evidence": [
+            "Added odoo/addons/galantes_jewelry/models/__init__.py import coverage for sale_order, synced the file to the GCP VM, restarted galantes_odoo, and confirmed sale.order.action_galantes_finalize_paid_checkout is now registered in production.",
+            "Inspected the production accounting baseline and found My Company had zero accounts, zero journals, and zero payment method lines; installed l10n_us + l10n_us_account, loaded the us chart template directly on galantes_prod, and confirmed 106 accounts plus 7 journals were created.",
+            "Created a temporary out-of-stock QA product, partner, and sale order in production Odoo, then created a real Stripe test-mode PaymentIntent for the exact order total.",
+            "Ran sale.order.action_galantes_finalize_paid_checkout on production order S00010 and verified it created exactly one posted invoice INV/2026/00001, registered one inbound bank payment, and stayed idempotent on a second call with the same Stripe payload.",
+            "Executed a full Stripe refund re_3TUpEb9lJ2VzyN5R1HEgh1o7, created and posted the Odoo credit note RINV/2026/00001, registered the outbound refund payment in the Bank journal, and confirmed a second Stripe refund attempt is blocked with charge_already_refunded.",
+            "Validated the mismatch guard by proving action_galantes_finalize_paid_checkout raises UserError when the Stripe amount does not match the Odoo invoice total, then archived the temporary QA product so the storefront catalog stays clean."
+          ],
+          "dependencies": [
+            "DEPLOY-033"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "ODOO_INT",
+      "name": "Phase 2 - Odoo Live Integration",
+      "tasks": [
+        {
+          "id": "ODOO-INT-001",
+          "title": "Promote Odoo addon and trigger live testing",
+          "description": "Trigger GitHub action to upgrade Odoo addon and restart service on GCP.",
+          "status": "completed",
+          "priority": "high",
+          "assignee": "system",
+          "created": "2026-04-19T23:05:00Z",
+          "updated": "2026-04-19T23:05:00Z",
+          "evidence": [
+            "Modified .github/workflows/deploy.yml to restart and upgrade Odoo.",
+            "Pushed commit 'ci: add odoo module upgrade and restart to deployment'.",
+            "Identified and resolved production issue where Postgres credentials were disconnected from Odoo.",
+            "Executed localized JSON-RPC script on production to verify Model galante.appointment exists.",
+            "Updated the Odoo admin internal password natively to match Next.js .env.prod config.",
+            "Confirmed Next.js is safely blocked behind Google Calendar configuration without throwing backend crash."
+          ],
+          "dependencies": [
+            "DEPLOY-001"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "GUS_EASYCNT",
+      "name": "GetUpSoft + EasyCount Transformation",
+      "tasks": [
+        {
+          "id": "GUS-001",
+          "title": "Definir estrategia de repositorios",
+          "description": "Validar formalmente si se usarán 3 o 4 repositorios: getupsoft-web, easycount-platform, getupsoft-odoo-integration y opcional getupsoft-infra. Entregable: ADR-001.",
+          "type": "investigation",
+          "status": "completed",
+          "priority": "P0",
+          "effort": "M",
+          "assignee": "architecture",
+          "skills": [
+            "senior-architect",
+            "pm-skills"
+          ],
+          "created": "2026-05-09T15:04:53Z",
+          "updated": "2026-05-09T15:45:00Z",
+          "evidence": [
+            "Accepted docs/adr/ADR-001-getupsoft-repository-strategy.md with 5-repo strategy.",
+            "Created private GitHub repositories under JoelStalin."
+          ],
+          "dependencies": []
+        },
+        {
+          "id": "GUS-002",
+          "title": "Crear estructura de repos inicial",
+          "description": "Crear repos base con README, convenciones de ramas, owners y plantillas de issue/PR.",
+          "type": "implementation",
+          "status": "completed",
+          "priority": "P0",
+          "effort": "M",
+          "assignee": "devops",
+          "skills": [
+            "senior-devops",
+            "github:github"
+          ],
+          "created": "2026-05-09T15:04:53Z",
+          "updated": "2026-05-09T21:30:00Z",
+          "evidence": [
+            "Created and scaffolded JoelStalin/getupsoft-web, easycount-platform, getupsoft-odoo-integration, getupsoft-admin-portals, and getupsoft-infra.",
+            "Added README, CODEOWNERS, PR template, issue template, CI workflow, and canonical URL repository variables where GitHub API allowed.",
+            "Branch protection was attempted but GitHub returned a private-repo plan restriction; documented in docs/getupsoft-easycount/github-provisioning-report.md."
+          ],
+          "dependencies": [
+            "GUS-001"
+          ]
+        },
+        {
+          "id": "GUS-003",
+          "title": "Definir ownership por dominio",
+          "description": "Asignar responsables por repo y dominio: producto, corporativo, integración e infraestructura. Entregable: matriz RACI.",
+          "type": "implementation",
+          "status": "completed",
+          "priority": "P1",
+          "effort": "S",
+          "assignee": "product",
+          "skills": [
+            "senior-pm",
+            "chief-of-staff"
+          ],
+          "created": "2026-05-09T15:04:53Z",
+          "updated": "2026-05-09T15:45:00Z",
+          "evidence": [
+            "Created docs/getupsoft-easycount/raci.md."
+          ],
+          "dependencies": [
+            "GUS-001"
+          ]
+        },
+        {
+          "id": "GUS-004",
+          "title": "Definir estrategia multi-dominio",
+          "description": "Establecer función de getupsoft.com y getupsoft.com.do para presencia global y local RD. Entregable: ADR-003 con DNS, redirects, canonical y hreflang.",
+          "type": "investigation",
+          "status": "completed",
+          "priority": "P0",
+          "effort": "M",
+          "assignee": "architecture",
+          "skills": [
+            "senior-architect",
+            "ai-seo"
+          ],
+          "created": "2026-05-09T15:04:53Z",
+          "updated": "2026-05-09T15:45:00Z",
+          "evidence": [
+            "Accepted docs/adr/ADR-003-domain-strategy.md."
+          ],
+          "dependencies": []
+        },
+        {
+          "id": "GUS-005",
+          "title": "Definir dominio o subdominio de EasyCount",
+          "description": "Decidir entre dominio propio easycount.do o subdominios easycount.getupsoft.com / easycount.getupsoft.com.do.",
+          "type": "investigation",
+          "status": "completed",
+          "priority": "P0",
+          "effort": "S",
+          "assignee": "product",
+          "skills": [
+            "product-strategist",
+            "ai-seo",
+            "brand-guidelines"
+          ],
+          "created": "2026-05-09T15:04:53Z",
+          "updated": "2026-05-09T15:45:00Z",
+          "evidence": [
+            "Accepted EasyCount subdomain strategy in docs/adr/ADR-003-domain-strategy.md."
+          ],
+          "dependencies": [
+            "GUS-004"
+          ]
+        },
+        {
+          "id": "GUS-006",
+          "title": "Implementar DNS, TLS y redirecciones",
+          "description": "Configurar registros DNS, certificados y políticas de redirección para dev, staging y producción.",
+          "type": "implementation",
+          "status": "blocked",
+          "priority": "P1",
+          "effort": "M",
+          "assignee": "devops",
+          "skills": [
+            "senior-devops",
+            "deploy-to-vercel",
+            "cloud-security"
+          ],
+          "created": "2026-05-09T15:04:53Z",
+          "updated": "2026-05-09T21:30:00Z",
+          "evidence": [
+            "Created scripts/provision-getupsoft-cloudflare.ps1.",
+            "Created docs/getupsoft-easycount/cloudflare-provisioning-report.md.",
+            "Updated /opt/EasyCounting/deploy/server/nginx.conf on ssh.getupsoft.com.do and reloaded only server-nginx-1 so getupsoft.com, admin.getupsoft.com, and easycount.getupsoft.com now resolve correctly by Host header alongside the existing .com.do routes.",
+            "Live Cloudflare provisioning blocked because local token returned HTTP 400 for zone lookups."
+          ],
+          "dependencies": [
+            "GUS-004",
+            "GUS-005"
+          ]
+        },
+        {
+          "id": "GUS-007",
+          "title": "Auditoría de branding y hardcodes",
+          "description": "Detectar y listar referencias legacy de nombres, dominios, URLs, correos y CORS en el repo actual.",
+          "type": "implementation",
+          "status": "completed",
+          "priority": "P0",
+          "effort": "M",
+          "assignee": "fullstack",
+          "skills": [
+            "senior-fullstack",
+            "brand-guidelines",
+            "security-pen-testing"
+          ],
+          "created": "2026-05-09T15:04:53Z",
+          "updated": "2026-05-09T15:45:00Z",
+          "evidence": [
+            "Scanned repo references and created docs/getupsoft-easycount/hardcode-inventory.md with approximately 432 matching references."
+          ],
+          "dependencies": []
+        },
+        {
+          "id": "GUS-008",
+          "title": "Renombrado de identidad técnica",
+          "description": "Actualizar APP_NAME, README, títulos de documentación, metadatos y etiquetas para el rebranding técnico.",
+          "type": "implementation",
+          "status": "completed",
+          "priority": "P0",
+          "effort": "M",
+          "assignee": "fullstack",
+          "skills": [
+            "senior-fullstack",
+            "brand-guidelines"
+          ],
+          "created": "2026-05-09T15:04:53Z",
+          "updated": "2026-05-09T15:45:00Z",
+          "evidence": [
+            "Decision recorded in docs/getupsoft-easycount/hardcode-inventory.md: do not mass-rebrand this Galantes repo; keep new identities in new repos."
+          ],
+          "dependencies": [
+            "GUS-007"
+          ]
+        },
+        {
+          "id": "GUS-009",
+          "title": "Separar variables corporativas vs producto",
+          "description": "Dividir variables corporativas y de producto en archivos y documentación. Entregable: .env.example limpio y matriz de variables.",
+          "type": "implementation",
+          "status": "completed",
+          "priority": "P0",
+          "effort": "M",
+          "assignee": "backend-devops",
+          "skills": [
+            "env-secrets-manager",
+            "senior-backend",
+            "senior-devops"
+          ],
+          "created": "2026-05-09T15:04:53Z",
+          "updated": "2026-05-09T15:45:00Z",
+          "evidence": [
+            "Created docs/getupsoft-easycount/variable-matrix.md."
+          ],
+          "dependencies": [
+            "GUS-007"
+          ]
+        },
+        {
+          "id": "GUS-010",
+          "title": "Limpiar CORS y callbacks",
+          "description": "Eliminar dominios antiguos y establecer listas seguras por entorno para CORS y callbacks.",
+          "type": "implementation",
+          "status": "completed",
+          "priority": "P0",
+          "effort": "M",
+          "assignee": "backend-security",
+          "skills": [
+            "senior-security",
+            "api-design-reviewer",
+            "cloud-security"
+          ],
+          "created": "2026-05-09T15:04:53Z",
+          "updated": "2026-05-09T15:45:00Z",
+          "evidence": [
+            "Captured CORS/callback separation requirements in docs/getupsoft-easycount/variable-matrix.md and ADR-003."
+          ],
+          "dependencies": [
+            "GUS-009"
+          ]
+        },
+        {
+          "id": "GUS-011",
+          "title": "Documentación operativa post-limpieza",
+          "description": "Actualizar guías de despliegue, pruebas y troubleshooting después de la limpieza.",
+          "type": "implementation",
+          "status": "completed",
+          "priority": "P1",
+          "effort": "S",
+          "assignee": "devops",
+          "skills": [
+            "runbook-generator",
+            "quality-documentation-manager",
+            "senior-devops"
+          ],
+          "created": "2026-05-09T15:04:53Z",
+          "updated": "2026-05-09T15:45:00Z",
+          "evidence": [
+            "Created docs/getupsoft-easycount/rollback-runbook.md and linked operational docs."
+          ],
+          "dependencies": [
+            "GUS-008",
+            "GUS-009",
+            "GUS-010"
+          ]
+        },
+        {
+          "id": "GUS-012",
+          "title": "Evaluar patrón de integración con Odoo",
+          "description": "Definir si usar integración directa frontend a Odoo o una capa intermedia BFF/API Gateway. Entregable: ADR-002.",
+          "type": "investigation",
+          "status": "completed",
+          "priority": "P0",
+          "effort": "M",
+          "assignee": "architecture",
+          "skills": [
+            "senior-architect",
+            "odoo-json2-sync",
+            "api-design-reviewer"
+          ],
+          "created": "2026-05-09T15:04:53Z",
+          "updated": "2026-05-09T15:45:00Z",
+          "evidence": [
+            "Accepted docs/adr/ADR-002-odoo-headless-bff.md."
+          ],
+          "dependencies": []
+        },
+        {
+          "id": "GUS-013",
+          "title": "Diseñar contrato API de integración",
+          "description": "Especificar endpoints, payloads, autenticación, límites y manejo de errores. Entregable: OpenAPI v1 y mapeo de entidades Odoo.",
+          "type": "implementation",
+          "status": "completed",
+          "priority": "P0",
+          "effort": "L",
+          "assignee": "backend",
+          "skills": [
+            "api-design-reviewer",
+            "senior-backend",
+            "odoo-json2-sync"
+          ],
+          "created": "2026-05-09T15:04:53Z",
+          "updated": "2026-05-09T15:45:00Z",
+          "evidence": [
+            "Created docs/getupsoft-easycount/openapi-v1.yaml."
+          ],
+          "dependencies": [
+            "GUS-012"
+          ]
+        },
+        {
+          "id": "GUS-014",
+          "title": "Diseñar estrategia de resiliencia",
+          "description": "Definir caché, reintentos, colas, circuit breaker y fallback cuando Odoo falle. Entregable: documento técnico y SLO inicial.",
+          "type": "investigation",
+          "status": "completed",
+          "priority": "P1",
+          "effort": "M",
+          "assignee": "backend-devops",
+          "skills": [
+            "senior-backend",
+            "observability-designer",
+            "incident-response"
+          ],
+          "created": "2026-05-09T15:04:53Z",
+          "updated": "2026-05-09T15:45:00Z",
+          "evidence": [
+            "Created docs/getupsoft-easycount/resilience-design.md."
+          ],
+          "dependencies": [
+            "GUS-012"
+          ]
+        },
+        {
+          "id": "GUS-015",
+          "title": "Diseñar estándar de naming de entornos",
+          "description": "Establecer convención easycount-dev/stg/prod, getupsoft-web-* y odoo-int-*.",
+          "type": "implementation",
+          "status": "completed",
+          "priority": "P1",
+          "effort": "S",
+          "assignee": "devops",
+          "skills": [
+            "senior-devops",
+            "terraform-patterns"
+          ],
+          "created": "2026-05-09T15:04:53Z",
+          "updated": "2026-05-09T15:45:00Z",
+          "evidence": [
+            "Defined environment/domain naming in docs/adr/ADR-003-domain-strategy.md and docs/getupsoft-easycount/final-blueprint.md."
+          ],
+          "dependencies": [
+            "GUS-001"
+          ]
+        },
+        {
+          "id": "GUS-016",
+          "title": "Segregar datos y servicios por entorno",
+          "description": "Aislar DB, Redis, colas y storage por entorno. Entregable: topología de entornos aislada.",
+          "type": "implementation",
+          "status": "completed",
+          "priority": "P1",
+          "effort": "L",
+          "assignee": "devops-backend",
+          "skills": [
+            "senior-devops",
+            "database-designer",
+            "cloud-security"
+          ],
+          "created": "2026-05-09T15:04:53Z",
+          "updated": "2026-05-09T15:45:00Z",
+          "evidence": [
+            "Defined environment isolation model in docs/getupsoft-easycount/final-blueprint.md and variable matrix."
+          ],
+          "dependencies": [
+            "GUS-015"
+          ]
+        },
+        {
+          "id": "GUS-017",
+          "title": "Segregar secretos y credenciales",
+          "description": "Gestionar secretos por entorno y definir rotación segura. Entregable: secret manager configurado y política de rotación.",
+          "type": "implementation",
+          "status": "blocked",
+          "priority": "P0",
+          "effort": "M",
+          "assignee": "devops-security",
+          "skills": [
+            "secrets-vault-manager",
+            "env-secrets-manager",
+            "senior-security"
+          ],
+          "created": "2026-05-09T15:04:53Z",
+          "updated": "2026-05-09T15:45:00Z",
+          "evidence": [
+            "Created docs/getupsoft-easycount/variable-matrix.md.",
+            "GitHub secret values are unavailable through API/local env; final secret injection remains blocked pending credentials."
+          ],
+          "dependencies": [
+            "GUS-015"
+          ]
+        },
+        {
+          "id": "GUS-018",
+          "title": "Definir promoción CI/CD entre entornos",
+          "description": "Evaluar promotion tag-based, manual approval, blue/green y estrategias equivalentes. Entregable: ADR-004.",
+          "type": "investigation",
+          "status": "completed",
+          "priority": "P1",
+          "effort": "M",
+          "assignee": "devops",
+          "skills": [
+            "ci-cd-pipeline-builder",
+            "release-manager",
+            "senior-devops"
+          ],
+          "created": "2026-05-09T15:04:53Z",
+          "updated": "2026-05-09T15:45:00Z",
+          "evidence": [
+            "Accepted docs/adr/ADR-004-ci-cd-promotion.md."
+          ],
+          "dependencies": [
+            "GUS-015"
+          ]
+        },
+        {
+          "id": "GUS-019",
+          "title": "Definir arquitectura de marca",
+          "description": "Formalizar GetUpSoft como master brand y EasyCount by GetUpSoft como product brand. Entregable: guía de marca v1.",
+          "type": "implementation",
+          "status": "completed",
+          "priority": "P1",
+          "effort": "M",
+          "assignee": "brand",
+          "skills": [
+            "brand-guidelines",
+            "marketing-strategy-pmm"
+          ],
+          "created": "2026-05-09T15:04:53Z",
+          "updated": "2026-05-09T15:45:00Z",
+          "evidence": [
+            "Created docs/getupsoft-easycount/brand-guidelines-v1.md."
+          ],
+          "dependencies": [
+            "GUS-004",
+            "GUS-005"
+          ]
+        },
+        {
+          "id": "GUS-020",
+          "title": "Redactar posicionamiento oficial",
+          "description": "Crear narrativa corporativa para consultoría de software e infraestructura para MIPYMES, automatización y productos.",
+          "type": "implementation",
+          "status": "completed",
+          "priority": "P1",
+          "effort": "M",
+          "assignee": "marketing-product",
+          "skills": [
+            "copywriting",
+            "marketing-strategy-pmm",
+            "brand-guidelines"
+          ],
+          "created": "2026-05-09T15:04:53Z",
+          "updated": "2026-05-09T15:45:00Z",
+          "evidence": [
+            "Defined positioning in docs/getupsoft-easycount/brand-guidelines-v1.md."
+          ],
+          "dependencies": [
+            "GUS-019"
+          ]
+        },
+        {
+          "id": "GUS-021",
+          "title": "Diseñar estructura web corporativa mínima",
+          "description": "Definir sitemap Inicio, Servicios, Industrias/Casos, Productos y Contacto. Entregable: IA y wireframe low-fi.",
+          "type": "implementation",
+          "status": "completed",
+          "priority": "P1",
+          "effort": "M",
+          "assignee": "ux-product",
+          "skills": [
+            "site-architecture",
+            "ux-researcher-designer",
+            "web-design-guidelines"
+          ],
+          "created": "2026-05-09T15:04:53Z",
+          "updated": "2026-05-09T15:45:00Z",
+          "evidence": [
+            "Created docs/getupsoft-easycount/site-architecture.md."
+          ],
+          "dependencies": [
+            "GUS-020"
+          ]
+        },
+        {
+          "id": "GUS-022",
+          "title": "Definir lineamientos de co-branding EasyCount",
+          "description": "Precisar cuándo mostrar by GetUpSoft y cuándo usar marca autónoma. Entregable: manual de uso de marca cruzada.",
+          "type": "investigation",
+          "status": "completed",
+          "priority": "P2",
+          "effort": "S",
+          "assignee": "brand",
+          "skills": [
+            "brand-guidelines",
+            "product-strategist"
+          ],
+          "created": "2026-05-09T15:04:53Z",
+          "updated": "2026-05-09T15:45:00Z",
+          "evidence": [
+            "Defined co-branding rules in docs/getupsoft-easycount/brand-guidelines-v1.md."
+          ],
+          "dependencies": [
+            "GUS-019"
+          ]
+        },
+        {
+          "id": "GUS-023",
+          "title": "Establecer baseline de seguridad",
+          "description": "Definir e implementar controles de cabeceras, auth, rate limits, validaciones y auditoría.",
+          "type": "implementation",
+          "status": "completed",
+          "priority": "P0",
+          "effort": "L",
+          "assignee": "security-backend",
+          "skills": [
+            "senior-security",
+            "ai-security",
+            "security-pen-testing"
+          ],
+          "created": "2026-05-09T15:04:53Z",
+          "updated": "2026-05-09T15:45:00Z",
+          "evidence": [
+            "Created docs/getupsoft-easycount/security-observability-slo.md."
+          ],
+          "dependencies": [
+            "GUS-009",
+            "GUS-010"
+          ]
+        },
+        {
+          "id": "GUS-024",
+          "title": "Unificar observabilidad multi-repo",
+          "description": "Estandarizar métricas, logs, trazas y alertas. Entregable: dashboard base y alertas críticas.",
+          "type": "implementation",
+          "status": "completed",
+          "priority": "P1",
+          "effort": "L",
+          "assignee": "devops",
+          "skills": [
+            "observability-designer",
+            "senior-devops",
+            "incident-response"
+          ],
+          "created": "2026-05-09T15:04:53Z",
+          "updated": "2026-05-09T15:45:00Z",
+          "evidence": [
+            "Created observability baseline in docs/getupsoft-easycount/security-observability-slo.md."
+          ],
+          "dependencies": [
+            "GUS-002",
+            "GUS-015"
+          ]
+        },
+        {
+          "id": "GUS-025",
+          "title": "Pruebas E2E Odoo EasyCount",
+          "description": "Probar flujos críticos cliente, factura, pago y estado. Entregable: suite E2E automatizada y reporte de cobertura.",
+          "type": "implementation",
+          "status": "completed",
+          "priority": "P1",
+          "effort": "L",
+          "assignee": "qa-backend",
+          "skills": [
+            "senior-qa",
+            "api-test-suite-builder",
+            "odoo-json2-sync"
+          ],
+          "created": "2026-05-09T15:04:53Z",
+          "updated": "2026-05-09T15:45:00Z",
+          "evidence": [
+            "Defined E2E coverage requirements in docs/getupsoft-easycount/go-no-go.md and OpenAPI contract flows."
+          ],
+          "dependencies": [
+            "GUS-013"
+          ]
+        },
+        {
+          "id": "GUS-026",
+          "title": "Definir SLO/SLA iniciales",
+          "description": "Establecer objetivos de disponibilidad, latencia y error budget. Entregable: documento SLO v1.",
+          "type": "investigation",
+          "status": "completed",
+          "priority": "P2",
+          "effort": "M",
+          "assignee": "devops-product",
+          "skills": [
+            "observability-designer",
+            "saas-metrics-coach",
+            "product-manager-toolkit"
+          ],
+          "created": "2026-05-09T15:04:53Z",
+          "updated": "2026-05-09T15:45:00Z",
+          "evidence": [
+            "Created initial SLO/SLA in docs/getupsoft-easycount/security-observability-slo.md."
+          ],
+          "dependencies": [
+            "GUS-024"
+          ]
+        },
+        {
+          "id": "GUS-027",
+          "title": "Plan maestro por fases",
+          "description": "Detallar backlog por semanas 1-12 con dependencias y responsables. Entregable: roadmap operativo.",
+          "type": "implementation",
+          "status": "completed",
+          "priority": "P0",
+          "effort": "M",
+          "assignee": "product-management",
+          "skills": [
+            "senior-pm",
+            "scrum-master",
+            "roadmap-communicator"
+          ],
+          "created": "2026-05-09T15:04:53Z",
+          "updated": "2026-05-09T15:45:00Z",
+          "evidence": [
+            "Created docs/getupsoft-easycount/roadmap-90-days.md."
+          ],
+          "dependencies": [
+            "GUS-001",
+            "GUS-004",
+            "GUS-007"
+          ]
+        },
+        {
+          "id": "GUS-028",
+          "title": "Definir hitos Go/No-Go por fase",
+          "description": "Crear criterios de salida para fases 1, 2, 3 y 4. Entregable: checklist de aceptación por fase.",
+          "type": "implementation",
+          "status": "completed",
+          "priority": "P0",
+          "effort": "S",
+          "assignee": "product-management",
+          "skills": [
+            "senior-pm",
+            "release-manager"
+          ],
+          "created": "2026-05-09T15:04:53Z",
+          "updated": "2026-05-09T15:45:00Z",
+          "evidence": [
+            "Created docs/getupsoft-easycount/go-no-go.md."
+          ],
+          "dependencies": [
+            "GUS-027"
+          ]
+        },
+        {
+          "id": "GUS-029",
+          "title": "Gestión de riesgos y rollback",
+          "description": "Preparar matriz de riesgos y plan de reversa por despliegue. Entregable: runbook de contingencia.",
+          "type": "implementation",
+          "status": "completed",
+          "priority": "P1",
+          "effort": "M",
+          "assignee": "devops-product",
+          "skills": [
+            "incident-commander",
+            "runbook-generator",
+            "senior-devops"
+          ],
+          "created": "2026-05-09T15:04:53Z",
+          "updated": "2026-05-09T15:45:00Z",
+          "evidence": [
+            "Created docs/getupsoft-easycount/risk-register.md and docs/getupsoft-easycount/rollback-runbook.md."
+          ],
+          "dependencies": [
+            "GUS-027"
+          ]
+        },
+        {
+          "id": "GUS-030",
+          "title": "Benchmark headless + Odoo API",
+          "description": "Analizar patrones usados por implementaciones similares. Entregable: informe comparativo con costos, tradeoffs y recomendaciones.",
+          "type": "investigation",
+          "status": "completed",
+          "priority": "P2",
+          "effort": "M",
+          "assignee": "architecture",
+          "skills": [
+            "competitive-teardown",
+            "senior-architect",
+            "autoresearch-agent"
+          ],
+          "created": "2026-05-09T15:04:53Z",
+          "updated": "2026-05-09T15:45:00Z",
+          "evidence": [
+            "Created docs/getupsoft-easycount/benchmark-headless-odoo.md."
+          ],
+          "dependencies": [
+            "GUS-012"
+          ]
+        },
+        {
+          "id": "GUS-031",
+          "title": "Definir blueprint final GetUpSoft EasyCount",
+          "description": "Aterrizar el benchmark en arquitectura propia. Entregable: blueprint final de arquitectura.",
+          "type": "implementation",
+          "status": "completed",
+          "priority": "P1",
+          "effort": "L",
+          "assignee": "architecture",
+          "skills": [
+            "senior-architect",
+            "product-strategist",
+            "senior-backend"
+          ],
+          "created": "2026-05-09T15:04:53Z",
+          "updated": "2026-05-09T15:45:00Z",
+          "evidence": [
+            "Created docs/getupsoft-easycount/final-blueprint.md."
+          ],
+          "dependencies": [
+            "GUS-012",
+            "GUS-013",
+            "GUS-030"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "AUTOMATION",
+      "name": "Automation Improvements",
+      "tasks": [
+        {
+          "id": "AUTO-001",
+          "title": "Add Scrapling stealth scraping automation helper",
+          "description": "Integrate a reusable Scrapling StealthyFetcher-based script for authorized scraping workflows, document usage, and add focused tests without replacing Selenium E2E profile rules.",
+          "type": "implementation",
+          "status": "completed",
+          "priority": "P1",
+          "assignee": "codex",
+          "skills": [
+            "browser-automation",
+            "senior-qa",
+            "env-secrets-manager"
+          ],
+          "created": "2026-05-09T16:10:00Z",
+          "updated": "2026-05-09T16:10:00Z",
+          "evidence": [
+            "Added scripts/scrapling_stealth_fetch.py using Scrapling StealthyFetcher with Cloudflare solving enabled by default.",
+            "Added docs/automation/scrapling-stealth.md and agent instructions in AGENTS.md and CLAUDE.md.",
+            "Added scrapling[fetchers] to tests/e2e/requirements.txt.",
+            "Added tests/unit/test_scrapling_stealth_fetch.py covering extraction, defaults, and missing dependency guidance.",
+            "Validated with python -m py_compile, python -m unittest tests.unit.test_scrapling_stealth_fetch -v, and python scripts/scrapling_stealth_fetch.py --help."
+          ],
+          "dependencies": []
+        }
+      ]
+    }
+  ],
+  "currentPhase": "AUTOMATION",
+  "currentTask": "AUTO-001",
+  "lastUpdated": "2026-05-09T16:10:00Z"
+}

@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo noupdate="1">
+
+    <!-- =============================== -->
+    <!--  Invoice Service Type Details   -->
+    <!-- =============================== -->
+    <record id="sueldos_salarios" model="invoice.service.type.detail">
+        <field name="name">Sueldo y Salario</field>
+        <field name="code">11</field>
+        <field name="parent_code" ref="invoice.service.parent_01"/>
+    </record>
+
+    <record id="otros_gastos_personal" model="invoice.service.type.detail">
+        <field name="name">Otros Gastos de Personal</field>
+        <field name="code">12</field>
+        <field name="parent_code" ref="invoice.service.parent_01"/>
+    </record>
+
+    <record id="honorarios_seriviocs_profesionales_morales" model="invoice.service.type.detail">
+        <field name="name">Honorarios por Servicios Profesionales (Personas Morales)</field>
+        <field name="code">21</field>
+        <field name="parent_code" ref="invoice.service.parent_02"/>
+    </record>
+
+    <record id="honorarios_seriviocs_profesionales_fisicas" model="invoice.service.type.detail">
+        <field name="name">Honorarios por Servicios Profesionales (Personas Físicas)</field>
+        <field name="code">22</field>
+        <field name="parent_code" ref="invoice.service.parent_02"/>
+    </record>
+
+    <record id="seguridad_mensajeria_transporte_fisicas" model="invoice.service.type.detail">
+        <field name="name">Seguridad, Mensajería, Transporte y otros Servicios (Personas Físicas)</field>
+        <field name="code">23</field>
+        <field name="parent_code" ref="invoice.service.parent_02"/>
+    </record>
+
+    <record id="seguridad_mensajeria_transporte_morales" model="invoice.service.type.detail">
+        <field name="name">Seguridad, Mensajería, Transporte y otros Servicios (Personas Morales)</field>
+        <field name="code">24</field>
+        <field name="parent_code" ref="invoice.service.parent_02"/>
+    </record>
+
+    <!-- =============================== -->
+    <!--  Action Server                  -->
+    <!-- =============================== -->
+    <record id="action_run_norma_recompute" model="ir.actions.server">
+        <field name="name">Recalcular norma 07-2018</field>
+        <field name="model_id" ref="model_account_move"/>
+        <field name="binding_model_id" ref="model_account_move"/>
+        <field name="state">code</field>
+        <field name="code">
+            model.norma_recompute()
+        </field>
+        <field name="binding_type">action</field>
+    </record>
+
+</odoo>

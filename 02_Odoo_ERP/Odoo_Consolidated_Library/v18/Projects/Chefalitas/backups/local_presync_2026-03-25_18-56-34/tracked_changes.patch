@@ -1,0 +1,63 @@
+diff --git a/.gitignore b/.gitignore
+index 0e1e8af..bde19fc 100644
+--- a/.gitignore
++++ b/.gitignore
+@@ -11,3 +11,20 @@ nginx/ssl/*
+ !nginx/ssl/.gitkeep
+ backups/*.tgz
+ backups/*.sql.gz
++
++# Local test artifacts
++tmp/*.png
++tmp/*.jpg
++tmp/*.jpeg
++tmp/*.webp
++tmp/*.mp4
++tmp/*.webm
++tmp/*.har
++
++# Local POS printing agent build outputs
++addons/pos_printing_suite/agent_src/local_printer_agent/build/
++addons/pos_printing_suite/agent_src/local_printer_agent/dist/
++
++# Versioned installer artifacts generated locally
++addons/pos_printing_suite/agent_src/dist/*.msi
++addons/pos_printing_suite/agent_src/dist/*.wixpdb
+diff --git a/addons/pos_printing_suite/agent_src/local_printer_agent/installer/wix/Product.wxs b/addons/pos_printing_suite/agent_src/local_printer_agent/installer/wix/Product.wxs
+index 7a4a10b..3a3ad52 100644
+--- a/addons/pos_printing_suite/agent_src/local_printer_agent/installer/wix/Product.wxs
++++ b/addons/pos_printing_suite/agent_src/local_printer_agent/installer/wix/Product.wxs
+@@ -6,6 +6,7 @@
+     Version="$(var.ProductVersion)"
+     Manufacturer="Chefalitas"
+     Scope="perMachine"
++    Compressed="yes"
+     UpgradeCode="{B9E0E9E2-4A5A-4D8A-8DA6-5B1B5D6C9A01}">
+     <SummaryInformation Description="POS Printing Suite Agent" />
+     <MajorUpgrade DowngradeErrorMessage="A newer version is already installed." />
+diff --git a/addons/pos_printing_suite/controllers/agent.py b/addons/pos_printing_suite/controllers/agent.py
+index 0a6fead..c9a44c3 100644
+--- a/addons/pos_printing_suite/controllers/agent.py
++++ b/addons/pos_printing_suite/controllers/agent.py
+@@ -1,8 +1,10 @@
+ # -*- coding: utf-8 -*-
+ import base64
+ import json
++import os
+ 
+ from odoo import http, fields, _
++from odoo.modules.module import get_module_resource
+ from odoo.exceptions import AccessError
+ from odoo.http import request
+ 
+@@ -41,8 +43,8 @@ class PosPrintingSuiteAgentController(http.Controller):
+         config = request.env["pos.config"].browse(int(config_id)).exists()
+         if not config:
+             return request.not_found()
+-        if not config.agent_artifact_id:
+-            config._build_agent_installer()
++        # Always rebuild to avoid serving stale attachments.
++        config._build_agent_installer()
+         attachment = config.agent_artifact_id
+         data = base64.b64decode(attachment.datas or b"")
+         mimetype = attachment.mimetype or "application/octet-stream"

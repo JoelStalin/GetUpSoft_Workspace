@@ -1,0 +1,64 @@
+{
+  "platform": "Instagram",
+  "url": "https://www.instagram.com/galantesjewelry.com/?hl=en",
+  "extraction": {
+    "visible_name": "Joyero/a",
+    "username": null,
+    "url": "https://www.instagram.com/galantesjewelry.com/?hl=en",
+    "timestamp": "2026-04-09T22:14:13.583107",
+    "confidence": 0.5,
+    "selector_used": "Multi-selector approach"
+  },
+  "steps": [
+    {
+      "name": "Browser Start",
+      "status": "PASS",
+      "message": "Chrome connected",
+      "screenshot_path": null,
+      "timestamp": "2026-04-09T22:14:11.201956"
+    },
+    {
+      "name": "Navigation",
+      "status": "PASS",
+      "message": "Arrived at https://www.instagram.com/galantesjewelry.com/?hl=en",
+      "screenshot_path": null,
+      "timestamp": "2026-04-09T22:14:13.500546"
+    },
+    {
+      "name": "Extraction",
+      "status": "PASS",
+      "message": "Visible name: Joyero/a",
+      "screenshot_path": null,
+      "timestamp": "2026-04-09T22:14:13.583107"
+    },
+    {
+      "name": "Follow Action",
+      "status": "PASS",
+      "message": "User followed (or already following)",
+      "screenshot_path": null,
+      "timestamp": "2026-04-09T22:14:13.729085"
+    },
+    {
+      "name": "Message Builder",
+      "status": "PASS",
+      "message": "Official professional draft ready",
+      "screenshot_path": null,
+      "timestamp": "2026-04-09T22:14:13.729085"
+    },
+    {
+      "name": "Chat Transition",
+      "status": "PASS",
+      "message": "DM window: https://www.instagram.com/galantesjewelry.com/?hl=en",
+      "screenshot_path": null,
+      "timestamp": "2026-04-09T22:14:26.523249"
+    },
+    {
+      "name": "Type Message",
+      "status": "FAIL",
+      "message": "Could not inject text into composer",
+      "screenshot_path": null,
+      "timestamp": "2026-04-09T22:14:38.890446"
+    }
+  ],
+  "summary": "Full automated invitation cycle completed."
+}

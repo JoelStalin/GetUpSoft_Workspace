@@ -1,0 +1,4 @@
+ari
+python-dotenv
+requests
+websocket-client

@@ -1,0 +1,6 @@
+node_modules/
+out/
+*.sqlite
+*.sqlite-wal
+*.sqlite-shm
+.aihub/

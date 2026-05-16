@@ -1,0 +1,97 @@
+services:
+  odoo:
+    image: chefalitas-odoo:18.0
+    build:
+      context: .
+      dockerfile: odoo/Dockerfile
+      args:
+        ODOO_IMAGE: odoo:18.0
+    depends_on:
+      - db
+    env_file: .env
+    restart: always
+    ports:
+      - "18069:8069"
+    volumes:
+      - odoo-data:/var/lib/odoo
+      - ./addons:/mnt/extra-addons
+      - ./config/odoo.conf:/etc/odoo/odoo.conf
+      - ./logs:/var/log/odoo
+    networks:
+      - odoo-net
+    cpu_shares: 2048
+    cpus: "2.0"
+    mem_reservation: 2g
+    mem_limit: 3g
+
+  db:
+    image: postgres:15
+    env_file: .env
+    restart: always
+    ports:
+      - "15432:5432"
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+      - ./postgres-config/pg_hba.conf:/etc/postgresql/pg_hba.conf
+      - ./postgres-config/postgresql.conf:/etc/postgresql/postgresql.conf
+    networks:
+      - odoo-net
+    cpu_shares: 2048
+    cpus: "1.5"
+    mem_reservation: 2g
+    mem_limit: 3g
+
+  nginx:
+    image: nginx:stable
+    depends_on:
+      - odoo
+    ports:
+      - "28080:80"
+      - "28443:443"
+    volumes:
+      - ./nginx/conf.d:/etc/nginx/conf.d
+      - ./nginx/html:/var/www/certbot
+      - ./nginx/ssl:/etc/letsencrypt
+    networks:
+      - odoo-net
+    cpu_shares: 512
+    cpus: "0.5"
+    mem_limit: 512m
+
+  certbot:
+    image: certbot/certbot
+    depends_on:
+      - nginx
+    volumes:
+      - ./nginx/ssl:/etc/letsencrypt
+      - ./nginx/html:/var/www/certbot
+    entrypoint: >
+      /bin/sh -c "trap exit TERM; while :; do certbot renew --webroot -w /var/www/certbot; sleep 12h; done"
+    networks:
+      - odoo-net
+    cpu_shares: 256
+    cpus: "0.25"
+    mem_limit: 256m
+
+  pgadmin:
+    image: dpage/pgadmin4
+    restart: always
+    ports:
+      - "15050:80"
+    env_file: .env
+    volumes:
+      - pgadmin-data:/var/lib/pgadmin
+    networks:
+      - odoo-net
+    cpu_shares: 128
+    cpus: "0.25"
+    mem_limit: 256m
+
+networks:
+  odoo-net:
+    driver: bridge
+
+volumes:
+  odoo-data:
+  postgres-data:
+  pgadmin-data:

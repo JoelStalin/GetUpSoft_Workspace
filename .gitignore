@@ -34,13 +34,24 @@ desktop.ini
 # Backups / large binaries / test artifacts
 05_Backups/
 _Knowledge_Center/Shared_Tests/
+**/backups/
 *.zip
+*.tar
 *.tar.gz
+*.tgz
 *.rar
 *.7z
 *.bak
 *.dump
 *.sql.gz
+*.exe
+*.msi
+*.dmg
+*.iso
+
+# Chrome test runtime caches
+**/tests/e2e/.runtime/
+**/chrome-user-data/
 
 # Compiled
 *.pyc

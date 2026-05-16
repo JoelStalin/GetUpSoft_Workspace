@@ -1,0 +1,29 @@
+{
+  "records": [
+    {
+      "id": "appt_1776843892585_364dc0df",
+      "createdAt": "2026-04-22T07:44:52.585Z",
+      "updatedAt": "2026-04-22T07:44:52.622Z",
+      "name": "Selenium Appointment Client",
+      "email": "selenium.client@example.com",
+      "phone": "+13055550123",
+      "inquiryType": "Bridal & Engagement",
+      "message": "Functional Selenium test for Galantes appointment booking.",
+      "appointmentDate": "2026-04-25",
+      "appointmentTime": "10:30",
+      "timezone": "America/New_York",
+      "durationMinutes": 60,
+      "status": "email_sent",
+      "googleEventId": "mock-event-appt_1776843892585_364dc0df",
+      "googleEventLink": "https://calendar.google.com/calendar/event?eid=appt_1776843892585_364dc0df",
+      "emailDeliveryStatus": "sent",
+      "errorMessage": "",
+      "clientIp": "::ffff:127.0.0.1",
+      "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36",
+      "odooSyncStatus": "synced",
+      "odooPartnerId": "mock-partner-appt_1776843892585_364dc0df",
+      "odooAppointmentId": "mock-odoo-appt_1776843892585_364dc0df",
+      "odooErrorMessage": ""
+    }
+  ]
+}

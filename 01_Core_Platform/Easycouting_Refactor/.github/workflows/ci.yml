@@ -1,0 +1,16 @@
+name: CI
+
+on:
+  push:
+    branches: ["main", "develop"]
+  pull_request:
+
+jobs:
+  ci:
+    uses: JoelStalin/getupsoft-ops/.github/workflows/python-ci.yml@main
+
+  docker:
+    needs: ci
+    uses: JoelStalin/getupsoft-ops/.github/workflows/docker-build.yml@main
+    with:
+      image-name: easycount-legacy

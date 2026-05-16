@@ -1,0 +1,26 @@
+[
+  {
+    "username": "jflowbarber150",
+    "sent": true,
+    "error": null,
+    "timestamp": "2026-04-09T21:59:23.461055"
+  },
+  {
+    "username": "bmariafernanda_",
+    "sent": false,
+    "error": "No se pudo abrir hilo DM real (/direct/t/)",
+    "timestamp": "2026-04-09T22:10:25.252370"
+  },
+  {
+    "username": "j.plow_",
+    "sent": false,
+    "error": "No se pudo abrir hilo DM real (/direct/t/)",
+    "timestamp": "2026-04-09T22:15:44.772604"
+  },
+  {
+    "username": "silvanacarrasco007",
+    "sent": false,
+    "error": "Botón Message no encontrado (cuenta privada o restringida)",
+    "timestamp": "2026-04-09T22:18:13.933231"
+  }
+]

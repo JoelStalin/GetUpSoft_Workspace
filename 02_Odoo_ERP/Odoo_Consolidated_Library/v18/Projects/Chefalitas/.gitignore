@@ -1,0 +1,13 @@
+__pycache__/
+*.pyc
+*.log
+*.swp
+.DS_Store
+*.egg-info/
+.idea/
+.vscode/
+.env
+nginx/ssl/*
+!nginx/ssl/.gitkeep
+backups/*.tgz
+backups/*.sql.gz

@@ -1,0 +1,1 @@
+ALTER TABLE `photos` DROP INDEX `photos_googleDriveFileId_unique`;

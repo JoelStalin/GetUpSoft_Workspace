@@ -1,0 +1,241 @@
+{
+  "name": "agent-continuity-hub",
+  "displayName": "Agent Continuity Hub",
+  "description": "Local-first memory, context and continuity orchestration for AI agents in VS Code",
+  "version": "0.1.0",
+  "publisher": "aihub",
+  "engines": {
+    "vscode": "^1.85.0"
+  },
+  "categories": [
+    "Other",
+    "Machine Learning"
+  ],
+  "keywords": [
+    "ai",
+    "agent",
+    "memory",
+    "context",
+    "continuity",
+    "copilot",
+    "cursor"
+  ],
+  "activationEvents": [
+    "onStartupFinished"
+  ],
+  "main": "./out/extension.js",
+  "icon": "resources/hub.png",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/JoelStalin/AIHUB.git"
+  },
+  "bugs": {
+    "url": "https://github.com/JoelStalin/AIHUB/issues"
+  },
+  "homepage": "https://github.com/JoelStalin/AIHUB#readme",
+  "license": "Apache-2.0",
+  "type": "module",
+  "contributes": {
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "aihub-sidebar",
+          "title": "Agent Continuity Hub",
+          "icon": "resources/hub.svg"
+        }
+      ]
+    },
+    "views": {
+      "aihub-sidebar": [
+        {
+          "id": "aihub.projectMemory",
+          "name": "Project Memory",
+          "icon": "$(database)"
+        },
+        {
+          "id": "aihub.pendingTasks",
+          "name": "Pending Tasks",
+          "icon": "$(tasklist)"
+        },
+        {
+          "id": "aihub.conversations",
+          "name": "Recent Conversations",
+          "icon": "$(comment-discussion)"
+        },
+        {
+          "id": "aihub.skills",
+          "name": "Skills",
+          "icon": "$(library)"
+        },
+        {
+          "id": "aihub.changelog",
+          "name": "Change Log",
+          "icon": "$(history)"
+        },
+        {
+          "id": "aihub.promptProgress",
+          "name": "Prompt Progress",
+          "icon": "$(graph)"
+        },
+        {
+          "id": "aihub.agents",
+          "name": "Agents",
+          "icon": "$(robot)"
+        },
+        {
+          "id": "aihub.jobQueue",
+          "name": "Job Queue",
+          "icon": "$(server-process)"
+        }
+      ]
+    },
+    "commands": [
+      {
+        "command": "aihub.openProjectMemory",
+        "title": "AI Memory Hub: Open Project Memory",
+        "icon": "$(database)"
+      },
+      {
+        "command": "aihub.startContextualChat",
+        "title": "AI Memory Hub: Start Contextual Chat",
+        "icon": "$(comment-discussion)"
+      },
+      {
+        "command": "aihub.importConversation",
+        "title": "AI Memory Hub: Import Conversation",
+        "icon": "$(cloud-download)"
+      },
+      {
+        "command": "aihub.extractTasks",
+        "title": "AI Memory Hub: Extract Tasks from Conversation",
+        "icon": "$(tasklist)"
+      },
+      {
+        "command": "aihub.showPendingTasks",
+        "title": "AI Memory Hub: Show Pending Tasks",
+        "icon": "$(checklist)"
+      },
+      {
+        "command": "aihub.rebuildMemoryIndex",
+        "title": "AI Memory Hub: Rebuild Memory Index",
+        "icon": "$(sync)"
+      },
+      {
+        "command": "aihub.showChangeLog",
+        "title": "AI Memory Hub: Show Change Log",
+        "icon": "$(history)"
+      },
+      {
+        "command": "aihub.showPromptProgress",
+        "title": "AI Memory Hub: Show Prompt Progress",
+        "icon": "$(graph)"
+      },
+      {
+        "command": "aihub.refresh",
+        "title": "AI Memory Hub: Refresh",
+        "icon": "$(refresh)"
+      },
+      {
+        "command": "aihub.preChangePrecedentLookup",
+        "title": "AI Memory Hub: Find Precedents Before Change",
+        "icon": "$(search)"
+      },
+      {
+        "command": "aihub.enqueueJob",
+        "title": "AI Hub: Enqueue Agent Job",
+        "icon": "$(add)"
+      },
+      {
+        "command": "aihub.showJobQueue",
+        "title": "AI Hub: Show Job Queue",
+        "icon": "$(server-process)"
+      },
+      {
+        "command": "aihub.ensureRoster",
+        "title": "AI Hub: Seed Agent Roster",
+        "icon": "$(organization)"
+      },
+      {
+        "command": "aihub.runDailyResearch",
+        "title": "AI Hub: Run Daily Model Research",
+        "icon": "$(globe)"
+      }
+    ],
+    "menus": {
+      "view/title": [
+        {
+          "command": "aihub.refresh",
+          "when": "view =~ /^aihub\\./",
+          "group": "navigation"
+        }
+      ]
+    },
+    "configuration": {
+      "title": "Agent Continuity Hub",
+      "properties": {
+        "aihub.dbPath": {
+          "type": "string",
+          "default": "",
+          "description": "Custom path for the SQLite database. Leave empty to use default global storage."
+        },
+        "aihub.autoInjectContext": {
+          "type": "string",
+          "enum": [
+            "automatic",
+            "suggested",
+            "manual"
+          ],
+          "default": "suggested",
+          "description": "How to inject context when starting a new chat."
+        },
+        "aihub.maxPendingTasksInContext": {
+          "type": "number",
+          "default": 5,
+          "description": "Maximum pending tasks to include in context packets."
+        },
+        "aihub.excludePatterns": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "default": [
+            "**/secrets/**",
+            "**/.env*",
+            "**/node_modules/**"
+          ],
+          "description": "Glob patterns for files to exclude from indexing."
+        },
+        "aihub.crossProjectPrecedents": {
+          "type": "boolean",
+          "default": false,
+          "description": "Enable cross-project precedent lookup (requires explicit consent)."
+        }
+      }
+    }
+  },
+  "scripts": {
+    "test": "node --experimental-strip-types --test",
+    "compile": "node esbuild.mjs",
+    "watch": "node esbuild.mjs --watch",
+    "package": "npm run compile && vsce package"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.90.0",
+    "@xenova/transformers": "^2.17.2",
+    "better-sqlite3": "^12.9.0",
+    "danfojs": "^1.2.0",
+    "dotenv": "^17.4.2",
+    "fs-extra": "^11.3.4",
+    "googleapis": "^171.4.0",
+    "lodash": "^4.18.1",
+    "openai": "^6.34.0",
+    "playwright": "^1.59.1",
+    "playwright-core": "^1.59.1"
+  },
+  "devDependencies": {
+    "@types/better-sqlite3": "^7.6.13",
+    "@types/node": "^20.19.39",
+    "@types/vscode": "^1.116.0",
+    "esbuild": "^0.24.2"
+  }
+}

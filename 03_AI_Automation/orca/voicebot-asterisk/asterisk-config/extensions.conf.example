@@ -1,0 +1,13 @@
+[voicebot-internal]
+exten => 1000,1,NoOp(Voicebot ARI inbound test)
+ same => n,Answer()
+ same => n,Wait(0.5)
+ same => n,Stasis(voicebot-app,inbound-test)
+ same => n,Hangup()
+
+[voicebot-from-trunk]
+exten => _X.,1,NoOp(Inbound call from SIP trunk to voicebot)
+ same => n,Answer()
+ same => n,Wait(0.5)
+ same => n,Stasis(voicebot-app,inbound-trunk)
+ same => n,Hangup()

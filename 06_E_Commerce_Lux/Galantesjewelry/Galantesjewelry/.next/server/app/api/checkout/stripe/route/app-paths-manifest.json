@@ -1,0 +1,3 @@
+{
+  "/api/checkout/stripe/route": "app/api/checkout/stripe/route.js"
+}

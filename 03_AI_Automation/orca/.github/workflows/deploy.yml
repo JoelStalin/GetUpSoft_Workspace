@@ -1,0 +1,30 @@
+﻿name: Deploy
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: [self-hosted, linux, x64, orca-deploy]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Sync project into deploy path
+        run: |
+          rsync -az --delete \
+            --exclude '.git' \
+            --exclude '.venv' \
+            --exclude '__pycache__' \
+            --exclude 'data/' \
+            --exclude 'deploy/.env' \
+            ./ "$HOME/orca/"
+
+      - name: Deploy locally on runner host
+        run: |
+          cd "$HOME/orca"
+          chmod +x deploy/deploy.sh
+          APP_DOMAIN='orca.getupsoft.com' APP_DIR="$HOME/orca" bash deploy/deploy.sh
+

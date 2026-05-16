@@ -1,0 +1,25 @@
+{
+  "project": "Galante's Jewelry - Classification Rules (Local-First)",
+  "categories": {
+    "REPARACIÓN": {
+      "keywords": [
+        "reparación", "arreglo", "soldar", "limpieza", "pulir", "cadena rota", "reloj no funciona", "reloj parado", "piedra suelta", "engarce", "reparar"
+      ],
+      "confidence_threshold": 0.8
+    },
+    "CONSULTA": {
+      "keywords": [
+        "consulta", "presupuesto", "cotización", "tasación", "valoración", "preguntar", "información", "cuanto cuesta", "precio", "duda"
+      ],
+      "confidence_threshold": 0.8
+    },
+    "DISEÑO": {
+      "keywords": [
+        "diseño", "personalizado", "anillo de compromiso", "joya a medida", "crear", "hacer joya", "nuevo diseño", "boceto", "encargo especial"
+      ],
+      "confidence_threshold": 0.8
+    }
+  },
+  "default_category": "CONSULTA",
+  "fallback_to_llm": true
+}

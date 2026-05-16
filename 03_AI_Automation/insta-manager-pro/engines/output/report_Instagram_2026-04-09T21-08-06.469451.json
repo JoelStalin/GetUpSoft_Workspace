@@ -1,0 +1,71 @@
+{
+  "platform": "Instagram",
+  "url": "https://www.instagram.com/careers/?hl=en",
+  "extraction": {
+    "visible_name": "careers",
+    "username": "careers",
+    "url": "https://www.instagram.com/careers/?hl=en",
+    "timestamp": "2026-04-09T21:08:06.469451",
+    "confidence": 1.0,
+    "selector_used": "Multi-selector approach"
+  },
+  "steps": [
+    {
+      "name": "Browser Start",
+      "status": "PASS",
+      "message": "Chrome connected",
+      "screenshot_path": null,
+      "timestamp": "2026-04-09T21:08:04.325629"
+    },
+    {
+      "name": "Navigation",
+      "status": "PASS",
+      "message": "Arrived at https://www.instagram.com/careers/?hl=en",
+      "screenshot_path": null,
+      "timestamp": "2026-04-09T21:08:06.303259"
+    },
+    {
+      "name": "Extraction",
+      "status": "PASS",
+      "message": "Visible name: careers",
+      "screenshot_path": null,
+      "timestamp": "2026-04-09T21:08:06.469451"
+    },
+    {
+      "name": "Follow Action",
+      "status": "PASS",
+      "message": "User followed (or already following)",
+      "screenshot_path": null,
+      "timestamp": "2026-04-09T21:08:09.989144"
+    },
+    {
+      "name": "Message Builder",
+      "status": "PASS",
+      "message": "Official professional draft ready",
+      "screenshot_path": null,
+      "timestamp": "2026-04-09T21:08:09.990267"
+    },
+    {
+      "name": "Chat Transition",
+      "status": "PASS",
+      "message": "Opened DM window",
+      "screenshot_path": null,
+      "timestamp": "2026-04-09T21:08:15.119826"
+    },
+    {
+      "name": "Type Message",
+      "status": "PASS",
+      "message": "Message drafted in textbox",
+      "screenshot_path": null,
+      "timestamp": "2026-04-09T21:08:15.226894"
+    },
+    {
+      "name": "Send Action",
+      "status": "FAIL",
+      "message": "Send button click failed",
+      "screenshot_path": null,
+      "timestamp": "2026-04-09T21:08:20.531050"
+    }
+  ],
+  "summary": "Full automated invitation cycle completed."
+}

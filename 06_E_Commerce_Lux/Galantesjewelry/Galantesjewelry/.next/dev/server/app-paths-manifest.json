@@ -1,0 +1,6 @@
+{
+  "/account/orders/page": "app/account/orders/page.js",
+  "/api/products/image/route": "app/api/products/image/route.js",
+  "/auth/login/page": "app/auth/login/page.js",
+  "/cart/page": "app/cart/page.js"
+}

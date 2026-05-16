@@ -1,0 +1,10 @@
+var R=require("../../../chunks/[turbopack]_runtime.js")("server/app/api/contact/route.js")
+R.c("server/chunks/[root-of-the-server]__10dawn7._.js")
+R.c("server/chunks/Galantesjewelry_lib_integrations_ts_0c1psl-._.js")
+R.c("server/chunks/Galantesjewelry_lib_auth_ts_13vul-v._.js")
+R.c("server/chunks/0ucn_zod_v4_0u41vyp._.js")
+R.c("server/chunks/[root-of-the-server]__090-15b._.js")
+R.c("server/chunks/[root-of-the-server]__0yl6x53._.js")
+R.c("server/chunks/Galantesjewelry__next-internal_server_app_api_contact_route_actions_02911-u.js")
+R.m(18860)
+module.exports=R.m(18860).exports

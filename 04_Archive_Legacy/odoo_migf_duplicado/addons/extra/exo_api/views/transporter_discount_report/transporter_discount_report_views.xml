@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Vista tree del reporte -->
+    <record id="view_transporter_discount_report_tree" model="ir.ui.view">
+        <field name="name">transporter.discount.report.tree</field>
+        <field name="model">transporter.discount.report</field>
+        <field name="arch" type="xml">
+            <tree string="Reporte de Descuentos a Transportistas">
+                <field name="partner_id"/>
+                <field name="currency_id"/>
+                <field name="discount_product_name"/>
+                <field name="discount_amount"/>
+                <field name="amount_jan"/>
+                <field name="amount_feb"/>
+                <field name="amount_mar"/>
+                <field name="amount_apr"/>
+                <field name="amount_may"/>
+                <field name="amount_jun"/>
+                <field name="amount_jul"/>
+                <field name="amount_aug"/>
+                <field name="amount_sep"/>
+                <field name="amount_oct"/>
+                <field name="amount_nov"/>
+                <field name="amount_dec"/>
+            </tree>
+        </field>
+    </record>
+</odoo>

@@ -1,0 +1,71 @@
+{
+  "platform": "Facebook",
+  "url": "https://www.facebook.com/joelstalin.espinalmartinez/",
+  "extraction": {
+    "visible_name": "Joel Stalin Martinez Espinal ",
+    "username": null,
+    "url": "https://www.facebook.com/joelstalin.espinalmartinez/",
+    "timestamp": "2026-04-09T18:43:04.730611",
+    "confidence": 1.0,
+    "selector_used": "Multi-selector approach"
+  },
+  "steps": [
+    {
+      "name": "Browser Start",
+      "status": "PASS",
+      "message": "Chrome connected",
+      "screenshot_path": null,
+      "timestamp": "2026-04-09T18:42:53.970723"
+    },
+    {
+      "name": "Navigation",
+      "status": "PASS",
+      "message": "Arrived at https://www.facebook.com/joelstalin.espinalmartinez/",
+      "screenshot_path": null,
+      "timestamp": "2026-04-09T18:43:02.339581"
+    },
+    {
+      "name": "Extraction",
+      "status": "PASS",
+      "message": "Visible name: Joel Stalin Martinez Espinal ",
+      "screenshot_path": null,
+      "timestamp": "2026-04-09T18:43:04.730611"
+    },
+    {
+      "name": "Follow Action",
+      "status": "PASS",
+      "message": "User followed (or already following)",
+      "screenshot_path": null,
+      "timestamp": "2026-04-09T18:43:06.029527"
+    },
+    {
+      "name": "Message Builder",
+      "status": "PASS",
+      "message": "Official professional draft ready",
+      "screenshot_path": null,
+      "timestamp": "2026-04-09T18:43:06.030056"
+    },
+    {
+      "name": "Chat Transition",
+      "status": "FAIL",
+      "message": "Message button not found",
+      "screenshot_path": null,
+      "timestamp": "2026-04-09T18:43:21.436613"
+    },
+    {
+      "name": "Type Message",
+      "status": "PASS",
+      "message": "Message drafted in textbox",
+      "screenshot_path": null,
+      "timestamp": "2026-04-09T18:43:22.686901"
+    },
+    {
+      "name": "Send Action",
+      "status": "FAIL",
+      "message": "Send button click failed",
+      "screenshot_path": null,
+      "timestamp": "2026-04-09T18:43:23.942741"
+    }
+  ],
+  "summary": "Full automated invitation cycle completed."
+}

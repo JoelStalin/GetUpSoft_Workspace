@@ -1,0 +1,3 @@
+{
+  "/api/admin/integrations/service-account-json/route": "app/api/admin/integrations/service-account-json/route.js"
+}
