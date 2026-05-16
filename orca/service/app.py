@@ -23,6 +23,16 @@ class HealthResponse(BaseModel):
     completion_policy: str
 
 
+def build_health_response() -> HealthResponse:
+    settings = get_settings()
+    return HealthResponse(
+        status="ok",
+        canonical_language=settings.canonical_language,
+        low_confidence_threshold=settings.low_confidence_threshold,
+        completion_policy=AUTONOMOUS_COMPLETION_POLICY,
+    )
+
+
 def create_app() -> FastAPI:
     settings = get_settings()
     interpreter = PromptInterpreter(settings)
@@ -35,12 +45,7 @@ def create_app() -> FastAPI:
 
     @app.get("/health", response_model=HealthResponse)
     def health() -> HealthResponse:
-        return HealthResponse(
-            status="ok",
-            canonical_language=settings.canonical_language,
-            low_confidence_threshold=settings.low_confidence_threshold,
-            completion_policy=AUTONOMOUS_COMPLETION_POLICY,
-        )
+        return build_health_response()
 
     @app.post("/interpret", response_model=InterpretationOutput)
     def interpret(request: InterpretRequest) -> InterpretationOutput:

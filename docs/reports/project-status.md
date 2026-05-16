@@ -15,6 +15,7 @@ ORCA ya cuenta con un bootstrap funcional para:
 - pipeline Jarvis por contratos inspirado en OpenTypeless;
 - provider local explícito `VoskSTTProvider` bajo el contrato `STTProvider`;
 - historial Jarvis accesible desde CLI con opt-in y borrado explícito;
+- CLI reorganizada por familias con `doctor`, `prompt`, `backlog`, `skills` y `service`;
 - política explícita de ejecución autónoma para culminar tareas completas.
 
 ## Sprints
@@ -30,10 +31,11 @@ ORCA ya cuenta con un bootstrap funcional para:
 - `SPRINT-8`: completado
 - `SPRINT-9`: completado
 - `SPRINT-10`: completado
+- `SPRINT-11`: completado
 
 ## Próximos focos
 
 1. cerrar el despliegue operativo en `ssh.getupsoft.com.do` con `sudo` no interactivo o unidad preaprobada;
 2. agregar un segundo provider local o configurable para Jarvis además de `VoskSTTProvider`;
-3. resolver la coherencia completa entre hints de voz y prompts de recuperación en más intents de borde;
-4. persistir métricas y artefactos de entrenamiento del clasificador local;
+3. persistir métricas y artefactos de entrenamiento del clasificador local;
+4. ampliar `doctor` y `service` con chequeos activos opcionales;

@@ -15,6 +15,7 @@
 - Se integró un MVP Jarvis inspirado en OpenTypeless mediante contratos Python, diccionario, routing, historial y CLI.
 - Se extrajo `VoskSTTProvider` como provider local explícito y seleccionable en la CLI Jarvis.
 - Se habilitó el historial Jarvis por CLI con activación opt-in, listado reciente y borrado explícito.
+- Se reorganizó la CLI de ORCA en familias de comandos más claras inspiradas por el análisis de `re-build.zip`.
 
 ## CLIs detectados
 

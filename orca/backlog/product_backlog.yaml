@@ -155,3 +155,7 @@ epics:
         title: "Exponer transcript history de Jarvis por CLI con opt-in y borrado explícito"
         status: "done"
         priority: "medium"
+      - id: "US-030"
+        title: "Rediseñar la CLI de ORCA con familias de comandos y mejor descubribilidad sin romper compatibilidad"
+        status: "done"
+        priority: "high"

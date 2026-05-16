@@ -126,3 +126,15 @@ sprints:
       - "flag store-history"
       - "jarvis history list"
       - "jarvis history clear"
+  - id: "SPRINT-11"
+    title: "CLI Experience Refresh"
+    objective: "Reorganizar la CLI de ORCA con subcomandos claros y comandos de diagnóstico sin romper el uso actual."
+    status: "done"
+    stories:
+      - "US-030"
+    deliverables:
+      - "prompt subcommands"
+      - "backlog status command"
+      - "skills listing command"
+      - "service health/run commands"
+      - "doctor command"

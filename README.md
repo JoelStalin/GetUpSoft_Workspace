@@ -93,6 +93,16 @@ orca jarvis history list --limit 5
 orca jarvis history clear
 ```
 
+11. Explorar la CLI reorganizada:
+
+```powershell
+orca doctor
+orca prompt text "arregla el bug del login"
+orca backlog status
+orca skills list
+orca service health
+```
+
 ## Estructura funcional
 
 - `docs/`: visión, arquitectura, ADRs, investigación y proceso Scrum.
@@ -123,3 +133,4 @@ orca jarvis history clear
 - [ADR 0001](docs/adr/ADR-0001-local-prompt-interpreter.md)
 - [ADR 0003](docs/adr/ADR-0003-opentypeless-inspired-jarvis-pipeline.md)
 - [OpenTypeless Jarvis Integration](docs/integrations/opentypeless-jarvis-integration.md)
+- [CLI Redesign Notes](docs/research/orca-cli-redesign-from-rebuild.md)
