@@ -7,6 +7,8 @@ import typer
 
 from orca.audio.jarvis_listener import JarvisListener
 from orca.audio.providers.mock_stt_provider import MockSTTProvider
+from orca.audio.providers.vosk_stt_provider import VoskSTTProvider
+from orca.audio.stt_provider import STTProvider
 from orca.config import get_settings
 from orca.core.prompt_interpreter import PromptInterpreter
 from orca.integrations.n8n_contract import build_n8n_contract
@@ -114,7 +116,7 @@ def jarvis_transcript(text: str) -> None:
 def jarvis_audio(path: str, provider: str = "mock") -> None:
     """Process a Jarvis audio reference using a configured provider."""
     settings = get_settings()
-    stt_provider = None
+    stt_provider: STTProvider | None = None
     if provider == "mock":
         stt_provider = MockSTTProvider(
             {
@@ -122,6 +124,8 @@ def jarvis_audio(path: str, provider: str = "mock") -> None:
                 "sample_task.wav": "Jarvis crea una tarea para integrar Obsidian",
             }
         )
+    elif provider == "vosk":
+        stt_provider = VoskSTTProvider(settings)
     listener = JarvisListener(settings, stt_provider=stt_provider)
     interpreter = PromptInterpreter(settings, jarvis_listener=listener)
     event = listener.listen(path, source_type="audio_ref")

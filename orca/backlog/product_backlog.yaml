@@ -147,3 +147,7 @@ epics:
         title: "Agregar pruebas unitarias del pipeline Jarvis inspirado en OpenTypeless"
         status: "done"
         priority: "high"
+      - id: "US-028"
+        title: "Extraer Vosk como provider local explícito y seleccionable desde Jarvis"
+        status: "done"
+        priority: "high"

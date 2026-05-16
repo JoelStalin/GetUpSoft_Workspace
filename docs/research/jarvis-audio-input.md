@@ -7,7 +7,7 @@ Convertir audio offline a texto y pasarlo por el mismo pipeline que las entradas
 ## Estrategia del bootstrap
 
 - interfaz `JarvisListener` desacoplada;
-- error explícito si falta `Vosk`;
+- contrato `STTProvider` con `MockSTTProvider` y `VoskSTTProvider`;
 - pruebas con mocks para no depender de binarios ni modelos en CI.
 
 ## Requisitos futuros

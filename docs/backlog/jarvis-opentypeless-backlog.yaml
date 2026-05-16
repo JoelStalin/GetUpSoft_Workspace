@@ -71,6 +71,10 @@ epics:
     title: "Future Desktop Bridge"
     goal: "Preparar fases futuras sin contaminarlas en el MVP."
     stories:
+      - id: "US-JARVIS-017"
+        title: "Provider local explícito para Vosk bajo el contrato STTProvider"
+        status: "done"
+        priority: "high"
       - id: "US-JARVIS-014"
         title: "Hotkey global en una fase futura"
         status: "planned"
@@ -117,3 +121,9 @@ sprint_mvp:
     - "US-JARVIS-011"
     - "US-JARVIS-012"
     - "US-JARVIS-013"
+
+sprint_provider_local:
+  id: "SPRINT-JARVIS-2"
+  objective: "Extraer un provider Vosk explícito y seleccionable sin romper el contrato Jarvis."
+  stories:
+    - "US-JARVIS-017"

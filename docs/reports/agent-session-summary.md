@@ -13,6 +13,7 @@
 - Se incorporó una política explícita de ejecución autónoma para culminar trabajo completo sin pausas innecesarias.
 - Se agregó una API HTTP local con health check y contrato de despliegue remoto por SSH + `systemd`.
 - Se integró un MVP Jarvis inspirado en OpenTypeless mediante contratos Python, diccionario, routing, historial y CLI.
+- Se extrajo `VoskSTTProvider` como provider local explícito y seleccionable en la CLI Jarvis.
 
 ## CLIs detectados
 

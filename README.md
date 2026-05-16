@@ -79,6 +79,12 @@ orca jarvis transcript "Jarvis arregla el bug del login y crea pruebas"
 orca jarvis audio sample_bug.wav --provider mock
 ```
 
+9. Procesar audio con provider Vosk local:
+
+```powershell
+orca jarvis audio .\sample.wav --provider vosk
+```
+
 ## Estructura funcional
 
 - `docs/`: visión, arquitectura, ADRs, investigación y proceso Scrum.

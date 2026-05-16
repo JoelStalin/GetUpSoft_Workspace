@@ -106,3 +106,13 @@ sprints:
       - "voice command router"
       - "transcript history"
       - "CLI Jarvis"
+  - id: "SPRINT-9"
+    title: "Jarvis Local Provider Extraction"
+    objective: "Extraer un provider Vosk explícito y mantener el contrato STTProvider limpio."
+    status: "done"
+    stories:
+      - "US-028"
+    deliverables:
+      - "VoskSTTProvider"
+      - "selección de provider en CLI"
+      - "pruebas unitarias del provider"

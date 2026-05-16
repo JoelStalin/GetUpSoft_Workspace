@@ -1,14 +1,12 @@
 from __future__ import annotations
 
-import importlib.util
-import json
-import wave
 from pathlib import Path
 from typing import Literal
 
 from pydantic import BaseModel
 
 from orca.audio.custom_dictionary import CustomDictionary
+from orca.audio.providers.vosk_stt_provider import VoskSTTProvider, VoskSTTProviderError
 from orca.audio.stt_provider import STTProvider, STTResult
 from orca.audio.transcript_history import TranscriptHistory
 from orca.audio.voice_command_router import VoiceCommand, VoiceCommandRouter
@@ -82,57 +80,10 @@ class JarvisListener:
     def _transcribe_audio_ref(self, audio_ref: str) -> STTResult:
         if self.stt_provider is not None:
             return self.stt_provider.transcribe(audio_ref)
-        transcript = self.transcribe(audio_ref)
-        return STTResult(
-            transcript=transcript,
-            language=self.settings.canonical_language,
-            confidence=None,
-            provider="vosk-wrapper",
-            metadata={"audio_ref": audio_ref},
-        )
+        return VoskSTTProvider(self.settings).transcribe(audio_ref)
 
     def transcribe(self, audio_path: str | Path) -> str:
-        if importlib.util.find_spec("vosk") is None:  # pragma: no cover - dependency is optional
-            raise JarvisListenerError(
-                "Vosk is not installed. Install the audio extra to enable offline transcription."
-            )
-
-        if self.settings.vosk_model_path is None:
-            raise JarvisListenerError(
-                "No Vosk model path configured. Set OrcaSettings.vosk_model_path to enable offline "
-                "audio transcription."
-            )
-        if not self.settings.vosk_model_path.exists():
-            raise JarvisListenerError(
-                f"Configured Vosk model path does not exist: {self.settings.vosk_model_path}"
-            )
-
-        audio_file = Path(audio_path)
-        if not audio_file.exists():
-            raise JarvisListenerError(f"Audio file does not exist: {audio_file}")
-
-        try:  # pragma: no cover - depends on optional local packages and local model
-            from vosk import KaldiRecognizer, Model
-        except ImportError as exc:  # pragma: no cover
-            raise JarvisListenerError("Vosk import failed after availability check.") from exc
-
-        with wave.open(str(audio_file), "rb") as wav_file:
-            if wav_file.getnchannels() != 1 or wav_file.getsampwidth() != 2:
-                raise JarvisListenerError(
-                    "Only mono 16-bit PCM WAV files are supported by the default Jarvis listener."
-                )
-            model = Model(str(self.settings.vosk_model_path))
-            recognizer = KaldiRecognizer(model, wav_file.getframerate())
-            transcript_parts: list[str] = []
-            while True:
-                chunk = wav_file.readframes(4_000)
-                if not chunk:
-                    break
-                if recognizer.AcceptWaveform(chunk):
-                    transcript_parts.append(json.loads(recognizer.Result()).get("text", ""))
-            transcript_parts.append(json.loads(recognizer.FinalResult()).get("text", ""))
-
-        transcript = " ".join(part.strip() for part in transcript_parts if part.strip()).strip()
-        if not transcript:
-            raise JarvisListenerError("Audio transcription produced no text.")
-        return transcript
+        try:
+            return VoskSTTProvider(self.settings).transcribe(str(audio_path)).transcript
+        except VoskSTTProviderError as exc:
+            raise JarvisListenerError(str(exc)) from exc
