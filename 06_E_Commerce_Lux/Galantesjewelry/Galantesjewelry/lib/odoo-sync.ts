@@ -1,5 +1,5 @@
 import type { AppointmentRecord, ContactSubmission } from '@/lib/appointments';
-import { createOdooClient, getOdooConfig } from '@/src/config/odooClient.js';
+import { createOdooClient, getOdooConfig } from '../src/config/odooClient.js';
 
 type OdooClientLike = {
   getConfig: () => {

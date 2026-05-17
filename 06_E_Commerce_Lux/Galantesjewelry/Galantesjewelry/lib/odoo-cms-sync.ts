@@ -1,4 +1,4 @@
-import { createOdooClient, getOdooConfig } from '@/src/config/odooClient.js';
+import { createOdooClient, getOdooConfig } from '../src/config/odooClient.js';
 import type { FeaturedItem, PageSection, SiteSettings } from '@/lib/db';
 import type { IntegrationStoreSnapshot } from '@/lib/integrations';
 

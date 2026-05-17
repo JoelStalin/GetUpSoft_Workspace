@@ -1,0 +1,95 @@
+services:
+  web:
+    build:
+      context: ../../06_E_Commerce_Lux/Galantesjewelry
+      dockerfile: Dockerfile
+    container_name: galantes_lab_web
+    restart: unless-stopped
+    env_file:
+      - /home/ubuntu/.env.getupsoft-apps
+    environment:
+      NODE_ENV: test
+      PORT: 3000
+      HOSTNAME: 0.0.0.0
+      APP_DATA_DIR: /app/data
+      ODOO_BASE_URL: http://odoo:8069
+      ODOO_DB: ${GALANTES_ODOO_DB_LAB:-galantes_lab_test}
+      SITE_URL: ${GALANTES_LAB_SITE_URL:-http://192.168.1.233:8085}
+      NEXT_PUBLIC_SITE_URL: ${GALANTES_LAB_SITE_URL:-http://192.168.1.233:8085}
+      GOOGLE_PUBLIC_BASE_URL: ${GALANTES_LAB_SITE_URL:-http://192.168.1.233:8085}
+      SHOP_URL: ${GALANTES_LAB_SHOP_URL:-http://192.168.1.233:8089}
+      ODOO_URL: ${GALANTES_LAB_ODOO_URL:-http://192.168.1.233:8089}
+      NEXT_PUBLIC_ODOO_SHOP_URL: ${GALANTES_LAB_SHOP_URL:-http://192.168.1.233:8089}
+      APPOINTMENT_TEST_MODE: "true"
+    volumes:
+      - galantes_lab_app_data:/app/data
+    networks:
+      - galantes-lab-net
+    healthcheck:
+      test:
+        - CMD
+        - wget
+        - -qO-
+        - http://127.0.0.1:3000/api/health
+      interval: 30s
+      timeout: 10s
+      retries: 5
+
+  odoo:
+    build:
+      context: ../../06_E_Commerce_Lux/Galantesjewelry/odoo
+      dockerfile: Dockerfile
+    container_name: galantes_lab_odoo
+    restart: unless-stopped
+    env_file:
+      - /home/ubuntu/.env.getupsoft-apps
+    environment:
+      DB_HOST: getupsoft-shared-postgres
+      DB_PORT: 5432
+      POSTGRES_USER: ${GALANTES_ODOO_DB_USER:-odoo}
+      POSTGRES_PASSWORD: ${GALANTES_ODOO_DB_PASSWORD}
+      ODOO_PASSWORD: ${GALANTES_ODOO_DB_PASSWORD}
+      ODOO_DB: ${GALANTES_ODOO_DB_LAB:-galantes_lab_test}
+      ODOO_AUTO_INSTALL_MODULES: ${ODOO_AUTO_INSTALL_MODULES:-true}
+    ports:
+      - "8089:8069"
+      - "8092:8072"
+    volumes:
+      - galantes_lab_odoo_data:/var/lib/odoo
+    networks:
+      - galantes-lab-net
+      - getupsoft-network
+    healthcheck:
+      test:
+        - CMD-SHELL
+        - python3 -c "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8069/web/login', timeout=5)"
+      interval: 30s
+      timeout: 10s
+      retries: 10
+      start_period: 90s
+
+  nginx:
+    image: nginx:1.27-alpine
+    container_name: galantes_lab_nginx
+    restart: unless-stopped
+    ports:
+      - "8085:80"
+    volumes:
+      - ../../06_E_Commerce_Lux/Galantesjewelry/Galantesjewelry/infra/nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+    networks:
+      - galantes-lab-net
+    depends_on:
+      web:
+        condition: service_healthy
+      odoo:
+        condition: service_healthy
+
+networks:
+  galantes-lab-net:
+    driver: bridge
+  getupsoft-network:
+    external: true
+
+volumes:
+  galantes_lab_app_data:
+  galantes_lab_odoo_data:
