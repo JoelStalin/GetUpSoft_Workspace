@@ -1,6 +1,44 @@
 # GetUpSoft Workspace
 
+## Workspace architecture
+
+GetUpSoft_Workspace follows a worker-first workspace architecture.
+
+Reusable technical components should behave as workers with explicit contracts.
+Products and client solutions consume those workers.
+
+Client solutions such as GalantesJewelry and ChefAlitas are products built by GetUpSoft
+for external clients, not generic internal GetUpSoft products.
+
+EasyCount and EasyCounting are the same GetUpSoft product. The canonical name is EasyCount.
+Both folders (`easycount-core/` and `Easycouting_Refactor/`) will be consolidated under
+`02_Products/EasyCount/` in a future controlled migration.
+
+The repository is organized conceptually into:
+
+- Workspace Governance
+- Business Admin
+- Products (GetUpNet, EasyCount, ORCA, AIHub, GetUpSoftSite)
+- Client Solutions (GalantesJewelry, ChefAlitas, EXO)
+- Workers
+- ERP/Odoo
+- AI Automation
+- Infrastructure/Networking
+- Libraries/Tools
+- Research/Labs
+- Archives
+- Knowledge Center
+
+For directory rules, see:
+
+- `WORKSPACE_MAP.md`
+- `00_Workspace_Governance/directory_rules.md`
+- `00_Workspace_Governance/migration_manifest.md`
+- `_Knowledge_Center/Architecture/WORKER_FIRST_ARCHITECTURE.md`
+
 Este repositorio ahora define una nueva base de trabajo para `ORCA Backlog + Prompt Interpreter`, separada del módulo histórico `03_AI_Automation/orca`.
+
+## ORCA
 
 ## Propósito
 
