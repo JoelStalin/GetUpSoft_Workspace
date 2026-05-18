@@ -1,0 +1,26 @@
+{
+  "target": "code-server public access",
+  "timestamp": "2026-05-18T13:24:32.465527+00:00",
+  "results": [
+    {
+      "url": "https://code.getupsoft.com",
+      "timestamp": "2026-05-18T13:24:05.679706+00:00",
+      "current_url": "https://code.getupsoft.com/",
+      "title": "getupsoft.com | 502: Bad gateway",
+      "body_excerpt": "Bad gateway Error code 502\nVisit cloudflare.com for more information.\n2026-05-18 13:24:10 UTC\nYou\nBrowser\nWorking\nMiami\nCloudflare\nWorking\ncode.getupsoft.com\nHost\nError\nWhat happened?\nThe web server reported a bad gateway error.\nWhat can I do?\nPlease try again in a few minutes.\nCloudflare Ray ID: 9fdb2e1a6eceae1e \u2022 Your IP: Click to reveal \u2022 Performance & security by Cloudflare",
+      "looks_like_code_server_login": false,
+      "screenshot": "C:\\Users\\yoeli\\Documents\\GetUpSoft_Workspace\\task-ledger\\evidence\\code-server-public-2026-05-18\\code-getupsoft-com-selenium.png",
+      "html": "C:\\Users\\yoeli\\Documents\\GetUpSoft_Workspace\\task-ledger\\evidence\\code-server-public-2026-05-18\\code-getupsoft-com.html"
+    },
+    {
+      "url": "https://code.getupsoft.com.do",
+      "timestamp": "2026-05-18T13:24:13.038770+00:00",
+      "current_url": "https://code.getupsoft.com.do/",
+      "title": "code.getupsoft.com.do",
+      "body_excerpt": "This code.getupsoft.com.do page can\u2019t be found\nNo webpage was found for the web address: https://code.getupsoft.com.do/\nHTTP ERROR 404\nReload",
+      "looks_like_code_server_login": false,
+      "screenshot": "C:\\Users\\yoeli\\Documents\\GetUpSoft_Workspace\\task-ledger\\evidence\\code-server-public-2026-05-18\\code-getupsoft-com-do-selenium.png",
+      "html": "C:\\Users\\yoeli\\Documents\\GetUpSoft_Workspace\\task-ledger\\evidence\\code-server-public-2026-05-18\\code-getupsoft-com-do.html"
+    }
+  ]
+}
