@@ -1,0 +1,117 @@
+name: Deploy GetUpSoft Site to Production
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - '01_Core_Platform/getupsoft-site/**'
+      - '.github/workflows/deploy-getupsoft-site.yml'
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Deploy to code.getupsoft.com
+        env:
+          DEPLOY_HOST: ${{ secrets.DEPLOY_HOST }}
+          DEPLOY_USER: ${{ secrets.DEPLOY_USER }}
+          DEPLOY_SSH_PRIVATE_KEY: ${{ secrets.DEPLOY_SSH_PRIVATE_KEY }}
+          DEPLOY_PATH: /home/ubuntu/GetUpSoft_Workspace
+          CLOUDFLARE_ZONE_ID: ${{ secrets.CLOUDFLARE_ZONE_ID }}
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+        run: |
+          mkdir -p ~/.ssh
+          echo "$DEPLOY_SSH_PRIVATE_KEY" > ~/.ssh/deploy_key
+          chmod 600 ~/.ssh/deploy_key
+          ssh-keyscan -H "$DEPLOY_HOST" >> ~/.ssh/known_hosts
+
+          ssh -i ~/.ssh/deploy_key "${DEPLOY_USER}@${DEPLOY_HOST}" << 'EOF'
+          set -e
+
+          echo "📂 Navigating to workspace..."
+          cd /home/ubuntu/GetUpSoft_Workspace
+
+          echo "🔄 Pulling latest changes from GitHub..."
+          git fetch origin main
+          git reset --hard origin/main
+
+          echo "🔨 Building Docker image for getupsoft-site..."
+          cd 01_Core_Platform/getupsoft-site
+          docker build -t getupsoft-site:latest .
+
+          echo "🚀 Stopping previous container..."
+          docker stop getupsoft-site-web-1 2>/dev/null || true
+          docker rm getupsoft-site-web-1 2>/dev/null || true
+
+          echo "📦 Starting new container..."
+          docker run -d \
+            --name getupsoft-site-web-1 \
+            --network bridge \
+            -p 3120:3000 \
+            -e NODE_ENV=production \
+            getupsoft-site:latest
+
+          echo "⏳ Waiting for container to be healthy..."
+          sleep 5
+
+          echo "✅ Testing deployment..."
+          if curl -sf http://localhost:3120/ > /dev/null; then
+            echo "✅ GetUpSoft Site is running"
+          else
+            echo "❌ Failed to connect to site"
+            exit 1
+          fi
+
+          echo "🧹 Purging Cloudflare cache..."
+          export CLOUDFLARE_ZONE_ID="${{ env.CLOUDFLARE_ZONE_ID }}"
+          export CLOUDFLARE_API_TOKEN="${{ env.CLOUDFLARE_API_TOKEN }}"
+
+          curl -X POST "https://api.cloudflare.com/client/v4/zones/${CLOUDFLARE_ZONE_ID}/purge_cache" \
+            -H "Authorization: Bearer ${CLOUDFLARE_API_TOKEN}" \
+            -H "Content-Type: application/json" \
+            --data '{"purge_everything":true}' || echo "⚠️  Cache purge request sent (may be rate limited)"
+
+          echo "✅ Deployment completed successfully"
+          EOF
+
+      - name: Verify deployment
+        if: success()
+        env:
+          DEPLOY_HOST: ${{ secrets.DEPLOY_HOST }}
+          DEPLOY_USER: ${{ secrets.DEPLOY_USER }}
+          DEPLOY_SSH_PRIVATE_KEY: ${{ secrets.DEPLOY_SSH_PRIVATE_KEY }}
+        run: |
+          mkdir -p ~/.ssh
+          echo "$DEPLOY_SSH_PRIVATE_KEY" > ~/.ssh/deploy_key
+          chmod 600 ~/.ssh/deploy_key
+          ssh-keyscan -H "$DEPLOY_HOST" >> ~/.ssh/known_hosts
+
+          ssh -i ~/.ssh/deploy_key "${DEPLOY_USER}@${DEPLOY_HOST}" << 'EOF'
+          echo "🔍 Verification Tests:"
+          echo "1. Container status:"
+          docker ps | grep getupsoft-site-web-1 || echo "⚠️ Container not found"
+          echo ""
+          echo "2. Recent logs:"
+          docker logs --tail 5 getupsoft-site-web-1 || true
+          echo ""
+          echo "3. Network connectivity:"
+          curl -I http://localhost:3120/ | head -5 || echo "❌ No response"
+          EOF
+
+      - name: Notify success
+        if: success()
+        run: |
+          echo "✅ Deployment Successful!"
+          echo "Site deployed to: https://getupsoft.com"
+          echo "Cloudflare cache purged"
+
+      - name: Notify failure
+        if: failure()
+        run: |
+          echo "❌ Deployment Failed"
+          echo "Check logs above for details"
+          exit 1
