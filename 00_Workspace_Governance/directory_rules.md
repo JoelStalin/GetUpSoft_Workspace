@@ -16,3 +16,4 @@
 14. No mover Odoo sin revisar `addon paths`, manifests, scripts, Docker y dependencias.
 15. No mover carpetas grandes sin matriz de impacto documentada.
 16. `EasyCount` es el nombre canónico del producto. Las carpetas `easycount-core/` y `Easycouting_Refactor/` pertenecen al mismo producto y deben consolidarse como `02_Products/EasyCount/` en migración futura. No tratar como productos separados.
+[test]
