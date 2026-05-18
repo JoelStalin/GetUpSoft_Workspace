@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>AI Agents | GetUpSoft Global</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;700&amp;family=Plus+Jakarta+Sans:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "outline-variant": "#454650",
+                    "surface-variant": "#333539",
+                    "on-tertiary-fixed-variant": "#584400",
+                    "inverse-primary": "#4b5a9c",
+                    "surface-tint": "#b8c4ff",
+                    "on-primary-container": "#354484",
+                    "secondary": "#c3c6d1",
+                    "on-primary-fixed-variant": "#334282",
+                    "on-tertiary-fixed": "#241a00",
+                    "surface-container-lowest": "#0c0e12",
+                    "primary-fixed": "#dde1ff",
+                    "on-primary-fixed": "#001354",
+                    "error-container": "#93000a",
+                    "on-secondary-fixed-variant": "#434750",
+                    "inverse-on-surface": "#2f3035",
+                    "tertiary-container": "#d7b451",
+                    "secondary-container": "#434750",
+                    "on-background": "#e2e2e8",
+                    "on-secondary": "#2c3039",
+                    "inverse-surface": "#e2e2e8",
+                    "surface-container-highest": "#333539",
+                    "surface-dim": "#111317",
+                    "on-surface": "#e2e2e8",
+                    "surface-container-low": "#1a1c20",
+                    "secondary-fixed-dim": "#c3c6d1",
+                    "outline": "#8f909b",
+                    "tertiary-fixed": "#ffe08e",
+                    "secondary-fixed": "#dfe2ed",
+                    "primary-fixed-dim": "#b8c4ff",
+                    "surface-container-high": "#282a2e",
+                    "background": "#111317",
+                    "tertiary": "#f5d069",
+                    "on-error-container": "#ffdad6",
+                    "surface": "#111317",
+                    "on-tertiary": "#3d2e00",
+                    "on-surface-variant": "#c6c5d2",
+                    "error": "#ffb4ab",
+                    "on-error": "#690005",
+                    "surface-bright": "#37393e",
+                    "primary": "#c9d1ff",
+                    "on-secondary-container": "#b2b5c0",
+                    "on-primary": "#1a2b6a",
+                    "on-secondary-fixed": "#181c24",
+                    "tertiary-fixed-dim": "#e7c35e",
+                    "primary-container": "#a5b4fc",
+                    "surface-container": "#1e2024",
+                    "on-tertiary-container": "#5a4600"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "container-max": "1280px",
+                    "unit": "4px",
+                    "gutter": "24px",
+                    "margin-desktop": "48px",
+                    "margin-mobile": "16px"
+            },
+            "fontFamily": {
+                    "headline-md": ["Space Grotesk"],
+                    "label-md": ["Plus Jakarta Sans"],
+                    "display-lg": ["Space Grotesk"],
+                    "display-lg-mobile": ["Space Grotesk"],
+                    "body-lg": ["Plus Jakarta Sans"],
+                    "body-sm": ["Plus Jakarta Sans"],
+                    "headline-lg": ["Space Grotesk"],
+                    "body-md": ["Plus Jakarta Sans"]
+            },
+            "fontSize": {
+                    "headline-md": ["24px", {"lineHeight": "1.3", "fontWeight": "400"}],
+                    "label-md": ["12px", {"lineHeight": "1", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                    "display-lg": ["48px", {"lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "300"}],
+                    "display-lg-mobile": ["36px", {"lineHeight": "1.2", "fontWeight": "300"}],
+                    "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                    "body-sm": ["14px", {"lineHeight": "1.5", "fontWeight": "400"}],
+                    "headline-lg": ["32px", {"lineHeight": "1.2", "fontWeight": "400"}],
+                    "body-md": ["16px", {"lineHeight": "1.6", "fontWeight": "400"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        body {
+            background-color: #0F1115;
+            color: #E2E2E8;
+            overflow-x: hidden;
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.07);
+            transition: border-color 0.3s ease;
+        }
+        .glass-card:hover {
+            border-color: rgba(255, 255, 255, 0.15);
+        }
+        .agent-glow {
+            box-shadow: 0 0 40px -10px rgba(165, 180, 252, 0.15);
+        }
+        .arc-node {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(165, 180, 252, 0.2);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .arc-node:hover {
+            border-color: #A5B4FC;
+            background: rgba(165, 180, 252, 0.05);
+            transform: translateY(-2px);
+        }
+        .connector-line {
+            background: linear-gradient(90deg, rgba(165, 180, 252, 0) 0%, rgba(165, 180, 252, 0.5) 50%, rgba(165, 180, 252, 0) 100%);
+            height: 1px;
+            width: 100%;
+        }
+        .text-muted {
+            color: #64748B;
+        }
+    </style>
+</head>
+<body class="selection:bg-primary-container selection:text-on-primary-container">
+<!-- TopNavBar -->
+<header class="fixed top-0 w-full z-50 bg-background/80 dark:bg-background/80 backdrop-blur-xl border-b border-white/10">
+<nav class="flex justify-between items-center px-margin-desktop py-4 max-w-container-max mx-auto">
+<div class="font-display-lg text-on-surface dark:text-on-surface tracking-tight">getupsoft Global</div>
+<div class="hidden md:flex items-center gap-8">
+<a class="text-on-surface-variant dark:text-on-surface-variant hover:text-primary transition-colors duration-200 font-label-md text-label-md" href="#">Home</a>
+<a class="text-primary font-bold border-b-2 border-primary pb-1 font-label-md text-label-md" href="#">AI Agents</a>
+<a class="text-on-surface-variant dark:text-on-surface-variant hover:text-primary transition-colors duration-200 font-label-md text-label-md" href="#">Integration</a>
+<a class="text-on-surface-variant dark:text-on-surface-variant hover:text-primary transition-colors duration-200 font-label-md text-label-md" href="#">Products</a>
+<a class="text-on-surface-variant dark:text-on-surface-variant hover:text-primary transition-colors duration-200 font-label-md text-label-md" href="#">Solutions</a>
+<a class="text-on-surface-variant dark:text-on-surface-variant hover:text-primary transition-colors duration-200 font-label-md text-label-md" href="#">About</a>
+</div>
+<button class="bg-primary-container text-on-primary-container px-6 py-2 rounded-full font-label-md text-label-md hover:scale-105 active:scale-95 transition-all">Book Strategy</button>
+</nav>
+</header>
+<main class="pt-32">
+<!-- Hero Section -->
+<section class="max-w-container-max mx-auto px-margin-desktop mb-32 relative">
+<div class="absolute -top-20 left-1/4 w-96 h-96 bg-primary/10 blur-[120px] rounded-full pointer-events-none"></div>
+<div class="relative z-10 max-w-4xl">
+<span class="font-mono text-primary-container tracking-wider mb-6 block">// AI Agents</span>
+<h1 class="font-display-lg text-[72px] leading-[1.1] mb-8 text-on-surface">Autonomous agents that <br/>run your operations.</h1>
+<p class="font-body-lg text-muted max-w-2xl mb-10">Deploy highly specialized, self-governing intelligence layers that integrate with your core stack to manage complex workflows, interpret data, and execute decisions in real-time.</p>
+<div class="flex gap-4">
+<button class="bg-primary-container text-on-primary-container px-10 py-4 rounded-full font-label-md text-body-md font-bold hover:brightness-110 transition-all agent-glow">
+                        Deploy Your First Agent
+                    </button>
+<button class="border border-white/10 hover:bg-white/5 text-on-surface px-10 py-4 rounded-full font-label-md text-body-md transition-all">
+                        Technical Specs
+                    </button>
+</div>
+</div>
+</section>
+<!-- Agent Modules Grid -->
+<section class="max-w-container-max mx-auto px-margin-desktop mb-40">
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-gutter">
+<!-- Item 1 -->
+<div class="glass-card p-8 rounded-xl flex flex-col h-full group">
+<div class="flex items-center justify-between mb-6">
+<span class="material-symbols-outlined text-primary-container text-3xl" data-icon="hub">hub</span>
+<div class="w-2 h-2 rounded-full bg-primary-container shadow-[0_0_8px_#A5B4FC]"></div>
+</div>
+<h3 class="font-headline-md text-on-surface mb-3">Workflow Orchestration</h3>
+<p class="font-body-sm text-muted">End-to-end management of complex operational sequences without manual oversight.</p>
+</div>
+<!-- Item 2 -->
+<div class="glass-card p-8 rounded-xl flex flex-col h-full group">
+<div class="flex items-center justify-between mb-6">
+<span class="material-symbols-outlined text-primary-container text-3xl" data-icon="psychology">psychology</span>
+<div class="w-2 h-2 rounded-full bg-primary-container shadow-[0_0_8px_#A5B4FC]"></div>
+</div>
+<h3 class="font-headline-md text-on-surface mb-3">Cognitive Analysis</h3>
+<p class="font-body-sm text-muted">Identify patterns and anomalies across multi-dimensional datasets with neural precision.</p>
+</div>
+<!-- Item 3 -->
+<div class="glass-card p-8 rounded-xl flex flex-col h-full group">
+<div class="flex items-center justify-between mb-6">
+<span class="material-symbols-outlined text-primary-container text-3xl" data-icon="forum">forum</span>
+<div class="w-2 h-2 rounded-full bg-primary-container shadow-[0_0_8px_#A5B4FC]"></div>
+</div>
+<h3 class="font-headline-md text-on-surface mb-3">Natural Language Ops</h3>
+<p class="font-body-sm text-muted">Execute system commands and handle complex customer intents via native LLM logic.</p>
+</div>
+<!-- Item 4 -->
+<div class="glass-card p-8 rounded-xl flex flex-col h-full group">
+<div class="flex items-center justify-between mb-6">
+<span class="material-symbols-outlined text-primary-container text-3xl" data-icon="memory">memory</span>
+<div class="w-2 h-2 rounded-full bg-primary-container shadow-[0_0_8px_#A5B4FC]"></div>
+</div>
+<h3 class="font-headline-md text-on-surface mb-3">Agentic Memory</h3>
+<p class="font-body-sm text-muted">Long-term context retention and learning across sessions to improve agent efficiency.</p>
+</div>
+<!-- Item 5 -->
+<div class="glass-card p-8 rounded-xl flex flex-col h-full group">
+<div class="flex items-center justify-between mb-6">
+<span class="material-symbols-outlined text-primary-container text-3xl" data-icon="verified_user">verified_user</span>
+<div class="w-2 h-2 rounded-full bg-primary-container shadow-[0_0_8px_#A5B4FC]"></div>
+</div>
+<h3 class="font-headline-md text-on-surface mb-3">Executive Intelligence</h3>
+<p class="font-body-sm text-muted">High-level strategic reasoning for prioritizing resource allocation and task queues.</p>
+</div>
+<!-- Item 6 -->
+<div class="glass-card p-8 rounded-xl flex flex-col h-full group">
+<div class="flex items-center justify-between mb-6">
+<span class="material-symbols-outlined text-primary-container text-3xl" data-icon="query_stats">query_stats</span>
+<div class="w-2 h-2 rounded-full bg-primary-container shadow-[0_0_8px_#A5B4FC]"></div>
+</div>
+<h3 class="font-headline-md text-on-surface mb-3">Data Interpretation</h3>
+<p class="font-body-sm text-muted">Convert unstructured signals into actionable insights and structured telemetry.</p>
+</div>
+<!-- Item 7 -->
+<div class="glass-card p-8 rounded-xl flex flex-col h-full group">
+<div class="flex items-center justify-between mb-6">
+<span class="material-symbols-outlined text-primary-container text-3xl" data-icon="settings_suggest">settings_suggest</span>
+<div class="w-2 h-2 rounded-full bg-primary-container shadow-[0_0_8px_#A5B4FC]"></div>
+</div>
+<h3 class="font-headline-md text-on-surface mb-3">Process Automation</h3>
+<p class="font-body-sm text-muted">Trigger cross-platform actions autonomously based on defined environmental states.</p>
+</div>
+<!-- Item 8 -->
+<div class="glass-card p-8 rounded-xl flex flex-col h-full group">
+<div class="flex items-center justify-between mb-6">
+<span class="material-symbols-outlined text-primary-container text-3xl" data-icon="account_tree">account_tree</span>
+<div class="w-2 h-2 rounded-full bg-primary-container shadow-[0_0_8px_#A5B4FC]"></div>
+</div>
+<h3 class="font-headline-md text-on-surface mb-3">Decision Support</h3>
+<p class="font-body-sm text-muted">Provide real-time probabilistic guidance for critical human-in-the-loop choices.</p>
+</div>
+</div>
+</section>
+<!-- Architecture Section -->
+<section class="py-32 bg-surface-container-lowest overflow-hidden">
+<div class="max-w-container-max mx-auto px-margin-desktop">
+<div class="text-center mb-20">
+<h2 class="font-headline-lg text-on-surface mb-4">Architecture Layer</h2>
+<p class="font-body-md text-muted">Seamlessly connected intelligence across your entire infrastructure.</p>
+</div>
+<div class="relative flex flex-col md:flex-row items-center justify-center gap-12 py-20">
+<!-- Nodes Grid Left -->
+<div class="flex flex-col gap-8 order-2 md:order-1">
+<div class="arc-node px-8 py-4 rounded-full flex items-center gap-4">
+<span class="material-symbols-outlined text-primary" data-icon="database">database</span>
+<span class="font-label-md text-on-surface">ERP Systems</span>
+</div>
+<div class="arc-node px-8 py-4 rounded-full flex items-center gap-4">
+<span class="material-symbols-outlined text-primary" data-icon="group">group</span>
+<span class="font-label-md text-on-surface">CRM Integrations</span>
+</div>
+</div>
+<!-- Center Core -->
+<div class="relative order-1 md:order-2">
+<div class="absolute -inset-10 bg-primary/20 blur-3xl rounded-full animate-pulse"></div>
+<div class="w-48 h-48 rounded-full glass-card flex flex-col items-center justify-center border-primary/40 relative z-10">
+<span class="material-symbols-outlined text-5xl text-primary mb-2" data-icon="auto_awesome">auto_awesome</span>
+<span class="font-label-md text-primary font-bold tracking-widest uppercase">Agent Core</span>
+</div>
+</div>
+<!-- Nodes Grid Right -->
+<div class="flex flex-col gap-8 order-3">
+<div class="arc-node px-8 py-4 rounded-full flex items-center gap-4">
+<span class="material-symbols-outlined text-primary" data-icon="insights">insights</span>
+<span class="font-label-md text-on-surface">BI Platforms</span>
+</div>
+<div class="arc-node px-8 py-4 rounded-full flex items-center gap-4">
+<span class="material-symbols-outlined text-primary" data-icon="api">api</span>
+<span class="font-label-md text-on-surface">External APIs</span>
+</div>
+</div>
+<!-- Decorative Background Image -->
+<div class="absolute inset-0 -z-10 opacity-20 flex justify-center items-center">
+<img alt="Technical mesh" class="w-full max-w-4xl object-contain opacity-30 pointer-events-none" data-alt="A highly complex, technical 3D wireframe mesh representing a digital neural network. The style is minimalist and high-fidelity, featuring thin luminescent lines on a deep obsidian background. Subtle indigo glows emanate from the nodes of the network, creating a sophisticated and futuristic atmosphere of advanced interconnected artificial intelligence architecture." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAAtTAfYOF4FAQf7UraAVcV6C_sKJTwoophLRSdlkttcoILGfKuWMsB6ppC8NBO7CRxYgcC9DXbosU3lWX-_OygHOppcwsYiELBwsLqnreGQRPyn2ody3IPIweHIR7ME46xtmTGLLgMkgzBTFn3jDaGs-DtovbnktK9EQFlM89K1d4lfU-JckOjWVjb1kw0h_9D1BSl-ynJzy-CbnFvmdZ3F7KNTBJGu1qGa0QHikpP3rTJ_g_sLYvRLbWG98TQ0ZDl5GTLvywRoKY"/>
+</div>
+</div>
+</div>
+</section>
+<!-- Footer CTA -->
+<section class="max-w-container-max mx-auto px-margin-desktop py-40">
+<div class="glass-card rounded-[32px] p-12 md:p-24 text-center relative overflow-hidden">
+<div class="absolute top-0 right-0 w-64 h-64 bg-primary/5 blur-[80px] rounded-full"></div>
+<h2 class="font-display-lg text-on-surface mb-8">Ready to evolve your stack?</h2>
+<button class="bg-primary-container text-on-primary-container px-12 py-5 rounded-full font-label-md text-body-lg font-bold hover:scale-105 transition-transform">
+                    Talk to an AI Architect
+                </button>
+</div>
+</section>
+</main>
+<!-- Footer -->
+<footer class="bg-surface-dim dark:bg-surface-dim border-t border-white/5">
+<div class="grid grid-cols-1 md:grid-cols-4 gap-gutter px-margin-desktop py-12 max-w-container-max mx-auto">
+<div class="col-span-1 md:col-span-1">
+<div class="font-headline-md text-on-surface dark:text-on-surface mb-6">GetUpSoft</div>
+<p class="font-body-sm text-on-surface-variant leading-relaxed">
+                    © 2024 GetUpSoft Global. All rights reserved.
+                </p>
+</div>
+<div class="flex flex-col gap-3">
+<span class="font-label-md text-on-surface mb-2">Platform</span>
+<a class="font-body-sm text-on-surface-variant hover:text-primary transition-colors" href="#">AI Agents</a>
+<a class="font-body-sm text-on-surface-variant hover:text-primary transition-colors" href="#">Integration</a>
+<a class="font-body-sm text-on-surface-variant hover:text-primary transition-colors" href="#">Products</a>
+</div>
+<div class="flex flex-col gap-3">
+<span class="font-label-md text-on-surface mb-2">Company</span>
+<a class="font-body-sm text-on-surface-variant hover:text-primary transition-colors" href="#">About</a>
+<a class="font-body-sm text-on-surface-variant hover:text-primary transition-colors" href="#">Solutions</a>
+</div>
+<div class="flex flex-col gap-3">
+<span class="font-label-md text-on-surface mb-2">Legal</span>
+<a class="font-body-sm text-on-surface-variant hover:text-primary transition-colors" href="#">Terms</a>
+<a class="font-body-sm text-on-surface-variant hover:text-primary transition-colors" href="#">Privacy</a>
+</div>
+</div>
+</footer>
+<script>
+        // Micro-interactions for glass cards
+        document.querySelectorAll('.glass-card').forEach(card => {
+            card.addEventListener('mousemove', e => {
+                const rect = card.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                card.style.setProperty('--mouse-x', `${x}px`);
+                card.style.setProperty('--mouse-y', `${y}px`);
+            });
+        });
+    </script>
+</body></html>

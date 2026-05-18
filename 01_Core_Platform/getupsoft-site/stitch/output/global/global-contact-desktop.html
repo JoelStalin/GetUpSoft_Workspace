@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;500;700&amp;family=Plus+Jakarta+Sans:wght@300;400;500&amp;family=IBM+Plex+Mono:wght@400;500&amp;family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "inverse-surface": "#e4e1e8",
+                        "on-primary-fixed-variant": "#334282",
+                        "surface-container-low": "#1b1b20",
+                        "on-secondary": "#003730",
+                        "on-primary-fixed": "#001354",
+                        "on-tertiary": "#3d2e00",
+                        "outline-variant": "#454650",
+                        "secondary-container": "#00786a",
+                        "tertiary-container": "#d7b451",
+                        "secondary-fixed": "#96f3e1",
+                        "surface-container-lowest": "#0d0e12",
+                        "surface-container-highest": "#343439",
+                        "on-background": "#e4e1e8",
+                        "surface-dim": "#131317",
+                        "primary-fixed": "#dde1ff",
+                        "primary-container": "#a5b4fc",
+                        "inverse-on-surface": "#303035",
+                        "surface-container-high": "#292a2e",
+                        "on-tertiary-fixed-variant": "#584400",
+                        "tertiary-fixed-dim": "#e7c35e",
+                        "on-secondary-fixed": "#00201b",
+                        "on-primary-container": "#354484",
+                        "primary-fixed-dim": "#b8c4ff",
+                        "surface": "#131317",
+                        "tertiary-fixed": "#ffe08e",
+                        "surface-tint": "#b8c4ff",
+                        "tertiary": "#f5d069",
+                        "on-tertiary-fixed": "#241a00",
+                        "error-container": "#93000a",
+                        "error": "#ffb4ab",
+                        "background": "#131317",
+                        "secondary": "#7ad7c6",
+                        "on-surface-variant": "#c6c5d2",
+                        "surface-variant": "#343439",
+                        "outline": "#8f909b",
+                        "on-secondary-fixed-variant": "#005046",
+                        "on-surface": "#e4e1e8",
+                        "inverse-primary": "#4b5a9c",
+                        "surface-container": "#1f1f24",
+                        "on-error": "#690005",
+                        "primary": "#c9d1ff",
+                        "on-error-container": "#ffdad6",
+                        "on-secondary-container": "#a0fdeb",
+                        "on-tertiary-container": "#5a4600",
+                        "on-primary": "#1a2b6a",
+                        "secondary-fixed-dim": "#7ad7c6",
+                        "surface-bright": "#39393e"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "1rem",
+                        "lg": "2rem",
+                        "xl": "3rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "margin-mobile": "16px",
+                        "stack-md": "16px",
+                        "gutter": "24px",
+                        "section-padding-y": "6rem",
+                        "stack-sm": "8px",
+                        "stack-lg": "32px",
+                        "max-width": "1280px"
+                    },
+                    "fontFamily": {
+                        "body-lg": ["Plus Jakarta Sans"],
+                        "headline-lg": ["Space Grotesk"],
+                        "headline-md": ["Space Grotesk"],
+                        "label-mono": ["IBM Plex Mono"],
+                        "body-md": ["Plus Jakarta Sans"],
+                        "display": ["Space Grotesk"]
+                    },
+                    "fontSize": {
+                        "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "300"}],
+                        "headline-lg": ["48px", {"lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "300"}],
+                        "headline-md": ["32px", {"lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "300"}],
+                        "label-mono": ["10px", {"lineHeight": "1", "letterSpacing": "0.2em", "fontWeight": "500"}],
+                        "body-md": ["16px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                        "display": ["64px", {"lineHeight": "1.1", "letterSpacing": "-0.04em", "fontWeight": "300"}]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .glass-card {
+            background: rgba(22, 25, 32, 0.7);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(143, 144, 155, 0.2);
+        }
+        .input-premium {
+            background: rgba(31, 31, 36, 0.5);
+            border: 1px solid rgba(143, 144, 155, 0.3);
+            transition: all 0.2s ease;
+        }
+        .input-premium:focus {
+            border-color: #a5b4fc;
+            outline: none;
+            box-shadow: 0 0 10px rgba(165, 180, 252, 0.1);
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-surface selection:bg-primary-container selection:text-on-primary-container">
+<!-- TopNavBar -->
+<nav class="fixed top-0 w-full z-50 bg-surface/70 dark:bg-surface/70 backdrop-blur-xl border-b border-outline-variant/30">
+<div class="flex justify-between items-center px-gutter py-4 max-w-max-width mx-auto">
+<div class="text-body-lg font-headline-lg tracking-tighter text-on-surface dark:text-on-surface">
+                GetUpSoft Global
+            </div>
+<div class="hidden md:flex gap-stack-lg items-center">
+<a class="font-label-mono text-label-mono text-on-surface-variant hover:text-on-surface transition-colors duration-200" href="#">AI Agents</a>
+<a class="font-label-mono text-label-mono text-on-surface-variant hover:text-on-surface transition-colors duration-200" href="#">Integration</a>
+<a class="font-label-mono text-label-mono text-on-surface-variant hover:text-on-surface transition-colors duration-200" href="#">Products</a>
+<a class="font-label-mono text-label-mono text-on-surface-variant hover:text-on-surface transition-colors duration-200" href="#">Solutions</a>
+<a class="font-label-mono text-label-mono text-on-surface-variant hover:text-on-surface transition-colors duration-200" href="#">About</a>
+</div>
+<div class="flex items-center gap-stack-md">
+<span class="material-symbols-outlined text-on-surface-variant cursor-pointer hover:opacity-80 transition-opacity">terminal</span>
+<button class="bg-primary-container text-on-primary-container px-6 py-2 rounded-full font-label-mono text-label-mono tracking-[0.2em] uppercase hover:opacity-80 transition-opacity active:scale-95 duration-100">
+                    BOOK STRATEGY
+                </button>
+</div>
+</div>
+</nav>
+<!-- Main Content -->
+<main class="pt-24 min-h-screen">
+<!-- Hero Section -->
+<section class="max-w-max-width mx-auto px-gutter py-section-padding-y">
+<div class="mb-stack-lg">
+<span class="font-label-mono text-label-mono text-primary uppercase">Contact</span>
+<h1 class="font-headline-lg text-headline-lg mt-4 max-w-3xl">
+                    Schedule a Strategic <span class="italic font-display">Session</span>.
+                </h1>
+<p class="font-body-lg text-body-lg text-on-surface-variant mt-6 max-w-2xl">
+                    We partner with leaders to architect the next generation of autonomous enterprise intelligence.
+                </p>
+</div>
+<!-- Two-Column Grid -->
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-20 items-start mt-12">
+<!-- Left Column: Context -->
+<div class="space-y-12">
+<div class="space-y-6">
+<h2 class="font-headline-md text-headline-md text-on-surface">Precision Engineering for Enterprise Scale</h2>
+<p class="font-body-md text-body-md text-on-surface-variant">
+                            We work with organizations ready to transition from fragmented data to unified machine intelligence. Our engagements are tailored for enterprise-scale deployment.
+                        </p>
+</div>
+<div class="space-y-8">
+<div class="flex gap-6 group">
+<div class="flex-none">
+<div class="w-12 h-12 rounded-full border border-outline-variant/30 flex items-center justify-center group-hover:border-primary transition-colors">
+<span class="material-symbols-outlined text-primary" data-icon="architecture">architecture</span>
+</div>
+</div>
+<div>
+<span class="font-label-mono text-label-mono text-primary block mb-2 uppercase">Scenario 01</span>
+<p class="font-body-md text-body-md text-on-surface">Enterprise teams modernizing legacy architecture.</p>
+</div>
+</div>
+<div class="flex gap-6 group">
+<div class="flex-none">
+<div class="w-12 h-12 rounded-full border border-outline-variant/30 flex items-center justify-center group-hover:border-primary transition-colors">
+<span class="material-symbols-outlined text-primary" data-icon="auto_awesome">auto_awesome</span>
+</div>
+</div>
+<div>
+<span class="font-label-mono text-label-mono text-primary block mb-2 uppercase">Scenario 02</span>
+<p class="font-body-md text-body-md text-on-surface">Founders building AI-native platforms.</p>
+</div>
+</div>
+<div class="flex gap-6 group">
+<div class="flex-none">
+<div class="w-12 h-12 rounded-full border border-outline-variant/30 flex items-center justify-center group-hover:border-primary transition-colors">
+<span class="material-symbols-outlined text-primary" data-icon="account_tree">account_tree</span>
+</div>
+</div>
+<div>
+<span class="font-label-mono text-label-mono text-primary block mb-2 uppercase">Scenario 03</span>
+<p class="font-body-md text-body-md text-on-surface">CTOs/COOs orchestrating digital transformation.</p>
+</div>
+</div>
+</div>
+<!-- Direct Contact Links -->
+<div class="pt-12 border-t border-outline-variant/20">
+<span class="font-label-mono text-label-mono text-on-surface-variant block mb-6 uppercase">Or reach us directly</span>
+<div class="space-y-4">
+<a class="flex items-center gap-4 group" href="mailto:contact@getupsoft.com">
+<span class="material-symbols-outlined text-on-surface-variant group-hover:text-primary transition-colors" data-icon="alternate_email">alternate_email</span>
+<span class="font-body-md text-body-md hover:text-primary transition-colors">contact@getupsoft.com</span>
+</a>
+<a class="flex items-center gap-4 group" href="https://linkedin.com/company/getupsoft">
+<span class="material-symbols-outlined text-on-surface-variant group-hover:text-primary transition-colors" data-icon="share">share</span>
+<span class="font-body-md text-body-md hover:text-primary transition-colors">/company/getupsoft</span>
+</a>
+</div>
+</div>
+</div>
+<!-- Right Column: Form Card -->
+<div class="glass-card p-10 rounded-lg">
+<form action="#" class="space-y-6" method="POST">
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<div class="space-y-2">
+<label class="font-label-mono text-[10px] text-on-surface-variant uppercase tracking-widest">Name</label>
+<input class="input-premium w-full px-4 py-3 rounded text-on-surface font-body-md placeholder:text-outline-variant" placeholder="Full name" type="text"/>
+</div>
+<div class="space-y-2">
+<label class="font-label-mono text-[10px] text-on-surface-variant uppercase tracking-widest">Organization</label>
+<input class="input-premium w-full px-4 py-3 rounded text-on-surface font-body-md placeholder:text-outline-variant" placeholder="Company name" type="text"/>
+</div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<div class="space-y-2">
+<label class="font-label-mono text-[10px] text-on-surface-variant uppercase tracking-widest">Work Email</label>
+<input class="input-premium w-full px-4 py-3 rounded text-on-surface font-body-md placeholder:text-outline-variant" placeholder="name@company.com" type="email"/>
+</div>
+<div class="space-y-2">
+<label class="font-label-mono text-[10px] text-on-surface-variant uppercase tracking-widest">Role</label>
+<input class="input-premium w-full px-4 py-3 rounded text-on-surface font-body-md placeholder:text-outline-variant" placeholder="Title / Position" type="text"/>
+</div>
+</div>
+<div class="space-y-2">
+<label class="font-label-mono text-[10px] text-on-surface-variant uppercase tracking-widest">Focus Area</label>
+<select class="input-premium w-full px-4 py-3 rounded text-on-surface font-body-md appearance-none">
+<option class="bg-surface">AI Agents</option>
+<option class="bg-surface">System Integration</option>
+<option class="bg-surface">Digital Transformation</option>
+<option class="bg-surface">Infrastructure</option>
+<option class="bg-surface">Other</option>
+</select>
+</div>
+<div class="space-y-2">
+<label class="font-label-mono text-[10px] text-on-surface-variant uppercase tracking-widest">Project Scope</label>
+<select class="input-premium w-full px-4 py-3 rounded text-on-surface font-body-md appearance-none">
+<option class="bg-surface">Pilot Project</option>
+<option class="bg-surface">Departmental Deployment</option>
+<option class="bg-surface">Global Enterprise Orchestration</option>
+<option class="bg-surface">Strategic Audit</option>
+</select>
+</div>
+<div class="space-y-2">
+<label class="font-label-mono text-[10px] text-on-surface-variant uppercase tracking-widest">Message</label>
+<textarea class="input-premium w-full px-4 py-3 rounded text-on-surface font-body-md placeholder:text-outline-variant" placeholder="Outline your strategic objectives..." rows="4"></textarea>
+</div>
+<button class="w-full bg-primary-container text-on-primary-container py-5 rounded-full font-label-mono text-label-mono tracking-[0.2em] uppercase font-bold hover:opacity-90 active:scale-[0.98] transition-all" type="submit">
+                            Schedule Strategic Session
+                        </button>
+<p class="text-[10px] font-label-mono text-on-surface-variant text-center mt-4">
+                            SECURE DATA TRANSMISSION ENABLED // AES-256 ENCRYPTED
+                        </p>
+</form>
+</div>
+</div>
+</section>
+<!-- Decorative Aesthetic Section -->
+<section class="w-full px-gutter pb-section-padding-y opacity-40">
+<div class="max-w-max-width mx-auto border-t border-outline-variant/30 pt-12 flex flex-wrap gap-stack-lg items-center justify-between">
+<span class="font-label-mono text-[10px] uppercase tracking-widest">Architectural Integrity</span>
+<div class="flex gap-stack-lg">
+<span class="font-label-mono text-[10px] uppercase tracking-widest">Data Sovereignty</span>
+<span class="font-label-mono text-[10px] uppercase tracking-widest">LLM Agnostic</span>
+<span class="font-label-mono text-[10px] uppercase tracking-widest">Global Ops</span>
+</div>
+</div>
+</section>
+</main>
+<!-- Footer -->
+<footer class="bg-surface-container-lowest dark:bg-surface-container-lowest border-t border-outline-variant/20">
+<div class="grid grid-cols-2 md:grid-cols-4 gap-stack-lg px-gutter py-section-padding-y max-w-max-width mx-auto">
+<div class="col-span-2 md:col-span-1">
+<div class="font-headline-md text-on-surface mb-6">GetUpSoft</div>
+<p class="font-body-md text-on-surface-variant">Intelligent infrastructure for the global enterprise.</p>
+</div>
+<div>
+<span class="font-label-mono text-label-mono text-primary block mb-6 uppercase">Company</span>
+<ul class="space-y-3">
+<li><a class="font-body-md text-on-surface-variant hover:text-primary transition-colors" href="#">About</a></li>
+<li><a class="font-body-md text-on-surface-variant hover:text-primary transition-colors" href="#">Products</a></li>
+<li><a class="font-body-md text-on-surface-variant hover:text-primary transition-colors" href="#">Integration</a></li>
+</ul>
+</div>
+<div>
+<span class="font-label-mono text-label-mono text-primary block mb-6 uppercase">Legal</span>
+<ul class="space-y-3">
+<li><a class="font-body-md text-on-surface-variant hover:text-primary transition-colors" href="#">Privacy</a></li>
+<li><a class="font-body-md text-on-surface-variant hover:text-primary transition-colors" href="#">Terms</a></li>
+<li><a class="font-body-md text-on-surface-variant hover:text-primary transition-colors" href="#">Security</a></li>
+</ul>
+</div>
+<div>
+<span class="font-label-mono text-label-mono text-primary block mb-6 uppercase">Connect</span>
+<ul class="space-y-3">
+<li><a class="font-body-md text-on-surface-variant hover:text-primary transition-colors" href="#">LinkedIn</a></li>
+<li><a class="font-body-md text-on-surface-variant hover:text-primary transition-colors" href="#">Contact</a></li>
+</ul>
+</div>
+</div>
+<div class="max-w-max-width mx-auto px-gutter py-8 border-t border-outline-variant/10 text-center">
+<p class="font-label-mono text-label-mono text-on-surface-variant">© 2024 GetUpSoft Global. All rights reserved.</p>
+</div>
+</footer>
+</body></html>

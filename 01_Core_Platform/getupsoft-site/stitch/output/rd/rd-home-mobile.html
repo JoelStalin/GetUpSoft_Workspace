@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;700&amp;family=Plus+Jakarta+Sans:wght@300;400&amp;family=JetBrains+Mono&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;
+        }
+        body {
+            background-color: #0F1115;
+            color: #dfe3e1;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+        .glass-card {
+            background: rgba(22, 25, 32, 0.7);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.07);
+        }
+        .text-mint {
+            color: #99F6E4;
+        }
+    </style>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "on-surface-variant": "#94A3B8",
+                    "surface-tint": "#7ad7c6",
+                    "primary": "#ffffff",
+                    "surface-variant": "#313634",
+                    "surface-bright": "#1C2028",
+                    "on-secondary-fixed-variant": "#334282",
+                    "error-container": "#93000a",
+                    "on-secondary-container": "#a2b1f9",
+                    "on-background": "#dfe3e1",
+                    "on-tertiary-container": "#56657c",
+                    "on-primary-fixed-variant": "#005046",
+                    "surface-container": "#161920",
+                    "secondary-container": "#334282",
+                    "tertiary-container": "#d3e4fe",
+                    "on-secondary": "#1a2b6a",
+                    "on-primary-fixed": "#00201b",
+                    "inverse-on-surface": "#2d3130",
+                    "secondary": "#b8c4ff",
+                    "surface-container-low": "#181d1b",
+                    "surface-container-high": "#262b2a",
+                    "on-primary": "#003730",
+                    "on-secondary-fixed": "#001354",
+                    "surface-container-lowest": "#0a0f0e",
+                    "inverse-surface": "#dfe3e1",
+                    "outline-variant": "rgba(255,255,255,0.07)",
+                    "background": "#101413",
+                    "on-error": "#690005",
+                    "on-surface": "#dfe3e1",
+                    "secondary-fixed-dim": "#b8c4ff",
+                    "tertiary-fixed-dim": "#b7c8e1",
+                    "primary-container": "#96f3e1",
+                    "on-tertiary": "#213145",
+                    "on-primary-container": "#007164",
+                    "inverse-primary": "#006b5e",
+                    "primary-fixed": "#96f3e1",
+                    "primary-fixed-dim": "#7ad7c6",
+                    "tertiary-fixed": "#d3e4fe",
+                    "tertiary": "#ffffff",
+                    "on-tertiary-fixed-variant": "#38485d",
+                    "surface-container-highest": "#313634",
+                    "on-tertiary-fixed": "#0b1c30",
+                    "outline": "rgba(255,255,255,0.12)",
+                    "error": "#ffb4ab",
+                    "surface-dim": "#101413",
+                    "on-error-container": "#ffdad6",
+                    "surface": "#0F1115",
+                    "secondary-fixed": "#dde1ff"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "stack-md": "1.5rem",
+                    "gutter": "1rem",
+                    "stack-sm": "0.5rem",
+                    "section-v": "4rem",
+                    "max-width": "1280px"
+            },
+            "fontFamily": {
+                    "label-sm": ["JetBrains Mono"],
+                    "headline-md": ["Space Grotesk"],
+                    "headline-lg": ["Space Grotesk"],
+                    "body-md": ["Plus Jakarta Sans"],
+                    "display-lg": ["Space Grotesk"],
+                    "body-lg": ["Plus Jakarta Sans"]
+            },
+            "fontSize": {
+                    "label-sm": ["10px", {"lineHeight": "1", "letterSpacing": "0.15em", "fontWeight": "400"}],
+                    "headline-md": ["24px", {"lineHeight": "1.2", "fontWeight": "300"}],
+                    "headline-lg": ["32px", {"lineHeight": "1.2", "letterSpacing": "-0.01em", "fontWeight": "300"}],
+                    "body-md": ["16px", {"lineHeight": "1.6", "fontWeight": "300"}],
+                    "display-lg": ["40px", {"lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "300"}],
+                    "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "300"}]
+            }
+          },
+        },
+      }
+    </script>
+</head>
+<body class="bg-surface text-on-surface">
+<!-- TopAppBar -->
+<header class="fixed top-0 w-full z-50 bg-surface/70 backdrop-blur-md border-b border-outline-variant flex items-center justify-between px-4 h-16">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-primary-fixed-dim" data-icon="menu">menu</span>
+<img alt="getupsoft RD" class="h-6" src="https://lh3.googleusercontent.com/aida/ADBb0uhKvw3Zppt27w4ONiZZ1bNwHHH3pdGTbUK9E7g37eCslfOLZdEnwhlopOnmf4ki9SwER69nsJTba1tskUkz-D8oG8IpReR7R5tXH9Aoldf_rBjsXo7HslJ11_WzQMMnVcv5vtEn8de2VC9tIr4a95ilGSyfZ0s06lCnNh4ciTOhZkBB1FsJ1XfjhSiCYYql0_SqlwDHwNrDBOxEtqkT4FrdCfTXjmSjb7oXSGXhhOeLtpI60ilthWjjjw"/>
+</div>
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-on-surface-variant" data-icon="search">search</span>
+</div>
+</header>
+<main class="pt-16 pb-24">
+<!-- Hero Section -->
+<section class="px-4 py-12 flex flex-col gap-6">
+<h1 class="font-headline-lg text-display-lg text-primary tracking-tight">
+                Infraestructura y gestión para el éxito <span class="italic text-mint font-bold text-primary-fixed-dim">local</span>
+</h1>
+<p class="font-body-md text-body-md text-on-surface-variant">
+                Implementamos Odoo ERP, facturación electrónica e infraestructura empresarial para que tu operación funcione sin interrupciones en la República Dominicana.
+            </p>
+<button class="w-full bg-primary-fixed-dim text-on-primary-fixed font-label-sm text-label-sm uppercase py-4 rounded-full tracking-widest font-bold hover:opacity-90 transition-opacity active:scale-95">
+                SOLICITAR DIAGNÓSTICO
+            </button>
+</section>
+<!-- Status Pills -->
+<section class="px-4 overflow-x-auto whitespace-nowrap flex gap-3 no-scrollbar pb-4">
+<div class="inline-flex items-center gap-2 glass-card rounded-full px-4 py-2">
+<div class="w-2 h-2 rounded-full bg-primary-fixed-dim"></div>
+<span class="font-label-sm text-label-sm text-on-surface">Odoo ERP: 92%</span>
+</div>
+<div class="inline-flex items-center gap-2 glass-card rounded-full px-4 py-2">
+<div class="w-2 h-2 rounded-full bg-primary-fixed-dim"></div>
+<span class="font-label-sm text-label-sm text-on-surface">Facturación: 88%</span>
+</div>
+<div class="inline-flex items-center gap-2 glass-card rounded-full px-4 py-2">
+<div class="w-2 h-2 rounded-full bg-primary-fixed-dim"></div>
+<span class="font-label-sm text-label-sm text-on-surface">Infraestructura: 100%</span>
+</div>
+</section>
+<!-- The Challenge -->
+<section class="px-4 py-16 bg-surface-container-low/50">
+<div class="mb-8">
+<span class="font-label-sm text-label-sm text-primary-fixed-dim uppercase tracking-widest block mb-2">EL RETO</span>
+<h2 class="font-headline-md text-headline-lg text-primary">Sistemas <span class="italic font-light">desconectados</span></h2>
+</div>
+<div class="flex flex-col gap-3">
+<div class="glass-card p-5 rounded-xl flex items-center gap-4">
+<span class="material-symbols-outlined text-primary-fixed-dim" data-icon="speed">speed</span>
+<span class="font-body-md text-body-md">Sistemas legados lentos</span>
+</div>
+<div class="glass-card p-5 rounded-xl flex items-center gap-4">
+<span class="material-symbols-outlined text-primary-fixed-dim" data-icon="hub">hub</span>
+<span class="font-body-md text-body-md">Falta de integración ERP</span>
+</div>
+<div class="glass-card p-5 rounded-xl flex items-center gap-4">
+<span class="material-symbols-outlined text-primary-fixed-dim" data-icon="receipt">receipt</span>
+<span class="font-body-md text-body-md">Incumplimiento de facturación e-CF</span>
+</div>
+<div class="glass-card p-5 rounded-xl flex items-center gap-4">
+<span class="material-symbols-outlined text-primary-fixed-dim" data-icon="wifi_off">wifi_off</span>
+<span class="font-body-md text-body-md">Caídas constantes de red</span>
+</div>
+</div>
+</section>
+<!-- Services Section -->
+<section class="px-4 py-16">
+<div class="mb-8">
+<span class="font-label-sm text-label-sm text-primary-fixed-dim uppercase tracking-widest block mb-2">CAPACIDADES</span>
+<h2 class="font-headline-md text-headline-lg text-primary">Ecosistema de <span class="italic font-light">Servicios</span></h2>
+</div>
+<div class="flex flex-col gap-4">
+<div class="glass-card p-6 rounded-2xl relative overflow-hidden">
+<div class="relative z-10">
+<h3 class="font-headline-md text-headline-md mb-2">Odoo ERP</h3>
+<p class="font-body-md text-body-md text-on-surface-variant">Gestión centralizada para PyMEs y Corporativos.</p>
+</div>
+<span class="absolute -right-4 -bottom-4 material-symbols-outlined text-primary-fixed-dim/10 text-8xl" data-icon="business_center">business_center</span>
+</div>
+<div class="glass-card p-6 rounded-2xl relative overflow-hidden">
+<div class="relative z-10">
+<h3 class="font-headline-md text-headline-md mb-2">Facturación Electrónica</h3>
+<p class="font-body-md text-body-md text-on-surface-variant">Cumplimiento fiscal con DGII sin fricciones.</p>
+</div>
+<span class="absolute -right-4 -bottom-4 material-symbols-outlined text-primary-fixed-dim/10 text-8xl" data-icon="history_edu">history_edu</span>
+</div>
+<div class="glass-card p-6 rounded-2xl relative overflow-hidden">
+<div class="relative z-10">
+<h3 class="font-headline-md text-headline-md mb-2">Infraestructura</h3>
+<p class="font-body-md text-body-md text-on-surface-variant">Servidores y cloud para alta disponibilidad.</p>
+</div>
+<span class="absolute -right-4 -bottom-4 material-symbols-outlined text-primary-fixed-dim/10 text-8xl" data-icon="dns">dns</span>
+</div>
+<div class="glass-card p-6 rounded-2xl relative overflow-hidden">
+<div class="relative z-10">
+<h3 class="font-headline-md text-headline-md mb-2">Redes Empresariales</h3>
+<p class="font-body-md text-body-md text-on-surface-variant">Conectividad robusta y segura punto a punto.</p>
+</div>
+<span class="absolute -right-4 -bottom-4 material-symbols-outlined text-primary-fixed-dim/10 text-8xl" data-icon="router">router</span>
+</div>
+</div>
+</section>
+<!-- Sectores -->
+<section class="px-4 py-16 bg-surface-container">
+<div class="mb-8">
+<span class="font-label-sm text-label-sm text-primary-fixed-dim uppercase tracking-widest block mb-2">ESPECIALIZADOS</span>
+<h2 class="font-headline-md text-headline-lg text-primary">Sectores en <span class="italic font-light">RD</span></h2>
+</div>
+<div class="flex flex-wrap gap-2">
+<span class="px-5 py-2 rounded-full border border-outline-variant font-label-sm text-label-sm text-on-surface-variant">DISTRIBUIDORAS</span>
+<span class="px-5 py-2 rounded-full border border-outline-variant font-label-sm text-label-sm text-on-surface-variant">RETAIL</span>
+<span class="px-5 py-2 rounded-full border border-outline-variant font-label-sm text-label-sm text-on-surface-variant">FERRETERÍAS</span>
+<span class="px-5 py-2 rounded-full border border-outline-variant font-label-sm text-label-sm text-on-surface-variant">RESTAURANTES</span>
+<span class="px-5 py-2 rounded-full border border-outline-variant font-label-sm text-label-sm text-on-surface-variant">LOGÍSTICA</span>
+</div>
+</section>
+<!-- Success Cards -->
+<section class="px-4 py-16">
+<div class="flex flex-col gap-6">
+<div class="glass-card rounded-2xl overflow-hidden">
+<div class="h-48 bg-surface-container-high relative">
+<div class="absolute inset-0 bg-gradient-to-t from-surface to-transparent"></div>
+<img class="w-full h-full object-cover" data-alt="A high-end luxury jewelry storefront with sophisticated dark lighting and emerald accents. The atmosphere is exclusive and professional, featuring premium product displays and a minimalist interior design that reflects a high-corporate modern aesthetic in a dark-mode environment." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDGER0mWLnKx1d7_95DaWz9ABLD0Brwxt5LVX0mwUt6gsC3FqKX9MjycZdx4RA0IYvQKTxdRPojQbuDqBH_vwDwYR5iFJTpk8RRheav86w2cQ0dLtgHJJ6jHXe_h6Gy-Sbcqysdt_v5D8NsU3khDB_EZ7As7yKop6pLh5W1LCqis68DtbO8A0jeaZI4aFOXAvuiVBSh7FehF6oIBvayi6LPAX1wkJTghEeRSu3uUHgUGGcwictZnqYW5zBNATPozstSxYrRBIqpMzI"/>
+</div>
+<div class="p-6">
+<div class="flex justify-between items-start mb-4">
+<div>
+<h3 class="font-headline-md text-headline-md text-primary">Galantes Jewelry</h3>
+<p class="font-body-md text-body-md text-on-surface-variant">Luxury Retail</p>
+</div>
+<span class="text-mint material-symbols-outlined" data-icon="verified" style="font-variation-settings: 'FILL' 1;">verified</span>
+</div>
+<div class="flex gap-4 border-t border-outline-variant pt-4">
+<div>
+<p class="font-label-sm text-label-sm text-on-surface-variant mb-1">EFICIENCIA</p>
+<p class="font-headline-md text-headline-md text-primary-fixed-dim">+40%</p>
+</div>
+<div class="border-l border-outline-variant pl-4">
+<p class="font-label-sm text-label-sm text-on-surface-variant mb-1">SOPORTE</p>
+<p class="font-headline-md text-headline-md text-primary-fixed-dim">24/7</p>
+</div>
+</div>
+</div>
+</div>
+<div class="glass-card rounded-2xl overflow-hidden">
+<div class="h-48 bg-surface-container-high relative">
+<div class="absolute inset-0 bg-gradient-to-t from-surface to-transparent"></div>
+<img class="w-full h-full object-cover" data-alt="A busy commercial kitchen in a top-tier restaurant environment, showing professional stainless steel equipment and organized workflow. The lighting is clean and dramatic, focusing on technical precision and food industry logistics. The visual style is enterprise-grade and fits a dark, premium corporate identity." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDwCd0moIYKmNhSvZBMhKk9RtN5xgiK3trY5gk2y5J8J3dQLIFtNt4cGMHFEww3F2ulmID7iVv4fDcVHnFmB_chVy6FrAY_WmOWqwD001xE5B_9ZPm0Qgt-alsa4nOpx7-z-tUE84_UQqnOMUvI36h3DKIAkatQkal3GCt8nXn0B98CJsztzDlKlfKE3zFKHeDjuxxFBbMDVPNbWE6dICKiRd-lYnG8P2-aflqQ6lnanVYzs4xaWup44jn3tNS8twXWE6Rh91NjCDo"/>
+</div>
+<div class="p-6">
+<div class="flex justify-between items-start mb-4">
+<div>
+<h3 class="font-headline-md text-headline-md text-primary">chefalitas</h3>
+<p class="font-body-md text-body-md text-on-surface-variant">Food Industry</p>
+</div>
+<span class="text-mint material-symbols-outlined" data-icon="verified" style="font-variation-settings: 'FILL' 1;">verified</span>
+</div>
+<div class="flex gap-4 border-t border-outline-variant pt-4">
+<div>
+<p class="font-label-sm text-label-sm text-on-surface-variant mb-1">ORDERS</p>
+<p class="font-headline-md text-headline-md text-primary-fixed-dim">10K+</p>
+</div>
+<div class="border-l border-outline-variant pl-4">
+<p class="font-label-sm text-label-sm text-on-surface-variant mb-1">REDUCCIÓN COSTOS</p>
+<p class="font-headline-md text-headline-md text-primary-fixed-dim">15%</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Methodology -->
+<section class="px-4 py-16 bg-surface-container-lowest">
+<div class="mb-10">
+<span class="font-label-sm text-label-sm text-primary-fixed-dim uppercase tracking-widest block mb-2">METODOLOGÍA</span>
+<h2 class="font-headline-md text-headline-lg text-primary">El camino al <span class="italic font-light">éxito</span></h2>
+</div>
+<div class="flex flex-col gap-12">
+<div class="flex gap-6">
+<span class="font-headline-lg text-primary-fixed-dim opacity-40">01</span>
+<div>
+<h4 class="font-headline-md text-headline-md text-primary mb-2">Diagnóstico</h4>
+<p class="font-body-md text-body-md text-on-surface-variant">Auditoría técnica de tus sistemas actuales y flujos de trabajo.</p>
+</div>
+</div>
+<div class="flex gap-6">
+<span class="font-headline-lg text-primary-fixed-dim opacity-40">02</span>
+<div>
+<h4 class="font-headline-md text-headline-md text-primary mb-2">Diseño</h4>
+<p class="font-body-md text-body-md text-on-surface-variant">Arquitectura a medida de Odoo e infraestructura de red.</p>
+</div>
+</div>
+<div class="flex gap-6">
+<span class="font-headline-lg text-primary-fixed-dim opacity-40">03</span>
+<div>
+<h4 class="font-headline-md text-headline-md text-primary mb-2">Implementación</h4>
+<p class="font-body-md text-body-md text-on-surface-variant">Migración de datos y capacitación del equipo operativo.</p>
+</div>
+</div>
+</div>
+</section>
+<!-- Final CTA -->
+<section class="px-4 py-20 text-center">
+<h2 class="font-headline-lg text-display-lg text-primary mb-8 leading-tight">Evalúa tu infraestructura <span class="italic text-primary-fixed-dim">hoy</span></h2>
+<button class="w-full bg-primary-fixed-dim text-on-primary-fixed font-label-sm text-label-sm uppercase py-5 rounded-full tracking-widest font-extrabold shadow-xl shadow-primary-fixed-dim/10 active:scale-95 transition-transform">
+                EMPEZAR DIAGNÓSTICO GRATUITO
+            </button>
+</section>
+</main>
+<!-- Footer -->
+<footer class="w-full border-t border-outline-variant py-12 px-4 flex flex-col items-center gap-8 bg-surface-container-lowest">
+<img alt="getupsoft RD" class="h-8" src="https://lh3.googleusercontent.com/aida/ADBb0uhKvw3Zppt27w4ONiZZ1bNwHHH3pdGTbUK9E7g37eCslfOLZdEnwhlopOnmf4ki9SwER69nsJTba1tskUkz-D8oG8IpReR7R5tXH9Aoldf_rBjsXo7HslJ11_WzQMMnVcv5vtEn8de2VC9tIr4a95ilGSyfZ0s06lCnNh4ciTOhZkBB1FsJ1XfjhSiCYYql0_SqlwDHwNrDBOxEtqkT4FrdCfTXjmSjb7oXSGXhhOeLtpI60ilthWjjjw"/>
+<div class="flex gap-6">
+<a class="font-label-sm text-label-sm text-on-surface-variant hover:text-primary-fixed-dim transition-colors" href="#">Privacidad</a>
+<a class="font-label-sm text-label-sm text-on-surface-variant hover:text-primary-fixed-dim transition-colors" href="#">Términos</a>
+<a class="font-label-sm text-label-sm text-on-surface-variant hover:text-primary-fixed-dim transition-colors" href="#">Soporte</a>
+</div>
+<p class="font-label-sm text-label-sm text-on-surface-variant text-center opacity-60">
+            © 2024 GetUpSoft RD. All rights reserved.
+        </p>
+</footer>
+<!-- BottomNavBar (Mobile) -->
+<nav class="fixed bottom-0 w-full h-20 bg-surface/80 backdrop-blur-xl flex items-center justify-around px-4 border-t border-outline-variant z-50 md:hidden">
+<button class="flex flex-col items-center gap-1 text-primary-fixed-dim">
+<span class="material-symbols-outlined" data-icon="home" style="font-variation-settings: 'FILL' 1;">home</span>
+<span class="font-label-sm text-[8px] uppercase tracking-tighter">Inicio</span>
+</button>
+<button class="flex flex-col items-center gap-1 text-on-surface-variant">
+<span class="material-symbols-outlined" data-icon="business_center">business_center</span>
+<span class="font-label-sm text-[8px] uppercase tracking-tighter">Odoo</span>
+</button>
+<button class="flex flex-col items-center gap-1 text-on-surface-variant">
+<span class="material-symbols-outlined" data-icon="router">router</span>
+<span class="font-label-sm text-[8px] uppercase tracking-tighter">Redes</span>
+</button>
+<button class="flex flex-col items-center gap-1 text-on-surface-variant">
+<span class="material-symbols-outlined" data-icon="groups">groups</span>
+<span class="font-label-sm text-[8px] uppercase tracking-tighter">Nosotros</span>
+</button>
+</nav>
+</body></html>

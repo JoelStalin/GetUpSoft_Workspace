@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;family=Space+Mono&amp;family=Plus+Jakarta+Sans:wght@300;400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-secondary-container": "#a2b1f9",
+                        "surface-container-highest": "#313634",
+                        "on-tertiary": "#213145",
+                        "on-tertiary-fixed": "#0b1c30",
+                        "background": "#101413",
+                        "surface-tint": "#7ad7c6",
+                        "error": "#ffb4ab",
+                        "tertiary-container": "#d3e4fe",
+                        "border-subtle": "rgba(255, 255, 255, 0.07)",
+                        "on-secondary": "#1a2b6a",
+                        "on-tertiary-container": "#56657c",
+                        "surface": "#101413",
+                        "border-mid": "rgba(255, 255, 255, 0.12)",
+                        "secondary-fixed": "#dde1ff",
+                        "on-tertiary-fixed-variant": "#38485d",
+                        "surface-container": "#161920",
+                        "surface-deep": "#0F1115",
+                        "on-primary-container": "#007164",
+                        "inverse-primary": "#006b5e",
+                        "inverse-surface": "#dfe3e1",
+                        "on-secondary-fixed-variant": "#334282",
+                        "on-primary-fixed-variant": "#005046",
+                        "primary-fixed-dim": "#7ad7c6",
+                        "tertiary": "#ffffff",
+                        "surface-container-lowest": "#0a0f0e",
+                        "outline-variant": "#3e4946",
+                        "on-surface": "#dfe3e1",
+                        "on-secondary-fixed": "#001354",
+                        "primary-container": "#96f3e1",
+                        "surface-bright": "#353a39",
+                        "surface-elevated": "#1C2028",
+                        "outline": "#879390",
+                        "surface-dim": "#101413",
+                        "text-main": "#E2E8F0",
+                        "on-error-container": "#ffdad6",
+                        "on-error": "#690005",
+                        "on-primary": "#003730",
+                        "text-soft": "#94A3B8",
+                        "secondary-container": "#334282",
+                        "on-surface-variant": "#bdc9c5",
+                        "surface-container-low": "#181d1b",
+                        "secondary-fixed-dim": "#b8c4ff",
+                        "on-background": "#dfe3e1",
+                        "surface-variant": "#313634",
+                        "primary-fixed": "#96f3e1",
+                        "primary": "#ffffff",
+                        "tertiary-fixed-dim": "#b7c8e1",
+                        "tertiary-fixed": "#d3e4fe",
+                        "inverse-on-surface": "#2d3130",
+                        "on-primary-fixed": "#00201b",
+                        "error-container": "#93000a",
+                        "surface-container-high": "#262b2a",
+                        "secondary": "#b8c4ff"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "1rem",
+                        "lg": "2rem",
+                        "xl": "3rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "gutter": "1rem",
+                        "container-margin": "1.5rem",
+                        "max-width": "1280px",
+                        "section-padding-v": "6rem"
+                    },
+                    "fontFamily": {
+                        "display-lg": ["Space Grotesk"],
+                        "label-technical": ["Space Mono"],
+                        "body-sm": ["Plus Jakarta Sans"],
+                        "body-base": ["Plus Jakarta Sans"],
+                        "headline-md": ["Space Grotesk"]
+                    },
+                    "fontSize": {
+                        "display-lg": ["48px", {"lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "300"}],
+                        "label-technical": ["10px", {"lineHeight": "1.2", "letterSpacing": "0.2em", "fontWeight": "400"}],
+                        "body-sm": ["14px", {"lineHeight": "1.5", "fontWeight": "300"}],
+                        "body-base": ["16px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                        "headline-md": ["32px", {"lineHeight": "1.2", "letterSpacing": "-0.01em", "fontWeight": "300"}]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .glass-card {
+            background: rgba(22, 25, 32, 0.7);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.07);
+        }
+    </style>
+</head>
+<body class="bg-background text-on-surface font-body-base antialiased">
+<!-- Top Navigation Bar -->
+<nav class="fixed top-0 w-full z-50 bg-surface/70 dark:bg-surface/70 backdrop-blur-xl border-b border-border-subtle dark:border-border-subtle">
+<div class="flex justify-between items-center px-container-margin h-20 max-w-max-width mx-auto">
+<div class="flex items-center">
+<img alt="GetUpSoft RD Logo" class="h-8 w-auto" src="https://lh3.googleusercontent.com/aida/ADBb0uhKvw3Zppt27w4ONiZZ1bNwHHH3pdGTbUK9E7g37eCslfOLZdEnwhlopOnmf4ki9SwER69nsJTba1tskUkz-D8oG8IpReR7R5tXH9Aoldf_rBjsXo7HslJ11_WzQMMnVcv5vtEn8de2VC9tIr4a95ilGSyfZ0s06lCnNh4ciTOhZkBB1FsJ1XfjhSiCYYql0_SqlwDHwNrDBOxEtqkT4FrdCfTXjmSjb7oXSGXhhOeLtpI60ilthWjjjw"/>
+</div>
+<div class="hidden md:flex items-center gap-8">
+<a class="text-on-surface-variant hover:text-primary transition-colors font-body-base" href="#">Inicio</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors font-body-base" href="#">Odoo ERP</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors font-body-base" href="#">Facturación</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors font-body-base" href="#">Infraestructura</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors font-body-base" href="#">Sectores</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors font-body-base" href="#">Nosotros</a>
+</div>
+<div class="flex items-center gap-4">
+<button class="bg-primary-container text-on-primary-container px-6 py-2 rounded-full font-label-technical text-label-technical uppercase tracking-widest font-bold hover:brightness-110 transition-all active:scale-95">
+                    Diagnóstico
+                </button>
+</div>
+</div>
+</nav>
+<!-- Main Content -->
+<main class="pt-32 pb-section-padding-v px-container-margin max-w-max-width mx-auto">
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-start">
+<!-- Left Column: Strategic Info -->
+<div class="space-y-8">
+<div>
+<span class="font-label-technical text-label-technical text-primary-container uppercase tracking-[0.2em]">
+                        CONTACTO ESTRATÉGICO
+                    </span>
+<h1 class="font-display-lg text-display-lg mt-4 text-white">
+                        Solicita tu Diagnóstico <span class="italic font-light">Tecnológico</span>.
+                    </h1>
+<p class="mt-6 font-body-base text-text-soft max-w-lg">
+                        Analizamos su infraestructura actual para identificar cuellos de botella y oportunidades de optimización con soluciones de clase mundial adaptadas al mercado dominicano.
+                    </p>
+</div>
+<div class="space-y-6 pt-4">
+<div class="flex items-center gap-4 group">
+<div class="w-10 h-10 rounded-full border border-border-subtle flex items-center justify-center text-primary-container group-hover:bg-primary-container group-hover:text-surface-deep transition-all duration-300">
+<span class="material-symbols-outlined" data-icon="settings_suggest">settings_suggest</span>
+</div>
+<span class="font-body-base text-on-surface">Odoo ERP</span>
+</div>
+<div class="flex items-center gap-4 group">
+<div class="w-10 h-10 rounded-full border border-border-subtle flex items-center justify-center text-primary-container group-hover:bg-primary-container group-hover:text-surface-deep transition-all duration-300">
+<span class="material-symbols-outlined" data-icon="receipt_long">receipt_long</span>
+</div>
+<span class="font-body-base text-on-surface">Facturación DGII</span>
+</div>
+<div class="flex items-center gap-4 group">
+<div class="w-10 h-10 rounded-full border border-border-subtle flex items-center justify-center text-primary-container group-hover:bg-primary-container group-hover:text-surface-deep transition-all duration-300">
+<span class="material-symbols-outlined" data-icon="lan">lan</span>
+</div>
+<span class="font-body-base text-on-surface">Infraestructura y Redes</span>
+</div>
+</div>
+<div class="pt-12">
+<div class="p-6 rounded-2xl border border-border-subtle bg-surface-container-low/50">
+<p class="font-label-technical text-[10px] text-text-soft uppercase mb-4">Ubicación Central</p>
+<p class="font-body-sm text-on-surface">Santo Domingo, República Dominicana</p>
+<p class="font-body-sm text-on-surface mt-1">Soporte Técnico Especializado 24/7</p>
+</div>
+</div>
+</div>
+<!-- Right Column: Form -->
+<div class="glass-card p-8 lg:p-10 rounded-lg">
+<form class="space-y-6">
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<div class="space-y-2">
+<label class="font-label-technical text-[10px] text-text-soft uppercase ml-1">Nombre</label>
+<input class="w-full bg-surface-deep border-none border-b border-border-mid focus:ring-1 focus:ring-primary-container text-on-surface p-4 rounded-lg placeholder:text-outline/50 transition-all" placeholder="Tu nombre completo" type="text"/>
+</div>
+<div class="space-y-2">
+<label class="font-label-technical text-[10px] text-text-soft uppercase ml-1">Empresa</label>
+<input class="w-full bg-surface-deep border-none border-b border-border-mid focus:ring-1 focus:ring-primary-container text-on-surface p-4 rounded-lg placeholder:text-outline/50 transition-all" placeholder="Nombre de tu organización" type="text"/>
+</div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<div class="space-y-2">
+<label class="font-label-technical text-[10px] text-text-soft uppercase ml-1">Teléfono</label>
+<input class="w-full bg-surface-deep border-none border-b border-border-mid focus:ring-1 focus:ring-primary-container text-on-surface p-4 rounded-lg placeholder:text-outline/50 transition-all" placeholder="+1 (809) 000-0000" type="tel"/>
+</div>
+<div class="space-y-2">
+<label class="font-label-technical text-[10px] text-text-soft uppercase ml-1">Email</label>
+<input class="w-full bg-surface-deep border-none border-b border-border-mid focus:ring-1 focus:ring-primary-container text-on-surface p-4 rounded-lg placeholder:text-outline/50 transition-all" placeholder="correo@empresa.com" type="email"/>
+</div>
+</div>
+<div class="space-y-2">
+<label class="font-label-technical text-[10px] text-text-soft uppercase ml-1">Servicio de interés</label>
+<select class="w-full bg-surface-deep border-none border-b border-border-mid focus:ring-1 focus:ring-primary-container text-on-surface p-4 rounded-lg appearance-none transition-all">
+<option>Odoo ERP</option>
+<option>Facturación Electrónica</option>
+<option>Infraestructura</option>
+<option>Redes</option>
+<option>Soporte</option>
+</select>
+</div>
+<div class="space-y-2">
+<label class="font-label-technical text-[10px] text-text-soft uppercase ml-1">Mensaje</label>
+<textarea class="w-full bg-surface-deep border-none border-b border-border-mid focus:ring-1 focus:ring-primary-container text-on-surface p-4 rounded-lg placeholder:text-outline/50 transition-all resize-none" placeholder="Describa brevemente su requerimiento..." rows="4"></textarea>
+</div>
+<button class="w-full bg-primary-container text-surface-deep py-5 rounded-full font-label-technical text-label-technical uppercase tracking-[0.2em] font-bold hover:brightness-105 hover:shadow-[0_0_20px_rgba(122,215,198,0.3)] transition-all active:scale-[0.98]" type="submit">
+                        Enviar Solicitud de Diagnóstico
+                    </button>
+<p class="text-center font-body-sm text-[12px] text-outline/60 mt-4">
+                        Al enviar, acepta nuestra política de tratamiento de datos corporativos.
+                    </p>
+</form>
+</div>
+</div>
+</main>
+<!-- Footer -->
+<footer class="w-full py-section-padding-v bg-surface-container-lowest dark:bg-surface-container-lowest border-t border-border-subtle dark:border-border-subtle mt-20">
+<div class="flex flex-col md:flex-row justify-between items-center px-container-margin max-w-max-width mx-auto gap-gutter">
+<div class="flex flex-col items-center md:items-start gap-4">
+<img alt="GetUpSoft RD Logo" class="h-6 w-auto opacity-80" src="https://lh3.googleusercontent.com/aida/ADBb0uhKvw3Zppt27w4ONiZZ1bNwHHH3pdGTbUK9E7g37eCslfOLZdEnwhlopOnmf4ki9SwER69nsJTba1tskUkz-D8oG8IpReR7R5tXH9Aoldf_rBjsXo7HslJ11_WzQMMnVcv5vtEn8de2VC9tIr4a95ilGSyfZ0s06lCnNh4ciTOhZkBB1FsJ1XfjhSiCYYql0_SqlwDHwNrDBOxEtqkT4FrdCfTXjmSjb7oXSGXhhOeLtpI60ilthWjjjw"/>
+<p class="font-body-sm text-body-sm text-text-soft">© 2024 GetUpSoft RD. Todos los derechos reservados. Santo Domingo, República Dominicana.</p>
+</div>
+<div class="flex gap-8">
+<a class="font-label-technical text-label-technical text-text-soft dark:text-text-soft hover:text-primary transition-colors uppercase" href="#">Privacidad</a>
+<a class="font-label-technical text-label-technical text-text-soft dark:text-text-soft hover:text-primary transition-colors uppercase" href="#">Términos de Servicio</a>
+<a class="font-label-technical text-label-technical text-text-soft dark:text-text-soft hover:text-primary transition-colors uppercase" href="#">Soporte Técnico</a>
+</div>
+</div>
+</footer>
+</body></html>

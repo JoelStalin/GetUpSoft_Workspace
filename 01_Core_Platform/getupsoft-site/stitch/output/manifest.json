@@ -1,0 +1,17 @@
+{
+  "generatedAt": "2026-05-18T21:14:14.848Z",
+  "projectId": "7566593690315888178",
+  "total": 1,
+  "success": 0,
+  "failed": 1,
+  "screens": [
+    {
+      "id": "global-ai-agents-desktop",
+      "portal": "global",
+      "name": "Global AI Agents — Desktop",
+      "device": "DESKTOP",
+      "prompt": "\nDESIGN SYSTEM — apply to every screen:\n\nColors:\n- Background deep: #0F1115\n- Background surface: #161920\n- Background elevated: #1C2028\n- Text main: #E2E8F0\n- Text muted: #64748B\n- Text soft: #94A3B8\n- Global accent (pastel indigo): #A5B4FC\n- RD accent (mint teal): #99F6E4\n- Border subtle: rgba(255,255,255,0.07)\n- Border mid: rgba(255,255,255,0.12)\n\nTypography:\n- Display/headings: Space Grotesk, light weight (300), tight tracking\n- Body: Plus Jakarta Sans, 400/300 weight, relaxed line-height\n- Mono labels/tags: IBM Plex Mono, 10px, uppercase, tracking-widest\n\nComponents:\n- Glass cards: bg rgba(22,25,32,0.7), backdrop-blur, border border-subtle\n- Buttons primary: rounded-full, uppercase, tracking-[0.2em], bold\n- Tags/badges: rounded-full, font-mono, 10px, uppercase\n- Sections: max-width 7xl, 6rem padding top/bottom\n\nAesthetic:\n- Enterprise AI architecture\n- Dark, premium, sober — NOT neon gamer, NOT startup colorful\n- Inspired by Palantir, IBM, Linear, Vercel\n- Subtle gradients, controlled glow, no loud animations\n- Sections flow: label → headline (italic accent word) → subtext → content\n\n\nPortal: GetUpSoft Global (getupsoft.com)\nLanguage: English\nBrand: Enterprise AI Architecture firm\nTagline: \"Architectural Intelligence for the Modern Enterprise\"\nAccent color: #A5B4FC (pastel indigo/blue)\n\n\nPage: AI Agents for GetUpSoft Global.\n\nAbove fold:\n- Same nav as homepage\n- Page label: \"// AI Agents\" in font-mono #A5B4FC\n- H1: \"Autonomous agents that run your operations.\" Space Grotesk light\n- Subtext explaining multi-step autonomous workflows\n- CTA: \"Deploy Your First Agent\"\n\nAgent modules grid (2×4):\nShow 8 modules as glass cards: Workflow Orchestration | Cognitive Analysis | Natural Language Operations | Agentic Memory | Executive Intelligence | Data Interpretation | Process Automation | Decision Support\nEach card: icon symbol, title, 2-line desc, accent dot\n\nArchitecture diagram section:\nDark diagram showing agents connected to ERP, CRM, BI, APIs, Infrastructure — nodes with lines, premium technical style, no cartoonish icons\n\nCTA section: \"Talk to an AI Architect\"",
+      "error": "Stitch URLs remained empty after all retries"
+    }
+  ]
+}
