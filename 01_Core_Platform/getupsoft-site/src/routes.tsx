@@ -5,6 +5,9 @@ import { SiteLayout } from "./components/SiteLayout";
 import { GlobalHomePage } from "./pages/global/Home";
 import { RDHomePage } from "./pages/rd/Home";
 import { PortalContentPage } from "./components/PortalContentPage";
+import { HomePage } from "./pages/Home";
+import { PrivacyPolicy } from "./pages/PrivacyPolicy";
+import { TermsOfService } from "./pages/TermsOfService";
 // Legacy pages kept for backward compat
 import { ProductsPage } from "./pages/Products";
 import { AccountingManagementPage } from "./pages/AccountingManagement";
@@ -177,6 +180,8 @@ const globalRoutes = [
       { path: "methodology", element: globalPage("methodology") },
       { path: "about", element: globalPage("about") },
       { path: "contact", element: globalPage("contact") },
+      { path: "privacy", element: <PrivacyPolicy /> },
+      { path: "terms", element: <TermsOfService /> },
       // Legacy redirects
       { path: "productos", element: <Navigate to="/products" replace /> },
       { path: "contacto", element: <Navigate to="/contact" replace /> },

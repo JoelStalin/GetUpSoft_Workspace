@@ -23,18 +23,22 @@ const FOOTER_LINKS = {
     { label: "Methodology", to: "/methodology" },
     { label: "Contact", to: "/contact" },
   ],
+  Legal: [
+    { label: "Privacy Policy", to: "/privacy" },
+    { label: "Terms of Service", to: "/terms" },
+  ],
 };
 
 export function GlobalLayout() {
   return (
-    <div className="min-h-screen bg-bg-deep text-text-main hero-gradient-global">
+    <div className="min-h-screen bg-white text-gray-900">
       {/* Top bar */}
-      <div className="border-b border-border-subtle bg-bg-surface/60">
-        <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-2.5 text-[10px] font-medium tracking-widest text-text-muted uppercase">
+      <div className="border-b border-gray-200 bg-gray-50">
+        <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-3 text-xs font-semibold tracking-widest text-gray-600 uppercase">
           <span>Enterprise AI Architecture · System Integration · Digital Transformation</span>
           <a
             href="https://getupsoft.com.do"
-            className="flex items-center gap-1.5 transition hover:text-accent-global"
+            className="flex items-center gap-1.5 transition text-blue-600 hover:text-blue-700"
           >
             GetUpSoft RD
             <svg className="h-3 w-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -45,23 +49,25 @@ export function GlobalLayout() {
       </div>
 
       {/* Header */}
-      <header className="sticky top-0 z-50 border-b border-border-subtle bg-bg-deep/80 backdrop-blur-xl">
-        <div className="mx-auto flex max-w-7xl items-center justify-between gap-6 px-6 py-5">
+      <header className="sticky top-0 z-50 border-b border-gray-200 bg-white shadow-sm">
+        <div className="mx-auto flex max-w-7xl items-center justify-between gap-6 px-6 py-4">
           <NavLink to="/" className="flex items-center gap-3 group">
             <CodeLogo variant="global" />
             <div>
-              <p className="text-[9px] font-medium uppercase tracking-[0.3em] text-text-muted">Global</p>
+              <p className="text-xs font-bold uppercase tracking-widest text-blue-600">GetUpSoft</p>
             </div>
           </NavLink>
 
-          <nav className="hidden items-center gap-8 text-[12px] font-medium uppercase tracking-wider text-text-muted lg:flex">
+          <nav className="hidden items-center gap-8 text-xs font-bold uppercase tracking-widest text-gray-600 lg:flex">
             {NAV.map((item) => (
               <NavLink
                 key={item.to}
                 to={item.to}
                 end={item.end}
                 className={({ isActive }) =>
-                  isActive ? "text-accent-global" : "transition hover:text-text-main"
+                  isActive
+                    ? "text-blue-600"
+                    : "transition hover:text-gray-900"
                 }
               >
                 {item.label}
@@ -71,9 +77,9 @@ export function GlobalLayout() {
 
           <Link
             to="/contact"
-            className="rounded-full border border-accent-global px-5 py-2 text-[11px] font-bold uppercase tracking-widest text-accent-global transition hover:bg-accent-global hover:text-bg-deep"
+            className="rounded-lg bg-blue-600 text-white px-6 py-2.5 text-xs font-bold uppercase tracking-widest transition hover:bg-blue-700 hover:shadow-lg hover:shadow-blue-500/30"
           >
-            Book Strategy
+            Get Started
           </Link>
         </div>
       </header>
@@ -83,27 +89,27 @@ export function GlobalLayout() {
       </main>
 
       {/* Footer */}
-      <footer className="border-t border-border-subtle bg-bg-surface/40">
+      <footer className="border-t border-gray-200 bg-gray-50">
         <div className="mx-auto max-w-7xl px-6 py-16">
-          <div className="grid gap-12 lg:grid-cols-[1.5fr,1fr,1fr]">
+          <div className="grid gap-12 lg:grid-cols-[1.5fr,1fr,1fr,1fr]">
             <div className="space-y-5">
               <div className="flex items-center gap-3">
                 <CodeLogo variant="global" compact />
               </div>
-              <p className="max-w-sm text-sm leading-7 text-text-muted">
+              <p className="max-w-sm text-sm leading-7 text-gray-600">
                 GetUpSoft designs the intelligence and infrastructure that make companies operate as one connected system.
               </p>
-              <p className="text-[10px] uppercase tracking-widest text-text-muted/50">
+              <p className="text-xs uppercase tracking-widest text-gray-500">
                 © {new Date().getFullYear()} GetUpSoft. All rights reserved.
               </p>
             </div>
             {Object.entries(FOOTER_LINKS).map(([group, links]) => (
               <div key={group}>
-                <p className="text-[10px] font-bold uppercase tracking-widest text-text-soft">{group}</p>
+                <p className="text-xs font-bold uppercase tracking-widest text-gray-900">{group}</p>
                 <ul className="mt-5 space-y-3">
                   {links.map((l) => (
                     <li key={l.to}>
-                      <NavLink to={l.to} className="text-sm text-text-muted transition hover:text-text-main">
+                      <NavLink to={l.to} className="text-sm text-gray-600 transition hover:text-gray-900">
                         {l.label}
                       </NavLink>
                     </li>
@@ -111,6 +117,20 @@ export function GlobalLayout() {
                 </ul>
               </div>
             ))}
+          </div>
+
+          {/* Bottom divider */}
+          <div className="mt-12 border-t border-gray-200 pt-8">
+            <div className="grid grid-cols-2 gap-6 md:grid-cols-4 text-xs text-gray-600">
+              <a href="mailto:contact@getupsoft.com" className="transition hover:text-blue-600">
+                contact@getupsoft.com
+              </a>
+              <a href="tel:+1234567890" className="transition hover:text-blue-600">
+                +1 (234) 567-890
+              </a>
+              <div>Santo Domingo, DR</div>
+              <div>Enterprise Solutions</div>
+            </div>
           </div>
         </div>
       </footer>
