@@ -15,6 +15,7 @@
     "stitch:generate:global": "npm --prefix stitch run generate:global",
     "stitch:generate:rd": "npm --prefix stitch run generate:rd",
     "stitch:manifest": "node scripts/stitch-output-manifest.mjs",
+    "test:e2e:selenium": "python tests/e2e/getupsoft_site_functional.py",
     "preview": "vite preview",
     "preview:edge": "vite preview --host 0.0.0.0 --port 18085"
   },
