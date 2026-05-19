@@ -7,6 +7,7 @@ import {
   ERPError,
 } from "../lib/erp/types";
 import { getERPProvider } from "../lib/erp";
+import { sendEmail, isEmailEnabled } from "../lib/email";
 
 interface SubmissionState {
   isLoading: boolean;
@@ -84,6 +85,22 @@ export function useERPSubmission(): UseERPSubmissionReturn {
           ticketId: ticket.id,
         });
 
+        // Send confirmation email
+        if (isEmailEnabled()) {
+          sendEmail({
+            type: "contact-form",
+            to: data.email,
+            name: data.name,
+            email: data.email,
+            company: data.company,
+            message: data.message,
+            language: data.language,
+            ticketId: ticket.id,
+          }).catch((err) => {
+            console.warn("[useERPSubmission] Failed to send confirmation email:", err);
+          });
+        }
+
         console.log("[useERPSubmission] Contact form submitted:", ticket.id);
       } catch (error) {
         const errorMessage =
@@ -138,6 +155,24 @@ export function useERPSubmission(): UseERPSubmissionReturn {
           success: true,
           ticketId: ticket.id,
         });
+
+        // Send confirmation email
+        if (isEmailEnabled()) {
+          sendEmail({
+            type: "diagnostic-form",
+            to: data.email,
+            name: data.name,
+            email: data.email,
+            company: data.company,
+            industry: data.industry,
+            timeline: data.timeline,
+            budget: data.budget,
+            language: data.language,
+            ticketId: ticket.id,
+          }).catch((err) => {
+            console.warn("[useERPSubmission] Failed to send confirmation email:", err);
+          });
+        }
 
         console.log("[useERPSubmission] Diagnostic form submitted:", ticket.id);
       } catch (error) {
