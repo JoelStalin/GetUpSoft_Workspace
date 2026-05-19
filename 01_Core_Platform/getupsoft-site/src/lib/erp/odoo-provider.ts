@@ -27,14 +27,26 @@ interface OdooSession {
   timestamp: number;
 }
 
+interface OdooProviderOptions {
+  timeout?: number; // milliseconds (default: 30000)
+  maxRetries?: number; // for transient failures (default: 2)
+  retryDelay?: number; // milliseconds (default: 1000)
+}
+
 export class OdooProvider implements IERPProvider {
   private config: OdooConfig;
   private session: OdooSession | null = null;
   private baseUrl: string;
   private rpcUrl: string;
+  private options: Required<OdooProviderOptions>;
 
-  constructor(config: OdooConfig) {
+  constructor(config: OdooConfig, options?: OdooProviderOptions) {
     this.config = config;
+    this.options = {
+      timeout: options?.timeout ?? 30000,
+      maxRetries: options?.maxRetries ?? 2,
+      retryDelay: options?.retryDelay ?? 1000,
+    };
 
     // Build base URL
     if (config.url) {
@@ -64,7 +76,7 @@ export class OdooProvider implements IERPProvider {
       });
 
       if (!result || !result.uid) {
-        throw new AuthenticationError("Odoo authentication failed");
+        throw new AuthenticationError("Odoo authentication failed: no user ID returned");
       }
 
       this.session = {
@@ -78,8 +90,30 @@ export class OdooProvider implements IERPProvider {
       if (error instanceof AuthenticationError) {
         throw error;
       }
+
+      const message = error instanceof Error ? error.message : String(error);
+
+      // Provide helpful error messages
+      if (message.includes("404") || message.includes("not found")) {
+        throw new ConnectionError(
+          `Failed to connect to Odoo: Server not found at ${this.baseUrl}. Check VITE_ODOO_HOST and VITE_ODOO_PORT.`
+        );
+      }
+
+      if (message.includes("timeout")) {
+        throw new ConnectionError(
+          `Failed to connect to Odoo: Connection timeout. Check if server is reachable and network is available.`
+        );
+      }
+
+      if (message.includes("credentials")) {
+        throw new AuthenticationError(
+          `Failed to authenticate with Odoo: Check VITE_ODOO_USERNAME and VITE_ODOO_PASSWORD`
+        );
+      }
+
       throw new ConnectionError(
-        `Failed to connect to Odoo: ${error instanceof Error ? error.message : String(error)}`
+        `Failed to connect to Odoo: ${message}`
       );
     }
   }
@@ -396,6 +430,37 @@ Message: ${data.message}
   }
 
   private async callRPC(method: string, params: any): Promise<any> {
+    let lastError: Error | null = null;
+
+    for (let attempt = 0; attempt <= this.options.maxRetries; attempt++) {
+      try {
+        return await this.callRPCWithTimeout(method, params);
+      } catch (error) {
+        lastError = error instanceof Error ? error : new Error(String(error));
+
+        // Don't retry authentication errors
+        if (lastError.message.includes("Authentication")) {
+          throw lastError;
+        }
+
+        // Don't retry on last attempt
+        if (attempt === this.options.maxRetries) {
+          break;
+        }
+
+        // Wait before retrying
+        console.warn(
+          `[OdooProvider] RPC call failed (attempt ${attempt + 1}), retrying in ${this.options.retryDelay}ms...`,
+          lastError.message
+        );
+        await this.delay(this.options.retryDelay);
+      }
+    }
+
+    throw lastError || new ConnectionError("Odoo RPC call failed");
+  }
+
+  private async callRPCWithTimeout(method: string, params: any): Promise<any> {
     const payload = {
       jsonrpc: "2.0",
       method,
@@ -412,11 +477,23 @@ Message: ${data.message}
         headers["Cookie"] = `session_id=${this.session.sessionId}`;
       }
 
-      const response = await fetch(this.rpcUrl, {
-        method: "POST",
-        headers,
-        body: JSON.stringify(payload),
-      });
+      // Create timeout promise
+      const timeoutPromise = new Promise<never>((_, reject) =>
+        setTimeout(
+          () => reject(new Error(`Request timeout after ${this.options.timeout}ms`)),
+          this.options.timeout
+        )
+      );
+
+      // Race between fetch and timeout
+      const response = await Promise.race([
+        fetch(this.rpcUrl, {
+          method: "POST",
+          headers,
+          body: JSON.stringify(payload),
+        }),
+        timeoutPromise,
+      ]);
 
       const data = await response.json();
 
@@ -430,6 +507,10 @@ Message: ${data.message}
         `Odoo RPC call failed: ${error instanceof Error ? error.message : String(error)}`
       );
     }
+  }
+
+  private delay(ms: number): Promise<void> {
+    return new Promise((resolve) => setTimeout(resolve, ms));
   }
 
   private getSourceId(source: string): number {
