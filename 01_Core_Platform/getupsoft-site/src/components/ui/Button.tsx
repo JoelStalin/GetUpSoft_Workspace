@@ -143,7 +143,7 @@ export const IconButton = React.forwardRef<HTMLButtonElement, IconButtonProps>(
 IconButton.displayName = "IconButton";
 
 // Region pill button (for Global/RD toggle)
-interface RegionPillProps extends Omit<ButtonProps, "variant"> {
+interface RegionPillProps extends Omit<ButtonProps, "variant" | "children"> {
   isActive: boolean;
   label: string;
 }
