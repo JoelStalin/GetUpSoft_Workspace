@@ -72,6 +72,17 @@ def browser_errors(driver) -> list[str]:
     return errors
 
 
+def scroll_full_page(driver) -> None:
+    height = driver.execute_script("return Math.max(document.body.scrollHeight, document.documentElement.scrollHeight)")
+    viewport = driver.execute_script("return window.innerHeight")
+    step = max(int(viewport * 0.75), 500)
+    for y in range(0, int(height) + step, step):
+        driver.execute_script("window.scrollTo(0, arguments[0])", y)
+        time.sleep(0.15)
+    driver.execute_script("window.scrollTo(0, 0)")
+    time.sleep(0.2)
+
+
 def run_suite() -> dict[str, object]:
     run_id = time.strftime("%Y%m%d-%H%M%S")
     artifact_dir = ARTIFACT_ROOT / run_id
@@ -89,6 +100,12 @@ def run_suite() -> dict[str, object]:
             driver.get(target.url)
             wait.until(EC.presence_of_element_located((By.CSS_SELECTOR, "#root")))
             wait.until(lambda d: target.expected_text in d.find_element(By.TAG_NAME, "body").text)
+            scroll_full_page(driver)
+            wait.until(
+                lambda d: d.execute_script(
+                    "return Array.from(document.images).every((img) => img.complete && img.naturalWidth > 0)"
+                )
+            )
 
             image_failures = broken_images(driver)
             console_errors = browser_errors(driver)
