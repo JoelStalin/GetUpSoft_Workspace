@@ -29,7 +29,7 @@ jobs:
           chmod 600 ~/.ssh/deploy_key
           timeout 15 ssh-keyscan -H "$DEPLOY_HOST" >> ~/.ssh/known_hosts 2>/dev/null || true
 
-          ssh -o StrictHostKeyChecking=accept-new -o ServerAliveInterval=30 -i ~/.ssh/deploy_key "${DEPLOY_USER}@${DEPLOY_HOST}" << EOF
+          ssh -o StrictHostKeyChecking=accept-new -o ConnectTimeout=30 -o ServerAliveInterval=30 -i ~/.ssh/deploy_key "${DEPLOY_USER}@${DEPLOY_HOST}" << EOF
           set -e
 
           echo "📂 Navigating to workspace..."
@@ -99,7 +99,7 @@ jobs:
           chmod 600 ~/.ssh/deploy_key
           timeout 15 ssh-keyscan -H "$DEPLOY_HOST" >> ~/.ssh/known_hosts 2>/dev/null || true
 
-          ssh -o StrictHostKeyChecking=accept-new -o ServerAliveInterval=30 -i ~/.ssh/deploy_key "${DEPLOY_USER}@${DEPLOY_HOST}" << 'EOF'
+          ssh -o StrictHostKeyChecking=accept-new -o ConnectTimeout=30 -o ServerAliveInterval=30 -i ~/.ssh/deploy_key "${DEPLOY_USER}@${DEPLOY_HOST}" << 'EOF'
           echo "🔍 Verification Tests:"
           echo "1. Container status:"
           docker ps | grep getupsoft-site-web-1 || echo "⚠️ Container not found"
