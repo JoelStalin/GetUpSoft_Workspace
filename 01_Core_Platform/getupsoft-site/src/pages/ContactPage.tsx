@@ -5,17 +5,19 @@ import { Container } from "../components/ui/Layout";
 import { Section } from "../components/ui/Layout";
 import { Button } from "../components/ui/Button";
 import { LanguageContext } from "../contexts/LanguageContext";
+import { useERPSubmission } from "../hooks/useERPSubmission";
+import { ContactFormData } from "../lib/erp/types";
 
 export const ContactPage: React.FC = () => {
   const context = useContext(LanguageContext);
+  const { state: submission, submitContact, reset } = useERPSubmission();
+
   const [formData, setFormData] = useState({
     name: "",
     email: "",
     company: "",
     message: "",
   });
-  const [submitted, setSubmitted] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
 
   if (!context) {
     return <div>Error: Language context not available</div>;
@@ -33,17 +35,22 @@ export const ContactPage: React.FC = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setIsLoading(true);
 
-    // Simulate form submission (would be replaced with actual API call)
-    setTimeout(() => {
-      setSubmitted(true);
-      setIsLoading(false);
-      setFormData({ name: "", email: "", company: "", message: "" });
+    const contactData: ContactFormData = {
+      ...formData,
+      language: currentLanguage,
+      submittedAt: new Date().toISOString(),
+    };
 
-      // Reset success message after 5 seconds
-      setTimeout(() => setSubmitted(false), 5000);
-    }, 1000);
+    await submitContact(contactData);
+
+    // Reset form on success
+    if (submission.success) {
+      setTimeout(() => {
+        setFormData({ name: "", email: "", company: "", message: "" });
+        reset();
+      }, 3000);
+    }
   };
 
   return (
@@ -68,11 +75,18 @@ export const ContactPage: React.FC = () => {
       <Section variant="soft" padding="lg">
         <Container>
           <div className="max-w-xl mx-auto">
-            {submitted && (
+            {submission.success && (
               <div className="mb-6 p-4 bg-success/10 border border-success rounded-lg">
                 <p className="text-success font-medium">
                   {contactContent.form.success}
+                  {submission.ticketId && ` (${submission.ticketId})`}
                 </p>
+              </div>
+            )}
+
+            {submission.error && (
+              <div className="mb-6 p-4 bg-danger/10 border border-danger rounded-lg">
+                <p className="text-danger font-medium">{submission.error}</p>
               </div>
             )}
 
@@ -164,8 +178,8 @@ export const ContactPage: React.FC = () => {
                 type="submit"
                 size="lg"
                 variant="primary"
-                isLoading={isLoading}
-                disabled={isLoading}
+                isLoading={submission.isLoading}
+                disabled={submission.isLoading}
                 className="w-full"
               >
                 {contactContent.form.submit}
