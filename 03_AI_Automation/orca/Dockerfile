@@ -11,7 +11,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 COPY pyproject.toml README.md ./
 COPY src/ ./src/
 RUN pip install --upgrade pip uv && \
-    uv pip install --system -e . && \
+    uv pip install --system . && \
     pip cache purge
 
 # Stage 2: Runtime
