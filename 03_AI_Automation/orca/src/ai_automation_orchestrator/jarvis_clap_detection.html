@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jarvis - Clap Detection</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: #050505;
+            color: #fff;
+            font-family: 'Space Mono', monospace;
+            overflow: hidden;
+            height: 100vh;
+        }
+
+        .clap-detection-container {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            background: linear-gradient(135deg, #050505 0%, #1a1a2e 100%);
+        }
+
+        /* Particles Canvas */
+        #particles-canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+        }
+
+        /* Content Layer */
+        .content {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 40px;
+        }
+
+        /* Orca Logo (SVG) */
+        .logo-container {
+            position: relative;
+            width: 200px;
+            height: 200px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .orca-logo {
+            width: 100%;
+            height: 100%;
+            filter: drop-shadow(0 0 20px rgba(0, 255, 200, 0.5));
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+
+        /* Listening State */
+        .listening-indicator {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .status-text {
+            font-size: 24px;
+            font-weight: 700;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            color: #00ffff;
+            text-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
+        }
+
+        .pulse-dots {
+            display: flex;
+            gap: 10px;
+        }
+
+        .pulse-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #ff0038;
+            animation: pulse 1.5s ease-in-out infinite;
+        }
+
+        .pulse-dot:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+
+        .pulse-dot:nth-child(3) {
+            animation-delay: 0.4s;
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                opacity: 0.3;
+                transform: scale(0.8);
+            }
+            50% {
+                opacity: 1;
+                transform: scale(1.2);
+            }
+        }
+
+        /* Clap Detection */
+        .clap-detector {
+            margin-top: 30px;
+            padding: 30px;
+            border: 2px solid rgba(0, 255, 200, 0.3);
+            border-radius: 20px;
+            background: rgba(0, 0, 0, 0.4);
+            backdrop-filter: blur(10px);
+            min-width: 400px;
+        }
+
+        .detector-title {
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+            color: #888;
+            margin-bottom: 15px;
+        }
+
+        .clap-level {
+            width: 100%;
+            height: 8px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            overflow: hidden;
+            margin-bottom: 20px;
+        }
+
+        .clap-level-bar {
+            height: 100%;
+            background: linear-gradient(90deg, #00ff00, #ffaa00, #ff0038);
+            width: 0%;
+            transition: width 0.05s linear;
+            border-radius: 10px;
+        }
+
+        .clap-threshold {
+            display: flex;
+            justify-content: space-between;
+            font-size: 12px;
+            color: #666;
+            margin-top: 10px;
+        }
+
+        /* Microphone Status */
+        .mic-status {
+            margin-top: 30px;
+            padding: 20px;
+            border-left: 4px solid #00ff00;
+            background: rgba(0, 255, 0, 0.05);
+            border-radius: 8px;
+            font-size: 12px;
+            text-align: left;
+        }
+
+        .mic-status.error {
+            border-left-color: #ff0038;
+            background: rgba(255, 0, 56, 0.05);
+        }
+
+        .mic-status.warning {
+            border-left-color: #ffaa00;
+            background: rgba(255, 170, 0, 0.05);
+        }
+
+        .status-dot {
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            margin-right: 8px;
+            background: #00ff00;
+        }
+
+        .mic-status.error .status-dot {
+            background: #ff0038;
+        }
+
+        .mic-status.warning .status-dot {
+            background: #ffaa00;
+        }
+
+        /* Jarvis Activation Animation */
+        .jarvis-activation {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 255, 200, 0.1);
+            border: 3px solid #00ffcc;
+            animation: activation-pulse 0.6s ease-out forwards;
+            pointer-events: none;
+            z-index: 3;
+        }
+
+        @keyframes activation-pulse {
+            0% {
+                border-width: 3px;
+                opacity: 1;
+            }
+            100% {
+                border-width: 50px;
+                opacity: 0;
+            }
+        }
+
+        /* Instructions */
+        .instructions {
+            position: absolute;
+            bottom: 40px;
+            left: 40px;
+            right: 40px;
+            font-size: 12px;
+            color: #666;
+            text-align: center;
+            line-height: 1.6;
+        }
+
+        .instructions strong {
+            color: #00ffcc;
+        }
+    </style>
+</head>
+<body>
+    <div class="clap-detection-container">
+        <canvas id="particles-canvas"></canvas>
+
+        <div class="content">
+            <div class="logo-container">
+                <!-- Orca Logo SVG -->
+                <svg class="orca-logo" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+                    <!-- Whale Body -->
+                    <ellipse cx="100" cy="100" rx="70" ry="55" fill="#00ffcc" opacity="0.9"/>
+
+                    <!-- Whale Head -->
+                    <circle cx="100" cy="60" r="45" fill="#00ffcc"/>
+
+                    <!-- Eyes -->
+                    <circle cx="85" cy="50" r="8" fill="#050505"/>
+                    <circle cx="115" cy="50" r="8" fill="#050505"/>
+                    <circle cx="87" cy="48" r="3" fill="#fff"/>
+                    <circle cx="117" cy="48" r="3" fill="#fff"/>
+
+                    <!-- Blowhole -->
+                    <ellipse cx="100" cy="35" rx="5" ry="8" fill="#ff0038"/>
+
+                    <!-- Whale Tail -->
+                    <path d="M 100 150 Q 70 170 60 190 Q 65 180 70 160 L 100 155 L 130 160 Q 135 180 140 190 Q 130 170 100 150" fill="#00ffcc" opacity="0.9"/>
+
+                    <!-- Fin -->
+                    <path d="M 100 85 L 85 100 L 88 75 Z" fill="#ff0038" opacity="0.8"/>
+
+                    <!-- Glow -->
+                    <circle cx="100" cy="100" r="75" fill="none" stroke="#00ffcc" stroke-width="2" opacity="0.3"/>
+                </svg>
+            </div>
+
+            <div class="listening-indicator">
+                <div class="status-text" id="status">Escuchando Aplauso...</div>
+                <div class="pulse-dots">
+                    <div class="pulse-dot"></div>
+                    <div class="pulse-dot"></div>
+                    <div class="pulse-dot"></div>
+                </div>
+            </div>
+
+            <div class="clap-detector">
+                <div class="detector-title">Nivel de Sonido</div>
+                <div class="clap-level">
+                    <div class="clap-level-bar" id="clap-level-bar"></div>
+                </div>
+                <div class="clap-threshold">
+                    <span>0 dB</span>
+                    <span id="threshold-text">Umbral: 70 dB</span>
+                    <span>100 dB</span>
+                </div>
+
+                <div class="mic-status" id="mic-status">
+                    <span class="status-dot"></span>
+                    <span id="mic-status-text">Micrófono: Conectado</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="instructions">
+            <strong>¡Aplaude para activar Jarvis!</strong><br>
+            El sistema escucha los aplausos y activa automáticamente el reconocimiento de voz.<br>
+            Asegúrate de haber concedido acceso al micrófono.
+        </div>
+    </div>
+
+    <script>
+        // =====================================================
+        // PARTICLE ANIMATION (Casberry Style)
+        // =====================================================
+        const canvas = document.getElementById('particles-canvas');
+        const ctx = canvas.getContext('2d');
+
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        const particles = [];
+
+        class Particle {
+            constructor(x, y) {
+                this.x = x;
+                this.y = y;
+                this.vx = (Math.random() - 0.5) * 4;
+                this.vy = (Math.random() - 0.5) * 4;
+                this.life = 1;
+                this.decay = Math.random() * 0.02 + 0.01;
+                this.size = Math.random() * 3 + 1;
+                this.hue = Math.random() > 0.5 ? 180 : 0; // Cyan or Red
+            }
+
+            update() {
+                this.x += this.vx;
+                this.y += this.vy;
+                this.vy += 0.1; // Gravity
+                this.life -= this.decay;
+            }
+
+            draw() {
+                ctx.globalAlpha = this.life;
+                ctx.fillStyle = this.hue === 180 ? '#00ffcc' : '#ff0038';
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+
+        function createParticles(x, y, count = 30) {
+            for (let i = 0; i < count; i++) {
+                particles.push(new Particle(x, y));
+            }
+        }
+
+        function animateParticles() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.globalAlpha = 1;
+
+            for (let i = particles.length - 1; i >= 0; i--) {
+                particles[i].update();
+                particles[i].draw();
+
+                if (particles[i].life <= 0) {
+                    particles.splice(i, 1);
+                }
+            }
+
+            requestAnimationFrame(animateParticles);
+        }
+
+        animateParticles();
+
+        // =====================================================
+        // CLAP DETECTION
+        // =====================================================
+        let audioContext;
+        let analyser;
+        let dataArray;
+        let clapThreshold = 70;
+        let isListening = false;
+        let lastClapTime = 0;
+        const clapCooldown = 1000; // 1 second between claps
+
+        async function initMicrophone() {
+            try {
+                const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+                audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                const source = audioContext.createMediaStreamSource(stream);
+                analyser = audioContext.createAnalyser();
+                analyser.fftSize = 256;
+
+                source.connect(analyser);
+
+                const bufferLength = analyser.frequencyBinCount;
+                dataArray = new Uint8Array(bufferLength);
+
+                updateMicStatus('Micrófono: Conectado', 'mic-status');
+                isListening = true;
+                detectClaps();
+            } catch (error) {
+                updateMicStatus(`Error: ${error.message}`, 'mic-status error');
+                console.error('Microphone error:', error);
+            }
+        }
+
+        function detectClaps() {
+            if (!isListening) return;
+
+            analyser.getByteFrequencyData(dataArray);
+
+            // Calculate RMS (Root Mean Square) for clap detection
+            let sum = 0;
+            for (let i = 0; i < dataArray.length; i++) {
+                sum += dataArray[i] * dataArray[i];
+            }
+            const rms = Math.sqrt(sum / dataArray.length);
+            const db = 20 * Math.log10(rms);
+            const normalizedDb = Math.max(0, Math.min(100, db + 30));
+
+            // Update level bar
+            document.getElementById('clap-level-bar').style.width = normalizedDb + '%';
+
+            // Detect clap
+            if (normalizedDb > clapThreshold) {
+                const now = Date.now();
+                if (now - lastClapTime > clapCooldown) {
+                    lastClapTime = now;
+                    triggerJarvis();
+                }
+            }
+
+            requestAnimationFrame(detectClaps);
+        }
+
+        function triggerJarvis() {
+            // Particle burst at center
+            createParticles(window.innerWidth / 2, window.innerHeight / 2, 100);
+
+            // Activation animation
+            const activation = document.createElement('div');
+            activation.className = 'jarvis-activation';
+            document.body.appendChild(activation);
+            setTimeout(() => activation.remove(), 600);
+
+            // Update status
+            document.getElementById('status').textContent = '¡JARVIS ACTIVADO!';
+            document.getElementById('status').style.color = '#ff0038';
+
+            // Send event to parent
+            window.parent.postMessage({ type: 'jarvis-activated' }, '*');
+
+            // Simulate voice capture starting
+            setTimeout(() => {
+                document.getElementById('status').textContent = 'Escuchando comando...';
+                document.getElementById('status').style.color = '#00ffff';
+            }, 500);
+        }
+
+        function updateMicStatus(text, className) {
+            const micStatus = document.getElementById('mic-status');
+            document.getElementById('mic-status-text').textContent = text;
+            micStatus.className = className;
+        }
+
+        // Request microphone access on load
+        window.addEventListener('load', () => {
+            initMicrophone();
+        });
+
+        // Handle window resize
+        window.addEventListener('resize', () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        });
+
+        // Listen for messages from parent
+        window.addEventListener('message', (event) => {
+            if (event.data.type === 'set-threshold') {
+                clapThreshold = event.data.value;
+                document.getElementById('threshold-text').textContent = `Umbral: ${clapThreshold} dB`;
+            }
+        });
+    </script>
+</body>
+</html>

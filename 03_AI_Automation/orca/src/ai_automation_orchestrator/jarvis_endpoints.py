@@ -2,9 +2,11 @@
 
 from __future__ import annotations
 
+from pathlib import Path
 from typing import Any
 
 from fastapi import FastAPI, HTTPException
+from fastapi.responses import HTMLResponse
 
 from ai_automation_orchestrator.jarvis_integration import (
     JarvisCommandRequest,
@@ -118,3 +120,30 @@ def register_jarvis_endpoints(app: FastAPI) -> None:
                 },
             ],
         }
+
+    @app.get("/jarvis/clap", response_class=HTMLResponse)
+    def jarvis_clap_detection() -> str:
+        """Serve Jarvis clap detection interface."""
+        clap_detection_path = (
+            Path(__file__).parent / "jarvis_clap_detection.html"
+        )
+
+        if clap_detection_path.exists():
+            return clap_detection_path.read_text()
+        else:
+            return """
+            <!DOCTYPE html>
+            <html>
+            <head><title>Jarvis Clap Detection</title></head>
+            <body style="background: #050505; color: #fff; text-align: center; display: flex; align-items: center; justify-content: center; height: 100vh; font-family: monospace;">
+                <div>
+                    <h1>🐋 Jarvis Clap Detection</h1>
+                    <p>Interfaz de detección de aplauso para Jarvis</p>
+                    <p style="color: #666; margin-top: 20px; font-size: 12px;">
+                        Aplaude para activar el reconocimiento de voz<br>
+                        Asegúrate de haber concedido acceso al micrófono
+                    </p>
+                </div>
+            </body>
+            </html>
+            """
