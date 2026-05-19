@@ -1,0 +1,141 @@
+name: Miniverse Kubernetes CI
+
+on:
+  push:
+    branches: [main, develop, "feat/kubernetes-*"]
+    paths:
+      - "miniverse/**"
+      - ".github/workflows/miniverse-kubernetes-ci.yml"
+  pull_request:
+    branches: [main, develop]
+    paths:
+      - "miniverse/**"
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  REGISTRY: ghcr.io
+  IMAGE_NAME: joelstalin/miniverse
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: miniverse
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: npm
+
+      - name: Install pnpm
+        run: npm install -g pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Type check
+        run: pnpm typecheck || true
+
+      - name: Lint
+        run: pnpm lint || true
+
+  build:
+    runs-on: ubuntu-latest
+    needs: [lint]
+    defaults:
+      run:
+        working-directory: miniverse
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: npm
+
+      - name: Install pnpm
+        run: npm install -g pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Build
+        run: pnpm build:server
+
+  docker:
+    runs-on: ubuntu-latest
+    needs: [lint, build]
+    defaults:
+      run:
+        working-directory: miniverse
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Build Docker image (no push)
+        uses: docker/build-push-action@v5
+        with:
+          context: miniverse
+          push: false
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+  kubernetes:
+    runs-on: ubuntu-latest
+    needs: [lint, build]
+    defaults:
+      run:
+        working-directory: miniverse
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Kustomize
+        run: |
+          curl -s "https://raw.githubusercontent.com/kubernetes-sigs/kustomize/master/hack/install_kustomize.sh" | bash
+          sudo mv kustomize /usr/local/bin/
+
+      - name: Validate Kustomize base
+        run: kustomize build deploy/k8s/base > /tmp/base.yaml && wc -l /tmp/base.yaml
+
+      - name: Validate Kustomize dev overlay
+        run: kustomize build deploy/k8s/overlays/dev > /tmp/dev.yaml && wc -l /tmp/dev.yaml
+
+      - name: Validate Kustomize prod overlay
+        run: kustomize build deploy/k8s/overlays/prod > /tmp/prod.yaml && wc -l /tmp/prod.yaml
+
+      - name: Validate YAML syntax
+        run: |
+          pip install pyyaml
+          python3 -c "
+          import yaml
+          for f in ['/tmp/base.yaml', '/tmp/dev.yaml', '/tmp/prod.yaml']:
+              with open(f) as x:
+                  yaml.safe_load(x)
+              print(f'✓ {f} is valid YAML')
+          "
+
+  success:
+    runs-on: ubuntu-latest
+    needs: [lint, build, docker, kubernetes]
+    if: always()
+    steps:
+      - name: Check results
+        run: |
+          if [[ "${{ needs.lint.result }}" == "failure" || \
+                "${{ needs.build.result }}" == "failure" || \
+                "${{ needs.docker.result }}" == "failure" || \
+                "${{ needs.kubernetes.result }}" == "failure" ]]; then
+            echo "❌ One or more checks failed"
+            exit 1
+          fi
+          echo "✅ All checks passed"

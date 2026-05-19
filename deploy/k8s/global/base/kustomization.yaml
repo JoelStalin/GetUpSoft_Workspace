@@ -1,0 +1,23 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+namespace: getupsoft
+
+# Include all services
+bases:
+  - ../../../03_AI_Automation/orca/deploy/k8s/base
+  - ../../../01_Core_Platform/getupsoft-site/deploy/k8s/base
+  - ../../../miniverse/deploy/k8s/base
+
+# Shared namespace
+resources:
+  - namespace.yaml
+
+# Global labels
+commonLabels:
+  app.kubernetes.io/part-of: getupsoft-workspace
+  app.kubernetes.io/managed-by: kustomize
+
+commonAnnotations:
+  workspace.getupsoft.com/version: "0.2.0"
+  workspace.getupsoft.com/deployment: "kubernetes"
