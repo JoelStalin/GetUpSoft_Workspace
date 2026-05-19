@@ -1,0 +1,91 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+namespace: getupsoft
+
+bases:
+  - ../../base
+
+namePrefix: orca-prod-
+
+commonLabels:
+  environment: production
+
+replicas:
+  - name: orca
+    count: 1  # Keep at 1 until shared storage (NFS) is available
+
+patches:
+  - target:
+      kind: Deployment
+      name: orca
+    patch: |-
+      - op: replace
+        path: /spec/template/spec/containers/0/resources/requests/cpu
+        value: 500m
+      - op: replace
+        path: /spec/template/spec/containers/0/resources/requests/memory
+        value: 512Mi
+      - op: replace
+        path: /spec/template/spec/containers/0/resources/limits/cpu
+        value: 2000m
+      - op: replace
+        path: /spec/template/spec/containers/0/resources/limits/memory
+        value: 4Gi
+      - op: replace
+        path: /spec/template/spec/containers/0/livenessProbe/initialDelaySeconds
+        value: 30
+      - op: replace
+        path: /spec/template/spec/containers/0/livenessProbe/failureThreshold
+        value: 5
+      - op: replace
+        path: /spec/template/spec/containers/0/readinessProbe/initialDelaySeconds
+        value: 15
+      - op: replace
+        path: /spec/template/spec/containers/0/readinessProbe/failureThreshold
+        value: 3
+
+patchesJson6902:
+  - target:
+      kind: PersistentVolumeClaim
+      name: orca-artifacts-pvc
+    patch: |-
+      - op: replace
+        path: /spec/resources/requests/storage
+        value: 20Gi
+      # Optional: specify a production storage class (e.g., fast-ssd)
+      # - op: add
+      #   path: /spec/storageClassName
+      #   value: fast-ssd
+
+configMapGenerator:
+  - name: orca-config
+    behavior: merge
+    literals:
+      - LOG_LEVEL=INFO
+      - ENVIRONMENT=production
+
+# Enable Ingress for production (optional, uncomment if you have domain setup)
+# resources:
+#   - ingress-prod.yaml
+
+# Enable HPA for production (only if using shared storage like NFS)
+# resources:
+#   - hpa-prod.yaml
+
+# Pod Disruption Budget for graceful updates
+# resources:
+#   - pdb.yaml
+
+---
+# Optional: Pod Disruption Budget (uncomment to enable)
+# apiVersion: policy/v1
+# kind: PodDisruptionBudget
+# metadata:
+#   name: orca-pdb
+#   namespace: getupsoft
+# spec:
+#   minAvailable: 1
+#   selector:
+#     matchLabels:
+#       app.kubernetes.io/name: orca

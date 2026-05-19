@@ -1,0 +1,63 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+namespace: getupsoft
+
+bases:
+  - ../../base
+
+namePrefix: orca-dev-
+
+commonLabels:
+  environment: development
+
+replicas:
+  - name: orca
+    count: 1
+
+# Override resource limits for development (lower resources)
+patches:
+  - target:
+      kind: Deployment
+      name: orca
+    patch: |-
+      - op: replace
+        path: /spec/template/spec/containers/0/resources/requests/cpu
+        value: 100m
+      - op: replace
+        path: /spec/template/spec/containers/0/resources/requests/memory
+        value: 256Mi
+      - op: replace
+        path: /spec/template/spec/containers/0/resources/limits/cpu
+        value: 500m
+      - op: replace
+        path: /spec/template/spec/containers/0/resources/limits/memory
+        value: 1Gi
+      - op: replace
+        path: /spec/template/spec/containers/0/livenessProbe/initialDelaySeconds
+        value: 10
+      - op: replace
+        path: /spec/template/spec/containers/0/readinessProbe/initialDelaySeconds
+        value: 5
+
+# Reduce PVC size for dev
+patchesJson6902:
+  - target:
+      kind: PersistentVolumeClaim
+      name: orca-artifacts-pvc
+    patch: |-
+      - op: replace
+        path: /spec/resources/requests/storage
+        value: 2Gi
+
+configMapGenerator:
+  - name: orca-config
+    behavior: merge
+    literals:
+      - LOG_LEVEL=DEBUG
+      - ENVIRONMENT=development
+
+# For dev, don't use Ingress by default
+# Uncomment the following if you want to add dev-specific Ingress
+# resources:
+#   - ingress-dev.yaml
