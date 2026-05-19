@@ -3,6 +3,10 @@ name: ci
 on:
   push:
     branches: ["main"]
+    paths:
+      - "orca/**"
+      - "pyproject.toml"
+      - "uv.lock"
   pull_request:
 
 jobs:
