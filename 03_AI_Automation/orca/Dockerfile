@@ -43,11 +43,11 @@ USER orca
 
 # Health check
 HEALTHCHECK --interval=30s --timeout=10s --start-period=5s --retries=3 \
-    CMD python -m httpx GET http://localhost:8787/health || exit 1
+    CMD python -m httpx GET http://localhost:8015/health || exit 1
 
-EXPOSE 8787
+EXPOSE 8015
 
 # Uvicorn: factory pattern with host 0.0.0.0 for Kubernetes
 ENTRYPOINT ["uvicorn"]
 CMD ["--factory", "ai_automation_orchestrator.webapp:create_app", \
-     "--host", "0.0.0.0", "--port", "8787"]
+     "--host", "0.0.0.0", "--port", "8015"]
