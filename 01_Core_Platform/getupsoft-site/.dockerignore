@@ -1,6 +1,61 @@
-node_modules
-dist
+# Git
 .git
+.gitignore
+.gitattributes
+
+# Dependencies
+node_modules
+npm-debug.log
+pnpm-lock.yaml
+yarn.lock
+package-lock.json
+
+# Build outputs
+dist
+build
+.next
+out
+
+# Development
+.env.development
+.env.local
+.env.*.local
+
+# IDE
+.vscode
+.idea
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Test
+.jest
+coverage
+.nyc_output
+
+# Docs
+docs
+README.md
+CHANGELOG.md
+
+# CI/CD
 .github
-npm-debug.log*
-pnpm-debug.log*
+.gitlab-ci.yml
+.circleci
+.travis.yml
+
+# Root level config files
+tsconfig.json
+tailwind.config.ts
+vite.config.ts
+eslint.config.js
+jest.config.js
+postcss.config.js
+.prettierrc
+.prettierignore
+
+# Temp files
+.tmp
+temp
+*.log

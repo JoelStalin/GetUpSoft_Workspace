@@ -1,8 +1,50 @@
+version: '3.8'
+
 services:
   web:
     build:
       context: .
       dockerfile: Dockerfile
+    container_name: getupsoft-site-web
     ports:
       - "127.0.0.1:3120:80"
     restart: unless-stopped
+    environment:
+      - NODE_ENV=production
+      - VITE_ERP_TYPE=${VITE_ERP_TYPE:-mock}
+      - VITE_ODOO_HOST=${VITE_ODOO_HOST}
+      - VITE_ODOO_PORT=${VITE_ODOO_PORT:-8069}
+      - VITE_ODOO_DATABASE=${VITE_ODOO_DATABASE}
+      - VITE_ODOO_USERNAME=${VITE_ODOO_USERNAME}
+      - VITE_ODOO_PASSWORD=${VITE_ODOO_PASSWORD}
+      - VITE_SMTP_HOST=${VITE_SMTP_HOST}
+      - VITE_SMTP_PORT=${VITE_SMTP_PORT:-587}
+      - VITE_SMTP_USER=${VITE_SMTP_USER}
+      - VITE_SMTP_PASS=${VITE_SMTP_PASS}
+      - VITE_SMTP_FROM=${VITE_SMTP_FROM}
+    healthcheck:
+      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 5s
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+        labels: "service=getupsoft-site"
+    networks:
+      - getupsoft-network
+    deploy:
+      resources:
+        limits:
+          cpus: '1'
+          memory: 512M
+        reservations:
+          cpus: '0.5'
+          memory: 256M
+
+networks:
+  getupsoft-network:
+    driver: bridge
