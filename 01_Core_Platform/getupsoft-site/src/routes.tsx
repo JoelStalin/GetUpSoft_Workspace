@@ -5,15 +5,22 @@ import { SiteLayout } from "./components/SiteLayout";
 import { GlobalHomePage } from "./pages/global/Home";
 import { RDHomePage } from "./pages/rd/Home";
 import { PortalContentPage } from "./components/PortalContentPage";
-import { HomePage } from "./pages/Home";
+import { HomePage as LegacyHomePage } from "./pages/Home";
 import { PrivacyPolicy } from "./pages/PrivacyPolicy";
 import { TermsOfService } from "./pages/TermsOfService";
 // Legacy pages kept for backward compat
-import { ProductsPage } from "./pages/Products";
+import { ProductsPage as LegacyProductsPage } from "./pages/Products";
 import { AccountingManagementPage } from "./pages/AccountingManagement";
 import { PlatformPage } from "./pages/Platform";
-import { ContactPage } from "./pages/Contact";
 import { ChatbotPortalPage } from "./pages/ChatbotPortal";
+
+// Redesigned pages (Phase 2-3)
+import { HomePage } from "./pages/HomePage";
+import { ProductsPage } from "./pages/ProductsPage";
+import { SolutionsPage } from "./pages/SolutionsPage";
+import { AboutPage } from "./pages/AboutPage";
+import { ContactPage } from "./pages/ContactPage";
+import { DiagnosticPage } from "./pages/DiagnosticPage";
 
 const host = typeof window !== "undefined" ? window.location.hostname.toLowerCase() : "";
 const isRDHost = host.endsWith(".com.do") || host === "getupsoft.com.do";
@@ -185,6 +192,18 @@ const globalRoutes = [
       // Legacy redirects
       { path: "productos", element: <Navigate to="/products" replace /> },
       { path: "contacto", element: <Navigate to="/contact" replace /> },
+    ],
+  },
+  // Redesigned website routes (Phase 2-3)
+  {
+    path: "/redesign",
+    children: [
+      { index: true, element: <HomePage /> },
+      { path: "products", element: <ProductsPage /> },
+      { path: "solutions", element: <SolutionsPage /> },
+      { path: "about", element: <AboutPage /> },
+      { path: "contact", element: <ContactPage /> },
+      { path: "diagnostic", element: <DiagnosticPage /> },
     ],
   },
   { path: "*", element: <Navigate to="/" replace /> },
