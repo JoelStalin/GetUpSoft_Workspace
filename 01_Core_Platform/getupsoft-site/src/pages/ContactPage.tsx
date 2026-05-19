@@ -7,6 +7,7 @@ import { Button } from "../components/ui/Button";
 import { LanguageContext } from "../contexts/LanguageContext";
 import { useERPSubmission } from "../hooks/useERPSubmission";
 import { ContactFormData } from "../lib/erp/types";
+import { validateContactForm } from "../lib/validation/schemas";
 
 export const ContactPage: React.FC = () => {
   const context = useContext(LanguageContext);
@@ -18,6 +19,10 @@ export const ContactPage: React.FC = () => {
     company: "",
     message: "",
   });
+
+  const [validationErrors, setValidationErrors] = useState<
+    Record<string, string>
+  >({});
 
   if (!context) {
     return <div>Error: Language context not available</div>;
@@ -31,18 +36,34 @@ export const ContactPage: React.FC = () => {
   ) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
+    // Clear error for this field when user starts typing
+    if (validationErrors[name]) {
+      setValidationErrors((prev) => {
+        const updated = { ...prev };
+        delete updated[name];
+        return updated;
+      });
+    }
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    const contactData: ContactFormData = {
+    const contactData = {
       ...formData,
       language: currentLanguage,
       submittedAt: new Date().toISOString(),
     };
 
-    await submitContact(contactData);
+    // Validate before submission
+    const validationResult = validateContactForm(contactData);
+    if (!validationResult.success) {
+      setValidationErrors(validationResult.errors || {});
+      return;
+    }
+
+    setValidationErrors({});
+    await submitContact(contactData as ContactFormData);
 
     // Reset form on success
     if (submission.success) {
@@ -109,9 +130,18 @@ export const ContactPage: React.FC = () => {
                   required
                   value={formData.name}
                   onChange={handleChange}
-                  className="w-full px-4 py-2 rounded-lg bg-background border border-border text-text placeholder-text-muted focus:outline-offset-2 focus:outline-2 focus:outline-primary transition-all"
+                  className={`w-full px-4 py-2 rounded-lg bg-background border text-text placeholder-text-muted focus:outline-offset-2 focus:outline-2 focus:outline-primary transition-all ${
+                    validationErrors.name
+                      ? "border-danger"
+                      : "border-border"
+                  }`}
                   placeholder={contactContent.form.name}
                 />
+                {validationErrors.name && (
+                  <p className="text-danger text-sm mt-1">
+                    {validationErrors.name}
+                  </p>
+                )}
               </div>
 
               {/* Email Field */}
@@ -129,9 +159,18 @@ export const ContactPage: React.FC = () => {
                   required
                   value={formData.email}
                   onChange={handleChange}
-                  className="w-full px-4 py-2 rounded-lg bg-background border border-border text-text placeholder-text-muted focus:outline-offset-2 focus:outline-2 focus:outline-primary transition-all"
+                  className={`w-full px-4 py-2 rounded-lg bg-background border text-text placeholder-text-muted focus:outline-offset-2 focus:outline-2 focus:outline-primary transition-all ${
+                    validationErrors.email
+                      ? "border-danger"
+                      : "border-border"
+                  }`}
                   placeholder={contactContent.form.email}
                 />
+                {validationErrors.email && (
+                  <p className="text-danger text-sm mt-1">
+                    {validationErrors.email}
+                  </p>
+                )}
               </div>
 
               {/* Company Field */}
@@ -148,9 +187,18 @@ export const ContactPage: React.FC = () => {
                   type="text"
                   value={formData.company}
                   onChange={handleChange}
-                  className="w-full px-4 py-2 rounded-lg bg-background border border-border text-text placeholder-text-muted focus:outline-offset-2 focus:outline-2 focus:outline-primary transition-all"
+                  className={`w-full px-4 py-2 rounded-lg bg-background border text-text placeholder-text-muted focus:outline-offset-2 focus:outline-2 focus:outline-primary transition-all ${
+                    validationErrors.company
+                      ? "border-danger"
+                      : "border-border"
+                  }`}
                   placeholder={contactContent.form.company}
                 />
+                {validationErrors.company && (
+                  <p className="text-danger text-sm mt-1">
+                    {validationErrors.company}
+                  </p>
+                )}
               </div>
 
               {/* Message Field */}
@@ -168,9 +216,18 @@ export const ContactPage: React.FC = () => {
                   rows={5}
                   value={formData.message}
                   onChange={handleChange}
-                  className="w-full px-4 py-2 rounded-lg bg-background border border-border text-text placeholder-text-muted focus:outline-offset-2 focus:outline-2 focus:outline-primary transition-all resize-none"
+                  className={`w-full px-4 py-2 rounded-lg bg-background border text-text placeholder-text-muted focus:outline-offset-2 focus:outline-2 focus:outline-primary transition-all resize-none ${
+                    validationErrors.message
+                      ? "border-danger"
+                      : "border-border"
+                  }`}
                   placeholder={contactContent.form.message}
                 />
+                {validationErrors.message && (
+                  <p className="text-danger text-sm mt-1">
+                    {validationErrors.message}
+                  </p>
+                )}
               </div>
 
               {/* Submit Button */}

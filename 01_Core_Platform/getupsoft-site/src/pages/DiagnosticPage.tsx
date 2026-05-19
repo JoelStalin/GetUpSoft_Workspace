@@ -7,6 +7,7 @@ import { Button } from "../components/ui/Button";
 import { LanguageContext } from "../contexts/LanguageContext";
 import { useERPSubmission } from "../hooks/useERPSubmission";
 import { DiagnosticFormData } from "../lib/erp/types";
+import { validateDiagnosticForm } from "../lib/validation/schemas";
 
 export const DiagnosticPage: React.FC = () => {
   const context = useContext(LanguageContext);
@@ -24,6 +25,10 @@ export const DiagnosticPage: React.FC = () => {
     budget: "20k-50k" as const,
     message: "",
   });
+
+  const [validationErrors, setValidationErrors] = useState<
+    Record<string, string>
+  >({});
 
   if (!context) {
     return <div>Error: Language context not available</div>;
@@ -57,6 +62,14 @@ export const DiagnosticPage: React.FC = () => {
   ) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
+    // Clear error for this field
+    if (validationErrors[name]) {
+      setValidationErrors((prev) => {
+        const updated = { ...prev };
+        delete updated[name];
+        return updated;
+      });
+    }
   };
 
   const handleSystemChange = (system: string) => {
@@ -66,12 +79,20 @@ export const DiagnosticPage: React.FC = () => {
         ? prev.currentSystems.filter((s) => s !== system)
         : [...prev.currentSystems, system],
     }));
+    // Clear error for this field
+    if (validationErrors.currentSystems) {
+      setValidationErrors((prev) => {
+        const updated = { ...prev };
+        delete updated.currentSystems;
+        return updated;
+      });
+    }
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
-    const diagnosticData: DiagnosticFormData = {
+    const diagnosticData = {
       ...formData,
       timeline: formData.timeline as any,
       budget: formData.budget as any,
@@ -79,7 +100,15 @@ export const DiagnosticPage: React.FC = () => {
       submittedAt: new Date().toISOString(),
     };
 
-    await submitDiagnostic(diagnosticData);
+    // Validate before submission
+    const validationResult = validateDiagnosticForm(diagnosticData);
+    if (!validationResult.success) {
+      setValidationErrors(validationResult.errors || {});
+      return;
+    }
+
+    setValidationErrors({});
+    await submitDiagnostic(diagnosticData as DiagnosticFormData);
 
     // Reset form on success
     if (submission.success) {
@@ -166,8 +195,17 @@ export const DiagnosticPage: React.FC = () => {
                       required
                       value={formData.name}
                       onChange={handleChange}
-                      className="w-full px-4 py-2 rounded-lg bg-background border border-border text-text placeholder-text-muted focus:outline-offset-2 focus:outline-2 focus:outline-primary transition-all"
+                      className={`w-full px-4 py-2 rounded-lg bg-background border text-text placeholder-text-muted focus:outline-offset-2 focus:outline-2 focus:outline-primary transition-all ${
+                        validationErrors.name
+                          ? "border-danger"
+                          : "border-border"
+                      }`}
                     />
+                    {validationErrors.name && (
+                      <p className="text-danger text-sm mt-1">
+                        {validationErrors.name}
+                      </p>
+                    )}
                   </div>
 
                   <div>
@@ -180,8 +218,17 @@ export const DiagnosticPage: React.FC = () => {
                       required
                       value={formData.email}
                       onChange={handleChange}
-                      className="w-full px-4 py-2 rounded-lg bg-background border border-border text-text placeholder-text-muted focus:outline-offset-2 focus:outline-2 focus:outline-primary transition-all"
+                      className={`w-full px-4 py-2 rounded-lg bg-background border text-text placeholder-text-muted focus:outline-offset-2 focus:outline-2 focus:outline-primary transition-all ${
+                        validationErrors.email
+                          ? "border-danger"
+                          : "border-border"
+                      }`}
                     />
+                    {validationErrors.email && (
+                      <p className="text-danger text-sm mt-1">
+                        {validationErrors.email}
+                      </p>
+                    )}
                   </div>
 
                   <div>
@@ -194,8 +241,17 @@ export const DiagnosticPage: React.FC = () => {
                       required
                       value={formData.company}
                       onChange={handleChange}
-                      className="w-full px-4 py-2 rounded-lg bg-background border border-border text-text placeholder-text-muted focus:outline-offset-2 focus:outline-2 focus:outline-primary transition-all"
+                      className={`w-full px-4 py-2 rounded-lg bg-background border text-text placeholder-text-muted focus:outline-offset-2 focus:outline-2 focus:outline-primary transition-all ${
+                        validationErrors.company
+                          ? "border-danger"
+                          : "border-border"
+                      }`}
                     />
+                    {validationErrors.company && (
+                      <p className="text-danger text-sm mt-1">
+                        {validationErrors.company}
+                      </p>
+                    )}
                   </div>
                 </div>
               </div>
@@ -218,7 +274,11 @@ export const DiagnosticPage: React.FC = () => {
                       required
                       value={formData.industry}
                       onChange={handleChange}
-                      className="w-full px-4 py-2 rounded-lg bg-background border border-border text-text focus:outline-offset-2 focus:outline-2 focus:outline-primary transition-all"
+                      className={`w-full px-4 py-2 rounded-lg bg-background border text-text focus:outline-offset-2 focus:outline-2 focus:outline-primary transition-all ${
+                        validationErrors.industry
+                          ? "border-danger"
+                          : "border-border"
+                      }`}
                     >
                       <option value="">
                         {currentLanguage === "es"
@@ -231,6 +291,11 @@ export const DiagnosticPage: React.FC = () => {
                         </option>
                       ))}
                     </select>
+                    {validationErrors.industry && (
+                      <p className="text-danger text-sm mt-1">
+                        {validationErrors.industry}
+                      </p>
+                    )}
                   </div>
 
                   <div>
@@ -244,7 +309,11 @@ export const DiagnosticPage: React.FC = () => {
                       required
                       value={formData.employees}
                       onChange={handleChange}
-                      className="w-full px-4 py-2 rounded-lg bg-background border border-border text-text focus:outline-offset-2 focus:outline-2 focus:outline-primary transition-all"
+                      className={`w-full px-4 py-2 rounded-lg bg-background border text-text focus:outline-offset-2 focus:outline-2 focus:outline-primary transition-all ${
+                        validationErrors.employees
+                          ? "border-danger"
+                          : "border-border"
+                      }`}
                     >
                       <option value="">
                         {currentLanguage === "es"
@@ -257,6 +326,11 @@ export const DiagnosticPage: React.FC = () => {
                       <option value="201-500">201-500</option>
                       <option value="500+">500+</option>
                     </select>
+                    {validationErrors.employees && (
+                      <p className="text-danger text-sm mt-1">
+                        {validationErrors.employees}
+                      </p>
+                    )}
                   </div>
 
                   <div>
@@ -283,6 +357,11 @@ export const DiagnosticPage: React.FC = () => {
                         </label>
                       ))}
                     </div>
+                    {validationErrors.currentSystems && (
+                      <p className="text-danger text-sm mt-2">
+                        {validationErrors.currentSystems}
+                      </p>
+                    )}
                   </div>
                 </div>
               </div>
@@ -308,8 +387,17 @@ export const DiagnosticPage: React.FC = () => {
                       rows={3}
                       value={formData.mainPain}
                       onChange={handleChange}
-                      className="w-full px-4 py-2 rounded-lg bg-background border border-border text-text placeholder-text-muted focus:outline-offset-2 focus:outline-2 focus:outline-primary transition-all resize-none"
+                      className={`w-full px-4 py-2 rounded-lg bg-background border text-text placeholder-text-muted focus:outline-offset-2 focus:outline-2 focus:outline-primary transition-all resize-none ${
+                        validationErrors.mainPain
+                          ? "border-danger"
+                          : "border-border"
+                      }`}
                     />
+                    {validationErrors.mainPain && (
+                      <p className="text-danger text-sm mt-1">
+                        {validationErrors.mainPain}
+                      </p>
+                    )}
                   </div>
 
                   <div className="grid grid-cols-2 gap-4">
@@ -321,7 +409,11 @@ export const DiagnosticPage: React.FC = () => {
                         name="timeline"
                         value={formData.timeline}
                         onChange={handleChange}
-                        className="w-full px-4 py-2 rounded-lg bg-background border border-border text-text focus:outline-offset-2 focus:outline-2 focus:outline-primary transition-all"
+                        className={`w-full px-4 py-2 rounded-lg bg-background border text-text focus:outline-offset-2 focus:outline-2 focus:outline-primary transition-all ${
+                          validationErrors.timeline
+                            ? "border-danger"
+                            : "border-border"
+                        }`}
                       >
                         <option value="immediate">
                           {currentLanguage === "es" ? "Inmediato" : "Immediate"}
@@ -342,6 +434,11 @@ export const DiagnosticPage: React.FC = () => {
                             : "6-12 Months"}
                         </option>
                       </select>
+                      {validationErrors.timeline && (
+                        <p className="text-danger text-sm mt-1">
+                          {validationErrors.timeline}
+                        </p>
+                      )}
                     </div>
 
                     <div>
@@ -352,7 +449,11 @@ export const DiagnosticPage: React.FC = () => {
                         name="budget"
                         value={formData.budget}
                         onChange={handleChange}
-                        className="w-full px-4 py-2 rounded-lg bg-background border border-border text-text focus:outline-offset-2 focus:outline-2 focus:outline-primary transition-all"
+                        className={`w-full px-4 py-2 rounded-lg bg-background border text-text focus:outline-offset-2 focus:outline-2 focus:outline-primary transition-all ${
+                          validationErrors.budget
+                            ? "border-danger"
+                            : "border-border"
+                        }`}
                       >
                         <option value="under-5k">
                           {currentLanguage === "es" ? "Menor a $5k" : "Under $5k"}
@@ -362,6 +463,11 @@ export const DiagnosticPage: React.FC = () => {
                         <option value="50k-100k">$50k - $100k</option>
                         <option value="100k+">$100k+</option>
                       </select>
+                      {validationErrors.budget && (
+                        <p className="text-danger text-sm mt-1">
+                          {validationErrors.budget}
+                        </p>
+                      )}
                     </div>
                   </div>
                 </div>
@@ -377,8 +483,17 @@ export const DiagnosticPage: React.FC = () => {
                   rows={4}
                   value={formData.message}
                   onChange={handleChange}
-                  className="w-full px-4 py-2 rounded-lg bg-background border border-border text-text placeholder-text-muted focus:outline-offset-2 focus:outline-2 focus:outline-primary transition-all resize-none"
+                  className={`w-full px-4 py-2 rounded-lg bg-background border text-text placeholder-text-muted focus:outline-offset-2 focus:outline-2 focus:outline-primary transition-all resize-none ${
+                    validationErrors.message
+                      ? "border-danger"
+                      : "border-border"
+                  }`}
                 />
+                {validationErrors.message && (
+                  <p className="text-danger text-sm mt-1">
+                    {validationErrors.message}
+                  </p>
+                )}
               </div>
 
               {/* Submit Button */}
