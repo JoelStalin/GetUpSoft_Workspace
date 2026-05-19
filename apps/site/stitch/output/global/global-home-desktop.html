@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>GetUpSoft Global | Architectural Intelligence</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;700&amp;family=Plus+Jakarta+Sans:wght@300;400;500;600&amp;family=IBM+Plex+Mono:wght@400;500&amp;family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;
+            vertical-align: middle;
+        }
+        .glass-card {
+            background: rgba(31, 31, 36, 0.7);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.07);
+        }
+        .glass-card-elevated {
+            background: rgba(41, 42, 46, 0.85);
+            backdrop-filter: blur(24px);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+        }
+        body {
+            background-color: #131317;
+            color: #e4e1e8;
+            -webkit-font-smoothing: antialiased;
+        }
+        .ambient-glow-indigo {
+            background: radial-gradient(circle at 50% 50%, rgba(165, 180, 252, 0.08) 0%, transparent 70%);
+        }
+        .ambient-glow-teal {
+            background: radial-gradient(circle at 50% 50%, rgba(122, 215, 198, 0.05) 0%, transparent 70%);
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "surface": "#131317",
+                        "on-secondary-fixed-variant": "#005046",
+                        "on-secondary-fixed": "#00201b",
+                        "surface-variant": "#343439",
+                        "surface-bright": "#39393e",
+                        "tertiary-container": "#d7b451",
+                        "secondary-container": "#00786a",
+                        "primary-fixed": "#dde1ff",
+                        "inverse-surface": "#e4e1e8",
+                        "inverse-primary": "#4b5a9c",
+                        "primary-fixed-dim": "#b8c4ff",
+                        "outline": "#8f909b",
+                        "on-surface": "#e4e1e8",
+                        "surface-container-highest": "#343439",
+                        "on-background": "#e4e1e8",
+                        "secondary-fixed": "#96f3e1",
+                        "on-primary-fixed": "#001354",
+                        "on-primary-fixed-variant": "#334282",
+                        "surface-container": "#1f1f24",
+                        "primary": "#c9d1ff",
+                        "on-surface-variant": "#c6c5d2",
+                        "on-error-container": "#ffdad6",
+                        "inverse-on-surface": "#303035",
+                        "on-secondary-container": "#a0fdeb",
+                        "secondary-fixed-dim": "#7ad7c6",
+                        "surface-dim": "#131317",
+                        "tertiary-fixed": "#ffe08e",
+                        "background": "#131317",
+                        "tertiary-fixed-dim": "#e7c35e",
+                        "surface-container-low": "#1b1b20",
+                        "surface-container-lowest": "#0d0e12",
+                        "on-tertiary-fixed": "#241a00",
+                        "on-secondary": "#003730",
+                        "outline-variant": "#454650",
+                        "on-tertiary": "#3d2e00",
+                        "on-tertiary-container": "#5a4600",
+                        "on-primary": "#1a2b6a",
+                        "on-primary-container": "#354484",
+                        "primary-container": "#a5b4fc",
+                        "on-error": "#690005",
+                        "surface-tint": "#b8c4ff",
+                        "surface-container-high": "#292a2e",
+                        "error": "#ffb4ab",
+                        "secondary": "#7ad7c6",
+                        "on-tertiary-fixed-variant": "#584400",
+                        "error-container": "#93000a",
+                        "tertiary": "#f5d069"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "container-gap": "2rem",
+                        "gutter": "1.5rem",
+                        "section-padding-v": "6rem",
+                        "max-width": "1280px"
+                    },
+                    "fontFamily": {
+                        "display-lg": ["Space Grotesk"],
+                        "display-md": ["Space Grotesk"],
+                        "headline-sm": ["Space Grotesk"],
+                        "body-md": ["Plus Jakarta Sans"],
+                        "display-lg-mobile": ["Space Grotesk"],
+                        "body-lg": ["Plus Jakarta Sans"],
+                        "body-sm": ["Plus Jakarta Sans"],
+                        "label-mono": ["IBM Plex Mono"]
+                    },
+                    "fontSize": {
+                        "display-lg": ["80px", { "lineHeight": "1.05", "letterSpacing": "-0.04em", "fontWeight": "300" }],
+                        "display-md": ["36px", { "lineHeight": "1.2", "letterSpacing": "-0.03em", "fontWeight": "300" }],
+                        "headline-sm": ["24px", { "lineHeight": "1.3", "letterSpacing": "-0.02em", "fontWeight": "400" }],
+                        "body-md": ["16px", { "lineHeight": "1.6", "fontWeight": "400" }],
+                        "display-lg-mobile": ["42px", { "lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "300" }],
+                        "body-lg": ["18px", { "lineHeight": "1.6", "fontWeight": "300" }],
+                        "body-sm": ["14px", { "lineHeight": "1.5", "fontWeight": "400" }],
+                        "label-mono": ["10px", { "lineHeight": "1", "letterSpacing": "0.15em", "fontWeight": "500" }]
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-surface text-on-surface font-body-md overflow-x-hidden">
+<!-- Top Bar Navigation -->
+<header class="fixed top-0 left-0 w-full z-50 bg-surface/70 backdrop-blur-xl border-b border-outline-variant/30 h-20">
+<div class="flex justify-between items-center w-full px-gutter max-w-max-width mx-auto h-full">
+<div class="font-display-md text-display-md font-bold text-on-surface flex items-center gap-2">
+<span class="text-primary-container">G</span>etUpSoft Global
+            </div>
+<nav class="hidden md:flex items-center gap-8">
+<a class="font-body-md text-body-md text-primary font-bold border-b-2 border-primary pb-1" href="#">Home</a>
+<a class="font-body-md text-body-md text-on-surface-variant hover:text-primary transition-colors duration-200" href="#">AI Agents</a>
+<a class="font-body-md text-body-md text-on-surface-variant hover:text-primary transition-colors duration-200" href="#">Integration</a>
+<a class="font-body-md text-body-md text-on-surface-variant hover:text-primary transition-colors duration-200" href="#">Products</a>
+<a class="font-body-md text-body-md text-on-surface-variant hover:text-primary transition-colors duration-200" href="#">Solutions</a>
+<a class="font-body-md text-body-md text-on-surface-variant hover:text-primary transition-colors duration-200" href="#">About</a>
+</nav>
+<button class="rounded-full bg-primary-container text-on-primary-container font-label-mono px-6 py-3 uppercase text-xs tracking-widest active:scale-95 transition-transform">
+                Book Strategy
+            </button>
+</div>
+</header>
+<main class="pt-20">
+<!-- Hero Section -->
+<section class="relative min-h-screen flex flex-col justify-center items-center px-gutter overflow-hidden">
+<div class="absolute inset-0 ambient-glow-indigo pointer-events-none"></div>
+<div class="absolute -top-40 -right-40 w-[600px] h-[600px] ambient-glow-teal pointer-events-none opacity-40"></div>
+<!-- Announcement Bar -->
+<div class="mb-12 py-2 px-6 glass-card rounded-full inline-block">
+<p class="font-label-mono text-label-mono text-primary tracking-[0.2em] uppercase">
+                    Enterprise AI Architecture · System Integration · Digital Transformation
+                </p>
+</div>
+<div class="max-w-max-width mx-auto grid grid-cols-1 lg:grid-cols-12 gap-16 items-center">
+<div class="lg:col-span-7 z-10 text-center lg:text-left">
+<h1 class="font-display-lg text-display-lg-mobile md:text-display-lg leading-tight mb-8">
+                        Architectural <br/> <span class="italic text-primary-container">Intelligence</span> / for the <br/> Modern / Enterprise.
+                    </h1>
+<p class="font-body-lg text-body-lg text-on-surface-variant max-w-2xl mb-12 mx-auto lg:mx-0">
+                        We design autonomous AI agents, integrated systems and operational intelligence layers that turn fragmented companies into scalable digital ecosystems.
+                    </p>
+<div class="flex flex-col sm:flex-row gap-6 justify-center lg:justify-start">
+<button class="px-8 py-4 bg-primary-container text-on-primary-container font-label-mono rounded-full text-xs tracking-[0.15em] transition-all hover:brightness-110 active:scale-95">
+                            BOOK STRATEGY SESSION
+                        </button>
+<button class="px-8 py-4 border border-outline-variant text-on-surface font-label-mono rounded-full text-xs tracking-[0.15em] transition-all hover:bg-surface-variant active:scale-95">
+                            EXPLORE METHODOLOGY
+                        </button>
+</div>
+</div>
+<!-- Glass Technical Card -->
+<div class="lg:col-span-5 relative z-10">
+<div class="glass-card-elevated p-8 rounded-xl w-full max-w-md mx-auto shadow-2xl">
+<div class="flex justify-between items-center mb-8">
+<h3 class="font-headline-sm text-headline-sm">Intelligence Layer</h3>
+<span class="material-symbols-outlined text-primary-container" data-icon="architecture">architecture</span>
+</div>
+<div class="space-y-6 mb-8">
+<div>
+<div class="flex justify-between text-[10px] font-label-mono uppercase mb-2 text-on-surface-variant">
+<span>AI Agents</span>
+<span>94%</span>
+</div>
+<div class="h-1 bg-surface-container rounded-full overflow-hidden">
+<div class="h-full bg-primary-container w-[94%] shadow-[0_0_8px_rgba(165,180,252,0.5)]"></div>
+</div>
+</div>
+<div>
+<div class="flex justify-between text-[10px] font-label-mono uppercase mb-2 text-on-surface-variant">
+<span>ERP Integration</span>
+<span>88%</span>
+</div>
+<div class="h-1 bg-surface-container rounded-full overflow-hidden">
+<div class="h-full bg-secondary w-[88%]"></div>
+</div>
+</div>
+<div>
+<div class="flex justify-between text-[10px] font-label-mono uppercase mb-2 text-on-surface-variant">
+<span>Automation</span>
+<span>99%</span>
+</div>
+<div class="h-1 bg-surface-container rounded-full overflow-hidden">
+<div class="h-full bg-primary-container w-[99%] shadow-[0_0_8px_rgba(165,180,252,0.5)]"></div>
+</div>
+</div>
+<div>
+<div class="flex justify-between text-[10px] font-label-mono uppercase mb-2 text-on-surface-variant">
+<span>Data Orchestration</span>
+<span>82%</span>
+</div>
+<div class="h-1 bg-surface-container rounded-full overflow-hidden">
+<div class="h-full bg-secondary w-[82%]"></div>
+</div>
+</div>
+<div>
+<div class="flex justify-between text-[10px] font-label-mono uppercase mb-2 text-on-surface-variant">
+<span>Operational BI</span>
+<span>76%</span>
+</div>
+<div class="h-1 bg-surface-container rounded-full overflow-hidden">
+<div class="h-full bg-primary-container w-[76%]"></div>
+</div>
+</div>
+</div>
+<div class="grid grid-cols-3 gap-2 border-t border-outline-variant pt-6">
+<div class="text-center">
+<p class="font-label-mono text-[8px] text-on-surface-variant mb-1">LATENCY</p>
+<p class="font-headline-sm text-body-md text-primary">18ms</p>
+</div>
+<div class="text-center">
+<p class="font-label-mono text-[8px] text-on-surface-variant mb-1">AGENTS</p>
+<p class="font-headline-sm text-body-md text-secondary">1.2k</p>
+</div>
+<div class="text-center">
+<p class="font-label-mono text-[8px] text-on-surface-variant mb-1">UPTIME</p>
+<p class="font-headline-sm text-body-md text-tertiary">99.9%</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Stats Strip -->
+<div class="w-full max-w-max-width mx-auto mt-24 border-t border-outline-variant/30 pt-12">
+<div class="grid grid-cols-1 md:grid-cols-3 gap-12 text-center md:text-left">
+<div>
+<p class="font-headline-sm text-headline-sm mb-1 text-primary-container">AI Agents</p>
+<p class="font-label-mono text-on-surface-variant uppercase tracking-widest text-[10px]">Production-grade</p>
+</div>
+<div>
+<p class="font-headline-sm text-headline-sm mb-1 text-primary-container">Integrations</p>
+<p class="font-label-mono text-on-surface-variant uppercase tracking-widest text-[10px]">ERP · CRM · BI · APIs</p>
+</div>
+<div>
+<p class="font-headline-sm text-headline-sm mb-1 text-primary-container">Infrastructure</p>
+<p class="font-label-mono text-on-surface-variant uppercase tracking-widest text-[10px]">Cloud-native</p>
+</div>
+</div>
+</div>
+</section>
+<!-- Problem Statement -->
+<section class="py-section-padding-v bg-surface-container-low px-gutter border-y border-outline-variant/10">
+<div class="max-w-max-width mx-auto text-center">
+<p class="font-body-lg text-body-lg text-on-surface-variant max-w-3xl mx-auto italic">
+                    "Modern companies operate with fragmented systems that dilute intelligence and bottleneck scaling."
+                </p>
+</div>
+</section>
+<!-- Capabilities Grid -->
+<section class="py-section-padding-v px-gutter max-w-max-width mx-auto">
+<div class="mb-16">
+<h2 class="font-display-md text-display-md mb-4">Engineered for Scale</h2>
+<div class="h-1 w-24 bg-primary-container"></div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-container-gap">
+<!-- Card 1 -->
+<div class="glass-card p-8 rounded-xl hover:glass-card-elevated transition-all duration-300 group">
+<div class="text-primary-container text-4xl mb-6">◈</div>
+<h4 class="font-headline-sm text-headline-sm mb-4">Enterprise AI Agents</h4>
+<p class="font-body-sm text-on-surface-variant">Autonomous entities designed to execute complex business logic with zero-latency decision making.</p>
+</div>
+<!-- Card 2 -->
+<div class="glass-card p-8 rounded-xl hover:glass-card-elevated transition-all duration-300 group">
+<div class="text-secondary text-4xl mb-6">⬡</div>
+<h4 class="font-headline-sm text-headline-sm mb-4">System Integration</h4>
+<p class="font-body-sm text-on-surface-variant">Hard-wired connectivity between legacy architectures and modern AI ecosystems.</p>
+</div>
+<!-- Card 3 -->
+<div class="glass-card p-8 rounded-xl hover:glass-card-elevated transition-all duration-300 group">
+<div class="text-tertiary text-4xl mb-6">◎</div>
+<h4 class="font-headline-sm text-headline-sm mb-4">Operational Intelligence</h4>
+<p class="font-body-sm text-on-surface-variant">Real-time data telemetry that turns organizational friction into actionable competitive advantages.</p>
+</div>
+<!-- Card 4 -->
+<div class="glass-card p-8 rounded-xl hover:glass-card-elevated transition-all duration-300 group">
+<div class="text-primary-container text-4xl mb-6">▣</div>
+<h4 class="font-headline-sm text-headline-sm mb-4">Digital Transformation</h4>
+<p class="font-body-sm text-on-surface-variant">A holistic re-architecture of the enterprise core for the age of autonomous intelligence.</p>
+</div>
+</div>
+</section>
+<!-- Products Section -->
+<section class="py-section-padding-v px-gutter bg-surface-container-lowest">
+<div class="max-w-max-width mx-auto">
+<div class="flex flex-col md:flex-row md:justify-between md:items-end mb-16 gap-6">
+<div>
+<h2 class="font-display-md text-display-md mb-2">Our proprietary ecosystem.</h2>
+<p class="text-on-surface-variant font-body-md">Engineered tools for the modern architect.</p>
+</div>
+<button class="font-label-mono text-primary text-xs tracking-widest flex items-center gap-2 hover:opacity-70 transition-opacity">
+                        VIEW ALL PRODUCTS <span class="material-symbols-outlined text-sm" data-icon="arrow_forward">arrow_forward</span>
+</button>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-container-gap">
+<!-- Product 1 -->
+<div class="glass-card rounded-xl overflow-hidden group">
+<div class="h-48 relative overflow-hidden">
+<img class="w-full h-full object-cover grayscale transition-transform duration-700 group-hover:scale-110" data-alt="A highly complex 3D technical rendering of a server engine core with blue and white glowing circuits. The image has a dark obsidian aesthetic with shallow depth of field, highlighting the precision of the micro-architecture. The lighting is cold and professional, reflecting an advanced enterprise AI infrastructure." src="https://lh3.googleusercontent.com/aida-public/AB6AXuA_zDf-VnyaF1Cihq20lmyCazXZXubMKHh6DiPEPsuAxsd8PX2TB5u4PaO7HOPRSV4Cb95v-ePjSDHRY9XfdfaxBCnxA-RHbFtimAV4PhwFXiAra3j1cT3c08aGwrt7adteTby5jxev5W9CX04OzAx9PR0cQpFzJ4QTz21cPP9zR4gGDZbLBu4oGXJUvg3eZMbyUZQ5Pbgm8K3Q7QSBdIpcIquiRxMb9z3d5avi-a0B6_2j5HwDcuO2Qy4qCipaWMIjg0_f1udvL8U"/>
+<div class="absolute inset-0 bg-gradient-to-t from-surface to-transparent opacity-60"></div>
+</div>
+<div class="p-8">
+<span class="font-label-mono text-[10px] text-primary-container mb-2 block">AGENT ENGINE</span>
+<h5 class="font-headline-sm text-headline-sm mb-4">Orca Engine</h5>
+<p class="font-body-sm text-on-surface-variant">The industry benchmark for agent execution and multi-model orchestration at scale.</p>
+</div>
+</div>
+<!-- Product 2 -->
+<div class="glass-card rounded-xl overflow-hidden group">
+<div class="h-48 relative overflow-hidden">
+<img class="w-full h-full object-cover grayscale transition-transform duration-700 group-hover:scale-110" data-alt="Abstract macro shot of high-speed fiber optic cables glowing with soft teal light. The environment is a dark, industrial data center corridor with metallic surfaces reflecting the light. The mood is silent, powerful, and conveys massive data throughput in a premium, architectural style." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDYeSsXUzfJw79ggQ6F9Mpu9LijPIf4uZyC44kR9WQR73EH-nLvKcTurHqUByKngnRdnTRlhcRnlOAuhm0Gz30JQYqWD0NKo4HvE4r2dtTVAi7YyfG_tAhZWrUvs4TAHa1XgdCIp0IBFbF-eWlzt69VPuP7dH1ipnE6YG-Mu_P9OncOLEIZecOHG8Ow0EgNOdIyrgzI4loHBmL0c6ddb8IIw1dy6-5HpjSqxjFP35MsRcRMKh0B0JtA8lyxD8qm9vECx9mDIEB6jqg"/>
+<div class="absolute inset-0 bg-gradient-to-t from-surface to-transparent opacity-60"></div>
+</div>
+<div class="p-8">
+<span class="font-label-mono text-[10px] text-secondary mb-2 block">CONNECTIVITY</span>
+<h5 class="font-headline-sm text-headline-sm mb-4">AIHub Core</h5>
+<p class="font-body-sm text-on-surface-variant">High-speed integration hub connecting enterprise legacy systems with LLM endpoints.</p>
+</div>
+</div>
+<!-- Product 3 -->
+<div class="glass-card rounded-xl overflow-hidden group">
+<div class="h-48 relative overflow-hidden">
+<img class="w-full h-full object-cover grayscale transition-transform duration-700 group-hover:scale-110" data-alt="Minimalist top-down view of a futuristic architect's workspace featuring transparent digital interfaces and blueprint designs. The scene is lit by subtle indigo neon strips, creating a dark, focused, and creative atmosphere. High-tech tools and geometric models are arranged with clinical precision on a dark glass table." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDwuIjrSAm2C-jBfORbIH67ddz1j-lhhsgn-MYILTylqV_pZORCg61lL9MUWu2MTiws035AnWwPupC54wslJ2iPetv8_xMA7cwmDCuwPyUE8ZwRoRAce1iw3IEupxeWlTFs_eMlR2UXIlA4yH0xxvdBwiI9WCHmJB93k1wl-TSLE8sSWqtUoOEbaBncWwf6y6ctpKDRPTXfPVpwhHDWqYCrMnopCTYdOYSWmOEDXbNhrdqz8XpzzpDci3tO4hfheasxbLwIirLcUns"/>
+<div class="absolute inset-0 bg-gradient-to-t from-surface to-transparent opacity-60"></div>
+</div>
+<div class="p-8">
+<span class="font-label-mono text-[10px] text-tertiary mb-2 block">STUDIO</span>
+<h5 class="font-headline-sm text-headline-sm mb-4">GetUpBuilder</h5>
+<p class="font-body-sm text-on-surface-variant">Low-code architecture studio for designing and deploying enterprise AI workflows in minutes.</p>
+</div>
+</div>
+<!-- Product 4 -->
+<div class="glass-card rounded-xl overflow-hidden group">
+<div class="h-48 relative overflow-hidden">
+<img class="w-full h-full object-cover grayscale transition-transform duration-700 group-hover:scale-110" data-alt="Luxury jewelry display aesthetic with intricate patterns of data streams resembling silver filigree. A single glowing teal core is at the center, symbolizing high-value data orchestration. The background is a velvety matte black, emphasizing the brilliance of the digital craftsmanship and high-end elegance." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBfKIaVyUDx6H_XdUi7EUaM90pQHbdnAZYb6i0MPUCFsCJjhrihvvkNo9L10CuR8J-d3rm9duscgU7MkagTa2BCKxBuK7mu1ECBpCml2u6EpkmXm7xg0JSPDYD_5xTjH14kkpiu1ak93eCP9oKwOWfLHXltPMdutjqkmSi6TxfpJexmvhTnnUGSY41zTx9YJh46L796UShnOts4RK4v0xmIQpkZrHCuFQUTw59xkKWMK5T6Hcnwnj5QuR9N0nTshV3Hx1V852ODzUo"/>
+<div class="absolute inset-0 bg-gradient-to-t from-surface to-transparent opacity-60"></div>
+</div>
+<div class="p-8">
+<span class="font-label-mono text-[10px] text-primary-container mb-2 block">ORCHESTRATION</span>
+<h5 class="font-headline-sm text-headline-sm mb-4">Galantes Jewelry</h5>
+<p class="font-body-sm text-on-surface-variant">Luxury-grade data orchestration for high-stakes financial and boutique operations.</p>
+</div>
+</div>
+<!-- Product 5 -->
+<div class="glass-card rounded-xl overflow-hidden group lg:col-span-2">
+<div class="flex flex-col md:flex-row h-full">
+<div class="md:w-1/2 h-48 md:h-full relative overflow-hidden">
+<img class="w-full h-full object-cover grayscale transition-transform duration-700 group-hover:scale-110" data-alt="Wide cinematic shot of a modern automated logistics warehouse with glowing amber data lines tracking goods. The lighting is low-key, focused on the geometric precision of the shelves and the fluid movement of automated machines. The scene conveys intelligence in motion within a global supply chain context." src="https://lh3.googleusercontent.com/aida-public/AB6AXuB7HXkeavquLsT_WV4qycTLsJn_4Zsr-sPKkMxbcXDNpSF4Sy-QqM_4wKrvA809y4BJGWF-zvWo1qOZUymDug7efCN99Rgvr8kka3gqutaJTRvCjXMcBJLqH8tsv2VE-X0IcndY97xprtHsEBbTZJzL2DcLB3n9pO5-76RrOcQl4XNv-ttgZ3xBucJy9ZRhwlk55QZMcUgRvGpd0sv5bUbMA8rvuzHTKQx3Ghwel2L71alRZVM4NoHSxRgtnmcukXTYhHAgA2YsBFs"/>
+<div class="absolute inset-0 bg-gradient-to-r from-transparent to-surface opacity-60 hidden md:block"></div>
+</div>
+<div class="p-8 md:w-1/2 flex flex-col justify-center">
+<span class="font-label-mono text-[10px] text-secondary mb-2 block">LOGISTICS</span>
+<h5 class="font-headline-sm text-headline-sm mb-4">chefalitas</h5>
+<p class="font-body-sm text-on-surface-variant">Predictive supply chain intelligence that anticipates market shifts before they happen.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Methodology -->
+<section class="py-section-padding-v px-gutter max-w-max-width mx-auto">
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-24">
+<div>
+<h2 class="font-display-md text-display-md mb-8">Our Methodology</h2>
+<p class="font-body-lg text-body-lg text-on-surface-variant mb-12">
+                        Intelligence isn't implemented; it's architected. We follow a rigorous technical framework to ensure performance and reliability.
+                    </p>
+<div class="space-y-12">
+<div class="flex gap-8 group">
+<span class="font-display-md text-display-md text-outline-variant group-hover:text-primary transition-colors">01</span>
+<div>
+<h4 class="font-headline-sm text-headline-sm mb-2">Architecture Audit</h4>
+<p class="font-body-sm text-on-surface-variant">We map your existing digital stack, identifying bottlenecks and intelligence leaks within your current ecosystem.</p>
+</div>
+</div>
+<div class="flex gap-8 group">
+<span class="font-display-md text-display-md text-outline-variant group-hover:text-secondary transition-colors">02</span>
+<div>
+<h4 class="font-headline-sm text-headline-sm mb-2">Intelligence Design</h4>
+<p class="font-body-sm text-on-surface-variant">Deployment of specialized AI agents and connection layers designed to streamline cross-functional operations.</p>
+</div>
+</div>
+<div class="flex gap-8 group">
+<span class="font-display-md text-display-md text-outline-variant group-hover:text-tertiary transition-colors">03</span>
+<div>
+<h4 class="font-headline-sm text-headline-sm mb-2">Operational Delivery</h4>
+<p class="font-body-sm text-on-surface-variant">Handover of a fully autonomous intelligence layer with custom dashboards for real-time strategic oversight.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="hidden lg:block relative">
+<div class="sticky top-40 glass-card-elevated aspect-square rounded-full flex items-center justify-center p-12 border-dashed border-2 border-primary/20">
+<div class="absolute inset-0 bg-primary/5 rounded-full animate-pulse"></div>
+<div class="text-center z-10">
+<span class="material-symbols-outlined text-8xl text-primary-container mb-6" data-icon="settings_input_component">settings_input_component</span>
+<p class="font-label-mono text-label-mono tracking-widest text-primary">SYSTEM READY</p>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Final CTA -->
+<section class="py-section-padding-v px-gutter relative">
+<div class="absolute inset-0 ambient-glow-indigo opacity-30"></div>
+<div class="max-w-max-width mx-auto">
+<div class="glass-card-elevated p-16 rounded-xl text-center border-primary/20">
+<h2 class="font-display-md text-display-md mb-8 max-w-2xl mx-auto">Ready to architect your intelligence layer?</h2>
+<div class="flex flex-col sm:flex-row gap-6 justify-center">
+<button class="px-12 py-5 bg-primary-container text-on-primary-container font-label-mono rounded-full text-xs tracking-[0.2em] transition-all hover:brightness-110 shadow-lg shadow-primary/20 active:scale-95">
+                            BOOK STRATEGY SESSION
+                        </button>
+<button class="px-12 py-5 border border-outline-variant text-on-surface font-label-mono rounded-full text-xs tracking-[0.2em] transition-all hover:bg-surface-variant active:scale-95">
+                            VIEW CASE STUDIES
+                        </button>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- Footer -->
+<footer class="w-full py-section-padding-v px-gutter max-w-max-width mx-auto border-t border-outline-variant/20 grid grid-cols-1 md:grid-cols-4 gap-container-gap bg-surface-container-lowest">
+<div class="md:col-span-1">
+<div class="font-display-lg text-display-lg font-black text-on-surface mb-6">G.</div>
+<p class="font-body-sm text-on-surface-variant mb-8">2024 GetUpSoft Global. <br/> Architectural Intelligence for the enterprise.</p>
+</div>
+<div>
+<h6 class="font-label-mono text-[10px] tracking-widest text-on-surface mb-6 uppercase">Ecosystem</h6>
+<ul class="space-y-4">
+<li><a class="font-body-sm text-on-surface-variant hover:text-secondary transition-colors" href="#">Orca Engine</a></li>
+<li><a class="font-body-sm text-on-surface-variant hover:text-secondary transition-colors" href="#">AIHub Core</a></li>
+<li><a class="font-body-sm text-on-surface-variant hover:text-secondary transition-colors" href="#">Infrastructure</a></li>
+</ul>
+</div>
+<div>
+<h6 class="font-label-mono text-[10px] tracking-widest text-on-surface mb-6 uppercase">Company</h6>
+<ul class="space-y-4">
+<li><a class="font-body-sm text-on-surface-variant hover:text-secondary transition-colors" href="#">About Us</a></li>
+<li><a class="font-body-sm text-on-surface-variant hover:text-secondary transition-colors" href="#">Methodology</a></li>
+<li><a class="font-body-sm text-on-surface-variant hover:text-secondary transition-colors" href="#">Careers</a></li>
+</ul>
+</div>
+<div>
+<h6 class="font-label-mono text-[10px] tracking-widest text-on-surface mb-6 uppercase">Legal</h6>
+<ul class="space-y-4">
+<li><a class="font-body-sm text-on-surface-variant hover:text-secondary transition-colors" href="#">Privacy Policy</a></li>
+<li><a class="font-body-sm text-on-surface-variant hover:text-secondary transition-colors" href="#">Terms of Service</a></li>
+<li><a class="font-body-sm text-on-surface-variant hover:text-secondary transition-colors" href="#">Security</a></li>
+</ul>
+</div>
+</footer>
+<script>
+        // Simple micro-interaction for progress bars
+        document.addEventListener('DOMContentLoaded', () => {
+            const bars = document.querySelectorAll('.h-full');
+            bars.forEach(bar => {
+                const width = bar.style.width;
+                bar.style.width = '0';
+                setTimeout(() => {
+                    bar.style.transition = 'width 1.5s cubic-bezier(0.65, 0, 0.35, 1)';
+                    bar.style.width = width;
+                }, 500);
+            });
+        });
+
+        // Sticky header transition
+        window.addEventListener('scroll', () => {
+            const header = document.querySelector('header');
+            if (window.scrollY > 50) {
+                header.classList.add('bg-surface/90', 'shadow-xl');
+            } else {
+                header.classList.remove('bg-surface/90', 'shadow-xl');
+            }
+        });
+    </script>
+</body></html>

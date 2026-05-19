@@ -1,0 +1,7 @@
+tunnel: getupsoft-site
+credentials-file: C:\Users\yoeli\.cloudflared\getupsoft-site.json
+
+ingress:
+  - hostname: www.getupsoft.com.do
+    service: http://127.0.0.1:18085
+  - service: http_status:404

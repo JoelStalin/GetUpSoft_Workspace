@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Odoo ERP | GetUpSoft RD</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,600;1,400&amp;family=Space+Grotesk:wght@300;400;700&amp;family=Space+Mono:wght@500&amp;family=IBM+Plex+Mono:wght@500&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "outline-variant": "rgba(255, 255, 255, 0.07)",
+                        "primary-container": "#96f3e1",
+                        "on-surface-variant": "#94A3B8",
+                        "tertiary-fixed": "#fce091",
+                        "on-tertiary-container": "#776220",
+                        "tertiary": "#ffffff",
+                        "primary": "#ffffff",
+                        "on-surface": "#E2E8F0",
+                        "surface-container": "#1c211f",
+                        "surface-container-high": "#262b2a",
+                        "outline": "rgba(255, 255, 255, 0.12)",
+                        "secondary-fixed": "#dde1ff",
+                        "surface-tint": "#7ad7c6",
+                        "on-error-container": "#ffdad6",
+                        "surface-bright": "#353a39",
+                        "on-secondary-container": "#a2b1f9",
+                        "surface-container-lowest": "#0a0f0e",
+                        "primary-fixed-dim": "#7ad7c6",
+                        "text-muted": "#64748B",
+                        "on-background": "#dfe3e1",
+                        "primary-fixed": "#96f3e1",
+                        "secondary": "#b8c4ff",
+                        "inverse-surface": "#dfe3e1",
+                        "error-container": "#93000a",
+                        "on-primary-container": "#007164",
+                        "secondary-fixed-dim": "#b8c4ff",
+                        "tertiary-container": "#fce091",
+                        "surface-variant": "#313634",
+                        "surface-container-low": "#181d1b",
+                        "on-primary": "#003730",
+                        "inverse-on-surface": "#2d3130",
+                        "on-secondary-fixed": "#001354",
+                        "on-primary-fixed": "#00201b",
+                        "on-tertiary": "#3c2f00",
+                        "on-primary-fixed-variant": "#005046",
+                        "surface": "#0F1115",
+                        "on-error": "#690005",
+                        "inverse-primary": "#006b5e",
+                        "surface-dim": "#101413",
+                        "on-tertiary-fixed": "#231b00",
+                        "on-secondary": "#1a2b6a",
+                        "error": "#ffb4ab",
+                        "tertiary-fixed-dim": "#dfc478",
+                        "on-secondary-fixed-variant": "#334282",
+                        "background": "#101413",
+                        "surface-container-highest": "#313634",
+                        "secondary-container": "#334282",
+                        "on-tertiary-fixed-variant": "#574502"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "stack-sm": "8px",
+                        "gutter": "24px",
+                        "stack-lg": "32px",
+                        "container-padding-desktop": "40px",
+                        "stack-md": "16px",
+                        "container-padding-mobile": "20px",
+                        "unit": "4px"
+                    },
+                    "fontFamily": {
+                        "display-lg": ["Space Grotesk"],
+                        "label-sm": ["IBM Plex Mono"],
+                        "label-md": ["IBM Plex Mono"],
+                        "headline-lg": ["Space Grotesk"],
+                        "body-sm": ["Plus Jakarta Sans"],
+                        "body-lg": ["Plus Jakarta Sans"],
+                        "body-md": ["Plus Jakarta Sans"],
+                        "display-md": ["Space Grotesk"]
+                    },
+                    "fontSize": {
+                        "display-lg": ["48px", { "lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "300" }],
+                        "label-sm": ["10px", { "lineHeight": "1.2", "letterSpacing": "0.2em", "fontWeight": "500" }],
+                        "label-md": ["10px", { "lineHeight": "1.2", "letterSpacing": "0.2em", "fontWeight": "500" }],
+                        "headline-lg": ["28px", { "lineHeight": "1.3", "fontWeight": "400" }],
+                        "body-sm": ["14px", { "lineHeight": "1.6", "fontWeight": "400" }],
+                        "body-lg": ["18px", { "lineHeight": "1.6", "fontWeight": "400" }],
+                        "body-md": ["16px", { "lineHeight": "1.6", "fontWeight": "400" }],
+                        "display-md": ["36px", { "lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "300" }]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        .glass-card {
+            background: rgba(22, 25, 32, 0.7);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.07);
+        }
+        .accent-text {
+            color: #99F6E4;
+            font-style: italic;
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 200, 'GRAD' 0, 'opsz' 24;
+        }
+        body {
+            background-color: #0F1115;
+            color: #E2E8F0;
+            overflow-x: hidden;
+        }
+    </style>
+</head>
+<body class="font-body-md text-body-md selection:bg-primary-container selection:text-on-primary-container">
+<!-- TopNavBar -->
+<header class="docked full-width top-0 sticky z-50 bg-surface-container/70 backdrop-blur-xl border-b border-outline-variant">
+<div class="flex justify-between items-center w-full px-container-padding-desktop py-4 max-w-7xl mx-auto">
+<div class="font-display-md text-display-md font-light text-primary tracking-tighter">
+                GetUpSoft RD
+            </div>
+<nav class="hidden md:flex items-center space-x-8">
+<a class="font-label-md text-label-md tracking-[0.2em] uppercase text-on-surface-variant hover:text-primary transition-colors" href="#">Inicio</a>
+<a class="font-label-md text-label-md tracking-[0.2em] uppercase text-primary border-b border-primary pb-1" href="#">Odoo ERP</a>
+<a class="font-label-md text-label-md tracking-[0.2em] uppercase text-on-surface-variant hover:text-primary transition-colors" href="#">Facturación</a>
+<a class="font-label-md text-label-md tracking-[0.2em] uppercase text-on-surface-variant hover:text-primary transition-colors" href="#">Infraestructura</a>
+<a class="font-label-md text-label-md tracking-[0.2em] uppercase text-on-surface-variant hover:text-primary transition-colors" href="#">Sectores</a>
+<a class="font-label-md text-label-md tracking-[0.2em] uppercase text-on-surface-variant hover:text-primary transition-colors" href="#">Nosotros</a>
+</nav>
+<div class="flex items-center gap-6">
+<button class="material-symbols-outlined text-on-surface-variant hover:text-primary transition-all">search</button>
+<button class="rounded-full bg-primary-container text-on-primary-container px-6 py-2.5 font-label-md text-label-md uppercase tracking-[0.2em] font-bold hover:scale-105 transition-transform active:scale-95">
+                    Consultoría
+                </button>
+</div>
+</div>
+</header>
+<main>
+<!-- Hero Section -->
+<section class="relative pt-32 pb-24 px-container-padding-desktop max-w-7xl mx-auto overflow-hidden">
+<div class="absolute top-0 right-0 -z-10 w-[500px] h-[500px] bg-primary-container/10 blur-[120px] rounded-full"></div>
+<div class="max-w-3xl">
+<span class="font-label-md text-label-md uppercase tracking-[0.2em] text-primary-container mb-6 block">// SOLUCIONES EMPRESARIALES</span>
+<h1 class="font-display-lg text-display-lg text-primary mb-8 leading-tight">
+                    Odoo ERP para empresas <span class="accent-text">dominicanas</span>.
+                </h1>
+<p class="font-body-lg text-body-lg text-on-surface-variant mb-10 max-w-xl">
+                    Implementación completa con expertos locales. Adaptamos el ERP líder a las normativas de República Dominicana para que su negocio escale con precisión arquitectónica.
+                </p>
+<button class="rounded-full bg-primary-container text-on-primary-container px-10 py-4 font-label-md text-label-md uppercase tracking-[0.2em] font-bold hover:shadow-[0_0_30px_rgba(153,246,228,0.3)] transition-all active:scale-95">
+                    COTIZAR IMPLEMENTACIÓN
+                </button>
+</div>
+</section>
+<!-- Modules Grid (3x3) -->
+<section class="py-stack-lg px-container-padding-desktop max-w-7xl mx-auto">
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-gutter">
+<!-- Ventas -->
+<div class="glass-card p-stack-lg rounded-xl hover:bg-surface-bright/50 transition-all duration-300 group">
+<span class="material-symbols-outlined text-primary-container text-4xl mb-6 block">point_of_sale</span>
+<h3 class="font-label-md text-label-md uppercase tracking-[0.2em] text-primary mb-3">Ventas</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Gestión del ciclo comercial completo, desde la cotización hasta el cobro final.</p>
+</div>
+<!-- Inventario -->
+<div class="glass-card p-stack-lg rounded-xl hover:bg-surface-bright/50 transition-all duration-300">
+<span class="material-symbols-outlined text-primary-container text-4xl mb-6 block">inventory_2</span>
+<h3 class="font-label-md text-label-md uppercase tracking-[0.2em] text-primary mb-3">Inventario</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Control multialmacén, trazabilidad de lotes y valoración de existencias automatizada.</p>
+</div>
+<!-- Compras -->
+<div class="glass-card p-stack-lg rounded-xl hover:bg-surface-bright/50 transition-all duration-300">
+<span class="material-symbols-outlined text-primary-container text-4xl mb-6 block">shopping_cart</span>
+<h3 class="font-label-md text-label-md uppercase tracking-[0.2em] text-primary mb-3">Compras</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Automatización de órdenes de suministro y gestión centralizada de proveedores.</p>
+</div>
+<!-- Contabilidad -->
+<div class="glass-card p-stack-lg rounded-xl hover:bg-surface-bright/50 transition-all duration-300">
+<span class="material-symbols-outlined text-primary-container text-4xl mb-6 block">account_balance</span>
+<h3 class="font-label-md text-label-md uppercase tracking-[0.2em] text-primary mb-3">Contabilidad</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Localización fiscal completa para República Dominicana, libros y balances.</p>
+</div>
+<!-- CRM -->
+<div class="glass-card p-stack-lg rounded-xl hover:bg-surface-bright/50 transition-all duration-300">
+<span class="material-symbols-outlined text-primary-container text-4xl mb-6 block">hub</span>
+<h3 class="font-label-md text-label-md uppercase tracking-[0.2em] text-primary mb-3">CRM</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Gestión de relaciones, pipeline de ventas visual y cierre efectivo de tratos.</p>
+</div>
+<!-- POS -->
+<div class="glass-card p-stack-lg rounded-xl hover:bg-surface-bright/50 transition-all duration-300">
+<span class="material-symbols-outlined text-primary-container text-4xl mb-6 block">desktop_windows</span>
+<h3 class="font-label-md text-label-md uppercase tracking-[0.2em] text-primary mb-3">POS</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Punto de venta ágil, táctil y offline para retail, cafeterías y restaurantes.</p>
+</div>
+<!-- Reportes -->
+<div class="glass-card p-stack-lg rounded-xl hover:bg-surface-bright/50 transition-all duration-300">
+<span class="material-symbols-outlined text-primary-container text-4xl mb-6 block">insights</span>
+<h3 class="font-label-md text-label-md uppercase tracking-[0.2em] text-primary mb-3">Reportes</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Inteligencia de negocios avanzada y tableros personalizables en tiempo real.</p>
+</div>
+<!-- Facturación Electrónica -->
+<div class="glass-card p-stack-lg rounded-xl hover:bg-surface-bright/50 transition-all duration-300">
+<span class="material-symbols-outlined text-primary-container text-4xl mb-6 block">receipt_long</span>
+<h3 class="font-label-md text-label-md uppercase tracking-[0.2em] text-primary mb-3">Facturación Electrónica</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Emisión nativa de e-CF bajo los estándares de la DGII Dominicana.</p>
+</div>
+<!-- Integración DGII -->
+<div class="glass-card p-stack-lg rounded-xl hover:bg-surface-bright/50 transition-all duration-300">
+<span class="material-symbols-outlined text-primary-container text-4xl mb-6 block">verified_user</span>
+<h3 class="font-label-md text-label-md uppercase tracking-[0.2em] text-primary mb-3">Integración DGII</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Cumplimiento fiscal automatizado: 606, 607, 608 e IT-1 integrados.</p>
+</div>
+</div>
+</section>
+<!-- Dashboard Showcase -->
+<section class="py-24 px-container-padding-desktop max-w-7xl mx-auto">
+<div class="text-center mb-16">
+<span class="font-label-md text-label-md uppercase tracking-[0.2em] text-primary-container mb-4 block">// VISIBILIDAD 360°</span>
+<h2 class="font-display-md text-display-md text-primary">El Control en su <span class="accent-text">Mano</span>.</h2>
+</div>
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-gutter items-center">
+<div class="lg:col-span-8">
+<div class="glass-card p-2 rounded-2xl overflow-hidden group">
+<img alt="Dashboard Odoo ERP" class="w-full h-auto rounded-xl opacity-90 group-hover:opacity-100 transition-opacity" src="https://lh3.googleusercontent.com/aida/ADBb0uhrEyD3UtMpqZZTg0_47X5NK9t4COEWdP62OMNDlbryjO9p1f5QZcYSB9m-lxR_2pK3OgUoCDWTj5DpKWLrOqZ0EllN0wFifeBLxsAZnDz5lY4_N18i_7WF5WgWx_SUwyhJHsp7_01myLC-C_rHPWrvefKJtA3GtH2viQ_TPe8m08XjQgtMFnntF4uYCxM2euMZBDSs6l6TFJy0rO0vbVNZxc9MVd50m667EKdAiYLrQKtvir7PNwRKgw"/>
+</div>
+</div>
+<div class="lg:col-span-4 space-y-8">
+<div class="flex items-start gap-4">
+<span class="material-symbols-outlined text-primary-container">check_circle</span>
+<div>
+<h4 class="font-label-md text-label-md uppercase tracking-[0.1em] text-primary mb-1">Validación DGII</h4>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Verificación automática de RNC y comprobantes fiscales en tiempo real.</p>
+</div>
+</div>
+<div class="flex items-start gap-4">
+<span class="material-symbols-outlined text-primary-container">percent</span>
+<div>
+<h4 class="font-label-md text-label-md uppercase tracking-[0.1em] text-primary mb-1">Gestión de ITBIS</h4>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Cálculo automático de retenciones y exportación nativa para la oficina virtual.</p>
+</div>
+</div>
+<div class="flex items-start gap-4">
+<span class="material-symbols-outlined text-primary-container">sync</span>
+<div>
+<h4 class="font-label-md text-label-md uppercase tracking-[0.1em] text-primary mb-1">Conciliación en un Clic</h4>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Conecte sus cuentas bancarias locales y concilie transacciones al instante.</p>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Final CTA -->
+<section class="py-32 px-container-padding-desktop text-center relative overflow-hidden">
+<div class="absolute inset-0 -z-10 bg-gradient-to-b from-transparent to-primary-container/5"></div>
+<div class="max-w-3xl mx-auto">
+<h2 class="font-display-md text-display-md text-primary mb-6">¿Listo para la <span class="accent-text">Transformación</span>?</h2>
+<p class="font-body-lg text-body-lg text-on-surface-variant mb-12">
+                    Escalamos su negocio con soporte técnico local y la flexibilidad del ERP más avanzado del mundo. Comience hoy su camino a la excelencia tecnológica.
+                </p>
+<button class="rounded-full bg-primary-container text-on-primary-container px-12 py-5 font-label-md text-label-md uppercase tracking-[0.2em] font-bold hover:shadow-[0_0_40px_rgba(153,246,228,0.4)] transition-all active:scale-95">
+                    COTIZAR IMPLEMENTACIÓN
+                </button>
+</div>
+</section>
+</main>
+<!-- Footer -->
+<footer class="bg-surface-container-lowest border-t border-outline-variant">
+<div class="flex flex-col md:flex-row justify-between items-center w-full px-container-padding-desktop py-stack-lg max-w-7xl mx-auto">
+<div class="mb-8 md:mb-0">
+<div class="font-display-md text-display-md text-primary mb-2">GetUpSoft RD</div>
+<p class="font-body-sm text-body-sm text-text-muted">© 2024 GetUpSoft RD. Dominican Technology Excellence.</p>
+</div>
+<div class="flex flex-wrap justify-center gap-8">
+<a class="font-label-sm text-label-sm text-text-muted hover:text-primary transition-colors" href="#">Privacidad</a>
+<a class="font-label-sm text-label-sm text-text-muted hover:text-primary transition-colors" href="#">Términos</a>
+<a class="font-label-sm text-label-sm text-text-muted hover:text-primary transition-colors" href="#">Soporte</a>
+<a class="font-label-sm text-label-sm text-text-muted hover:text-primary transition-colors flex items-center gap-1" href="#">
+                    LinkedIn <span class="material-symbols-outlined text-[12px]">north_east</span>
+</a>
+</div>
+</div>
+</footer>
+<script>
+        // Micro-interactions and subtle glow follow
+        document.addEventListener('mousemove', (e) => {
+            const glow = document.querySelector('.absolute.top-0.right-0');
+            if (glow) {
+                const moveX = (e.clientX - window.innerWidth / 2) * 0.05;
+                const moveY = (e.clientY - window.innerHeight / 2) * 0.05;
+                glow.style.transform = `translate(${moveX}px, ${moveY}px)`;
+            }
+        });
+
+        // Intersection Observer for scroll animations
+        const observerOptions = {
+            threshold: 0.1
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('opacity-100', 'translate-y-0');
+                    entry.target.classList.remove('opacity-0', 'translate-y-10');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.glass-card').forEach(card => {
+            card.classList.add('transition-all', 'duration-700', 'opacity-0', 'translate-y-10');
+            observer.observe(card);
+        });
+    </script>
+</body></html>

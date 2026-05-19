@@ -1,0 +1,144 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=DM+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: light;
+}
+
+html {
+  scroll-behavior: smooth;
+  background-color: #FFFFFF;
+}
+
+body {
+  @apply min-h-screen antialiased;
+  background-color: #FFFFFF;
+  color: #1F2937;
+  font-family: "Inter", "DM Sans", sans-serif;
+}
+
+/* Glass utility - light version */
+.glass {
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(59, 130, 246, 0.1);
+}
+
+.glass-light {
+  background: rgba(249, 250, 251, 0.8);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(59, 130, 246, 0.08);
+}
+
+/* Gradient backgrounds - Google Cloud inspired */
+.gradient-blue-purple {
+  background: linear-gradient(135deg, #3B82F6 0%, #A855F7 100%);
+}
+
+.gradient-orange-red {
+  background: linear-gradient(135deg, #F97316 0%, #EF4444 100%);
+}
+
+.gradient-green-cyan {
+  background: linear-gradient(135deg, #10B981 0%, #06B6D4 100%);
+}
+
+.gradient-purple-blue {
+  background: linear-gradient(135deg, #A855F7 0%, #3B82F6 100%);
+}
+
+/* Glow utilities */
+.glow-blue {
+  box-shadow: 0 0 30px rgba(59, 130, 246, 0.3);
+}
+
+.glow-orange {
+  box-shadow: 0 0 30px rgba(249, 83, 22, 0.3);
+}
+
+.glow-green {
+  box-shadow: 0 0 30px rgba(16, 185, 129, 0.3);
+}
+
+.glow-purple {
+  box-shadow: 0 0 30px rgba(168, 85, 247, 0.3);
+}
+
+/* Card hover effects */
+.card-hover {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.card-hover:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+}
+
+/* Subtle background pattern */
+.bg-grid-light {
+  background-image:
+    linear-gradient(rgba(59, 130, 246, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(59, 130, 246, 0.05) 1px, transparent 1px);
+  background-size: 40px 40px;
+}
+
+/* Hero gradient backgrounds */
+.hero-gradient-primary {
+  background: linear-gradient(135deg, rgba(59, 130, 246, 0.1) 0%, rgba(168, 85, 247, 0.1) 100%);
+}
+
+.hero-gradient-secondary {
+  background: linear-gradient(135deg, rgba(249, 83, 22, 0.08) 0%, rgba(239, 68, 68, 0.08) 100%);
+}
+
+/* Selection */
+::selection {
+  background: rgba(59, 130, 246, 0.2);
+  color: #0F172A;
+}
+
+a {
+  @apply transition-all duration-200;
+}
+
+/* Focus visible */
+:focus-visible {
+  outline: 2px solid #3B82F6;
+  outline-offset: 2px;
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Floating animation */
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
+}
+
+.animate-float {
+  animation: float 3s ease-in-out infinite;
+}
+
+/* Pulse animation for accent elements */
+@keyframes pulse-accent {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.7; }
+}
+
+.animate-pulse-accent {
+  animation: pulse-accent 3s ease-in-out infinite;
+}

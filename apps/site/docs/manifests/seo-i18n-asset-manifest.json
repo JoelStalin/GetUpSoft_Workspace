@@ -1,0 +1,289 @@
+{
+  "version": "2026-05-19",
+  "portals": {
+    "global": {
+      "domain": "https://getupsoft.com",
+      "defaultLanguage": "en",
+      "secondaryLanguage": "es",
+      "routes": [
+        "/",
+        "/es/",
+        "/ai-agents",
+        "/system-integration",
+        "/digital-transformation",
+        "/products",
+        "/solutions",
+        "/case-studies",
+        "/methodology",
+        "/about",
+        "/contact"
+      ],
+      "seo": {
+        "/": {
+          "title": "GetUpSoft | Enterprise AI Agents, System Integration & Digital Transformation",
+          "metaDescription": "GetUpSoft designs autonomous AI agents, integrated systems and operational intelligence layers for modern enterprises ready to scale.",
+          "h1": "Architectural Intelligence for the Modern Enterprise",
+          "canonical": "https://getupsoft.com/",
+          "keywords": [
+            "Enterprise AI agents",
+            "Autonomous AI agents for business",
+            "AI system integration",
+            "Digital transformation consulting",
+            "Enterprise automation",
+            "Operational intelligence platform",
+            "AI orchestration"
+          ],
+          "og": {
+            "title": "GetUpSoft | Enterprise AI Agents & System Integration",
+            "description": "Autonomous AI agents, integrated systems and operational intelligence for modern enterprises.",
+            "image": "https://getupsoft.com/assets/og/global-og.avif"
+          },
+          "twitter": {
+            "card": "summary_large_image",
+            "title": "GetUpSoft | Enterprise AI Agents & System Integration",
+            "description": "Autonomous AI agents, integrated systems and operational intelligence for modern enterprises.",
+            "image": "https://getupsoft.com/assets/og/global-og.avif"
+          },
+          "jsonLd": [
+            "Organization",
+            "WebSite",
+            "Service"
+          ]
+        },
+        "/ai-agents": {
+          "title": "Enterprise AI Agents for Business | GetUpSoft",
+          "metaDescription": "Design autonomous AI agents for workflow orchestration, cognitive analysis, process automation and executive intelligence.",
+          "h1": "Autonomous AI agents for enterprise operations",
+          "canonical": "https://getupsoft.com/ai-agents",
+          "jsonLd": [
+            "Service",
+            "FAQPage",
+            "BreadcrumbList"
+          ]
+        },
+        "/system-integration": {
+          "title": "AI System Integration & Enterprise Software Architecture | GetUpSoft",
+          "metaDescription": "Connect ERP, CRM, BI, accounting, inventory, e-commerce, APIs, internal tools and legacy systems into one scalable architecture.",
+          "h1": "System integration for connected enterprise operations",
+          "canonical": "https://getupsoft.com/system-integration",
+          "jsonLd": [
+            "Service",
+            "FAQPage",
+            "BreadcrumbList"
+          ]
+        },
+        "/products": {
+          "title": "GetUpSoft Products | Orca, AIHub, GetUpBuilder & Case Systems",
+          "metaDescription": "Explore Orca, AIHub, GetUpBuilder, Galantes Jewelry and chefalitas as part of the GetUpSoft enterprise technology ecosystem.",
+          "h1": "Our proprietary enterprise technology ecosystem",
+          "canonical": "https://getupsoft.com/products",
+          "jsonLd": [
+            "SoftwareApplication",
+            "BreadcrumbList"
+          ]
+        },
+        "/contact": {
+          "title": "Book a Strategy Session | GetUpSoft",
+          "metaDescription": "Talk to GetUpSoft about enterprise AI agents, system integration, automation and operational intelligence architecture.",
+          "h1": "Schedule a strategic session",
+          "canonical": "https://getupsoft.com/contact",
+          "jsonLd": [
+            "ContactPage",
+            "BreadcrumbList"
+          ]
+        }
+      }
+    },
+    "rd": {
+      "domain": "https://getupsoft.com.do",
+      "defaultLanguage": "es-DO",
+      "secondaryLanguage": "en",
+      "routes": [
+        "/",
+        "/en/",
+        "/odoo-erp",
+        "/facturacion-electronica",
+        "/infraestructura",
+        "/redes-empresariales",
+        "/servidores",
+        "/sectores",
+        "/casos",
+        "/nosotros",
+        "/contacto"
+      ],
+      "seo": {
+        "/": {
+          "title": "GetUpSoft RD | Odoo ERP, Facturación Electrónica e Infraestructura Empresarial",
+          "metaDescription": "Implementamos Odoo ERP, facturación electrónica DGII, redes, servidores e infraestructura tecnológica para empresas en República Dominicana.",
+          "h1": "Infraestructura y gestión para el éxito local",
+          "canonical": "https://getupsoft.com.do/",
+          "keywords": [
+            "Odoo República Dominicana",
+            "Implementación Odoo RD",
+            "Facturación electrónica DGII",
+            "e-CF República Dominicana",
+            "ERP para empresas dominicanas",
+            "Redes empresariales Santo Domingo",
+            "Servidores para empresas RD"
+          ],
+          "og": {
+            "title": "GetUpSoft RD | Odoo ERP, DGII e Infraestructura Empresarial",
+            "description": "Odoo ERP, facturación electrónica, redes, servidores e infraestructura para empresas dominicanas.",
+            "image": "https://getupsoft.com.do/assets/og/rd-og.avif"
+          },
+          "twitter": {
+            "card": "summary_large_image",
+            "title": "GetUpSoft RD | Odoo ERP, DGII e Infraestructura Empresarial",
+            "description": "Odoo ERP, facturación electrónica, redes, servidores e infraestructura para empresas dominicanas.",
+            "image": "https://getupsoft.com.do/assets/og/rd-og.avif"
+          },
+          "jsonLd": [
+            "Organization",
+            "LocalBusiness",
+            "WebSite",
+            "Service"
+          ]
+        },
+        "/odoo-erp": {
+          "title": "Odoo ERP en República Dominicana | GetUpSoft RD",
+          "metaDescription": "Implementamos Odoo ERP para ventas, inventario, compras, contabilidad, CRM, POS, reportes y facturación electrónica DGII.",
+          "h1": "Odoo ERP para empresas dominicanas",
+          "canonical": "https://getupsoft.com.do/odoo-erp",
+          "jsonLd": [
+            "Service",
+            "FAQPage",
+            "BreadcrumbList"
+          ]
+        },
+        "/facturacion-electronica": {
+          "title": "Facturación Electrónica DGII e e-CF | GetUpSoft RD",
+          "metaDescription": "Integramos facturación electrónica e-CF, validación DGII y flujos de emisión con Odoo ERP para empresas dominicanas.",
+          "h1": "Facturación electrónica conforme a DGII",
+          "canonical": "https://getupsoft.com.do/facturacion-electronica",
+          "jsonLd": [
+            "Service",
+            "FAQPage",
+            "BreadcrumbList"
+          ]
+        },
+        "/infraestructura": {
+          "title": "Infraestructura Tecnológica, Redes y Servidores RD | GetUpSoft RD",
+          "metaDescription": "Diseñamos racks, cableado estructurado, WiFi empresarial, servidores, seguridad, monitoreo y continuidad operativa.",
+          "h1": "Infraestructura tecnológica para operar sin interrupciones",
+          "canonical": "https://getupsoft.com.do/infraestructura",
+          "jsonLd": [
+            "Service",
+            "FAQPage",
+            "BreadcrumbList"
+          ]
+        },
+        "/contacto": {
+          "title": "Solicitar Diagnóstico Tecnológico | GetUpSoft RD",
+          "metaDescription": "Solicita diagnóstico para Odoo ERP, facturación electrónica, redes, servidores e infraestructura empresarial en República Dominicana.",
+          "h1": "Solicita tu diagnóstico tecnológico",
+          "canonical": "https://getupsoft.com.do/contacto",
+          "jsonLd": [
+            "ContactPage",
+            "BreadcrumbList"
+          ]
+        }
+      }
+    }
+  },
+  "hreflang": [
+    {
+      "hreflang": "en",
+      "href": "https://getupsoft.com/"
+    },
+    {
+      "hreflang": "es",
+      "href": "https://getupsoft.com/es/"
+    },
+    {
+      "hreflang": "es-DO",
+      "href": "https://getupsoft.com.do/"
+    },
+    {
+      "hreflang": "en",
+      "href": "https://getupsoft.com.do/en/"
+    }
+  ],
+  "assets": {
+    "global": [
+      {
+        "id": "global-hero",
+        "type": "hero",
+        "formats": ["21:9", "16:9", "9:16"],
+        "outputs": ["avif", "webp", "mp4", "webm", "poster.avif"],
+        "priority": "high",
+        "alt": "Dark enterprise AI architecture core connecting agents, ERP, CRM, BI, automation, infrastructure, data and operations."
+      },
+      {
+        "id": "global-og",
+        "type": "open_graph",
+        "formats": ["16:9"],
+        "outputs": ["avif", "webp", "jpg"],
+        "priority": "high",
+        "alt": "Premium enterprise AI architecture core for GetUpSoft Global."
+      },
+      {
+        "id": "orca",
+        "type": "product",
+        "formats": ["16:9", "1:1", "4:5"],
+        "outputs": ["avif", "webp", "mp4", "poster.avif"],
+        "priority": "lazy",
+        "alt": "AI orchestration core with real-time pulses for Orca."
+      },
+      {
+        "id": "aihub",
+        "type": "product",
+        "formats": ["16:9", "1:1", "4:5"],
+        "outputs": ["avif", "webp", "mp4", "poster.avif"],
+        "priority": "lazy",
+        "alt": "Secure intelligence library with modular AI blocks for AIHub."
+      },
+      {
+        "id": "getupbuilder",
+        "type": "product",
+        "formats": ["16:9", "1:1", "4:5"],
+        "outputs": ["avif", "webp", "mp4", "poster.avif"],
+        "priority": "lazy",
+        "alt": "Software components assembling into a structured digital product architecture."
+      }
+    ],
+    "rd": [
+      {
+        "id": "rd-hero",
+        "type": "hero",
+        "formats": ["21:9", "16:9", "9:16"],
+        "outputs": ["avif", "webp", "mp4", "webm", "poster.avif"],
+        "priority": "high",
+        "alt": "Operational command center connecting Odoo ERP, inventory, e-CF, DGII, POS, accounting, warehouse, servers and WiFi."
+      },
+      {
+        "id": "rd-og",
+        "type": "open_graph",
+        "formats": ["16:9"],
+        "outputs": ["avif", "webp", "jpg"],
+        "priority": "high",
+        "alt": "GetUpSoft RD command center for Odoo, DGII electronic invoicing, inventory and infrastructure."
+      },
+      {
+        "id": "galantes-jewelry",
+        "type": "case_study",
+        "formats": ["16:9", "1:1", "4:5"],
+        "outputs": ["avif", "webp", "mp4", "poster.avif"],
+        "priority": "lazy",
+        "alt": "Premium jewelry retail operations dashboard with inventory and sales intelligence."
+      },
+      {
+        "id": "chefalitas",
+        "type": "case_study",
+        "formats": ["16:9", "1:1", "4:5"],
+        "outputs": ["avif", "webp", "mp4", "poster.avif"],
+        "priority": "lazy",
+        "alt": "Professional restaurant operations dashboard for orders, kitchen workflow, delivery routing, inventory and analytics."
+      }
+    ]
+  }
+}
