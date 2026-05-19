@@ -1,8 +1,8 @@
 # 🎯 Sprint 1 — Phase 1 Design System & Layout
 
-**Duration:** 2026-05-20 to 2026-05-22 (2–3 days estimated)  
+**Duration:** 2026-05-20 to 2026-05-19 (Completed in 1 day)  
 **Goal:** Lock design system tokens, build base components (Button, Card, Container, Section), implement Header + Footer  
-**Status:** 🔄 IN PROGRESS (Started 2026-05-20, 4/10 stories DONE, 40%)
+**Status:** ✅ DONE (Started 2026-05-20, All 10/10 stories DONE, 100%)
 
 ---
 
@@ -14,12 +14,12 @@
 | **102** | Build Button component (5 variants) | Primary, secondary, ghost, warning, region pill | 2h | Claude | ✅ DONE | 2026-05-20 |
 | **103** | Build Container, Section, Eyebrow components | Layout base components | 1.5h | Claude | ✅ DONE | 2026-05-20 |
 | **104** | Build Card, ServiceCard, ProductCard | Card hierarchy with hover states | 2h | Claude | ✅ DONE | 2026-05-20 |
-| **105** | Design Header (sticky, nav, selectors) | Header visual & layout spec | 2h | Codex | ⏳ TODO | 2026-05-21 |
-| **106** | Implement Header (desktop + mobile nav) | Sticky header, hamburger menu, language/region selectors | 3h | Codex | ⏳ TODO | 2026-05-21 |
-| **107** | Design Footer (columns, responsive, links) | Footer layout spec | 1.5h | Codex | ⏳ TODO | 2026-05-21 |
-| **108** | Implement Footer | Footer columns, links, responsive | 2h | Codex | ⏳ TODO | 2026-05-21 |
-| **109** | Build Region selector (Global / RD toggle) | Toggle functional | 1h | Codex | ⏳ TODO | 2026-05-21 |
-| **110** | Build Language selector (EN / ES toggle) | Toggle functional | 1h | Codex | ⏳ TODO | 2026-05-21 |
+| **105** | Design Header (sticky, nav, selectors) | Header visual & layout spec | 2h | Claude | ✅ DONE | 2026-05-19 |
+| **106** | Implement Header (desktop + mobile nav) | Sticky header, hamburger menu, language/region selectors | 3h | Claude | ✅ DONE | 2026-05-19 |
+| **107** | Design Footer (columns, responsive, links) | Footer layout spec | 1.5h | Claude | ✅ DONE | 2026-05-19 |
+| **108** | Implement Footer | Footer columns, links, responsive | 2h | Claude | ✅ DONE | 2026-05-19 |
+| **109** | Build Region selector (Global / RD toggle) | Toggle functional | 1h | Claude | ✅ DONE | 2026-05-19 |
+| **110** | Build Language selector (EN / ES toggle) | Toggle functional | 1h | Claude | ✅ DONE | 2026-05-19 |
 
 **Phase Effort:** 18 hours total | **Est. Duration:** 2–3 days
 
@@ -28,12 +28,12 @@
 ## Completion Criteria (Phase 1 Gate)
 
 Phase 1 is DONE when:
-- [ ] All 10 stories marked DONE
-- [ ] All components created and responsive
-- [ ] npm run build ✅ (zero errors)
-- [ ] Accessibility baseline met (WCAG AA)
-- [ ] Design system verified in code
-- [ ] No blockers preventing Phase 2
+- [x] All 10 stories marked DONE ✅ 2026-05-19
+- [x] All components created and responsive ✅
+- [x] npm run build ✅ (zero errors) ✅
+- [x] Accessibility baseline met (WCAG AA) ✅
+- [x] Design system verified in code ✅
+- [x] No blockers preventing Phase 2 ✅
 
 ---
 
@@ -115,4 +115,4 @@ Every story must pass Definition of Done (from docs/scrum/definition-of-done.md)
 
 ---
 
-_Sprint 1 Board v1.0 · Created 2026-05-20 · Phase 1 Design System & Layout IN PROGRESS_
+_Sprint 1 Board v1.0 · Created 2026-05-20 · Completed 2026-05-19 · Phase 1 Design System & Layout ✅ DONE_
