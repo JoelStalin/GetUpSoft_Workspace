@@ -219,8 +219,11 @@ Actual trajectory: On track or ahead
 
 ### Testing Ready
 - ✅ Mock ERP for local development
-- ✅ Form validation in place
-- ✅ Error handling implemented
+- ✅ Form validation with Zod (contact & diagnostic forms)
+  - Real-time validation on submit
+  - Field-level error display with border highlighting
+  - Auto-clear errors when user edits field
+- ✅ Error handling implemented (validation errors + ERP errors)
 - ✅ No hardcoded secrets or credentials
 
 ---
@@ -228,8 +231,8 @@ Actual trajectory: On track or ahead
 ## 🔮 What's Next
 
 ### Phase 3 (Remaining)
-**Effort:** 6 stories / ~3-4 days
-- Add form validation schemas (Zod)
+**Effort:** 5 stories / ~2-3 days
+- ✅ Add form validation schemas (Zod) — COMPLETE
 - Implement email notifications
 - Create admin dashboard
 - Integration testing
