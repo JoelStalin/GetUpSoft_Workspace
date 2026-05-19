@@ -30,3 +30,4 @@ docker compose -p getupsoft-web-prod -f docker-compose.prod.yml up -d --build
 - Ruta directa en el sitio: `/chatbot`
 - Host dedicado: `chatbot.getupsoft.com`
 - Guia operativa Cloudflare: `ops/cloudflare/chatbot-subdomain.md`
+# Test deployment Mon May 18 20:25:33 SAWST 2026
