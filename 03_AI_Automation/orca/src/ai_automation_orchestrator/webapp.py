@@ -31,6 +31,7 @@ from ai_automation_orchestrator.integrations.hermes_integration import run_herme
 from ai_automation_orchestrator.provider_endpoints import register_provider_endpoints
 from ai_automation_orchestrator.providers_dashboard_section import get_providers_section_html
 from ai_automation_orchestrator.jarvis_endpoints import register_jarvis_endpoints
+from ai_automation_orchestrator.workspace_endpoints import register_workspace_endpoints
 
 
 class TestFlowRequest(BaseModel):
@@ -1433,6 +1434,9 @@ def create_app(
 
     # Register Jarvis voice command endpoints
     register_jarvis_endpoints(app)
+
+    # Register workspace management endpoints
+    register_workspace_endpoints(app)
 
     return app
 
