@@ -1,4 +1,5 @@
 import { NavLink, Outlet } from "react-router-dom";
+import { CodeLogo } from "./CodeLogo";
 
 const NAV = [
   { to: "/", label: "Inicio" },
@@ -21,7 +22,9 @@ export function SiteLayout() {
       <header className="sticky top-0 z-30 border-b border-slate-200/80 bg-canvas/88 backdrop-blur-xl">
         <div className="mx-auto flex max-w-7xl items-center justify-between gap-6 px-6 py-4">
           <NavLink to="/" className="min-w-0">
-            <p className="text-xs font-semibold uppercase tracking-[0.28em] text-slate-500">GetUpSoft</p>
+            <div className="[&_*]:text-ink">
+              <CodeLogo compact />
+            </div>
             <p className="mt-1 truncate text-base font-semibold text-ink">Software, infrastructure, automation</p>
           </NavLink>
 
@@ -63,7 +66,9 @@ export function SiteLayout() {
       <footer className="border-t border-slate-200/80 bg-white/75">
         <div className="mx-auto grid max-w-7xl gap-10 px-6 py-12 lg:grid-cols-[1.1fr,0.9fr,0.9fr]">
           <div className="space-y-3">
-            <p className="text-sm font-semibold text-ink">GetUpSoft</p>
+            <div className="[&_*]:text-ink">
+              <CodeLogo compact />
+            </div>
             <p className="max-w-md text-sm leading-7 text-slate-600">
               Diseñamos producto, infraestructura y automatización para compañías que necesitan operar con más claridad y menos
               fricción.

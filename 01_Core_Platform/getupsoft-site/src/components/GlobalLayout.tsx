@@ -1,4 +1,5 @@
 import { NavLink, Outlet, Link } from "react-router-dom";
+import { CodeLogo } from "./CodeLogo";
 
 const NAV = [
   { to: "/", label: "Home", end: true },
@@ -47,9 +48,8 @@ export function GlobalLayout() {
       <header className="sticky top-0 z-50 border-b border-border-subtle bg-bg-deep/80 backdrop-blur-xl">
         <div className="mx-auto flex max-w-7xl items-center justify-between gap-6 px-6 py-5">
           <NavLink to="/" className="flex items-center gap-3 group">
-            <LogoMark />
+            <CodeLogo variant="global" />
             <div>
-              <p className="font-display text-lg font-semibold tracking-tight text-text-main">getupsoft</p>
               <p className="text-[9px] font-medium uppercase tracking-[0.3em] text-text-muted">Global</p>
             </div>
           </NavLink>
@@ -88,8 +88,7 @@ export function GlobalLayout() {
           <div className="grid gap-12 lg:grid-cols-[1.5fr,1fr,1fr]">
             <div className="space-y-5">
               <div className="flex items-center gap-3">
-                <LogoMark />
-                <span className="font-display text-base font-semibold">getupsoft</span>
+                <CodeLogo variant="global" compact />
               </div>
               <p className="max-w-sm text-sm leading-7 text-text-muted">
                 GetUpSoft designs the intelligence and infrastructure that make companies operate as one connected system.
@@ -116,16 +115,5 @@ export function GlobalLayout() {
         </div>
       </footer>
     </div>
-  );
-}
-
-function LogoMark() {
-  return (
-    <svg viewBox="0 0 40 40" fill="none" className="h-8 w-8">
-      <circle cx="20" cy="20" r="18" stroke="#A5B4FC" strokeWidth="1.5" />
-      <path d="M20 8 C20 8 30 14 30 20 C30 26 20 32 20 32" stroke="#99F6E4" strokeWidth="1.5" strokeLinecap="round" />
-      <circle cx="20" cy="20" r="4" fill="#A5B4FC" />
-      <circle cx="20" cy="20" r="2" fill="#0F1115" />
-    </svg>
   );
 }

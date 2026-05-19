@@ -1,4 +1,5 @@
 import { NavLink, Outlet, Link } from "react-router-dom";
+import { CodeLogo } from "./CodeLogo";
 
 const NAV = [
   { to: "/", label: "Inicio", end: true },
@@ -46,12 +47,9 @@ export function RDLayout() {
       {/* Header */}
       <header className="sticky top-0 z-50 border-b border-border-subtle bg-bg-deep/80 backdrop-blur-xl">
         <div className="mx-auto flex max-w-7xl items-center justify-between gap-6 px-6 py-5">
-          <NavLink to="/" className="flex items-center gap-3">
-            <LogoMarkRD />
+          <NavLink to="/" className="flex items-center gap-3 group">
+            <CodeLogo variant="rd" />
             <div>
-              <p className="font-display text-lg font-semibold tracking-tight text-text-main">
-                getupsoft <span className="text-accent-rd">RD</span>
-              </p>
               <p className="text-[9px] font-medium uppercase tracking-[0.3em] text-text-muted">República Dominicana</p>
             </div>
           </NavLink>
@@ -90,10 +88,7 @@ export function RDLayout() {
           <div className="grid gap-12 lg:grid-cols-[1.5fr,1fr,1fr]">
             <div className="space-y-5">
               <div className="flex items-center gap-3">
-                <LogoMarkRD />
-                <span className="font-display text-base font-semibold">
-                  getupsoft <span className="text-accent-rd">RD</span>
-                </span>
+                <CodeLogo variant="rd" compact />
               </div>
               <p className="max-w-sm text-sm leading-7 text-text-muted">
                 GetUpSoft conecta gestión, infraestructura y soporte local para que las empresas dominicanas operen con más control, velocidad y continuidad.
@@ -120,16 +115,5 @@ export function RDLayout() {
         </div>
       </footer>
     </div>
-  );
-}
-
-function LogoMarkRD() {
-  return (
-    <svg viewBox="0 0 40 40" fill="none" className="h-8 w-8">
-      <circle cx="20" cy="20" r="18" stroke="#99F6E4" strokeWidth="1.5" />
-      <path d="M20 8 C20 8 30 14 30 20 C30 26 20 32 20 32" stroke="#A5B4FC" strokeWidth="1.5" strokeLinecap="round" />
-      <circle cx="20" cy="20" r="4" fill="#99F6E4" />
-      <circle cx="20" cy="20" r="2" fill="#0F1115" />
-    </svg>
   );
 }
