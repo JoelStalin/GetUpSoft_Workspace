@@ -51,8 +51,7 @@ const CASES = [
     desc: "Implementación de Odoo ERP para gestión de inventario, ventas y facturación electrónica en joyería premium.",
     accent: "#F0ABFC",
     media: {
-      mp4: "/assets/rd/case_study/galantes-jewelry.mp4",
-      poster: "/assets/rd/case_study/galantes-jewelry-poster.avif",
+      poster: "/assets/rd/case_study/galantes-jewelry-poster.svg",
       alt: "Premium jewelry retail operations dashboard with inventory and sales intelligence.",
     },
   },
@@ -62,8 +61,7 @@ const CASES = [
     desc: "Sistema POS, gestión de cocina, delivery y analytics para operación de restaurante en crecimiento.",
     accent: "#6EE7B7",
     media: {
-      mp4: "/assets/rd/case_study/chefalitas.mp4",
-      poster: "/assets/rd/case_study/chefalitas-poster.avif",
+      poster: "/assets/rd/case_study/chefalitas-poster.svg",
       alt: "Professional restaurant operations dashboard for orders, kitchen workflow, delivery routing, inventory and analytics.",
     },
   },
@@ -145,9 +143,7 @@ export function RDHomePage() {
           <div className="hidden lg:flex lg:items-center lg:justify-center">
             <div className="relative h-[520px] w-[460px]">
               <FlowMedia
-                mp4="/assets/rd/hero/rd-hero.mp4"
-                webm="/assets/rd/hero/rd-hero.webm"
-                poster="/assets/rd/hero/rd-hero-poster.avif"
+                poster="/assets/rd/hero/rd-hero-poster.svg"
                 alt="Operational command center connecting Odoo ERP, inventory, e-CF, DGII, POS, accounting, warehouse, servers and WiFi."
                 priority="high"
                 className="absolute inset-0 h-full w-full rounded-[2rem] object-cover opacity-65"
@@ -243,7 +239,6 @@ export function RDHomePage() {
           {CASES.map((c) => (
             <article key={c.name} className="card-hover glass rounded-3xl p-8">
               <FlowMedia
-                mp4={c.media.mp4}
                 poster={c.media.poster}
                 alt={c.media.alt}
                 className="mb-7 aspect-video w-full rounded-2xl object-cover opacity-80"

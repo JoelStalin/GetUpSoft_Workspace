@@ -4,6 +4,7 @@ import { RDLayout } from "./components/RDLayout";
 import { SiteLayout } from "./components/SiteLayout";
 import { GlobalHomePage } from "./pages/global/Home";
 import { RDHomePage } from "./pages/rd/Home";
+import { PortalContentPage } from "./components/PortalContentPage";
 // Legacy pages kept for backward compat
 import { ProductsPage } from "./pages/Products";
 import { AccountingManagementPage } from "./pages/AccountingManagement";
@@ -15,24 +16,149 @@ const host = typeof window !== "undefined" ? window.location.hostname.toLowerCas
 const isRDHost = host.endsWith(".com.do") || host === "getupsoft.com.do";
 const isChatbotHost = /^chatbot\./i.test(host);
 
-// Placeholder for pages not yet implemented
-function ComingSoon({ title }: { title: string }) {
+const globalPageData = {
+  "ai-agents": {
+    title: "Enterprise AI Agents",
+    subtitle: "Autonomous agents for workflow orchestration, cognitive analysis, natural language operations and executive intelligence.",
+    blocks: ["Workflow Orchestration", "Agentic Memory", "Decision Support"],
+  },
+  "system-integration": {
+    title: "System Integration",
+    subtitle: "ERP, CRM, BI, accounting, inventory, e-commerce, APIs and legacy systems connected through governed architecture.",
+    blocks: ["Integration Contracts", "Data Orchestration", "Legacy Modernization"],
+  },
+  "digital-transformation": {
+    title: "Digital Transformation",
+    subtitle: "Practical modernization that closes the gap between strategy and working software, infrastructure and automation.",
+    blocks: ["Operating Model", "Automation Roadmap", "Delivery Governance"],
+  },
+  products: {
+    title: "Products & Cases",
+    subtitle: "Orca, AIHub, GetUpBuilder, Galantes Jewelry and chefalitas as a connected product and delivery ecosystem.",
+    blocks: ["Orca", "AIHub", "GetUpBuilder"],
+  },
+  solutions: {
+    title: "Enterprise Solutions",
+    subtitle: "Operational intelligence for operations, sales, executive decision, BI governance, automation and AI strategy.",
+    blocks: ["Operations", "BI Governance", "AI Strategy"],
+  },
+  "case-studies": {
+    title: "Case Studies",
+    subtitle: "Business outcomes across commerce, restaurant operations, AI orchestration and structured software delivery.",
+    blocks: ["Galantes Jewelry", "chefalitas", "Delivery Systems"],
+  },
+  methodology: {
+    title: "Methodology",
+    subtitle: "A disciplined path from architecture audit to intelligence design and production delivery.",
+    blocks: ["Audit", "Design", "Delivery"],
+  },
+  about: {
+    title: "About GetUpSoft",
+    subtitle: "An enterprise technology architecture company that connects strategy, engineering and operational execution.",
+    blocks: ["Architecture", "Execution", "Governance"],
+  },
+  contact: {
+    title: "Contact",
+    subtitle: "Start a strategic session for AI agents, integrations, automation or enterprise modernization.",
+    blocks: ["Scope", "Assessment", "Next Step"],
+  },
+};
+
+const rdPageData = {
+  "odoo-erp": {
+    title: "Odoo ERP",
+    subtitle: "Ventas, inventario, compras, contabilidad, CRM, POS, reportes y facturación electrónica integrados.",
+    blocks: ["Ventas e Inventario", "Contabilidad", "Dashboards"],
+  },
+  "facturacion-electronica": {
+    title: "Facturación Electrónica DGII/e-CF",
+    subtitle: "Flujo de emisión, validación, integración con Odoo y cumplimiento operativo para empresas dominicanas.",
+    blocks: ["e-CF", "DGII", "Integración Odoo"],
+  },
+  infraestructura: {
+    title: "Infraestructura Tecnológica",
+    subtitle: "Racks, cableado estructurado, WiFi empresarial, servidores, seguridad, mantenimiento y monitoreo.",
+    blocks: ["Servidores", "Cableado", "Continuidad"],
+  },
+  "redes-empresariales": {
+    title: "Redes Empresariales",
+    subtitle: "LAN, WiFi, segmentación, cobertura y estabilidad para oficinas, almacenes, tiendas y sucursales.",
+    blocks: ["WiFi Empresarial", "LAN", "Monitoreo"],
+  },
+  servidores: {
+    title: "Servidores",
+    subtitle: "Infraestructura local e híbrida para aplicaciones, respaldos, Odoo, archivos y continuidad operativa.",
+    blocks: ["Implementación", "Backups", "Mantenimiento"],
+  },
+  sectores: {
+    title: "Sectores",
+    subtitle: "Distribuidoras, retail, ferreterías, restaurantes, logística, servicios profesionales y empresas en crecimiento.",
+    blocks: ["Retail", "Restaurantes", "Distribución"],
+  },
+  casos: {
+    title: "Casos",
+    subtitle: "Galantes Jewelry, chefalitas, Orca, AIHub y GetUpBuilder adaptados al mercado dominicano.",
+    blocks: ["Galantes Jewelry", "chefalitas", "Ecosistema"],
+  },
+  nosotros: {
+    title: "Nosotros",
+    subtitle: "Visión tecnológica internacional con ejecución local en República Dominicana, soporte cercano y enfoque práctico.",
+    blocks: ["Visión", "Soporte Local", "Ejecución"],
+  },
+  contacto: {
+    title: "Contacto",
+    subtitle: "Solicita un diagnóstico para Odoo ERP, facturación electrónica, redes, servidores o infraestructura.",
+    blocks: ["Diagnóstico", "Servicio", "Implementación"],
+  },
+};
+
+function globalPage(key: keyof typeof globalPageData) {
+  const data = globalPageData[key];
   return (
-    <div className="mx-auto flex min-h-[60vh] max-w-xl flex-col items-center justify-center gap-6 px-6 py-32 text-center">
-      <p className="font-mono text-[10px] uppercase tracking-widest text-text-muted">Coming Soon</p>
-      <h1 className="font-display text-4xl font-light text-text-main">{title}</h1>
-      <p className="text-text-muted">This page is being built. Check back soon.</p>
-    </div>
+    <PortalContentPage
+      theme="global"
+      title={data.title}
+      subtitle={data.subtitle}
+      primaryCta="Talk to an Architect"
+      primaryTo="/contact"
+      secondaryCta="Explore Methodology"
+      secondaryTo="/methodology"
+      blocks={data.blocks.map((title, i) => ({
+        eyebrow: `Module 0${i + 1}`,
+        title,
+        body: "Structured implementation with clear ownership, observability, documentation and production-ready delivery.",
+        items: ["Architecture-first planning", "Integration and automation design", "Secure deployment model"],
+      }))}
+      faq={[
+        { q: "How does GetUpSoft start an engagement?", a: "We begin with an architecture and operations assessment, then define the highest-value implementation path." },
+        { q: "Do you build production systems?", a: "Yes. The focus is working software, integrations, automation, infrastructure and governance." },
+      ]}
+    />
   );
 }
 
-function ComingSoonES({ title }: { title: string }) {
+function rdPage(key: keyof typeof rdPageData) {
+  const data = rdPageData[key];
   return (
-    <div className="mx-auto flex min-h-[60vh] max-w-xl flex-col items-center justify-center gap-6 px-6 py-32 text-center">
-      <p className="font-mono text-[10px] uppercase tracking-widest text-text-muted">Próximamente</p>
-      <h1 className="font-display text-4xl font-light text-text-main">{title}</h1>
-      <p className="text-text-muted">Esta página está siendo construida.</p>
-    </div>
+    <PortalContentPage
+      theme="rd"
+      title={data.title}
+      subtitle={data.subtitle}
+      primaryCta="Solicitar Diagnóstico"
+      primaryTo="/contacto"
+      secondaryCta="Ver Servicios"
+      secondaryTo="/odoo-erp"
+      blocks={data.blocks.map((title, i) => ({
+        eyebrow: `Área 0${i + 1}`,
+        title,
+        body: "Implementación práctica para empresas dominicanas que necesitan orden, visibilidad, cumplimiento y continuidad operativa.",
+        items: ["Diagnóstico inicial", "Configuración e instalación", "Soporte y seguimiento"],
+      }))}
+      faq={[
+        { q: "¿Trabajan con empresas fuera de Santo Domingo?", a: "Sí. Podemos atender operaciones en distintas zonas del país con soporte remoto, coordinación local y visitas según el alcance." },
+        { q: "¿Pueden integrar Odoo con facturación electrónica?", a: "Sí. Diseñamos el flujo operativo para ventas, inventario, contabilidad, e-CF y procesos relacionados con DGII." },
+      ]}
+    />
   );
 }
 
@@ -42,15 +168,15 @@ const globalRoutes = [
     element: <GlobalLayout />,
     children: [
       { index: true, element: <GlobalHomePage /> },
-      { path: "ai-agents", element: <ComingSoon title="AI Agents" /> },
-      { path: "system-integration", element: <ComingSoon title="System Integration" /> },
-      { path: "digital-transformation", element: <ComingSoon title="Digital Transformation" /> },
-      { path: "products", element: <ComingSoon title="Products" /> },
-      { path: "solutions", element: <ComingSoon title="Solutions" /> },
-      { path: "case-studies", element: <ComingSoon title="Case Studies" /> },
-      { path: "methodology", element: <ComingSoon title="Methodology" /> },
-      { path: "about", element: <ComingSoon title="About" /> },
-      { path: "contact", element: <ComingSoon title="Contact" /> },
+      { path: "ai-agents", element: globalPage("ai-agents") },
+      { path: "system-integration", element: globalPage("system-integration") },
+      { path: "digital-transformation", element: globalPage("digital-transformation") },
+      { path: "products", element: globalPage("products") },
+      { path: "solutions", element: globalPage("solutions") },
+      { path: "case-studies", element: globalPage("case-studies") },
+      { path: "methodology", element: globalPage("methodology") },
+      { path: "about", element: globalPage("about") },
+      { path: "contact", element: globalPage("contact") },
       // Legacy redirects
       { path: "productos", element: <Navigate to="/products" replace /> },
       { path: "contacto", element: <Navigate to="/contact" replace /> },
@@ -65,15 +191,15 @@ const rdRoutes = [
     element: <RDLayout />,
     children: [
       { index: true, element: <RDHomePage /> },
-      { path: "odoo-erp", element: <ComingSoonES title="Odoo ERP" /> },
-      { path: "facturacion-electronica", element: <ComingSoonES title="Facturación Electrónica" /> },
-      { path: "infraestructura", element: <ComingSoonES title="Infraestructura" /> },
-      { path: "redes-empresariales", element: <ComingSoonES title="Redes Empresariales" /> },
-      { path: "servidores", element: <ComingSoonES title="Servidores" /> },
-      { path: "sectores", element: <ComingSoonES title="Sectores" /> },
-      { path: "casos", element: <ComingSoonES title="Casos" /> },
-      { path: "nosotros", element: <ComingSoonES title="Nosotros" /> },
-      { path: "contacto", element: <ComingSoonES title="Contacto" /> },
+      { path: "odoo-erp", element: rdPage("odoo-erp") },
+      { path: "facturacion-electronica", element: rdPage("facturacion-electronica") },
+      { path: "infraestructura", element: rdPage("infraestructura") },
+      { path: "redes-empresariales", element: rdPage("redes-empresariales") },
+      { path: "servidores", element: rdPage("servidores") },
+      { path: "sectores", element: rdPage("sectores") },
+      { path: "casos", element: rdPage("casos") },
+      { path: "nosotros", element: rdPage("nosotros") },
+      { path: "contacto", element: rdPage("contacto") },
     ],
   },
   { path: "*", element: <Navigate to="/" replace /> },
