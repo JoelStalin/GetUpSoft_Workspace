@@ -41,14 +41,15 @@ patches:
         value: 5
 
 # Reduce PVC size for dev
-patchesJson6902:
-  - target:
-      kind: PersistentVolumeClaim
-      name: orca-artifacts-pvc
-    patch: |-
-      - op: replace
-        path: /spec/resources/requests/storage
-        value: 2Gi
+# TODO: Fix patchesJson6902 with namePrefix - currently commented
+# patchesJson6902:
+#   - target:
+#       kind: PersistentVolumeClaim
+#       name: orca-dev-orca-artifacts-pvc
+#     patch: |-
+#       - op: replace
+#         path: /spec/resources/requests/storage
+#         value: 2Gi
 
 configMapGenerator:
   - name: orca-config

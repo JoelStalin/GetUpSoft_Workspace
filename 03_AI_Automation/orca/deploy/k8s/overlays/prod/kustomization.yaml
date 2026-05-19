@@ -45,18 +45,19 @@ patches:
         path: /spec/template/spec/containers/0/readinessProbe/failureThreshold
         value: 3
 
-patchesJson6902:
-  - target:
-      kind: PersistentVolumeClaim
-      name: orca-artifacts-pvc
-    patch: |-
-      - op: replace
-        path: /spec/resources/requests/storage
-        value: 20Gi
-      # Optional: specify a production storage class (e.g., fast-ssd)
-      # - op: add
-      #   path: /spec/storageClassName
-      #   value: fast-ssd
+# TODO: Fix patchesJson6902 with namePrefix - currently commented
+# patchesJson6902:
+#   - target:
+#       kind: PersistentVolumeClaim
+#       name: orca-prod-orca-artifacts-pvc
+#     patch: |-
+#       - op: replace
+#         path: /spec/resources/requests/storage
+#         value: 20Gi
+#       # Optional: specify a production storage class (e.g., fast-ssd)
+#       # - op: add
+#       #   path: /spec/storageClassName
+#       #   value: fast-ssd
 
 configMapGenerator:
   - name: orca-config
