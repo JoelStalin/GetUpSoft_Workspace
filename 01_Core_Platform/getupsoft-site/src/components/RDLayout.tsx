@@ -23,18 +23,22 @@ const FOOTER_LINKS = {
     { label: "Sectores", to: "/sectores" },
     { label: "Contacto", to: "/contacto" },
   ],
+  Legal: [
+    { label: "Política de Privacidad", to: "/privacy" },
+    { label: "Términos de Servicio", to: "/terms" },
+  ],
 };
 
 export function RDLayout() {
   return (
-    <div className="min-h-screen bg-bg-deep text-text-main hero-gradient-rd">
+    <div className="min-h-screen bg-white text-gray-900">
       {/* Top bar */}
-      <div className="border-b border-border-subtle bg-bg-surface/60">
-        <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-2.5 text-[10px] font-medium tracking-widest text-text-muted uppercase">
+      <div className="border-b border-gray-200 bg-gray-50">
+        <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-3 text-xs font-semibold tracking-widest text-gray-600 uppercase">
           <span>República Dominicana · Odoo ERP · Facturación e-CF · Infraestructura</span>
           <a
             href="https://getupsoft.com"
-            className="flex items-center gap-1.5 transition hover:text-accent-rd"
+            className="flex items-center gap-1.5 transition text-green-600 hover:text-green-700"
           >
             GetUpSoft Global
             <svg className="h-3 w-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -45,23 +49,25 @@ export function RDLayout() {
       </div>
 
       {/* Header */}
-      <header className="sticky top-0 z-50 border-b border-border-subtle bg-bg-deep/80 backdrop-blur-xl">
-        <div className="mx-auto flex max-w-7xl items-center justify-between gap-6 px-6 py-5">
+      <header className="sticky top-0 z-50 border-b border-gray-200 bg-white shadow-sm">
+        <div className="mx-auto flex max-w-7xl items-center justify-between gap-6 px-6 py-4">
           <NavLink to="/" className="flex items-center gap-3 group">
             <CodeLogo variant="rd" />
             <div>
-              <p className="text-[9px] font-medium uppercase tracking-[0.3em] text-text-muted">República Dominicana</p>
+              <p className="text-xs font-bold uppercase tracking-widest text-green-600">República Dominicana</p>
             </div>
           </NavLink>
 
-          <nav className="hidden items-center gap-7 text-[12px] font-medium uppercase tracking-wider text-text-muted lg:flex">
+          <nav className="hidden items-center gap-8 text-xs font-bold uppercase tracking-widest text-gray-600 lg:flex">
             {NAV.map((item) => (
               <NavLink
                 key={item.to}
                 to={item.to}
                 end={item.end}
                 className={({ isActive }) =>
-                  isActive ? "text-accent-rd" : "transition hover:text-text-main"
+                  isActive
+                    ? "text-green-600"
+                    : "transition hover:text-gray-900"
                 }
               >
                 {item.label}
@@ -71,7 +77,7 @@ export function RDLayout() {
 
           <Link
             to="/contacto"
-            className="rounded-full border border-accent-rd px-5 py-2 text-[11px] font-bold uppercase tracking-widest text-accent-rd transition hover:bg-accent-rd hover:text-bg-deep"
+            className="rounded-lg bg-green-600 text-white px-6 py-2.5 text-xs font-bold uppercase tracking-widest transition hover:bg-green-700 hover:shadow-lg hover:shadow-green-500/30"
           >
             Diagnóstico
           </Link>
@@ -83,27 +89,27 @@ export function RDLayout() {
       </main>
 
       {/* Footer */}
-      <footer className="border-t border-border-subtle bg-bg-surface/40">
+      <footer className="border-t border-gray-200 bg-gray-50">
         <div className="mx-auto max-w-7xl px-6 py-16">
-          <div className="grid gap-12 lg:grid-cols-[1.5fr,1fr,1fr]">
+          <div className="grid gap-12 lg:grid-cols-[1.5fr,1fr,1fr,1fr]">
             <div className="space-y-5">
               <div className="flex items-center gap-3">
                 <CodeLogo variant="rd" compact />
               </div>
-              <p className="max-w-sm text-sm leading-7 text-text-muted">
+              <p className="max-w-sm text-sm leading-7 text-gray-600">
                 GetUpSoft conecta gestión, infraestructura y soporte local para que las empresas dominicanas operen con más control, velocidad y continuidad.
               </p>
-              <p className="text-[10px] uppercase tracking-widest text-text-muted/50">
+              <p className="text-xs uppercase tracking-widest text-gray-500">
                 © {new Date().getFullYear()} GetUpSoft RD. Todos los derechos reservados.
               </p>
             </div>
             {Object.entries(FOOTER_LINKS).map(([group, links]) => (
               <div key={group}>
-                <p className="text-[10px] font-bold uppercase tracking-widest text-text-soft">{group}</p>
+                <p className="text-xs font-bold uppercase tracking-widest text-gray-900">{group}</p>
                 <ul className="mt-5 space-y-3">
                   {links.map((l) => (
                     <li key={l.to}>
-                      <NavLink to={l.to} className="text-sm text-text-muted transition hover:text-text-main">
+                      <NavLink to={l.to} className="text-sm text-gray-600 transition hover:text-gray-900">
                         {l.label}
                       </NavLink>
                     </li>
@@ -111,6 +117,20 @@ export function RDLayout() {
                 </ul>
               </div>
             ))}
+          </div>
+
+          {/* Bottom divider */}
+          <div className="mt-12 border-t border-gray-200 pt-8">
+            <div className="grid grid-cols-2 gap-6 md:grid-cols-4 text-xs text-gray-600">
+              <a href="mailto:contacto@getupsoft.com.do" className="transition hover:text-green-600">
+                contacto@getupsoft.com.do
+              </a>
+              <a href="tel:+18095551234" className="transition hover:text-green-600">
+                +1 (809) 555-1234
+              </a>
+              <div>Santo Domingo, DR</div>
+              <div>Soluciones Empresariales</div>
+            </div>
           </div>
         </div>
       </footer>
