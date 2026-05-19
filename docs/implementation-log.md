@@ -289,6 +289,99 @@ npm run build                       # ✅ PASSED (build time 8.25s, CSS 41.60KB)
 
 ---
 
+### US-103: Build Container, Section, Eyebrow Components
+
+**Owner:** Claude (Implementation)  
+**Started:** 2026-05-20 10:15 UTC  
+**Completed:** 2026-05-20 10:35 UTC
+
+**What was done:**
+- Created `src/components/ui/Layout.tsx` with 4 layout components:
+  1. **Container** — Responsive wrapper with max-width (sm/md/lg/xl/container/container-xl) and adaptive padding (4px mobile → 8px desktop)
+  2. **Section** — Full-width section wrapper with vertical padding variants (sm: 48px mobile/64px desktop → xl: 96px/160px) and background variants (default/soft/elevated)
+  3. **Eyebrow** — Pre-heading label (11–12px, uppercase, tracking-wide) with color variants (muted/primary/text)
+  4. **SectionHeading** — Compound component combining Eyebrow + H2 + optional subtitle (left/center alignment)
+
+**Features:**
+- ✅ Responsive padding (mobile-first approach using TailwindCSS breakpoints)
+- ✅ Multiple variants for reusability (Container sizes, Section backgrounds, Eyebrow colors)
+- ✅ Built for accessibility (semantic HTML, proper heading hierarchy)
+- ✅ Proper TypeScript typing with React.forwardRef for parent refs
+
+**Files created:**
+- `src/components/ui/Layout.tsx` (145 lines)
+
+**Commands executed:**
+```bash
+npm run build                       # ✅ PASSED (build time 9.15s, CSS 42.27KB)
+```
+
+**Build output:**
+- ✅ TypeScript: 0 errors
+- ✅ Vite: 98 modules, CSS 42.27KB gzipped
+- ✅ No breaking changes
+
+**Blockers:**
+- None
+
+**Next:**
+- US-104: Card components
+
+**Status:** ✅ DONE
+
+---
+
+### US-104: Build Card Components (Card, ServiceCard, ProductCard, IndustryCard)
+
+**Owner:** Claude (Implementation)  
+**Started:** 2026-05-20 10:35 UTC  
+**Completed:** 2026-05-20 10:55 UTC
+
+**What was done:**
+- Created `src/components/ui/Card.tsx` with 4 card component variants:
+  1. **Card** — Generic card wrapper with border, surface background, hover effect (translateY -1px + shadow)
+     - Supports href (link card) or onClick (button card)
+     - isInteractive prop for hover effects
+  2. **ServiceCard** — Icon + title + description + optional CTA
+     - Icon background with primary/10 color
+     - CTA link with arrow animation
+  3. **ProductCard** — Product name + feature list + status badge + CTA
+     - Status badges: "In Production" (success), "Coming Soon" (warning), "Beta" (blue)
+     - Feature list with checkmarks
+  4. **IndustryCard** — Industry name + description + benefits + CTA
+     - Similar to ProductCard but for industry solutions
+     - Benefits with bullet points
+
+**Features:**
+- ✅ All cards use design-system tokens (colors, border, shadow)
+- ✅ Hover effect: -translate-y-1 (lift) + shadow
+- ✅ Transition: 180ms ease-out (per design-system.md §6.4)
+- ✅ Full TypeScript support with proper interfaces
+- ✅ Accessibility: proper semantic HTML, aria-label where needed
+
+**Files created:**
+- `src/components/ui/Card.tsx` (180 lines)
+
+**Commands executed:**
+```bash
+npm run build                       # ✅ PASSED (build time 9.28s, CSS 43.90KB)
+```
+
+**Build output:**
+- ✅ TypeScript: 0 errors
+- ✅ Vite: 98 modules, CSS 43.90KB gzipped
+- ✅ CSS growth: 42.27KB → 43.90KB (reasonable for new components)
+
+**Blockers:**
+- None
+
+**Next:**
+- US-105: Header design
+
+**Status:** ✅ DONE
+
+---
+
 ## Next Session Handoff
 
 **Previous agent:** Claude (current session)  

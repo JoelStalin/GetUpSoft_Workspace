@@ -2,7 +2,7 @@
 
 **Duration:** 2026-05-20 to 2026-05-22 (2–3 days estimated)  
 **Goal:** Lock design system tokens, build base components (Button, Card, Container, Section), implement Header + Footer  
-**Status:** 🔄 IN PROGRESS (Started 2026-05-20, 0/10 stories DONE, 0%)
+**Status:** 🔄 IN PROGRESS (Started 2026-05-20, 4/10 stories DONE, 40%)
 
 ---
 
@@ -12,8 +12,8 @@
 |---|---|---|---|---|---|---|
 | **101** | Define & verify design system tokens | Verify colors, typography, spacing in TailwindCSS config | 1h | Claude | ✅ DONE | 2026-05-20 |
 | **102** | Build Button component (5 variants) | Primary, secondary, ghost, warning, region pill | 2h | Claude | ✅ DONE | 2026-05-20 |
-| **103** | Build Container, Section, Eyebrow components | Layout base components | 1.5h | Codex | ⏳ TODO | 2026-05-20 |
-| **104** | Build Card, ServiceCard, ProductCard | Card hierarchy with hover states | 2h | Codex | ⏳ TODO | 2026-05-20 |
+| **103** | Build Container, Section, Eyebrow components | Layout base components | 1.5h | Claude | ✅ DONE | 2026-05-20 |
+| **104** | Build Card, ServiceCard, ProductCard | Card hierarchy with hover states | 2h | Claude | ✅ DONE | 2026-05-20 |
 | **105** | Design Header (sticky, nav, selectors) | Header visual & layout spec | 2h | Codex | ⏳ TODO | 2026-05-21 |
 | **106** | Implement Header (desktop + mobile nav) | Sticky header, hamburger menu, language/region selectors | 3h | Codex | ⏳ TODO | 2026-05-21 |
 | **107** | Design Footer (columns, responsive, links) | Footer layout spec | 1.5h | Codex | ⏳ TODO | 2026-05-21 |
