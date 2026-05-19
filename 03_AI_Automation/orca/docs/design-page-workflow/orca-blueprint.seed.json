@@ -1,0 +1,145 @@
+{
+  "user_id": "yoeli",
+  "name": "Professional Page Design Orchestrator",
+  "objective": "Orquestar investigacion, diseno, copy, assets, animaciones, Obsidian, NotebookLM, QA y publicacion para paginas profesionales.",
+  "status": "planned",
+  "nodes": [
+    {
+      "id": "intake",
+      "type": "trigger",
+      "label": "Project Intake",
+      "description": "Recibe brief desde Orca, n8n webhook o formulario interno."
+    },
+    {
+      "id": "research-worker",
+      "type": "research",
+      "label": "Research Worker",
+      "description": "Investiga marca, referencias, SEO, competencia y restricciones."
+    },
+    {
+      "id": "architecture-worker",
+      "type": "architecture",
+      "label": "Architecture Worker",
+      "description": "Define sistemas, dependencias y mapa de información."
+    },
+    {
+      "id": "design-worker",
+      "type": "design",
+      "label": "Design Worker",
+      "description": "Define sistema visual premium, responsive y accesible."
+    },
+    {
+      "id": "backend-worker",
+      "type": "backend",
+      "label": "Back-end Worker",
+      "description": "Prepara datos, formularios, integraciones y persistencia."
+    },
+    {
+      "id": "frontend-worker",
+      "type": "frontend",
+      "label": "Front-end Worker",
+      "description": "Construye la landing, responsive y con fallback."
+    },
+    {
+      "id": "testing-worker",
+      "type": "test",
+      "label": "Testing Worker",
+      "description": "Ejecuta validaciones funcionales, visuales y Selenium."
+    },
+    {
+      "id": "memory",
+      "type": "memory",
+      "label": "Obsidian Memory",
+      "description": "Guarda brief, decisiones, prompts y QA como nota Markdown."
+    },
+    {
+      "id": "notebooklm",
+      "type": "knowledge",
+      "label": "NotebookLM Pack",
+      "description": "Genera paquete fuente para estudio, audio y analisis."
+    },
+    {
+      "id": "ux",
+      "type": "design",
+      "label": "UX Architecture",
+      "description": "Crea sitemap, estructura de paginas, componentes y conversion map."
+    },
+    {
+      "id": "visual",
+      "type": "design",
+      "label": "Visual System",
+      "description": "Define sistema visual premium, responsive y accesible."
+    },
+    {
+      "id": "animation",
+      "type": "motion",
+      "label": "Animation Brief",
+      "description": "Define Three.js, GSAP, Lenis, GLSL, poster frames y reduced motion."
+    },
+    {
+      "id": "assets",
+      "type": "asset",
+      "label": "Asset Manifest",
+      "description": "Genera prompts, alt text, formatos, prioridad de carga y placeholders."
+    },
+    {
+      "id": "seo",
+      "type": "seo",
+      "label": "SEO Package",
+      "description": "Genera metadata, hreflang, JSON-LD, sitemap y FAQ."
+    },
+    {
+      "id": "qa",
+      "type": "test",
+      "label": "Functional QA",
+      "description": "Ejecuta validaciones funcionales y Selenium cuando aplique."
+    },
+    {
+      "id": "quality",
+      "type": "test",
+      "label": "Quality Gate",
+      "description": "Valida accesibilidad, performance, imagenes, formularios y contenido."
+    },
+    {
+      "id": "publish",
+      "type": "deploy",
+      "label": "Publish Readiness",
+      "description": "Entrega reporte final y estado approved/published."
+    }
+  ],
+  "edges": [
+    { "from": "intake", "to": "research-worker" },
+    { "from": "research-worker", "to": "architecture-worker" },
+    { "from": "architecture-worker", "to": "design-worker" },
+    { "from": "design-worker", "to": "backend-worker" },
+    { "from": "design-worker", "to": "frontend-worker" },
+    { "from": "backend-worker", "to": "testing-worker" },
+    { "from": "frontend-worker", "to": "testing-worker" },
+    { "from": "testing-worker", "to": "memory" },
+    { "from": "research-worker", "to": "notebooklm" },
+    { "from": "research-worker", "to": "seo" },
+    { "from": "design-worker", "to": "visual" },
+    { "from": "visual", "to": "animation" },
+    { "from": "visual", "to": "assets" },
+    { "from": "design-worker", "to": "seo" },
+    { "from": "assets", "to": "qa" },
+    { "from": "seo", "to": "qa" },
+    { "from": "animation", "to": "qa" },
+    { "from": "memory", "to": "quality" },
+    { "from": "quality", "to": "publish" }
+  ],
+  "settings": {
+    "engine": "n8n",
+    "visualizer": "orca-workflow-canvas",
+    "mcp_server": "orca-design-orchestrator-mcp",
+    "obsidian_vault": "docs/obsidian-vault",
+    "notebooklm_output": "outputs/notebooklm",
+    "requires_selenium_when_ui_changes": true,
+    "animation_stack": ["three.js", "gsap", "lenis", "glsl"],
+    "project_progress_percent": 100,
+    "reference_repositories": [
+      "https://github.com/davidhckh/portfolio-2025",
+      "https://github.com/Zie619/n8n-workflows"
+    ]
+  }
+}

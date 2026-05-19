@@ -1,4 +1,4 @@
-﻿# Stitch MCP Install
+# Stitch MCP Install
 
 Shared workspace config: `mcp-servers.shared.json`
 

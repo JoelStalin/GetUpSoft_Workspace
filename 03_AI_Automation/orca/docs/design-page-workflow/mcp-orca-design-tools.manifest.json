@@ -1,0 +1,53 @@
+{
+  "name": "orca-design-orchestrator-mcp",
+  "version": "0.1.0",
+  "description": "MCP bridge for Orca professional page design workflows, Obsidian memory, NotebookLM packs, n8n workflow registration, and QA evidence.",
+  "transport": {
+    "type": "stdio",
+    "command": "python",
+    "args": ["-m", "ai_automation_orchestrator.mcp.design_orchestrator"]
+  },
+  "tools": [
+    {
+      "name": "create_design_brief",
+      "readOnlyHint": false,
+      "idempotentHint": false,
+      "description": "Normalize a raw page-design request into a structured professional design brief."
+    },
+    {
+      "name": "register_orca_blueprint",
+      "readOnlyHint": false,
+      "idempotentHint": true,
+      "description": "Create or update an Orca workflow blueprint with nodes, edges, settings and n8n metadata."
+    },
+    {
+      "name": "write_obsidian_memory",
+      "readOnlyHint": false,
+      "idempotentHint": true,
+      "description": "Write project decisions, prompts, plans and QA evidence into an Obsidian-compatible Markdown note."
+    },
+    {
+      "name": "generate_notebooklm_pack",
+      "readOnlyHint": false,
+      "idempotentHint": true,
+      "description": "Build a NotebookLM-ready source folder with research, UX, SEO, prompts and QA documents."
+    },
+    {
+      "name": "generate_animation_brief",
+      "readOnlyHint": false,
+      "idempotentHint": true,
+      "description": "Generate a motion brief using Three.js, GSAP, Lenis, GLSL, reduced motion and fallback guidance."
+    },
+    {
+      "name": "run_quality_gate",
+      "readOnlyHint": false,
+      "idempotentHint": false,
+      "description": "Run project quality checks and return pass/fail evidence for UI, assets, SEO, accessibility and Selenium coverage."
+    }
+  ],
+  "security": {
+    "secrets_policy": "No API keys or user tokens are stored in workflow JSON, blueprint settings, or Obsidian notes.",
+    "allowed_outputs": ["docs/design-memory", "docs/obsidian-vault", "outputs/notebooklm", "outputs/assets", "tests/e2e/artifacts"]
+  }
+}
+

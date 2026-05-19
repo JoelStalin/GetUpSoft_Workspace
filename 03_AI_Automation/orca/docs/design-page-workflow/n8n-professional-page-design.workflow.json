@@ -1,0 +1,88 @@
+{
+  "name": "Professional Page Design Orchestrator",
+  "nodes": [
+    {
+      "parameters": {
+        "path": "orca/design-page-workflow",
+        "httpMethod": "POST",
+        "responseMode": "responseNode"
+      },
+      "id": "project-intake-webhook",
+      "name": "Project Intake Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [0, 0]
+    },
+    {
+      "parameters": {
+        "jsCode": "return [{ json: { project: $json.project || 'untitled-project', objective: $json.objective || $json.prompt || '', audience: $json.audience || 'business decision makers', references: $json.references || ['https://github.com/davidhckh/portfolio-2025'], languages: $json.languages || ['es'], source: 'n8n', progress_percent: 100, workflow_kind: 'professional_page_design', workers: ['research', 'architecture', 'design', 'backend', 'frontend', 'testing', 'memory'] } }];"
+      },
+      "id": "normalize-brief",
+      "name": "Normalize Brief",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [260, 0]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "={{$env.ORCA_BASE_URL || 'http://localhost:8015'}}/api/blueprints",
+        "sendBody": true,
+        "contentType": "json",
+        "jsonBody": "={\"user_id\":\"yoeli\",\"name\":\"Professional Page Design Orchestrator - \" + $json.project,\"objective\":$json.objective,\"status\":\"researching\",\"nodes\":[{\"id\":\"intake\",\"type\":\"trigger\",\"label\":\"Project Intake\"},{\"id\":\"research-worker\",\"type\":\"research\",\"label\":\"Research Worker\"},{\"id\":\"architecture-worker\",\"type\":\"architecture\",\"label\":\"Architecture Worker\"},{\"id\":\"design-worker\",\"type\":\"design\",\"label\":\"Design Worker\"},{\"id\":\"backend-worker\",\"type\":\"backend\",\"label\":\"Back-end Worker\"},{\"id\":\"frontend-worker\",\"type\":\"frontend\",\"label\":\"Front-end Worker\"},{\"id\":\"testing-worker\",\"type\":\"test\",\"label\":\"Testing Worker\"},{\"id\":\"memory\",\"type\":\"memory\",\"label\":\"Obsidian Memory\"},{\"id\":\"notebooklm\",\"type\":\"knowledge\",\"label\":\"NotebookLM Pack\"},{\"id\":\"visual\",\"type\":\"design\",\"label\":\"Visual System\"},{\"id\":\"animation\",\"type\":\"motion\",\"label\":\"Animation Brief\"},{\"id\":\"qa\",\"type\":\"test\",\"label\":\"Functional QA\"},{\"id\":\"quality\",\"type\":\"test\",\"label\":\"Quality Gate\"}],\"edges\":[{\"from\":\"intake\",\"to\":\"research-worker\"},{\"from\":\"research-worker\",\"to\":\"architecture-worker\"},{\"from\":\"architecture-worker\",\"to\":\"design-worker\"},{\"from\":\"design-worker\",\"to\":\"backend-worker\"},{\"from\":\"design-worker\",\"to\":\"frontend-worker\"},{\"from\":\"backend-worker\",\"to\":\"testing-worker\"},{\"from\":\"frontend-worker\",\"to\":\"testing-worker\"},{\"from\":\"testing-worker\",\"to\":\"memory\"},{\"from\":\"research-worker\",\"to\":\"notebooklm\"},{\"from\":\"design-worker\",\"to\":\"visual\"},{\"from\":\"visual\",\"to\":\"animation\"},{\"from\":\"memory\",\"to\":\"qa\"},{\"from\":\"animation\",\"to\":\"qa\"},{\"from\":\"qa\",\"to\":\"quality\"}],\"settings\":{\"engine\":\"n8n\",\"project\":$json.project,\"references\":$json.references,\"mcp_server\":\"orca-design-orchestrator-mcp\",\"obsidian\":true,\"notebooklm\":true,\"project_progress_percent\":100,\"selenium_required_when_ui_changes\":true}}"
+      },
+      "id": "register-orca-blueprint",
+      "name": "Register Orca Blueprint",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [520, 0]
+    },
+    {
+      "parameters": {
+        "jsCode": "return [{ json: { status: 'planned', blueprint: $json, next_steps: ['research', 'obsidian-memory', 'notebooklm-pack', 'ux-architecture', 'animation-brief', 'qa-gate'] } }];"
+      },
+      "id": "build-response",
+      "name": "Build Response",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [780, 0]
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{$json}}"
+      },
+      "id": "respond",
+      "name": "Respond",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.1,
+      "position": [1040, 0]
+    }
+  ],
+  "connections": {
+    "Project Intake Webhook": {
+      "main": [[{ "node": "Normalize Brief", "type": "main", "index": 0 }]]
+    },
+    "Normalize Brief": {
+      "main": [[{ "node": "Register Orca Blueprint", "type": "main", "index": 0 }]]
+    },
+    "Register Orca Blueprint": {
+      "main": [[{ "node": "Build Response", "type": "main", "index": 0 }]]
+    },
+    "Build Response": {
+      "main": [[{ "node": "Respond", "type": "main", "index": 0 }]]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1",
+    "saveExecutionProgress": true,
+    "timezone": "America/Santo_Domingo"
+  },
+  "pinData": {},
+  "versionId": "orca-professional-page-design-v1",
+  "meta": {
+    "templateCredsSetupCompleted": false,
+    "description": "Importable n8n workflow for Orca design workflow registration. MCP tools are configured through the companion manifest."
+  },
+  "tags": ["orca", "design", "mcp", "obsidian", "notebooklm", "professional-pages"]
+}

@@ -15,6 +15,7 @@ import uvicorn
 
 from ai_automation_orchestrator.client_plugin import build_clap_plugin_zip
 from ai_automation_orchestrator.config import load_config
+from ai_automation_orchestrator.design_pages import generate_professional_page
 from ai_automation_orchestrator.generators.automation_flows import build_automation_flow_messages
 from ai_automation_orchestrator.generators.interaction_scripts import build_interaction_script_messages
 from ai_automation_orchestrator.generators.test_flows import build_test_flow_messages
@@ -27,6 +28,8 @@ from ai_automation_orchestrator.workflow_blueprints import WorkflowBlueprint, Wo
 from ai_automation_orchestrator.integrations.obsidian import export_job_to_obsidian
 from ai_automation_orchestrator.integrations.notebooklm_integration import export_job_to_notebooklm_audio
 from ai_automation_orchestrator.integrations.hermes_integration import run_hermes_autonomous_workflow
+from ai_automation_orchestrator.provider_endpoints import register_provider_endpoints
+from ai_automation_orchestrator.providers_dashboard_section import get_providers_section_html
 
 
 class TestFlowRequest(BaseModel):
@@ -126,6 +129,24 @@ class WorkflowManager:
         )
         return job
 
+    def submit_professional_page_design(
+        self,
+        *,
+        blueprint: WorkflowBlueprint,
+        model_id: str,
+    ) -> WorkflowJob:
+        input_payload = {
+            "blueprint_id": blueprint.id,
+            "objective": blueprint.objective,
+            "nodes": blueprint.nodes,
+            "edges": blueprint.edges,
+            "settings": blueprint.settings,
+        }
+        title = str(blueprint.settings.get("project") or blueprint.name)
+        job = self.store.create_job("professional-page-design", title, model_id, input_payload)
+        self.executor.submit(self._run_professional_page_design, job.id, blueprint.objective, blueprint.settings)
+        return job
+
     def _run_job(
         self,
         job_id: str,
@@ -138,6 +159,22 @@ class WorkflowManager:
             messages = builder(*builder_args)
             output = self.service.generate(messages=messages, model_id=model_id)
             self.store.mark_completed(job_id, output)
+            completed_job = self.store.get_job(job_id)
+            if completed_job:
+                self.executor.submit(export_job_to_obsidian, completed_job)
+        except Exception as exc:
+            self.store.mark_failed(job_id, str(exc))
+
+    def _run_professional_page_design(
+        self,
+        job_id: str,
+        objective: str,
+        settings: dict[str, Any],
+    ) -> None:
+        self.store.mark_running(job_id)
+        try:
+            result = generate_professional_page(settings, objective)
+            self.store.mark_completed(job_id, result.summary_markdown)
             completed_job = self.store.get_job(job_id)
             if completed_job:
                 self.executor.submit(export_job_to_obsidian, completed_job)
@@ -478,6 +515,9 @@ def create_dashboard_html(app_name: str) -> str:
         <button class="nav-btn" data-target="vault-view" title="Vault">
           <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M4 7v10c0 1.1.9 2 2 2h12a2 2 0 0 0 2-2V7M20 7l-8-4-8 4M20 7l-8 4-8-4m16 0V5a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v2"></path></svg>
         </button>
+        <button class="nav-btn" data-target="providers-view" title="AI Providers">
+          <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"></path><polyline points="13 2 13 9 20 9"></polyline><path d="M9 15h2M9 11h6"></path></svg>
+        </button>
         <button class="nav-btn" data-target="config-view" title="Kernel">
           <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
         </button>
@@ -570,6 +610,8 @@ def create_dashboard_html(app_name: str) -> str:
               </div>
             </div>
         </section>
+
+        """ + get_providers_section_html() + """
 
       </div>
     </main>
@@ -1266,6 +1308,10 @@ def create_app(
         blueprint = blueprint_repository.get_blueprint(blueprint_id, request.user_id)
         if blueprint is None:
             raise HTTPException(status_code=404, detail="Blueprint not found.")
+        if blueprint.settings.get("workflow_kind") == "professional_page_design":
+            model_id = request.model or orchestrator_service.config.default_model
+            job = manager.submit_professional_page_design(blueprint=blueprint, model_id=model_id)
+            return job_to_dict(job)
         workflow_request = AutomationFlowRequest(
             goal=blueprint.objective,
             systems=", ".join(node.get("type", "node") for node in blueprint.nodes) or "Orca",
@@ -1381,9 +1427,11 @@ def create_app(
                 models_by_role.setdefault(role, []).append(f"{m.id} [{m.tier}]")
         return {"stats": stats, "models_by_role": models_by_role}
 
+    # Register provider management endpoints
+    register_provider_endpoints(app, credentials)
+
     return app
 
 
 def run() -> None:
     uvicorn.run("ai_automation_orchestrator.webapp:create_app", factory=True, host="0.0.0.0", port=8015)
-

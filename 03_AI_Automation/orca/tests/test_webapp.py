@@ -80,6 +80,26 @@ class WebAppTests(unittest.TestCase):
                 f"/api/blueprints/{blueprint.json()['id']}/run",
                 json={"user_id": "yoeli", "model": "kimi-k2-6"},
             )
+            design_blueprint = client.post(
+                "/api/blueprints",
+                json={
+                    "user_id": "yoeli",
+                    "name": "Landing Page - Corredor de Seguros",
+                    "objective": "Crear una landing page profesional para un corredor de seguros.",
+                    "nodes": [{"id": "build", "type": "frontend", "label": "Generar HTML"}],
+                    "edges": [],
+                    "settings": {
+                        "workflow_kind": "professional_page_design",
+                        "project": "Ramos & Asociados Seguros",
+                        "slug": "ramos-asociados-seguros-test",
+                    },
+                },
+            )
+            run_design_blueprint = client.post(
+                f"/api/blueprints/{design_blueprint.json()['id']}/run",
+                json={"user_id": "yoeli", "model": "kimi-k2-6"},
+            )
+            design_job_detail = client.get(f"/api/workflows/{run_design_blueprint.json()['id']}")
             save_global_credential = client.put(
                 "/api/credentials/global",
                 json={"values": {"openai": "global-openai-token"}},
@@ -92,9 +112,9 @@ class WebAppTests(unittest.TestCase):
             clear_user_credential = client.delete("/api/credentials/user/claude", params={"user_id": "yoeli"})
 
         self.assertEqual(dashboard.status_code, 200)
-        self.assertIn("Orca Command", dashboard.text)
+        self.assertIn("ORCA | Orchestrator", dashboard.text)
         self.assertIn("workflow-canvas", dashboard.text)
-        self.assertIn("OpenAI / ChatGPT", dashboard.text)
+        self.assertIn("OpenAI API", dashboard.text)
         self.assertEqual(submission.status_code, 202)
         self.assertEqual(listing.status_code, 200)
         self.assertEqual(len(listing.json()["items"]), 1)
@@ -108,6 +128,11 @@ class WebAppTests(unittest.TestCase):
         self.assertEqual(blueprint.status_code, 200)
         self.assertEqual(len(blueprints.json()["items"]), 1)
         self.assertEqual(run_blueprint.status_code, 202)
+        self.assertEqual(design_blueprint.status_code, 200)
+        self.assertEqual(run_design_blueprint.status_code, 202)
+        self.assertEqual(run_design_blueprint.json()["workflow_type"], "professional-page-design")
+        self.assertEqual(design_job_detail.status_code, 200)
+        self.assertIn("Landing generada", design_job_detail.json()["output_markdown"])
         self.assertEqual(save_global_credential.status_code, 200)
         self.assertEqual(save_user_credential.status_code, 200)
         self.assertEqual(credential_status.status_code, 200)
