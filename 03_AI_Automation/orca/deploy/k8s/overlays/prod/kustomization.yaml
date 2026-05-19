@@ -60,8 +60,11 @@ patchesJson6902:
 
 configMapGenerator:
   - name: orca-config
-    behavior: merge
+    behavior: replace
     literals:
+      - ORCA_CANONICAL_LANGUAGE=es
+      - ORCA_LOW_CONFIDENCE_THRESHOLD=0.7
+      - ORCA_TRANSCRIPT_HISTORY_ENABLED=true
       - LOG_LEVEL=INFO
       - ENVIRONMENT=production
 
