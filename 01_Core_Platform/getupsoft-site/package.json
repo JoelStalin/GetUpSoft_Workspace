@@ -7,6 +7,8 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc --noEmit && vite build",
+    "preview": "vite preview",
+    "preview:edge": "vite preview --host 0.0.0.0 --port 18085",
     "flow:prepare": "node scripts/flow-assets.mjs prepare",
     "flow:checklist": "node scripts/flow-assets.mjs checklist",
     "flow:check": "node scripts/flow-assets.mjs check",
@@ -15,9 +17,13 @@
     "stitch:generate:global": "npm --prefix stitch run generate:global",
     "stitch:generate:rd": "npm --prefix stitch run generate:rd",
     "stitch:manifest": "node scripts/stitch-output-manifest.mjs",
+    "test": "echo 'Run test:e2e commands below'",
+    "test:e2e": "npm run test:e2e:selenium",
     "test:e2e:selenium": "python tests/e2e/getupsoft_site_functional.py",
-    "preview": "vite preview",
-    "preview:edge": "vite preview --host 0.0.0.0 --port 18085"
+    "test:smoke": "bash tests/smoke-tests.sh",
+    "test:lighthouse": "lighthouse http://localhost:5176/redesign/ --view",
+    "test:accessibility": "echo 'Run manual accessibility audit with axe DevTools extension'",
+    "test:security": "npm audit && echo 'Run manual security tests'"
   },
   "dependencies": {
     "animejs": "^4.4.1",
