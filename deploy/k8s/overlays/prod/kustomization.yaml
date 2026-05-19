@@ -5,9 +5,9 @@ namespace: getupsoft
 
 # Compose all service overlays
 bases:
-  - ../../03_AI_Automation/orca/deploy/k8s/overlays/prod
-  - ../../01_Core_Platform/getupsoft-site/deploy/k8s/overlays/prod
-  - ../../miniverse/deploy/k8s/overlays/prod
+  - ../../../../03_AI_Automation/orca/deploy/k8s/overlays/prod
+  - ../../../../01_Core_Platform/getupsoft-site/deploy/k8s/overlays/prod
+  - ../../../../miniverse/deploy/k8s/overlays/prod
 
 commonLabels:
   environment: production
