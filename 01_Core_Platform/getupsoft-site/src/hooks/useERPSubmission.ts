@@ -1,4 +1,4 @@
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
 import {
   ContactFormData,
   DiagnosticFormData,
@@ -6,7 +6,7 @@ import {
   ValidationError,
   ERPError,
 } from "../lib/erp/types";
-import { createERPProvider } from "../lib/erp/mock-provider";
+import { getERPProvider } from "../lib/erp";
 
 interface SubmissionState {
   isLoading: boolean;
@@ -34,15 +34,36 @@ export function useERPSubmission(): UseERPSubmissionReturn {
     ticketId: null,
   });
 
-  // Initialize ERP provider (in production, this would be a singleton)
-  const provider = useState<IERPProvider>(() => createERPProvider())[0];
+  const [provider, setProvider] = useState<IERPProvider | null>(null);
+
+  // Initialize ERP provider on mount
+  useEffect(() => {
+    getERPProvider()
+      .then((p) => {
+        setProvider(p);
+        console.log("[useERPSubmission] Provider initialized");
+      })
+      .catch((error) => {
+        console.error("[useERPSubmission] Failed to initialize provider:", error);
+      });
+  }, []);
 
   const submitContact = useCallback(
     async (data: ContactFormData) => {
+      if (!provider) {
+        setState({
+          isLoading: false,
+          error: "ERP provider not initialized",
+          success: false,
+          ticketId: null,
+        });
+        return;
+      }
+
       setState({ isLoading: true, error: null, success: false, ticketId: null });
 
       try {
-        // Connect to ERP
+        // Connect to ERP if needed
         if (!provider.isConnected()) {
           await provider.connect();
         }
@@ -87,10 +108,20 @@ export function useERPSubmission(): UseERPSubmissionReturn {
 
   const submitDiagnostic = useCallback(
     async (data: DiagnosticFormData) => {
+      if (!provider) {
+        setState({
+          isLoading: false,
+          error: "ERP provider not initialized",
+          success: false,
+          ticketId: null,
+        });
+        return;
+      }
+
       setState({ isLoading: true, error: null, success: false, ticketId: null });
 
       try {
-        // Connect to ERP
+        // Connect to ERP if needed
         if (!provider.isConnected()) {
           await provider.connect();
         }
