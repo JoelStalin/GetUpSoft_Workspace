@@ -32,6 +32,8 @@ from ai_automation_orchestrator.provider_endpoints import register_provider_endp
 from ai_automation_orchestrator.providers_dashboard_section import get_providers_section_html
 from ai_automation_orchestrator.jarvis_endpoints import register_jarvis_endpoints
 from ai_automation_orchestrator.workspace_endpoints import register_workspace_endpoints
+from ai_automation_orchestrator.deploy_endpoints import register_deploy_endpoints
+from ai_automation_orchestrator.deploy_dashboard_section import get_deploy_dashboard_html
 
 
 class TestFlowRequest(BaseModel):
@@ -520,6 +522,9 @@ def create_dashboard_html(app_name: str) -> str:
         <button class="nav-btn" data-target="providers-view" title="AI Providers">
           <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"></path><polyline points="13 2 13 9 20 9"></polyline><path d="M9 15h2M9 11h6"></path></svg>
         </button>
+        <button class="nav-btn" data-target="deploy-view" title="Deploy Copilot">
+          <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline></svg>
+        </button>
         <button class="nav-btn" data-target="config-view" title="Kernel">
           <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
         </button>
@@ -614,6 +619,11 @@ def create_dashboard_html(app_name: str) -> str:
         </section>
 
         """ + get_providers_section_html() + """
+
+        <!-- DEPLOY COPILOT VIEW -->
+        <section id="deploy-view" class="view">
+          """ + get_deploy_dashboard_html() + """
+        </section>
 
       </div>
     </main>
@@ -1437,6 +1447,10 @@ def create_app(
 
     # Register workspace management endpoints
     register_workspace_endpoints(app)
+
+    # Register deploy copilot endpoints
+    workspace_root = str(Path(__file__).parent.parent.parent.parent.parent)
+    register_deploy_endpoints(app, workspace_root)
 
     return app
 
