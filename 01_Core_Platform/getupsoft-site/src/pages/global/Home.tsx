@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import { HeroCoreAnime } from "../../animations/HeroCoreAnime";
 import { useScrollReveal } from "../../animations/useAnimeScroll";
+import { FlowMedia } from "../../components/FlowMedia";
 
 const PRODUCTS = [
   {
@@ -8,30 +9,53 @@ const PRODUCTS = [
     tag: "AI Orchestration",
     desc: "Operational Real-time Cognitive Orchestrator. Connects agents, workflows and business systems into one intelligent core.",
     accent: "#A5B4FC",
+    media: {
+      mp4: "/assets/global/product/orca.mp4",
+      poster: "/assets/global/product/orca-poster.avif",
+      alt: "AI orchestration core with real-time pulses for Orca.",
+    },
   },
   {
     name: "AIHub",
     tag: "Intelligence Library",
     desc: "Centralized repository of AI blocks, automation patterns, models and workflows for enterprise deployment.",
     accent: "#C084FC",
+    media: {
+      mp4: "/assets/global/product/aihub.mp4",
+      poster: "/assets/global/product/aihub-poster.avif",
+      alt: "Secure intelligence library with modular AI blocks for AIHub.",
+    },
   },
   {
     name: "GetUpBuilder",
     tag: "Delivery Accelerator",
     desc: "Project generator and accelerator for structured, production-ready software delivery.",
     accent: "#67E8F9",
+    media: {
+      mp4: "/assets/global/product/getupbuilder.mp4",
+      poster: "/assets/global/product/getupbuilder-poster.avif",
+      alt: "Software components assembling into a structured digital product architecture.",
+    },
   },
   {
     name: "Galantes Jewelry",
     tag: "Commerce Case",
     desc: "Business case: inventory intelligence, sales analytics and digital commerce operations at scale.",
     accent: "#F0ABFC",
+    media: {
+      poster: "/assets/rd/case_study/galantes-jewelry-poster.avif",
+      alt: "Premium jewelry retail operations dashboard with inventory and sales intelligence.",
+    },
   },
   {
     name: "chefalitas",
     tag: "Food-Tech Case",
     desc: "Restaurant operations case: orders, kitchen workflow, delivery routing, inventory and analytics.",
     accent: "#6EE7B7",
+    media: {
+      poster: "/assets/rd/case_study/chefalitas-poster.avif",
+      alt: "Professional restaurant operations dashboard for orders, kitchen workflow, delivery routing, inventory and analytics.",
+    },
   },
 ];
 
@@ -124,9 +148,22 @@ export function GlobalHomePage() {
             </div>
           </div>
 
-          {/* Hero visual — anime.js powered */}
+          {/* Hero visual — Flow media layer with anime.js fallback/overlay */}
           <div className="hidden lg:flex lg:items-center lg:justify-center">
-            <HeroCoreAnime />
+            <div className="relative h-[420px] w-[460px]">
+              <FlowMedia
+                mp4="/assets/global/hero/global-hero.mp4"
+                webm="/assets/global/hero/global-hero.webm"
+                poster="/assets/global/hero/global-hero-poster.avif"
+                alt="Dark enterprise AI architecture core connecting agents, ERP, CRM, BI, automation, infrastructure, data and operations."
+                priority="high"
+                className="absolute inset-0 h-full w-full rounded-[2rem] object-cover opacity-70"
+              />
+              <div className="absolute inset-0 rounded-[2rem] bg-bg-deep/35 shadow-[inset_0_0_80px_rgba(15,17,21,0.9)]" />
+              <div className="absolute inset-0 flex items-center justify-center">
+                <HeroCoreAnime />
+              </div>
+            </div>
           </div>
         </div>
       </section>
@@ -174,6 +211,12 @@ export function GlobalHomePage() {
                 key={p.name}
                 className={`card-hover glass rounded-3xl p-8 ${i === 0 ? "sm:col-span-2 lg:col-span-2" : ""}`}
               >
+                <FlowMedia
+                  mp4={p.media.mp4}
+                  poster={p.media.poster}
+                  alt={p.media.alt}
+                  className="mb-7 aspect-video w-full rounded-2xl object-cover opacity-80"
+                />
                 <div className="flex items-start justify-between">
                   <div>
                     <p className="font-mono text-[10px] font-bold uppercase tracking-[0.2em] text-text-muted">{p.tag}</p>

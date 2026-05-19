@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import { RDCommandAnime } from "../../animations/RDCommandAnime";
 import { useScrollReveal } from "../../animations/useAnimeScroll";
+import { FlowMedia } from "../../components/FlowMedia";
 
 const SERVICES = [
   {
@@ -49,12 +50,22 @@ const CASES = [
     tag: "Retail · Inventario",
     desc: "Implementación de Odoo ERP para gestión de inventario, ventas y facturación electrónica en joyería premium.",
     accent: "#F0ABFC",
+    media: {
+      mp4: "/assets/rd/case_study/galantes-jewelry.mp4",
+      poster: "/assets/rd/case_study/galantes-jewelry-poster.avif",
+      alt: "Premium jewelry retail operations dashboard with inventory and sales intelligence.",
+    },
   },
   {
     name: "chefalitas",
     tag: "Restaurante · Food-tech",
     desc: "Sistema POS, gestión de cocina, delivery y analytics para operación de restaurante en crecimiento.",
     accent: "#6EE7B7",
+    media: {
+      mp4: "/assets/rd/case_study/chefalitas.mp4",
+      poster: "/assets/rd/case_study/chefalitas-poster.avif",
+      alt: "Professional restaurant operations dashboard for orders, kitchen workflow, delivery routing, inventory and analytics.",
+    },
   },
 ];
 
@@ -130,9 +141,22 @@ export function RDHomePage() {
             </div>
           </div>
 
-          {/* Hero visual — anime.js powered */}
+          {/* Hero visual — Flow media layer with anime.js fallback/overlay */}
           <div className="hidden lg:flex lg:items-center lg:justify-center">
-            <RDCommandAnime />
+            <div className="relative h-[520px] w-[460px]">
+              <FlowMedia
+                mp4="/assets/rd/hero/rd-hero.mp4"
+                webm="/assets/rd/hero/rd-hero.webm"
+                poster="/assets/rd/hero/rd-hero-poster.avif"
+                alt="Operational command center connecting Odoo ERP, inventory, e-CF, DGII, POS, accounting, warehouse, servers and WiFi."
+                priority="high"
+                className="absolute inset-0 h-full w-full rounded-[2rem] object-cover opacity-65"
+              />
+              <div className="absolute inset-0 rounded-[2rem] bg-bg-deep/40 shadow-[inset_0_0_90px_rgba(15,17,21,0.9)]" />
+              <div className="absolute inset-0 flex items-center justify-center">
+                <RDCommandAnime />
+              </div>
+            </div>
           </div>
         </div>
       </section>
@@ -218,6 +242,12 @@ export function RDHomePage() {
         <div className="mt-16 grid gap-6 sm:grid-cols-2">
           {CASES.map((c) => (
             <article key={c.name} className="card-hover glass rounded-3xl p-8">
+              <FlowMedia
+                mp4={c.media.mp4}
+                poster={c.media.poster}
+                alt={c.media.alt}
+                className="mb-7 aspect-video w-full rounded-2xl object-cover opacity-80"
+              />
               <div className="flex items-start justify-between">
                 <div>
                   <p className="font-mono text-[10px] font-bold uppercase tracking-[0.2em] text-text-muted">{c.tag}</p>

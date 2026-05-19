@@ -31,11 +31,11 @@
 - [x] Validación de interconexión y navegación dual con Selenium.
 - [x] Generación de evidencias visuales (Capturas de pantalla).
 
-### Nexus (Intelligence & Workers Marketplace)
-- [x] Renombrado de `AIHUB` a `Nexus`.
-- [x] Redefinición de visión: Núcleo de continuidad + Mercado de Workers.
+### AIHub (Intelligence Library)
+- [x] Normalización pública de `AIHub` como producto autorizado.
+- [x] Redefinición de visión: repositorio de bloques de inteligencia, patrones de automatización, modelos y workflows de IA.
 - [x] Integración en portales web como catálogo de servicios modulares.
-- [x] Sincronización de README con la nueva identidad de sub-marca.
+- [x] Sincronización con la nueva arquitectura pública de productos autorizados.
 
 ## 3. Estado Final del Proyecto (Hito Alcanzado)
 - [x] **Web:** 14 archivos HTML desplegados y públicos en `getupsoft.com` y `getupsoft.com.do`.

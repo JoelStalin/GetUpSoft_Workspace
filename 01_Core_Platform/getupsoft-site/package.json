@@ -7,6 +7,14 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc --noEmit && vite build",
+    "flow:prepare": "node scripts/flow-assets.mjs prepare",
+    "flow:checklist": "node scripts/flow-assets.mjs checklist",
+    "flow:check": "node scripts/flow-assets.mjs check",
+    "stitch:dry-run": "npm --prefix stitch run dry-run",
+    "stitch:generate": "npm --prefix stitch run generate",
+    "stitch:generate:global": "npm --prefix stitch run generate:global",
+    "stitch:generate:rd": "npm --prefix stitch run generate:rd",
+    "stitch:manifest": "node scripts/stitch-output-manifest.mjs",
     "preview": "vite preview",
     "preview:edge": "vite preview --host 0.0.0.0 --port 18085"
   },

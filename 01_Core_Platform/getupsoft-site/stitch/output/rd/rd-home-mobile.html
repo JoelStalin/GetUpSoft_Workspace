@@ -2,82 +2,62 @@
 
 <html class="dark" lang="es"><head>
 <meta charset="utf-8"/>
-<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<meta content="width=device-width, initial-scale=1.0, viewport-fit=cover" name="viewport"/>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;family=Plus+Jakarta+Sans:wght@300;400;500;600&amp;family=IBM+Plex+Mono:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
 <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;700&amp;family=Plus+Jakarta+Sans:wght@300;400&amp;family=JetBrains+Mono&amp;display=swap" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
-<style>
-        .material-symbols-outlined {
-            font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;
-        }
-        body {
-            background-color: #0F1115;
-            color: #dfe3e1;
-            font-family: 'Plus Jakarta Sans', sans-serif;
-        }
-        .glass-card {
-            background: rgba(22, 25, 32, 0.7);
-            backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.07);
-        }
-        .text-mint {
-            color: #99F6E4;
-        }
-    </style>
 <script id="tailwind-config">
       tailwind.config = {
         darkMode: "class",
         theme: {
           extend: {
             "colors": {
-                    "on-surface-variant": "#94A3B8",
-                    "surface-tint": "#7ad7c6",
-                    "primary": "#ffffff",
-                    "surface-variant": "#313634",
-                    "surface-bright": "#1C2028",
-                    "on-secondary-fixed-variant": "#334282",
-                    "error-container": "#93000a",
-                    "on-secondary-container": "#a2b1f9",
-                    "on-background": "#dfe3e1",
-                    "on-tertiary-container": "#56657c",
-                    "on-primary-fixed-variant": "#005046",
-                    "surface-container": "#161920",
-                    "secondary-container": "#334282",
-                    "tertiary-container": "#d3e4fe",
-                    "on-secondary": "#1a2b6a",
-                    "on-primary-fixed": "#00201b",
-                    "inverse-on-surface": "#2d3130",
-                    "secondary": "#b8c4ff",
-                    "surface-container-low": "#181d1b",
-                    "surface-container-high": "#262b2a",
-                    "on-primary": "#003730",
-                    "on-secondary-fixed": "#001354",
-                    "surface-container-lowest": "#0a0f0e",
-                    "inverse-surface": "#dfe3e1",
-                    "outline-variant": "rgba(255,255,255,0.07)",
-                    "background": "#101413",
-                    "on-error": "#690005",
-                    "on-surface": "#dfe3e1",
-                    "secondary-fixed-dim": "#b8c4ff",
-                    "tertiary-fixed-dim": "#b7c8e1",
-                    "primary-container": "#96f3e1",
-                    "on-tertiary": "#213145",
-                    "on-primary-container": "#007164",
-                    "inverse-primary": "#006b5e",
-                    "primary-fixed": "#96f3e1",
-                    "primary-fixed-dim": "#7ad7c6",
-                    "tertiary-fixed": "#d3e4fe",
-                    "tertiary": "#ffffff",
-                    "on-tertiary-fixed-variant": "#38485d",
-                    "surface-container-highest": "#313634",
-                    "on-tertiary-fixed": "#0b1c30",
-                    "outline": "rgba(255,255,255,0.12)",
-                    "error": "#ffb4ab",
-                    "surface-dim": "#101413",
+                    "secondary-fixed": "#96f3e1",
+                    "surface-dim": "#111317",
+                    "on-secondary-fixed-variant": "#005046",
+                    "secondary": "#7ad7c6",
+                    "on-secondary-fixed": "#00201b",
+                    "surface-container-high": "#282a2e",
                     "on-error-container": "#ffdad6",
-                    "surface": "#0F1115",
-                    "secondary-fixed": "#dde1ff"
+                    "tertiary-fixed": "#ffe08e",
+                    "surface-variant": "#333539",
+                    "secondary-container": "#00786a",
+                    "surface-variant": "#333539",
+                    "secondary-container": "#00786a",
+                    "surface-container-low": "#1a1c20",
+                    "on-surface": "#e2e2e8",
+                    "surface-bright": "#37393e",
+                    "tertiary": "#f5d069",
+                    "inverse-on-surface": "#2f3035",
+                    "surface-tint": "#b8c4ff",
+                    "on-primary": "#1a2b6a",
+                    "inverse-surface": "#e2e2e8",
+                    "outline-variant": "#454650",
+                    "on-primary-fixed-variant": "#334282",
+                    "primary": "#c9d1ff",
+                    "on-primary-fixed": "#001354",
+                    "primary-container": "#a5b4fc",
+                    "tertiary-container": "#d7b451",
+                    "surface-container-highest": "#333539",
+                    "on-tertiary-container": "#5a4600",
+                    "inverse-primary": "#4b5a9c",
+                    "outline": "#8f909b",
+                    "surface-container": "#1e2024",
+                    "error-container": "#93000a",
+                    "primary-fixed": "#dde1ff",
+                    "on-secondary-container": "#a0fdeb",
+                    "secondary-fixed-dim": "#7ad7c6",
+                    "on-error": "#690005",
+                    "on-tertiary-fixed": "#241a00",
+                    "primary-fixed-dim": "#b8c4ff",
+                    "on-tertiary": "#3d2e00",
+                    "error": "#ffb4ab",
+                    "on-secondary": "#003730",
+                    "surface": "#111317",
+                    "on-background": "#e2e2e8",
+                    "on-surface-variant": "#c6c5d2",
+                    "on-tertiary-fixed-variant": "#584400"
             },
             "borderRadius": {
                     "DEFAULT": "0.25rem",
@@ -86,270 +66,289 @@
                     "full": "9999px"
             },
             "spacing": {
-                    "stack-md": "1.5rem",
-                    "gutter": "1rem",
-                    "stack-sm": "0.5rem",
-                    "section-v": "4rem",
-                    "max-width": "1280px"
+                    "xs": "4px",
+                    "margin-mobile": "20px",
+                    "gutter": "16px",
+                    "unit": "4px",
+                    "md": "16px",
+                    "sm": "8px",
+                    "xl": "40px",
+                    "lg": "24px"
             },
             "fontFamily": {
-                    "label-sm": ["JetBrains Mono"],
-                    "headline-md": ["Space Grotesk"],
-                    "headline-lg": ["Space Grotesk"],
+                    "headline-lg-mobile": ["Space Grotesk"],
+                    "body-sm": ["Plus Jakarta Sans"],
+                    "label-mono": ["IBM Plex Mono"],
+                    "display-xl": ["Space Grotesk"],
                     "body-md": ["Plus Jakarta Sans"],
-                    "display-lg": ["Space Grotesk"],
-                    "body-lg": ["Plus Jakarta Sans"]
+                    "headline-lg": ["Space Grotesk"],
+                    "tag-mono": ["IBM Plex Mono"]
             },
             "fontSize": {
-                    "label-sm": ["10px", {"lineHeight": "1", "letterSpacing": "0.15em", "fontWeight": "400"}],
-                    "headline-md": ["24px", {"lineHeight": "1.2", "fontWeight": "300"}],
-                    "headline-lg": ["32px", {"lineHeight": "1.2", "letterSpacing": "-0.01em", "fontWeight": "300"}],
-                    "body-md": ["16px", {"lineHeight": "1.6", "fontWeight": "300"}],
-                    "display-lg": ["40px", {"lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "300"}],
-                    "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "300"}]
+                    "headline-lg-mobile": ["28px", {"lineHeight": "1.2", "fontWeight": "300"}],
+                    "body-sm": ["14px", {"lineHeight": "1.6", "fontWeight": "300"}],
+                    "label-mono": ["10px", {"lineHeight": "12px", "letterSpacing": "0.15em", "fontWeight": "500"}],
+                    "display-xl": ["40px", {"lineHeight": "1.1", "letterSpacing": "-0.04em", "fontWeight": "300"}],
+                    "body-md": ["16px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                    "headline-lg": ["32px", {"lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "300"}],
+                    "tag-mono": ["10px", {"lineHeight": "12px", "letterSpacing": "0.1em", "fontWeight": "600"}]
             }
           },
         },
       }
     </script>
-</head>
-<body class="bg-surface text-on-surface">
-<!-- TopAppBar -->
-<header class="fixed top-0 w-full z-50 bg-surface/70 backdrop-blur-md border-b border-outline-variant flex items-center justify-between px-4 h-16">
-<div class="flex items-center gap-3">
-<span class="material-symbols-outlined text-primary-fixed-dim" data-icon="menu">menu</span>
-<img alt="getupsoft RD" class="h-6" src="https://lh3.googleusercontent.com/aida/ADBb0uhKvw3Zppt27w4ONiZZ1bNwHHH3pdGTbUK9E7g37eCslfOLZdEnwhlopOnmf4ki9SwER69nsJTba1tskUkz-D8oG8IpReR7R5tXH9Aoldf_rBjsXo7HslJ11_WzQMMnVcv5vtEn8de2VC9tIr4a95ilGSyfZ0s06lCnNh4ciTOhZkBB1FsJ1XfjhSiCYYql0_SqlwDHwNrDBOxEtqkT4FrdCfTXjmSjb7oXSGXhhOeLtpI60ilthWjjjw"/>
-</div>
+<style>
+        body {
+            background-color: #0c0e12;
+            color: #e2e2e8;
+            -webkit-font-smoothing: antialiased;
+        }
+        .glass-card {
+            background: rgba(22, 25, 32, 0.7);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-top: 1px solid rgba(255, 255, 255, 0.12);
+        }
+        .mint-glow {
+            box-shadow: 0 0 20px rgba(153, 246, 228, 0.1);
+        }
+        .scroll-hide::-webkit-scrollbar {
+            display: none;
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="font-body-md text-body-md overflow-x-hidden">
+<!-- Top Navigation Shell -->
+<header class="fixed top-0 w-full z-50 bg-surface/70 backdrop-blur-xl border-b border-outline-variant/30 flex items-center justify-between px-margin-mobile h-16 w-full">
+<div class="font-headline-lg-mobile text-headline-lg-mobile font-light text-on-surface italic tracking-tight">getupsoft RD</div>
 <div class="flex items-center gap-4">
-<span class="material-symbols-outlined text-on-surface-variant" data-icon="search">search</span>
+<button class="text-primary hover:opacity-80 transition-opacity active:scale-95 transition-transform">
+<span class="material-symbols-outlined" data-icon="search">search</span>
+</button>
+<button class="text-primary hover:opacity-80 transition-opacity active:scale-95 transition-transform">
+<span class="material-symbols-outlined" data-icon="menu">menu</span>
+</button>
 </div>
 </header>
-<main class="pt-16 pb-24">
+<main class="pt-24 pb-32">
 <!-- Hero Section -->
-<section class="px-4 py-12 flex flex-col gap-6">
-<h1 class="font-headline-lg text-display-lg text-primary tracking-tight">
-                Infraestructura y gestión para el éxito <span class="italic text-mint font-bold text-primary-fixed-dim">local</span>
+<section class="px-margin-mobile mb-xl">
+<div class="font-label-mono text-label-mono text-secondary mb-sm uppercase tracking-widest">// SOLUCIONES LOCALES</div>
+<h1 class="font-headline-lg-mobile text-headline-lg-mobile text-on-surface mb-md">
+                Infraestructura y gestión para el éxito <span class="italic text-secondary">local</span>
 </h1>
-<p class="font-body-md text-body-md text-on-surface-variant">
-                Implementamos Odoo ERP, facturación electrónica e infraestructura empresarial para que tu operación funcione sin interrupciones en la República Dominicana.
+<p class="font-body-sm text-body-sm text-on-surface-variant mb-lg leading-relaxed">
+                Implementamos Odoo ERP, facturación electrónica e infraestructura empresarial para que tu operación en la República Dominicana sea eficiente y segura.
             </p>
-<button class="w-full bg-primary-fixed-dim text-on-primary-fixed font-label-sm text-label-sm uppercase py-4 rounded-full tracking-widest font-bold hover:opacity-90 transition-opacity active:scale-95">
+<button class="w-full py-4 px-lg bg-secondary text-on-secondary font-tag-mono text-tag-mono rounded-full uppercase tracking-widest hover:opacity-90 active:scale-95 transition-all mb-lg mint-glow">
                 SOLICITAR DIAGNÓSTICO
             </button>
-</section>
 <!-- Status Pills -->
-<section class="px-4 overflow-x-auto whitespace-nowrap flex gap-3 no-scrollbar pb-4">
-<div class="inline-flex items-center gap-2 glass-card rounded-full px-4 py-2">
-<div class="w-2 h-2 rounded-full bg-primary-fixed-dim"></div>
-<span class="font-label-sm text-label-sm text-on-surface">Odoo ERP: 92%</span>
+<div class="flex gap-sm overflow-x-auto scroll-hide pb-2">
+<div class="glass-card flex items-center gap-2 px-4 py-2 rounded-full whitespace-nowrap">
+<div class="w-1.5 h-1.5 rounded-full bg-secondary animate-pulse"></div>
+<span class="font-label-mono text-label-mono">Odoo ERP: 92%</span>
 </div>
-<div class="inline-flex items-center gap-2 glass-card rounded-full px-4 py-2">
-<div class="w-2 h-2 rounded-full bg-primary-fixed-dim"></div>
-<span class="font-label-sm text-label-sm text-on-surface">Facturación: 88%</span>
+<div class="glass-card flex items-center gap-2 px-4 py-2 rounded-full whitespace-nowrap">
+<div class="w-1.5 h-1.5 rounded-full bg-secondary animate-pulse"></div>
+<span class="font-label-mono text-label-mono">Facturación: 88%</span>
 </div>
-<div class="inline-flex items-center gap-2 glass-card rounded-full px-4 py-2">
-<div class="w-2 h-2 rounded-full bg-primary-fixed-dim"></div>
-<span class="font-label-sm text-label-sm text-on-surface">Infraestructura: 100%</span>
-</div>
-</section>
-<!-- The Challenge -->
-<section class="px-4 py-16 bg-surface-container-low/50">
-<div class="mb-8">
-<span class="font-label-sm text-label-sm text-primary-fixed-dim uppercase tracking-widest block mb-2">EL RETO</span>
-<h2 class="font-headline-md text-headline-lg text-primary">Sistemas <span class="italic font-light">desconectados</span></h2>
-</div>
-<div class="flex flex-col gap-3">
-<div class="glass-card p-5 rounded-xl flex items-center gap-4">
-<span class="material-symbols-outlined text-primary-fixed-dim" data-icon="speed">speed</span>
-<span class="font-body-md text-body-md">Sistemas legados lentos</span>
-</div>
-<div class="glass-card p-5 rounded-xl flex items-center gap-4">
-<span class="material-symbols-outlined text-primary-fixed-dim" data-icon="hub">hub</span>
-<span class="font-body-md text-body-md">Falta de integración ERP</span>
-</div>
-<div class="glass-card p-5 rounded-xl flex items-center gap-4">
-<span class="material-symbols-outlined text-primary-fixed-dim" data-icon="receipt">receipt</span>
-<span class="font-body-md text-body-md">Incumplimiento de facturación e-CF</span>
-</div>
-<div class="glass-card p-5 rounded-xl flex items-center gap-4">
-<span class="material-symbols-outlined text-primary-fixed-dim" data-icon="wifi_off">wifi_off</span>
-<span class="font-body-md text-body-md">Caídas constantes de red</span>
+<div class="glass-card flex items-center gap-2 px-4 py-2 rounded-full whitespace-nowrap">
+<div class="w-1.5 h-1.5 rounded-full bg-secondary animate-pulse"></div>
+<span class="font-label-mono text-label-mono">Sistemas: 100%</span>
 </div>
 </div>
 </section>
-<!-- Services Section -->
-<section class="px-4 py-16">
-<div class="mb-8">
-<span class="font-label-sm text-label-sm text-primary-fixed-dim uppercase tracking-widest block mb-2">CAPACIDADES</span>
-<h2 class="font-headline-md text-headline-lg text-primary">Ecosistema de <span class="italic font-light">Servicios</span></h2>
+<!-- The Challenge Section -->
+<section class="px-margin-mobile mb-xl">
+<div class="font-label-mono text-label-mono text-outline mb-sm tracking-widest">// EL RETO</div>
+<h2 class="font-headline-lg-mobile text-headline-lg-mobile text-on-surface mb-lg">
+                Sistemas <span class="italic text-secondary">desconectados</span>
+</h2>
+<div class="space-y-md">
+<div class="glass-card p-lg rounded-xl flex items-center gap-md">
+<span class="material-symbols-outlined text-secondary" data-icon="history">history</span>
+<span class="font-body-md text-body-md text-on-surface">Sistemas legados lentos</span>
 </div>
-<div class="flex flex-col gap-4">
-<div class="glass-card p-6 rounded-2xl relative overflow-hidden">
-<div class="relative z-10">
-<h3 class="font-headline-md text-headline-md mb-2">Odoo ERP</h3>
-<p class="font-body-md text-body-md text-on-surface-variant">Gestión centralizada para PyMEs y Corporativos.</p>
+<div class="glass-card p-lg rounded-xl flex items-center gap-md">
+<span class="material-symbols-outlined text-secondary" data-icon="hub">hub</span>
+<span class="font-body-md text-body-md text-on-surface">Falta de integración ERP</span>
 </div>
-<span class="absolute -right-4 -bottom-4 material-symbols-outlined text-primary-fixed-dim/10 text-8xl" data-icon="business_center">business_center</span>
-</div>
-<div class="glass-card p-6 rounded-2xl relative overflow-hidden">
-<div class="relative z-10">
-<h3 class="font-headline-md text-headline-md mb-2">Facturación Electrónica</h3>
-<p class="font-body-md text-body-md text-on-surface-variant">Cumplimiento fiscal con DGII sin fricciones.</p>
-</div>
-<span class="absolute -right-4 -bottom-4 material-symbols-outlined text-primary-fixed-dim/10 text-8xl" data-icon="history_edu">history_edu</span>
-</div>
-<div class="glass-card p-6 rounded-2xl relative overflow-hidden">
-<div class="relative z-10">
-<h3 class="font-headline-md text-headline-md mb-2">Infraestructura</h3>
-<p class="font-body-md text-body-md text-on-surface-variant">Servidores y cloud para alta disponibilidad.</p>
-</div>
-<span class="absolute -right-4 -bottom-4 material-symbols-outlined text-primary-fixed-dim/10 text-8xl" data-icon="dns">dns</span>
-</div>
-<div class="glass-card p-6 rounded-2xl relative overflow-hidden">
-<div class="relative z-10">
-<h3 class="font-headline-md text-headline-md mb-2">Redes Empresariales</h3>
-<p class="font-body-md text-body-md text-on-surface-variant">Conectividad robusta y segura punto a punto.</p>
-</div>
-<span class="absolute -right-4 -bottom-4 material-symbols-outlined text-primary-fixed-dim/10 text-8xl" data-icon="router">router</span>
+<div class="glass-card p-lg rounded-xl flex items-center gap-md">
+<span class="material-symbols-outlined text-secondary" data-icon="fact_check">fact_check</span>
+<span class="font-body-md text-body-md text-on-surface">Incumplimiento de e-CF</span>
 </div>
 </div>
 </section>
-<!-- Sectores -->
-<section class="px-4 py-16 bg-surface-container">
-<div class="mb-8">
-<span class="font-label-sm text-label-sm text-primary-fixed-dim uppercase tracking-widest block mb-2">ESPECIALIZADOS</span>
-<h2 class="font-headline-md text-headline-lg text-primary">Sectores en <span class="italic font-light">RD</span></h2>
+<!-- Services Section (Capabilities) -->
+<section class="px-margin-mobile mb-xl">
+<div class="font-label-mono text-label-mono text-outline mb-sm tracking-widest">// CAPACIDADES</div>
+<h2 class="font-headline-lg-mobile text-headline-lg-mobile text-on-surface mb-lg">
+                Ecosistema de <span class="italic text-secondary">Servicios</span>
+</h2>
+<div class="grid grid-cols-1 gap-md">
+<!-- Service 1 -->
+<div class="glass-card p-lg rounded-2xl relative overflow-hidden group">
+<div class="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
+<span class="material-symbols-outlined text-[4rem]" data-icon="settings_suggest">settings_suggest</span>
 </div>
-<div class="flex flex-wrap gap-2">
-<span class="px-5 py-2 rounded-full border border-outline-variant font-label-sm text-label-sm text-on-surface-variant">DISTRIBUIDORAS</span>
-<span class="px-5 py-2 rounded-full border border-outline-variant font-label-sm text-label-sm text-on-surface-variant">RETAIL</span>
-<span class="px-5 py-2 rounded-full border border-outline-variant font-label-sm text-label-sm text-on-surface-variant">FERRETERÍAS</span>
-<span class="px-5 py-2 rounded-full border border-outline-variant font-label-sm text-label-sm text-on-surface-variant">RESTAURANTES</span>
-<span class="px-5 py-2 rounded-full border border-outline-variant font-label-sm text-label-sm text-on-surface-variant">LOGÍSTICA</span>
+<div class="font-tag-mono text-tag-mono text-secondary mb-sm uppercase">Odoo ERP</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Gestión centralizada para PyMEs y Corporativos.</p>
+</div>
+<!-- Service 2 -->
+<div class="glass-card p-lg rounded-2xl relative overflow-hidden group">
+<div class="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
+<span class="material-symbols-outlined text-[4rem]" data-icon="receipt_long">receipt_long</span>
+</div>
+<div class="font-tag-mono text-tag-mono text-secondary mb-sm uppercase">Facturación Electrónica</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Certificación nativa ante la DGII.</p>
+</div>
+<!-- Service 3 -->
+<div class="glass-card p-lg rounded-2xl relative overflow-hidden group">
+<div class="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
+<span class="material-symbols-outlined text-[4rem]" data-icon="cloud">cloud</span>
+</div>
+<div class="font-tag-mono text-tag-mono text-secondary mb-sm uppercase">Infraestructura</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Servidores y cloud para alta disponibilidad.</p>
+</div>
+<!-- Service 4 -->
+<div class="glass-card p-lg rounded-2xl relative overflow-hidden group">
+<div class="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
+<span class="material-symbols-outlined text-[4rem]" data-icon="lan">lan</span>
+</div>
+<div class="font-tag-mono text-tag-mono text-secondary mb-sm uppercase">Redes</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Conectividad robusta para empresas locales.</p>
+</div>
 </div>
 </section>
-<!-- Success Cards -->
-<section class="px-4 py-16">
-<div class="flex flex-col gap-6">
-<div class="glass-card rounded-2xl overflow-hidden">
-<div class="h-48 bg-surface-container-high relative">
-<div class="absolute inset-0 bg-gradient-to-t from-surface to-transparent"></div>
-<img class="w-full h-full object-cover" data-alt="A high-end luxury jewelry storefront with sophisticated dark lighting and emerald accents. The atmosphere is exclusive and professional, featuring premium product displays and a minimalist interior design that reflects a high-corporate modern aesthetic in a dark-mode environment." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDGER0mWLnKx1d7_95DaWz9ABLD0Brwxt5LVX0mwUt6gsC3FqKX9MjycZdx4RA0IYvQKTxdRPojQbuDqBH_vwDwYR5iFJTpk8RRheav86w2cQ0dLtgHJJ6jHXe_h6Gy-Sbcqysdt_v5D8NsU3khDB_EZ7As7yKop6pLh5W1LCqis68DtbO8A0jeaZI4aFOXAvuiVBSh7FehF6oIBvayi6LPAX1wkJTghEeRSu3uUHgUGGcwictZnqYW5zBNATPozstSxYrRBIqpMzI"/>
+<!-- Sectores Section -->
+<section class="px-margin-mobile mb-xl">
+<div class="font-label-mono text-label-mono text-outline mb-sm tracking-widest">// ESPECIALIZADOS</div>
+<h2 class="font-headline-lg-mobile text-headline-lg-mobile text-on-surface mb-lg">
+                Sectores en <span class="italic text-secondary">RD</span>
+</h2>
+<div class="flex flex-wrap gap-sm">
+<span class="px-4 py-2 border border-outline-variant/30 rounded-full font-label-mono text-label-mono hover:border-secondary transition-colors cursor-default">Distribuidoras</span>
+<span class="px-4 py-2 border border-outline-variant/30 rounded-full font-label-mono text-label-mono hover:border-secondary transition-colors cursor-default">Retail</span>
+<span class="px-4 py-2 border border-outline-variant/30 rounded-full font-label-mono text-label-mono hover:border-secondary transition-colors cursor-default">Ferreterías</span>
+<span class="px-4 py-2 border border-outline-variant/30 rounded-full font-label-mono text-label-mono hover:border-secondary transition-colors cursor-default">Restaurantes</span>
+<span class="px-4 py-2 border border-outline-variant/30 rounded-full font-label-mono text-label-mono hover:border-secondary transition-colors cursor-default">Logística</span>
+<span class="px-4 py-2 border border-outline-variant/30 rounded-full font-label-mono text-label-mono hover:border-secondary transition-colors cursor-default">Servicios</span>
 </div>
-<div class="p-6">
-<div class="flex justify-between items-start mb-4">
+</section>
+<!-- Methodology Section -->
+<section class="px-margin-mobile mb-xl">
+<div class="font-label-mono text-label-mono text-outline mb-sm tracking-widest">// METODOLOGÍA</div>
+<h2 class="font-headline-lg-mobile text-headline-lg-mobile text-on-surface mb-lg">
+                El camino al <span class="italic text-secondary">éxito</span>
+</h2>
+<div class="relative space-y-xl">
+<!-- Visual Vertical Line -->
+<div class="absolute left-[7px] top-4 bottom-4 w-[1px] bg-outline-variant/30"></div>
+<div class="relative flex items-start gap-lg pl-8">
+<div class="absolute left-0 top-1 w-4 h-4 rounded-full border border-secondary bg-surface"></div>
 <div>
-<h3 class="font-headline-md text-headline-md text-primary">Galantes Jewelry</h3>
-<p class="font-body-md text-body-md text-on-surface-variant">Luxury Retail</p>
+<div class="font-tag-mono text-tag-mono text-secondary mb-xs uppercase">01 Diagnóstico</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Evaluación profunda de procesos y brechas digitales.</p>
 </div>
-<span class="text-mint material-symbols-outlined" data-icon="verified" style="font-variation-settings: 'FILL' 1;">verified</span>
 </div>
-<div class="flex gap-4 border-t border-outline-variant pt-4">
+<div class="relative flex items-start gap-lg pl-8">
+<div class="absolute left-0 top-1 w-4 h-4 rounded-full border border-secondary bg-surface"></div>
 <div>
-<p class="font-label-sm text-label-sm text-on-surface-variant mb-1">EFICIENCIA</p>
-<p class="font-headline-md text-headline-md text-primary-fixed-dim">+40%</p>
-</div>
-<div class="border-l border-outline-variant pl-4">
-<p class="font-label-sm text-label-sm text-on-surface-variant mb-1">SOPORTE</p>
-<p class="font-headline-md text-headline-md text-primary-fixed-dim">24/7</p>
+<div class="font-tag-mono text-tag-mono text-secondary mb-xs uppercase">02 Diseño</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Arquitectura a medida integrando software y hardware.</p>
 </div>
 </div>
-</div>
-</div>
-<div class="glass-card rounded-2xl overflow-hidden">
-<div class="h-48 bg-surface-container-high relative">
-<div class="absolute inset-0 bg-gradient-to-t from-surface to-transparent"></div>
-<img class="w-full h-full object-cover" data-alt="A busy commercial kitchen in a top-tier restaurant environment, showing professional stainless steel equipment and organized workflow. The lighting is clean and dramatic, focusing on technical precision and food industry logistics. The visual style is enterprise-grade and fits a dark, premium corporate identity." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDwCd0moIYKmNhSvZBMhKk9RtN5xgiK3trY5gk2y5J8J3dQLIFtNt4cGMHFEww3F2ulmID7iVv4fDcVHnFmB_chVy6FrAY_WmOWqwD001xE5B_9ZPm0Qgt-alsa4nOpx7-z-tUE84_UQqnOMUvI36h3DKIAkatQkal3GCt8nXn0B98CJsztzDlKlfKE3zFKHeDjuxxFBbMDVPNbWE6dICKiRd-lYnG8P2-aflqQ6lnanVYzs4xaWup44jn3tNS8twXWE6Rh91NjCDo"/>
-</div>
-<div class="p-6">
-<div class="flex justify-between items-start mb-4">
+<div class="relative flex items-start gap-lg pl-8">
+<div class="absolute left-0 top-1 w-4 h-4 rounded-full border border-secondary bg-surface"></div>
 <div>
-<h3 class="font-headline-md text-headline-md text-primary">chefalitas</h3>
-<p class="font-body-md text-body-md text-on-surface-variant">Food Industry</p>
-</div>
-<span class="text-mint material-symbols-outlined" data-icon="verified" style="font-variation-settings: 'FILL' 1;">verified</span>
-</div>
-<div class="flex gap-4 border-t border-outline-variant pt-4">
-<div>
-<p class="font-label-sm text-label-sm text-on-surface-variant mb-1">ORDERS</p>
-<p class="font-headline-md text-headline-md text-primary-fixed-dim">10K+</p>
-</div>
-<div class="border-l border-outline-variant pl-4">
-<p class="font-label-sm text-label-sm text-on-surface-variant mb-1">REDUCCIÓN COSTOS</p>
-<p class="font-headline-md text-headline-md text-primary-fixed-dim">15%</p>
-</div>
-</div>
+<div class="font-tag-mono text-tag-mono text-secondary mb-xs uppercase">03 Implementación</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Puesta en marcha asistida con soporte continuo.</p>
 </div>
 </div>
 </div>
 </section>
-<!-- Methodology -->
-<section class="px-4 py-16 bg-surface-container-lowest">
-<div class="mb-10">
-<span class="font-label-sm text-label-sm text-primary-fixed-dim uppercase tracking-widest block mb-2">METODOLOGÍA</span>
-<h2 class="font-headline-md text-headline-lg text-primary">El camino al <span class="italic font-light">éxito</span></h2>
+<!-- Final CTA Section -->
+<section class="px-margin-mobile mb-xl">
+<div class="glass-card p-xl rounded-3xl text-center relative overflow-hidden">
+<div class="absolute inset-0 opacity-5 pointer-events-none">
+<div class="absolute top-0 left-0 w-full h-full bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-secondary via-transparent to-transparent"></div>
 </div>
-<div class="flex flex-col gap-12">
-<div class="flex gap-6">
-<span class="font-headline-lg text-primary-fixed-dim opacity-40">01</span>
-<div>
-<h4 class="font-headline-md text-headline-md text-primary mb-2">Diagnóstico</h4>
-<p class="font-body-md text-body-md text-on-surface-variant">Auditoría técnica de tus sistemas actuales y flujos de trabajo.</p>
+<h2 class="font-headline-lg-mobile text-headline-lg-mobile text-on-surface mb-lg">
+                    Evalúa tu infraestructura hoy
+                </h2>
+<button class="w-full py-4 px-lg bg-secondary text-on-secondary font-tag-mono text-tag-mono rounded-full uppercase tracking-widest hover:scale-[1.02] active:scale-95 transition-all mint-glow">
+                    EMPEZAR DIAGNÓSTICO GRATUITO
+                </button>
 </div>
-</div>
-<div class="flex gap-6">
-<span class="font-headline-lg text-primary-fixed-dim opacity-40">02</span>
-<div>
-<h4 class="font-headline-md text-headline-md text-primary mb-2">Diseño</h4>
-<p class="font-body-md text-body-md text-on-surface-variant">Arquitectura a medida de Odoo e infraestructura de red.</p>
-</div>
-</div>
-<div class="flex gap-6">
-<span class="font-headline-lg text-primary-fixed-dim opacity-40">03</span>
-<div>
-<h4 class="font-headline-md text-headline-md text-primary mb-2">Implementación</h4>
-<p class="font-body-md text-body-md text-on-surface-variant">Migración de datos y capacitación del equipo operativo.</p>
-</div>
-</div>
-</div>
-</section>
-<!-- Final CTA -->
-<section class="px-4 py-20 text-center">
-<h2 class="font-headline-lg text-display-lg text-primary mb-8 leading-tight">Evalúa tu infraestructura <span class="italic text-primary-fixed-dim">hoy</span></h2>
-<button class="w-full bg-primary-fixed-dim text-on-primary-fixed font-label-sm text-label-sm uppercase py-5 rounded-full tracking-widest font-extrabold shadow-xl shadow-primary-fixed-dim/10 active:scale-95 transition-transform">
-                EMPEZAR DIAGNÓSTICO GRATUITO
-            </button>
 </section>
 </main>
-<!-- Footer -->
-<footer class="w-full border-t border-outline-variant py-12 px-4 flex flex-col items-center gap-8 bg-surface-container-lowest">
-<img alt="getupsoft RD" class="h-8" src="https://lh3.googleusercontent.com/aida/ADBb0uhKvw3Zppt27w4ONiZZ1bNwHHH3pdGTbUK9E7g37eCslfOLZdEnwhlopOnmf4ki9SwER69nsJTba1tskUkz-D8oG8IpReR7R5tXH9Aoldf_rBjsXo7HslJ11_WzQMMnVcv5vtEn8de2VC9tIr4a95ilGSyfZ0s06lCnNh4ciTOhZkBB1FsJ1XfjhSiCYYql0_SqlwDHwNrDBOxEtqkT4FrdCfTXjmSjb7oXSGXhhOeLtpI60ilthWjjjw"/>
-<div class="flex gap-6">
-<a class="font-label-sm text-label-sm text-on-surface-variant hover:text-primary-fixed-dim transition-colors" href="#">Privacidad</a>
-<a class="font-label-sm text-label-sm text-on-surface-variant hover:text-primary-fixed-dim transition-colors" href="#">Términos</a>
-<a class="font-label-sm text-label-sm text-on-surface-variant hover:text-primary-fixed-dim transition-colors" href="#">Soporte</a>
+<!-- Footer Shell -->
+<footer class="w-full mb-20 border-t border-outline-variant/20 bg-surface-container-lowest flex flex-col items-center py-lg px-margin-mobile space-y-md text-center">
+<div class="font-headline-lg-mobile text-headline-lg-mobile text-on-surface italic">getupsoft RD</div>
+<div class="flex gap-md">
+<a class="font-label-mono text-label-mono text-on-surface-variant hover:text-secondary transition-colors" href="#">Privacidad</a>
+<a class="font-label-mono text-label-mono text-on-surface-variant hover:text-secondary transition-colors" href="#">Términos</a>
+<a class="font-label-mono text-label-mono text-on-surface-variant hover:text-secondary transition-colors" href="#">Soporte</a>
 </div>
-<p class="font-label-sm text-label-sm text-on-surface-variant text-center opacity-60">
-            © 2024 GetUpSoft RD. All rights reserved.
-        </p>
+<p class="font-body-sm text-body-sm text-on-surface-variant">© 2024 GetUpSoft RD</p>
 </footer>
-<!-- BottomNavBar (Mobile) -->
-<nav class="fixed bottom-0 w-full h-20 bg-surface/80 backdrop-blur-xl flex items-center justify-around px-4 border-t border-outline-variant z-50 md:hidden">
-<button class="flex flex-col items-center gap-1 text-primary-fixed-dim">
-<span class="material-symbols-outlined" data-icon="home" style="font-variation-settings: 'FILL' 1;">home</span>
-<span class="font-label-sm text-[8px] uppercase tracking-tighter">Inicio</span>
-</button>
-<button class="flex flex-col items-center gap-1 text-on-surface-variant">
-<span class="material-symbols-outlined" data-icon="business_center">business_center</span>
-<span class="font-label-sm text-[8px] uppercase tracking-tighter">Odoo</span>
-</button>
-<button class="flex flex-col items-center gap-1 text-on-surface-variant">
-<span class="material-symbols-outlined" data-icon="router">router</span>
-<span class="font-label-sm text-[8px] uppercase tracking-tighter">Redes</span>
-</button>
-<button class="flex flex-col items-center gap-1 text-on-surface-variant">
+<!-- Bottom Navigation Shell -->
+<nav class="fixed bottom-0 w-full z-50 bg-surface-container/80 backdrop-blur-xl border-t border-outline-variant/30 flex justify-around items-center h-20 px-4 pb-safe">
+<div class="flex flex-col items-center justify-center text-secondary bg-secondary/10 rounded-xl px-3 py-1 scale-90 transition-all duration-200">
+<span class="material-symbols-outlined" data-icon="home">home</span>
+<span class="font-label-mono text-label-mono">Inicio</span>
+</div>
+<div class="flex flex-col items-center justify-center text-on-surface-variant hover:bg-surface-variant/50 rounded-xl px-3 py-1 transition-all">
+<span class="material-symbols-outlined" data-icon="settings_suggest">settings_suggest</span>
+<span class="font-label-mono text-label-mono">Odoo</span>
+</div>
+<div class="flex flex-col items-center justify-center text-on-surface-variant hover:bg-surface-variant/50 rounded-xl px-3 py-1 transition-all">
+<span class="material-symbols-outlined" data-icon="lan">lan</span>
+<span class="font-label-mono text-label-mono">Redes</span>
+</div>
+<div class="flex flex-col items-center justify-center text-on-surface-variant hover:bg-surface-variant/50 rounded-xl px-3 py-1 transition-all">
 <span class="material-symbols-outlined" data-icon="groups">groups</span>
-<span class="font-label-sm text-[8px] uppercase tracking-tighter">Nosotros</span>
-</button>
+<span class="font-label-mono text-label-mono">Nosotros</span>
+</div>
 </nav>
+<script>
+        // Subtle micro-interactions
+        document.querySelectorAll('.glass-card').forEach(card => {
+            card.addEventListener('touchstart', () => {
+                card.style.transform = 'scale(0.98)';
+                card.style.transition = 'transform 0.2s cubic-bezier(0.4, 0, 0.2, 1)';
+            });
+            card.addEventListener('touchend', () => {
+                card.style.transform = 'scale(1)';
+            });
+        });
+
+        // Simple visibility observer for entrance animations
+        const observerOptions = {
+            threshold: 0.1
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('opacity-100');
+                    entry.target.classList.remove('opacity-0', 'translate-y-4');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('section').forEach(section => {
+            section.classList.add('transition-all', 'duration-700', 'opacity-0', 'translate-y-4');
+            observer.observe(section);
+        });
+    </script>
 </body></html>

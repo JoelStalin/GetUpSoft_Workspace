@@ -3,312 +3,324 @@
 <html class="dark" lang="es"><head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>Facturación Electrónica | GetUpSoft RD</title>
+<title>Odoo ERP | GetUpSoft RD</title>
 <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;700&amp;family=Plus+Jakarta+Sans:wght@300;400;500&amp;family=IBM+Plex+Mono:wght@400;500&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;family=Plus+Jakarta+Sans:wght@400;500;600&amp;family=JetBrains+Mono:wght@500;700&amp;display=swap" rel="stylesheet"/>
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
-<style>
-        .material-symbols-outlined {
-            font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;
-        }
-        .italic-accent em {
-            font-style: italic;
-            font-family: inherit;
-        }
-        .glass-card {
-            background: rgba(19, 19, 23, 0.7);
-            backdrop-filter: blur(20px);
-            border: 1px solid rgba(69, 70, 80, 0.3);
-        }
-        .glow-accent {
-            background: radial-gradient(circle at center, rgba(184, 196, 255, 0.08) 0%, transparent 70%);
-        }
-    </style>
 <script id="tailwind-config">
         tailwind.config = {
             darkMode: "class",
             theme: {
                 extend: {
                     "colors": {
-                        "secondary-fixed-dim": "#7ad7c6",
-                        "on-tertiary": "#3d2e00",
-                        "surface": "#131317",
-                        "primary-fixed-dim": "#b8c4ff",
-                        "tertiary-fixed": "#ffe08e",
-                        "on-error-container": "#ffdad6",
-                        "outline-variant": "#454650",
-                        "inverse-on-surface": "#303035",
+                        "secondary": "#b8c4ff",
+                        "surface": "#0F1115",
+                        "on-surface-variant": "#94A3B8",
+                        "background": "#101413",
+                        "surface-container-low": "#181d1b",
+                        "outline-variant": "rgba(255, 255, 255, 0.07)",
                         "error-container": "#93000a",
-                        "surface-container-high": "#292a2e",
-                        "on-secondary-fixed": "#00201b",
-                        "surface-container-low": "#1b1b20",
-                        "on-tertiary-container": "#5a4600",
-                        "surface-bright": "#39393e",
-                        "secondary": "#7ad7c6",
-                        "on-primary-fixed-variant": "#334282",
-                        "on-secondary-fixed-variant": "#005046",
-                        "error": "#ffb4ab",
-                        "on-tertiary-fixed": "#241a00",
-                        "on-background": "#e4e1e8",
-                        "inverse-primary": "#4b5a9c",
-                        "secondary-container": "#00786a",
-                        "primary": "#c9d1ff",
-                        "on-primary": "#1a2b6a",
-                        "surface-variant": "#343439",
-                        "on-surface": "#e4e1e8",
-                        "surface-container-highest": "#343439",
-                        "on-primary-container": "#354484",
-                        "primary-container": "#a5b4fc",
-                        "surface-dim": "#131317",
-                        "inverse-surface": "#e4e1e8",
-                        "tertiary": "#f5d069",
-                        "on-secondary-container": "#a0fdeb",
-                        "surface-container-lowest": "#0d0e12",
-                        "tertiary-container": "#d7b451",
-                        "primary-fixed": "#dde1ff",
-                        "background": "#131317",
-                        "tertiary-fixed-dim": "#e7c35e",
-                        "on-surface-variant": "#c6c5d2",
-                        "on-secondary": "#003730",
-                        "surface-tint": "#b8c4ff",
-                        "surface-container": "#1f1f24",
-                        "on-primary-fixed": "#001354",
-                        "secondary-fixed": "#96f3e1",
+                        "outline": "#879390",
+                        "on-tertiary-fixed-variant": "#574502",
+                        "surface-container": "#161920",
+                        "secondary-container": "#334282",
+                        "tertiary": "#ffffff",
+                        "surface-variant": "#313634",
                         "on-error": "#690005",
-                        "on-tertiary-fixed-variant": "#584400",
-                        "outline": "#8f909b"
+                        "on-tertiary": "#3c2f00",
+                        "on-error-container": "#ffdad6",
+                        "error": "#ffb4ab",
+                        "on-tertiary-container": "#776220",
+                        "on-primary-fixed-variant": "#005046",
+                        "primary-fixed": "#96f3e1",
+                        "primary": "#ffffff",
+                        "on-primary-container": "#007164",
+                        "on-surface": "#dfe3e1",
+                        "tertiary-fixed-dim": "#dfc478",
+                        "surface-dim": "#101413",
+                        "surface-container-highest": "#313634",
+                        "surface-bright": "#353a39",
+                        "on-background": "#dfe3e1",
+                        "inverse-on-surface": "#2d3130",
+                        "on-secondary": "#1a2b6a",
+                        "secondary-fixed-dim": "#b8c4ff",
+                        "inverse-surface": "#dfe3e1",
+                        "surface-tint": "#7ad7c6",
+                        "tertiary-fixed": "#fce091",
+                        "surface-container-lowest": "#0a0f0e",
+                        "inverse-primary": "#006b5e",
+                        "on-secondary-container": "#a2b1f9",
+                        "surface-container-high": "#262b2a",
+                        "text-muted": "#64748B",
+                        "on-primary-fixed": "#00201b",
+                        "secondary-fixed": "#dde1ff",
+                        "on-secondary-fixed-variant": "#334282",
+                        "on-secondary-fixed": "#001354",
+                        "tertiary-container": "#fce091",
+                        "on-primary": "#003730",
+                        "on-tertiary-fixed": "#231b00",
+                        "primary-container": "#96f3e1",
+                        "primary-fixed-dim": "#7ad7c6"
                     },
                     "borderRadius": {
-                        "DEFAULT": "1rem",
-                        "lg": "2rem",
-                        "xl": "3rem",
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "2xl": "1.5rem",
                         "full": "9999px"
                     },
                     "spacing": {
-                        "margin-desktop": "48px",
-                        "base": "4px",
-                        "lg": "40px",
-                        "xs": "8px",
-                        "md": "24px",
-                        "xl": "64px",
-                        "margin-mobile": "20px",
-                        "gutter": "24px",
-                        "sm": "16px"
+                        "gutter": "1.5rem",
+                        "section-padding-y": "6rem",
+                        "container-max": "1280px"
                     },
                     "fontFamily": {
-                        "headline-lg": ["Space Grotesk"],
-                        "label-mono": ["IBM Plex Mono"],
-                        "display-lg-mobile": ["Space Grotesk"],
-                        "headline-sm": ["Space Grotesk"],
-                        "body-sm": ["Plus Jakarta Sans"],
-                        "display-lg": ["Space Grotesk"],
-                        "body-lg": ["Plus Jakarta Sans"],
-                        "body-md": ["Plus Jakarta Sans"]
+                        "body-sm": ["Plus Jakarta Sans", "sans-serif"],
+                        "body-base": ["Plus Jakarta Sans", "sans-serif"],
+                        "display-lg": ["Space Grotesk", "sans-serif"],
+                        "display-lg-mobile": ["Space Grotesk", "sans-serif"],
+                        "label-system": ["JetBrains Mono", "monospace"],
+                        "headline-md": ["Space Grotesk", "sans-serif"]
                     },
                     "fontSize": {
-                        "headline-lg": ["32px", {"lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "300"}],
-                        "label-mono": ["10px", {"lineHeight": "1", "letterSpacing": "0.2em", "fontWeight": "500"}],
-                        "display-lg-mobile": ["40px", {"lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "300"}],
-                        "headline-sm": ["24px", {"lineHeight": "1.2", "letterSpacing": "-0.01em", "fontWeight": "300"}],
-                        "body-sm": ["14px", {"lineHeight": "1.5", "letterSpacing": "0", "fontWeight": "400"}],
-                        "display-lg": ["64px", {"lineHeight": "1.1", "letterSpacing": "-0.04em", "fontWeight": "300"}],
-                        "body-lg": ["18px", {"lineHeight": "1.7", "letterSpacing": "0", "fontWeight": "300"}],
-                        "body-md": ["16px", {"lineHeight": "1.6", "letterSpacing": "0", "fontWeight": "400"}]
+                        "body-sm": ["14px", {"lineHeight": "1.5", "fontWeight": "400"}],
+                        "body-base": ["16px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                        "display-lg": ["48px", {"lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "300"}],
+                        "display-lg-mobile": ["32px", {"lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "300"}],
+                        "label-system": ["10px", {"lineHeight": "1", "letterSpacing": "0.2em", "fontWeight": "500"}],
+                        "headline-md": ["24px", {"lineHeight": "1.4", "fontWeight": "400"}]
                     }
                 },
             },
         }
     </script>
+<style>
+        .glass-panel {
+            background: rgba(22, 25, 32, 0.7);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.07);
+        }
+        .hero-gradient {
+            background: radial-gradient(circle at 50% 50%, rgba(150, 243, 225, 0.05) 0%, transparent 70%);
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
 </head>
-<body class="bg-background text-on-surface font-body-md selection:bg-primary-container selection:text-on-primary-container">
-<!-- Top Navigation Bar -->
-<nav class="fixed top-0 left-0 w-full z-50 flex justify-between items-center px-margin-desktop py-4 max-w-[1440px] mx-auto bg-surface/70 backdrop-blur-xl border-b border-outline-variant/30">
-<div class="font-headline-sm text-headline-sm font-bold tracking-tight text-on-surface">GetUpSoft RD</div>
-<div class="hidden md:flex gap-md items-center">
-<a class="text-on-surface-variant hover:text-secondary transition-colors font-body-md text-body-md" href="#">Inicio</a>
-<a class="text-on-surface-variant hover:text-secondary transition-colors font-body-md text-body-md" href="#">Odoo ERP</a>
-<a class="text-secondary font-bold border-b-2 border-secondary pb-1 font-body-md text-body-md" href="#">Facturación</a>
-<a class="text-on-surface-variant hover:text-secondary transition-colors font-body-md text-body-md" href="#">Infraestructura</a>
-<a class="text-on-surface-variant hover:text-secondary transition-colors font-body-md text-body-md" href="#">Sectores</a>
-<a class="text-on-surface-variant hover:text-secondary transition-colors font-body-md text-body-md" href="#">Nosotros</a>
+<body class="bg-surface text-on-surface font-body-base overflow-x-hidden">
+<!-- TopNavBar -->
+<header class="fixed top-0 w-full bg-surface/70 backdrop-blur-md z-50 border-b border-outline-variant">
+<nav class="flex justify-between items-center px-gutter py-4 max-w-container-max mx-auto">
+<div class="font-display-lg text-headline-md font-bold text-primary">GetUpSoft RD</div>
+<div class="hidden md:flex items-center gap-8">
+<a class="text-on-surface-variant hover:text-primary transition-colors font-body-base text-body-base" href="#">Inicio</a>
+<a class="text-primary border-b-2 border-primary pb-1 font-body-base text-body-base" href="#">Odoo ERP</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors font-body-base text-body-base" href="#">Facturación</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors font-body-base text-body-base" href="#">Infraestructura</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors font-body-base text-body-base" href="#">Sectores</a>
+<a class="text-on-surface-variant hover:text-primary transition-colors font-body-base text-body-base" href="#">Nosotros</a>
 </div>
-<button class="bg-primary text-on-primary px-sm py-base rounded-full font-label-mono text-label-mono uppercase tracking-widest hover:bg-secondary-fixed transition-all duration-300 active:opacity-80 scale-95 transition-transform">
-            Solicitar Diagnóstico
-        </button>
+<button class="bg-primary text-on-primary px-6 py-2 rounded-full font-label-system text-label-system uppercase tracking-widest hover:scale-95 transition-all duration-100">
+                Diagnóstico
+            </button>
 </nav>
-<main class="pt-xl overflow-x-hidden">
+</header>
+<main class="pt-24">
 <!-- Hero Section -->
-<section class="relative min-h-[819px] flex items-center px-margin-desktop max-w-[1440px] mx-auto glow-accent">
-<div class="grid md:grid-cols-2 gap-xl items-center w-full">
-<div class="z-10">
-<p class="font-label-mono text-label-mono text-secondary mb-base uppercase">Infraestructura Fiscal Dominicana</p>
-<h1 class="font-display-lg text-display-lg-mobile md:text-display-lg mb-md italic-accent">
-                        Facturación Electrónica conforme a <em>DGII</em>
-</h1>
-<p class="font-body-lg text-body-lg text-on-surface-variant max-w-lg mb-lg">
-                        Implementación nativa de e-CF en República Dominicana. Cumplimiento fiscal automatizado y seguro, diseñado para la alta disponibilidad y precisión técnica.
-                    </p>
-<div class="flex gap-md">
-<button class="bg-primary text-on-primary px-lg py-sm rounded-full font-label-mono text-label-mono uppercase tracking-widest hover:scale-105 transition-transform">
-                            Activar Facturación Electrónica
-                        </button>
+<section class="relative min-h-[80vh] flex items-center justify-center py-section-padding-y px-gutter hero-gradient">
+<div class="max-w-4xl text-center z-10">
+<span class="font-label-system text-label-system text-primary-fixed mb-6 block">// SOLUCIONES EMPRESARIALES</span>
+<h1 class="font-display-lg text-display-lg md:text-display-lg mb-8 text-primary">
+                    Odoo ERP para empresas <span class="italic font-light">dominicanas</span>.
+                </h1>
+<p class="font-body-base text-body-base text-on-surface-variant max-w-2xl mx-auto mb-12">
+                    Implementación integral de Odoo adaptada al mercado local. Desde la contabilidad hasta la logística, centralice su operación con el ERP más potente del mundo.
+                </p>
+<button class="bg-primary-fixed text-on-primary-fixed px-10 py-4 rounded-full font-label-system text-label-system uppercase tracking-widest font-bold hover:bg-primary transition-all duration-300">
+                    Cotizar Implementación
+                </button>
 </div>
+<!-- Animated Background Mesh -->
+<div class="absolute inset-0 -z-10 opacity-20 pointer-events-none overflow-hidden">
+<div class="absolute top-1/4 left-1/4 w-96 h-96 bg-primary-fixed blur-[120px] rounded-full"></div>
+<div class="absolute bottom-1/4 right-1/4 w-[500px] h-[500px] bg-secondary-container blur-[150px] rounded-full opacity-30"></div>
 </div>
-<div class="relative">
-<div class="glass-card rounded-xl overflow-hidden aspect-square flex items-center justify-center p-md">
-<img alt="Tecnología Fiscal e-CF" class="w-full h-full object-cover rounded-lg opacity-80" data-alt="A macro close-up of a high-tech server rack in a dark data center, with glowing blue and indigo fiber optic cables forming a complex network. The lighting is low-key and dramatic, emphasizing the metallic textures and technological precision. The overall aesthetic is sober and futurist, matching an enterprise AI architecture with deep tonal layering and subtle light leaks." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAEF2tIz-u3V-rzZafC8NqXoY0yefA4PKtYJDgCsK5nzaRT-WS1K1L3E1iBFAlo8Lc5-rI1gkY9VHIOcUeYaRBJxc95U62NxpuUBND5NVSaPiN4Mmh54-K8sV9iN5DCn69ygJHBtzHB7cvw6QLwQA5o2vpei2oqM30KmN6yZ1j_Q62bt3bgps-q7NKrUHWmBDv8QYPqQyy8m2-GKXZJ7SCDSbgj79SoIWALhZphlz2lVxRCmhniewlNPHaylxh2kIWt5hf4wZbq25g"/>
-<div class="absolute inset-0 bg-gradient-to-t from-surface to-transparent opacity-40"></div>
+</section>
+<!-- Modules Grid -->
+<section class="py-section-padding-y px-gutter max-w-container-max mx-auto">
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+<!-- Ventas -->
+<div class="glass-panel p-8 rounded-2xl group hover:border-primary-fixed/50 transition-all duration-500">
+<span class="material-symbols-outlined text-primary-fixed text-4xl mb-6">shopping_cart</span>
+<h3 class="font-headline-md text-headline-md mb-3 text-primary">Ventas</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Gestión completa del ciclo comercial desde la cotización al cobro.</p>
 </div>
+<!-- Inventario -->
+<div class="glass-panel p-8 rounded-2xl group hover:border-primary-fixed/50 transition-all duration-500">
+<span class="material-symbols-outlined text-primary-fixed text-4xl mb-6">inventory_2</span>
+<h3 class="font-headline-md text-headline-md mb-3 text-primary">Inventario</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Control multialmacén y trazabilidad total de sus productos.</p>
+</div>
+<!-- Compras -->
+<div class="glass-panel p-8 rounded-2xl group hover:border-primary-fixed/50 transition-all duration-500">
+<span class="material-symbols-outlined text-primary-fixed text-4xl mb-6">local_shipping</span>
+<h3 class="font-headline-md text-headline-md mb-3 text-primary">Compras</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Automatización inteligente de suministros y gestión de proveedores.</p>
+</div>
+<!-- Contabilidad -->
+<div class="glass-panel p-8 rounded-2xl group hover:border-primary-fixed/50 transition-all duration-500">
+<span class="material-symbols-outlined text-primary-fixed text-4xl mb-6">account_balance</span>
+<h3 class="font-headline-md text-headline-md mb-3 text-primary">Contabilidad</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Localización fiscal completa para el cumplimiento en República Dominicana.</p>
+</div>
+<!-- CRM -->
+<div class="glass-panel p-8 rounded-2xl group hover:border-primary-fixed/50 transition-all duration-500">
+<span class="material-symbols-outlined text-primary-fixed text-4xl mb-6">groups</span>
+<h3 class="font-headline-md text-headline-md mb-3 text-primary">CRM</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Potencie sus relaciones comerciales y cierre más tratos con seguimiento IA.</p>
+</div>
+<!-- POS -->
+<div class="glass-panel p-8 rounded-2xl group hover:border-primary-fixed/50 transition-all duration-500">
+<span class="material-symbols-outlined text-primary-fixed text-4xl mb-6">point_of_sale</span>
+<h3 class="font-headline-md text-headline-md mb-3 text-primary">POS</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Punto de venta ágil optimizado para retail y restaurantes modernos.</p>
+</div>
+<!-- Reportes -->
+<div class="glass-panel p-8 rounded-2xl group hover:border-primary-fixed/50 transition-all duration-500">
+<span class="material-symbols-outlined text-primary-fixed text-4xl mb-6">analytics</span>
+<h3 class="font-headline-md text-headline-md mb-3 text-primary">Reportes</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Inteligencia de negocios avanzada con tableros en tiempo real.</p>
+</div>
+<!-- Facturación Electrónica -->
+<div class="glass-panel p-8 rounded-2xl group hover:border-primary-fixed/50 transition-all duration-500 border-primary-fixed/20">
+<span class="material-symbols-outlined text-primary-fixed text-4xl mb-6">receipt_long</span>
+<h3 class="font-headline-md text-headline-md mb-3 text-primary">Facturación Electrónica</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Certificación nativa ante la DGII para una emisión segura y legal.</p>
+</div>
+<!-- Integración DGII -->
+<div class="glass-panel p-8 rounded-2xl group hover:border-primary-fixed/50 transition-all duration-500 border-primary-fixed/20">
+<span class="material-symbols-outlined text-primary-fixed text-4xl mb-6">verified_user</span>
+<h3 class="font-headline-md text-headline-md mb-3 text-primary">Integración DGII</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Cumplimiento fiscal automatizado sin fricciones operativas.</p>
 </div>
 </div>
 </section>
-<!-- Information Section (Bento style 3 columns) -->
-<section class="px-margin-desktop py-xl max-w-[1440px] mx-auto">
-<div class="grid md:grid-cols-3 gap-md">
-<div class="glass-card p-md rounded-lg flex flex-col gap-sm hover:border-secondary/50 transition-colors group">
-<span class="material-symbols-outlined text-secondary text-4xl">verified_user</span>
-<h3 class="font-headline-sm text-headline-sm text-primary">e-CF</h3>
-<p class="font-body-md text-body-md text-on-surface-variant">
-                        Emisión de comprobantes fiscales electrónicos con validación inmediata bajo los estándares de la DGII.
-                    </p>
+<!-- Mockup Section -->
+<section class="py-section-padding-y px-gutter">
+<div class="max-w-container-max mx-auto">
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+<div>
+<span class="font-label-system text-label-system text-primary-fixed mb-4 block">// VISIBILIDAD 360°</span>
+<h2 class="font-display-lg text-display-lg mb-6 text-primary">El Control en su <span class="italic">Mano</span>.</h2>
+<p class="font-body-base text-body-base text-on-surface-variant mb-8">
+                            Visualice el estado de su empresa con tableros de control de alta precisión diseñados para la toma de decisiones estratégicas. Nuestra implementación integra todos los flujos de datos en una interfaz limpia y técnica.
+                        </p>
+<div class="space-y-4">
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-primary-fixed">check_circle</span>
+<span class="font-body-sm text-body-sm text-on-surface">Validación de comprobantes DGII</span>
 </div>
-<div class="glass-card p-md rounded-lg flex flex-col gap-sm hover:border-secondary/50 transition-colors">
-<span class="material-symbols-outlined text-secondary text-4xl">account_balance</span>
-<h3 class="font-headline-sm text-headline-sm text-primary">DGII</h3>
-<p class="font-body-md text-body-md text-on-surface-variant">
-                        Conexión directa y certificada con la plataforma de la Dirección General de Impuestos Internos para reportes automáticos.
-                    </p>
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-primary-fixed">check_circle</span>
+<span class="font-body-sm text-body-sm text-on-surface">Gestión de ITBIS y retenciones automática</span>
 </div>
-<div class="glass-card p-md rounded-lg flex flex-col gap-sm hover:border-secondary/50 transition-colors">
-<span class="material-symbols-outlined text-secondary text-4xl">hub</span>
-<h3 class="font-headline-sm text-headline-sm text-primary">Integración Odoo</h3>
-<p class="font-body-md text-body-md text-on-surface-variant">
-                        Sincronización total con su ERP para una contabilidad sin fricciones y conciliación bancaria instantánea.
-                    </p>
-</div>
-</div>
-</section>
-<!-- Flow Diagram Section -->
-<section class="px-margin-desktop py-xl max-w-[1440px] mx-auto bg-surface-container-lowest/50 rounded-xl">
-<div class="text-center mb-xl">
-<p class="font-label-mono text-label-mono text-secondary mb-xs">PROCESO E-CF</p>
-<h2 class="font-headline-lg text-headline-lg italic-accent">Arquitectura del <em>flujo</em> fiscal</h2>
-</div>
-<div class="flex flex-col md:flex-row justify-between items-start gap-md relative">
-<!-- Connector Line (Desktop) -->
-<div class="hidden md:block absolute top-12 left-0 w-full h-[1px] bg-outline-variant/30 z-0"></div>
-<!-- Steps -->
-<div class="flex-1 flex flex-col items-center text-center z-10">
-<div class="w-16 h-16 rounded-full bg-surface-container-high border border-primary flex items-center justify-center mb-sm bg-surface">
-<span class="font-label-mono text-primary">01</span>
-</div>
-<h4 class="font-body-lg font-bold text-on-surface mb-xs">Emisión</h4>
-<p class="font-body-sm text-body-sm text-on-surface-variant px-xs">Generación del XML según esquema XSD oficial.</p>
-</div>
-<div class="flex-1 flex flex-col items-center text-center z-10">
-<div class="w-16 h-16 rounded-full bg-surface-container-high border border-primary flex items-center justify-center mb-sm bg-surface">
-<span class="font-label-mono text-primary">02</span>
-</div>
-<h4 class="font-body-lg font-bold text-on-surface mb-xs">Firma Digital</h4>
-<p class="font-body-sm text-body-sm text-on-surface-variant px-xs">Seguridad PKI para garantizar integridad y no repudio.</p>
-</div>
-<div class="flex-1 flex flex-col items-center text-center z-10">
-<div class="w-16 h-16 rounded-full bg-surface-container-high border border-secondary flex items-center justify-center mb-sm bg-surface">
-<span class="font-label-mono text-secondary">03</span>
-</div>
-<h4 class="font-body-lg font-bold text-on-surface mb-xs">Validación DGII</h4>
-<p class="font-body-sm text-body-sm text-on-surface-variant px-xs">Aprobación en tiempo real por el web service fiscal.</p>
-</div>
-<div class="flex-1 flex flex-col items-center text-center z-10">
-<div class="w-16 h-16 rounded-full bg-surface-container-high border border-primary flex items-center justify-center mb-sm bg-surface">
-<span class="font-label-mono text-primary">04</span>
-</div>
-<h4 class="font-body-lg font-bold text-on-surface mb-xs">Envío al cliente</h4>
-<p class="font-body-sm text-body-sm text-on-surface-variant px-xs">Distribución automática vía Email o API dedicada.</p>
-</div>
-<div class="flex-1 flex flex-col items-center text-center z-10">
-<div class="w-16 h-16 rounded-full bg-surface-container-high border border-primary flex items-center justify-center mb-sm bg-surface">
-<span class="font-label-mono text-primary">05</span>
-</div>
-<h4 class="font-body-lg font-bold text-on-surface mb-xs">Archivo</h4>
-<p class="font-body-sm text-body-sm text-on-surface-variant px-xs">Resguardo legal por 10 años en bóveda digital.</p>
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-primary-fixed">check_circle</span>
+<span class="font-body-sm text-body-sm text-on-surface">Conciliación bancaria en un clic</span>
 </div>
 </div>
-</section>
-<!-- FAQ Section -->
-<section class="px-margin-desktop py-xl max-w-[1440px] mx-auto">
-<h2 class="font-headline-lg text-headline-lg italic-accent mb-xl text-center">Preguntas <em>frecuentes</em></h2>
-<div class="max-w-3xl mx-auto space-y-md">
-<div class="border-b border-outline-variant/30 pb-sm group">
-<button class="w-full flex justify-between items-center text-left py-sm">
-<span class="font-body-lg text-on-surface group-hover:text-secondary transition-colors">¿Qué es el e-CF?</span>
-<span class="material-symbols-outlined text-secondary">expand_more</span>
-</button>
-<div class="hidden pt-xs pb-sm font-body-md text-on-surface-variant">
-                        El Comprobante Fiscal Electrónico (e-CF) es un documento digital firmado electrónicamente que acredita la transferencia de bienes o prestación de servicios, con validez legal y fiscal en RD.
-                    </div>
 </div>
-<div class="border-b border-outline-variant/30 pb-sm group">
-<button class="w-full flex justify-between items-center text-left py-sm">
-<span class="font-body-lg text-on-surface group-hover:text-secondary transition-colors">¿Cómo obtener la certificación de la DGII?</span>
-<span class="material-symbols-outlined text-secondary">expand_more</span>
-</button>
-<div class="hidden pt-xs pb-sm font-body-md text-on-surface-variant">
-                        El proceso implica una etapa de pruebas y cumplimiento técnico. En GetUpSoft RD gestionamos todo el pipeline de certificación para asegurar que su empresa cumpla con los requisitos operativos.
-                    </div>
+<div class="relative group">
+<div class="absolute -inset-4 bg-primary-fixed/10 blur-3xl rounded-full opacity-50 group-hover:opacity-70 transition-opacity"></div>
+<div class="relative glass-panel rounded-2xl overflow-hidden shadow-2xl border-outline-variant">
+<img alt="Odoo ERP Dashboard Mockup" class="w-full h-auto" data-alt="A premium high-fidelity UI mockup of an Odoo ERP dashboard for a Dominican enterprise. The interface is in dark mode with a deep charcoal background and vibrant mint teal accents. Elegant line charts and bar graphs display sales and inventory metrics alongside a table of accounts payable and a status badge showing DGII Compliance. The overall aesthetic is ultra-professional, architectural, and sophisticated, reflecting a sober enterprise AI environment." src="https://lh3.googleusercontent.com/aida/ADBb0uhrEyD3UtMpqZZTg0_47X5NK9t4COEWdP62OMNDlbryjO9p1f5QZcYSB9m-lxR_2pK3OgUoCDWTj5DpKWLrOqZ0EllN0wFifeBLxsAZnDz5lY4_N18i_7WF5WgWx_SUwyhJHsp7_01myLC-C_rHPWrvefKJtA3GtH2viQ_TPe8m08XjQgtMFnntF4uYCxM2euMZBDSs6l6TFJy0rO0vbVNZxc9MVd50m667EKdAiYLrQKtvir7PNwRKgw"/>
 </div>
-<div class="border-b border-outline-variant/30 pb-sm group">
-<button class="w-full flex justify-between items-center text-left py-sm">
-<span class="font-body-lg text-on-surface group-hover:text-secondary transition-colors">¿Es obligatoria la firma digital?</span>
-<span class="material-symbols-outlined text-secondary">expand_more</span>
-</button>
 </div>
-<div class="border-b border-outline-variant/30 pb-sm group">
-<button class="w-full flex justify-between items-center text-left py-sm">
-<span class="font-body-lg text-on-surface group-hover:text-secondary transition-colors">¿Qué sucede si pierdo la conexión a internet?</span>
-<span class="material-symbols-outlined text-secondary">expand_more</span>
-</button>
-</div>
-<div class="border-b border-outline-variant/30 pb-sm group">
-<button class="w-full flex justify-between items-center text-left py-sm">
-<span class="font-body-lg text-on-surface group-hover:text-secondary transition-colors">¿Cómo se integra con mi infraestructura actual?</span>
-<span class="material-symbols-outlined text-secondary">expand_more</span>
-</button>
 </div>
 </div>
 </section>
 <!-- Final CTA Section -->
-<section class="px-margin-desktop py-xl max-w-[1440px] mx-auto text-center relative overflow-hidden">
-<div class="absolute inset-0 glow-accent -z-10 opacity-30"></div>
-<div class="glass-card p-xl rounded-xl border border-primary/20">
-<h2 class="font-display-lg text-display-lg-mobile md:text-headline-lg italic-accent mb-md">
-                    Evalúa tu infraestructura <em>hoy</em>
-</h2>
-<p class="font-body-lg text-on-surface-variant mb-xl max-w-xl mx-auto">
-                    Nuestros arquitectos de sistemas realizarán un diagnóstico exhaustivo de su entorno actual para una transición sin interrupciones.
+<section class="py-section-padding-y px-gutter text-center relative overflow-hidden">
+<div class="absolute top-0 left-1/2 -translate-x-1/2 w-full h-[1px] bg-gradient-to-r from-transparent via-outline-variant to-transparent"></div>
+<div class="max-w-3xl mx-auto relative z-10">
+<h2 class="font-display-lg text-display-lg mb-6 text-primary">¿Listo para la <span class="italic font-light">Transformación</span>?</h2>
+<p class="font-body-base text-body-base text-on-surface-variant mb-12">
+                    Optimice su gestión hoy mismo con un sistema diseñado para escalar. Implementamos el estándar de oro de los ERPs con la calidez del soporte local.
                 </p>
-<button class="bg-primary text-on-primary px-xl py-md rounded-full font-label-mono text-label-mono uppercase tracking-widest hover:scale-105 transition-transform shadow-lg shadow-primary/20">
-                    Empezar Diagnóstico Gratuito
+<button class="bg-primary-fixed text-on-primary-fixed px-12 py-5 rounded-full font-label-system text-label-system uppercase tracking-widest font-extrabold hover:scale-105 transition-all duration-300 shadow-lg shadow-primary-fixed/20">
+                    COTIZAR IMPLEMENTACIÓN
                 </button>
+</div>
+<!-- Atmospheric background decoration -->
+<div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full -z-10 opacity-30">
+<div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[300px] bg-primary-fixed/5 blur-[120px] rounded-full"></div>
 </div>
 </section>
 </main>
 <!-- Footer -->
-<footer class="w-full py-xl px-margin-desktop flex flex-col md:flex-row justify-between items-center gap-md bg-surface-container-low border-t border-outline-variant/20">
-<div class="flex flex-col items-center md:items-start gap-xs">
-<div class="font-headline-sm text-headline-sm text-on-surface">GetUpSoft RD</div>
-<p class="font-label-mono text-label-mono uppercase tracking-widest text-on-surface-variant">© 2024 GetUpSoft RD. Todos los derechos reservados.</p>
+<footer class="bg-surface-container-lowest border-t border-outline-variant w-full py-section-padding-y">
+<div class="grid grid-cols-1 md:grid-cols-2 gap-8 px-gutter max-w-container-max mx-auto">
+<div>
+<div class="font-display-lg text-headline-md text-primary mb-4">GetUpSoft RD</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant max-w-xs mb-8">
+                    Soluciones tecnológicas de alto nivel para el tejido empresarial dominicano. Arquitectura de software que impulsa el futuro.
+                </p>
+<div class="text-on-surface-variant font-body-sm text-body-sm">
+                    © 2024 GetUpSoft RD. Todos los derechos reservados.
+                </div>
 </div>
-<div class="flex gap-md">
-<a class="text-on-surface-variant font-label-mono text-label-mono uppercase tracking-widest hover:text-secondary underline-offset-4 hover:underline transition-opacity" href="#">Privacidad</a>
-<a class="text-on-surface-variant font-label-mono text-label-mono uppercase tracking-widest hover:text-secondary underline-offset-4 hover:underline transition-opacity" href="#">Términos</a>
-<a class="text-on-surface-variant font-label-mono text-label-mono uppercase tracking-widest hover:text-secondary underline-offset-4 hover:underline transition-opacity" href="#">Contacto</a>
-<a class="text-on-surface-variant font-label-mono text-label-mono uppercase tracking-widest hover:text-secondary underline-offset-4 hover:underline transition-opacity" href="#">Soporte</a>
+<div class="flex flex-col md:items-end justify-between">
+<div class="flex gap-8 mb-8">
+<a class="text-on-surface-variant hover:text-primary underline font-body-sm text-body-sm opacity-80 hover:opacity-100 transition-all" href="#">Privacidad</a>
+<a class="text-on-surface-variant hover:text-primary underline font-body-sm text-body-sm opacity-80 hover:opacity-100 transition-all" href="#">Términos</a>
+<a class="text-on-surface-variant hover:text-primary underline font-body-sm text-body-sm opacity-80 hover:opacity-100 transition-all" href="#">Contacto</a>
 </div>
-<div class="flex gap-sm">
-<span class="material-symbols-outlined text-secondary opacity-80 hover:opacity-100 cursor-pointer">public</span>
-<span class="material-symbols-outlined text-secondary opacity-80 hover:opacity-100 cursor-pointer">monitoring</span>
+<div class="flex gap-4">
+<div class="w-10 h-10 rounded-full glass-panel flex items-center justify-center hover:text-primary transition-colors cursor-pointer">
+<span class="material-symbols-outlined text-sm">link</span>
+</div>
+<div class="w-10 h-10 rounded-full glass-panel flex items-center justify-center hover:text-primary transition-colors cursor-pointer">
+<span class="material-symbols-outlined text-sm">mail</span>
+</div>
+</div>
+</div>
 </div>
 </footer>
+<script>
+        // Micro-interactions for glass panels
+        document.querySelectorAll('.glass-panel').forEach(panel => {
+            panel.addEventListener('mousemove', (e) => {
+                const rect = panel.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                panel.style.setProperty('--mouse-x', `${x}px`);
+                panel.style.setProperty('--mouse-y', `${y}px`);
+                panel.style.background = `radial-gradient(400px circle at ${x}px ${y}px, rgba(150, 243, 225, 0.05), transparent 40%), rgba(22, 25, 32, 0.7)`;
+            });
+            panel.addEventListener('mouseleave', () => {
+                panel.style.background = 'rgba(22, 25, 32, 0.7)';
+            });
+        });
+
+        // Simple scroll reveal
+        const observerOptions = {
+            threshold: 0.1
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('opacity-100', 'translate-y-0');
+                    entry.target.classList.remove('opacity-0', 'translate-y-10');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('section > div').forEach(el => {
+            el.classList.add('transition-all', 'duration-1000', 'opacity-0', 'translate-y-10');
+            observer.observe(el);
+        });
+    </script>
 </body></html>

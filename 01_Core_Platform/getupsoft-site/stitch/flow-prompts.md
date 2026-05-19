@@ -22,7 +22,7 @@ Premium enterprise AI intelligence core animation. Dark graphite and deep navy e
 **Duration:** 6–8s loop, 16:9
 
 ```
-Multiple autonomous AI agents visualized as glowing geometric nodes in a dark deep-navy space. Each agent connects to enterprise systems (shown as minimal labeled glass panels: ERP, CRM, BI, Automation, Data). Smooth animated data lines flow between agents and systems. Slow camera drift forward through the network. Pastel indigo and violet palette. Premium, abstract, enterprise. No text embedded.
+Multiple autonomous AI agents visualized as glowing geometric nodes in a dark deep-navy space. Each agent connects to enterprise systems represented by abstract glass panels and icon-like shapes for ERP, CRM, BI, automation, infrastructure and data. Smooth animated data lines flow between agents and systems. Slow camera drift forward through the network. Pastel indigo and violet palette. Premium, abstract, enterprise. No text embedded.
 ```
 
 ---
@@ -125,6 +125,54 @@ Premium retail intelligence dashboard for a jewelry business. Shows inventory gr
 
 ```
 Professional food-tech restaurant operations dashboard. Shows: incoming orders feed, kitchen display system with ticket queue, delivery route map with moving pin, inventory depletion tracker, daily analytics chart. Dark premium UI. Mint green (#6EE7B7) accents. Business-focused, not cartoonish, not playful. No text embedded.
+```
+
+---
+
+## PROMPT MAESTRO CANONICAL FLOW PROMPTS
+
+Use these when a generation tool needs the exact canonical asset direction from the redesign package.
+
+### Global Hero
+
+```
+Create a premium cinematic 3D enterprise intelligence core for GetUpSoft Global. Dark graphite and deep navy environment, glass-like modular cubes, neural nodes, glowing cyan and violet data lines, subtle particles, slow executive camera orbit, shallow depth of field. The visual represents autonomous AI agents, ERP, CRM, BI, automation, infrastructure, data and operations becoming one connected system. No text embedded. Premium, sober, enterprise, elegant, not playful.
+```
+
+### RD Hero
+
+```
+Create a premium 3D operational command center for GetUpSoft RD. Show Odoo ERP, inventory, e-CF electronic invoicing, DGII compliance, POS, accounting, warehouse, delivery routes, server racks, WiFi access points and dashboards connected by smooth animated data lines. Dark premium background with practical business feel. Reliable, local, professional, not cartoonish. No text embedded.
+```
+
+### Orca
+
+```
+Create a 3D AI orchestration core named Orca. It should feel like a real-time operational brain connecting agents, workflows, dashboards and business systems. Use premium glassmorphism, glowing nodes, slow pulses and elegant camera movement. No text embedded.
+```
+
+### AIHub
+
+```
+Create a secure 3D intelligence repository for AIHub. Show modular AI blocks, model cards, automation recipes and secure data containers floating in a premium dark interface. Subtle glow, elegant depth, no text embedded.
+```
+
+### GetUpBuilder
+
+```
+Create a 3D visual for GetUpBuilder assembling software components into a structured application. Show modules, code blocks, UI panels and infrastructure nodes snapping into a clean architecture. Premium, technical, precise, no text embedded.
+```
+
+### Galantes Jewelry
+
+```
+Create a premium retail technology visual for Galantes Jewelry. Show elegant jewelry retail operations, inventory intelligence, sales dashboard, customer experience and commerce workflows. Luxurious, clean, business-oriented, no text embedded.
+```
+
+### chefalitas
+
+```
+Create a professional food-tech restaurant operations visual for chefalitas. Show order management, kitchen workflow, delivery routing, inventory, POS and analytics dashboard. Premium business style, not cartoonish, not playful, no text embedded.
 ```
 
 ---

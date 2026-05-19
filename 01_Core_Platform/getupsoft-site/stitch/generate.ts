@@ -44,8 +44,8 @@ const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
 async function resolveUrls(
   generated: Awaited<ReturnType<ReturnType<typeof stitch.project>["generate"]>>,
   project: ReturnType<typeof stitch.project>,
-  retries = 4,
-  delayMs = 5000,
+  retries = 12,
+  delayMs = 10000,
 ): Promise<{ htmlUrl: string; imageUrl: string }> {
   for (let attempt = 0; attempt <= retries; attempt++) {
     const htmlUrl = await generated.getHtml();
@@ -106,14 +106,6 @@ async function generateScreen(
 }
 
 async function main() {
-  if (!process.env.STITCH_API_KEY && !process.env.STITCH_ACCESS_TOKEN) {
-    console.error(
-      "\n❌ Missing auth. Set STITCH_API_KEY env var.\n" +
-      "   Get your key at: https://stitch.withgoogle.com/settings\n",
-    );
-    process.exit(1);
-  }
-
   const screens = SCREENS.filter((s) => {
     if (portalFilter && s.portal !== portalFilter) return false;
     if (screenFilter && s.id !== screenFilter) return false;
@@ -131,6 +123,14 @@ async function main() {
       console.log(s.prompt.slice(0, 400) + "...\n");
     }
     return;
+  }
+
+  if (!process.env.STITCH_API_KEY && !process.env.STITCH_ACCESS_TOKEN) {
+    console.error(
+      "\n❌ Missing auth. Set STITCH_API_KEY env var.\n" +
+      "   Get your key at: https://stitch.withgoogle.com/settings\n",
+    );
+    process.exit(1);
   }
 
   // Create or reuse a project

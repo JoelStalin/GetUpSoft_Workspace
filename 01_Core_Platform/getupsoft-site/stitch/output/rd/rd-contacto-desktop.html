@@ -3,236 +3,308 @@
 <html class="dark" lang="es"><head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Contacto | GetUpSoft RD</title>
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500&amp;family=Space+Grotesk:wght@300;500;700&amp;family=JetBrains+Mono:wght@400&amp;display=swap" rel="stylesheet"/>
+<!-- Icons -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
 <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;family=Space+Mono&amp;family=Plus+Jakarta+Sans:wght@300;400;500;600&amp;display=swap" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
 <script id="tailwind-config">
-        tailwind.config = {
-            darkMode: "class",
-            theme: {
-                extend: {
-                    "colors": {
-                        "on-secondary-container": "#a2b1f9",
-                        "surface-container-highest": "#313634",
-                        "on-tertiary": "#213145",
-                        "on-tertiary-fixed": "#0b1c30",
-                        "background": "#101413",
-                        "surface-tint": "#7ad7c6",
-                        "error": "#ffb4ab",
-                        "tertiary-container": "#d3e4fe",
-                        "border-subtle": "rgba(255, 255, 255, 0.07)",
-                        "on-secondary": "#1a2b6a",
-                        "on-tertiary-container": "#56657c",
-                        "surface": "#101413",
-                        "border-mid": "rgba(255, 255, 255, 0.12)",
-                        "secondary-fixed": "#dde1ff",
-                        "on-tertiary-fixed-variant": "#38485d",
-                        "surface-container": "#161920",
-                        "surface-deep": "#0F1115",
-                        "on-primary-container": "#007164",
-                        "inverse-primary": "#006b5e",
-                        "inverse-surface": "#dfe3e1",
-                        "on-secondary-fixed-variant": "#334282",
-                        "on-primary-fixed-variant": "#005046",
-                        "primary-fixed-dim": "#7ad7c6",
-                        "tertiary": "#ffffff",
-                        "surface-container-lowest": "#0a0f0e",
-                        "outline-variant": "#3e4946",
-                        "on-surface": "#dfe3e1",
-                        "on-secondary-fixed": "#001354",
-                        "primary-container": "#96f3e1",
-                        "surface-bright": "#353a39",
-                        "surface-elevated": "#1C2028",
-                        "outline": "#879390",
-                        "surface-dim": "#101413",
-                        "text-main": "#E2E8F0",
-                        "on-error-container": "#ffdad6",
-                        "on-error": "#690005",
-                        "on-primary": "#003730",
-                        "text-soft": "#94A3B8",
-                        "secondary-container": "#334282",
-                        "on-surface-variant": "#bdc9c5",
-                        "surface-container-low": "#181d1b",
-                        "secondary-fixed-dim": "#b8c4ff",
-                        "on-background": "#dfe3e1",
-                        "surface-variant": "#313634",
-                        "primary-fixed": "#96f3e1",
-                        "primary": "#ffffff",
-                        "tertiary-fixed-dim": "#b7c8e1",
-                        "tertiary-fixed": "#d3e4fe",
-                        "inverse-on-surface": "#2d3130",
-                        "on-primary-fixed": "#00201b",
-                        "error-container": "#93000a",
-                        "surface-container-high": "#262b2a",
-                        "secondary": "#b8c4ff"
-                    },
-                    "borderRadius": {
-                        "DEFAULT": "1rem",
-                        "lg": "2rem",
-                        "xl": "3rem",
-                        "full": "9999px"
-                    },
-                    "spacing": {
-                        "gutter": "1rem",
-                        "container-margin": "1.5rem",
-                        "max-width": "1280px",
-                        "section-padding-v": "6rem"
-                    },
-                    "fontFamily": {
-                        "display-lg": ["Space Grotesk"],
-                        "label-technical": ["Space Mono"],
-                        "body-sm": ["Plus Jakarta Sans"],
-                        "body-base": ["Plus Jakarta Sans"],
-                        "headline-md": ["Space Grotesk"]
-                    },
-                    "fontSize": {
-                        "display-lg": ["48px", {"lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "300"}],
-                        "label-technical": ["10px", {"lineHeight": "1.2", "letterSpacing": "0.2em", "fontWeight": "400"}],
-                        "body-sm": ["14px", {"lineHeight": "1.5", "fontWeight": "300"}],
-                        "body-base": ["16px", {"lineHeight": "1.6", "fontWeight": "400"}],
-                        "headline-md": ["32px", {"lineHeight": "1.2", "letterSpacing": "-0.01em", "fontWeight": "300"}]
-                    }
-                }
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "on-surface": "#dfe3e1",
+                    "tertiary-fixed": "#fce091",
+                    "surface": "#0F1115",
+                    "on-secondary-fixed": "#001354",
+                    "on-primary": "#003730",
+                    "surface-bright": "#1C2028",
+                    "text-muted": "#64748B",
+                    "outline-variant": "#3e4946",
+                    "on-primary-fixed-variant": "#005046",
+                    "on-primary-fixed": "#00201b",
+                    "on-primary-container": "#007164",
+                    "on-secondary-fixed-variant": "#334282",
+                    "on-error": "#690005",
+                    "secondary-fixed": "#dde1ff",
+                    "surface-container-lowest": "#0a0f0e",
+                    "surface-container-low": "#181d1b",
+                    "surface-container-highest": "#313634",
+                    "on-tertiary-container": "#776220",
+                    "inverse-on-surface": "#2d3130",
+                    "error-container": "#93000a",
+                    "primary": "#ffffff",
+                    "surface-variant": "#313634",
+                    "inverse-primary": "#006b5e",
+                    "inverse-surface": "#dfe3e1",
+                    "secondary": "#b8c4ff",
+                    "tertiary": "#ffffff",
+                    "secondary-container": "#334282",
+                    "surface-container": "#1c211f",
+                    "primary-fixed": "#96f3e1",
+                    "on-secondary": "#1a2b6a",
+                    "outline": "rgba(255, 255, 255, 0.07)",
+                    "on-tertiary": "#3c2f00",
+                    "secondary-fixed-dim": "#b8c4ff",
+                    "on-surface-variant": "#94A3B8",
+                    "tertiary-container": "#fce091",
+                    "background": "#101413",
+                    "surface-dim": "#101413",
+                    "on-tertiary-fixed-variant": "#574502",
+                    "surface-container-high": "#262b2a",
+                    "on-secondary-container": "#a2b1f9",
+                    "primary-container": "#96f3e1",
+                    "text-soft": "#94A3B8",
+                    "on-background": "#dfe3e1",
+                    "error": "#ffb4ab",
+                    "tertiary-fixed-dim": "#dfc478",
+                    "surface-tint": "#7ad7c6",
+                    "on-tertiary-fixed": "#231b00",
+                    "on-error-container": "#ffdad6",
+                    "primary-fixed-dim": "#7ad7c6",
+                    "accent-mint": "#99F6E4"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.125rem",
+                    "lg": "0.25rem",
+                    "xl": "0.5rem",
+                    "full": "0.75rem"
+            },
+            "spacing": {
+                    "container-max": "1440px",
+                    "margin-mobile": "16px",
+                    "unit": "4px",
+                    "margin-desktop": "48px",
+                    "gutter": "24px"
+            },
+            "fontFamily": {
+                    "body-md": ["Plus Jakarta Sans"],
+                    "headline-lg-mobile": ["Space Grotesk"],
+                    "body-lg": ["Plus Jakarta Sans"],
+                    "headline-md": ["Space Grotesk"],
+                    "headline-lg": ["Space Grotesk"],
+                    "label-md": ["JetBrains Mono"],
+                    "display-lg": ["Space Grotesk"],
+                    "body-sm": ["Plus Jakarta Sans"]
+            },
+            "fontSize": {
+                    "body-md": ["16px", {"lineHeight": "1.6", "fontWeight": "300"}],
+                    "headline-lg-mobile": ["28px", {"lineHeight": "1.2", "fontWeight": "300"}],
+                    "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "300"}],
+                    "headline-md": ["24px", {"lineHeight": "1.2", "fontWeight": "400"}],
+                    "headline-lg": ["32px", {"lineHeight": "1.2", "fontWeight": "300"}],
+                    "label-md": ["12px", {"lineHeight": "1", "letterSpacing": "0.05em", "fontWeight": "400"}],
+                    "display-lg": ["48px", {"lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "300"}],
+                    "body-sm": ["14px", {"lineHeight": "1.5", "fontWeight": "300"}]
             }
-        }
+          },
+        },
+      }
     </script>
 <style>
-        .material-symbols-outlined {
-            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
-        }
-        .glass-card {
-            background: rgba(22, 25, 32, 0.7);
-            backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.07);
-        }
+      .glass-card {
+        background: rgba(28, 32, 40, 0.4);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+      }
+      .bg-grid {
+        background-size: 50px 50px;
+        background-image: linear-gradient(to right, rgba(255,255,255,0.02) 1px, transparent 1px),
+                          linear-gradient(to bottom, rgba(255,255,255,0.02) 1px, transparent 1px);
+      }
+      .custom-scrollbar::-webkit-scrollbar {
+        width: 4px;
+      }
+      .custom-scrollbar::-webkit-scrollbar-track {
+        background: #0F1115;
+      }
+      .custom-scrollbar::-webkit-scrollbar-thumb {
+        background: #3e4946;
+      }
     </style>
 </head>
-<body class="bg-background text-on-surface font-body-base antialiased">
-<!-- Top Navigation Bar -->
-<nav class="fixed top-0 w-full z-50 bg-surface/70 dark:bg-surface/70 backdrop-blur-xl border-b border-border-subtle dark:border-border-subtle">
-<div class="flex justify-between items-center px-container-margin h-20 max-w-max-width mx-auto">
-<div class="flex items-center">
-<img alt="GetUpSoft RD Logo" class="h-8 w-auto" src="https://lh3.googleusercontent.com/aida/ADBb0uhKvw3Zppt27w4ONiZZ1bNwHHH3pdGTbUK9E7g37eCslfOLZdEnwhlopOnmf4ki9SwER69nsJTba1tskUkz-D8oG8IpReR7R5tXH9Aoldf_rBjsXo7HslJ11_WzQMMnVcv5vtEn8de2VC9tIr4a95ilGSyfZ0s06lCnNh4ciTOhZkBB1FsJ1XfjhSiCYYql0_SqlwDHwNrDBOxEtqkT4FrdCfTXjmSjb7oXSGXhhOeLtpI60ilthWjjjw"/>
+<body class="bg-surface text-on-surface font-body-md custom-scrollbar selection:bg-accent-mint selection:text-surface">
+<!-- Header -->
+<header class="sticky top-0 z-50 flex justify-between items-center px-margin-desktop py-4 w-full max-w-container-max mx-auto bg-surface/80 backdrop-blur-xl border-b border-outline">
+<div class="font-headline-md text-headline-md font-bold text-primary tracking-tighter">
+            GetUpSoft <span class="text-accent-mint">RD</span>
 </div>
-<div class="hidden md:flex items-center gap-8">
-<a class="text-on-surface-variant hover:text-primary transition-colors font-body-base" href="#">Inicio</a>
-<a class="text-on-surface-variant hover:text-primary transition-colors font-body-base" href="#">Odoo ERP</a>
-<a class="text-on-surface-variant hover:text-primary transition-colors font-body-base" href="#">Facturación</a>
-<a class="text-on-surface-variant hover:text-primary transition-colors font-body-base" href="#">Infraestructura</a>
-<a class="text-on-surface-variant hover:text-primary transition-colors font-body-base" href="#">Sectores</a>
-<a class="text-on-surface-variant hover:text-primary transition-colors font-body-base" href="#">Nosotros</a>
-</div>
-<div class="flex items-center gap-4">
-<button class="bg-primary-container text-on-primary-container px-6 py-2 rounded-full font-label-technical text-label-technical uppercase tracking-widest font-bold hover:brightness-110 transition-all active:scale-95">
-                    Diagnóstico
-                </button>
-</div>
-</div>
+<nav class="hidden md:flex items-center gap-8">
+<a class="text-on-surface-variant font-body-md hover:text-primary transition-colors duration-200" href="#">Inicio</a>
+<a class="text-on-surface-variant font-body-md hover:text-primary transition-colors duration-200" href="#">Odoo ERP</a>
+<a class="text-on-surface-variant font-body-md hover:text-primary transition-colors duration-200" href="#">Facturación</a>
+<a class="text-on-surface-variant font-body-md hover:text-primary transition-colors duration-200" href="#">Infraestructura</a>
+<a class="text-on-surface-variant font-body-md hover:text-primary transition-colors duration-200" href="#">Sectores</a>
+<a class="text-on-surface-variant font-body-md hover:text-primary transition-colors duration-200" href="#">Nosotros</a>
 </nav>
-<!-- Main Content -->
-<main class="pt-32 pb-section-padding-v px-container-margin max-w-max-width mx-auto">
-<div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-start">
-<!-- Left Column: Strategic Info -->
+<button class="font-label-md text-label-md bg-accent-mint/10 border border-accent-mint/30 text-accent-mint px-6 py-2 rounded-full hover:bg-accent-mint hover:text-surface transition-all duration-300">
+            Diagnóstico
+        </button>
+</header>
+<main class="relative bg-grid min-h-[calc(100vh-80px)]">
+<!-- Hero / Contact Section -->
+<section class="max-w-7xl mx-auto px-6 py-24 md:py-32 grid lg:grid-cols-2 gap-16 items-start">
+<!-- Left Column: Content -->
 <div class="space-y-8">
-<div>
-<span class="font-label-technical text-label-technical text-primary-container uppercase tracking-[0.2em]">
-                        CONTACTO ESTRATÉGICO
-                    </span>
-<h1 class="font-display-lg text-display-lg mt-4 text-white">
-                        Solicita tu Diagnóstico <span class="italic font-light">Tecnológico</span>.
-                    </h1>
-<p class="mt-6 font-body-base text-text-soft max-w-lg">
-                        Analizamos su infraestructura actual para identificar cuellos de botella y oportunidades de optimización con soluciones de clase mundial adaptadas al mercado dominicano.
-                    </p>
+<div class="inline-flex items-center gap-2 px-3 py-1 rounded-sm bg-surface-container border border-outline-variant">
+<span class="w-2 h-2 rounded-full bg-accent-mint animate-pulse"></span>
+<span class="font-label-md text-label-md text-accent-mint">CONTACTO ESTRATÉGICO</span>
 </div>
+<h1 class="font-display-lg text-display-lg text-primary max-w-xl">
+                    Solicita tu <br/>
+<span class="italic font-light">Diagnóstico Tecnológico.</span>
+</h1>
+<p class="font-body-lg text-body-lg text-on-surface-variant max-w-lg">
+                    Analizamos su infraestructura actual para identificar cuellos de botella y oportunidades de optimización con soluciones de clase mundial adaptadas al mercado dominicano.
+                </p>
 <div class="space-y-6 pt-4">
 <div class="flex items-center gap-4 group">
-<div class="w-10 h-10 rounded-full border border-border-subtle flex items-center justify-center text-primary-container group-hover:bg-primary-container group-hover:text-surface-deep transition-all duration-300">
-<span class="material-symbols-outlined" data-icon="settings_suggest">settings_suggest</span>
+<div class="flex-none w-10 h-10 flex items-center justify-center rounded-lg bg-surface-bright border border-outline group-hover:border-accent-mint/50 transition-colors">
+<span class="material-symbols-outlined text-accent-mint" style="font-variation-settings: 'FILL' 0;">settings_suggest</span>
 </div>
-<span class="font-body-base text-on-surface">Odoo ERP</span>
-</div>
-<div class="flex items-center gap-4 group">
-<div class="w-10 h-10 rounded-full border border-border-subtle flex items-center justify-center text-primary-container group-hover:bg-primary-container group-hover:text-surface-deep transition-all duration-300">
-<span class="material-symbols-outlined" data-icon="receipt_long">receipt_long</span>
-</div>
-<span class="font-body-base text-on-surface">Facturación DGII</span>
+<span class="font-body-md text-body-md text-on-surface group-hover:text-primary transition-colors">Odoo ERP</span>
 </div>
 <div class="flex items-center gap-4 group">
-<div class="w-10 h-10 rounded-full border border-border-subtle flex items-center justify-center text-primary-container group-hover:bg-primary-container group-hover:text-surface-deep transition-all duration-300">
-<span class="material-symbols-outlined" data-icon="lan">lan</span>
+<div class="flex-none w-10 h-10 flex items-center justify-center rounded-lg bg-surface-bright border border-outline group-hover:border-accent-mint/50 transition-colors">
+<span class="material-symbols-outlined text-accent-mint" style="font-variation-settings: 'FILL' 0;">receipt_long</span>
 </div>
-<span class="font-body-base text-on-surface">Infraestructura y Redes</span>
+<span class="font-body-md text-body-md text-on-surface group-hover:text-primary transition-colors">Facturación DGII</span>
+</div>
+<div class="flex items-center gap-4 group">
+<div class="flex-none w-10 h-10 flex items-center justify-center rounded-lg bg-surface-bright border border-outline group-hover:border-accent-mint/50 transition-colors">
+<span class="material-symbols-outlined text-accent-mint" style="font-variation-settings: 'FILL' 0;">lan</span>
+</div>
+<span class="font-body-md text-body-md text-on-surface group-hover:text-primary transition-colors">Infraestructura y Redes</span>
 </div>
 </div>
-<div class="pt-12">
-<div class="p-6 rounded-2xl border border-border-subtle bg-surface-container-low/50">
-<p class="font-label-technical text-[10px] text-text-soft uppercase mb-4">Ubicación Central</p>
-<p class="font-body-sm text-on-surface">Santo Domingo, República Dominicana</p>
-<p class="font-body-sm text-on-surface mt-1">Soporte Técnico Especializado 24/7</p>
+<div class="pt-8 border-t border-outline flex flex-col sm:flex-row gap-8">
+<div>
+<p class="font-label-md text-label-md text-text-muted mb-1 uppercase tracking-widest">Sede Central</p>
+<p class="text-on-surface">Santo Domingo, <br/> República Dominicana</p>
+</div>
+<div>
+<p class="font-label-md text-label-md text-text-muted mb-1 uppercase tracking-widest">Soporte</p>
+<p class="text-on-surface">Técnico Especializado 24/7<br/>soporte@getupsoft.do</p>
 </div>
 </div>
 </div>
 <!-- Right Column: Form -->
-<div class="glass-card p-8 lg:p-10 rounded-lg">
-<form class="space-y-6">
-<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<div class="relative">
+<!-- Background ambient glow -->
+<div class="absolute -top-20 -right-20 w-64 h-64 bg-accent-mint/10 blur-[100px] rounded-full pointer-events-none"></div>
+<div class="absolute -bottom-20 -left-20 w-64 h-64 bg-blue-500/5 blur-[100px] rounded-full pointer-events-none"></div>
+<div class="glass-card p-8 md:p-10 rounded-xl relative z-10">
+<form class="space-y-6" onsubmit="event.preventDefault(); alert('Solicitud enviada correctamente.');">
+<div class="grid sm:grid-cols-2 gap-6">
 <div class="space-y-2">
-<label class="font-label-technical text-[10px] text-text-soft uppercase ml-1">Nombre</label>
-<input class="w-full bg-surface-deep border-none border-b border-border-mid focus:ring-1 focus:ring-primary-container text-on-surface p-4 rounded-lg placeholder:text-outline/50 transition-all" placeholder="Tu nombre completo" type="text"/>
-</div>
-<div class="space-y-2">
-<label class="font-label-technical text-[10px] text-text-soft uppercase ml-1">Empresa</label>
-<input class="w-full bg-surface-deep border-none border-b border-border-mid focus:ring-1 focus:ring-primary-container text-on-surface p-4 rounded-lg placeholder:text-outline/50 transition-all" placeholder="Nombre de tu organización" type="text"/>
-</div>
-</div>
-<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-<div class="space-y-2">
-<label class="font-label-technical text-[10px] text-text-soft uppercase ml-1">Teléfono</label>
-<input class="w-full bg-surface-deep border-none border-b border-border-mid focus:ring-1 focus:ring-primary-container text-on-surface p-4 rounded-lg placeholder:text-outline/50 transition-all" placeholder="+1 (809) 000-0000" type="tel"/>
+<label class="font-label-md text-label-md text-text-muted">NOMBRE COMPLETO</label>
+<input class="w-full bg-surface-container border-outline rounded-lg focus:border-accent-mint focus:ring-1 focus:ring-accent-mint/50 transition-all text-on-surface placeholder:text-outline-variant py-3 px-4" placeholder="Tu nombre completo" type="text"/>
 </div>
 <div class="space-y-2">
-<label class="font-label-technical text-[10px] text-text-soft uppercase ml-1">Email</label>
-<input class="w-full bg-surface-deep border-none border-b border-border-mid focus:ring-1 focus:ring-primary-container text-on-surface p-4 rounded-lg placeholder:text-outline/50 transition-all" placeholder="correo@empresa.com" type="email"/>
+<label class="font-label-md text-label-md text-text-muted">EMPRESA</label>
+<input class="w-full bg-surface-container border-outline rounded-lg focus:border-accent-mint focus:ring-1 focus:ring-accent-mint/50 transition-all text-on-surface placeholder:text-outline-variant py-3 px-4" placeholder="Nombre de tu organización" type="text"/>
+</div>
+</div>
+<div class="grid sm:grid-cols-2 gap-6">
+<div class="space-y-2">
+<label class="font-label-md text-label-md text-text-muted">TELÉFONO</label>
+<input class="w-full bg-surface-container border-outline rounded-lg focus:border-accent-mint focus:ring-1 focus:ring-accent-mint/50 transition-all text-on-surface placeholder:text-outline-variant py-3 px-4" placeholder="+1 (809) 000-0000" type="tel"/>
+</div>
+<div class="space-y-2">
+<label class="font-label-md text-label-md text-text-muted">EMAIL CORPORATIVO</label>
+<input class="w-full bg-surface-container border-outline rounded-lg focus:border-accent-mint focus:ring-1 focus:ring-accent-mint/50 transition-all text-on-surface placeholder:text-outline-variant py-3 px-4" placeholder="correo@empresa.com" type="email"/>
 </div>
 </div>
 <div class="space-y-2">
-<label class="font-label-technical text-[10px] text-text-soft uppercase ml-1">Servicio de interés</label>
-<select class="w-full bg-surface-deep border-none border-b border-border-mid focus:ring-1 focus:ring-primary-container text-on-surface p-4 rounded-lg appearance-none transition-all">
-<option>Odoo ERP</option>
-<option>Facturación Electrónica</option>
-<option>Infraestructura</option>
-<option>Redes</option>
-<option>Soporte</option>
+<label class="font-label-md text-label-md text-text-muted">SERVICIO DE INTERÉS</label>
+<select class="w-full bg-surface-container border-outline rounded-lg focus:border-accent-mint focus:ring-1 focus:ring-accent-mint/50 transition-all text-on-surface py-3 px-4 appearance-none cursor-pointer">
+<option value="odoo">Odoo ERP</option>
+<option value="facturacion">Facturación Electrónica</option>
+<option value="infraestructura">Infraestructura</option>
+<option value="redes">Redes</option>
+<option value="soporte">Soporte</option>
 </select>
 </div>
 <div class="space-y-2">
-<label class="font-label-technical text-[10px] text-text-soft uppercase ml-1">Mensaje</label>
-<textarea class="w-full bg-surface-deep border-none border-b border-border-mid focus:ring-1 focus:ring-primary-container text-on-surface p-4 rounded-lg placeholder:text-outline/50 transition-all resize-none" placeholder="Describa brevemente su requerimiento..." rows="4"></textarea>
+<label class="font-label-md text-label-md text-text-muted">MENSAJE</label>
+<textarea class="w-full bg-surface-container border-outline rounded-lg focus:border-accent-mint focus:ring-1 focus:ring-accent-mint/50 transition-all text-on-surface placeholder:text-outline-variant py-3 px-4 resize-none" placeholder="Describa brevemente su requerimiento..." rows="4"></textarea>
 </div>
-<button class="w-full bg-primary-container text-surface-deep py-5 rounded-full font-label-technical text-label-technical uppercase tracking-[0.2em] font-bold hover:brightness-105 hover:shadow-[0_0_20px_rgba(122,215,198,0.3)] transition-all active:scale-[0.98]" type="submit">
-                        Enviar Solicitud de Diagnóstico
-                    </button>
-<p class="text-center font-body-sm text-[12px] text-outline/60 mt-4">
-                        Al enviar, acepta nuestra política de tratamiento de datos corporativos.
-                    </p>
+<button class="w-full bg-accent-mint text-surface font-bold py-4 px-8 rounded-full tracking-widest hover:brightness-110 active:scale-[0.98] transition-all flex items-center justify-center gap-2 group" type="submit">
+                            ENVIAR SOLICITUD DE DIAGNÓSTICO
+                            <span class="material-symbols-outlined group-hover:translate-x-1 transition-transform">arrow_forward</span>
+</button>
 </form>
 </div>
 </div>
+</section>
+<!-- Minimal Location / Map Teaser Section -->
+<section class="max-w-7xl mx-auto px-6 py-12 border-t border-outline">
+<div class="flex flex-col md:flex-row justify-between items-center gap-12">
+<div class="flex-1 space-y-4">
+<h3 class="font-headline-md text-headline-md text-primary">Nuestra Presencia</h3>
+<p class="text-on-surface-variant max-w-md">Contamos con despliegues en todo el territorio nacional, garantizando conectividad y soporte de baja latencia para el sector industrial y corporativo.</p>
+</div>
+<div class="flex-1 w-full h-48 rounded-xl overflow-hidden grayscale contrast-125 opacity-50 hover:opacity-100 transition-opacity relative group">
+<img class="w-full h-full object-cover" data-alt="A high-contrast, professional aerial view of Santo Domingo city skyline at dusk, processed in a monochromatic technical style with subtle teal color grading. The image conveys urban infrastructure, modern architecture, and a sense of strategic connectivity, aligned with an enterprise technology brand aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuD2vlZtvOqImVOF46IwaqmvErHR6Gs19iYsxliCMxkHnRa6Zom8vHEAj4d0jvRWcVSSxA4q1sFmY7uVAe-0r3j_3U7Hl3Q3ho51TRtWH-NxDhFdHSEYRvrW24Hx0wSCml7XQzfnneDZ5TEoJ_DIvJ5CsAtXm0hGeehX-yeq_Yo1oGj2twl3lufdhkRHt0ffXSQNGSqerLUGljZ7swtaJCWmUxr5rCeHDz7sgUj5saoX9Edz7jHFlnLn7l3AhkGN74zuoKkPl9b01VY"/>
+<div class="absolute inset-0 bg-gradient-to-t from-surface to-transparent"></div>
+<div class="absolute bottom-4 left-4 flex items-center gap-2">
+<span class="material-symbols-outlined text-accent-mint text-sm">location_on</span>
+<span class="font-label-md text-label-md text-white">SANTO DOMINGO, RD</span>
+</div>
+</div>
+</div>
+</section>
 </main>
 <!-- Footer -->
-<footer class="w-full py-section-padding-v bg-surface-container-lowest dark:bg-surface-container-lowest border-t border-border-subtle dark:border-border-subtle mt-20">
-<div class="flex flex-col md:flex-row justify-between items-center px-container-margin max-w-max-width mx-auto gap-gutter">
-<div class="flex flex-col items-center md:items-start gap-4">
-<img alt="GetUpSoft RD Logo" class="h-6 w-auto opacity-80" src="https://lh3.googleusercontent.com/aida/ADBb0uhKvw3Zppt27w4ONiZZ1bNwHHH3pdGTbUK9E7g37eCslfOLZdEnwhlopOnmf4ki9SwER69nsJTba1tskUkz-D8oG8IpReR7R5tXH9Aoldf_rBjsXo7HslJ11_WzQMMnVcv5vtEn8de2VC9tIr4a95ilGSyfZ0s06lCnNh4ciTOhZkBB1FsJ1XfjhSiCYYql0_SqlwDHwNrDBOxEtqkT4FrdCfTXjmSjb7oXSGXhhOeLtpI60ilthWjjjw"/>
-<p class="font-body-sm text-body-sm text-text-soft">© 2024 GetUpSoft RD. Todos los derechos reservados. Santo Domingo, República Dominicana.</p>
+<footer class="w-full py-12 px-margin-desktop bg-surface-container-lowest border-t border-outline">
+<div class="max-w-container-max mx-auto flex flex-col md:flex-row justify-between items-center gap-8">
+<div class="flex flex-col items-center md:items-start gap-2">
+<div class="font-headline-md text-headline-md text-primary font-bold">GetUpSoft RD</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant">© 2024 GetUpSoft RD. Todos los derechos reservados.</p>
 </div>
-<div class="flex gap-8">
-<a class="font-label-technical text-label-technical text-text-soft dark:text-text-soft hover:text-primary transition-colors uppercase" href="#">Privacidad</a>
-<a class="font-label-technical text-label-technical text-text-soft dark:text-text-soft hover:text-primary transition-colors uppercase" href="#">Términos de Servicio</a>
-<a class="font-label-technical text-label-technical text-text-soft dark:text-text-soft hover:text-primary transition-colors uppercase" href="#">Soporte Técnico</a>
+<div class="flex flex-wrap justify-center gap-6">
+<a class="font-label-md text-label-md text-on-surface-variant hover:text-primary transition-colors" href="#">Aviso Legal</a>
+<a class="font-label-md text-label-md text-on-surface-variant hover:text-primary transition-colors" href="#">Privacidad</a>
+<a class="font-label-md text-label-md text-on-surface-variant hover:text-primary transition-colors" href="#">Cookies</a>
+</div>
+<div class="flex gap-4">
+<a class="w-10 h-10 flex items-center justify-center rounded-full border border-outline hover:border-accent-mint hover:text-accent-mint transition-all" href="#">
+<span class="material-symbols-outlined text-xl">share</span>
+</a>
+<a class="w-10 h-10 flex items-center justify-center rounded-full border border-outline hover:border-accent-mint hover:text-accent-mint transition-all" href="#">
+<span class="material-symbols-outlined text-xl">hub</span>
+</a>
 </div>
 </div>
 </footer>
+<script>
+        // Micro-interaction for form inputs
+        const inputs = document.querySelectorAll('input, select, textarea');
+        inputs.forEach(input => {
+            input.addEventListener('focus', () => {
+                input.parentElement.querySelector('label').classList.replace('text-text-muted', 'text-accent-mint');
+            });
+            input.addEventListener('blur', () => {
+                input.parentElement.querySelector('label').classList.replace('text-accent-mint', 'text-text-muted');
+            });
+        });
+
+        // Background subtle parallax or movement effect could be added here
+        document.addEventListener('mousemove', (e) => {
+            const x = e.clientX / window.innerWidth;
+            const y = e.clientY / window.innerHeight;
+            
+            const glows = document.querySelectorAll('.blur-\\[100px\\]');
+            glows.forEach((glow, index) => {
+                const speed = (index + 1) * 20;
+                glow.style.transform = `translate(${x * speed}px, ${y * speed}px)`;
+            });
+        });
+    </script>
 </body></html>

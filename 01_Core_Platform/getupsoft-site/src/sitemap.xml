@@ -1,24 +1,41 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <!-- GLOBAL DOMAIN -->
-  <url><loc>https://getupsoft.com/</loc><priority>1.0</priority></url>
-  <url><loc>https://getupsoft.com/ai-agents.html</loc><priority>0.8</priority></url>
-  <url><loc>https://getupsoft.com/products.html</loc><priority>0.8</priority></url>
-  <url><loc>https://getupsoft.com/solutions.html</loc><priority>0.8</priority></url>
-  <url><loc>https://getupsoft.com/digital-transformation.html</loc><priority>0.8</priority></url>
-  <url><loc>https://getupsoft.com/system-integration.html</loc><priority>0.8</priority></url>
-  <url><loc>https://getupsoft.com/work.html</loc><priority>0.7</priority></url>
-  <url><loc>https://getupsoft.com/about.html</loc><priority>0.6</priority></url>
-  <url><loc>https://getupsoft.com/contact.html</loc><priority>0.9</priority></url>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+  xmlns:xhtml="http://www.w3.org/1999/xhtml">
+  <url>
+    <loc>https://getupsoft.com/</loc>
+    <priority>1.0</priority>
+    <xhtml:link rel="alternate" hreflang="en" href="https://getupsoft.com/" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://getupsoft.com/es/" />
+    <xhtml:link rel="alternate" hreflang="es-DO" href="https://getupsoft.com.do/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://getupsoft.com.do/en/" />
+  </url>
+  <url><loc>https://getupsoft.com/es/</loc><priority>0.8</priority></url>
+  <url><loc>https://getupsoft.com/ai-agents</loc><priority>0.9</priority></url>
+  <url><loc>https://getupsoft.com/system-integration</loc><priority>0.9</priority></url>
+  <url><loc>https://getupsoft.com/digital-transformation</loc><priority>0.8</priority></url>
+  <url><loc>https://getupsoft.com/products</loc><priority>0.8</priority></url>
+  <url><loc>https://getupsoft.com/solutions</loc><priority>0.8</priority></url>
+  <url><loc>https://getupsoft.com/case-studies</loc><priority>0.7</priority></url>
+  <url><loc>https://getupsoft.com/methodology</loc><priority>0.7</priority></url>
+  <url><loc>https://getupsoft.com/about</loc><priority>0.6</priority></url>
+  <url><loc>https://getupsoft.com/contact</loc><priority>0.9</priority></url>
 
-  <!-- LOCAL DOMAIN (Assuming subfolder or separate root) -->
-  <url><loc>https://getupsoft.com.do/</loc><priority>1.0</priority></url>
-  <url><loc>https://getupsoft.com.do/odoo-erp.html</loc><priority>0.9</priority></url>
-  <url><loc>https://getupsoft.com.do/productos.html</loc><priority>0.8</priority></url>
-  <url><loc>https://getupsoft.com.do/soluciones-sector.html</loc><priority>0.8</priority></url>
-  <url><loc>https://getupsoft.com.do/redes-infraestructura.html</loc><priority>0.8</priority></url>
-  <url><loc>https://getupsoft.com.do/soporte-tecnico.html</loc><priority>0.7</priority></url>
-  <url><loc>https://getupsoft.com.do/casos.html</loc><priority>0.7</priority></url>
-  <url><loc>https://getupsoft.com.do/nosotros.html</loc><priority>0.6</priority></url>
-  <url><loc>https://getupsoft.com.do/contacto.html</loc><priority>0.9</priority></url>
+  <url>
+    <loc>https://getupsoft.com.do/</loc>
+    <priority>1.0</priority>
+    <xhtml:link rel="alternate" hreflang="es-DO" href="https://getupsoft.com.do/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://getupsoft.com.do/en/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://getupsoft.com/" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://getupsoft.com/es/" />
+  </url>
+  <url><loc>https://getupsoft.com.do/en/</loc><priority>0.8</priority></url>
+  <url><loc>https://getupsoft.com.do/odoo-erp</loc><priority>0.9</priority></url>
+  <url><loc>https://getupsoft.com.do/facturacion-electronica</loc><priority>0.9</priority></url>
+  <url><loc>https://getupsoft.com.do/infraestructura</loc><priority>0.8</priority></url>
+  <url><loc>https://getupsoft.com.do/redes-empresariales</loc><priority>0.8</priority></url>
+  <url><loc>https://getupsoft.com.do/servidores</loc><priority>0.8</priority></url>
+  <url><loc>https://getupsoft.com.do/sectores</loc><priority>0.7</priority></url>
+  <url><loc>https://getupsoft.com.do/casos</loc><priority>0.7</priority></url>
+  <url><loc>https://getupsoft.com.do/nosotros</loc><priority>0.6</priority></url>
+  <url><loc>https://getupsoft.com.do/contacto</loc><priority>0.9</priority></url>
 </urlset>

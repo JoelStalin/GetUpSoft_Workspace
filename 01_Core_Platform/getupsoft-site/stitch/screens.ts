@@ -132,6 +132,11 @@ Below form: "Or reach us directly" with email/LinkedIn placeholders.`,
     "DESKTOP",
     `Homepage for GetUpSoft RD (Dominican Republic portal). Spanish language.
 
+Important output requirement:
+- Return a complete responsive HTML page, not a logo SVG or isolated asset.
+- The first viewport must include header, hero copy, CTAs, stats and operational dashboard.
+- Do not generate only the wordmark.
+
 Header:
 - Logo "getupsoft RD" where "RD" is in #99F6E4 (mint)
 - Nav: Inicio | Odoo ERP | Facturación | Infraestructura | Sectores | Nosotros + "Diagnóstico" CTA (mint border rounded-full)
