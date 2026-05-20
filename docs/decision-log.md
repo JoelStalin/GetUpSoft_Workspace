@@ -387,3 +387,5 @@ If critical task is discovered mid-Phase 0:
 ---
 
 _Last updated: 2026-05-19 Â· Phase 0 Pre-flight Â· 4 decisions logged_
+
+| V8 Pivot: Aesthetic Minimalist | 2026-05-19 | Cambiar estética de Dark Enterprise a Light Minimalist (tonos pastel, blanco, explorium.ai). | Seguir con Dark Theme. | Solicitud directa del PO para mejorar la claridad y accesibilidad, dando un toque moderno y 'tech-friendly'. | Cambio total de tokens en Tailwind y diseño base. |

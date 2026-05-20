@@ -1,5 +1,6 @@
 import { NavLink, Outlet } from "react-router-dom";
 import { CodeLogo } from "./CodeLogo";
+import { Button } from "./ui/Button";
 
 const NAV = [
   { to: "/", label: "Inicio" },
@@ -18,23 +19,21 @@ const accessLinks = [
 
 export function SiteLayout() {
   return (
-    <div className="min-h-screen bg-white text-gray-900">
-      <header className="sticky top-0 z-30 border-b border-gray-200 bg-white/95 backdrop-blur-lg shadow-sm">
+    <div className="min-h-screen bg-background text-text">
+      <header className="sticky top-0 z-50 border-b border-border bg-background/80 backdrop-blur-xl">
         <div className="mx-auto flex max-w-7xl items-center justify-between gap-6 px-6 py-4">
-          <NavLink to="/" className="min-w-0">
-            <div className="[&_*]:text-blue-600">
-              <CodeLogo compact />
-            </div>
-            <p className="mt-1 truncate text-base font-bold text-blue-600">Software, Infrastructure, Automation</p>
+          <NavLink to="/" className="min-w-0 flex items-center gap-3">
+            <CodeLogo compact />
+            <p className="hidden sm:block text-[11px] font-bold uppercase tracking-widest text-primary">Intelligence & Infrastructure</p>
           </NavLink>
 
-          <nav className="hidden items-center gap-8 text-sm font-semibold text-gray-600 lg:flex">
+          <nav className="hidden items-center gap-8 text-[11px] font-bold uppercase tracking-widest text-textMuted lg:flex">
             {NAV.map((item) => (
               <NavLink
                 key={item.to}
                 to={item.to}
                 className={({ isActive }) =>
-                  isActive ? "text-blue-600" : "text-gray-600 transition hover:text-gray-900"
+                  isActive ? "text-primary" : "transition hover:text-text"
                 }
               >
                 {item.label}
@@ -42,19 +41,13 @@ export function SiteLayout() {
             ))}
           </nav>
 
-          <div className="hidden items-center gap-3 sm:flex">
-            <a
-              className="rounded-lg border-2 border-gray-300 bg-white px-4 py-2 text-sm font-bold text-gray-900 transition hover:border-blue-600 hover:text-blue-600"
-              href="https://chatbot.getupsoft.com"
-            >
+          <div className="flex items-center gap-4">
+            <Button variant="outline" href="https://chatbot.getupsoft.com" className="hidden sm:inline-flex">
               Chatbot
-            </a>
-            <a
-              className="rounded-lg bg-blue-600 px-4 py-2 text-sm font-bold text-white transition hover:bg-blue-700 hover:shadow-lg hover:shadow-blue-500/30"
-              href="https://cliente.getupsoft.com.do/login"
-            >
+            </Button>
+            <Button href="https://cliente.getupsoft.com.do/login">
               Ingresar
-            </a>
+            </Button>
           </div>
         </div>
       </header>
@@ -63,24 +56,21 @@ export function SiteLayout() {
         <Outlet />
       </main>
 
-      <footer className="border-t border-gray-200 bg-gray-50">
-        <div className="mx-auto grid max-w-7xl gap-10 px-6 py-12 lg:grid-cols-[1.1fr,0.9fr,0.9fr]">
-          <div className="space-y-3">
-            <div className="[&_*]:text-blue-600">
-              <CodeLogo compact />
-            </div>
-            <p className="max-w-md text-sm leading-7 text-gray-600">
-              Diseñamos producto, infraestructura y automatización para compañías que necesitan operar con más claridad y menos
-              fricción.
+      <footer className="border-t border-border bg-surface">
+        <div className="mx-auto grid max-w-7xl gap-12 px-6 py-20 lg:grid-cols-[1.5fr,1fr,1fr]">
+          <div className="space-y-6">
+            <CodeLogo compact />
+            <p className="max-w-md text-sm leading-relaxed text-textMuted">
+              Diseñamos producto, infraestructura y automatización para compañías que necesitan operar con más claridad, escala y continuidad estratégica.
             </p>
           </div>
 
           <div>
-            <p className="text-sm font-bold text-gray-900">Navegación</p>
-            <ul className="mt-4 space-y-3 text-sm text-gray-600">
+            <p className="text-[11px] font-bold uppercase tracking-widest text-text mb-6">Navegación</p>
+            <ul className="space-y-3">
               {NAV.map((item) => (
                 <li key={item.to}>
-                  <NavLink className="transition hover:text-blue-600" to={item.to}>
+                  <NavLink className="text-sm text-textMuted transition hover:text-primary" to={item.to}>
                     {item.label}
                   </NavLink>
                 </li>
@@ -89,11 +79,11 @@ export function SiteLayout() {
           </div>
 
           <div>
-            <p className="text-sm font-bold text-gray-900">Accesos</p>
-            <ul className="mt-4 space-y-3 text-sm text-gray-600">
+            <p className="text-[11px] font-bold uppercase tracking-widest text-text mb-6">Accesos</p>
+            <ul className="space-y-3">
               {accessLinks.map((item) => (
                 <li key={item.label}>
-                  <a className="transition hover:text-blue-600" href={item.href}>
+                  <a className="text-sm text-textMuted transition hover:text-primary" href={item.href}>
                     {item.label}
                   </a>
                 </li>

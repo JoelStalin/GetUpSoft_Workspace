@@ -3,7 +3,7 @@ kind: Kustomization
 
 namespace: getupsoft
 
-bases:
+resources:
   - ../../base
 
 namePrefix: site-prod-
@@ -44,11 +44,16 @@ patches:
       - op: replace
         path: /spec/template/spec/containers/0/readinessProbe/failureThreshold
         value: 3
-
-configMapGenerator:
-  - name: getupsoft-site-config
-    behavior: merge
-    literals:
-      - NODE_ENV=production
-      - LOG_LEVEL=info
-      - ENABLE_CACHE=true
+  - target:
+      kind: ConfigMap
+      name: getupsoft-site-config
+    patch: |-
+      - op: replace
+        path: /data/NODE_ENV
+        value: production
+      - op: replace
+        path: /data/LOG_LEVEL
+        value: info
+      - op: replace
+        path: /data/ENABLE_CACHE
+        value: "true"

@@ -1,4 +1,8 @@
 import { Link } from "react-router-dom";
+import { Section } from "./ui/Section";
+import { Container } from "./ui/Container";
+import { Eyebrow } from "./ui/Eyebrow";
+import { Button } from "./ui/Button";
 
 type PageBlock = {
   eyebrow: string;
@@ -30,108 +34,124 @@ export function PortalContentPage({
   blocks,
   faq,
 }: PortalContentPageProps) {
-  const accent = theme === "rd" ? "text-accent-rd" : "text-accent-global";
-  const bgAccent = theme === "rd" ? "bg-accent-rd" : "bg-accent-global";
-  const borderAccent = theme === "rd" ? "border-accent-rd" : "border-accent-global";
-  const ctaText = "text-bg-deep";
+  const accentColor = theme === "rd" ? "accentTeal" : "primary";
 
   return (
-    <div className="relative overflow-hidden">
-      <section className="border-b border-border-subtle">
-        <div className="mx-auto grid max-w-7xl items-center gap-12 px-6 py-24 lg:grid-cols-[0.95fr,1.05fr]">
-          <div className="space-y-8">
-            <p className={`font-mono text-[10px] font-bold uppercase tracking-[0.4em] ${accent}`}>
-              {theme === "rd" ? "// GetUpSoft RD" : "// GetUpSoft Global"}
-            </p>
-            <h1 className="font-display text-5xl font-light leading-tight tracking-tight text-text-main sm:text-6xl">
-              {title}
-            </h1>
-            <p className="max-w-2xl text-lg font-light leading-relaxed text-text-muted">{subtitle}</p>
-            <div className="flex flex-wrap gap-4">
-              <Link
-                to={primaryTo}
-                className={`rounded-full ${bgAccent} px-8 py-3.5 text-[12px] font-bold uppercase tracking-[0.2em] ${ctaText} transition hover:scale-105 hover:bg-white`}
-              >
-                {primaryCta}
-              </Link>
-              {secondaryCta && secondaryTo ? (
-                <Link
-                  to={secondaryTo}
-                  className={`rounded-full border ${borderAccent}/50 px-8 py-3.5 text-[12px] font-bold uppercase tracking-[0.2em] ${accent} transition hover:bg-white hover:text-bg-deep`}
-                >
-                  {secondaryCta}
-                </Link>
-              ) : null}
+    <div className="bg-background">
+      {/* Hero Header */}
+      <Section className="!py-24 lg:!py-36 border-b border-border">
+        <Container>
+          <div className="grid gap-16 lg:grid-cols-[1fr,1.1fr] items-center">
+            <div className="space-y-8">
+              <Eyebrow color={accentColor}>
+                {theme === "rd" ? "GetUpSoft RD" : "GetUpSoft Global"}
+              </Eyebrow>
+              <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold tracking-tight text-text leading-[1.05]">
+                {title}
+              </h1>
+              <p className="max-w-xl text-xl text-textMuted leading-relaxed">
+                {subtitle}
+              </p>
+              <div className="flex flex-wrap gap-5">
+                <Button to={primaryTo} className={theme === "rd" ? "bg-accentTeal hover:bg-text" : ""}>
+                  {primaryCta}
+                </Button>
+                {secondaryCta && secondaryTo && (
+                  <Button variant="outline" to={secondaryTo}>
+                    {secondaryCta}
+                  </Button>
+                )}
+              </div>
+            </div>
+            <div className="relative group">
+              <div className="absolute inset-0 bg-primarySoft/20 rounded-[40px] blur-3xl group-hover:bg-primarySoft/30 transition-colors" />
+              <ArchitecturePanel theme={theme} title={title} />
             </div>
           </div>
-          <ArchitecturePanel theme={theme} title={title} />
-        </div>
-      </section>
+        </Container>
+      </Section>
 
-      <section className="mx-auto max-w-7xl px-6 py-24">
-        <div className="grid gap-6 lg:grid-cols-3">
-          {blocks.map((block) => (
-            <article key={block.title} className="card-hover glass rounded-3xl p-8">
-              <p className={`font-mono text-[10px] font-bold uppercase tracking-[0.25em] ${accent}`}>{block.eyebrow}</p>
-              <h2 className="mt-4 font-display text-2xl font-semibold text-text-main">{block.title}</h2>
-              <p className="mt-4 text-sm font-light leading-7 text-text-muted">{block.body}</p>
-              <ul className="mt-6 space-y-3">
-                {block.items.map((item) => (
-                  <li key={item} className="flex gap-3 text-sm text-text-soft">
-                    <span className={`mt-2 h-1.5 w-1.5 shrink-0 rounded-full ${bgAccent}`} />
-                    <span>{item}</span>
-                  </li>
-                ))}
-              </ul>
-            </article>
-          ))}
-        </div>
-      </section>
-
-      <section className="border-y border-border-subtle bg-bg-surface/30">
-        <div className="mx-auto max-w-5xl px-6 py-24">
-          <p className={`text-center font-mono text-[10px] font-bold uppercase tracking-[0.4em] ${accent}`}>FAQ</p>
-          <div className="mt-12 divide-y divide-border-subtle rounded-3xl border border-border-subtle bg-bg-elevated/40">
-            {faq.map((item) => (
-              <details key={item.q} className="group p-7">
-                <summary className="cursor-pointer list-none font-display text-xl font-medium text-text-main">
-                  {item.q}
-                </summary>
-                <p className="mt-4 max-w-3xl text-sm font-light leading-7 text-text-muted">{item.a}</p>
-              </details>
+      {/* Feature Blocks */}
+      <Section background="surface">
+        <Container>
+          <div className="grid gap-8 lg:grid-cols-3">
+            {blocks.map((block) => (
+              <article key={block.title} className="p-10 rounded-[32px] bg-background border border-border shadow-soft-xl hover:shadow-soft-2xl transition-all duration-300">
+                <Eyebrow color={accentColor} className="mb-4">{block.eyebrow}</Eyebrow>
+                <h2 className="text-2xl font-bold text-text mb-4">{block.title}</h2>
+                <p className="text-textMuted leading-relaxed mb-8">{block.body}</p>
+                <ul className="space-y-4">
+                  {block.items.map((item) => (
+                    <li key={item} className="flex gap-4 text-sm font-medium text-textMuted">
+                      <span className={`mt-1.5 h-2 w-2 shrink-0 rounded-full ${theme === "rd" ? "bg-accentTeal" : "bg-primary"}`} />
+                      <span>{item}</span>
+                    </li>
+                  ))}
+                </ul>
+              </article>
             ))}
           </div>
-        </div>
-      </section>
+        </Container>
+      </Section>
 
-      <section className="mx-auto max-w-7xl px-6 py-24">
-        <div className="glass rounded-4xl p-10 text-center sm:p-16">
-          <h2 className="font-display text-4xl font-light tracking-tight text-text-main">
-            {theme === "rd" ? "Construyamos una operación más estable." : "Build the next layer of your enterprise architecture."}
-          </h2>
-          <Link
-            to={primaryTo}
-            className={`mt-8 inline-flex rounded-full ${bgAccent} px-8 py-4 text-[12px] font-bold uppercase tracking-[0.2em] ${ctaText} transition hover:scale-105 hover:bg-white`}
-          >
-            {primaryCta}
-          </Link>
-        </div>
-      </section>
+      {/* FAQ Section */}
+      <Section>
+        <Container>
+          <div className="max-w-4xl mx-auto">
+            <div className="text-center mb-16">
+              <Eyebrow color={accentColor}>FAQ</Eyebrow>
+              <h2 className="text-4xl font-bold text-text">Common Inquiries</h2>
+            </div>
+            <div className="divide-y divide-border border-t border-border">
+              {faq.map((item) => (
+                <details key={item.q} className="group py-8">
+                  <summary className="cursor-pointer list-none flex items-center justify-between font-bold text-xl text-text hover:text-primary transition-colors">
+                    <span>{item.q}</span>
+                    <span className="text-2xl font-light group-open:rotate-45 transition-transform">+</span>
+                  </summary>
+                  <p className="mt-6 max-w-3xl text-lg text-textMuted leading-relaxed">
+                    {item.a}
+                  </p>
+                </details>
+              ))}
+            </div>
+          </div>
+        </Container>
+      </Section>
+
+      {/* Conversion Section */}
+      <Section background={theme === "rd" ? "accentTealSoft" : "primarySoft"} className="!py-32">
+        <Container>
+          <div className="bg-background p-12 sm:p-20 rounded-[56px] shadow-soft-2xl text-center relative overflow-hidden">
+            <div className={`absolute top-0 left-1/2 -translate-x-1/2 w-64 h-64 ${theme === "rd" ? "bg-accentTealSoft/50" : "bg-primarySoft/50"} rounded-full blur-[100px] -mt-32`} />
+            <div className="relative z-10 max-w-3xl mx-auto">
+              <h2 className="text-4xl sm:text-5xl font-bold text-text leading-tight mb-10">
+                {theme === "rd"
+                  ? "Construyamos una operación más estable."
+                  : "Build the next layer of your enterprise architecture."}
+              </h2>
+              <Button to={primaryTo} className={`px-12 py-5 ${theme === "rd" ? "bg-accentTeal hover:bg-text" : ""}`}>
+                {primaryCta}
+              </Button>
+            </div>
+          </div>
+        </Container>
+      </Section>
     </div>
   );
 }
 
 function ArchitecturePanel({ theme, title }: { theme: "global" | "rd"; title: string }) {
-  const accent = theme === "rd" ? "#99F6E4" : "#A5B4FC";
-  const second = theme === "rd" ? "#A5B4FC" : "#67E8F9";
+  const accent = theme === "rd" ? "#14B8A6" : "#3B82F6";
+  const second = theme === "rd" ? "#8B5CF6" : "#06B6D4";
   return (
-    <div className="glass relative min-h-[360px] overflow-hidden rounded-[2rem] p-8">
-      <div className="absolute inset-0 opacity-80">
+    <div className="relative bg-background/40 backdrop-blur-sm border border-borderStrong/20 min-h-[420px] overflow-hidden rounded-[40px] p-10 flex flex-col justify-between shadow-soft-xl">
+      <div className="absolute inset-0 opacity-40">
         <svg viewBox="0 0 720 520" className="h-full w-full" role="img" aria-label={`${title} architecture visual`}>
           <defs>
             <radialGradient id={`g-${theme}`} cx="50%" cy="50%" r="55%">
-              <stop offset="0%" stopColor={accent} stopOpacity="0.4" />
-              <stop offset="100%" stopColor="#0F1115" stopOpacity="0" />
+              <stop offset="0%" stopColor={accent} stopOpacity="0.15" />
+              <stop offset="100%" stopColor="#FFFFFF" stopOpacity="0" />
             </radialGradient>
           </defs>
           <rect width="720" height="520" fill={`url(#g-${theme})`} />
@@ -141,8 +161,8 @@ function ArchitecturePanel({ theme, title }: { theme: "global" | "rd"; title: st
               d={`M${90 + i * 38} ${390 - i * 36} C ${210 + i * 18} ${160 + i * 8}, ${380 - i * 18} ${430 - i * 22}, ${610 - i * 34} ${120 + i * 42}`}
               fill="none"
               stroke={i % 2 ? second : accent}
-              strokeOpacity="0.38"
-              strokeWidth="1.5"
+              strokeOpacity="0.25"
+              strokeWidth="1.2"
             />
           ))}
           {[
@@ -154,23 +174,24 @@ function ArchitecturePanel({ theme, title }: { theme: "global" | "rd"; title: st
             [540, 360],
           ].map(([x, y], i) => (
             <g key={`${x}-${y}`}>
-              <rect x={x} y={y} width="110" height="56" rx="12" fill="#161920" stroke={i % 2 ? second : accent} strokeOpacity="0.55" />
-              <circle cx={x + 24} cy={y + 28} r="6" fill={i % 2 ? second : accent} />
-              <path d={`M${x + 42} ${y + 22}h42M${x + 42} ${y + 34}h28`} stroke="#E2E8F0" strokeOpacity="0.35" strokeWidth="2" />
+              <rect x={x} y={y} width="110" height="56" rx="16" fill="#FFFFFF" stroke={i % 2 ? second : accent} strokeOpacity="0.4" strokeWidth="1" />
+              <circle cx={x + 24} cy={y + 28} r="5" fill={i % 2 ? second : accent} fillOpacity="0.6" />
+              <path d={`M${x + 42} ${y + 22}h42M${x + 42} ${y + 34}h28`} stroke="#94A3B8" strokeOpacity="0.3" strokeWidth="2" strokeLinecap="round" />
             </g>
           ))}
-          <circle cx="360" cy="240" r="52" fill="#0F1115" stroke={accent} strokeOpacity="0.8" />
-          <circle cx="360" cy="240" r="16" fill={accent} />
+          <circle cx="360" cy="240" r="52" fill="#FFFFFF" stroke={accent} strokeOpacity="0.5" strokeWidth="1" />
+          <circle cx="360" cy="240" r="14" fill={accent} fillOpacity="0.7" />
         </svg>
       </div>
-      <div className="relative flex h-full min-h-[300px] flex-col justify-between">
-        <p className="font-mono text-[10px] font-bold uppercase tracking-[0.35em] text-text-muted">Architecture Map</p>
-        <div>
-          <p className="font-mono text-[11px] uppercase tracking-[0.25em] text-text-soft">Connected systems</p>
-          <p className="mt-3 max-w-sm text-sm font-light leading-7 text-text-muted">
-            Visual layer for systems, data, infrastructure and operational workflows.
-          </p>
-        </div>
+      <div className="relative">
+        <p className="text-[10px] font-bold uppercase tracking-[0.3em] text-textSubtle mb-2">Architecture Map</p>
+        <p className="text-xl font-bold text-text">Operational Core</p>
+      </div>
+      <div className="relative">
+        <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-textSubtle mb-3">System Mesh</p>
+        <p className="max-w-xs text-sm text-textMuted leading-relaxed font-medium">
+          Unified governance for AI agents, ERP endpoints and cloud infrastructure.
+        </p>
       </div>
     </div>
   );

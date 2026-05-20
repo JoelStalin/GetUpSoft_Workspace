@@ -5,65 +5,63 @@ export default {
   theme: {
     extend: {
       colors: {
-        // Google Cloud inspired palette
-        "gc-blue": "#1F2937",
-        "gc-light": "#F9FAFB",
-        "gc-gray": "#6B7280",
-        // Primary accent colors (Google Cloud style)
-        "gc-primary-blue": "#1E40AF",
-        "gc-primary-red": "#DC2626",
-        "gc-primary-orange": "#EA580C",
-        "gc-primary-green": "#059669",
-        "gc-primary-purple": "#7C3AED",
-        "gc-primary-cyan": "#0891B2",
-        // Bright highlight colors
-        "gc-bright-blue": "#3B82F6",
-        "gc-bright-red": "#EF4444",
-        "gc-bright-orange": "#F97316",
-        "gc-bright-green": "#10B981",
-        "gc-bright-purple": "#A855F7",
-        "gc-bright-cyan": "#06B6D4",
-        // Legacy aliases for compatibility
-        canvas: "#FFFFFF",
-        ink: "#0F172A",
-        accent: "#3B82F6",
-        "accent-pink": "#EC4899",
-        "accent-purple": "#A855F7",
+        // V8 Aesthetic Minimalist Palette
+        background: "#FFFFFF",
+        surface: "#F8FAFC", // Slate 50
+        surfaceElevated: "#F1F5F9", // Slate 100
+        surfaceSoft: "#E2E8F0", // Slate 200
+        border: "rgba(15, 23, 42, 0.06)",
+        borderStrong: "rgba(15, 23, 42, 0.12)",
+        text: "#0F172A", // Slate 900
+        textMuted: "#475569", // Slate 600
+        textSubtle: "#94A3B8", // Slate 400
+
+        // Accent Colors (Pastel Opaque)
+        primary: "#3B82F6",
+        primarySoft: "#DBEAFE",
+        accentTeal: "#14B8A6",
+        accentTealSoft: "#CCFBF1",
+        accentPurple: "#8B5CF6",
+        accentPurpleSoft: "#EDE9FE",
+        accentCoral: "#F43F5E",
+        accentCoralSoft: "#FFE4E6",
+
+        // Semantic
+        warning: "#F59E0B",
+        success: "#10B981",
+        danger: "#EF4444",
       },
       fontFamily: {
-        sans: ["Plus Jakarta Sans", "Inter", "sans-serif"],
-        display: ["Space Grotesk", "Plus Jakarta Sans", "sans-serif"],
-        mono: ["IBM Plex Mono", "monospace"],
+        sans: ["Inter", "Plus Jakarta Sans", "sans-serif"],
+        display: ["Inter", "Plus Jakarta Sans", "sans-serif"],
+        mono: ["JetBrains Mono", "monospace"],
       },
       backgroundImage: {
-        "grid-subtle": "radial-gradient(circle, rgba(255,255,255,0.04) 1px, transparent 1px)",
-        "gradient-global": "radial-gradient(circle at 50% -20%, #1e293b, transparent 70%)",
-        "gradient-rd": "radial-gradient(circle at 30% 10%, rgba(153,246,228,0.06), transparent 60%)",
+        "grid-subtle": "radial-gradient(circle, rgba(15,23,42,0.03) 1px, transparent 1px)",
+        "gradient-aesthetic": "linear-gradient(135deg, #f8fafc 0%, #ffffff 100%)",
       },
       animation: {
-        "glow-slow": "glow 8s ease-in-out infinite",
-        "pulse-soft": "pulse-soft 4s ease-in-out infinite",
-        "float": "float 6s ease-in-out infinite",
-        "spin-slow": "spin 20s linear infinite",
-        "spin-reverse-slow": "spin 15s linear infinite reverse",
+        "fade-in-slow": "fadeIn 1s ease-out",
+        "float-soft": "floatSoft 8s ease-in-out infinite",
       },
       keyframes: {
-        glow: {
-          "0%, 100%": { opacity: "0.3" },
-          "50%": { opacity: "0.7" },
+        fadeIn: {
+          "0%": { opacity: "0" },
+          "100%": { opacity: "1" },
         },
-        "pulse-soft": {
-          "0%, 100%": { opacity: "0.6", transform: "scale(1)" },
-          "50%": { opacity: "1", transform: "scale(1.02)" },
-        },
-        float: {
+        floatSoft: {
           "0%, 100%": { transform: "translateY(0)" },
-          "50%": { transform: "translateY(-8px)" },
+          "50%": { transform: "translateY(-4px)" },
         },
       },
+      boxShadow: {
+        "soft-xl": "0 4px 24px rgba(0,0,0,0.03)",
+        "soft-2xl": "0 10px 48px rgba(0,0,0,0.05)",
+      },
       borderRadius: {
+        "2xl": "1rem",
+        "3xl": "1.5rem",
         "4xl": "2rem",
-        "5xl": "2.5rem",
       },
     },
   },

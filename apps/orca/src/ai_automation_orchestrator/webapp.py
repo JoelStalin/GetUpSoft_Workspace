@@ -36,6 +36,7 @@ from ai_automation_orchestrator.deploy_endpoints import register_deploy_endpoint
 from ai_automation_orchestrator.deploy_dashboard_section import get_deploy_dashboard_html
 from ai_automation_orchestrator.provider_login_endpoints import register_auth_endpoints
 from ai_automation_orchestrator.provider_login_section import get_provider_login_html
+from ai_automation_orchestrator.n8n_endpoints import register_n8n_endpoints
 
 
 class TestFlowRequest(BaseModel):
@@ -1462,6 +1463,39 @@ def create_app(
 
     # Register provider authentication endpoints
     register_auth_endpoints(app)
+
+    # Register n8n workflow API endpoints
+    register_n8n_endpoints(app)
+
+    # Serve workflow editor SPA
+    @app.get("/workflow-editor", response_class=HTMLResponse)
+    def workflow_editor() -> str:
+        """Serve the React workflow editor SPA."""
+        spa_path = Path(__file__).parent.parent / "workflow-editor" / "dist" / "index.html"
+        if spa_path.exists():
+            return spa_path.read_text(encoding="utf-8")
+        # Fallback: serve a simple loading page
+        return """
+        <!DOCTYPE html>
+        <html>
+        <head>
+            <title>Workflow Editor</title>
+            <style>
+                body { font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+                       display: flex; align-items: center; justify-content: center;
+                       height: 100vh; margin: 0; background: #1a1b1e; color: #fff; }
+                .loading { text-align: center; }
+            </style>
+        </head>
+        <body>
+            <div class="loading">
+                <h2>Workflow Editor</h2>
+                <p>Building React app...</p>
+                <p style="font-size: 12px; color: #888;">If you see this, run: cd apps/orca/workflow-editor && npm run build</p>
+            </div>
+        </body>
+        </html>
+        """
 
     return app
 

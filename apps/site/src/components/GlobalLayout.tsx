@@ -31,14 +31,14 @@ const FOOTER_LINKS = {
 
 export function GlobalLayout() {
   return (
-    <div className="min-h-screen bg-white text-gray-900">
+    <div className="min-h-screen bg-background text-text selection:bg-primarySoft selection:text-text">
       {/* Top bar */}
-      <div className="border-b border-gray-200 bg-gray-50">
-        <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-3 text-xs font-semibold tracking-widest text-gray-600 uppercase">
+      <div className="border-b border-border bg-surface">
+        <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-2.5 text-[10px] font-bold tracking-[0.2em] text-textMuted uppercase">
           <span>Enterprise AI Architecture · System Integration · Digital Transformation</span>
           <a
             href="https://getupsoft.com.do"
-            className="flex items-center gap-1.5 transition text-blue-600 hover:text-blue-700"
+            className="flex items-center gap-1.5 transition text-primary hover:text-text"
           >
             GetUpSoft RD
             <svg className="h-3 w-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -49,16 +49,16 @@ export function GlobalLayout() {
       </div>
 
       {/* Header */}
-      <header className="sticky top-0 z-50 border-b border-gray-200 bg-white shadow-sm">
+      <header className="sticky top-0 z-50 border-b border-border bg-background/80 backdrop-blur-xl">
         <div className="mx-auto flex max-w-7xl items-center justify-between gap-6 px-6 py-4">
           <NavLink to="/" className="flex items-center gap-3 group">
             <CodeLogo variant="global" />
             <div>
-              <p className="text-xs font-bold uppercase tracking-widest text-blue-600">GetUpSoft</p>
+              <p className="text-[11px] font-bold uppercase tracking-[0.15em] text-primary">GetUpSoft</p>
             </div>
           </NavLink>
 
-          <nav className="hidden items-center gap-8 text-xs font-bold uppercase tracking-widest text-gray-600 lg:flex">
+          <nav className="hidden items-center gap-8 text-[11px] font-bold uppercase tracking-[0.1em] text-textMuted lg:flex">
             {NAV.map((item) => (
               <NavLink
                 key={item.to}
@@ -66,8 +66,8 @@ export function GlobalLayout() {
                 end={item.end}
                 className={({ isActive }) =>
                   isActive
-                    ? "text-blue-600"
-                    : "transition hover:text-gray-900"
+                    ? "text-primary"
+                    : "transition hover:text-text"
                 }
               >
                 {item.label}
@@ -77,9 +77,9 @@ export function GlobalLayout() {
 
           <Link
             to="/contact"
-            className="rounded-lg bg-blue-600 text-white px-6 py-2.5 text-xs font-bold uppercase tracking-widest transition hover:bg-blue-700 hover:shadow-lg hover:shadow-blue-500/30"
+            className="rounded-full bg-primary text-white px-6 py-2.5 text-[11px] font-bold uppercase tracking-[0.15em] transition hover:bg-text hover:shadow-soft-xl"
           >
-            Get Started
+            Book Strategy
           </Link>
         </div>
       </header>
@@ -89,27 +89,27 @@ export function GlobalLayout() {
       </main>
 
       {/* Footer */}
-      <footer className="border-t border-gray-200 bg-gray-50">
-        <div className="mx-auto max-w-7xl px-6 py-16">
+      <footer className="border-t border-border bg-surface">
+        <div className="mx-auto max-w-7xl px-6 py-20">
           <div className="grid gap-12 lg:grid-cols-[1.5fr,1fr,1fr,1fr]">
-            <div className="space-y-5">
+            <div className="space-y-6">
               <div className="flex items-center gap-3">
                 <CodeLogo variant="global" compact />
               </div>
-              <p className="max-w-sm text-sm leading-7 text-gray-600">
-                GetUpSoft designs the intelligence and infrastructure that make companies operate as one connected system.
+              <p className="max-w-sm text-sm leading-relaxed text-textMuted">
+                GetUpSoft architects the intelligence and infrastructure that make modern companies operate as one connected, scalable digital ecosystem.
               </p>
-              <p className="text-xs uppercase tracking-widest text-gray-500">
+              <p className="text-[10px] uppercase font-bold tracking-widest text-textSubtle">
                 © {new Date().getFullYear()} GetUpSoft. All rights reserved.
               </p>
             </div>
             {Object.entries(FOOTER_LINKS).map(([group, links]) => (
               <div key={group}>
-                <p className="text-xs font-bold uppercase tracking-widest text-gray-900">{group}</p>
-                <ul className="mt-5 space-y-3">
+                <p className="text-[11px] font-bold uppercase tracking-widest text-text">{group}</p>
+                <ul className="mt-6 space-y-3">
                   {links.map((l) => (
                     <li key={l.to}>
-                      <NavLink to={l.to} className="text-sm text-gray-600 transition hover:text-gray-900">
+                      <NavLink to={l.to} className="text-sm text-textMuted transition hover:text-primary">
                         {l.label}
                       </NavLink>
                     </li>
@@ -120,16 +120,16 @@ export function GlobalLayout() {
           </div>
 
           {/* Bottom divider */}
-          <div className="mt-12 border-t border-gray-200 pt-8">
-            <div className="grid grid-cols-2 gap-6 md:grid-cols-4 text-xs text-gray-600">
-              <a href="mailto:contact@getupsoft.com" className="transition hover:text-blue-600">
+          <div className="mt-16 border-t border-border pt-10">
+            <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-4 text-xs font-medium text-textSubtle">
+              <a href="mailto:contact@getupsoft.com" className="transition hover:text-primary">
                 contact@getupsoft.com
               </a>
-              <a href="tel:+1234567890" className="transition hover:text-blue-600">
+              <a href="tel:+1234567890" className="transition hover:text-primary">
                 +1 (234) 567-890
               </a>
-              <div>Santo Domingo, DR</div>
-              <div>Enterprise Solutions</div>
+              <div>Santo Domingo, Dominican Republic</div>
+              <div className="md:text-right">Aesthetic Intelligence</div>
             </div>
           </div>
         </div>

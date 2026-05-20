@@ -1,302 +1,159 @@
-import { Link } from "react-router-dom";
+import { Section } from "../components/ui/Section";
+import { Container } from "../components/ui/Container";
+import { Eyebrow } from "../components/ui/Eyebrow";
+import { Button } from "../components/ui/Button";
 
-const features = [
+const capabilities = [
   {
-    icon: "🚀",
-    title: "Product Platforms",
-    description: "Build scalable admin portals and client surfaces designed for teams that operate at scale.",
-    color: "gc-bright-blue",
+    icon: "◈",
+    title: "AI Strategy & Agents",
+    description: "We architect autonomous agents that handle document processing, scheduling, and operational analytics.",
+    color: "accentPurple",
   },
   {
-    icon: "⚙️",
-    title: "Business Workflows",
-    description: "Orchestrate processes across sales, operations, support and backoffice seamlessly.",
-    color: "gc-bright-purple",
+    icon: "⬡",
+    title: "System Integration",
+    description: "Seamlessly connect Odoo, ERPNext, SAP and legacy infrastructure through robust API layers.",
+    color: "primary",
   },
   {
-    icon: "☁️",
-    title: "Cloud Delivery",
-    description: "Deploy with complete infrastructure, monitoring and environment controls.",
-    color: "gc-bright-green",
-  },
-  {
-    icon: "🔗",
-    title: "Integration Layer",
-    description: "Connect Odoo, billing systems, catalogs and business events with clear contracts.",
-    color: "gc-bright-orange",
+    icon: "▣",
+    title: "Digital Infrastructure",
+    description: "Cloud-native deployment with precision monitoring, security hardening and global scalability.",
+    color: "accentTeal",
   },
 ];
 
-const benefits = [
-  { label: "99.99% Uptime", value: "Industrial Grade Reliability" },
-  { label: "42ms Latency", value: "Global CDN Coverage" },
-  { label: "100+ Features", value: "Complete Platform" },
-];
-
-const services = [
-  {
-    step: "01",
-    title: "Discovery & Analysis",
-    description: "We map your operations and identify where systems break down.",
-    gradient: "gradient-blue-purple",
-  },
-  {
-    step: "02",
-    title: "Architecture Design",
-    description: "Technical design of product, integrations, and automation as one system.",
-    gradient: "gradient-orange-red",
-  },
-  {
-    step: "03",
-    title: "Operational Delivery",
-    description: "Deploy with observability, environments, and a scalable codebase.",
-    gradient: "gradient-green-cyan",
-  },
+const methodology = [
+  { step: "01", title: "Architecture Audit", description: "Mapping systems, data flows and operational bottlenecks." },
+  { step: "02", title: "Intelligence Design", description: "Engineering the target state with AI and integrated ERPs." },
+  { step: "03", title: "Operational Delivery", description: "Development and deployment with industrial discipline." },
+  { step: "04", title: "Scale & Support", description: "Continuous improvement and long-term technical partnership." },
 ];
 
 export function HomePage() {
   return (
-    <div className="relative overflow-hidden bg-white">
+    <div className="bg-background">
       {/* Hero Section */}
-      <section className="relative overflow-hidden">
-        {/* Background pattern */}
-        <div className="absolute inset-0 bg-grid-light opacity-40" />
+      <Section className="relative overflow-hidden !py-32 lg:!py-48">
+        {/* Aesthetic backgrounds */}
+        <div className="absolute inset-0 bg-grid-subtle opacity-50" />
+        <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-primarySoft/30 rounded-full blur-[120px] -mr-48 -mt-48 animate-pulse-soft" />
+        <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-accentPurpleSoft/20 rounded-full blur-[100px] -ml-24 -mb-24" />
 
-        {/* Gradient overlays */}
-        <div className="absolute top-20 left-0 w-96 h-96 bg-blue-300 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob" />
-        <div className="absolute top-40 right-0 w-96 h-96 bg-purple-300 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob animation-delay-2000" />
-        <div className="absolute -bottom-8 left-1/2 w-96 h-96 bg-green-300 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-blob animation-delay-4000" />
-
-        <div className="relative mx-auto max-w-7xl px-6 py-24 sm:py-32 lg:py-40">
-          <div className="text-center space-y-8 max-w-4xl mx-auto">
-            {/* Badge */}
-            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-blue-50 border border-blue-200">
-              <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
-              <span className="text-sm font-medium text-blue-900">Enterprise-Ready Platform</span>
-            </div>
-
-            {/* Main Headline */}
-            <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold tracking-tight">
-              <span className="block text-gray-900">Build Operating Systems</span>
-              <span className="block mt-2">
-                <span className="bg-gradient-to-r from-blue-600 via-purple-600 to-orange-500 bg-clip-text text-transparent">
-                  for Your Teams
-                </span>
-              </span>
+        <Container className="relative">
+          <div className="max-w-4xl">
+            <Eyebrow>Enterprise AI Architecture</Eyebrow>
+            <h1 className="text-6xl sm:text-7xl lg:text-[80px] font-bold tracking-tight text-text leading-[0.95] mb-8">
+              Scalability and <span className="italic text-primary">intelligence</span> for the modern enterprise.
             </h1>
-
-            {/* Subheading */}
-            <p className="text-xl sm:text-2xl text-gray-600 max-w-2xl mx-auto leading-relaxed">
-              GetUpSoft engineers scalable digital infrastructure for teams that need to grow.
-              Software, automation, and cloud delivery—all integrated into one platform.
+            <p className="text-xl sm:text-2xl text-textMuted max-w-2xl leading-relaxed mb-12">
+              GetUpSoft architects, integrates and automates complex digital ecosystems using autonomous AI agents, ERP integrations and scalable cloud infrastructure.
             </p>
-
-            {/* CTA Buttons */}
-            <div className="flex flex-col sm:flex-row gap-4 justify-center pt-8">
-              <Link
-                to="/productos/easycount"
-                className="px-8 py-4 bg-gradient-to-r from-blue-600 to-blue-700 text-white font-semibold rounded-lg hover:shadow-lg hover:shadow-blue-500/50 transition-all"
-              >
-                Explore EasyCount
-              </Link>
-              <Link
-                to="/contacto"
-                className="px-8 py-4 border-2 border-gray-300 text-gray-900 font-semibold rounded-lg hover:border-blue-600 hover:text-blue-600 transition-all"
-              >
-                Request Demo
-              </Link>
+            <div className="flex flex-col sm:flex-row gap-5">
+              <Button to="/contact" className="px-10 py-5">
+                Book Strategy Session
+              </Button>
+              <Button variant="secondary" to="/methodology" className="px-10 py-5">
+                Explore Methodology
+              </Button>
             </div>
+          </div>
 
-            {/* Stats */}
-            <div className="grid grid-cols-3 gap-6 pt-8">
-              {benefits.map((item) => (
-                <div key={item.label} className="text-center">
-                  <p className="text-2xl sm:text-3xl font-bold text-blue-600">{item.label}</p>
-                  <p className="text-sm text-gray-600 mt-2">{item.value}</p>
+          {/* Trust Bar */}
+          <div className="mt-24 pt-10 border-t border-border">
+            <p className="text-[11px] font-bold uppercase tracking-widest text-textSubtle mb-8">
+              Propelling intelligence across:
+            </p>
+            <div className="flex flex-wrap gap-x-12 gap-y-6 text-sm font-semibold text-textMuted/60 uppercase tracking-wider">
+              <span>AI Agents</span>
+              <span>ERP Integrations</span>
+              <span>Cloud Infrastructure</span>
+              <span>Operational Intelligence</span>
+            </div>
+          </div>
+        </Container>
+      </Section>
+
+      {/* Capabilities Grid */}
+      <Section background="surface">
+        <Container>
+          <div className="grid lg:grid-cols-3 gap-12">
+            <div className="lg:col-span-1">
+              <Eyebrow color="accentTeal">Capacidades</Eyebrow>
+              <h2 className="text-4xl sm:text-5xl font-bold text-text leading-tight mb-6">
+                Complete digital <br /> transformation.
+              </h2>
+              <p className="text-lg text-textMuted leading-relaxed">
+                Everything you need to build, deploy, and scale your digital operations as a single, connected engine.
+              </p>
+            </div>
+            <div className="lg:col-span-2 grid sm:grid-cols-2 gap-6">
+              {capabilities.map((cap) => (
+                <div key={cap.title} className="p-8 rounded-3xl bg-background border border-border shadow-soft-xl hover:shadow-soft-2xl transition-all duration-300">
+                  <div className={`text-4xl mb-6 text-primary`}>{cap.icon}</div>
+                  <h3 className="text-xl font-bold text-text mb-4">{cap.title}</h3>
+                  <p className="text-textMuted leading-relaxed">{cap.description}</p>
                 </div>
               ))}
+              <div className="p-8 rounded-3xl bg-primary flex flex-col justify-between text-white shadow-soft-xl">
+                <div>
+                  <h3 className="text-xl font-bold mb-4">Integration Layer</h3>
+                  <p className="text-white/80 leading-relaxed">Connect Odoo, ERPNext, SAP and custom APIs with absolute precision.</p>
+                </div>
+                <Button variant="ghost" to="/integrations" className="!p-0 !text-white hover:!bg-transparent mt-8 self-start">
+                  View Connectors →
+                </Button>
+              </div>
             </div>
           </div>
-        </div>
-      </section>
+        </Container>
+      </Section>
 
-      {/* Features Grid */}
-      <section className="relative py-24 sm:py-32">
-        <div className="mx-auto max-w-7xl px-6">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl sm:text-5xl font-bold text-gray-900 mb-4">
-              Complete Platform Capabilities
+      {/* Methodology Section */}
+      <Section>
+        <Container>
+          <div className="text-center max-w-3xl mx-auto mb-20">
+            <Eyebrow>Methodology</Eyebrow>
+            <h2 className="text-4xl sm:text-5xl font-bold text-text mb-8">
+              A clear path to <span className="text-primary italic">operational clarity</span>.
             </h2>
-            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-              Everything you need to build, deploy, and scale your digital operations.
-            </p>
           </div>
 
-          <div className="grid md:grid-cols-2 gap-8">
-            {features.map((feature, idx) => (
-              <div
-                key={feature.title}
-                className="group relative p-8 rounded-xl bg-white border border-gray-200 hover:border-transparent transition-all hover:shadow-2xl"
-              >
-                {/* Gradient background on hover */}
-                <div
-                  className={`absolute inset-0 rounded-xl opacity-0 group-hover:opacity-5 transition-opacity ${
-                    idx === 0
-                      ? "bg-gradient-to-r from-blue-500 to-blue-600"
-                      : idx === 1
-                      ? "bg-gradient-to-r from-purple-500 to-purple-600"
-                      : idx === 2
-                      ? "bg-gradient-to-r from-green-500 to-green-600"
-                      : "bg-gradient-to-r from-orange-500 to-orange-600"
-                  }`}
-                />
-
-                <div className="relative">
-                  <div className="text-4xl mb-4">{feature.icon}</div>
-                  <h3 className="text-xl font-bold text-gray-900 mb-3">{feature.title}</h3>
-                  <p className="text-gray-600 leading-relaxed">{feature.description}</p>
+          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-8">
+            {methodology.map((step) => (
+              <div key={step.step} className="relative p-8 group">
+                <div className="text-6xl font-bold text-surfaceSoft mb-6 transition-colors group-hover:text-primarySoft">
+                  {step.step}
                 </div>
+                <h3 className="text-xl font-bold text-text mb-4">{step.title}</h3>
+                <p className="text-textMuted leading-relaxed">{step.description}</p>
               </div>
             ))}
           </div>
-        </div>
-      </section>
+        </Container>
+      </Section>
 
-      {/* Service Process */}
-      <section className="relative py-24 sm:py-32 bg-gradient-to-b from-gray-50 to-white">
-        <div className="mx-auto max-w-7xl px-6">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl sm:text-5xl font-bold text-gray-900 mb-4">
-              Our Approach
-            </h2>
-            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-              Proven methodology to deliver scalable systems that grow with your business.
-            </p>
-          </div>
-
-          <div className="grid md:grid-cols-3 gap-8">
-            {services.map((service) => (
-              <div key={service.step} className="relative">
-                {/* Step connector line */}
-                {service.step !== "03" && (
-                  <div className="hidden md:block absolute top-24 left-1/2 w-1/3 h-0.5 bg-gradient-to-r from-blue-500 to-purple-500 -translate-x-1/2" />
-                )}
-
-                <div className="relative">
-                  {/* Step number circle */}
-                  <div className={`w-16 h-16 rounded-full ${service.gradient} flex items-center justify-center text-white font-bold text-2xl mb-6 shadow-lg`}>
-                    {service.step}
-                  </div>
-
-                  <h3 className="text-xl font-bold text-gray-900 mb-3">{service.title}</h3>
-                  <p className="text-gray-600 leading-relaxed">{service.description}</p>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* EasyCount Spotlight */}
-      <section className="relative py-24 sm:py-32">
-        <div className="mx-auto max-w-7xl px-6">
-          <div className="grid lg:grid-cols-2 gap-16 items-center">
-            <div className="space-y-8">
-              <div className="inline-block px-4 py-2 rounded-full bg-orange-50 border border-orange-200">
-                <span className="text-sm font-semibold text-orange-700">Flagship Product</span>
-              </div>
-
-              <h2 className="text-4xl sm:text-5xl font-bold text-gray-900">
-                EasyCount: Business Operations Made Simple
+      {/* Final CTA */}
+      <Section background="primarySoft" className="!py-24">
+        <Container>
+          <div className="bg-background p-12 sm:p-20 rounded-[48px] shadow-soft-2xl flex flex-col lg:flex-row items-center justify-between gap-12 text-center lg:text-left overflow-hidden relative">
+            <div className="absolute top-0 right-0 w-64 h-64 bg-accentTealSoft/30 rounded-full blur-[80px] -mr-32 -mt-32" />
+            <div className="relative z-10 max-w-2xl">
+              <h2 className="text-4xl sm:text-5xl font-bold text-text mb-6">
+                Ready to architect your <span className="italic text-primary">intelligence</span> layer?
               </h2>
-
-              <p className="text-lg text-gray-600 leading-relaxed">
-                EasyCount is our core operating system for business control, billing, and connected workflows.
-                Built on enterprise architecture with everything your team needs to scale.
+              <p className="text-lg text-textMuted leading-relaxed">
+                Connect with our team of architects to evaluate your systems and design a roadmap for scalable, automated operations.
               </p>
-
-              <div className="space-y-4 pt-4">
-                {[
-                  "Intuitive role-based interfaces",
-                  "Automated business workflows",
-                  "Real-time operational visibility",
-                  "Cloud-native infrastructure",
-                  "24/7 enterprise support",
-                ].map((feature) => (
-                  <div key={feature} className="flex items-center gap-3">
-                    <div className="w-2 h-2 rounded-full bg-orange-500 flex-shrink-0" />
-                    <span className="text-gray-700 font-medium">{feature}</span>
-                  </div>
-                ))}
-              </div>
-
-              <div className="flex flex-col sm:flex-row gap-4 pt-8">
-                <Link
-                  to="/productos/easycount"
-                  className="px-8 py-4 bg-gradient-to-r from-orange-500 to-orange-600 text-white font-semibold rounded-lg hover:shadow-lg hover:shadow-orange-500/50 transition-all text-center"
-                >
-                  View Product Specs
-                </Link>
-                <Link
-                  to="/contacto"
-                  className="px-8 py-4 border-2 border-orange-500 text-orange-600 font-semibold rounded-lg hover:bg-orange-50 transition-all text-center"
-                >
-                  Schedule Demo
-                </Link>
-              </div>
             </div>
-
-            <div className="relative hidden lg:block">
-              <div className="relative w-full aspect-square rounded-2xl overflow-hidden">
-                {/* Gradient background */}
-                <div className="absolute inset-0 bg-gradient-to-br from-orange-100 via-purple-100 to-blue-100" />
-
-                {/* Animated shapes */}
-                <div className="absolute top-10 right-10 w-32 h-32 bg-blue-400 rounded-full opacity-20 animate-float" />
-                <div className="absolute bottom-20 left-10 w-40 h-40 bg-purple-400 rounded-full opacity-20 animate-float animation-delay-2000" />
-
-                {/* Center badge */}
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <div className="w-48 h-48 rounded-3xl bg-white shadow-2xl flex items-center justify-center border-4 border-blue-100">
-                    <div className="text-center">
-                      <div className="text-6xl font-bold bg-gradient-to-r from-blue-600 to-orange-500 bg-clip-text text-transparent">EC</div>
-                      <p className="text-sm text-gray-600 mt-2">EasyCount</p>
-                    </div>
-                  </div>
-                </div>
-              </div>
+            <div className="relative z-10 flex flex-col sm:flex-row gap-4">
+              <Button to="/contact" className="px-12 py-5">Get Started</Button>
+              <Button variant="outline" to="/about" className="px-12 py-5">Learn More</Button>
             </div>
           </div>
-        </div>
-      </section>
-
-      {/* CTA Section */}
-      <section className="relative py-24 sm:py-32">
-        <div className="mx-auto max-w-4xl px-6 text-center">
-          <div className="space-y-8">
-            <h2 className="text-4xl sm:text-5xl font-bold text-gray-900">
-              Ready to Scale Your Operations?
-            </h2>
-            <p className="text-xl text-gray-600">
-              Get started with GetUpSoft today. Enterprise support, unlimited scaling, and cloud-native infrastructure.
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center pt-8">
-              <Link
-                to="/contacto"
-                className="px-8 py-4 bg-gradient-to-r from-blue-600 to-blue-700 text-white font-semibold rounded-lg hover:shadow-lg hover:shadow-blue-500/50 transition-all"
-              >
-                Get Started Free
-              </Link>
-              <a
-                href="mailto:contacto@getupsoft.com"
-                className="px-8 py-4 border-2 border-gray-300 text-gray-900 font-semibold rounded-lg hover:border-blue-600 hover:text-blue-600 transition-all"
-              >
-                Contact Sales
-              </a>
-            </div>
-          </div>
-        </div>
-      </section>
+        </Container>
+      </Section>
     </div>
   );
 }
