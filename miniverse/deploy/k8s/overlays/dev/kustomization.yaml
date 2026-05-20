@@ -3,7 +3,7 @@ kind: Kustomization
 
 namespace: getupsoft
 
-bases:
+resources:
   - ../../base
 
 namePrefix: miniverse-dev-
@@ -35,11 +35,16 @@ patches:
       - op: replace
         path: /spec/template/spec/containers/0/livenessProbe/initialDelaySeconds
         value: 10
-
-configMapGenerator:
-  - name: miniverse-config
-    behavior: merge
-    literals:
-      - NODE_ENV=development
-      - LOG_LEVEL=debug
-      - DEBUG=true
+  - target:
+      kind: ConfigMap
+      name: miniverse-config
+    patch: |-
+      - op: replace
+        path: /data/NODE_ENV
+        value: development
+      - op: replace
+        path: /data/LOG_LEVEL
+        value: debug
+      - op: replace
+        path: /data/DEBUG
+        value: "true"

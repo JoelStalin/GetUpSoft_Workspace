@@ -3,20 +3,17 @@ FROM node:20-alpine AS builder
 
 WORKDIR /build
 
-# Install pnpm
-RUN npm install -g pnpm
-
 # Copy package files
-COPY package.json pnpm-lock.yaml ./
+COPY package.json package-lock.json ./
 
 # Install dependencies
-RUN pnpm install --frozen-lockfile
+RUN npm ci
 
 # Copy source
 COPY . .
 
 # Build server
-RUN pnpm build:server
+RUN npm run build:server
 
 # Stage 2: Runtime
 FROM node:20-alpine
@@ -26,8 +23,8 @@ LABEL description="Miniverse - Node.js Monorepo Server"
 LABEL version="0.1.0"
 
 # Create non-root user
-RUN addgroup -g 1000 miniverse && \
-    adduser -D -u 1000 -G miniverse miniverse
+RUN addgroup -S miniverse && \
+    adduser -S -G miniverse miniverse
 
 WORKDIR /app
 
@@ -35,7 +32,7 @@ WORKDIR /app
 COPY --from=builder /build/packages/server/dist ./
 
 # Copy package files for runtime dependencies
-COPY --from=builder /build/package.json /build/pnpm-lock.yaml ./
+COPY --from=builder /build/package.json /build/package-lock.json ./
 COPY --from=builder /build/node_modules ./node_modules
 
 # Set permissions

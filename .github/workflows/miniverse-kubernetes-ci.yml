@@ -116,7 +116,7 @@ jobs:
           import yaml
           for f in ['/tmp/base.yaml', '/tmp/dev.yaml', '/tmp/prod.yaml']:
               with open(f) as x:
-                  yaml.safe_load(x)
+                  list(yaml.safe_load_all(x))
               print(f'✓ {f} is valid YAML')
           "
 

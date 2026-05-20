@@ -3,7 +3,7 @@ kind: Kustomization
 
 namespace: getupsoft
 
-bases:
+resources:
   - ../../base
 
 namePrefix: miniverse-prod-
@@ -44,12 +44,19 @@ patches:
       - op: replace
         path: /spec/template/spec/containers/0/readinessProbe/failureThreshold
         value: 3
-
-configMapGenerator:
-  - name: miniverse-config
-    behavior: merge
-    literals:
-      - NODE_ENV=production
-      - LOG_LEVEL=info
-      - DEBUG=false
-      - ENABLE_METRICS=true
+  - target:
+      kind: ConfigMap
+      name: miniverse-config
+    patch: |-
+      - op: replace
+        path: /data/NODE_ENV
+        value: production
+      - op: replace
+        path: /data/LOG_LEVEL
+        value: info
+      - op: replace
+        path: /data/DEBUG
+        value: "false"
+      - op: replace
+        path: /data/ENABLE_METRICS
+        value: "true"
