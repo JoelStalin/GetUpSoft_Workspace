@@ -602,7 +602,7 @@ def create_dashboard_html(app_name: str) -> str:
 
         <!-- N8N VISUAL EDITOR VIEW -->
         <section id="n8n-view" class="view" style="padding: 0; height: 100%;">
-          <iframe src="/workflow-editor/" style="width: 100%; height: 100%; border: none; border-radius: var(--radius);" allowfullscreen></iframe>
+          <iframe src="/workflow-editor" style="width: 100%; height: 100%; border: none; border-radius: var(--radius);" allowfullscreen></iframe>
         </section>
 
         <!-- VAULT VIEW -->
