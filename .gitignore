@@ -22,6 +22,9 @@ build/
 node_modules/
 .npm/
 *.log
+*.tsbuildinfo
+apps/orca/workflow-editor/vite.config.js
+apps/orca/workflow-editor/vite.config.d.ts
 
 # OS
 .DS_Store
@@ -62,3 +65,9 @@ _Knowledge_Center/Shared_Tests/
 *.o
 *.so
 *.dll
+
+# Local workflow imports and test-generated ORCA exports
+/data/n8n_workflows.json
+_Knowledge_Center/Orca_Workflows/automation-flow/Responder leads y crear seguimiento - *.md
+_Knowledge_Center/Orca_Workflows/professional-page-design/Ramos & Asociados Seguros - *.md
+_Knowledge_Center/Orca_Workflows/test-flow/Portal - *.md
