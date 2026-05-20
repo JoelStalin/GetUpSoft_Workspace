@@ -18,8 +18,8 @@ def init_auth(auth_mgr: UserAuthManager, sess_mgr: SessionManager):
     session_manager = sess_mgr
 
 
-class LoginRequest(BaseModel):
-    """Login request."""
+class UserLoginRequest(BaseModel):
+    """User login/registration request."""
     email: str
     name: Optional[str] = None  # Required for first-time login (registration)
 
@@ -44,7 +44,7 @@ class UserResponse(BaseModel):
 
 
 @router.post("/login", response_model=LoginResponse)
-async def login(request: LoginRequest, response: Response):
+async def login(request: UserLoginRequest, response: Response):
     """Login or register user."""
     if not user_auth_manager or not session_manager:
         raise HTTPException(status_code=500, detail="Auth not initialized")

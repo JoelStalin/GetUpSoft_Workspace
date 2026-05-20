@@ -12,7 +12,8 @@ from .provider_auth import (
     OAuthToken,
 )
 
-router = APIRouter(prefix="/api/auth", tags=["auth"])
+# Disabled in favor of new unified auth system
+router = APIRouter(prefix="/api/provider-auth-disabled", tags=["provider-auth-disabled"])
 
 # Global auth manager
 auth_manager: Optional[ProviderAuthManager] = None
@@ -51,8 +52,8 @@ class ProviderInfo(BaseModel):
     last_login: Optional[str] = None
 
 
-class LoginRequest(BaseModel):
-    """Login request."""
+class ProviderLoginRequest(BaseModel):
+    """Provider login request (legacy)."""
     provider: str
     user_id: str = "default"
 
@@ -116,7 +117,7 @@ async def auth_status(user_id: str = "default") -> dict:
 
 
 @router.post("/login")
-async def start_login(request: LoginRequest, http_request: Request) -> dict:
+async def start_login(request: ProviderLoginRequest, http_request: Request) -> dict:
     """Initiate provider login (OAuth or API key form)."""
     if not auth_manager:
         raise HTTPException(status_code=503, detail="Auth not initialized")

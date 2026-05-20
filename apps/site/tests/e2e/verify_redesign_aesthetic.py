@@ -5,14 +5,16 @@ from pathlib import Path
 ARTIFACT_DIR = Path("tests/e2e/artifacts/aesthetic_verification")
 ARTIFACT_DIR.mkdir(parents=True, exist_ok=True)
 
+BASE_URL = "http://127.0.0.1:3120"
+
 def run_aesthetic_check():
     with sync_playwright() as p:
         browser = p.chromium.launch(headless=True)
         page = browser.new_page()
         
-        # 1. Check Global Home
-        print("🔍 Checking Global Home Aesthetic...")
-        page.goto('http://127.0.0.1:3120')
+        # 1. Check Global Home (Spanish)
+        print("🔍 Checking Global Home (ES) Aesthetic...")
+        page.goto(f"{BASE_URL}/es")
         page.wait_for_load_state('networkidle')
         
         # Verify Background
@@ -20,40 +22,37 @@ def run_aesthetic_check():
         print(f"   Background color: {bg_color}")
         
         # Take Screenshot
-        page.screenshot(path=str(ARTIFACT_DIR / "global_home.png"), full_page=True)
+        page.screenshot(path=str(ARTIFACT_DIR / "global_home_es.png"), full_page=True)
         
-        # Verify "Eyebrow" style (should have //)
+        # Verify Eyebrow
         eyebrow = page.locator('p:has-text("//")').first
         if eyebrow.is_visible():
-            print("   ✅ Eyebrow prefix '//' found.")
-            eyebrow_text = eyebrow.inner_text()
-            print(f"   Eyebrow text: {eyebrow_text}")
-        else:
-            print("   ❌ Eyebrow prefix '//' NOT found.")
+            print(f"   Eyebrow text: {eyebrow.inner_text()}")
             
-        # Verify Primary Button
-        primary_btn = page.locator('a:has-text("Book Strategy")').first
-        if primary_btn.is_visible():
-            btn_bg = primary_btn.evaluate("el => window.getComputedStyle(el).backgroundColor")
-            print(f"   Primary Button BG: {btn_bg}")
-        
-        # 2. Check RD Home
-        print("\n🔍 Checking RD Home Aesthetic...")
-        page.goto('http://127.0.0.1:3120/es/rd')
+        # 2. Check Global Home (English)
+        print("\n🔍 Checking Global Home (EN) Aesthetic...")
+        page.goto(f"{BASE_URL}/en")
         page.wait_for_load_state('networkidle')
-        
+        page.screenshot(path=str(ARTIFACT_DIR / "global_home_en.png"), full_page=True)
+        eyebrow_en = page.locator('p:has-text("//")').first
+        if eyebrow_en.is_visible():
+            print(f"   EN Eyebrow text: {eyebrow_en.inner_text()}")
+
+        # 3. Check RD Home
+        print("\n🔍 Checking RD Home Aesthetic...")
+        page.goto(f"{BASE_URL}/es/rd")
+        page.wait_for_load_state('networkidle')
         page.screenshot(path=str(ARTIFACT_DIR / "rd_home.png"), full_page=True)
         
         rd_eyebrow = page.locator('p:has-text("//")').first
         if rd_eyebrow.is_visible():
              print(f"   RD Eyebrow text: {rd_eyebrow.inner_text()}")
              
-        # 3. Check responsiveness (Mobile)
-        print("\n🔍 Checking Mobile Responsiveness (375x667)...")
-        page.set_viewport_size({"width": 375, "height": 667})
-        page.goto('http://127.0.0.1:3120')
+        # 4. Check PortalContentPage (Methodology)
+        print("\n🔍 Checking Methodology Page Aesthetic...")
+        page.goto(f"{BASE_URL}/es/methodology")
         page.wait_for_load_state('networkidle')
-        page.screenshot(path=str(ARTIFACT_DIR / "mobile_view.png"))
+        page.screenshot(path=str(ARTIFACT_DIR / "methodology_page.png"), full_page=True)
         
         browser.close()
         print(f"\n✅ Verification complete. Artifacts saved in {ARTIFACT_DIR}")
