@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from datetime import datetime
+from datetime import UTC, datetime
 from typing import Any
 
 from pydantic import BaseModel, Field, ConfigDict
@@ -58,8 +58,8 @@ class N8nWorkflow(BaseModel):
         default_factory=lambda: {"executionOrder": "v1"},
         description="Workflow settings"
     )
-    createdAt: str = Field(default_factory=lambda: datetime.utcnow().isoformat(), description="Creation timestamp")
-    updatedAt: str = Field(default_factory=lambda: datetime.utcnow().isoformat(), description="Last update timestamp")
+    createdAt: str = Field(default_factory=lambda: datetime.now(UTC).isoformat(), description="Creation timestamp")
+    updatedAt: str = Field(default_factory=lambda: datetime.now(UTC).isoformat(), description="Last update timestamp")
     orca_meta: dict[str, Any] = Field(
         default_factory=dict,
         description="Orca-specific metadata (objective, model_id, etc)"

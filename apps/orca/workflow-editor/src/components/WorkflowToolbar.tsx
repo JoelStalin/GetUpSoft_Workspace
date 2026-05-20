@@ -11,6 +11,7 @@ import GenerateModal from './GenerateModal'
 export default function WorkflowToolbar() {
   const workflow = useWorkflowStore((state) => state.workflow)
   const setWorkflow = useWorkflowStore((state) => state.setWorkflow)
+  const setCurrentExecutionId = useWorkflowStore((state) => state.setCurrentExecutionId)
   const [showGenerateModal, setShowGenerateModal] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
   const fileInputRef = useRef<HTMLInputElement>(null)
@@ -77,7 +78,8 @@ export default function WorkflowToolbar() {
     setIsLoading(true)
     try {
       const result = await runWorkflow(workflow.id)
-      alert('Workflow execution started: ' + result.execution_id)
+      setCurrentExecutionId(result.execution_id)
+      console.log('Workflow execution started:', result.execution_id)
     } catch (error) {
       alert('Failed to run: ' + error)
     } finally {

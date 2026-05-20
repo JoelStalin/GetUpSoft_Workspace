@@ -25,11 +25,17 @@ export interface Workflow {
 }
 
 interface ExecutionLog {
-  timestamp: string
-  nodeId: string
-  status: 'pending' | 'running' | 'completed' | 'failed'
-  message: string
+  timestamp?: string
+  nodeId?: string
+  node_id?: string
+  status?: 'pending' | 'running' | 'completed' | 'failed' | 'error'
+  message?: string
+  node_name?: string
+  error?: string
+  execution_id?: string
+  workflow_id?: string
   data?: any
+  [key: string]: any
 }
 
 interface WorkflowStore {
@@ -37,6 +43,7 @@ interface WorkflowStore {
   selectedNodeId: string | null
   isRunning: boolean
   executionLogs: ExecutionLog[]
+  currentExecutionId: string | null
 
   // Actions
   setWorkflow: (workflow: Workflow | null) => void
@@ -49,6 +56,7 @@ interface WorkflowStore {
   setRunning: (running: boolean) => void
   addExecutionLog: (log: ExecutionLog) => void
   clearExecutionLogs: () => void
+  setCurrentExecutionId: (id: string | null) => void
 }
 
 export const useWorkflowStore = create<WorkflowStore>((set) => ({
@@ -56,6 +64,7 @@ export const useWorkflowStore = create<WorkflowStore>((set) => ({
   selectedNodeId: null,
   isRunning: false,
   executionLogs: [],
+  currentExecutionId: null,
 
   setWorkflow: (workflow) => set({ workflow }),
 
@@ -140,4 +149,6 @@ export const useWorkflowStore = create<WorkflowStore>((set) => ({
     })),
 
   clearExecutionLogs: () => set({ executionLogs: [] }),
+
+  setCurrentExecutionId: (id) => set({ currentExecutionId: id }),
 }))

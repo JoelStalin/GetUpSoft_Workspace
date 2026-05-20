@@ -4,12 +4,14 @@ from __future__ import annotations
 
 import json
 import uuid
-from datetime import datetime
+import asyncio
+from datetime import UTC, datetime
 from pathlib import Path
-from typing import Any
+from typing import Any, AsyncGenerator
+from collections import deque
 
 from fastapi import APIRouter, HTTPException, UploadFile, File
-from fastapi.responses import FileResponse
+from fastapi.responses import FileResponse, StreamingResponse
 
 from ai_automation_orchestrator.n8n_models import (
     N8nWorkflow,
@@ -17,9 +19,9 @@ from ai_automation_orchestrator.n8n_models import (
     N8nNodeType,
     NODE_TYPE_CATALOG,
     WorkflowGenerateRequest,
-    WorkflowExecutionRequest,
     WorkflowDirectoryImportRequest,
 )
+from ai_automation_orchestrator.n8n_executor import WorkflowExecutor
 from ai_automation_orchestrator.n8n_importer import import_n8n_workflow_directory
 
 router = APIRouter(prefix="/api/n8n", tags=["n8n-workflows"])
@@ -27,6 +29,20 @@ router = APIRouter(prefix="/api/n8n", tags=["n8n-workflows"])
 # In-memory store for now; persist to JSON file
 _WORKFLOWS_FILE = Path("data/n8n_workflows.json")
 _WORKFLOWS_FILE.parent.mkdir(exist_ok=True)
+
+# Workflow executor and execution tracking
+_executor = WorkflowExecutor()
+_executions: dict[str, dict] = {}  # execution_id -> {"state": ExecutionState, "logs": deque}
+
+
+def _get_execution_logs(execution_id: str) -> deque:
+    """Get or create execution logs queue."""
+    if execution_id not in _executions:
+        _executions[execution_id] = {
+            "state": None,
+            "logs": deque(maxlen=1000),
+        }
+    return _executions[execution_id]["logs"]
 
 
 def _load_workflows() -> dict[str, N8nWorkflow]:
@@ -207,7 +223,7 @@ async def import_workflow_directory(request: WorkflowDirectoryImportRequest) -> 
 
 @router.post("/workflows/{workflow_id}/run")
 async def run_workflow(
-    workflow_id: str, request: WorkflowExecutionRequest
+    workflow_id: str, body: dict | None = None
 ) -> dict[str, Any]:
     """Execute a workflow (async, returns execution ID)."""
     workflows = _load_workflows()
@@ -216,13 +232,35 @@ async def run_workflow(
         raise HTTPException(status_code=404, detail="Workflow not found")
 
     execution_id = str(uuid.uuid4())
+    logs = _get_execution_logs(execution_id)
+    input_data = (body or {}).get("input_data", {}) if body else {}
 
-    # TODO: Queue workflow execution, return execution ID
+    async def execute_and_log():
+        """Execute workflow and collect logs."""
+        try:
+            async for update in _executor.execute_workflow(
+                workflow,
+                input_data=input_data,
+                execution_id=execution_id,
+            ):
+                logs.append(update)
+        except Exception as e:
+            logs.append({
+                "execution_id": execution_id,
+                "workflow_id": workflow_id,
+                "status": "error",
+                "error": str(e),
+                "timestamp": datetime.now(UTC).isoformat(),
+            })
+
+    # Start execution in background
+    asyncio.create_task(execute_and_log())
+
     return {
         "execution_id": execution_id,
         "workflow_id": workflow_id,
-        "status": "pending",
-        "message": "Workflow queued for execution",
+        "status": "running",
+        "message": "Workflow execution started",
     }
 
 
@@ -238,6 +276,69 @@ async def get_workflow_executions(workflow_id: str) -> dict[str, Any]:
         "workflow_id": workflow_id,
         "executions": [],
     }
+
+
+@router.get("/executions/{execution_id}")
+async def get_execution_status(execution_id: str) -> dict[str, Any]:
+    """Get the status and logs of an execution."""
+    if execution_id not in _executions:
+        raise HTTPException(status_code=404, detail="Execution not found")
+
+    data = _executions[execution_id]
+    logs = list(data["logs"])
+
+    # Determine overall status from logs
+    status = "pending"
+    if logs:
+        last = logs[-1]
+        status = last.get("status", "pending")
+
+    return {
+        "execution_id": execution_id,
+        "status": status,
+        "logs": logs,
+        "log_count": len(logs),
+    }
+
+
+@router.get("/executions/{execution_id}/stream")
+async def stream_execution_logs(execution_id: str) -> StreamingResponse:
+    """Stream execution logs as server-sent events (SSE)."""
+    if execution_id not in _executions:
+        raise HTTPException(status_code=404, detail="Execution not found")
+
+    async def event_generator() -> AsyncGenerator[str, None]:
+        """Generate SSE events from execution logs."""
+        seen = set()
+        max_retries = 300  # 5 minutes at 1 second intervals
+
+        for _ in range(max_retries):
+            logs = _executions[execution_id]["logs"]
+
+            # Send all new logs
+            for log_entry in logs:
+                log_id = id(log_entry)
+                if log_id not in seen:
+                    seen.add(log_id)
+                    yield f"data: {json.dumps(log_entry)}\n\n"
+
+            # Check if execution is complete
+            if logs:
+                last_status = logs[-1].get("status")
+                if last_status in ("completed", "failed", "error"):
+                    yield f"data: {json.dumps({'status': 'done'})}\n\n"
+                    break
+
+            await asyncio.sleep(0.1)
+
+    return StreamingResponse(
+        event_generator(),
+        media_type="text/event-stream",
+        headers={
+            "Cache-Control": "no-cache",
+            "X-Accel-Buffering": "no",
+        },
+    )
 
 
 @router.post("/generate")
