@@ -469,6 +469,18 @@ def create_dashboard_html(app_name: str) -> str:
     .view { display: none; height: 100%; overflow-y: auto; }
     .view.active { display: flex; flex-direction: column; }
 
+    /* N8N Editor View */
+    #n8n-view {
+      padding: 0;
+      overflow: hidden;
+      background: #1a1b1e;
+    }
+    #n8n-view iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
+
     /* Workbench Grid */
     .workbench-grid {
         display: grid;
@@ -518,6 +530,9 @@ def create_dashboard_html(app_name: str) -> str:
         </button>
         <button class="nav-btn" data-target="workflow-view" title="Blueprints">
           <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"></path></svg>
+        </button>
+        <button class="nav-btn" data-target="n8n-view" title="Visual Editor">
+          <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><path d="M10 6h4M10 17h4M6 10v4M17 10v4"/></svg>
         </button>
         <button class="nav-btn" data-target="vault-view" title="Vault">
           <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M4 7v10c0 1.1.9 2 2 2h12a2 2 0 0 0 2-2V7M20 7l-8-4-8 4M20 7l-8 4-8-4m16 0V5a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v2"></path></svg>
@@ -583,6 +598,11 @@ def create_dashboard_html(app_name: str) -> str:
               </div>
             </div>
           </div>
+        </section>
+
+        <!-- N8N VISUAL EDITOR VIEW -->
+        <section id="n8n-view" class="view" style="padding: 0; height: 100%;">
+          <iframe src="/workflow-editor/" style="width: 100%; height: 100%; border: none; border-radius: var(--radius);" allowfullscreen></iframe>
         </section>
 
         <!-- VAULT VIEW -->
