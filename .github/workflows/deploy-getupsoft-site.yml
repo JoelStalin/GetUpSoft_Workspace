@@ -89,13 +89,13 @@ jobs:
           GLOBAL=/home/ubuntu/getupsoft/rebranding-2026/global
           RD=/home/ubuntu/getupsoft/rebranding-2026/do
           TMP=/tmp/getupsoft-site-dist-$(date +%s)
-          mkdir -p "$TMP" "$GLOBAL" "$RD"
-          docker cp getupsoft-site-web-1:/usr/share/nginx/html/. "$TMP"/
-          find "$GLOBAL" -mindepth 1 -maxdepth 1 -exec rm -rf {} +
-          find "$RD" -mindepth 1 -maxdepth 1 -exec rm -rf {} +
-          cp -a "$TMP"/. "$GLOBAL"/
-          cp -a "$TMP"/. "$RD"/
-          rm -rf "$TMP"
+          mkdir -p "\$TMP" "\$GLOBAL" "\$RD"
+          docker cp getupsoft-site-web-1:/usr/share/nginx/html/. "\$TMP"/
+          find "\$GLOBAL" -mindepth 1 -maxdepth 1 -exec rm -rf {} +
+          find "\$RD" -mindepth 1 -maxdepth 1 -exec rm -rf {} +
+          cp -a "\$TMP"/. "\$GLOBAL"/
+          cp -a "\$TMP"/. "\$RD"/
+          rm -rf "\$TMP"
 
           echo "🧹 Purging Cloudflare cache..."
           curl -X POST "https://api.cloudflare.com/client/v4/zones/$CLOUDFLARE_ZONE_ID/purge_cache" \
