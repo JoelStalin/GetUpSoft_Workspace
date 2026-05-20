@@ -33,18 +33,16 @@ jobs:
         with:
           node-version: "20"
           cache: npm
-
-      - name: Install pnpm
-        run: npm install -g pnpm
+          cache-dependency-path: miniverse/package-lock.json
 
       - name: Install dependencies
-        run: pnpm install --frozen-lockfile
+        run: npm ci
 
       - name: Type check
-        run: pnpm typecheck || true
+        run: npm run typecheck || true
 
       - name: Lint
-        run: pnpm lint || true
+        run: npm run lint || true
 
   build:
     runs-on: ubuntu-latest
@@ -60,15 +58,13 @@ jobs:
         with:
           node-version: "20"
           cache: npm
-
-      - name: Install pnpm
-        run: npm install -g pnpm
+          cache-dependency-path: miniverse/package-lock.json
 
       - name: Install dependencies
-        run: pnpm install --frozen-lockfile
+        run: npm ci
 
       - name: Build
-        run: pnpm build:server
+        run: npm run build:server
 
   docker:
     runs-on: ubuntu-latest

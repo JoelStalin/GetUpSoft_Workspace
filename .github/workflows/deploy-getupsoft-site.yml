@@ -5,7 +5,7 @@ on:
     branches:
       - main
     paths:
-      - '01_Core_Platform/getupsoft-site/**'
+      - 'apps/site/**'
       - '.github/workflows/deploy-getupsoft-site.yml'
 
 jobs:
@@ -15,11 +15,20 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
+      - name: Install cloudflared
+        env:
+          CLOUDFLARED_VERSION: "2026.5.0"
+        run: |
+          curl -fsSL -o /tmp/cloudflared.deb "https://github.com/cloudflare/cloudflared/releases/download/${CLOUDFLARED_VERSION}/cloudflared-linux-amd64.deb"
+          sudo dpkg -i /tmp/cloudflared.deb
+
       - name: Deploy to code.getupsoft.com
         env:
           DEPLOY_HOST: ${{ secrets.DEPLOY_HOST }}
           DEPLOY_USER: ${{ secrets.DEPLOY_USER }}
           DEPLOY_SSH_PRIVATE_KEY: ${{ secrets.DEPLOY_SSH_PRIVATE_KEY }}
+          CLOUDFLARE_ACCESS_CLIENT_ID: ${{ secrets.CLOUDFLARE_ACCESS_CLIENT_ID }}
+          CLOUDFLARE_ACCESS_CLIENT_SECRET: ${{ secrets.CLOUDFLARE_ACCESS_CLIENT_SECRET }}
           DEPLOY_PATH: /home/ubuntu/workspaces/GetUpSoft_Workspace
           CLOUDFLARE_ZONE_ID: ${{ secrets.CLOUDFLARE_ZONE_ID }}
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
@@ -27,9 +36,19 @@ jobs:
           mkdir -p ~/.ssh
           echo "$DEPLOY_SSH_PRIVATE_KEY" > ~/.ssh/deploy_key
           chmod 600 ~/.ssh/deploy_key
-          timeout 15 ssh-keyscan -H "$DEPLOY_HOST" >> ~/.ssh/known_hosts 2>/dev/null || true
+          cat > ~/.ssh/config << SSHCONF
+          Host deploy-target
+            HostName ${DEPLOY_HOST}
+            User ${DEPLOY_USER}
+            IdentityFile ~/.ssh/deploy_key
+            IdentitiesOnly yes
+            StrictHostKeyChecking accept-new
+            ServerAliveInterval 30
+            ConnectTimeout 30
+            ProxyCommand cloudflared access ssh --hostname %h --service-token-id ${CLOUDFLARE_ACCESS_CLIENT_ID} --service-token-secret ${CLOUDFLARE_ACCESS_CLIENT_SECRET}
+          SSHCONF
 
-          ssh -o StrictHostKeyChecking=accept-new -o ConnectTimeout=30 -o ServerAliveInterval=30 -i ~/.ssh/deploy_key "${DEPLOY_USER}@${DEPLOY_HOST}" << EOF
+          ssh deploy-target << EOF
           set -e
 
           echo "📂 Navigating to workspace..."
@@ -40,7 +59,7 @@ jobs:
           git reset --hard origin/main
 
           echo "🔨 Building Docker image for getupsoft-site..."
-          cd 01_Core_Platform/getupsoft-site
+          cd apps/site
           docker build -t getupsoft-site:latest .
 
           echo "🚀 Stopping previous container..."
@@ -93,13 +112,25 @@ jobs:
           DEPLOY_HOST: ${{ secrets.DEPLOY_HOST }}
           DEPLOY_USER: ${{ secrets.DEPLOY_USER }}
           DEPLOY_SSH_PRIVATE_KEY: ${{ secrets.DEPLOY_SSH_PRIVATE_KEY }}
+          CLOUDFLARE_ACCESS_CLIENT_ID: ${{ secrets.CLOUDFLARE_ACCESS_CLIENT_ID }}
+          CLOUDFLARE_ACCESS_CLIENT_SECRET: ${{ secrets.CLOUDFLARE_ACCESS_CLIENT_SECRET }}
         run: |
           mkdir -p ~/.ssh
           echo "$DEPLOY_SSH_PRIVATE_KEY" > ~/.ssh/deploy_key
           chmod 600 ~/.ssh/deploy_key
-          timeout 15 ssh-keyscan -H "$DEPLOY_HOST" >> ~/.ssh/known_hosts 2>/dev/null || true
+          cat > ~/.ssh/config << SSHCONF
+          Host deploy-target
+            HostName ${DEPLOY_HOST}
+            User ${DEPLOY_USER}
+            IdentityFile ~/.ssh/deploy_key
+            IdentitiesOnly yes
+            StrictHostKeyChecking accept-new
+            ServerAliveInterval 30
+            ConnectTimeout 30
+            ProxyCommand cloudflared access ssh --hostname %h --service-token-id ${CLOUDFLARE_ACCESS_CLIENT_ID} --service-token-secret ${CLOUDFLARE_ACCESS_CLIENT_SECRET}
+          SSHCONF
 
-          ssh -o StrictHostKeyChecking=accept-new -o ConnectTimeout=30 -o ServerAliveInterval=30 -i ~/.ssh/deploy_key "${DEPLOY_USER}@${DEPLOY_HOST}" << 'EOF'
+          ssh deploy-target << 'EOF'
           echo "🔍 Verification Tests:"
           echo "1. Container status:"
           docker ps | grep getupsoft-site-web-1 || echo "⚠️ Container not found"
