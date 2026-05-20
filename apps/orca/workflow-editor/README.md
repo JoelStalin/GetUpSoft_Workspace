@@ -93,6 +93,43 @@ Orca backend provides these endpoints:
 - `POST /api/n8n/workflows/{id}/run` - Execute
 - `GET /api/n8n/node-types` - Available node types
 - `POST /api/n8n/generate` - Generate from prompt
+- `POST /api/n8n/import-directory` - Import a local folder of n8n workflow JSON files
+
+### Bulk Import from `n8n-workflows`
+
+The public n8n workflow collection can be imported into Orca as local workflow records.
+n8n's official import flow accepts workflow JSON by file, URL, or CLI; Orca mirrors that
+JSON shape and adds bulk directory import for repository-sized collections.
+
+```powershell
+git clone https://github.com/JoelStalin/n8n-workflows.git .tmp\n8n-workflows
+
+$env:PYTHONPATH = (Resolve-Path apps\orca\src).Path
+$env:N8N_SOURCE = (Resolve-Path .tmp\n8n-workflows).Path
+@'
+import os
+from pathlib import Path
+from ai_automation_orchestrator.n8n_endpoints import _load_workflows, _save_workflows
+from ai_automation_orchestrator.n8n_importer import import_n8n_workflow_directory
+
+os.chdir("apps/orca")
+result = import_n8n_workflow_directory(Path(os.environ["N8N_SOURCE"]), _load_workflows())
+_save_workflows(result["workflows"])
+print({key: result[key] for key in ["discovered", "imported", "skipped", "failed"]})
+'@ | python -
+```
+
+API dry-run before persisting:
+
+```bash
+curl -X POST http://localhost:8015/api/n8n/import-directory \
+  -H "Content-Type: application/json" \
+  -d '{"source_path":"C:/Users/yoeli/Documents/GetUpSoft_Workspace/.tmp/n8n-workflows","dry_run":true}'
+```
+
+Imported workflow data is stored in `apps/orca/data/n8n_workflows.json`, which is local-only
+and intentionally ignored by git. Review credentials, webhook URLs, and service-specific
+settings before activating imported workflows.
 
 ## Development Tips
 

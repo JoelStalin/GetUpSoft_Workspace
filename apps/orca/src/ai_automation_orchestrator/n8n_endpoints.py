@@ -18,7 +18,9 @@ from ai_automation_orchestrator.n8n_models import (
     NODE_TYPE_CATALOG,
     WorkflowGenerateRequest,
     WorkflowExecutionRequest,
+    WorkflowDirectoryImportRequest,
 )
+from ai_automation_orchestrator.n8n_importer import import_n8n_workflow_directory
 
 router = APIRouter(prefix="/api/n8n", tags=["n8n-workflows"])
 
@@ -178,6 +180,29 @@ async def import_workflow(file: UploadFile = File(...)) -> dict[str, Any]:
         raise HTTPException(
             status_code=400, detail=f"Invalid JSON or schema: {str(e)}"
         )
+
+
+@router.post("/import-directory")
+async def import_workflow_directory(request: WorkflowDirectoryImportRequest) -> dict[str, Any]:
+    """Import all valid n8n workflow JSON files from a local directory."""
+    try:
+        source_path = Path(request.source_path).expanduser().resolve()
+        workflows = _load_workflows()
+        result = import_n8n_workflow_directory(
+            source_path,
+            workflows,
+            limit=request.limit,
+            dry_run=request.dry_run,
+        )
+        if not request.dry_run:
+            _save_workflows(result["workflows"])
+    except FileNotFoundError as e:
+        raise HTTPException(status_code=404, detail=str(e))
+    except ValueError as e:
+        raise HTTPException(status_code=400, detail=str(e))
+
+    result.pop("workflows", None)
+    return result
 
 
 @router.post("/workflows/{workflow_id}/run")

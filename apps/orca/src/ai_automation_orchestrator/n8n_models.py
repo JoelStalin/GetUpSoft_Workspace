@@ -23,14 +23,14 @@ class N8nNode(BaseModel):
         ...,
         description="Node type (e.g. 'orca-nodes-base.aiPrompt' or 'n8n-nodes-base.slack')",
     )
-    typeVersion: int = Field(default=1, description="Node type version")
+    typeVersion: int | float = Field(default=1, description="Node type version")
     position: list[float] = Field(
         ..., description="[x, y] position on canvas"
     )
     parameters: dict[str, Any] = Field(default_factory=dict, description="Node configuration")
     disabled: bool = Field(default=False, description="Whether node is disabled")
     notes: str = Field(default="", description="User notes for this node")
-    credentials: dict[str, dict[str, Any]] = Field(
+    credentials: dict[str, Any] = Field(
         default_factory=dict, description="References to credentials"
     )
 
@@ -190,3 +190,11 @@ class WorkflowExecutionRequest(BaseModel):
 
     workflow_id: str = Field(..., description="Workflow UUID to execute")
     input_data: dict[str, Any] = Field(default_factory=dict, description="Input data for the workflow")
+
+
+class WorkflowDirectoryImportRequest(BaseModel):
+    """Request to import many n8n workflow JSON files from a local directory."""
+
+    source_path: str = Field(..., description="Local directory containing n8n workflow JSON files")
+    limit: int | None = Field(default=None, ge=1, description="Maximum workflows to import")
+    dry_run: bool = Field(default=False, description="Validate and report without persisting workflows")
