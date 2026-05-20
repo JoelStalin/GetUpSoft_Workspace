@@ -70,7 +70,7 @@ jobs:
           docker run -d \
             --name getupsoft-site-web-1 \
             --network bridge \
-            -p 127.0.0.1:3120:80 \
+            -p 127.0.0.1:3120:5173 \
             -e NODE_ENV=production \
             getupsoft-site:latest
 
@@ -78,7 +78,7 @@ jobs:
           sleep 5
 
           echo "✅ Testing deployment..."
-          if curl -sf http://localhost:3120/ > /dev/null; then
+          if curl -sf http://localhost:3120/health > /dev/null; then
             echo "✅ GetUpSoft Site is running"
           else
             echo "❌ Failed to connect to site"
