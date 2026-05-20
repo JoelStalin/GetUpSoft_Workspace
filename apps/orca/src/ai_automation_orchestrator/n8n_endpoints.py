@@ -16,8 +16,7 @@ from fastapi.responses import FileResponse, StreamingResponse
 from ai_automation_orchestrator.n8n_models import (
     N8nWorkflow,
     N8nNode,
-    N8nNodeType,
-    NODE_TYPE_CATALOG,
+    NodeTypeInfo,
     WorkflowGenerateRequest,
     WorkflowDirectoryImportRequest,
 )
@@ -25,6 +24,82 @@ from ai_automation_orchestrator.n8n_executor import WorkflowExecutor
 from ai_automation_orchestrator.n8n_importer import import_n8n_workflow_directory
 
 router = APIRouter(prefix="/api/n8n", tags=["n8n-workflows"])
+
+# Node type catalog
+NODE_TYPE_CATALOG = {
+    "orca-nodes-base.trigger": {
+        "type": "orca-nodes-base.trigger",
+        "label": "Trigger",
+        "color": "#ff6d5a",
+        "inputs": 0,
+        "outputs": 1,
+        "icon": "bell",
+        "description": "Start a workflow execution"
+    },
+    "orca-nodes-base.aiPrompt": {
+        "type": "orca-nodes-base.aiPrompt",
+        "label": "AI Prompt",
+        "color": "#7c4dff",
+        "inputs": 1,
+        "outputs": 1,
+        "icon": "brain",
+        "description": "Call an AI model with a prompt"
+    },
+    "orca-nodes-base.httpRequest": {
+        "type": "orca-nodes-base.httpRequest",
+        "label": "HTTP Request",
+        "color": "#1a9ba1",
+        "inputs": 1,
+        "outputs": 1,
+        "icon": "cloud",
+        "description": "Make an HTTP request"
+    },
+    "orca-nodes-base.condition": {
+        "type": "orca-nodes-base.condition",
+        "label": "Condition",
+        "color": "#ff9f43",
+        "inputs": 1,
+        "outputs": 2,
+        "icon": "code-branch",
+        "description": "Conditional branching"
+    },
+    "orca-nodes-base.loop": {
+        "type": "orca-nodes-base.loop",
+        "label": "Loop",
+        "color": "#10ac84",
+        "inputs": 1,
+        "outputs": 1,
+        "icon": "repeat",
+        "description": "Iterate over a list"
+    },
+    "orca-nodes-base.setVariable": {
+        "type": "orca-nodes-base.setVariable",
+        "label": "Set Variable",
+        "color": "#576574",
+        "inputs": 1,
+        "outputs": 1,
+        "icon": "assign",
+        "description": "Store a value in a variable"
+    },
+    "orca-nodes-base.executeCommand": {
+        "type": "orca-nodes-base.executeCommand",
+        "label": "Execute",
+        "color": "#ee5a24",
+        "inputs": 1,
+        "outputs": 1,
+        "icon": "terminal",
+        "description": "Execute a command or script"
+    },
+    "orca-nodes-base.end": {
+        "type": "orca-nodes-base.end",
+        "label": "End",
+        "color": "#353b48",
+        "inputs": 1,
+        "outputs": 0,
+        "icon": "stop-circle",
+        "description": "End the workflow"
+    },
+}
 
 # In-memory store for now; persist to JSON file
 _WORKFLOWS_FILE = Path("data/n8n_workflows.json")
@@ -71,7 +146,7 @@ def _save_workflows(workflows: dict[str, N8nWorkflow]) -> None:
 
 
 @router.get("/node-types")
-async def get_node_types() -> dict[str, N8nNodeType]:
+async def get_node_types() -> dict[str, dict[str, Any]]:
     """List all available node types in Orca."""
     return NODE_TYPE_CATALOG
 

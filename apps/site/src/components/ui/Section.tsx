@@ -5,14 +5,15 @@ export function Section({
 }: { 
   className?: string; 
   children: React.ReactNode;
-  background?: "background" | "surface" | "surfaceElevated" | "primarySoft" | "accentTealSoft"
+  background?: "background" | "surface" | "surfaceElevated" | "primarySoft" | "accentTealSoft" | "transparent"
 }) {
   const bgStyles = {
-    background: "bg-background",
-    surface: "bg-surface",
-    surfaceElevated: "bg-surfaceElevated",
-    primarySoft: "bg-primarySoft",
-    accentTealSoft: "bg-accentTealSoft",
+    background: "bg-background/80 backdrop-blur-sm",
+    surface: "bg-surface/90 backdrop-blur-md",
+    surfaceElevated: "bg-surfaceElevated/90 backdrop-blur-md",
+    primarySoft: "bg-primarySoft/80 backdrop-blur-md",
+    accentTealSoft: "bg-accentTealSoft/80 backdrop-blur-md",
+    transparent: "bg-transparent",
   };
 
   return (

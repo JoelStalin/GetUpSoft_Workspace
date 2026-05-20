@@ -20,7 +20,10 @@ Get-ChildItem -Path $sourcePath -Directory | Where-Object { $_.Name -ne ".system
     }
 
     $destination = Join-Path $targetPath $_.Name
-    Copy-Item -Path $_.FullName -Destination $destination -Recurse -Force
+    if (-not (Test-Path $destination)) {
+        New-Item -ItemType Directory -Path $destination | Out-Null
+    }
+    Copy-Item -Path "$($_.FullName)\*" -Destination $destination -Recurse -Force
     $copied++
 }
 

@@ -1,115 +1,84 @@
-import { NavLink, Outlet, Link } from "react-router-dom";
-import { CodeLogo } from "./CodeLogo";
+import { NavLink, Outlet } from "react-router-dom";
+import { Navbar } from "./nav/Navbar";
+import { ScrollVideo } from "./ui/ScrollVideo";
 
-const NAV = [
-  { to: "/", label: "Home", end: true },
-  { to: "/ai-agents", label: "AI Agents" },
-  { to: "/system-integration", label: "Integration" },
-  { to: "/products", label: "Products" },
-  { to: "/solutions", label: "Solutions" },
-  { to: "/about", label: "About" },
+const NAV_ITEMS = [
+  { to: "/es", label: "Home", end: true },
+  { to: "/es/ai-agents", label: "AI Agents" },
+  { to: "/es/system-integration", label: "Integration" },
+  { to: "/es/products", label: "Products" },
+  { to: "/es/solutions", label: "Solutions" },
+  { to: "/es/about", label: "About" },
 ];
 
 const FOOTER_LINKS = {
   Solutions: [
-    { label: "AI Agents", to: "/ai-agents" },
-    { label: "System Integration", to: "/system-integration" },
-    { label: "Digital Transformation", to: "/digital-transformation" },
-    { label: "Products", to: "/products" },
+    { label: "AI Agents", to: "/es/ai-agents" },
+    { label: "System Integration", to: "/es/system-integration" },
+    { label: "Digital Transformation", to: "/es/digital-transformation" },
+    { label: "Products", to: "/es/products" },
   ],
   Company: [
-    { label: "About", to: "/about" },
-    { label: "Case Studies", to: "/case-studies" },
-    { label: "Methodology", to: "/methodology" },
-    { label: "Contact", to: "/contact" },
+    { label: "About", to: "/es/about" },
+    { label: "Case Studies", to: "/es/case-studies" },
+    { label: "Methodology", to: "/es/methodology" },
+    { label: "Contact", to: "/es/contact" },
   ],
   Legal: [
-    { label: "Privacy Policy", to: "/privacy" },
-    { label: "Terms of Service", to: "/terms" },
+    { label: "Privacy Policy", to: "/es/privacy" },
+    { label: "Terms of Service", to: "/es/terms" },
   ],
 };
 
 export function GlobalLayout() {
   return (
     <div className="min-h-screen bg-background text-text selection:bg-primarySoft selection:text-text">
-      {/* Top bar */}
-      <div className="border-b border-border bg-surface">
-        <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-2.5 text-[10px] font-bold tracking-[0.2em] text-textMuted uppercase">
-          <span>Enterprise AI Architecture · System Integration · Digital Transformation</span>
-          <a
-            href="https://getupsoft.com.do"
-            className="flex items-center gap-1.5 transition text-primary hover:text-text"
-          >
-            GetUpSoft RD
-            <svg className="h-3 w-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path d="M14 5l7 7m0 0l-7 7m7-7H3" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-            </svg>
-          </a>
-        </div>
-      </div>
+      {/* Background Scroll Effect */}
+      <ScrollVideo src="https://assets.mixkit.co/videos/preview/mixkit-launching-a-rocket-into-the-clouds-40544-large.mp4" />
 
-      {/* Header */}
-      <header className="sticky top-0 z-50 border-b border-border bg-background/80 backdrop-blur-xl">
-        <div className="mx-auto flex max-w-7xl items-center justify-between gap-6 px-6 py-4">
-          <NavLink to="/" className="flex items-center gap-3 group">
-            <CodeLogo variant="global" />
-            <div>
-              <p className="text-[11px] font-bold uppercase tracking-[0.15em] text-primary">GetUpSoft</p>
-            </div>
-          </NavLink>
-
-          <nav className="hidden items-center gap-8 text-[11px] font-bold uppercase tracking-[0.1em] text-textMuted lg:flex">
-            {NAV.map((item) => (
-              <NavLink
-                key={item.to}
-                to={item.to}
-                end={item.end}
-                className={({ isActive }) =>
-                  isActive
-                    ? "text-primary"
-                    : "transition hover:text-text"
-                }
-              >
-                {item.label}
-              </NavLink>
-            ))}
-          </nav>
-
-          <Link
-            to="/contact"
-            className="rounded-full bg-primary text-white px-6 py-2.5 text-[11px] font-bold uppercase tracking-[0.15em] transition hover:bg-text hover:shadow-soft-xl"
-          >
-            Book Strategy
-          </Link>
-        </div>
-      </header>
+      <Navbar 
+        variant="global" 
+        items={NAV_ITEMS} 
+        ctaLabel="Book Strategy" 
+        ctaTo="/es/contact" 
+      />
 
       <main>
         <Outlet />
       </main>
 
-      {/* Footer */}
-      <footer className="border-t border-border bg-surface">
-        <div className="mx-auto max-w-7xl px-6 py-20">
-          <div className="grid gap-12 lg:grid-cols-[1.5fr,1fr,1fr,1fr]">
-            <div className="space-y-6">
-              <div className="flex items-center gap-3">
-                <CodeLogo variant="global" compact />
-              </div>
+      {/* Footer with Socials */}
+      <footer className="relative border-t border-border bg-white/50 backdrop-blur-xl">
+        <div className="mx-auto max-w-[1440px] px-8 py-24">
+          <div className="grid gap-16 lg:grid-cols-[1.5fr,1fr,1fr,1.2fr]">
+            <div className="space-y-8">
+              <div className="text-xl font-bold tracking-tight">GetUpSoft</div>
               <p className="max-w-sm text-sm leading-relaxed text-textMuted">
-                GetUpSoft architects the intelligence and infrastructure that make modern companies operate as one connected, scalable digital ecosystem.
+                Architecting the next layer of operational intelligence. From ERP integration to autonomous AI agents.
               </p>
-              <p className="text-[10px] uppercase font-bold tracking-widest text-textSubtle">
-                © {new Date().getFullYear()} GetUpSoft. All rights reserved.
-              </p>
+              
+              {/* Social Media Buttons */}
+              <div className="flex items-center gap-4">
+                {['Twitter', 'LinkedIn', 'GitHub', 'YouTube'].map(platform => (
+                  <a 
+                    key={platform}
+                    href={`#${platform.toLowerCase()}`} 
+                    className="w-10 h-10 rounded-full bg-surface border border-border flex items-center justify-center transition-all hover:bg-primary hover:text-white hover:border-primary shadow-sm"
+                    aria-label={platform}
+                  >
+                    <span className="text-[10px] font-bold uppercase">{platform[0]}</span>
+                  </a>
+                ))}
+              </div>
             </div>
+
             {Object.entries(FOOTER_LINKS).map(([group, links]) => (
               <div key={group}>
-                <p className="text-[11px] font-bold uppercase tracking-widest text-text">{group}</p>
-                <ul className="mt-6 space-y-3">
+                <p className="text-[11px] font-bold uppercase tracking-widest text-text mb-8">{group}</p>
+                <ul className="space-y-4">
                   {links.map((l) => (
                     <li key={l.to}>
-                      <NavLink to={l.to} className="text-sm text-textMuted transition hover:text-primary">
+                      <NavLink to={l.to} className="text-sm text-textMuted transition-colors hover:text-primary">
                         {l.label}
                       </NavLink>
                     </li>
@@ -117,19 +86,24 @@ export function GlobalLayout() {
                 </ul>
               </div>
             ))}
+            
+            <div className="bg-surface p-10 rounded-3xl border border-border">
+               <p className="text-[11px] font-bold uppercase tracking-widest mb-6">Newsletter</p>
+               <div className="flex gap-2">
+                  <input className="bg-white border border-border px-4 py-2 rounded-xl text-xs flex-1 outline-none focus:border-primary" placeholder="Email address" />
+                  <button className="bg-text text-white px-4 py-2 rounded-xl text-xs font-bold transition-all hover:bg-primary">Join</button>
+               </div>
+            </div>
           </div>
 
-          {/* Bottom divider */}
-          <div className="mt-16 border-t border-border pt-10">
-            <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-4 text-xs font-medium text-textSubtle">
-              <a href="mailto:contact@getupsoft.com" className="transition hover:text-primary">
-                contact@getupsoft.com
-              </a>
-              <a href="tel:+1234567890" className="transition hover:text-primary">
-                +1 (234) 567-890
-              </a>
-              <div>Santo Domingo, Dominican Republic</div>
-              <div className="md:text-right">Aesthetic Intelligence</div>
+          <div className="mt-24 pt-12 border-t border-border flex flex-col md:flex-row justify-between gap-8 items-center text-[10px] font-bold uppercase tracking-[0.2em] text-textSubtle">
+            <div className="flex gap-12">
+              <span>© {new Date().getFullYear()} GetUpSoft</span>
+              <span>Built for Scale</span>
+            </div>
+            <div className="md:text-right flex gap-12">
+              <span>Santo Domingo, DR</span>
+              <span className="text-primary">Aesthetic Intelligence</span>
             </div>
           </div>
         </div>

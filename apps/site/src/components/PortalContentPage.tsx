@@ -3,6 +3,7 @@ import { Section } from "./ui/Section";
 import { Container } from "./ui/Container";
 import { Eyebrow } from "./ui/Eyebrow";
 import { Button } from "./ui/Button";
+import { useScrollReveal } from "../animations/useAnimeScroll";
 
 type PageBlock = {
   eyebrow: string;
@@ -35,6 +36,7 @@ export function PortalContentPage({
   faq,
 }: PortalContentPageProps) {
   const accentColor = theme === "rd" ? "accentTeal" : "primary";
+  const blockRef = useScrollReveal<HTMLDivElement>({ childSelector: "article" });
 
   return (
     <div className="bg-background">
@@ -42,7 +44,7 @@ export function PortalContentPage({
       <Section className="!py-24 lg:!py-36 border-b border-border">
         <Container>
           <div className="grid gap-16 lg:grid-cols-[1fr,1.1fr] items-center">
-            <div className="space-y-8">
+            <div className="space-y-8 animate-fade-in-slow">
               <Eyebrow color={accentColor}>
                 {theme === "rd" ? "GetUpSoft RD" : "GetUpSoft Global"}
               </Eyebrow>
@@ -74,9 +76,9 @@ export function PortalContentPage({
       {/* Feature Blocks */}
       <Section background="surface">
         <Container>
-          <div className="grid gap-8 lg:grid-cols-3">
+          <div ref={blockRef} className="grid gap-8 lg:grid-cols-3">
             {blocks.map((block) => (
-              <article key={block.title} className="p-10 rounded-[32px] bg-background border border-border shadow-soft-xl hover:shadow-soft-2xl transition-all duration-300">
+              <article key={block.title} className="p-10 rounded-[32px] bg-background border border-border shadow-soft-xl hover:shadow-soft-2xl hover:-translate-y-1 transition-all duration-300 group">
                 <Eyebrow color={accentColor} className="mb-4">{block.eyebrow}</Eyebrow>
                 <h2 className="text-2xl font-bold text-text mb-4">{block.title}</h2>
                 <p className="text-textMuted leading-relaxed mb-8">{block.body}</p>
@@ -122,15 +124,15 @@ export function PortalContentPage({
       {/* Conversion Section */}
       <Section background={theme === "rd" ? "accentTealSoft" : "primarySoft"} className="!py-32">
         <Container>
-          <div className="bg-background p-12 sm:p-20 rounded-[56px] shadow-soft-2xl text-center relative overflow-hidden">
-            <div className={`absolute top-0 left-1/2 -translate-x-1/2 w-64 h-64 ${theme === "rd" ? "bg-accentTealSoft/50" : "bg-primarySoft/50"} rounded-full blur-[100px] -mt-32`} />
+          <div className="bg-background p-12 sm:p-20 rounded-[56px] shadow-soft-2xl text-center relative overflow-hidden group">
+            <div className={`absolute top-0 left-1/2 -translate-x-1/2 w-64 h-64 ${theme === "rd" ? "bg-accentTealSoft/50" : "bg-primarySoft/50"} rounded-full blur-[100px] -mt-32 transition-transform duration-700 group-hover:scale-125`} />
             <div className="relative z-10 max-w-3xl mx-auto">
               <h2 className="text-4xl sm:text-5xl font-bold text-text leading-tight mb-10">
                 {theme === "rd"
                   ? "Construyamos una operación más estable."
                   : "Build the next layer of your enterprise architecture."}
               </h2>
-              <Button to={primaryTo} className={`px-12 py-5 ${theme === "rd" ? "bg-accentTeal hover:bg-text" : ""}`}>
+              <Button to={primaryTo} className={`px-12 py-5 shadow-soft-xl hover:scale-105 transition-transform ${theme === "rd" ? "bg-accentTeal hover:bg-text" : ""}`}>
                 {primaryCta}
               </Button>
             </div>
@@ -179,7 +181,7 @@ function ArchitecturePanel({ theme, title }: { theme: "global" | "rd"; title: st
               <path d={`M${x + 42} ${y + 22}h42M${x + 42} ${y + 34}h28`} stroke="#94A3B8" strokeOpacity="0.3" strokeWidth="2" strokeLinecap="round" />
             </g>
           ))}
-          <circle cx="360" cy="240" r="52" fill="#FFFFFF" stroke={accent} strokeOpacity="0.5" strokeWidth="1" />
+          <circle cx="360" cy="240" r="52" fill="#FFFFFF" stroke={accent} stopOpacity="0.5" strokeWidth="1" />
           <circle cx="360" cy="240" r="14" fill={accent} fillOpacity="0.7" />
         </svg>
       </div>

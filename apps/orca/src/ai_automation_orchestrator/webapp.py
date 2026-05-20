@@ -1522,7 +1522,7 @@ def create_app(
         register_google_oauth_endpoints(app)
 
     # Mount workflow editor static assets
-    workflow_editor_assets = Path(__file__).parent.parent / "workflow-editor" / "dist" / "assets"
+    workflow_editor_assets = Path(__file__).parent.parent.parent / "workflow-editor" / "dist" / "assets"
     if workflow_editor_assets.exists():
         try:
             app.mount("/workflow-editor/assets", StaticFiles(directory=str(workflow_editor_assets)), name="workflow-editor-assets")
@@ -1530,12 +1530,15 @@ def create_app(
             print(f"Warning: Failed to mount workflow editor assets: {e}")
 
     # Serve workflow editor SPA
-    @app.get("/workflow-editor", response_class=HTMLResponse)
-    def workflow_editor() -> str:
+    def _serve_workflow_editor_spa() -> str:
         """Serve the React workflow editor SPA."""
-        spa_path = Path(__file__).parent.parent / "workflow-editor" / "dist" / "index.html"
+        spa_path = Path(__file__).parent.parent.parent / "workflow-editor" / "dist" / "index.html"
         if spa_path.exists():
-            return spa_path.read_text(encoding="utf-8")
+            html = spa_path.read_text(encoding="utf-8")
+            # Rewrite asset paths to include the /workflow-editor prefix
+            html = html.replace('src="/assets/', 'src="/workflow-editor/assets/')
+            html = html.replace('href="/assets/', 'href="/workflow-editor/assets/')
+            return html
         # Fallback: serve a simple loading page
         return """
         <!DOCTYPE html>
@@ -1558,6 +1561,15 @@ def create_app(
         </body>
         </html>
         """
+
+    @app.get("/workflow-editor", response_class=HTMLResponse)
+    def workflow_editor() -> str:
+        return _serve_workflow_editor_spa()
+
+    @app.get("/workflow-editor/{path:path}", response_class=HTMLResponse)
+    def workflow_editor_spa_fallback(path: str) -> str:
+        """Catch-all route for SPA client-side routing."""
+        return _serve_workflow_editor_spa()
 
     return app
 

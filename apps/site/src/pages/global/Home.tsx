@@ -2,6 +2,9 @@ import { Section } from "../../components/ui/Section";
 import { Container } from "../../components/ui/Container";
 import { Eyebrow } from "../../components/ui/Eyebrow";
 import { Button } from "../../components/ui/Button";
+import { Counter } from "../../components/ui/Counter";
+import { HeroCoreAnime } from "../../animations/HeroCoreAnime";
+import { useScrollReveal } from "../../animations/useAnimeScroll";
 
 const PRODUCTS = [
   {
@@ -24,163 +27,149 @@ const PRODUCTS = [
   },
 ];
 
-const CAPABILITIES = [
-  {
-    icon: "◈",
-    title: "Enterprise AI Agents",
-    desc: "Autonomous agents that execute multi-step business workflows, decisions and integrations without manual intervention.",
-  },
-  {
-    icon: "⬡",
-    title: "System Integration",
-    desc: "ERP, CRM, BI, accounting, e-commerce and legacy systems connected through clear, monitored contracts.",
-  },
-  {
-    icon: "▣",
-    title: "Operational Intelligence",
-    desc: "Real-time dashboards, data orchestration and decision support layers built on your existing data.",
-  },
-  {
-    icon: "◇",
-    title: "Digital Transformation",
-    desc: "End-to-end modernization of fragmented operations into scalable, automated digital ecosystems.",
-  },
+const STATS = [
+  { label: "Systems Integrated", value: 150, suffix: "+" },
+  { label: "AI Agents Live", value: 45, suffix: "" },
+  { label: "Ops Optimized", value: 92, suffix: "%" },
 ];
 
 export function GlobalHomePage() {
-  return (
-    <div className="bg-background">
-      {/* Hero Section */}
-      <Section className="relative overflow-hidden !py-32 lg:!py-48">
-        <div className="absolute inset-0 bg-grid-subtle opacity-50" />
-        <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-primarySoft/30 rounded-full blur-[120px] -mr-48 -mt-48 animate-pulse-soft" />
+  const capRef = useScrollReveal<HTMLDivElement>({ childSelector: ".cap-card" });
+  const prodRef = useScrollReveal<HTMLDivElement>({ childSelector: ".prod-card" });
 
-        <Container className="relative">
-          <div className="max-w-4xl">
-            <Eyebrow>Enterprise AI Architecture</Eyebrow>
-            <h1 className="text-6xl sm:text-7xl lg:text-[80px] font-bold tracking-tight text-text leading-[0.95] mb-8">
-              Architectural <span className="italic text-primary">Intelligence</span> for the Modern Enterprise.
+  return (
+    <div className="bg-background relative">
+      {/* ── HERO (Galante's Inspired: Centered, Massive, Immersive) ── */}
+      <Section background="transparent" className="relative min-h-screen flex items-center justify-center overflow-hidden border-b border-border">
+        {/* Subtle grid and ambient light */}
+        <div className="absolute inset-0 bg-grid-subtle opacity-40" />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[1000px] h-[1000px] bg-primarySoft/20 rounded-full blur-[160px] pointer-events-none" />
+
+        <Container className="relative z-10 text-center">
+          <div className="animate-fade-in-slow space-y-12">
+            <Eyebrow className="justify-center">Architecting the Modern Enterprise</Eyebrow>
+            
+            <h1 className="text-7xl md:text-8xl lg:text-[120px] font-bold tracking-tight text-text leading-[0.9] max-w-6xl mx-auto">
+              Scalability and <span className="italic text-primary">Intelligence</span>
             </h1>
-            <p className="text-xl sm:text-2xl text-textMuted max-w-2xl leading-relaxed mb-12">
+            
+            <p className="text-xl md:text-2xl text-textMuted max-w-3xl mx-auto leading-relaxed font-medium">
               We design autonomous AI agents, integrated systems and operational intelligence layers that turn fragmented companies into scalable digital ecosystems.
             </p>
-            <div className="flex flex-col sm:flex-row gap-5">
-              <Button to="/contact" className="px-10 py-5">
+            
+            <div className="flex flex-col sm:flex-row gap-6 justify-center pt-8">
+              <Button to="/es/contact" className="!px-12 !py-5 !text-xs shadow-soft-2xl hover:scale-105 transition-all">
                 Book Strategy Session
               </Button>
-              <Button variant="secondary" to="/methodology" className="px-10 py-5">
+              <Button variant="secondary" to="/es/methodology" className="!px-12 !py-5 !text-xs hover:scale-105 transition-all">
                 Explore Methodology
               </Button>
             </div>
           </div>
+        </Container>
+        
+        {/* Scroll indicator */}
+        <div className="absolute bottom-12 left-1/2 -translate-x-1/2 animate-float">
+           <div className="w-px h-16 bg-gradient-to-b from-primary to-transparent" />
+        </div>
+      </Section>
 
-          {/* Stats Bar */}
-          <div className="mt-24 grid gap-12 sm:grid-cols-3 pt-12 border-t border-border">
-            {[
-              { label: "AI Agents", value: "Production-grade" },
-              { label: "Integrations", value: "ERP · CRM · BI · APIs" },
-              { label: "Infrastructure", value: "Cloud-native" },
-            ].map((t) => (
-              <div key={t.label}>
-                <p className="text-[11px] font-bold uppercase tracking-widest text-textSubtle mb-3">{t.label}</p>
-                <p className="text-lg font-bold text-text">{t.value}</p>
+      {/* ── STATS (Explorium Style: Dynamic Counters) ── */}
+      <div className="bg-surface py-12 border-y border-border">
+        <Container>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-12 text-center">
+            {STATS.map((stat) => (
+              <div key={stat.label} className="space-y-2">
+                <p className="text-5xl font-bold text-text">
+                  <Counter value={stat.value} suffix={stat.suffix} />
+                </p>
+                <p className="text-[10px] font-bold uppercase tracking-[0.3em] text-textSubtle">{stat.label}</p>
               </div>
             ))}
           </div>
         </Container>
-      </Section>
+      </div>
 
-      {/* Problem Statement */}
-      <Section background="surface">
-        <Container>
-          <div className="max-w-5xl mx-auto text-center">
-            <Eyebrow>The Problem</Eyebrow>
-            <h2 className="text-4xl sm:text-5xl font-bold leading-snug tracking-tight text-text mb-8">
-              Modern companies operate with <span className="text-primary">fragmented systems</span>, disconnected teams and manual workflows.
-            </h2>
-            <p className="mx-auto max-w-2xl text-lg leading-relaxed text-textMuted">
-              GetUpSoft designs the intelligence layer that connects operations, data and decision-making into one scalable architecture.
-            </p>
-          </div>
-        </Container>
-      </Section>
-
-      {/* Capabilities */}
+      {/* ── CORE VISUAL ── */}
       <Section>
         <Container>
-          <div className="max-w-2xl mb-20">
-            <Eyebrow>Capabilities</Eyebrow>
-            <h2 className="text-4xl sm:text-5xl font-bold tracking-tight text-text">
-              Not just tools. <span className="text-primary italic">Systems.</span>
-            </h2>
-          </div>
-          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-            {CAPABILITIES.map((c) => (
-              <article key={c.title} className="p-8 rounded-3xl bg-background border border-border shadow-soft-xl hover:shadow-soft-2xl transition-all duration-300">
-                <div className="text-3xl mb-6 text-primary">{c.icon}</div>
-                <h3 className="text-lg font-bold text-text mb-4">{c.title}</h3>
-                <p className="text-sm text-textMuted leading-relaxed">{c.desc}</p>
-              </article>
-            ))}
-          </div>
+           <div className="grid lg:grid-cols-2 gap-24 items-center">
+              <div className="space-y-8">
+                 <Eyebrow color="accentPurple">Intelligence Hub</Eyebrow>
+                 <h2 className="text-5xl font-bold text-text leading-tight">
+                    The single layer for <br /> all your <span className="text-primary italic">operations</span>.
+                 </h2>
+                 <p className="text-lg text-textMuted leading-relaxed">
+                    Break down silos. Connect your ERP to your CRM, and your data to autonomous AI agents that act on your behalf. We build the connective tissue for the enterprise.
+                 </p>
+                 <div className="pt-6">
+                    <Button variant="ghost" to="/es/solutions">See Solutions</Button>
+                 </div>
+              </div>
+              <div className="relative p-10 bg-surface rounded-[48px] border border-border shadow-soft-xl">
+                 <HeroCoreAnime />
+              </div>
+           </div>
         </Container>
       </Section>
 
-      {/* Ecosystem Section */}
+      {/* ── ECOSYSTEM ── */}
       <Section background="surface">
         <Container>
-          <div className="flex flex-col justify-between gap-8 sm:flex-row sm:items-end mb-16">
+          <div className="flex flex-col justify-between gap-8 sm:flex-row sm:items-end mb-20">
             <div className="space-y-4">
               <Eyebrow>Products & Cases</Eyebrow>
-              <h2 className="text-4xl sm:text-5xl font-bold tracking-tight text-text">
-                Our proprietary <span className="italic text-primary">ecosystem.</span>
+              <h2 className="text-5xl font-bold tracking-tight text-text">
+                Proprietary <span className="italic text-primary">Technology.</span>
               </h2>
             </div>
-            <Button variant="ghost" to="/products" className="!p-0">
-              View Full Portfolio →
+            <Button variant="ghost" to="/es/products" className="!p-0">
+              View All Products
             </Button>
           </div>
 
-          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          <div ref={prodRef} className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
             {PRODUCTS.map((p, i) => (
               <article
                 key={p.name}
-                className={`p-10 rounded-[32px] bg-background border border-border shadow-soft-xl hover:shadow-soft-2xl transition-all duration-300 ${
-                  i === 0 ? "sm:col-span-2 lg:col-span-2" : ""
+                className={`prod-card p-12 rounded-[40px] bg-background border border-border shadow-soft-xl hover:shadow-soft-2xl hover:-translate-y-2 transition-all duration-500 group ${
+                  i === 0 ? "lg:col-span-2" : ""
                 }`}
               >
-                <div className="flex items-start justify-between mb-8">
+                <div className="flex items-start justify-between mb-10">
                   <div>
-                    <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-textSubtle mb-2">{p.tag}</p>
-                    <h3 className="text-3xl font-bold text-text">
+                    <p className="text-[10px] font-bold uppercase tracking-[0.25em] text-textSubtle mb-3">{p.tag}</p>
+                    <h3 className="text-4xl font-bold text-text group-hover:text-primary transition-colors">
                       {p.name}
                     </h3>
                   </div>
-                  <div className="h-3 w-3 rounded-full bg-primary animate-pulse-soft" />
+                  <div className="h-4 w-4 rounded-full bg-primary animate-pulse-soft" />
                 </div>
-                <p className="text-textMuted leading-relaxed mb-8">{p.desc}</p>
-                <Button variant="ghost" to="/products" className="!p-0">Explore Case →</Button>
+                <p className="text-lg text-textMuted leading-relaxed mb-10">{p.desc}</p>
+                <Button variant="ghost" to="/es/products" className="!p-0">Explore Platform</Button>
               </article>
             ))}
           </div>
         </Container>
       </Section>
 
-      {/* CTA Section */}
+      {/* ── CONVERSION ── */}
       <Section background="primarySoft" className="!py-32">
         <Container>
-          <div className="bg-background p-12 sm:p-20 rounded-[56px] shadow-soft-2xl text-center relative overflow-hidden">
-            <div className="absolute top-0 left-1/2 -translate-x-1/2 w-64 h-64 bg-primarySoft/50 rounded-full blur-[100px] -mt-32" />
-            <div className="relative z-10 max-w-3xl mx-auto">
-              <h2 className="text-4xl sm:text-5xl font-bold text-text leading-tight mb-6">
-                Ready to architect your <span className="text-primary italic">intelligence layer?</span>
+          <div className="bg-text p-16 sm:p-24 rounded-[64px] shadow-soft-2xl text-center relative overflow-hidden group">
+            <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-primary/20 rounded-full blur-[120px] -mr-64 -mt-64 transition-transform duration-1000 group-hover:scale-110" />
+            <div className="absolute bottom-0 left-0 w-64 h-64 bg-accentTeal/10 rounded-full blur-[80px] -ml-32 -mb-32" />
+            
+            <div className="relative z-10 max-w-3xl mx-auto space-y-10">
+              <h2 className="text-5xl md:text-6xl font-bold text-white leading-tight">
+                Ready to architect your <span className="text-primarySoft italic">intelligence layer?</span>
               </h2>
-              <p className="text-xl text-textMuted leading-relaxed mb-10">
-                We work with enterprise teams, founders and operations leaders who need systems that actually hold together at scale.
+              <p className="text-xl text-white/60 leading-relaxed">
+                Join the organizations leading the transition to autonomous business operations.
               </p>
-              <div className="flex flex-col sm:flex-row gap-5 justify-center">
-                <Button to="/contact" className="px-12 py-5">Book Strategy Session</Button>
-                <Button variant="outline" to="/ai-agents" className="px-12 py-5">Explore AI Agents</Button>
+              <div className="flex flex-col sm:flex-row gap-6 justify-center pt-4">
+                <Button to="/es/contact" className="!bg-white !text-text !px-12 !py-5 hover:!bg-primarySoft transition-all">Book Strategy Session</Button>
+                <Button variant="outline" to="/es/ai-agents" className="!border-white/20 !text-white !px-12 !py-5 hover:!bg-white/10 transition-all">Explore AI Agents</Button>
               </div>
             </div>
           </div>

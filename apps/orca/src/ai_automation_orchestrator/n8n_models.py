@@ -37,7 +37,7 @@ class N8nConnection(BaseModel):
 
 class N8nWorkflow(BaseModel):
     """Represents a complete n8n workflow."""
-    id: str = Field(..., description="Workflow ID (UUID)")
+    id: Optional[str] = Field(default=None, description="Workflow ID (UUID, auto-generated if not provided)")
     name: str = Field(..., description="Workflow name")
     active: bool = Field(default=False, description="Whether workflow is active")
     nodes: List[N8nNode] = Field(default_factory=list, description="List of nodes")
@@ -95,3 +95,10 @@ class WorkflowExportResponse(BaseModel):
     """Response with exported workflow."""
     workflow: N8nWorkflow
     json_str: str = Field(..., description="JSON string for export")
+
+
+class WorkflowDirectoryImportRequest(BaseModel):
+    """Request to import workflows from a directory."""
+    source_path: str = Field(..., description="Path to directory with n8n workflow JSON files")
+    limit: Optional[int] = Field(default=None, description="Limit number of files to import")
+    dry_run: bool = Field(default=False, description="If True, only report what would be imported")
