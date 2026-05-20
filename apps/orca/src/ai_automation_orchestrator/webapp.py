@@ -40,6 +40,8 @@ from ai_automation_orchestrator.user_auth import UserAuthManager, SessionManager
 from ai_automation_orchestrator.auth_endpoints import register_auth_endpoints, init_auth
 from ai_automation_orchestrator.unified_providers_section import get_unified_providers_html
 from ai_automation_orchestrator.provider_config_endpoints import register_provider_config_endpoints, init_provider_config_manager
+from ai_automation_orchestrator.google_oauth import GoogleOAuthManager, load_google_oauth_config
+from ai_automation_orchestrator.google_oauth_endpoints import register_google_oauth_endpoints, init_google_oauth
 
 
 class TestFlowRequest(BaseModel):
@@ -1255,6 +1257,18 @@ def create_app(
     init_auth(user_auth_mgr, session_mgr)
     init_provider_config_manager(user_auth_mgr)
 
+    # Initialize Google OAuth (optional - fails gracefully if not configured)
+    google_oauth_config = load_google_oauth_config()
+    if google_oauth_config:
+        google_oauth_mgr = GoogleOAuthManager(
+            google_oauth_config.client_id,
+            google_oauth_config.client_secret,
+            google_oauth_config.redirect_uri
+        )
+        init_google_oauth(google_oauth_mgr, user_auth_mgr, session_mgr)
+    else:
+        google_oauth_mgr = None
+
     @app.get("/health")
     def health() -> dict[str, str]:
         return {"status": "ok"}
@@ -1498,6 +1512,10 @@ def create_app(
 
     # Register provider configuration endpoints
     register_provider_config_endpoints(app)
+
+    # Register Google OAuth endpoints (if configured)
+    if google_oauth_mgr:
+        register_google_oauth_endpoints(app)
 
     # Mount workflow editor static assets
     workflow_editor_assets = Path(__file__).parent.parent / "workflow-editor" / "dist" / "assets"
