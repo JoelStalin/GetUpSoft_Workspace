@@ -5,7 +5,7 @@ from __future__ import annotations
 from pathlib import Path
 from typing import Any, Optional
 
-from fastapi import FastAPI, HTTPException, Cookie
+from fastapi import FastAPI, HTTPException, Cookie, UploadFile, File, Form
 from fastapi.responses import HTMLResponse
 
 from ai_automation_orchestrator.jarvis_integration import (
@@ -39,8 +39,12 @@ def register_jarvis_endpoints(app: FastAPI, sess_mgr: Optional[SessionManager] =
         return jarvis.get_status()
 
     @app.post("/api/jarvis/command")
-    def process_voice_command(request: JarvisCommandRequest, session_id: str = Cookie(None)) -> dict[str, Any]:
-        """Process a voice command through Jarvis."""
+    async def process_voice_command(
+        session_id: str = Cookie(None),
+        audio: Optional[UploadFile] = File(None),
+        text: Optional[str] = Form(None),
+    ) -> dict[str, Any]:
+        """Process a voice command through Jarvis - accepts audio file or text."""
         if session_id and session_manager:
             user_id = session_manager.validate_session(session_id)
             if not user_id:
@@ -48,10 +52,20 @@ def register_jarvis_endpoints(app: FastAPI, sess_mgr: Optional[SessionManager] =
         else:
             raise HTTPException(status_code=401, detail="Not authenticated")
 
-        response = jarvis.process_command(request)
+        # Process audio or text
+        input_text = text or ""
 
-        if response.errors:
-            raise HTTPException(status_code=400, detail=response.errors[0])
+        if audio and audio.filename:
+            # If audio file provided, use a default transcript
+            # In production, you'd use speech-to-text API
+            input_text = "Comando de voz capturado"
+
+        if not input_text:
+            raise HTTPException(status_code=400, detail="Must provide text or audio")
+
+        # Create request and process
+        request = JarvisCommandRequest(input_value=input_text, source_type="transcript")
+        response = jarvis.process_command(request)
 
         return {
             "raw_input": response.raw_input,
@@ -63,7 +77,8 @@ def register_jarvis_endpoints(app: FastAPI, sess_mgr: Optional[SessionManager] =
             "target_hint": response.target_hint,
             "should_send_to_orca": response.should_send_to_orca,
             "action": response.action,
-            "success": not response.errors,
+            "success": len(response.errors) == 0,
+            "errors": response.errors,
             "user_id": user_id,
         }
 
