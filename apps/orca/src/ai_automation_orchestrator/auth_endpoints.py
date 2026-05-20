@@ -24,6 +24,12 @@ class UserLoginRequest(BaseModel):
     name: Optional[str] = None  # Required for first-time login (registration)
 
 
+class PasswordLoginRequest(BaseModel):
+    """Password-based login request."""
+    email: str
+    password: str
+
+
 class LoginResponse(BaseModel):
     """Login response."""
     user_id: str
@@ -41,6 +47,46 @@ class UserResponse(BaseModel):
     created_at: str
     last_login: str
     is_active: bool
+
+
+@router.post("/login-password")
+async def login_with_password(request: PasswordLoginRequest, response: Response):
+    """Login with email and password."""
+    if not user_auth_manager:
+        raise HTTPException(status_code=500, detail="Auth not initialized")
+
+    # Find user
+    user = user_auth_manager.get_user_by_email(request.email)
+    if not user:
+        raise HTTPException(status_code=401, detail="Invalid email or password")
+
+    # Verify password
+    if not user_auth_manager.verify_password(user.user_id, request.password):
+        raise HTTPException(status_code=401, detail="Invalid email or password")
+
+    # Update last login
+    user_auth_manager.update_last_login(user.user_id)
+
+    # Create session
+    session_id = session_manager.create_session(user.user_id)
+
+    # Set session cookie
+    response.set_cookie(
+        key="session_id",
+        value=session_id,
+        max_age=30 * 24 * 60 * 60,  # 30 days
+        secure=True,
+        httponly=True,
+        samesite="strict"
+    )
+
+    return LoginResponse(
+        user_id=user.user_id,
+        email=user.email,
+        name=user.name,
+        session_id=session_id,
+        message=f"Welcome back {user.name}!"
+    )
 
 
 @router.post("/login", response_model=LoginResponse)

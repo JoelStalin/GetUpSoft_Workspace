@@ -17,6 +17,8 @@ class UserProfile(BaseModel):
     created_at: str
     last_login: str
     is_active: bool = True
+    password_hash: Optional[str] = None  # Optional password hash for login
+    is_root: bool = False  # Root/admin user flag
     provider_configs: dict = Field(default_factory=dict)  # {provider_id: config_data}
 
 
@@ -41,7 +43,7 @@ class UserAuthManager:
         with open(self.storage_path, 'w') as f:
             json.dump({uid: u.model_dump() for uid, u in self.users.items()}, f, indent=2)
 
-    def create_user(self, email: str, name: str) -> UserProfile:
+    def create_user(self, email: str, name: str, password_hash: Optional[str] = None, is_root: bool = False) -> UserProfile:
         """Create a new user."""
         user_id = str(uuid.uuid4())
         now = datetime.utcnow().isoformat()
@@ -51,7 +53,9 @@ class UserAuthManager:
             email=email,
             name=name,
             created_at=now,
-            last_login=now
+            last_login=now,
+            password_hash=password_hash,
+            is_root=is_root
         )
         self.users[user_id] = user
         self._save_users()
@@ -95,6 +99,27 @@ class UserAuthManager:
     def list_users(self) -> list[UserProfile]:
         """List all users."""
         return list(self.users.values())
+
+    def verify_password(self, user_id: str, password: str) -> bool:
+        """Verify user's password.
+
+        Args:
+            user_id: User ID
+            password: Plain text password to verify
+
+        Returns:
+            True if password is correct, False otherwise
+        """
+        if user_id not in self.users:
+            return False
+
+        user = self.users[user_id]
+        if not user.password_hash:
+            return False
+
+        # Import here to avoid circular imports
+        from .password_auth import verify_password
+        return verify_password(password, user.password_hash)
 
 
 class SessionManager:

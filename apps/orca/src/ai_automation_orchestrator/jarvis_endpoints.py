@@ -3,30 +3,51 @@
 from __future__ import annotations
 
 from pathlib import Path
-from typing import Any
+from typing import Any, Optional
 
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI, HTTPException, Cookie
 from fastapi.responses import HTMLResponse
 
 from ai_automation_orchestrator.jarvis_integration import (
     JarvisCommandRequest,
     JarvisIntegration,
 )
+from ai_automation_orchestrator.user_auth import SessionManager
+
+# Global session manager (set by register_jarvis_endpoints)
+session_manager: Optional[SessionManager] = None
 
 
-def register_jarvis_endpoints(app: FastAPI) -> None:
+def register_jarvis_endpoints(app: FastAPI, sess_mgr: Optional[SessionManager] = None) -> None:
     """Register Jarvis voice command endpoints."""
+
+    global session_manager
+    session_manager = sess_mgr
 
     jarvis = JarvisIntegration()
 
     @app.get("/api/jarvis/status")
-    def jarvis_status() -> dict[str, Any]:
+    def jarvis_status(session_id: str = Cookie(None)) -> dict[str, Any]:
         """Get Jarvis integration status."""
+        if session_id and session_manager:
+            user_id = session_manager.validate_session(session_id)
+            if not user_id:
+                raise HTTPException(status_code=401, detail="Invalid session")
+        else:
+            raise HTTPException(status_code=401, detail="Not authenticated")
+
         return jarvis.get_status()
 
     @app.post("/api/jarvis/command")
-    def process_voice_command(request: JarvisCommandRequest) -> dict[str, Any]:
+    def process_voice_command(request: JarvisCommandRequest, session_id: str = Cookie(None)) -> dict[str, Any]:
         """Process a voice command through Jarvis."""
+        if session_id and session_manager:
+            user_id = session_manager.validate_session(session_id)
+            if not user_id:
+                raise HTTPException(status_code=401, detail="Invalid session")
+        else:
+            raise HTTPException(status_code=401, detail="Not authenticated")
+
         response = jarvis.process_command(request)
 
         if response.errors:
@@ -43,19 +64,27 @@ def register_jarvis_endpoints(app: FastAPI) -> None:
             "should_send_to_orca": response.should_send_to_orca,
             "action": response.action,
             "success": not response.errors,
+            "user_id": user_id,
         }
 
     @app.post("/api/jarvis/webhook")
-    def jarvis_webhook(request: JarvisCommandRequest) -> dict[str, Any]:
+    def jarvis_webhook(request: JarvisCommandRequest, session_id: str = Cookie(None)) -> dict[str, Any]:
         """Webhook endpoint for Jarvis to send commands."""
+        if session_id and session_manager:
+            user_id = session_manager.validate_session(session_id)
+            if not user_id:
+                raise HTTPException(status_code=401, detail="Invalid session")
+        else:
+            raise HTTPException(status_code=401, detail="Not authenticated")
+
         response = jarvis.process_command(request)
 
         if not response.should_send_to_orca:
             return {"received": True, "processed": False, "reason": "Not a valid command"}
 
-        # Log the command
+        # Log the command with user context
         print(
-            f"[JARVIS] Intent: {response.intent_hint} | Target: {response.target_hint} | Command: {response.command_text}"
+            f"[JARVIS] User: {user_id} | Intent: {response.intent_hint} | Target: {response.target_hint} | Command: {response.command_text}"
         )
 
         return {
@@ -64,11 +93,19 @@ def register_jarvis_endpoints(app: FastAPI) -> None:
             "intent": response.intent_hint,
             "action": response.action,
             "target": response.target_hint,
+            "user_id": user_id,
         }
 
     @app.get("/api/jarvis/commands")
-    def list_intents() -> dict[str, Any]:
+    def list_intents(session_id: str = Cookie(None)) -> dict[str, Any]:
         """List available voice command intents."""
+        if session_id and session_manager:
+            user_id = session_manager.validate_session(session_id)
+            if not user_id:
+                raise HTTPException(status_code=401, detail="Invalid session")
+        else:
+            raise HTTPException(status_code=401, detail="Not authenticated")
+
         return {
             "wake_words": ["jarvis"],
             "intents": [
@@ -122,8 +159,16 @@ def register_jarvis_endpoints(app: FastAPI) -> None:
         }
 
     @app.get("/jarvis/clap", response_class=HTMLResponse)
-    def jarvis_clap_detection() -> str:
+    def jarvis_clap_detection(session_id: str = Cookie(None)) -> str:
         """Serve Jarvis clap detection interface."""
+        # Check authentication
+        if session_id and session_manager:
+            user_id = session_manager.validate_session(session_id)
+            if not user_id:
+                raise HTTPException(status_code=401, detail="Invalid session")
+        else:
+            raise HTTPException(status_code=401, detail="Not authenticated")
+
         clap_detection_path = (
             Path(__file__).parent / "jarvis_clap_detection.html"
         )

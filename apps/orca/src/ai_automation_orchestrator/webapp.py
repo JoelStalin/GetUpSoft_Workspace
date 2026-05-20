@@ -42,6 +42,7 @@ from ai_automation_orchestrator.unified_providers_section import get_unified_pro
 from ai_automation_orchestrator.provider_config_endpoints import register_provider_config_endpoints, init_provider_config_manager
 from ai_automation_orchestrator.google_oauth import GoogleOAuthManager, load_google_oauth_config
 from ai_automation_orchestrator.google_oauth_endpoints import register_google_oauth_endpoints, init_google_oauth
+from ai_automation_orchestrator.init_root_user import init_root_user
 
 
 class TestFlowRequest(BaseModel):
@@ -1257,6 +1258,9 @@ def create_app(
     init_auth(user_auth_mgr, session_mgr)
     init_provider_config_manager(user_auth_mgr)
 
+    # Initialize root user from environment
+    init_root_user(user_auth_mgr)
+
     # Initialize Google OAuth (optional - fails gracefully if not configured)
     google_oauth_config = load_google_oauth_config()
     if google_oauth_config:
@@ -1495,7 +1499,7 @@ def create_app(
     register_provider_endpoints(app, credentials)
 
     # Register Jarvis voice command endpoints
-    register_jarvis_endpoints(app)
+    register_jarvis_endpoints(app, session_mgr)
 
     # Register workspace management endpoints
     register_workspace_endpoints(app)

@@ -48,8 +48,12 @@ def get_unified_providers_html() -> str:
                     <label style="display: block; font-size: 12px; color: var(--muted); margin-bottom: 5px;">Email</label>
                     <input type="email" id="login-email" placeholder="your@email.com" style="width: 100%; padding: 10px; border: 1px solid var(--border); border-radius: 4px; background: rgba(255,255,255,0.05); color: white;">
                 </div>
+                <div style="margin-bottom: 15px;">
+                    <label style="display: block; font-size: 12px; color: var(--muted); margin-bottom: 5px;">Password (optional)</label>
+                    <input type="password" id="login-password" placeholder="Password (if you have one)" style="width: 100%; padding: 10px; border: 1px solid var(--border); border-radius: 4px; background: rgba(255,255,255,0.05); color: white;">
+                </div>
                 <div style="margin-bottom: 20px;">
-                    <label style="display: block; font-size: 12px; color: var(--muted); margin-bottom: 5px;">Name (optional)</label>
+                    <label style="display: block; font-size: 12px; color: var(--muted); margin-bottom: 5px;">Name (optional if no password)</label>
                     <input type="text" id="login-name" placeholder="Your Name" style="width: 100%; padding: 10px; border: 1px solid var(--border); border-radius: 4px; background: rgba(255,255,255,0.05); color: white;">
                 </div>
                 <div style="display: flex; gap: 10px;">
@@ -316,6 +320,7 @@ def get_unified_providers_html() -> str:
 
         loginSubmitBtn.addEventListener('click', () => {
             const email = document.getElementById('login-email').value;
+            const password = document.getElementById('login-password').value;
             const name = document.getElementById('login-name').value;
 
             if (!email) {
@@ -323,20 +328,67 @@ def get_unified_providers_html() -> str:
                 return;
             }
 
-            fetch('/api/auth/login', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ email, name: name || undefined }),
-                credentials: 'include'
-            })
-            .then(r => r.json())
-            .then(data => {
-                loginModal.style.display = 'none';
-                window.location.reload();
-            })
-            .catch(err => {
-                alert('Login failed: ' + err.message);
-            });
+            // Check if password is provided (root/admin login)
+            if (password) {
+                // Password-based login for root user
+                fetch('/api/auth/login-password', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email, password }),
+                    credentials: 'include'
+                })
+                .then(r => {
+                    if (!r.ok) {
+                        return r.json().then(data => {
+                            throw new Error(data.detail || 'Invalid email or password');
+                        });
+                    }
+                    return r.json();
+                })
+                .then(data => {
+                    loginModal.style.display = 'none';
+                    // Reset form
+                    document.getElementById('login-email').value = '';
+                    document.getElementById('login-password').value = '';
+                    document.getElementById('login-name').value = '';
+                    window.location.reload();
+                })
+                .catch(err => {
+                    alert('Login failed: ' + err.message);
+                });
+            } else {
+                // Email/name registration or login
+                if (!name && !email) {
+                    alert('Please provide email (and name for new users)');
+                    return;
+                }
+
+                fetch('/api/auth/login', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email, name: name || undefined }),
+                    credentials: 'include'
+                })
+                .then(r => {
+                    if (!r.ok) {
+                        return r.json().then(data => {
+                            throw new Error(data.detail || 'Login failed');
+                        });
+                    }
+                    return r.json();
+                })
+                .then(data => {
+                    loginModal.style.display = 'none';
+                    // Reset form
+                    document.getElementById('login-email').value = '';
+                    document.getElementById('login-password').value = '';
+                    document.getElementById('login-name').value = '';
+                    window.location.reload();
+                })
+                .catch(err => {
+                    alert('Login failed: ' + err.message);
+                });
+            }
         });
     }
 
