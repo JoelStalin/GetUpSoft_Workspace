@@ -10,6 +10,7 @@ from typing import Any, Callable
 
 from fastapi import FastAPI, HTTPException, Request, BackgroundTasks, BackgroundTasks
 from fastapi.responses import HTMLResponse, Response
+from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel, Field
 import uvicorn
 
@@ -34,9 +35,11 @@ from ai_automation_orchestrator.jarvis_endpoints import register_jarvis_endpoint
 from ai_automation_orchestrator.workspace_endpoints import register_workspace_endpoints
 from ai_automation_orchestrator.deploy_endpoints import register_deploy_endpoints
 from ai_automation_orchestrator.deploy_dashboard_section import get_deploy_dashboard_html
-from ai_automation_orchestrator.provider_login_endpoints import register_auth_endpoints
-from ai_automation_orchestrator.provider_login_section import get_provider_login_html
 from ai_automation_orchestrator.n8n_endpoints import register_n8n_endpoints
+from ai_automation_orchestrator.user_auth import UserAuthManager, SessionManager
+from ai_automation_orchestrator.auth_endpoints import register_auth_endpoints, init_auth
+from ai_automation_orchestrator.unified_providers_section import get_unified_providers_html
+from ai_automation_orchestrator.provider_config_endpoints import register_provider_config_endpoints, init_provider_config_manager
 
 
 class TestFlowRequest(BaseModel):
@@ -543,7 +546,7 @@ def create_dashboard_html(app_name: str) -> str:
         <button class="nav-btn" data-target="deploy-view" title="Deploy Copilot">
           <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline></svg>
         </button>
-        <button class="nav-btn" data-target="providers-login-view" title="Provider Login">
+        <button class="nav-btn" data-target="ai-providers-view" title="AI Providers & Auth">
           <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
         </button>
         <button class="nav-btn" data-target="config-view" title="Kernel">
@@ -646,8 +649,8 @@ def create_dashboard_html(app_name: str) -> str:
 
         """ + get_providers_section_html() + """
 
-        <!-- PROVIDER LOGIN VIEW (OAuth/API Key) -->
-        """ + get_provider_login_html() + """
+        <!-- UNIFIED AI PROVIDERS VIEW (with user auth) -->
+        """ + get_unified_providers_html() + """
 
         <!-- DEPLOY COPILOT VIEW -->
         <section id="deploy-view" class="view">
@@ -1246,6 +1249,12 @@ def create_app(
 
     app = FastAPI(title="AI Automation Orchestrator")
 
+    # Initialize user authentication system
+    user_auth_mgr = UserAuthManager("data/users.json")
+    session_mgr = SessionManager("data/sessions.json")
+    init_auth(user_auth_mgr, session_mgr)
+    init_provider_config_manager(user_auth_mgr)
+
     @app.get("/health")
     def health() -> dict[str, str]:
         return {"status": "ok"}
@@ -1481,11 +1490,22 @@ def create_app(
     workspace_root = str(Path(__file__).parent.parent.parent.parent.parent)
     register_deploy_endpoints(app, workspace_root)
 
-    # Register provider authentication endpoints
-    register_auth_endpoints(app)
-
     # Register n8n workflow API endpoints
     register_n8n_endpoints(app)
+
+    # Register user authentication endpoints
+    register_auth_endpoints(app)
+
+    # Register provider configuration endpoints
+    register_provider_config_endpoints(app)
+
+    # Mount workflow editor static assets
+    workflow_editor_assets = Path(__file__).parent.parent / "workflow-editor" / "dist" / "assets"
+    if workflow_editor_assets.exists():
+        try:
+            app.mount("/workflow-editor/assets", StaticFiles(directory=str(workflow_editor_assets)), name="workflow-editor-assets")
+        except Exception as e:
+            print(f"Warning: Failed to mount workflow editor assets: {e}")
 
     # Serve workflow editor SPA
     @app.get("/workflow-editor", response_class=HTMLResponse)

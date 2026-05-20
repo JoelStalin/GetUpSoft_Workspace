@@ -40,3 +40,15 @@ This workspace is multiagent by default. Every agent working here must follow th
 ## Operational rule
 
 If a task touches a project, the agent must check the bootstrap output before writing code or running tests.
+
+## Infrastructure boundaries
+
+- `galantesjewelry` / Galantes Jewelry is a GetUpSoft client product, not GetUpSoft production infrastructure.
+- Do not deploy, sync, tunnel, host, or test GetUpSoft workspace services on any Galantes Jewelry server, VM, container, tunnel, DNS route, or project.
+- GetUpSoft production/server access must use the GetUpSoft hosts only, currently `getupsoft-lan` and `ssh.getupsoft.com.do`, unless the user explicitly provides a different GetUpSoft-owned target.
+
+## Tunnel Safety Policy
+
+- **CRITICAL:** NEVER bring down, restart, or modify network tunnels (e.g., `cloudflared`, SSH tunnels, VPNs) without explicitly confirming **TWICE** with the user.
+- If a command might impact connectivity, the agent must warn the user and wait for two separate confirmations before proceeding.
+- Accidental disconnection can lead to complete infrastructure lockout.

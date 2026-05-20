@@ -248,7 +248,7 @@ async def set_api_key(
         raise HTTPException(status_code=400, detail=f"Failed to validate API key: {str(e)}")
 
 
-def register_auth_endpoints(app, storage_path: str = None):
+def register_provider_auth_endpoints(app, storage_path: str = None):
     """Register authentication endpoints with FastAPI app."""
     init_auth_manager(storage_path)
     app.include_router(router)

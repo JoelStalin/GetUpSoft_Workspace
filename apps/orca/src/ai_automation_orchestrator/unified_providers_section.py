@@ -1,0 +1,387 @@
+"""Unified AI Providers configuration section."""
+
+
+def get_unified_providers_html() -> str:
+    """Get consolidated HTML for AI Providers section with user auth."""
+    return r"""
+    <section id="ai-providers-view" class="view">
+        <!-- User Authentication Header -->
+        <div style="position: absolute; top: 20px; right: 40px; display: flex; align-items: center; gap: 15px;">
+            <div id="user-info" style="text-align: right; display: none;">
+                <div style="color: white; font-weight: 500;" id="user-name">User</div>
+                <div style="color: var(--muted); font-size: 12px;" id="user-email">user@example.com</div>
+            </div>
+            <button id="user-menu-btn" class="nav-btn" style="border: 1px solid var(--accent); padding: 8px 15px; display: none;">
+                👤 Account
+            </button>
+            <button id="login-btn" class="nav-btn" style="border: 1px solid var(--accent); padding: 8px 15px;">
+                🔐 Login
+            </button>
+        </div>
+
+        <!-- Main Header -->
+        <header style="margin-bottom: 30px;">
+            <h2 style="font-family: 'Space Mono'; font-weight: 700; font-size: 32px; margin-bottom: 5px;">AI PROVIDERS</h2>
+            <p style="color: var(--muted); font-size: 13px;">Consolidated AI model provider configuration and authentication</p>
+        </header>
+
+        <!-- Login Modal -->
+        <div id="login-modal" style="display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.7); z-index: 1000; align-items: center; justify-content: center;">
+            <div style="background: var(--bg-secondary); border: 1px solid var(--border); border-radius: 8px; padding: 40px; width: 400px; max-width: 90%;">
+                <h3 style="margin-bottom: 20px;">Login to Orca</h3>
+                <div style="margin-bottom: 15px;">
+                    <label style="display: block; font-size: 12px; color: var(--muted); margin-bottom: 5px;">Email</label>
+                    <input type="email" id="login-email" placeholder="your@email.com" style="width: 100%; padding: 10px; border: 1px solid var(--border); border-radius: 4px; background: rgba(255,255,255,0.05); color: white;">
+                </div>
+                <div style="margin-bottom: 20px;">
+                    <label style="display: block; font-size: 12px; color: var(--muted); margin-bottom: 5px;">Name (for new users)</label>
+                    <input type="text" id="login-name" placeholder="Your Name" style="width: 100%; padding: 10px; border: 1px solid var(--border); border-radius: 4px; background: rgba(255,255,255,0.05); color: white;">
+                </div>
+                <div style="display: flex; gap: 10px;">
+                    <button id="login-submit-btn" class="nav-btn" style="flex: 1; border: 1px solid var(--accent); justify-content: center;">
+                        Sign In / Register
+                    </button>
+                    <button id="login-cancel-btn" class="nav-btn" style="flex: 1; border: 1px solid var(--border); justify-content: center;">
+                        Cancel
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Providers Grid -->
+        <div id="providers-container" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 20px;">
+            <!-- NVIDIA API Provider -->
+            <div class="card">
+                <div style="display: flex; justify-content: space-between; align-items: start;">
+                    <div>
+                        <h3 style="margin: 0;">🔧 NVIDIA Build API</h3>
+                        <p style="color: var(--muted); font-size: 11px; margin: 5px 0 0 0;">Cloud-based inference</p>
+                    </div>
+                    <div id="nvidia-badge" class="status-dot" style="width: 10px; height: 10px; border-radius: 50%; background: #aaa;"></div>
+                </div>
+                <div style="margin: 15px 0; padding: 10px; background: rgba(0,100,150,0.2); border-left: 3px solid #0066cc; border-radius: 4px;">
+                    <p style="color: var(--muted); font-size: 12px; margin: 0; line-height: 1.5;">
+                        Access 23+ models including Mistral, Llama, and NV-Embed via NVIDIA's cloud API.
+                        <a href="https://build.nvidia.com" style="color: var(--accent);" target="_blank">Get API Key →</a>
+                    </p>
+                </div>
+                <div style="margin-top: 10px;">
+                    <input type="password" class="provider-key" data-provider="nvidia" placeholder="sk-..." style="width: 100%; padding: 8px; border: 1px solid var(--border); border-radius: 4px; background: rgba(255,255,255,0.05); color: white; margin-bottom: 10px; font-size: 11px;">
+                    <div style="display: flex; gap: 8px;">
+                        <button class="provider-save-btn" data-provider="nvidia" style="flex: 1; padding: 8px; border: 1px solid var(--border); border-radius: 4px; background: rgba(100,200,255,0.1); color: white; cursor: pointer; font-size: 12px;">
+                            💾 Save
+                        </button>
+                        <button class="provider-test-btn" data-provider="nvidia" style="flex: 1; padding: 8px; border: 1px solid var(--border); border-radius: 4px; background: rgba(100,200,255,0.1); color: white; cursor: pointer; font-size: 12px;">
+                            ✓ Test
+                        </button>
+                    </div>
+                </div>
+                <p class="provider-status" data-provider="nvidia" style="color: var(--muted); font-size: 10px; margin-top: 10px;"></p>
+            </div>
+
+            <!-- Ollama Local Provider -->
+            <div class="card">
+                <div style="display: flex; justify-content: space-between; align-items: start;">
+                    <div>
+                        <h3 style="margin: 0;">🏠 Ollama (Local)</h3>
+                        <p style="color: var(--muted); font-size: 11px; margin: 5px 0 0 0;">LAN-based inference</p>
+                    </div>
+                    <div id="ollama-badge" class="status-dot" style="width: 10px; height: 10px; border-radius: 50%; background: #aaa;"></div>
+                </div>
+                <div style="margin: 15px 0; padding: 10px; background: rgba(100,150,0,0.2); border-left: 3px solid #ccaa00; border-radius: 4px;">
+                    <p style="color: var(--muted); font-size: 12px; margin: 0; line-height: 1.5;">
+                        Run models locally on your LAN. No API keys needed. Requires Ollama installation.
+                        <a href="https://ollama.ai" style="color: var(--accent);" target="_blank">Install Ollama →</a>
+                    </p>
+                </div>
+                <div style="margin-top: 10px;">
+                    <input type="text" class="provider-endpoint" data-provider="ollama" placeholder="http://localhost:11434" style="width: 100%; padding: 8px; border: 1px solid var(--border); border-radius: 4px; background: rgba(255,255,255,0.05); color: white; margin-bottom: 10px; font-size: 11px;">
+                    <div style="display: flex; gap: 8px;">
+                        <button class="provider-save-btn" data-provider="ollama" style="flex: 1; padding: 8px; border: 1px solid var(--border); border-radius: 4px; background: rgba(200,200,100,0.1); color: white; cursor: pointer; font-size: 12px;">
+                            💾 Save
+                        </button>
+                        <button class="provider-test-btn" data-provider="ollama" style="flex: 1; padding: 8px; border: 1px solid var(--border); border-radius: 4px; background: rgba(200,200,100,0.1); color: white; cursor: pointer; font-size: 12px;">
+                            ✓ Test
+                        </button>
+                    </div>
+                </div>
+                <p class="provider-status" data-provider="ollama" style="color: var(--muted); font-size: 10px; margin-top: 10px;"></p>
+            </div>
+
+            <!-- OpenAI -->
+            <div class="card">
+                <div style="display: flex; justify-content: space-between; align-items: start;">
+                    <div>
+                        <h3 style="margin: 0;">🧠 OpenAI (GPT-4, o1)</h3>
+                        <p style="color: var(--muted); font-size: 11px; margin: 5px 0 0 0;">Cloud API</p>
+                    </div>
+                    <div id="openai-badge" class="status-dot" style="width: 10px; height: 10px; border-radius: 50%; background: #aaa;"></div>
+                </div>
+                <div style="margin: 15px 0; padding: 10px; background: rgba(100,100,0,0.2); border-left: 3px solid #00aa00; border-radius: 4px;">
+                    <p style="color: var(--muted); font-size: 12px; margin: 0; line-height: 1.5;">
+                        GPT-4, GPT-4o, o1-preview models.
+                        <a href="https://platform.openai.com/api-keys" style="color: var(--accent);" target="_blank">Get API Key →</a>
+                    </p>
+                </div>
+                <div style="margin-top: 10px;">
+                    <input type="password" class="provider-key" data-provider="openai" placeholder="sk-..." style="width: 100%; padding: 8px; border: 1px solid var(--border); border-radius: 4px; background: rgba(255,255,255,0.05); color: white; margin-bottom: 10px; font-size: 11px;">
+                    <div style="display: flex; gap: 8px;">
+                        <button class="provider-save-btn" data-provider="openai" style="flex: 1; padding: 8px; border: 1px solid var(--border); border-radius: 4px; background: rgba(100,200,100,0.1); color: white; cursor: pointer; font-size: 12px;">
+                            💾 Save
+                        </button>
+                        <button class="provider-test-btn" data-provider="openai" style="flex: 1; padding: 8px; border: 1px solid var(--border); border-radius: 4px; background: rgba(100,200,100,0.1); color: white; cursor: pointer; font-size: 12px;">
+                            ✓ Test
+                        </button>
+                    </div>
+                </div>
+                <p class="provider-status" data-provider="openai" style="color: var(--muted); font-size: 10px; margin-top: 10px;"></p>
+            </div>
+
+            <!-- Anthropic (Claude) -->
+            <div class="card">
+                <div style="display: flex; justify-content: space-between; align-items: start;">
+                    <div>
+                        <h3 style="margin: 0;">🤖 Anthropic (Claude)</h3>
+                        <p style="color: var(--muted); font-size: 11px; margin: 5px 0 0 0;">Cloud API</p>
+                    </div>
+                    <div id="anthropic-badge" class="status-dot" style="width: 10px; height: 10px; border-radius: 50%; background: #aaa;"></div>
+                </div>
+                <div style="margin: 15px 0; padding: 10px; background: rgba(150,100,0,0.2); border-left: 3px solid #ff9900; border-radius: 4px;">
+                    <p style="color: var(--muted); font-size: 12px; margin: 0; line-height: 1.5;">
+                        Claude 3.5 Sonnet, Opus models.
+                        <a href="https://console.anthropic.com" style="color: var(--accent);" target="_blank">Get API Key →</a>
+                    </p>
+                </div>
+                <div style="margin-top: 10px;">
+                    <input type="password" class="provider-key" data-provider="anthropic" placeholder="sk-ant-..." style="width: 100%; padding: 8px; border: 1px solid var(--border); border-radius: 4px; background: rgba(255,255,255,0.05); color: white; margin-bottom: 10px; font-size: 11px;">
+                    <div style="display: flex; gap: 8px;">
+                        <button class="provider-save-btn" data-provider="anthropic" style="flex: 1; padding: 8px; border: 1px solid var(--border); border-radius: 4px; background: rgba(255,150,100,0.1); color: white; cursor: pointer; font-size: 12px;">
+                            💾 Save
+                        </button>
+                        <button class="provider-test-btn" data-provider="anthropic" style="flex: 1; padding: 8px; border: 1px solid var(--border); border-radius: 4px; background: rgba(255,150,100,0.1); color: white; cursor: pointer; font-size: 12px;">
+                            ✓ Test
+                        </button>
+                    </div>
+                </div>
+                <p class="provider-status" data-provider="anthropic" style="color: var(--muted); font-size: 10px; margin-top: 10px;"></p>
+            </div>
+
+            <!-- Google Gemini -->
+            <div class="card">
+                <div style="display: flex; justify-content: space-between; align-items: start;">
+                    <div>
+                        <h3 style="margin: 0;">🔮 Google Gemini</h3>
+                        <p style="color: var(--muted); font-size: 11px; margin: 5px 0 0 0;">Cloud API</p>
+                    </div>
+                    <div id="google-badge" class="status-dot" style="width: 10px; height: 10px; border-radius: 50%; background: #aaa;"></div>
+                </div>
+                <div style="margin: 15px 0; padding: 10px; background: rgba(200,0,100,0.2); border-left: 3px solid #dd33ff; border-radius: 4px;">
+                    <p style="color: var(--muted); font-size: 12px; margin: 0; line-height: 1.5;">
+                        Gemini Pro 1.5 models.
+                        <a href="https://aistudio.google.com/apikey" style="color: var(--accent);" target="_blank">Get API Key →</a>
+                    </p>
+                </div>
+                <div style="margin-top: 10px;">
+                    <input type="password" class="provider-key" data-provider="google" placeholder="AIza..." style="width: 100%; padding: 8px; border: 1px solid var(--border); border-radius: 4px; background: rgba(255,255,255,0.05); color: white; margin-bottom: 10px; font-size: 11px;">
+                    <div style="display: flex; gap: 8px;">
+                        <button class="provider-save-btn" data-provider="google" style="flex: 1; padding: 8px; border: 1px solid var(--border); border-radius: 4px; background: rgba(255,100,200,0.1); color: white; cursor: pointer; font-size: 12px;">
+                            💾 Save
+                        </button>
+                        <button class="provider-test-btn" data-provider="google" style="flex: 1; padding: 8px; border: 1px solid var(--border); border-radius: 4px; background: rgba(255,100,200,0.1); color: white; cursor: pointer; font-size: 12px;">
+                            ✓ Test
+                        </button>
+                    </div>
+                </div>
+                <p class="provider-status" data-provider="google" style="color: var(--muted); font-size: 10px; margin-top: 10px;"></p>
+            </div>
+
+            <!-- Cohere -->
+            <div class="card">
+                <div style="display: flex; justify-content: space-between; align-items: start;">
+                    <div>
+                        <h3 style="margin: 0;">⚡ Cohere</h3>
+                        <p style="color: var(--muted); font-size: 11px; margin: 5px 0 0 0;">Cloud API</p>
+                    </div>
+                    <div id="cohere-badge" class="status-dot" style="width: 10px; height: 10px; border-radius: 50%; background: #aaa;"></div>
+                </div>
+                <div style="margin: 15px 0; padding: 10px; background: rgba(0,150,150,0.2); border-left: 3px solid #00cccc; border-radius: 4px;">
+                    <p style="color: var(--muted); font-size: 12px; margin: 0; line-height: 1.5;">
+                        Command models for text generation and embeddings.
+                        <a href="https://dashboard.cohere.ai" style="color: var(--accent);" target="_blank">Get API Key →</a>
+                    </p>
+                </div>
+                <div style="margin-top: 10px;">
+                    <input type="password" class="provider-key" data-provider="cohere" placeholder="..." style="width: 100%; padding: 8px; border: 1px solid var(--border); border-radius: 4px; background: rgba(255,255,255,0.05); color: white; margin-bottom: 10px; font-size: 11px;">
+                    <div style="display: flex; gap: 8px;">
+                        <button class="provider-save-btn" data-provider="cohere" style="flex: 1; padding: 8px; border: 1px solid var(--border); border-radius: 4px; background: rgba(0,200,200,0.1); color: white; cursor: pointer; font-size: 12px;">
+                            💾 Save
+                        </button>
+                        <button class="provider-test-btn" data-provider="cohere" style="flex: 1; padding: 8px; border: 1px solid var(--border); border-radius: 4px; background: rgba(0,200,200,0.1); color: white; cursor: pointer; font-size: 12px;">
+                            ✓ Test
+                        </button>
+                    </div>
+                </div>
+                <p class="provider-status" data-provider="cohere" style="color: var(--muted); font-size: 10px; margin-top: 10px;"></p>
+            </div>
+        </div>
+
+        <!-- Provider Status Summary -->
+        <div style="margin-top: 40px; padding: 20px; background: rgba(255,255,255,0.02); border: 1px solid var(--border); border-radius: 8px;">
+            <h3 style="margin-top: 0;">Status Summary</h3>
+            <p style="color: var(--muted); font-size: 12px; margin-bottom: 15px;">
+                Configured providers will be used for AI tasks. Test connections to verify settings.
+            </p>
+            <div id="status-summary" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 15px;">
+                <!-- Populated by JavaScript -->
+            </div>
+        </div>
+    </section>
+
+    <script>
+    // User Authentication
+    function setupUserAuth() {
+        const loginBtn = document.getElementById('login-btn');
+        const loginModal = document.getElementById('login-modal');
+        const loginCancelBtn = document.getElementById('login-cancel-btn');
+        const loginSubmitBtn = document.getElementById('login-submit-btn');
+        const userInfo = document.getElementById('user-info');
+        const userName = document.getElementById('user-name');
+        const userEmail = document.getElementById('user-email');
+        const userMenuBtn = document.getElementById('user-menu-btn');
+
+        // Check if user is logged in
+        fetch('/api/auth/verify-session', {
+            credentials: 'include'
+        })
+        .then(r => r.json())
+        .then(data => {
+            if (data.valid) {
+                return fetch('/api/auth/me', { credentials: 'include' });
+            }
+            throw new Error('Not authenticated');
+        })
+        .then(r => r.json())
+        .then(user => {
+            loginBtn.style.display = 'none';
+            userInfo.style.display = 'block';
+            userMenuBtn.style.display = 'block';
+            userName.textContent = user.name;
+            userEmail.textContent = user.email;
+            window.currentUserId = user.user_id;
+        })
+        .catch(() => {
+            loginBtn.style.display = 'block';
+            userInfo.style.display = 'none';
+            userMenuBtn.style.display = 'none';
+        });
+
+        loginBtn.addEventListener('click', () => {
+            loginModal.style.display = 'flex';
+        });
+
+        loginCancelBtn.addEventListener('click', () => {
+            loginModal.style.display = 'none';
+        });
+
+        loginSubmitBtn.addEventListener('click', () => {
+            const email = document.getElementById('login-email').value;
+            const name = document.getElementById('login-name').value;
+
+            if (!email) {
+                alert('Email is required');
+                return;
+            }
+
+            fetch('/api/auth/login', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ email, name: name || undefined }),
+                credentials: 'include'
+            })
+            .then(r => r.json())
+            .then(data => {
+                loginModal.style.display = 'none';
+                window.location.reload();
+            })
+            .catch(err => {
+                alert('Login failed: ' + err.message);
+            });
+        });
+    }
+
+    // Provider Configuration
+    function setupProviders() {
+        document.querySelectorAll('.provider-save-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                const provider = e.target.dataset.provider;
+                const keyInput = document.querySelector(\`.provider-key[data-provider="\\${provider}"]\`);
+                const endpointInput = document.querySelector(\`.provider-endpoint[data-provider="\\${provider}"]\`);
+                const value = keyInput?.value || endpointInput?.value;
+
+                if (!value) {
+                    alert('Please enter a value');
+                    return;
+                }
+
+                if (!window.currentUserId) {
+                    alert('Please login first');
+                    return;
+                }
+
+                fetch('/api/providers/config', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        user_id: window.currentUserId,
+                        provider_id: provider,
+                        config: { key: value }
+                    }),
+                    credentials: 'include'
+                })
+                .then(r => r.json())
+                .then(data => {
+                    document.querySelector(\`.provider-status[data-provider="\\${provider}"]\`).textContent = '✓ Saved';
+                    document.getElementById(provider + '-badge').style.background = '#4caf50';
+                })
+                .catch(err => {
+                    alert('Error saving config: ' + err.message);
+                });
+            });
+        });
+
+        document.querySelectorAll('.provider-test-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                const provider = e.target.dataset.provider;
+                const statusEl = document.querySelector(\`.provider-status[data-provider="\\${provider}"]\`);
+                statusEl.textContent = 'Testing...';
+
+                fetch('/api/providers/test', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ provider_id: provider }),
+                    credentials: 'include'
+                })
+                .then(r => r.json())
+                .then(data => {
+                    if (data.success) {
+                        statusEl.textContent = '✓ Connection OK';
+                        document.getElementById(provider + '-badge').style.background = '#4caf50';
+                    } else {
+                        statusEl.textContent = '✗ Connection failed';
+                        document.getElementById(provider + '-badge').style.background = '#f44336';
+                    }
+                })
+                .catch(err => {
+                    statusEl.textContent = '✗ Error: ' + err.message;
+                });
+            });
+        });
+    }
+
+    // Initialize
+    document.addEventListener('DOMContentLoaded', () => {
+        setupUserAuth();
+        setupProviders();
+    });
+    </script>
+    """
