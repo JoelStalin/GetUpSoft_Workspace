@@ -1,0 +1,53 @@
+name: Sync Production Workspace
+
+on:
+  push:
+    branches:
+      - main
+
+concurrency:
+  group: production-workspace-sync-main
+  cancel-in-progress: false
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Install cloudflared
+        env:
+          CLOUDFLARED_VERSION: "2026.5.0"
+        run: |
+          curl -fsSL -o /tmp/cloudflared.deb "https://github.com/cloudflare/cloudflared/releases/download/${CLOUDFLARED_VERSION}/cloudflared-linux-amd64.deb"
+          sudo dpkg -i /tmp/cloudflared.deb
+
+      - name: Sync production workspace from main
+        env:
+          DEPLOY_HOST: ${{ secrets.DEPLOY_HOST }}
+          DEPLOY_USER: ${{ secrets.DEPLOY_USER }}
+          DEPLOY_SSH_PRIVATE_KEY: ${{ secrets.DEPLOY_SSH_PRIVATE_KEY }}
+          CLOUDFLARE_ACCESS_CLIENT_ID: ${{ secrets.CLOUDFLARE_ACCESS_CLIENT_ID }}
+          CLOUDFLARE_ACCESS_CLIENT_SECRET: ${{ secrets.CLOUDFLARE_ACCESS_CLIENT_SECRET }}
+          DEPLOY_PATH: /home/ubuntu/workspaces/GetUpSoft_Workspace_main_clean
+        run: |
+          mkdir -p ~/.ssh
+          echo "$DEPLOY_SSH_PRIVATE_KEY" > ~/.ssh/deploy_key
+          chmod 600 ~/.ssh/deploy_key
+          cat > ~/.ssh/config << SSHCONF
+          Host deploy-target
+            HostName ${DEPLOY_HOST}
+            User ${DEPLOY_USER}
+            IdentityFile ~/.ssh/deploy_key
+            IdentitiesOnly yes
+            StrictHostKeyChecking accept-new
+            ServerAliveInterval 30
+            ConnectTimeout 30
+            ProxyCommand cloudflared access ssh --hostname %h --service-token-id ${CLOUDFLARE_ACCESS_CLIENT_ID} --service-token-secret ${CLOUDFLARE_ACCESS_CLIENT_SECRET}
+          SSHCONF
+
+          ssh deploy-target << EOF
+          set -e
+          cd "$DEPLOY_PATH"
+          flock /tmp/getupsoft-workspace-sync.lock bash -lc 'git fetch origin main && git reset --hard origin/main'
+          git rev-parse --short HEAD
+          git status --short --branch
+          EOF
