@@ -47,15 +47,10 @@ If a task touches a project, the agent must check the bootstrap output before wr
 - Do not deploy, sync, tunnel, host, or test GetUpSoft workspace services on any Galantes Jewelry server, VM, container, tunnel, DNS route, or project.
 - GetUpSoft production/server access must use the GetUpSoft hosts only, currently `getupsoft-lan` and `ssh.getupsoft.com.do`, unless the user explicitly provides a different GetUpSoft-owned target.
 
-## Tunnel safety rule
+## Tunnel safety policy
 
 - Never stop, remove, restart, replace, recreate, disable, or reroute any Cloudflare tunnel, SSH tunnel, reverse proxy tunnel, or tunnel container unless the user confirms the exact action twice in two separate messages.
 - The first confirmation must approve the specific tunnel target and operation.
 - After the first confirmation, restate the impact and ask for a second confirmation before running the command.
 - If there is any doubt whether a command can interrupt tunnel access, treat it as tunnel-impacting and require the two confirmations.
-
-## Tunnel Safety Policy
-
-- **CRITICAL:** NEVER bring down, restart, or modify network tunnels (e.g., `cloudflared`, SSH tunnels, VPNs) without explicitly confirming **TWICE** with the user.
-- If a command might impact connectivity, the agent must warn the user and wait for two separate confirmations before proceeding.
 - Accidental disconnection can lead to complete infrastructure lockout.
