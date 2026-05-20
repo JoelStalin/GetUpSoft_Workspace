@@ -1,4 +1,4 @@
-import { useCallback, useRef } from 'react'
+import { useCallback } from 'react'
 import {
   ReactFlow,
   addEdge,
@@ -8,7 +8,6 @@ import {
   useNodesState,
   useEdgesState,
   Connection,
-  useReactFlow,
 } from '@xyflow/react'
 import '@xyflow/react/dist/style.css'
 import { useWorkflowStore } from '../store/workflowStore'
@@ -16,9 +15,8 @@ import { useWorkflowStore } from '../store/workflowStore'
 export default function WorkflowCanvas() {
   const workflow = useWorkflowStore((state) => state.workflow)
   const selectNode = useWorkflowStore((state) => state.selectNode)
-  const [nodes, setNodes, onNodesChange] = useNodesState(workflow?.nodes || [])
+  const [, , onNodesChange] = useNodesState(workflow?.nodes || [])
   const [edges, setEdges, onEdgesChange] = useEdgesState(workflow?.edges || [])
-  const { getNode } = useReactFlow()
 
   const onConnect = useCallback(
     (connection: Connection) => {
@@ -37,7 +35,7 @@ export default function WorkflowCanvas() {
   return (
     <div style={{ width: '100%', height: '100%' }}>
       <ReactFlow
-        nodes={nodes}
+        nodes={workflow?.nodes || []}
         edges={edges}
         onNodesChange={onNodesChange}
         onEdgesChange={onEdgesChange}
@@ -45,7 +43,7 @@ export default function WorkflowCanvas() {
         onNodeClick={onNodeClick}
         fitView
       >
-        <Background pattern="dots" />
+        <Background />
         <Controls />
         <MiniMap />
       </ReactFlow>

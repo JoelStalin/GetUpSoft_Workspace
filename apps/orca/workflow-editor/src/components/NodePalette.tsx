@@ -27,7 +27,7 @@ export default function NodePalette() {
     event.dataTransfer.setData('application/reactflow', nodeType)
   }
 
-  const handleAddNode = (nodeType: string, typeInfo: any) => {
+  const handleAddNode = (_nodeType: string, typeInfo: any) => {
     const node: Node = {
       id: `node-${Date.now()}`,
       type: 'default',

@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react'
-import { ReactFlow, Controls, Background, MiniMap, Node, Edge } from '@xyflow/react'
 import '@xyflow/react/dist/style.css'
 import WorkflowCanvas from './components/WorkflowCanvas'
 import NodePalette from './components/NodePalette'
@@ -10,7 +9,6 @@ import { useWorkflowStore } from './store/workflowStore'
 
 export default function App() {
   const [sidebarOpen, setSidebarOpen] = useState(true)
-  const [rightPanelOpen, setRightPanelOpen] = useState(true)
   const workflow = useWorkflowStore((state) => state.workflow)
   const selectedNodeId = useWorkflowStore((state) => state.selectedNodeId)
 
@@ -71,7 +69,7 @@ export default function App() {
         </div>
 
         {/* Right panel - Node config */}
-        {rightPanelOpen && selectedNodeId && (
+        {selectedNodeId && (
           <div className="w-80 border-l border-gray-700 bg-[#1a1b1e] overflow-y-auto">
             <NodeConfigPanel nodeId={selectedNodeId} />
           </div>

@@ -2,7 +2,6 @@ import { useRef, useState } from 'react'
 import { useWorkflowStore } from '../store/workflowStore'
 import {
   createWorkflow,
-  generateWorkflow,
   exportWorkflow,
   importWorkflow,
   runWorkflow,
@@ -20,12 +19,12 @@ export default function WorkflowToolbar() {
     if (!workflow) return
     setIsLoading(true)
     try {
-      const result = await createWorkflow({
+      await createWorkflow({
         id: workflow.id,
         name: workflow.name,
         active: workflow.active,
-        nodes: workflow.nodes,
-        edges: workflow.edges,
+        nodes: workflow.nodes as any,
+        connections: {},
         settings: workflow.settings,
       })
       alert('Workflow saved!')
@@ -64,16 +63,7 @@ export default function WorkflowToolbar() {
 
     setIsLoading(true)
     try {
-      const result = await importWorkflow(file)
-      setWorkflow({
-        id: result.id,
-        name: result.name,
-        active: false,
-        nodes: [],
-        edges: [],
-        createdAt: new Date().toISOString(),
-        updatedAt: new Date().toISOString(),
-      })
+      await importWorkflow(file)
       alert('Workflow imported!')
     } catch (error) {
       alert('Failed to import: ' + error)
