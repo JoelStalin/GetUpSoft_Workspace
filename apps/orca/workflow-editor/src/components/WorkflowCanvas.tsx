@@ -166,18 +166,18 @@ export default function WorkflowCanvas() {
         deleteKeyCode={['Backspace', 'Delete']}
         connectionLineStyle={{ stroke: '#7c4dff', strokeWidth: 2 }}
       >
-        <Background color="#404040" gap={16} size={2} />
+        <Background color="rgb(var(--color-base-300))" gap={16} size={2} />
         <Controls position="bottom-right" />
         <MiniMap
           nodeColor={(node) => {
-            if (selectedNodeId === node.id) return '#7c4dff'
-            return node.data?.color || '#2d2d2d'
+            if (selectedNodeId === node.id) return 'rgb(var(--color-primary-400))'
+            return node.data?.color || 'rgb(var(--color-base-300))'
           }}
           pannable
           zoomable
           position="bottom-left"
           style={{
-            backgroundColor: '#1a1f3a',
+            backgroundColor: 'rgba(var(--color-base-200))',
             borderRadius: '8px',
           }}
         />

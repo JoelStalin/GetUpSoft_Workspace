@@ -3,10 +3,10 @@ import { useWorkflowStore } from '../store/workflowStore'
 import { getNodeIcon } from '../utils/nodeIcons'
 
 const statusColors = {
-  running: '#fbbf24',
-  completed: '#10b981',
-  failed: '#ef4444',
-  pending: '#6b7280',
+  running: 'rgb(255 193 7)',  // Amber
+  completed: 'rgb(15 163 136)',  // Green from design system
+  failed: 'rgb(237 49 93)',  // Red from design system
+  pending: 'rgb(116 114 114)',  // Muted gray
 }
 
 export default function OrcaNode({ data, id, selected, isConnecting }: any) {
@@ -25,14 +25,19 @@ export default function OrcaNode({ data, id, selected, isConnecting }: any) {
     <div
       onClick={() => selectNode(id)}
       className={`
-        px-0 py-0 rounded bg-[#2d2d2d] border-2 transition cursor-pointer
-        hover:brightness-110 relative w-48
-        ${selected ? 'border-[#7c4dff] shadow-lg shadow-[#7c4dff]/50' : 'border-gray-700 hover:border-gray-600'}
+        px-0 py-0 rounded border-2 transition cursor-pointer
+        hover:opacity-80 relative w-48
+        ${selected
+          ? 'border-[rgb(var(--color-primary-400))] shadow-lg'
+          : 'border-[rgba(var(--color-base-300))] hover:border-[rgba(var(--color-base-400))]'
+        }
         ${isRunning ? 'node-running' : ''}
       `}
       style={{
-        borderLeftColor: data.color || '#7c4dff',
+        backgroundColor: 'rgb(var(--color-base-200))',
+        borderLeftColor: data.color || 'rgb(var(--color-primary-400))',
         borderLeftWidth: '6px',
+        boxShadow: selected ? '0 4px 12px rgba(var(--color-primary-400) / 0.3)' : 'none',
       }}
     >
       {/* Status Badge */}
@@ -51,24 +56,24 @@ export default function OrcaNode({ data, id, selected, isConnecting }: any) {
         <div
           className="flex items-center justify-center w-10 h-10 rounded-lg flex-shrink-0"
           style={{
-            backgroundColor: `${data.color || '#7c4dff'}20`,
+            backgroundColor: `${data.color || 'rgb(var(--color-primary-400))'}20`,
           }}
         >
           {IconComponent && (
             <IconComponent
               size={20}
-              style={{ color: data.color || '#7c4dff' }}
+              style={{ color: data.color || 'rgb(var(--color-primary-400))' }}
             />
           )}
         </div>
 
         {/* Label and Type */}
         <div className="flex flex-col justify-center min-w-0">
-          <div className="font-medium text-white text-sm truncate">
+          <div className="font-medium text-[rgb(var(--color-base-700))] text-sm truncate">
             {data.label}
           </div>
           {data.type && (
-            <div className="text-xs text-gray-400 truncate">
+            <div className="text-xs text-[rgba(var(--color-base-400))] truncate">
               {data.type.split('.').pop()}
             </div>
           )}

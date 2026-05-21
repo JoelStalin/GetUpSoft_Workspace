@@ -88,13 +88,27 @@ export default function NodePalette() {
     <div className="space-y-3">
       {/* Search Input */}
       <div className="relative">
-        <Search size={16} className="absolute left-3 top-2.5 text-gray-500" />
+        <Search size={16} className="absolute left-3 top-2.5 text-[rgba(var(--color-base-400))]" />
         <input
           type="text"
           placeholder="Search nodes..."
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
-          className="w-full pl-8 pr-3 py-2 bg-[#0a0e27] border border-gray-700 rounded text-sm text-white placeholder-gray-500 focus:outline-none focus:border-[#7c4dff]"
+          className="w-full pl-8 pr-3 py-2 rounded text-sm focus:outline-none transition"
+          style={{
+            backgroundColor: 'rgb(var(--color-base-200))',
+            border: '1px solid rgb(var(--color-base-300))',
+            color: 'rgb(var(--color-base-700))',
+            borderRadius: '6px',
+          }}
+          onFocus={(e) => {
+            e.currentTarget.style.borderColor = 'rgb(var(--color-primary-400))'
+            e.currentTarget.style.boxShadow = '0 0 0 2px rgba(var(--color-primary-400) / 0.1)'
+          }}
+          onBlur={(e) => {
+            e.currentTarget.style.borderColor = 'rgb(var(--color-base-300))'
+            e.currentTarget.style.boxShadow = 'none'
+          }}
         />
       </div>
 
@@ -109,10 +123,23 @@ export default function NodePalette() {
                   [category]: !prev[category],
                 }))
               }
-              className="w-full text-left text-xs font-semibold text-gray-400 hover:text-gray-300 flex items-center justify-between px-2 py-2 rounded hover:bg-[#1a1f3a] transition"
+              className="w-full text-left text-xs font-semibold flex items-center justify-between px-2 py-2 rounded transition"
+              style={{
+                color: 'rgb(var(--color-base-400))',
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.color = 'rgb(var(--color-base-500))'
+                e.currentTarget.style.backgroundColor = 'rgba(var(--color-base-300) / 0.5)'
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.color = 'rgb(var(--color-base-400))'
+                e.currentTarget.style.backgroundColor = 'transparent'
+              }}
             >
               <span>{category}</span>
-              <span className="text-xs bg-[#2d3550] px-2 py-1 rounded">
+              <span className="text-xs px-2 py-1 rounded" style={{
+                backgroundColor: 'rgba(var(--color-base-300))',
+              }}>
                 {items.length}
               </span>
             </button>

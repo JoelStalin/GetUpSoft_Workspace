@@ -16,6 +16,11 @@ export default function App() {
   const setWorkflow = useWorkflowStore((state) => state.setWorkflow)
   const executionLogs = useWorkflowStore((state) => state.executionLogs)
 
+  // Apply dark theme on mount
+  useEffect(() => {
+    document.documentElement.setAttribute('data-mode', 'dark')
+  }, [])
+
   useEffect(() => {
     const initWorkflow = async () => {
       try {
@@ -108,12 +113,28 @@ export default function App() {
 
   return (
     <ReactFlowProvider>
-      <div className="w-screen h-screen overflow-hidden bg-[#0a0e27] text-white flex flex-col">
+      <div className="w-screen h-screen overflow-hidden text-white flex flex-col" style={{
+        backgroundColor: 'rgb(var(--color-base-100))',
+        color: 'rgb(var(--color-base-700))',
+      }}>
         {/* Top Toolbar */}
-        <div className="h-16 bg-[#1a1f3a] border-b border-gray-700 flex items-center px-4 gap-4 z-40">
+        <div className="h-16 border-b flex items-center px-4 gap-4 z-40" style={{
+          backgroundColor: 'rgb(var(--color-base-200))',
+          borderColor: 'rgb(var(--color-base-300))',
+        }}>
           <button
             onClick={() => setSidebarOpen(!sidebarOpen)}
-            className="p-2 hover:bg-[#2d3550] rounded transition text-[#00d9ff]"
+            className="p-2 rounded transition"
+            style={{
+              color: 'rgb(var(--color-primary-400))',
+              backgroundColor: 'rgba(var(--color-primary-400) / 0.1)',
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.backgroundColor = 'rgba(var(--color-primary-400) / 0.2)'
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.backgroundColor = 'rgba(var(--color-primary-400) / 0.1)'
+            }}
             title={sidebarOpen ? 'Close panel' : 'Open panel'}
           >
             {sidebarOpen ? <X size={20} /> : <Menu size={20} />}
@@ -123,13 +144,19 @@ export default function App() {
             <WorkflowToolbar />
           </div>
 
-          <div className="text-xs text-gray-400">
+          <div className="text-xs" style={{
+            color: 'rgb(var(--color-base-400))',
+          }}>
             {workflow?.nodes?.length || 0} nodes
           </div>
         </div>
 
         {/* Main Content - Canvas takes full space */}
-        <div className="flex-1 overflow-hidden relative bg-[#0a0e27]" style={{ display: 'flex', flexDirection: 'column' }}>
+        <div className="flex-1 overflow-hidden relative" style={{
+          backgroundColor: 'rgb(var(--color-base-100))',
+          display: 'flex',
+          flexDirection: 'column',
+        }}>
           {workflow ? (
             <div style={{ flex: 1, width: '100%', height: '100%', overflow: 'hidden' }}>
               <WorkflowCanvas />
@@ -138,22 +165,30 @@ export default function App() {
             <div className="flex items-center justify-center h-full">
               <div className="text-center">
                 <h2 className="text-2xl font-bold mb-4">No Workflow</h2>
-                <p className="text-gray-400">Create a new workflow to get started</p>
+                <p style={{ color: 'rgb(var(--color-base-400))' }}>Create a new workflow to get started</p>
               </div>
             </div>
           )}
 
         {/* Floating Sidebar - Components Panel */}
         <div
-          className={`absolute top-0 left-0 h-full w-80 bg-[#1a1f3a] border-r border-gray-700 shadow-lg transition-all duration-300 z-30 overflow-y-auto ${
+          className={`absolute top-0 left-0 h-full w-80 border-r shadow-lg transition-all duration-300 z-30 overflow-y-auto ${
             sidebarOpen ? 'translate-x-0' : '-translate-x-full'
           }`}
+          style={{
+            backgroundColor: 'rgb(var(--color-base-200))',
+            borderColor: 'rgb(var(--color-base-300))',
+          }}
         >
           <div className="p-4">
-            <h3 className="font-bold text-sm uppercase text-gray-300 mb-4">
+            <h3 className="font-bold text-sm uppercase mb-4" style={{
+              color: 'rgb(var(--color-base-500))',
+            }}>
               Node Library
             </h3>
-            <p className="text-xs text-gray-500 mb-4">
+            <p className="text-xs mb-4" style={{
+              color: 'rgb(var(--color-base-400))',
+            }}>
               Drag components to canvas
             </p>
             <NodePalette />
@@ -162,9 +197,14 @@ export default function App() {
 
         {/* Floating Right Panel - Node Config */}
         {selectedNodeId && (
-          <div className="absolute top-0 right-0 h-full w-80 bg-[#1a1f3a] border-l border-gray-700 shadow-lg z-30 overflow-y-auto">
+          <div className="absolute top-0 right-0 h-full w-80 border-l shadow-lg z-30 overflow-y-auto" style={{
+            backgroundColor: 'rgb(var(--color-base-200))',
+            borderColor: 'rgb(var(--color-base-300))',
+          }}>
             <div className="p-4">
-              <h3 className="font-bold text-sm uppercase text-gray-300 mb-4">
+              <h3 className="font-bold text-sm uppercase mb-4" style={{
+                color: 'rgb(var(--color-base-500))',
+              }}>
                 Node Configuration
               </h3>
               <NodeConfigPanel nodeId={selectedNodeId} />
