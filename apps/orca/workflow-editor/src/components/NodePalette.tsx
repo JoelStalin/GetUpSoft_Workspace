@@ -3,80 +3,25 @@ import { getNodeTypes } from '../api/orcaApi'
 import { useWorkflowStore } from '../store/workflowStore'
 import { Node } from '@xyflow/react'
 
-// Default n8n node types for fallback
-const DEFAULT_N8N_NODES = {
-  'n8n-trigger': {
-    label: 'Trigger',
-    description: 'Start workflow execution',
-    color: '#ff5e00',
-    inputs: 0,
-    outputs: 1,
-  },
-  'n8n-http-request': {
-    label: 'HTTP Request',
-    description: 'Make HTTP API calls',
-    color: '#00b4ff',
-    inputs: 1,
-    outputs: 1,
-  },
-  'n8n-ai-prompt': {
-    label: 'AI Prompt',
-    description: 'Generate content with AI',
-    color: '#ff00d9',
-    inputs: 1,
-    outputs: 1,
-  },
-  'n8n-condition': {
-    label: 'If/Condition',
-    description: 'Branch workflow based on conditions',
-    color: '#ffb400',
-    inputs: 1,
-    outputs: 2,
-  },
-  'n8n-loop': {
-    label: 'Loop',
-    description: 'Iterate over items',
-    color: '#00ff5e',
-    inputs: 1,
-    outputs: 1,
-  },
-  'n8n-code': {
-    label: 'Code',
-    description: 'Execute JavaScript code',
-    color: '#7c4dff',
-    inputs: 1,
-    outputs: 1,
-  },
-  'n8n-merge': {
-    label: 'Merge',
-    description: 'Combine branches',
-    color: '#ff5e5e',
-    inputs: 2,
-    outputs: 1,
-  },
-  'n8n-output': {
-    label: 'Output',
-    description: 'Return workflow results',
-    color: '#00ff00',
-    inputs: 1,
-    outputs: 0,
-  },
-}
-
 export default function NodePalette() {
-  const [nodeTypes, setNodeTypes] = useState<any>(DEFAULT_N8N_NODES)
+  const [nodeTypes, setNodeTypes] = useState<any>({})
   const addNode = useWorkflowStore((state) => state.addNode)
 
   useEffect(() => {
     const loadNodeTypes = async () => {
       try {
         const types = await getNodeTypes()
-        if (Object.keys(types).length > 0) {
+        // Backend returns objects with 'type' property - convert to simple key:value
+        if (types && typeof types === 'object' && Object.keys(types).length > 0) {
+          console.log('Loaded node types from backend:', Object.keys(types).length)
           setNodeTypes(types)
+        } else {
+          console.log('Backend returned empty node types, using defaults')
+          setNodeTypes(getDefaultNodeTypes())
         }
       } catch (error) {
-        console.log('Using default n8n node types')
-        setNodeTypes(DEFAULT_N8N_NODES)
+        console.log('Failed to load node types, using defaults:', error)
+        setNodeTypes(getDefaultNodeTypes())
       }
     }
     loadNodeTypes()
@@ -139,4 +84,81 @@ export default function NodePalette() {
       </div>
     </div>
   )
+}
+
+function getDefaultNodeTypes() {
+  return {
+    'orca-nodes-base.trigger': {
+      type: 'orca-nodes-base.trigger',
+      label: 'Trigger',
+      color: '#ff6d5a',
+      inputs: 0,
+      outputs: 1,
+      icon: 'bell',
+      description: 'Start a workflow execution',
+    },
+    'orca-nodes-base.aiPrompt': {
+      type: 'orca-nodes-base.aiPrompt',
+      label: 'AI Prompt',
+      color: '#7c4dff',
+      inputs: 1,
+      outputs: 1,
+      icon: 'brain',
+      description: 'Call an AI model with a prompt',
+    },
+    'orca-nodes-base.httpRequest': {
+      type: 'orca-nodes-base.httpRequest',
+      label: 'HTTP Request',
+      color: '#1a9ba1',
+      inputs: 1,
+      outputs: 1,
+      icon: 'cloud',
+      description: 'Make an HTTP request',
+    },
+    'orca-nodes-base.condition': {
+      type: 'orca-nodes-base.condition',
+      label: 'Condition',
+      color: '#ff9f43',
+      inputs: 1,
+      outputs: 2,
+      icon: 'code-branch',
+      description: 'Conditional branching',
+    },
+    'orca-nodes-base.loop': {
+      type: 'orca-nodes-base.loop',
+      label: 'Loop',
+      color: '#10ac84',
+      inputs: 1,
+      outputs: 1,
+      icon: 'repeat',
+      description: 'Iterate over a list',
+    },
+    'orca-nodes-base.setVariable': {
+      type: 'orca-nodes-base.setVariable',
+      label: 'Set Variable',
+      color: '#576574',
+      inputs: 1,
+      outputs: 1,
+      icon: 'assign',
+      description: 'Store a value in a variable',
+    },
+    'orca-nodes-base.executeCommand': {
+      type: 'orca-nodes-base.executeCommand',
+      label: 'Execute',
+      color: '#ee5a24',
+      inputs: 1,
+      outputs: 1,
+      icon: 'terminal',
+      description: 'Execute a command or script',
+    },
+    'orca-nodes-base.end': {
+      type: 'orca-nodes-base.end',
+      label: 'End',
+      color: '#353b48',
+      inputs: 1,
+      outputs: 0,
+      icon: 'stop-circle',
+      description: 'End the workflow',
+    },
+  }
 }
