@@ -3,8 +3,8 @@ import { getNodeTypes } from '../api/orcaApi'
 import { useWorkflowStore } from '../store/workflowStore'
 import { Node } from '@xyflow/react'
 
-// Default n8n node types when API is unavailable
-const DEFAULT_NODE_TYPES = {
+// Default n8n node types for fallback
+const DEFAULT_N8N_NODES = {
   'n8n-trigger': {
     label: 'Trigger',
     description: 'Start workflow execution',
@@ -64,19 +64,19 @@ const DEFAULT_NODE_TYPES = {
 }
 
 export default function NodePalette() {
-  const [nodeTypes, setNodeTypes] = useState<any>(DEFAULT_NODE_TYPES)
+  const [nodeTypes, setNodeTypes] = useState<any>(DEFAULT_N8N_NODES)
   const addNode = useWorkflowStore((state) => state.addNode)
 
   useEffect(() => {
     const loadNodeTypes = async () => {
       try {
         const types = await getNodeTypes()
-        if (types && Object.keys(types).length > 0) {
+        if (Object.keys(types).length > 0) {
           setNodeTypes(types)
         }
       } catch (error) {
-        // Use default node types
-        setNodeTypes(DEFAULT_NODE_TYPES)
+        console.log('Using default n8n node types')
+        setNodeTypes(DEFAULT_N8N_NODES)
       }
     }
     loadNodeTypes()
@@ -107,7 +107,7 @@ export default function NodePalette() {
   return (
     <div className="p-4 h-full flex flex-col">
       <h3 className="font-bold mb-4 text-sm uppercase text-gray-400">
-        Components
+        Node Types
       </h3>
 
       <div className="space-y-2 flex-1 overflow-y-auto">
