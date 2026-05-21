@@ -1,0 +1,6 @@
+2025/07/29-15:09:14.118 8684 Reusing MANIFEST C:\Users\yoeli\Documents\TinderBot\chrome_profile\Default\IndexedDB\https_tinder.com_0.indexeddb.leveldb/MANIFEST-000001
+2025/07/29-15:09:14.118 8684 Recovering log #20
+2025/07/29-15:09:14.130 8684 Reusing old log C:\Users\yoeli\Documents\TinderBot\chrome_profile\Default\IndexedDB\https_tinder.com_0.indexeddb.leveldb/000020.log 
+2025/07/29-15:21:36.210 8684 Level-0 table #25: started
+2025/07/29-15:21:36.249 8684 Level-0 table #25: 2802928 bytes OK
+2025/07/29-15:21:36.252 8684 Delete type=0 #20

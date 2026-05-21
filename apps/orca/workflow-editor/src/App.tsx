@@ -7,7 +7,6 @@ import NodeConfigPanel from './components/NodeConfigPanel'
 import WorkflowToolbar from './components/WorkflowToolbar'
 import ExecutionViewer from './components/ExecutionViewer'
 import { useWorkflowStore } from './store/workflowStore'
-import { createWorkflow } from './api/orcaApi'
 
 export default function App() {
   const [isLoading, setIsLoading] = useState(true)
