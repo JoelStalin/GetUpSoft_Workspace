@@ -191,20 +191,20 @@ function AppContent() {
             {
               id: 'trigger-1',
               type: 'default',
-              data: { label: 'Trigger', type: 'trigger', color: '#E74C3C', status: 'pending' },
-              position: { x: 150, y: 100 },
+              data: { label: 'Start Trigger', type: 'trigger', color: '#E74C3C', status: 'pending' },
+              position: { x: 100, y: 50 },
             },
             {
               id: 'http-1',
               type: 'default',
-              data: { label: 'HTTP Request', type: 'http', color: '#3498DB', status: 'pending' },
-              position: { x: 400, y: 100 },
+              data: { label: 'Fetch Data', type: 'http', color: '#3498DB', status: 'pending' },
+              position: { x: 400, y: 50 },
             },
             {
               id: 'ai-1',
               type: 'default',
-              data: { label: 'AI Prompt', type: 'ai', color: '#9B59B6', status: 'pending' },
-              position: { x: 650, y: 100 },
+              data: { label: 'Process AI', type: 'ai', color: '#9B59B6', status: 'pending' },
+              position: { x: 700, y: 50 },
             },
           ],
           edges: [

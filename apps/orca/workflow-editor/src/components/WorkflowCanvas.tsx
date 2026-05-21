@@ -210,7 +210,7 @@ export default function WorkflowCanvas() {
         onConnect={handleConnect}
         onEdgeClick={handleEdgeClick}
         nodeTypes={nodeTypes}
-        fitView
+        fitView={nodes.length > 0}
         colorMode="dark"
         deleteKeyCode={['Backspace', 'Delete']}
         connectionLineStyle={{ stroke: '#7c4dff', strokeWidth: 2 }}

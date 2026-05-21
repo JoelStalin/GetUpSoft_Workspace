@@ -28,21 +28,23 @@ export default function OrcaNode({ data, id, selected, isConnecting }: any) {
     <div
       onClick={() => selectNode(id)}
       className={`
-        px-0 py-0 rounded border-2 transition cursor-pointer
-        hover:opacity-80 relative w-48 group
+        px-0 py-0 rounded-lg border-2 transition cursor-pointer
+        hover:opacity-90 relative w-56 group shadow-lg
         ${selected
-          ? 'border-[rgb(var(--color-primary-400))] shadow-lg'
-          : 'border-[rgba(var(--color-base-300))] hover:border-[rgba(var(--color-base-400))]'
+          ? 'border-[rgb(var(--color-primary-400))] shadow-2xl'
+          : 'border-[rgba(100,100,120,0.5)] hover:border-[rgba(124,77,255,0.5)]'
         }
         ${isRunning ? 'node-running' : ''}
         ${isFailed ? 'border-[rgb(237_49_93)]' : ''}
         ${isCompleted ? 'border-[rgb(15_163_136)]' : ''}
       `}
       style={{
-        backgroundColor: 'rgb(var(--color-base-200))',
+        backgroundColor: '#1f2340',
         borderLeftColor: data.color || 'rgb(var(--color-primary-400))',
-        borderLeftWidth: '6px',
-        boxShadow: selected ? '0 4px 12px rgba(var(--color-primary-400) / 0.3)' : 'none',
+        borderLeftWidth: '5px',
+        boxShadow: selected
+          ? '0 8px 24px rgba(124, 77, 255, 0.4)'
+          : '0 4px 12px rgba(0, 0, 0, 0.6)',
       }}
       title={errorMessage || undefined}
     >
