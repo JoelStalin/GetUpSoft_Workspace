@@ -185,10 +185,32 @@ function AppContent() {
 
         setWorkflow({
           id: `workflow-${Date.now()}`,
-          name: 'New Workflow',
+          name: 'Example Workflow',
           active: false,
-          nodes: [],
-          edges: [],
+          nodes: [
+            {
+              id: 'trigger-1',
+              type: 'default',
+              data: { label: 'Trigger', type: 'trigger', color: '#E74C3C', status: 'pending' },
+              position: { x: 150, y: 100 },
+            },
+            {
+              id: 'http-1',
+              type: 'default',
+              data: { label: 'HTTP Request', type: 'http', color: '#3498DB', status: 'pending' },
+              position: { x: 400, y: 100 },
+            },
+            {
+              id: 'ai-1',
+              type: 'default',
+              data: { label: 'AI Prompt', type: 'ai', color: '#9B59B6', status: 'pending' },
+              position: { x: 650, y: 100 },
+            },
+          ],
+          edges: [
+            { id: 'edge-1', source: 'trigger-1', target: 'http-1', animated: true, type: 'smoothstep', style: { stroke: '#7c4dff', strokeWidth: 2 } },
+            { id: 'edge-2', source: 'http-1', target: 'ai-1', animated: true, type: 'smoothstep', style: { stroke: '#7c4dff', strokeWidth: 2 } },
+          ],
           settings: {},
           createdAt: new Date().toISOString(),
           updatedAt: new Date().toISOString(),
@@ -242,12 +264,12 @@ function AppContent() {
 
   return (
     <ReactFlowProvider>
-      <div className="w-screen h-screen overflow-hidden text-white flex flex-col" style={{
+      <div className="fixed inset-0 text-white flex flex-col" style={{
         backgroundColor: 'rgb(var(--color-base-100))',
         color: 'rgb(var(--color-base-700))',
       }}>
         {/* Top Toolbar */}
-        <div className="h-16 border-b flex items-center px-4 gap-4 z-40" style={{
+        <div className="h-16 border-b flex items-center px-4 gap-4 z-40 flex-shrink-0" style={{
           backgroundColor: 'rgb(var(--color-base-200))',
           borderColor: 'rgb(var(--color-base-300))',
         }}>
@@ -281,18 +303,18 @@ function AppContent() {
         </div>
 
         {/* Main Content - Canvas + Execution Panel */}
-        <div className="flex-1 overflow-hidden relative flex flex-row" style={{
+        <div className="flex-1 overflow-hidden flex flex-row" style={{
           backgroundColor: 'rgb(var(--color-base-100))',
         }}>
           {/* Sidebar - Left Panel */}
           <div
-            className={`border-r shadow-lg transition-all duration-300 overflow-y-auto ${
+            className={`border-r shadow-lg transition-all duration-300 overflow-y-auto flex-shrink-0 ${
               sidebarOpen ? 'w-80' : 'w-0'
             }`}
             style={{
               backgroundColor: 'rgb(var(--color-base-200))',
               borderColor: 'rgb(var(--color-base-300))',
-              minWidth: sidebarOpen ? '320px' : '0',
+              width: sidebarOpen ? '320px' : '0',
             }}
           >
             {sidebarOpen && (
@@ -332,7 +354,7 @@ function AppContent() {
 
             {/* Execution Timeline Panel */}
             <div
-              className="border-t transition-all duration-300"
+              className="border-t transition-all duration-300 flex-shrink-0"
               style={{
                 backgroundColor: 'rgb(var(--color-base-200))',
                 borderColor: 'rgb(var(--color-base-300))',
