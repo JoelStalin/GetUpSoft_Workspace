@@ -3,17 +3,80 @@ import { getNodeTypes } from '../api/orcaApi'
 import { useWorkflowStore } from '../store/workflowStore'
 import { Node } from '@xyflow/react'
 
+// Default n8n node types for fallback
+const DEFAULT_N8N_NODES = {
+  'n8n-trigger': {
+    label: 'Trigger',
+    description: 'Start workflow execution',
+    color: '#ff5e00',
+    inputs: 0,
+    outputs: 1,
+  },
+  'n8n-http-request': {
+    label: 'HTTP Request',
+    description: 'Make HTTP API calls',
+    color: '#00b4ff',
+    inputs: 1,
+    outputs: 1,
+  },
+  'n8n-ai-prompt': {
+    label: 'AI Prompt',
+    description: 'Generate content with AI',
+    color: '#ff00d9',
+    inputs: 1,
+    outputs: 1,
+  },
+  'n8n-condition': {
+    label: 'If/Condition',
+    description: 'Branch workflow based on conditions',
+    color: '#ffb400',
+    inputs: 1,
+    outputs: 2,
+  },
+  'n8n-loop': {
+    label: 'Loop',
+    description: 'Iterate over items',
+    color: '#00ff5e',
+    inputs: 1,
+    outputs: 1,
+  },
+  'n8n-code': {
+    label: 'Code',
+    description: 'Execute JavaScript code',
+    color: '#7c4dff',
+    inputs: 1,
+    outputs: 1,
+  },
+  'n8n-merge': {
+    label: 'Merge',
+    description: 'Combine branches',
+    color: '#ff5e5e',
+    inputs: 2,
+    outputs: 1,
+  },
+  'n8n-output': {
+    label: 'Output',
+    description: 'Return workflow results',
+    color: '#00ff00',
+    inputs: 1,
+    outputs: 0,
+  },
+}
+
 export default function NodePalette() {
-  const [nodeTypes, setNodeTypes] = useState<any>({})
+  const [nodeTypes, setNodeTypes] = useState<any>(DEFAULT_N8N_NODES)
   const addNode = useWorkflowStore((state) => state.addNode)
 
   useEffect(() => {
     const loadNodeTypes = async () => {
       try {
         const types = await getNodeTypes()
-        setNodeTypes(types)
+        if (Object.keys(types).length > 0) {
+          setNodeTypes(types)
+        }
       } catch (error) {
-        console.error('Failed to load node types:', error)
+        console.log('Using default n8n node types')
+        setNodeTypes(DEFAULT_N8N_NODES)
       }
     }
     loadNodeTypes()
