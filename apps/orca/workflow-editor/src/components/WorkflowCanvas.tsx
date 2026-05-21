@@ -1,4 +1,4 @@
-import { useCallback, useRef, useEffect } from 'react'
+import { useCallback, useRef, useEffect, useState } from 'react'
 import {
   ReactFlow,
   addEdge as addEdgeUtil,
@@ -10,9 +10,11 @@ import {
   Connection,
   useReactFlow,
   Node,
+  Edge,
 } from '@xyflow/react'
 import '@xyflow/react/dist/style.css'
-import { useWorkflowStore } from '../store/workflowStore'
+import { useWorkflowOperations } from '../hooks/useWorkflowOperations'
+import { useWorkflowHistory } from '../hooks/useWorkflowHistory'
 import OrcaNode from './OrcaNode'
 
 const nodeTypes = {
@@ -21,20 +23,15 @@ const nodeTypes = {
 }
 
 export default function WorkflowCanvas() {
-  const workflow = useWorkflowStore((state) => state.workflow)
-  const selectedNodeId = useWorkflowStore((state) => state.selectedNodeId)
-  const addNode = useWorkflowStore((state) => state.addNode)
-  const updateNode = useWorkflowStore((state) => state.updateNode)
-  const addEdgeToStore = useWorkflowStore((state) => state.addEdge)
-  const pushHistory = useWorkflowStore((state) => state.pushHistory)
-  const undo = useWorkflowStore((state) => state.undo)
-  const redo = useWorkflowStore((state) => state.redo)
+  const { workflow, selectedNodeId, addNode, updateNode, addEdge: addEdgeToStore, deleteNode, deleteEdge } = useWorkflowOperations()
+  const { pushHistory, undo, redo } = useWorkflowHistory()
 
   const reactFlowWrapper = useRef<HTMLDivElement>(null)
   const { project } = useReactFlow() as any
 
   const [nodes, setNodes, onNodesChange] = useNodesState(workflow?.nodes || [])
   const [edges, setEdges, onEdgesChange] = useEdgesState(workflow?.edges || [])
+  const [selectedEdgeId, setSelectedEdgeId] = useState<string | null>(null)
 
   // Sync workflow nodes to ReactFlow nodes
   useEffect(() => {
@@ -50,7 +47,7 @@ export default function WorkflowCanvas() {
     }
   }, [workflow?.edges, setEdges])
 
-  // Keyboard shortcuts for undo/redo
+  // Keyboard shortcuts for undo/redo/delete
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if ((e.ctrlKey || e.metaKey) && e.key === 'z') {
@@ -63,17 +60,22 @@ export default function WorkflowCanvas() {
         redo()
       }
       if (e.key === 'Delete' || e.key === 'Backspace') {
+        e.preventDefault()
         if (selectedNodeId) {
-          e.preventDefault()
           pushHistory()
-          useWorkflowStore.getState().deleteNode(selectedNodeId)
+          deleteNode(selectedNodeId)
+        } else if (selectedEdgeId) {
+          pushHistory()
+          deleteEdge(selectedEdgeId)
+          setEdges((eds) => eds.filter((e) => e.id !== selectedEdgeId))
+          setSelectedEdgeId(null)
         }
       }
     }
 
     window.addEventListener('keydown', handleKeyDown)
     return () => window.removeEventListener('keydown', handleKeyDown)
-  }, [selectedNodeId, pushHistory, undo, redo])
+  }, [selectedNodeId, selectedEdgeId, pushHistory, undo, redo, deleteNode, deleteEdge, setEdges])
 
   // Sync node position changes back to store
   const handleNodesChange = useCallback(
@@ -88,22 +90,54 @@ export default function WorkflowCanvas() {
     [onNodesChange, updateNode]
   )
 
+  // Validate connection - prevent self-loops and circular references
+  const isValidConnection = useCallback((connection: Connection) => {
+    if (connection.source === connection.target) {
+      return false
+    }
+
+    const sourceNode = nodes.find((n) => n.id === connection.source)
+    const targetNode = nodes.find((n) => n.id === connection.target)
+
+    if (!sourceNode || !targetNode) {
+      return false
+    }
+
+    return true
+  }, [nodes])
+
+  // Get edge style based on connection metadata
+  const getEdgeStyle = useCallback((edge: any) => {
+    const isSelected = selectedEdgeId === edge.id
+    return {
+      stroke: isSelected ? '#ff9f43' : '#7c4dff',
+      strokeWidth: isSelected ? 3 : 2,
+    }
+  }, [selectedEdgeId])
+
   // Handle node-to-node connections
   const handleConnect = useCallback(
     (connection: Connection) => {
+      if (!isValidConnection(connection)) {
+        console.warn('Invalid connection attempt:', connection)
+        return
+      }
+
       pushHistory()
-      const edge = {
-        id: `${connection.source}-${connection.target}`,
+      const edgeId = `${connection.source}-${connection.target}-${Date.now()}`
+      const edge: Edge = {
+        id: edgeId,
         source: connection.source || '',
         target: connection.target || '',
         animated: true,
         type: 'smoothstep',
         style: { stroke: '#7c4dff', strokeWidth: 2 },
+        data: { priority: 'normal' },
       }
       setEdges((eds: any[]) => addEdgeUtil(connection, eds))
       addEdgeToStore(edge)
     },
-    [setEdges, addEdgeToStore, pushHistory]
+    [isValidConnection, setEdges, addEdgeToStore, pushHistory]
   )
 
   // Handle drag over
@@ -147,19 +181,34 @@ export default function WorkflowCanvas() {
     [project, addNode, setNodes, pushHistory]
   )
 
+  const styledEdges = edges.map((edge) => ({
+    ...edge,
+    style: getEdgeStyle(edge),
+  }))
+
+  const handleEdgeClick = useCallback(
+    (e: React.MouseEvent, edge: Edge) => {
+      e.stopPropagation()
+      setSelectedEdgeId(edge.id)
+    },
+    []
+  )
+
   return (
     <div
       ref={reactFlowWrapper}
       style={{ width: '100%', height: '100%' }}
       onDragOver={onDragOver}
       onDrop={onDrop}
+      onClick={() => setSelectedEdgeId(null)}
     >
       <ReactFlow
         nodes={nodes}
-        edges={edges}
+        edges={styledEdges}
         onNodesChange={handleNodesChange}
         onEdgesChange={onEdgesChange}
         onConnect={handleConnect}
+        onEdgeClick={handleEdgeClick}
         nodeTypes={nodeTypes}
         fitView
         colorMode="dark"
@@ -169,7 +218,7 @@ export default function WorkflowCanvas() {
         <Background color="rgb(var(--color-base-300))" gap={16} size={2} />
         <Controls position="bottom-right" />
         <MiniMap
-          nodeColor={(node) => {
+          nodeColor={(node: any): string => {
             if (selectedNodeId === node.id) return 'rgb(var(--color-primary-400))'
             return node.data?.color || 'rgb(var(--color-base-300))'
           }}

@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { generateWorkflow } from '../api/orcaApi'
-import { Workflow } from '../store/workflowStore'
+import { handleApiError } from '../utils/errorHandler'
+import type { Workflow } from '../types/workflow'
 
 interface GenerateModalProps {
   onClose: () => void
@@ -45,7 +46,8 @@ export default function GenerateModal({ onClose, onGenerate }: GenerateModalProp
 
       onGenerate(workflow)
     } catch (error) {
-      alert('Failed to generate workflow: ' + error)
+      const { message } = handleApiError(error)
+      alert('Failed to generate workflow: ' + message)
     } finally {
       setIsLoading(false)
     }

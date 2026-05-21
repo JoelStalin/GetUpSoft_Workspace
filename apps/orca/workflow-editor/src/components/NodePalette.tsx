@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { getNodeTypes } from '../api/orcaApi'
-import { useWorkflowStore } from '../store/workflowStore'
+import { useWorkflowOperations } from '../hooks/useWorkflowOperations'
+import { useWorkflowHistory } from '../hooks/useWorkflowHistory'
 import { Node } from '@xyflow/react'
 import { Search } from 'lucide-react'
 
@@ -8,8 +9,8 @@ export default function NodePalette() {
   const [nodeTypes, setNodeTypes] = useState<any>({})
   const [searchTerm, setSearchTerm] = useState('')
   const [expandedCategories, setExpandedCategories] = useState<Record<string, boolean>>({})
-  const addNode = useWorkflowStore((state) => state.addNode)
-  const pushHistory = useWorkflowStore((state) => state.pushHistory)
+  const { addNode } = useWorkflowOperations()
+  const { pushHistory } = useWorkflowHistory()
 
   useEffect(() => {
     const loadNodeTypes = async () => {

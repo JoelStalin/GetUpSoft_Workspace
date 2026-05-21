@@ -1,13 +1,13 @@
-import { useWorkflowStore } from '../store/workflowStore'
+import { useWorkflowOperations } from '../hooks/useWorkflowOperations'
+import { useWorkflowHistory } from '../hooks/useWorkflowHistory'
 
 interface NodeConfigPanelProps {
   nodeId: string
 }
 
 export default function NodeConfigPanel({ nodeId }: NodeConfigPanelProps) {
-  const workflow = useWorkflowStore((state) => state.workflow)
-  const updateNode = useWorkflowStore((state) => state.updateNode)
-  const deleteNode = useWorkflowStore((state) => state.deleteNode)
+  const { workflow, updateNode, deleteNode, setWorkflow } = useWorkflowOperations()
+  const { pushHistory } = useWorkflowHistory()
 
   const node = workflow?.nodes.find((n) => n.id === nodeId)
 
@@ -42,7 +42,26 @@ export default function NodeConfigPanel({ nodeId }: NodeConfigPanelProps) {
 
   const handleDelete = () => {
     if (confirm('Delete this node?')) {
+      pushHistory()
       deleteNode(nodeId)
+    }
+  }
+
+  const handleDuplicate = () => {
+    if (workflow?.nodes) {
+      const newNode = {
+        ...node,
+        id: `${node.type}-${Date.now()}`,
+        position: {
+          x: node.position.x + 80,
+          y: node.position.y + 80,
+        },
+      }
+      pushHistory()
+      setWorkflow({
+        ...workflow,
+        nodes: [...workflow.nodes, newNode],
+      })
     }
   }
 
@@ -110,11 +129,19 @@ export default function NodeConfigPanel({ nodeId }: NodeConfigPanelProps) {
         </div>
       </div>
 
-      {/* Delete button */}
-      <div className="mt-4 pt-4 border-t border-gray-700">
+      {/* Action buttons */}
+      <div className="mt-4 pt-4 border-t border-gray-700 space-y-2">
+        <button
+          onClick={handleDuplicate}
+          className="w-full px-3 py-2 bg-[#7c4dff] hover:bg-[#6a3fc7] rounded text-white text-sm font-medium transition"
+          title="Duplicate node (Ctrl+D)"
+        >
+          Duplicate Node
+        </button>
         <button
           onClick={handleDelete}
           className="w-full px-3 py-2 bg-[#ff6d5a] hover:bg-[#e55a47] rounded text-white text-sm font-medium transition"
+          title="Delete node (Delete/Backspace)"
         >
           Delete Node
         </button>

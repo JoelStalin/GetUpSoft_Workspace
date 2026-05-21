@@ -1,25 +1,154 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import '@xyflow/react/dist/style.css'
 import { ReactFlowProvider } from '@xyflow/react'
 import WorkflowCanvas from './components/WorkflowCanvas'
 import NodePalette from './components/NodePalette'
 import NodeConfigPanel from './components/NodeConfigPanel'
 import WorkflowToolbar from './components/WorkflowToolbar'
-import { useWorkflowStore } from './store/workflowStore'
-import { Menu, X } from 'lucide-react'
+import SearchDialog from './components/Search/SearchDialog'
+import ExecutionTimeline from './components/ExecutionTimeline'
+import { WorkflowProvider } from './contexts/WorkflowContext'
+import { ExecutionProvider } from './contexts/ExecutionContext'
+import { useWorkflowOperations } from './hooks/useWorkflowOperations'
+import { useWorkflowState } from './hooks/useWorkflowState'
+import { useExecutionStatus } from './hooks/useExecutionStatus'
+import { useSearch } from './hooks/useSearch'
+import { useKeyboardShortcuts, SHORTCUTS } from './hooks/useKeyboardShortcuts'
+import { useClipboard } from './hooks/useClipboard'
+import { useMultiSelect } from './hooks/useMultiSelect'
+import { addToRecent } from './utils/search/searchHistory'
+import { Menu, X, ChevronUp, ChevronDown } from 'lucide-react'
 
-export default function App() {
+function AppContent() {
   const [isLoading, setIsLoading] = useState(true)
   const [sidebarOpen, setSidebarOpen] = useState(true)
-  const workflow = useWorkflowStore((state) => state.workflow)
-  const selectedNodeId = useWorkflowStore((state) => state.selectedNodeId)
-  const setWorkflow = useWorkflowStore((state) => state.setWorkflow)
-  const executionLogs = useWorkflowStore((state) => state.executionLogs)
+  const [executionPanelOpen, setExecutionPanelOpen] = useState(true)
+  const [nodeTypes, setNodeTypes] = useState<Record<string, any>>({})
+  const { workflow, setWorkflow, addNode, deleteNode } = useWorkflowOperations()
+  const { workflow: workflowState } = useWorkflowState()
+  const selectedNodeId = workflowState?.selectedNodeId || null
+  const { logs: executionLogs } = useExecutionStatus()
+  const { copy, paste, hasContent } = useClipboard()
+  const multiSelect = useMultiSelect()
+  const {
+    query,
+    results,
+    isOpen: searchOpen,
+    isLoading: searchLoading,
+    selectedIndex,
+    history,
+    handleSearch,
+    handleOpen: openSearch,
+    handleClose: closeSearch,
+    handleSelectResult,
+    handleNavigate,
+    clearQuery,
+    clearHistory,
+  } = useSearch({ nodeTypes })
 
   // Apply dark theme on mount
   useEffect(() => {
     document.documentElement.setAttribute('data-mode', 'dark')
   }, [])
+
+  // Setup keyboard shortcuts
+  useKeyboardShortcuts([
+    { ...SHORTCUTS.SEARCH, callback: openSearch },
+  ])
+
+  // Handle additional keyboard shortcuts
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      // Delete node with Delete or Backspace
+      if ((e.key === 'Delete' || e.key === 'Backspace') && selectedNodeId) {
+        e.preventDefault()
+        deleteNode(selectedNodeId)
+      }
+
+      // Duplicate node with Ctrl+D or Cmd+D
+      if ((e.ctrlKey || e.metaKey) && e.key === 'd' && selectedNodeId) {
+        e.preventDefault()
+        if (workflow?.nodes) {
+          const selectedNode = workflow.nodes.find(n => n.id === selectedNodeId)
+          if (selectedNode) {
+            addNode({
+              ...selectedNode,
+              id: `${selectedNode.type}-${Date.now()}`,
+              position: {
+                x: selectedNode.position.x + 80,
+                y: selectedNode.position.y + 80,
+              },
+            })
+          }
+        }
+      }
+
+      // Copy selected nodes with Ctrl+C or Cmd+C
+      if ((e.ctrlKey || e.metaKey) && e.key === 'c') {
+        e.preventDefault()
+        if (workflow?.nodes && selectedNodeId) {
+          const selectedNode = workflow.nodes.find(n => n.id === selectedNodeId)
+          if (selectedNode) {
+            copy([selectedNode])
+          }
+        }
+      }
+
+      // Paste nodes with Ctrl+V or Cmd+V
+      if ((e.ctrlKey || e.metaKey) && e.key === 'v') {
+        e.preventDefault()
+        if (hasContent() && workflow) {
+          const pastedNodes = paste(100, 100)
+          if (pastedNodes.length > 0) {
+            setWorkflow({
+              ...workflow,
+              nodes: [...(workflow.nodes || []), ...pastedNodes],
+            })
+          }
+        }
+      }
+
+      // Select all with Ctrl+A or Cmd+A
+      if ((e.ctrlKey || e.metaKey) && e.key === 'a') {
+        e.preventDefault()
+        if (workflow?.nodes) {
+          multiSelect.selectAll(workflow.nodes.map(n => n.id))
+        }
+      }
+    }
+
+    window.addEventListener('keydown', handleKeyDown)
+    return () => window.removeEventListener('keydown', handleKeyDown)
+  }, [selectedNodeId, workflow, deleteNode, addNode, copy, paste, hasContent, setWorkflow, multiSelect])
+
+  // Load node types
+  useEffect(() => {
+    const loadNodeTypes = async () => {
+      try {
+        const response = await fetch('/api/n8n/node-types')
+        if (response.ok) {
+          const types = await response.json()
+          setNodeTypes(types)
+        }
+      } catch (error) {
+        console.warn('Failed to load node types for search')
+      }
+    }
+    loadNodeTypes()
+  }, [])
+
+  // Handle search result selection
+  const handleSelectSearchResult = useCallback(
+    (result: any) => {
+      const selectedResult = handleSelectResult(result)
+
+      if (selectedResult && selectedResult.type === 'node') {
+        // Add node to recent
+        addToRecent(selectedResult.id, selectedResult.label, selectedResult.color || '#7c4dff')
+      }
+    },
+    [handleSelectResult, nodeTypes]
+  )
 
   useEffect(() => {
     const initWorkflow = async () => {
@@ -82,23 +211,23 @@ export default function App() {
       const nodeLog = executionLogs.find(
         (log) => log.nodeId === node.id || log.node_id === node.id
       )
+      const nodeStatus = nodeLog?.status || 'pending'
       return {
         ...node,
         data: {
           ...node.data,
-          status: nodeLog?.status || 'pending',
+          status: nodeStatus as 'pending' | 'running' | 'completed' | 'failed',
         },
       }
     })
 
     if (JSON.stringify(updatedNodes) !== JSON.stringify(workflow.nodes)) {
-      const { setWorkflow: setState } = useWorkflowStore.getState()
-      setState({
+      setWorkflow({
         ...workflow,
         nodes: updatedNodes,
       })
     }
-  }, [executionLogs, workflow])
+  }, [executionLogs, workflow, setWorkflow])
 
   if (isLoading) {
     return (
@@ -151,69 +280,130 @@ export default function App() {
           </div>
         </div>
 
-        {/* Main Content - Canvas takes full space */}
-        <div className="flex-1 overflow-hidden relative" style={{
+        {/* Main Content - Canvas + Execution Panel */}
+        <div className="flex-1 overflow-hidden relative flex flex-row" style={{
           backgroundColor: 'rgb(var(--color-base-100))',
-          display: 'flex',
-          flexDirection: 'column',
         }}>
-          {workflow ? (
-            <div style={{ flex: 1, width: '100%', height: '100%', overflow: 'hidden' }}>
-              <WorkflowCanvas />
-            </div>
-          ) : (
-            <div className="flex items-center justify-center h-full">
-              <div className="text-center">
-                <h2 className="text-2xl font-bold mb-4">No Workflow</h2>
-                <p style={{ color: 'rgb(var(--color-base-400))' }}>Create a new workflow to get started</p>
+          {/* Sidebar - Left Panel */}
+          <div
+            className={`border-r shadow-lg transition-all duration-300 overflow-y-auto ${
+              sidebarOpen ? 'w-80' : 'w-0'
+            }`}
+            style={{
+              backgroundColor: 'rgb(var(--color-base-200))',
+              borderColor: 'rgb(var(--color-base-300))',
+              minWidth: sidebarOpen ? '320px' : '0',
+            }}
+          >
+            {sidebarOpen && (
+              <div className="p-4">
+                <h3 className="font-bold text-sm uppercase mb-4" style={{
+                  color: 'rgb(var(--color-base-500))',
+                }}>
+                  Node Library
+                </h3>
+                <p className="text-xs mb-4" style={{
+                  color: 'rgb(var(--color-base-400))',
+                }}>
+                  Drag components to canvas
+                </p>
+                <NodePalette />
               </div>
-            </div>
-          )}
+            )}
+          </div>
 
-        {/* Floating Sidebar - Components Panel */}
-        <div
-          className={`absolute top-0 left-0 h-full w-80 border-r shadow-lg transition-all duration-300 z-30 overflow-y-auto ${
-            sidebarOpen ? 'translate-x-0' : '-translate-x-full'
-          }`}
-          style={{
-            backgroundColor: 'rgb(var(--color-base-200))',
-            borderColor: 'rgb(var(--color-base-300))',
-          }}
-        >
-          <div className="p-4">
-            <h3 className="font-bold text-sm uppercase mb-4" style={{
-              color: 'rgb(var(--color-base-500))',
-            }}>
-              Node Library
-            </h3>
-            <p className="text-xs mb-4" style={{
-              color: 'rgb(var(--color-base-400))',
-            }}>
-              Drag components to canvas
-            </p>
-            <NodePalette />
+          {/* Center - Canvas + Execution */}
+          <div className="flex-1 overflow-hidden flex flex-col relative">
+            {/* Canvas Area */}
+            <div className="flex-1 overflow-hidden relative">
+              {workflow ? (
+                <div style={{ width: '100%', height: '100%' }}>
+                  <WorkflowCanvas />
+                </div>
+              ) : (
+                <div className="flex items-center justify-center h-full">
+                  <div className="text-center">
+                    <h2 className="text-2xl font-bold mb-4">No Workflow</h2>
+                    <p style={{ color: 'rgb(var(--color-base-400))' }}>Create a new workflow to get started</p>
+                  </div>
+                </div>
+              )}
+            </div>
+
+            {/* Execution Timeline Panel */}
+            <div
+              className="border-t transition-all duration-300"
+              style={{
+                backgroundColor: 'rgb(var(--color-base-200))',
+                borderColor: 'rgb(var(--color-base-300))',
+                height: executionPanelOpen ? '200px' : '40px',
+                overflow: 'hidden',
+              }}
+            >
+              <button
+                onClick={() => setExecutionPanelOpen(!executionPanelOpen)}
+                className="w-full h-10 flex items-center justify-between px-4 hover:bg-opacity-50 transition"
+                style={{ backgroundColor: 'rgb(var(--color-base-300))' }}
+              >
+                <span className="text-xs font-semibold text-gray-400 uppercase">Execution Logs</span>
+                {executionPanelOpen ? (
+                  <ChevronDown size={16} className="text-gray-400" />
+                ) : (
+                  <ChevronUp size={16} className="text-gray-400" />
+                )}
+              </button>
+              {executionPanelOpen && (
+                <div style={{ height: 'calc(100% - 40px)', overflow: 'auto' }}>
+                  <ExecutionTimeline />
+                </div>
+              )}
+            </div>
+
+            {/* Floating Right Panel - Node Config */}
+            {selectedNodeId && (
+              <div className="absolute top-0 right-0 h-full w-80 border-l shadow-lg z-30 overflow-y-auto" style={{
+                backgroundColor: 'rgb(var(--color-base-200))',
+                borderColor: 'rgb(var(--color-base-300))',
+              }}>
+                <div className="p-4">
+                  <h3 className="font-bold text-sm uppercase mb-4" style={{
+                    color: 'rgb(var(--color-base-500))',
+                  }}>
+                    Node Configuration
+                  </h3>
+                  <NodeConfigPanel nodeId={selectedNodeId} />
+                </div>
+              </div>
+            )}
           </div>
         </div>
-
-        {/* Floating Right Panel - Node Config */}
-        {selectedNodeId && (
-          <div className="absolute top-0 right-0 h-full w-80 border-l shadow-lg z-30 overflow-y-auto" style={{
-            backgroundColor: 'rgb(var(--color-base-200))',
-            borderColor: 'rgb(var(--color-base-300))',
-          }}>
-            <div className="p-4">
-              <h3 className="font-bold text-sm uppercase mb-4" style={{
-                color: 'rgb(var(--color-base-500))',
-              }}>
-                Node Configuration
-              </h3>
-              <NodeConfigPanel nodeId={selectedNodeId} />
-            </div>
-          </div>
-        )}
+        {/* Search Dialog */}
+        <SearchDialog
+          isOpen={searchOpen}
+          query={query}
+          results={results}
+          selectedIndex={selectedIndex}
+          isLoading={searchLoading}
+          history={history}
+          onQueryChange={handleSearch}
+          onClearQuery={clearQuery}
+          onSelectResult={handleSelectSearchResult}
+          onClose={closeSearch}
+          onNavigate={handleNavigate}
+          onClearHistory={clearHistory}
+        />
       </div>
-    </div>
     </ReactFlowProvider>
+  )
+}
+
+export default function App() {
+  return (
+    <WorkflowProvider>
+      <ExecutionProvider>
+        <AppContent />
+      </ExecutionProvider>
+    </WorkflowProvider>
   )
 }
 

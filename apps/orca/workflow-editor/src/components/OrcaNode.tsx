@@ -1,5 +1,6 @@
 import { Handle, Position } from '@xyflow/react'
-import { useWorkflowStore } from '../store/workflowStore'
+import { useWorkflowOperations } from '../hooks/useWorkflowOperations'
+import { useExecutionStatus } from '../hooks/useExecutionStatus'
 import { getNodeIcon } from '../utils/nodeIcons'
 
 const statusColors = {
@@ -10,15 +11,17 @@ const statusColors = {
 }
 
 export default function OrcaNode({ data, id, selected, isConnecting }: any) {
-  const selectNode = useWorkflowStore((state) => state.selectNode)
-  const executionLogs = useWorkflowStore((state) => state.executionLogs)
+  const { selectNode } = useWorkflowOperations()
+  const { getNodeLog } = useExecutionStatus()
 
-  const nodeStatus = executionLogs.find(
-    (log) => log.nodeId === id || log.node_id === id
-  )?.status || 'pending'
+  const nodeLog = getNodeLog(id)
+  const nodeStatus = nodeLog?.status || 'pending'
+  const errorMessage = nodeLog?.error || nodeLog?.message
 
   const statusColor = statusColors[nodeStatus as keyof typeof statusColors] || statusColors.pending
   const isRunning = nodeStatus === 'running'
+  const isFailed = nodeStatus === 'failed'
+  const isCompleted = nodeStatus === 'completed'
   const IconComponent = getNodeIcon(data.type)
 
   return (
@@ -26,12 +29,14 @@ export default function OrcaNode({ data, id, selected, isConnecting }: any) {
       onClick={() => selectNode(id)}
       className={`
         px-0 py-0 rounded border-2 transition cursor-pointer
-        hover:opacity-80 relative w-48
+        hover:opacity-80 relative w-48 group
         ${selected
           ? 'border-[rgb(var(--color-primary-400))] shadow-lg'
           : 'border-[rgba(var(--color-base-300))] hover:border-[rgba(var(--color-base-400))]'
         }
         ${isRunning ? 'node-running' : ''}
+        ${isFailed ? 'border-[rgb(237_49_93)]' : ''}
+        ${isCompleted ? 'border-[rgb(15_163_136)]' : ''}
       `}
       style={{
         backgroundColor: 'rgb(var(--color-base-200))',
@@ -39,6 +44,7 @@ export default function OrcaNode({ data, id, selected, isConnecting }: any) {
         borderLeftWidth: '6px',
         boxShadow: selected ? '0 4px 12px rgba(var(--color-primary-400) / 0.3)' : 'none',
       }}
+      title={errorMessage || undefined}
     >
       {/* Status Badge */}
       <div
@@ -50,11 +56,18 @@ export default function OrcaNode({ data, id, selected, isConnecting }: any) {
         }}
       />
 
+      {/* Error Tooltip */}
+      {errorMessage && (
+        <div className="absolute -top-10 left-0 hidden group-hover:block bg-[rgb(237_49_93)] text-white text-xs px-2 py-1 rounded z-10 w-48 break-words">
+          {errorMessage}
+        </div>
+      )}
+
       {/* Content */}
       <div className="flex gap-3 p-3">
         {/* Icon Box */}
         <div
-          className="flex items-center justify-center w-10 h-10 rounded-lg flex-shrink-0"
+          className="flex items-center justify-center w-10 h-10 rounded-lg flex-shrink-0 relative"
           style={{
             backgroundColor: `${data.color || 'rgb(var(--color-primary-400))'}20`,
           }}
@@ -65,18 +78,30 @@ export default function OrcaNode({ data, id, selected, isConnecting }: any) {
               style={{ color: data.color || 'rgb(var(--color-primary-400))' }}
             />
           )}
+          {isRunning && (
+            <div className="absolute inset-0 rounded-lg animate-pulse" style={{
+              backgroundColor: 'rgba(255, 193, 7, 0.2)',
+            }} />
+          )}
         </div>
 
         {/* Label and Type */}
-        <div className="flex flex-col justify-center min-w-0">
+        <div className="flex flex-col justify-center min-w-0 flex-1">
           <div className="font-medium text-[rgb(var(--color-base-700))] text-sm truncate">
             {data.label}
           </div>
-          {data.type && (
-            <div className="text-xs text-[rgba(var(--color-base-400))] truncate">
-              {data.type.split('.').pop()}
-            </div>
-          )}
+          <div className="flex justify-between items-baseline gap-2">
+            {data.type && (
+              <div className="text-xs text-[rgba(var(--color-base-400))] truncate">
+                {data.type.split('.').pop()}
+              </div>
+            )}
+            {nodeStatus !== 'pending' && (
+              <div className="text-xs font-semibold capitalize" style={{ color: statusColor }}>
+                {nodeStatus}
+              </div>
+            )}
+          </div>
         </div>
       </div>
 

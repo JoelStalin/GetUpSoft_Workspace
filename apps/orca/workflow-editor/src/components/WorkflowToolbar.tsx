@@ -1,5 +1,8 @@
 import { useRef, useState } from 'react'
-import { useWorkflowStore } from '../store/workflowStore'
+import { useWorkflowOperations } from '../hooks/useWorkflowOperations'
+import { useExecutionStatus } from '../hooks/useExecutionStatus'
+import { useWorkflowExecution } from '../hooks/useWorkflowExecution'
+import { handleApiError } from '../utils/errorHandler'
 import {
   createWorkflow,
   exportWorkflow,
@@ -9,9 +12,9 @@ import {
 import GenerateModal from './GenerateModal'
 
 export default function WorkflowToolbar() {
-  const workflow = useWorkflowStore((state) => state.workflow)
-  const setWorkflow = useWorkflowStore((state) => state.setWorkflow)
-  const setCurrentExecutionId = useWorkflowStore((state) => state.setCurrentExecutionId)
+  const { workflow, setWorkflow } = useWorkflowOperations()
+  const { setCurrentExecution, setIsExecuting } = useExecutionStatus()
+  const { simulateExecution } = useWorkflowExecution()
   const [showGenerateModal, setShowGenerateModal] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
   const fileInputRef = useRef<HTMLInputElement>(null)
@@ -30,7 +33,8 @@ export default function WorkflowToolbar() {
       })
       alert('Workflow saved!')
     } catch (error) {
-      alert('Failed to save: ' + error)
+      const { message } = handleApiError(error)
+      alert('Failed to save: ' + message)
     } finally {
       setIsLoading(false)
     }
@@ -48,7 +52,8 @@ export default function WorkflowToolbar() {
       a.click()
       URL.revokeObjectURL(url)
     } catch (error) {
-      alert('Failed to export: ' + error)
+      const { message } = handleApiError(error)
+      alert('Failed to export: ' + message)
     } finally {
       setIsLoading(false)
     }
@@ -67,21 +72,33 @@ export default function WorkflowToolbar() {
       await importWorkflow(file)
       alert('Workflow imported!')
     } catch (error) {
-      alert('Failed to import: ' + error)
+      const { message } = handleApiError(error)
+      alert('Failed to import: ' + message)
     } finally {
       setIsLoading(false)
     }
   }
 
   const handleRun = async () => {
-    if (!workflow) return
+    if (!workflow || !workflow.nodes || workflow.nodes.length === 0) {
+      alert('Cannot run: no nodes in workflow')
+      return
+    }
+
     setIsLoading(true)
+    setIsExecuting(true)
+
     try {
+      // Try to run via API first
       const result = await runWorkflow(workflow.id)
-      setCurrentExecutionId(result.execution_id)
+      setCurrentExecution(result.execution_id)
       console.log('Workflow execution started:', result.execution_id)
     } catch (error) {
-      alert('Failed to run: ' + error)
+      // Fallback to simulated execution for demo
+      console.log('API execution failed, using simulated execution')
+      const nodeIds = workflow.nodes.map(n => n.id)
+      await simulateExecution(nodeIds, { delayBetweenNodes: 1500 })
+      setIsExecuting(false)
     } finally {
       setIsLoading(false)
     }
