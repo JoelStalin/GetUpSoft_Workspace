@@ -89,18 +89,9 @@ export default function WorkflowToolbar() {
 
   return (
     <>
-      <div className="border-b border-gray-700 bg-[#1a1b1e] px-4 py-3">
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-4">
-            <h1 className="text-lg font-bold">
-              {workflow?.name || 'Workflow Editor'}
-            </h1>
-          </div>
-
-          <div className="flex items-center gap-2">
+      <div className="workflow-toolbar">
             <button
               onClick={() => setShowGenerateModal(true)}
-              className="px-4 py-2 bg-[#7c4dff] hover:bg-[#6a3ecc] rounded text-white text-sm font-medium transition disabled:opacity-50"
               disabled={isLoading}
             >
               ✨ Generate
@@ -108,7 +99,6 @@ export default function WorkflowToolbar() {
 
             <button
               onClick={handleImport}
-              className="px-4 py-2 bg-[#1a9ba1] hover:bg-[#157d88] rounded text-white text-sm font-medium transition disabled:opacity-50"
               disabled={isLoading}
             >
               📥 Import
@@ -116,7 +106,6 @@ export default function WorkflowToolbar() {
 
             <button
               onClick={handleExport}
-              className="px-4 py-2 bg-[#10ac84] hover:bg-[#0d956f] rounded text-white text-sm font-medium transition disabled:opacity-50"
               disabled={!workflow || isLoading}
             >
               📥 Export
@@ -124,7 +113,6 @@ export default function WorkflowToolbar() {
 
             <button
               onClick={handleSave}
-              className="px-4 py-2 bg-[#10ac84] hover:bg-[#0d956f] rounded text-white text-sm font-medium transition disabled:opacity-50"
               disabled={!workflow || isLoading}
             >
               💾 Save
@@ -132,13 +120,10 @@ export default function WorkflowToolbar() {
 
             <button
               onClick={handleRun}
-              className="px-4 py-2 bg-[#ff9f43] hover:bg-[#e68a33] rounded text-white text-sm font-medium transition disabled:opacity-50"
               disabled={!workflow || isLoading}
             >
               ▶️ Run
             </button>
-          </div>
-        </div>
       </div>
 
       <input
@@ -146,7 +131,7 @@ export default function WorkflowToolbar() {
         type="file"
         accept=".json"
         onChange={handleImportFile}
-        className="hidden"
+        className="workflow-file-input"
       />
 
       {showGenerateModal && (

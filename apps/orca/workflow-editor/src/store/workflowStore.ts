@@ -44,10 +44,13 @@ interface WorkflowStore {
   isRunning: boolean
   executionLogs: ExecutionLog[]
   currentExecutionId: string | null
+  history: Workflow[]
+  future: Workflow[]
 
   // Actions
   setWorkflow: (workflow: Workflow | null) => void
   selectNode: (nodeId: string | null) => void
+  setSelectedNodeId: (nodeId: string | null) => void
   addNode: (node: WorkflowNode) => void
   updateNode: (nodeId: string, data: Partial<WorkflowNode>) => void
   deleteNode: (nodeId: string) => void
@@ -57,6 +60,9 @@ interface WorkflowStore {
   addExecutionLog: (log: ExecutionLog) => void
   clearExecutionLogs: () => void
   setCurrentExecutionId: (id: string | null) => void
+  pushHistory: () => void
+  undo: () => void
+  redo: () => void
 }
 
 export const useWorkflowStore = create<WorkflowStore>((set) => ({
@@ -65,10 +71,50 @@ export const useWorkflowStore = create<WorkflowStore>((set) => ({
   isRunning: false,
   executionLogs: [],
   currentExecutionId: null,
+  history: [],
+  future: [],
 
-  setWorkflow: (workflow) => set({ workflow }),
+  setWorkflow: (workflow) => set({ workflow, history: [], future: [] }),
 
   selectNode: (nodeId) => set({ selectedNodeId: nodeId }),
+
+  setSelectedNodeId: (nodeId) => set({ selectedNodeId: nodeId }),
+
+  pushHistory: () =>
+    set((state) => {
+      if (!state.workflow) return state
+      const newHistory = [...state.history, JSON.parse(JSON.stringify(state.workflow))]
+      return {
+        history: newHistory.slice(-20),
+        future: [],
+      }
+    }),
+
+  undo: () =>
+    set((state) => {
+      if (state.history.length === 0) return state
+      const newHistory = [...state.history]
+      const workflowToRestore = newHistory.pop()
+      const newFuture = state.workflow ? [...state.future, state.workflow] : state.future
+      return {
+        workflow: workflowToRestore || null,
+        history: newHistory,
+        future: newFuture,
+      }
+    }),
+
+  redo: () =>
+    set((state) => {
+      if (state.future.length === 0) return state
+      const newFuture = [...state.future]
+      const workflowToRestore = newFuture.pop()
+      const newHistory = state.workflow ? [...state.history, state.workflow] : state.history
+      return {
+        workflow: workflowToRestore || null,
+        history: newHistory,
+        future: newFuture,
+      }
+    }),
 
   addNode: (node) =>
     set((state) => {
@@ -79,6 +125,7 @@ export const useWorkflowStore = create<WorkflowStore>((set) => ({
           nodes: [...state.workflow.nodes, node],
           updatedAt: new Date().toISOString(),
         },
+        future: [],
       }
     }),
 
@@ -93,6 +140,7 @@ export const useWorkflowStore = create<WorkflowStore>((set) => ({
           ),
           updatedAt: new Date().toISOString(),
         },
+        future: [],
       }
     }),
 
@@ -109,13 +157,13 @@ export const useWorkflowStore = create<WorkflowStore>((set) => ({
           updatedAt: new Date().toISOString(),
         },
         selectedNodeId: state.selectedNodeId === nodeId ? null : state.selectedNodeId,
+        future: [],
       }
     }),
 
   addEdge: (edge) =>
     set((state) => {
       if (!state.workflow) return state
-      // Avoid duplicate edges
       const exists = state.workflow.edges.some(
         (e) => e.source === edge.source && e.target === edge.target
       )
@@ -126,6 +174,7 @@ export const useWorkflowStore = create<WorkflowStore>((set) => ({
           edges: [...state.workflow.edges, edge],
           updatedAt: new Date().toISOString(),
         },
+        future: [],
       }
     }),
 
@@ -138,6 +187,7 @@ export const useWorkflowStore = create<WorkflowStore>((set) => ({
           edges: state.workflow.edges.filter((e) => e.id !== edgeId),
           updatedAt: new Date().toISOString(),
         },
+        future: [],
       }
     }),
 

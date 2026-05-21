@@ -2,25 +2,26 @@ import { useEffect, useState } from 'react'
 import { getNodeTypes } from '../api/orcaApi'
 import { useWorkflowStore } from '../store/workflowStore'
 import { Node } from '@xyflow/react'
+import { Search } from 'lucide-react'
 
 export default function NodePalette() {
   const [nodeTypes, setNodeTypes] = useState<any>({})
+  const [searchTerm, setSearchTerm] = useState('')
+  const [expandedCategories, setExpandedCategories] = useState<Record<string, boolean>>({})
   const addNode = useWorkflowStore((state) => state.addNode)
+  const pushHistory = useWorkflowStore((state) => state.pushHistory)
 
   useEffect(() => {
     const loadNodeTypes = async () => {
       try {
         const types = await getNodeTypes()
-        // Backend returns objects with 'type' property - convert to simple key:value
+        // Backend returns objects with 'type' property
         if (types && typeof types === 'object' && Object.keys(types).length > 0) {
-          console.log('Loaded node types from backend:', Object.keys(types).length)
           setNodeTypes(types)
         } else {
-          console.log('Backend returned empty node types, using defaults')
           setNodeTypes(getDefaultNodeTypes())
         }
       } catch (error) {
-        console.log('Failed to load node types, using defaults:', error)
         setNodeTypes(getDefaultNodeTypes())
       }
     }
@@ -36,6 +37,7 @@ export default function NodePalette() {
   }
 
   const handleAddNode = (_nodeType: string, typeInfo: any) => {
+    pushHistory()
     const node: Node = {
       id: `node-${Date.now()}`,
       type: 'default',
@@ -49,41 +51,113 @@ export default function NodePalette() {
     addNode(node as any)
   }
 
-  return (
-    <div className="p-4 h-full flex flex-col">
-      <h3 className="font-bold mb-4 text-sm uppercase text-gray-400">
-        Node Types
-      </h3>
+  const getCategory = (nodeType: string): string => {
+    if (nodeType.includes('trigger')) return 'Triggers'
+    if (nodeType.includes('aiPrompt')) return 'AI'
+    if (nodeType.includes('http')) return 'Network'
+    if (nodeType.includes('condition') || nodeType.includes('loop')) return 'Control Flow'
+    return 'Utils'
+  }
 
-      <div className="space-y-2 flex-1 overflow-y-auto">
-        {Object.entries(nodeTypes).map(([key, info]: [string, any]) => (
-          <div
-            key={key}
-            draggable
-            onDragStart={(e) => onDragStart(e, key)}
-            onClick={() => handleAddNode(key, info)}
-            className="p-3 bg-[#2d2d2d] hover:bg-[#404040] rounded cursor-move text-sm border border-gray-700 hover:border-gray-600 transition"
-            style={{
-              borderLeftColor: info.color || '#7c4dff',
-              borderLeftWidth: '4px',
-            }}
-          >
-            <div className="font-medium text-white">{info.label}</div>
-            <div className="text-xs text-gray-400 mt-1">{info.description}</div>
-            <div className="text-xs text-gray-500 mt-2">
-              {info.inputs} → {info.outputs}
-            </div>
+  const grouped = Object.entries(nodeTypes).reduce(
+    (acc, [key, info]: [string, any]) => {
+      const category = getCategory(key)
+      if (!acc[category]) acc[category] = []
+      acc[category].push([key, info])
+      return acc
+    },
+    {} as Record<string, [string, any][]>
+  )
+
+  const filtered = Object.entries(grouped).reduce(
+    (acc, [category, items]) => {
+      const filtered = items.filter(
+        ([, info]: [string, any]) =>
+          info.label.toLowerCase().includes(searchTerm.toLowerCase()) ||
+          info.description?.toLowerCase().includes(searchTerm.toLowerCase())
+      )
+      if (filtered.length > 0) {
+        acc[category] = filtered
+      }
+      return acc
+    },
+    {} as Record<string, [string, any][]>
+  )
+
+  return (
+    <div className="space-y-3">
+      {/* Search Input */}
+      <div className="relative">
+        <Search size={16} className="absolute left-3 top-2.5 text-gray-500" />
+        <input
+          type="text"
+          placeholder="Search nodes..."
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+          className="w-full pl-8 pr-3 py-2 bg-[#0a0e27] border border-gray-700 rounded text-sm text-white placeholder-gray-500 focus:outline-none focus:border-[#7c4dff]"
+        />
+      </div>
+
+      {/* Categories */}
+      <div className="space-y-2">
+        {Object.entries(filtered).map(([category, items]) => (
+          <div key={category} className="node-item">
+            <button
+              onClick={() =>
+                setExpandedCategories((prev) => ({
+                  ...prev,
+                  [category]: !prev[category],
+                }))
+              }
+              className="w-full text-left text-xs font-semibold text-gray-400 hover:text-gray-300 flex items-center justify-between px-2 py-2 rounded hover:bg-[#1a1f3a] transition"
+            >
+              <span>{category}</span>
+              <span className="text-xs bg-[#2d3550] px-2 py-1 rounded">
+                {items.length}
+              </span>
+            </button>
+
+            {(expandedCategories[category] !== false || !expandedCategories[category] === undefined) && (
+              <div className="space-y-1 ml-2">
+                {items.map(([key, info]: [string, any]) => (
+                  <div
+                    key={key}
+                    draggable
+                    onDragStart={(e) => onDragStart(e, key)}
+                    onClick={() => handleAddNode(key, info)}
+                    className="node-row hover:brightness-110 transition-all cursor-grab active:cursor-grabbing"
+                    style={{
+                      backgroundColor: hexToPanelColor(info.color || '#30343a'),
+                      borderLeft: `4px solid ${info.color || '#30343a'}`,
+                      padding: '8px 12px',
+                      borderRadius: '6px',
+                    }}
+                  >
+                    <div className="node-row-title font-semibold text-sm">
+                      {info.label}
+                    </div>
+                    <div className="node-row-description text-xs text-gray-400 mt-0.5">
+                      {info.description}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
           </div>
         ))}
       </div>
-
-      <div className="mt-4 pt-4 border-t border-gray-700">
-        <button className="w-full px-3 py-2 bg-[#7c4dff] hover:bg-[#6a3ecc] rounded text-white text-sm font-medium transition">
-          + Create Blank
-        </button>
-      </div>
     </div>
   )
+}
+
+function hexToPanelColor(hex: string) {
+  if (!hex.startsWith('#') || hex.length !== 7) return 'rgba(48, 52, 58, 0.48)'
+
+  const red = Number.parseInt(hex.slice(1, 3), 16)
+  const green = Number.parseInt(hex.slice(3, 5), 16)
+  const blue = Number.parseInt(hex.slice(5, 7), 16)
+
+  return `rgba(${red}, ${green}, ${blue}, 0.12)`
 }
 
 function getDefaultNodeTypes() {

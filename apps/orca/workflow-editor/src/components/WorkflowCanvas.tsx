@@ -26,6 +26,9 @@ export default function WorkflowCanvas() {
   const addNode = useWorkflowStore((state) => state.addNode)
   const updateNode = useWorkflowStore((state) => state.updateNode)
   const addEdgeToStore = useWorkflowStore((state) => state.addEdge)
+  const pushHistory = useWorkflowStore((state) => state.pushHistory)
+  const undo = useWorkflowStore((state) => state.undo)
+  const redo = useWorkflowStore((state) => state.redo)
 
   const reactFlowWrapper = useRef<HTMLDivElement>(null)
   const { project } = useReactFlow() as any
@@ -47,6 +50,31 @@ export default function WorkflowCanvas() {
     }
   }, [workflow?.edges, setEdges])
 
+  // Keyboard shortcuts for undo/redo
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if ((e.ctrlKey || e.metaKey) && e.key === 'z') {
+        e.preventDefault()
+        pushHistory()
+        undo()
+      }
+      if ((e.ctrlKey || e.metaKey) && (e.key === 'y' || (e.shiftKey && e.key === 'z'))) {
+        e.preventDefault()
+        redo()
+      }
+      if (e.key === 'Delete' || e.key === 'Backspace') {
+        if (selectedNodeId) {
+          e.preventDefault()
+          pushHistory()
+          useWorkflowStore.getState().deleteNode(selectedNodeId)
+        }
+      }
+    }
+
+    window.addEventListener('keydown', handleKeyDown)
+    return () => window.removeEventListener('keydown', handleKeyDown)
+  }, [selectedNodeId, pushHistory, undo, redo])
+
   // Sync node position changes back to store
   const handleNodesChange = useCallback(
     (changes: any[]) => {
@@ -63,15 +91,19 @@ export default function WorkflowCanvas() {
   // Handle node-to-node connections
   const handleConnect = useCallback(
     (connection: Connection) => {
+      pushHistory()
       const edge = {
         id: `${connection.source}-${connection.target}`,
         source: connection.source || '',
         target: connection.target || '',
+        animated: true,
+        type: 'smoothstep',
+        style: { stroke: '#7c4dff', strokeWidth: 2 },
       }
       setEdges((eds: any[]) => addEdgeUtil(connection, eds))
       addEdgeToStore(edge)
     },
-    [setEdges, addEdgeToStore]
+    [setEdges, addEdgeToStore, pushHistory]
   )
 
   // Handle drag over
@@ -90,6 +122,8 @@ export default function WorkflowCanvas() {
 
       const nodeType = event.dataTransfer.getData('application/reactflow')
       if (!nodeType) return
+
+      pushHistory()
 
       const position = project({
         x: event.clientX - reactFlowBounds.left,
@@ -110,7 +144,7 @@ export default function WorkflowCanvas() {
       addNode(newNode as any)
       setNodes((nds: any[]) => [...nds, newNode])
     },
-    [project, addNode, setNodes]
+    [project, addNode, setNodes, pushHistory]
   )
 
   return (
@@ -128,13 +162,24 @@ export default function WorkflowCanvas() {
         onConnect={handleConnect}
         nodeTypes={nodeTypes}
         fitView
+        colorMode="dark"
+        deleteKeyCode={['Backspace', 'Delete']}
+        connectionLineStyle={{ stroke: '#7c4dff', strokeWidth: 2 }}
       >
-        <Background />
-        <Controls />
+        <Background color="#404040" gap={16} size={2} />
+        <Controls position="bottom-right" />
         <MiniMap
-          nodeColor={(node) => (selectedNodeId === node.id ? '#7c4dff' : '#2d2d2d')}
+          nodeColor={(node) => {
+            if (selectedNodeId === node.id) return '#7c4dff'
+            return node.data?.color || '#2d2d2d'
+          }}
           pannable
           zoomable
+          position="bottom-left"
+          style={{
+            backgroundColor: '#1a1f3a',
+            borderRadius: '8px',
+          }}
         />
       </ReactFlow>
     </div>
