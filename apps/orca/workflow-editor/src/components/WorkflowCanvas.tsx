@@ -215,7 +215,7 @@ export default function WorkflowCanvas() {
         deleteKeyCode={['Backspace', 'Delete']}
         connectionLineStyle={{ stroke: '#7c4dff', strokeWidth: 2 }}
       >
-        <Background color="rgb(var(--color-base-300))" gap={16} size={2} />
+        <Background color="#1a1e35" gap={16} size={1} />
         <Controls position="bottom-right" />
         <MiniMap
           nodeColor={(node: any): string => {
@@ -226,8 +226,9 @@ export default function WorkflowCanvas() {
           zoomable
           position="bottom-left"
           style={{
-            backgroundColor: 'rgba(var(--color-base-200))',
+            backgroundColor: 'rgba(15, 18, 40, 0.8)',
             borderRadius: '8px',
+            border: '1px solid rgba(124, 77, 255, 0.2)',
           }}
         />
       </ReactFlow>
