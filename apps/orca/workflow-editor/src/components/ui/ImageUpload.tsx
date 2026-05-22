@@ -3,16 +3,21 @@ import { Upload, X } from 'lucide-react'
 import { useDropzone } from 'react-dropzone'
 
 interface ImageUploadProps {
-  onImageSelect: (imageUrl: string) => void
+  onImageSelect?: (imageUrl: string) => void
+  onChange?: (imageUrl: string) => void
+  value?: string
   maxSize?: number
   multiple?: boolean
 }
 
 export default function ImageUpload({
   onImageSelect,
+  onChange,
+  value,
   maxSize = 5242880, // 5MB default
   multiple = false,
 }: ImageUploadProps) {
+  const handleImageChange = onChange || onImageSelect
   const [selectedImages, setSelectedImages] = useState<Array<{ url: string; name: string }>>([])
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
@@ -20,11 +25,12 @@ export default function ImageUpload({
   const onDrop = useCallback(
     (acceptedFiles: File[]) => {
       setError(null)
-      
+
       acceptedFiles.forEach((file) => {
         // Validate file size
-        if (file.size > maxSize) {
-          setError(`File ${file.name} exceeds ${maxSize / 1024 / 1024}MB limit`)
+        const maxSizeBytes = typeof maxSize === 'number' && maxSize < 100 ? maxSize * 1024 * 1024 : maxSize
+        if (file.size > maxSizeBytes) {
+          setError(`File ${file.name} exceeds ${maxSizeBytes / 1024 / 1024}MB limit`)
           return
         }
 
@@ -39,12 +45,14 @@ export default function ImageUpload({
         reader.onload = (e) => {
           const url = e.target?.result as string
           const newImage = { url, name: file.name }
-          
+
           if (multiple) {
             setSelectedImages((prev) => [...prev, newImage])
           } else {
             setSelectedImages([newImage])
-            onImageSelect(url)
+            if (handleImageChange) {
+              handleImageChange(url)
+            }
           }
         }
         reader.readAsDataURL(file)

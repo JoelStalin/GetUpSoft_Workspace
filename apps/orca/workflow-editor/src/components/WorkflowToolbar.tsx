@@ -66,9 +66,9 @@ export default function WorkflowToolbar({
   }
 
   const modes = [
-    { id: 'canvas' as const, label: 'Web Design', icon: Globe },
-    { id: 'properties' as const, label: 'Workflow', icon: Network },
-    { id: 'version' as const, label: 'Mobile Design', icon: Smartphone },
+    { id: 'canvas' as const, label: 'Web Design', icon: <Globe size={14} /> },
+    { id: 'properties' as const, label: 'Workflow', icon: <Network size={14} /> },
+    { id: 'version' as const, label: 'Mobile Design', icon: <Smartphone size={14} /> },
   ]
 
   return (
