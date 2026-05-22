@@ -15,6 +15,7 @@ import {
 import '@xyflow/react/dist/style.css'
 import { useWorkflowOperations } from '../hooks/useWorkflowOperations'
 import { useWorkflowHistory } from '../hooks/useWorkflowHistory'
+import { wouldCreateCycle, isValidConnection as validateConnection } from '../utils/connectionValidation'
 import OrcaNode from './OrcaNode'
 
 const nodeTypes = {
@@ -94,21 +95,21 @@ export default function WorkflowCanvas() {
     [onNodesChange, updateNode]
   )
 
-  // Validate connection - prevent self-loops and circular references
+  // Validate connection - prevent self-loops, duplicates, and cycles
   const isValidConnection = useCallback((connection: Connection) => {
-    if (connection.source === connection.target) {
-      return false
+    const result = validateConnection(
+      connection.source || null,
+      connection.target || null,
+      edges,
+      nodes
+    )
+
+    if (!result.valid) {
+      console.warn('Invalid connection:', result.reason)
     }
 
-    const sourceNode = nodes.find((n) => n.id === connection.source)
-    const targetNode = nodes.find((n) => n.id === connection.target)
-
-    if (!sourceNode || !targetNode) {
-      return false
-    }
-
-    return true
-  }, [nodes])
+    return result.valid
+  }, [nodes, edges])
 
   // Get edge style based on connection metadata
   const getEdgeStyle = useCallback((edge: any) => {
