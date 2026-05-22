@@ -1,24 +1,29 @@
 import { useEditor, EditorContent } from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'
 import Placeholder from '@tiptap/extension-placeholder'
-import { Bold, Italic, Code, List, ListOrdered, Heading2, Undo2, Redo2, Link } from 'lucide-react'
+import Image from '@tiptap/extension-image'
+import { Bold, Italic, Code, List, Link2, Heading2 } from 'lucide-react'
+import { useCallback } from 'react'
 
 interface RichTextEditorProps {
   value: string
-  onChange: (value: string) => void
+  onChange: (html: string) => void
   placeholder?: string
   simple?: boolean
+  minHeight?: number
 }
 
 export default function RichTextEditor({
   value,
   onChange,
-  placeholder = 'Write something...',
+  placeholder = 'Enter text...',
   simple = false,
+  minHeight = 200,
 }: RichTextEditorProps) {
   const editor = useEditor({
     extensions: [
       StarterKit,
+      Image,
       Placeholder.configure({
         placeholder,
       }),
@@ -27,29 +32,50 @@ export default function RichTextEditor({
     onUpdate: ({ editor }) => {
       onChange(editor.getHTML())
     },
-    immediatelyRender: false,
+    editorProps: {
+      attributes: {
+        class: 'prose prose-invert',
+      },
+    },
   })
 
-  if (!editor) {
-    return null
-  }
+  const toggleBold = useCallback(() => {
+    editor?.chain().focus().toggleBold().run()
+  }, [editor])
 
-  const toolbarButtons = simple
-    ? [
-        { icon: Bold, action: () => editor.chain().focus().toggleBold().run(), label: 'Bold' },
-        { icon: Italic, action: () => editor.chain().focus().toggleItalic().run(), label: 'Italic' },
-        { icon: Code, action: () => editor.chain().focus().toggleCode().run(), label: 'Code' },
-      ]
-    : [
-        { icon: Heading2, action: () => editor.chain().focus().toggleHeading({ level: 2 }).run(), label: 'Heading' },
-        { icon: Bold, action: () => editor.chain().focus().toggleBold().run(), label: 'Bold' },
-        { icon: Italic, action: () => editor.chain().focus().toggleItalic().run(), label: 'Italic' },
-        { icon: Code, action: () => editor.chain().focus().toggleCode().run(), label: 'Code' },
-        { icon: List, action: () => editor.chain().focus().toggleBulletList().run(), label: 'Bullet List' },
-        { icon: ListOrdered, action: () => editor.chain().focus().toggleOrderedList().run(), label: 'Ordered List' },
-        { icon: Undo2, action: () => editor.chain().focus().undo().run(), label: 'Undo' },
-        { icon: Redo2, action: () => editor.chain().focus().redo().run(), label: 'Redo' },
-      ]
+  const toggleItalic = useCallback(() => {
+    editor?.chain().focus().toggleItalic().run()
+  }, [editor])
+
+  const toggleCode = useCallback(() => {
+    editor?.chain().focus().toggleCode().run()
+  }, [editor])
+
+  const toggleBulletList = useCallback(() => {
+    editor?.chain().focus().toggleBulletList().run()
+  }, [editor])
+
+  const toggleHeading = useCallback(() => {
+    editor?.chain().focus().toggleHeading({ level: 2 }).run()
+  }, [editor])
+
+  const addLink = useCallback(() => {
+    const url = prompt('Enter URL:')
+    if (url) {
+      editor?.chain().focus().extendMarkRange('link').setLink({ href: url }).run()
+    }
+  }, [editor])
+
+  const addImage = useCallback(() => {
+    const url = prompt('Enter image URL:')
+    if (url) {
+      editor?.chain().focus().setImage({ src: url }).run()
+    }
+  }, [editor])
+
+  if (!editor) {
+    return <div>Loading editor...</div>
+  }
 
   return (
     <div
@@ -57,138 +83,125 @@ export default function RichTextEditor({
         display: 'flex',
         flexDirection: 'column',
         gap: '8px',
-        width: '100%',
-        borderRadius: '8px',
-        border: '1px solid var(--stitch-border)',
+        borderRadius: '6px',
         overflow: 'hidden',
-        backgroundColor: 'rgb(var(--color-base-300))',
+        border: '1px solid var(--stitch-border)',
+        backgroundColor: 'rgb(var(--color-base-100))',
       }}
     >
       {/* Toolbar */}
       <div
         style={{
           display: 'flex',
-          alignItems: 'center',
           gap: '4px',
           padding: '8px',
           borderBottom: '1px solid var(--stitch-border)',
-          backgroundColor: 'rgb(var(--color-base-200))',
+          backgroundColor: 'rgba(var(--color-base-300), 0.3)',
           flexWrap: 'wrap',
+          alignItems: 'center',
         }}
       >
-        {toolbarButtons.map(({ icon: Icon, action, label }) => (
-          <button
-            key={label}
-            onClick={action}
-            title={label}
-            style={{
-              padding: '6px',
-              borderRadius: '4px',
-              backgroundColor: 'transparent',
-              border: '1px solid var(--stitch-border)',
-              color: 'var(--stitch-muted)',
-              cursor: 'pointer',
-              display: 'flex',
-              alignItems: 'center',
-              transition: 'all 0.2s ease',
-            }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.backgroundColor = 'var(--stitch-hover)'
-              e.currentTarget.style.color = 'var(--stitch-accent)'
-              e.currentTarget.style.borderColor = 'var(--stitch-accent)'
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.backgroundColor = 'transparent'
-              e.currentTarget.style.color = 'var(--stitch-muted)'
-              e.currentTarget.style.borderColor = 'var(--stitch-border)'
-            }}
-          >
-            <Icon size={14} />
-          </button>
-        ))}
+        <ToolbarButton
+          icon={<Bold size={16} />}
+          onClick={toggleBold}
+          active={editor.isActive('bold')}
+          title="Bold"
+        />
+        <ToolbarButton
+          icon={<Italic size={16} />}
+          onClick={toggleItalic}
+          active={editor.isActive('italic')}
+          title="Italic"
+        />
+        <ToolbarButton
+          icon={<Code size={16} />}
+          onClick={toggleCode}
+          active={editor.isActive('code')}
+          title="Code"
+        />
+
+        {!simple && (
+          <>
+            <div style={{ width: '1px', height: '20px', backgroundColor: 'var(--stitch-border)' }} />
+
+            <ToolbarButton
+              icon={<Heading2 size={16} />}
+              onClick={toggleHeading}
+              active={editor.isActive('heading', { level: 2 })}
+              title="Heading"
+            />
+            <ToolbarButton
+              icon={<List size={16} />}
+              onClick={toggleBulletList}
+              active={editor.isActive('bulletList')}
+              title="List"
+            />
+            <ToolbarButton
+              icon={<Link2 size={16} />}
+              onClick={addLink}
+              active={editor.isActive('link')}
+              title="Link"
+            />
+          </>
+        )}
       </div>
 
       {/* Editor */}
       <div
         style={{
-          flex: 1,
-          overflow: 'auto',
           padding: '12px',
+          color: 'var(--stitch-text)',
+          minHeight: `${minHeight}px`,
+          maxHeight: '400px',
+          overflow: 'auto',
         }}
       >
-        <EditorContent
-          editor={editor}
-          style={{
-            fontSize: '13px',
-            color: 'var(--stitch-text)',
-            lineHeight: '1.6',
-          }}
-        />
+        <EditorContent editor={editor} />
       </div>
-
-      <style>{`
-        .tiptap {
-          outline: none;
-        }
-
-        .tiptap p.is-editor-empty:first-child::before {
-          color: var(--stitch-muted);
-          content: attr(data-placeholder);
-          float: left;
-          height: 0;
-          pointer-events: none;
-        }
-
-        .tiptap h2 {
-          font-size: 16px;
-          font-weight: 600;
-          margin: 8px 0;
-          color: var(--stitch-text);
-        }
-
-        .tiptap p {
-          margin: 6px 0;
-        }
-
-        .tiptap ul,
-        .tiptap ol {
-          margin: 8px 0 8px 16px;
-        }
-
-        .tiptap li {
-          margin: 4px 0;
-        }
-
-        .tiptap code {
-          background-color: rgba(74, 158, 255, 0.15);
-          color: var(--stitch-accent);
-          padding: 2px 6px;
-          border-radius: 3px;
-          font-family: monospace;
-          font-size: 12px;
-        }
-
-        .tiptap pre {
-          background-color: rgb(var(--color-base-200));
-          border: 1px solid var(--stitch-border);
-          border-radius: 6px;
-          padding: 12px;
-          overflow-x: auto;
-          margin: 8px 0;
-        }
-
-        .tiptap pre code {
-          background-color: transparent;
-          color: var(--stitch-text);
-          padding: 0;
-          border-radius: 0;
-        }
-
-        .tiptap a {
-          color: var(--stitch-accent);
-          text-decoration: underline;
-        }
-      `}</style>
     </div>
+  )
+}
+
+function ToolbarButton({
+  icon,
+  onClick,
+  active = false,
+  title,
+}: {
+  icon: React.ReactNode
+  onClick: () => void
+  active?: boolean
+  title?: string
+}) {
+  return (
+    <button
+      onClick={onClick}
+      title={title}
+      style={{
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        width: '32px',
+        height: '32px',
+        backgroundColor: active ? 'rgba(74, 158, 255, 0.2)' : 'transparent',
+        border: active ? '1px solid rgb(74, 158, 255)' : '1px solid transparent',
+        borderRadius: '4px',
+        color: active ? 'rgb(74, 158, 255)' : 'var(--stitch-text)',
+        cursor: 'pointer',
+        transition: 'all 0.15s ease',
+      }}
+      onMouseEnter={(e) => {
+        if (!active) {
+          e.currentTarget.style.backgroundColor = 'rgba(var(--color-base-400), 0.2)'
+        }
+      }}
+      onMouseLeave={(e) => {
+        if (!active) {
+          e.currentTarget.style.backgroundColor = 'transparent'
+        }
+      }}
+    >
+      {icon}
+    </button>
   )
 }

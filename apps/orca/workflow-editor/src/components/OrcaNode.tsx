@@ -3,7 +3,7 @@ import { useWorkflowOperations } from '../hooks/useWorkflowOperations'
 import { useExecutionStatus } from '../hooks/useExecutionStatus'
 import { useToast } from '../contexts/ToastContext'
 import { getNodeIcon } from '../utils/nodeIcons'
-import ContextMenu, { Edit, Copy, Trash2, Lock } from './ui/ContextMenu'
+import ContextMenu from './ui/ContextMenu'
 
 const statusColors = {
   running: 'rgb(255 193 7)',  // Amber
@@ -44,20 +44,16 @@ export default function OrcaNode({ data, id, selected, isConnecting }: any) {
     }
   }
 
-  const contextMenuItems: any[] = [
-    { icon: Edit, label: 'Edit with AI', onClick: () => addToast('Edit with AI coming soon', 'info') },
-    { icon: Copy, label: 'Duplicate', onClick: handleDuplicate },
-    { separator: true },
-    { icon: Trash2, label: 'Delete', onClick: () => {
-      deleteNode(id)
-      addToast('Node deleted', 'success')
-    }, color: 'rgb(255, 109, 90)' },
-    { separator: true },
-    { icon: Lock, label: 'Lock', onClick: () => addToast('Node locked', 'info') },
-  ]
-
   return (
-    <ContextMenu items={contextMenuItems}>
+    <ContextMenu
+      nodeId={id}
+      nodeName={data.label}
+      onDuplicate={handleDuplicate}
+      onDelete={() => {
+        deleteNode(id)
+        addToast('Node deleted', 'success')
+      }}
+    >
       <div
       onClick={() => selectNode(id)}
       data-status={nodeStatus}

@@ -1,72 +1,102 @@
-import * as ToggleGroupPrimitive from '@radix-ui/react-toggle-group'
+import { useCallback } from 'react'
 
-interface ToggleGroupItem {
+interface ToggleItem {
   id: string
   label: string
-  icon: any
+  icon?: React.ReactNode
 }
 
 interface ToggleGroupProps {
-  items: ToggleGroupItem[]
+  items: ToggleItem[]
   value: string
   onChange: (value: string) => void
+  variant?: 'default' | 'small'
 }
 
-export default function ToggleGroup({ items, value, onChange }: ToggleGroupProps) {
+export default function ToggleGroup({
+  items,
+  value,
+  onChange,
+  variant = 'default',
+}: ToggleGroupProps) {
+  const handleKeyDown = useCallback(
+    (e: React.KeyboardEvent, itemId: string) => {
+      if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
+        e.preventDefault()
+        const currentIndex = items.findIndex((item) => item.id === itemId)
+        const nextItem = items[(currentIndex + 1) % items.length]
+        onChange(nextItem.id)
+      } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+        e.preventDefault()
+        const currentIndex = items.findIndex((item) => item.id === itemId)
+        const prevItem = items[(currentIndex - 1 + items.length) % items.length]
+        onChange(prevItem.id)
+      }
+    },
+    [items, onChange]
+  )
+
+  const baseSize = variant === 'small' ? '32px' : '40px'
+  const fontSize = variant === 'small' ? '11px' : '12px'
+  const padding = variant === 'small' ? '8px 6px' : '8px 12px'
+
   return (
-    <ToggleGroupPrimitive.Root
-      type="single"
-      value={value}
-      onValueChange={onChange}
+    <div
+      role="group"
       style={{
         display: 'flex',
-        alignItems: 'center',
-        gap: '12px',
+        gap: '4px',
+        backgroundColor: 'rgba(var(--color-base-300), 0.5)',
+        padding: '4px',
+        borderRadius: '6px',
+        border: '1px solid var(--stitch-border)',
       }}
     >
       {items.map((item) => {
-        const Icon = item.icon
-        const isActive = value === item.id
+        const isActive = item.id === value
 
         return (
-          <ToggleGroupPrimitive.Item
+          <button
             key={item.id}
-            value={item.id}
+            role="radio"
+            aria-checked={isActive}
+            onClick={() => onChange(item.id)}
+            onKeyDown={(e) => handleKeyDown(e, item.id)}
+            tabIndex={isActive ? 0 : -1}
             style={{
               display: 'flex',
               alignItems: 'center',
+              justifyContent: 'center',
               gap: '6px',
-              padding: '6px 12px',
-              fontSize: '12px',
+              minWidth: baseSize,
+              height: baseSize,
+              padding,
               backgroundColor: isActive ? 'rgba(74, 158, 255, 0.15)' : 'transparent',
-              border: `1.5px solid ${isActive ? 'var(--stitch-accent)' : 'var(--stitch-border)'}`,
-              color: isActive ? 'var(--stitch-accent)' : 'var(--stitch-muted)',
-              fontWeight: isActive ? 600 : 400,
+              border: isActive ? '1px solid rgb(74, 158, 255)' : '1px solid var(--stitch-border)',
+              borderRadius: '4px',
+              color: isActive ? 'rgb(74, 158, 255)' : 'var(--stitch-text)',
+              fontSize,
+              fontWeight: isActive ? '600' : '500',
               cursor: 'pointer',
-              borderRadius: '6px',
-              transition: 'all 0.2s ease',
-              userSelect: 'none',
+              transition: 'all 0.15s ease',
+              whiteSpace: 'nowrap',
             }}
             onMouseEnter={(e) => {
               if (!isActive) {
-                e.currentTarget.style.borderColor = 'var(--stitch-accent)'
-                e.currentTarget.style.color = 'var(--stitch-accent)'
-                e.currentTarget.style.backgroundColor = 'rgba(74, 158, 255, 0.08)'
+                e.currentTarget.style.backgroundColor = 'rgba(var(--color-base-400), 0.3)'
               }
             }}
             onMouseLeave={(e) => {
               if (!isActive) {
-                e.currentTarget.style.borderColor = 'var(--stitch-border)'
-                e.currentTarget.style.color = 'var(--stitch-muted)'
                 e.currentTarget.style.backgroundColor = 'transparent'
               }
             }}
           >
-            <Icon size={14} />
-            <span>{item.label}</span>
-          </ToggleGroupPrimitive.Item>
+            {item.icon && <span style={{ display: 'flex', alignItems: 'center' }}>{item.icon}</span>}
+            {item.label && variant !== 'small' && <span>{item.label}</span>}
+          </button>
         )
       })}
-    </ToggleGroupPrimitive.Root>
+    </div>
   )
 }
