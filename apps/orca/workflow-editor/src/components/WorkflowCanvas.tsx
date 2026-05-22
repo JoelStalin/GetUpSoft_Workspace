@@ -242,16 +242,20 @@ export default function WorkflowCanvas() {
         <Controls position="bottom-right" />
         <MiniMap
           nodeColor={(node: any): string => {
-            if (selectedNodeId === node.id) return 'rgb(var(--color-primary-400))'
-            return node.data?.color || 'rgb(var(--color-base-300))'
+            if (selectedNodeId === node.id) return '#4A9EFF'
+            return '#6B7280'
           }}
+          nodeStrokeColor="#374151"
+          maskColor="rgba(0, 0, 0, 0.3)"
           pannable
           zoomable
           position="bottom-left"
+          width={200}
+          height={150}
           style={{
-            backgroundColor: 'rgba(15, 18, 40, 0.8)',
+            backgroundColor: 'rgba(15, 18, 40, 0.9)',
             borderRadius: '8px',
-            border: '1px solid rgba(124, 77, 255, 0.2)',
+            border: '1px solid rgba(255, 255, 255, 0.1)',
           }}
         />
       </ReactFlow>
