@@ -1,16 +1,19 @@
-import { createContext, useContext, useState, useCallback, useEffect } from 'react'
+import { createContext, useContext, useState, useCallback } from 'react'
+
+export type ToastType = 'success' | 'error' | 'warning' | 'info'
 
 export interface Toast {
   id: string
   message: string
-  type: 'success' | 'error' | 'info' | 'warning'
+  type: ToastType
   duration?: number
 }
 
 interface ToastContextType {
   toasts: Toast[]
-  addToast: (message: string, type: Toast['type'], duration?: number) => void
+  addToast: (message: string, type?: ToastType, duration?: number) => void
   removeToast: (id: string) => void
+  clearAll: () => void
 }
 
 const ToastContext = createContext<ToastContextType | undefined>(undefined)
@@ -18,26 +21,37 @@ const ToastContext = createContext<ToastContextType | undefined>(undefined)
 export function ToastProvider({ children }: { children: React.ReactNode }) {
   const [toasts, setToasts] = useState<Toast[]>([])
 
-  const addToast = useCallback((message: string, type: Toast['type'], duration = 3000) => {
-    const id = Date.now().toString()
-    const newToast: Toast = { id, message, type, duration }
+  const addToast = useCallback(
+    (message: string, type: ToastType = 'info', duration = 3000) => {
+      const id = `toast-${Date.now()}-${Math.random()}`
+      const newToast: Toast = { id, message, type, duration }
 
-    setToasts((prev) => {
-      const updated = [...prev, newToast]
-      return updated.length > 3 ? updated.slice(-3) : updated
-    })
+      setToasts((prev) => {
+        const updated = [...prev, newToast]
+        return updated.slice(-3)
+      })
 
-    if (duration > 0) {
-      setTimeout(() => removeToast(id), duration)
-    }
-  }, [])
+      if (duration > 0) {
+        setTimeout(() => {
+          setToasts((prev) => prev.filter((t) => t.id !== id))
+        }, duration)
+      }
+
+      return id
+    },
+    []
+  )
 
   const removeToast = useCallback((id: string) => {
     setToasts((prev) => prev.filter((t) => t.id !== id))
   }, [])
 
+  const clearAll = useCallback(() => {
+    setToasts([])
+  }, [])
+
   return (
-    <ToastContext.Provider value={{ toasts, addToast, removeToast }}>
+    <ToastContext.Provider value={{ toasts, addToast, removeToast, clearAll }}>
       {children}
     </ToastContext.Provider>
   )
