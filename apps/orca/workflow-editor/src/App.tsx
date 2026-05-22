@@ -270,252 +270,27 @@ function AppContent() {
         backgroundColor: 'rgb(var(--color-base-100))',
         color: 'rgb(var(--color-base-700))',
       }}>
-        {/* Top Toolbar */}
-        <div className="h-16 border-b flex items-center px-4 gap-4 z-40 flex-shrink-0" style={{
-          backgroundColor: 'rgb(var(--color-base-200))',
-          borderColor: 'rgb(var(--color-base-300))',
-        }}>
-          <button
-            onClick={() => setSidebarOpen(!sidebarOpen)}
-            className="p-2 rounded transition"
-            style={{
-              color: 'rgb(var(--color-primary-400))',
-              backgroundColor: 'rgba(var(--color-primary-400) / 0.1)',
-            }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.backgroundColor = 'rgba(var(--color-primary-400) / 0.2)'
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.backgroundColor = 'rgba(var(--color-primary-400) / 0.1)'
-            }}
-            title={sidebarOpen ? 'Close panel' : 'Open panel'}
-          >
-            {sidebarOpen ? <X size={20} /> : <Menu size={20} />}
-          </button>
-
-          <div className="flex-1">
-            <WorkflowToolbar />
-          </div>
-
-          <div className="text-xs" style={{
-            color: 'rgb(var(--color-base-400))',
-          }}>
-            {workflow?.nodes?.length || 0} nodes
-          </div>
-        </div>
-
-        {/* Main Content - Canvas + Execution Panel */}
-        <div className="flex-1 overflow-hidden flex flex-row min-h-0" style={{
+        {/* Full Screen Canvas */}
+        <div className="flex-1 overflow-hidden relative min-h-0" style={{
           flex: '1 1 0%',
           overflow: 'hidden',
-          display: 'flex',
-          flexDirection: 'row',
+          position: 'relative',
           minHeight: '0',
-          backgroundColor: 'rgb(var(--color-base-100))',
         }}>
-          {/* Sidebar - Left Panel */}
-          <div
-            className={`border-r shadow-lg transition-all duration-300 overflow-y-auto flex-shrink-0 min-h-0 ${
-              sidebarOpen ? 'w-80' : 'w-0'
-            }`}
-            style={{
-              backgroundColor: 'rgb(var(--color-base-200))',
-              borderColor: 'rgb(var(--color-base-300))',
-              width: sidebarOpen ? '320px' : '0',
-            }}
-          >
-            {sidebarOpen && (
-              <div className="p-4">
-                <h3 className="font-bold text-sm uppercase mb-4" style={{
-                  color: 'rgb(var(--color-base-500))',
-                }}>
-                  Node Library
-                </h3>
-                <p className="text-xs mb-4" style={{
-                  color: 'rgb(var(--color-base-400))',
-                }}>
-                  Drag components to canvas
-                </p>
-                <NodePalette />
+          {workflow ? (
+            <div style={{ width: '100%', height: '100%' }}>
+              <WorkflowCanvas />
+            </div>
+          ) : (
+            <div className="flex items-center justify-center h-full">
+              <div className="text-center">
+                <h2 className="text-2xl font-bold mb-4">No Workflow</h2>
+                <p style={{ color: 'rgb(var(--color-base-400))' }}>Create a new workflow to get started</p>
               </div>
-            )}
-          </div>
-
-          {/* Center - Canvas + Execution */}
-          <div className="flex-1 overflow-hidden flex flex-col relative min-h-0" style={{
-            flex: '1 1 0%',
-            overflow: 'hidden',
-            display: 'flex',
-            flexDirection: 'column',
-            position: 'relative',
-            minHeight: '0',
-          }}>
-            {/* Canvas Area */}
-            <div className="flex-1 overflow-hidden relative min-h-0" style={{
-              flex: '1 1 0%',
-              overflow: 'hidden',
-              position: 'relative',
-              minHeight: '0',
-            }}>
-              {workflow ? (
-                <div style={{ width: '100%', height: '100%' }}>
-                  <WorkflowCanvas />
-                </div>
-              ) : (
-                <div className="flex items-center justify-center h-full">
-                  <div className="text-center">
-                    <h2 className="text-2xl font-bold mb-4">No Workflow</h2>
-                    <p style={{ color: 'rgb(var(--color-base-400))' }}>Create a new workflow to get started</p>
-                  </div>
-                </div>
-              )}
             </div>
-
-            {/* Execution Timeline Panel */}
-            <div
-              className="border-t transition-all duration-300 flex-shrink-0"
-              style={{
-                backgroundColor: 'rgb(var(--color-base-200))',
-                borderColor: 'rgb(var(--color-base-300))',
-                height: executionPanelOpen ? '200px' : '40px',
-                overflow: 'hidden',
-              }}
-            >
-              <button
-                onClick={() => setExecutionPanelOpen(!executionPanelOpen)}
-                className="w-full h-10 flex items-center justify-between px-4 hover:bg-opacity-50 transition"
-                style={{ backgroundColor: 'rgb(var(--color-base-300))' }}
-              >
-                <span className="text-xs font-semibold text-gray-400 uppercase">Execution Logs</span>
-                {executionPanelOpen ? (
-                  <ChevronDown size={16} className="text-gray-400" />
-                ) : (
-                  <ChevronUp size={16} className="text-gray-400" />
-                )}
-              </button>
-              {executionPanelOpen && (
-                <div style={{ height: 'calc(100% - 40px)', overflow: 'auto' }}>
-                  <ExecutionTimeline />
-                </div>
-              )}
-            </div>
-
-          </div>
-
-          {/* Right Panel - DESIGN.md style (Stitch) */}
-          <div className="flex-shrink-0 flex flex-col border-l overflow-hidden" style={{
-            width: '280px',
-            backgroundColor: 'rgb(var(--color-base-200))',
-            borderColor: 'rgba(255, 255, 255, 0.08)',
-          }}>
-            {/* Header */}
-            <div className="px-4 py-3 border-b flex items-center justify-between flex-shrink-0" style={{
-              borderColor: 'rgba(255, 255, 255, 0.08)',
-            }}>
-              <div className="flex items-center gap-2">
-                <span style={{ fontSize: '18px' }}>⚙️</span>
-                <span className="text-sm font-semibold" style={{
-                  color: 'rgb(var(--color-base-700))',
-                }}>workflow.md</span>
-              </div>
-              {selectedNodeId && (
-                <button
-                  onClick={() => {}}
-                  className="p-1 hover:bg-white/10 rounded transition text-sm"
-                  style={{ color: 'rgb(var(--color-base-400))' }}
-                  title="Close"
-                >
-                  ✕
-                </button>
-              )}
-            </div>
-
-            {/* Body - List of nodes / Config */}
-            <div className="flex-1 overflow-y-auto">
-              {selectedNodeId && workflow?.nodes ? (
-                <div className="p-3">
-                  <div className="text-xs font-semibold mb-3" style={{
-                    color: 'rgb(var(--color-base-400))',
-                    textTransform: 'uppercase',
-                  }}>Node Configuration</div>
-                  <NodeConfigPanel nodeId={selectedNodeId} />
-                </div>
-              ) : workflow?.nodes && workflow.nodes.length > 0 ? (
-                <div className="p-3 space-y-2">
-                  {workflow.nodes.map((node: any) => (
-                    <button
-                      key={node.id}
-                      onClick={() => {}}
-                      className="w-full flex items-center gap-2 px-3 py-2 rounded text-sm hover:bg-white/5 transition text-left"
-                      style={{
-                        borderColor: 'rgba(255, 255, 255, 0.08)',
-                      }}
-                    >
-                      <span style={{ fontSize: '12px' }}>Aa</span>
-                      <div
-                        className="w-3 h-3 rounded-full flex-shrink-0"
-                        style={{ backgroundColor: node.data?.color || '#8B5CF6' }}
-                      />
-                      <span className="text-xs flex-1 text-white/80" style={{ overflow: 'hidden', textOverflow: 'ellipsis' }}>
-                        {node.data?.label || 'Node'}
-                      </span>
-                      <span style={{ fontSize: '10px', color: 'rgba(255,255,255,0.4)' }}>▷</span>
-                    </button>
-                  ))}
-                </div>
-              ) : (
-                <div className="p-4 text-center">
-                  <div className="text-xs text-white/40 mb-3">No workflow loaded</div>
-                </div>
-              )}
-            </div>
-
-            {/* Footer */}
-            <div className="border-t flex flex-col gap-2 p-3 flex-shrink-0" style={{
-              borderColor: 'rgba(255, 255, 255, 0.08)',
-            }}>
-              <button className="flex items-center gap-2 px-3 py-2 rounded text-xs hover:bg-white/5 transition text-white/70">
-                <span>+</span>
-                <span>Start with your design</span>
-              </button>
-              <button className="flex items-center gap-2 px-3 py-2 rounded text-xs hover:bg-white/5 transition text-white/70">
-                <span>+</span>
-                <span>Create new</span>
-              </button>
-            </div>
-          </div>
-
-          {/* Right Tool Strip (vertical icons) */}
-          <div className="flex-shrink-0 flex flex-col items-center justify-start border-l" style={{
-            width: '48px',
-            backgroundColor: 'rgb(var(--color-base-200))',
-            borderColor: 'rgba(255, 255, 255, 0.08)',
-            paddingTop: '12px',
-            gap: '8px',
-          }}>
-            <button className="w-12 h-12 flex items-center justify-center rounded hover:bg-white/10 transition text-white/50 hover:text-white/70" title="Select">
-              ↗
-            </button>
-            <button className="w-12 h-12 flex items-center justify-center rounded hover:bg-white/10 transition text-white/50 hover:text-white/70" title="Box select">
-              □
-            </button>
-            <button className="w-12 h-12 flex items-center justify-center rounded hover:bg-white/10 transition text-white/50 hover:text-white/70" title="Edit">
-              ✏
-            </button>
-            <button className="w-12 h-12 flex items-center justify-center rounded hover:bg-white/10 transition text-white/50 hover:text-white/70" title="Pan">
-              👋
-            </button>
-            <button className="w-12 h-12 flex items-center justify-center rounded hover:bg-white/10 transition text-white/50 hover:text-white/70" title="Frame">
-              🖼
-            </button>
-            <button className="w-12 h-12 flex items-center justify-center rounded hover:bg-white/10 transition text-white/50 hover:text-white/70" title="Settings">
-              ⚙
-            </button>
-            <button className="w-12 h-12 flex items-center justify-center rounded hover:bg-white/10 transition text-white/50 hover:text-white/70" title="Star">
-              ★
-            </button>
-          </div>
+          )}
         </div>
+
         {/* Search Dialog */}
         <SearchDialog
           isOpen={searchOpen}
