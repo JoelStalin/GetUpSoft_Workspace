@@ -4,12 +4,14 @@ import { useCallback, useRef, useState } from 'react'
 interface ContextMenuProps {
   nodeId: string
   nodeName?: string
+  nodeType?: string
   onDuplicate: () => void
   onDelete: () => void
   onLock?: () => void
   onUnlock?: () => void
   onHide?: () => void
   onShow?: () => void
+  onEditWithAI?: () => void
   isLocked?: boolean
   isHidden?: boolean
   children: React.ReactNode
@@ -18,12 +20,14 @@ interface ContextMenuProps {
 export default function ContextMenu({
   nodeId,
   nodeName,
+  nodeType,
   onDuplicate,
   onDelete,
   onLock,
   onUnlock,
   onHide,
   onShow,
+  onEditWithAI,
   isLocked = false,
   isHidden = false,
   children,
@@ -153,7 +157,8 @@ export default function ContextMenu({
               <MenuItem
                 icon={<Zap size={14} color="#4A9EFF" />}
                 label="Edit with AI"
-                onClick={() => handleAction(() => {})}
+                onClick={() => handleAction(onEditWithAI || (() => {}))}
+                disabled={!onEditWithAI}
               />
 
               <MenuItem

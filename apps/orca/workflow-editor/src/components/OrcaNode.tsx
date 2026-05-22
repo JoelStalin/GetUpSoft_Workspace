@@ -1,6 +1,7 @@
 import { Handle, Position } from '@xyflow/react'
 import { useWorkflowOperations } from '../hooks/useWorkflowOperations'
 import { useExecutionStatus } from '../hooks/useExecutionStatus'
+import { useAINodeEditor } from '../hooks/useAINodeEditor'
 import { useToast } from '../contexts/ToastContext'
 import { getNodeIcon } from '../utils/nodeIcons'
 import ContextMenu from './ui/ContextMenu'
@@ -16,6 +17,7 @@ export default function OrcaNode({ data, id, selected, isConnecting }: any) {
   const { selectNode, deleteNode, addNode, workflow } = useWorkflowOperations()
   const { getNodeLog } = useExecutionStatus()
   const { addToast } = useToast()
+  const { generateNodeSuggestions } = useAINodeEditor()
 
   const nodeLog = getNodeLog(id)
   const nodeStatus = nodeLog?.status || 'pending'
@@ -44,15 +46,31 @@ export default function OrcaNode({ data, id, selected, isConnecting }: any) {
     }
   }
 
+  const handleEditWithAI = async () => {
+    const suggestions = await generateNodeSuggestions(data.label || 'Untitled', data.type || 'unknown')
+    if (suggestions.length > 0) {
+      addToast(`AI generated ${suggestions.length} suggestions for this node`, 'success')
+      suggestions.forEach((s) => {
+        if (s.confidence > 0.8) {
+          addToast(`Suggestion (${(s.confidence * 100).toFixed(0)}%): ${s.suggestion}`, 'info')
+        }
+      })
+    } else {
+      addToast('No AI suggestions available for this node type', 'info')
+    }
+  }
+
   return (
     <ContextMenu
       nodeId={id}
       nodeName={data.label}
+      nodeType={data.type}
       onDuplicate={handleDuplicate}
       onDelete={() => {
         deleteNode(id)
         addToast('Node deleted', 'success')
       }}
+      onEditWithAI={handleEditWithAI}
     >
       <div
       onClick={() => selectNode(id)}
