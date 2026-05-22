@@ -113,7 +113,7 @@ export default function WorkflowCanvas() {
   const getEdgeStyle = useCallback((edge: any) => {
     const isSelected = selectedEdgeId === edge.id
     return {
-      stroke: isSelected ? '#ff9f43' : '#7c4dff',
+      stroke: isSelected ? '#ff9f43' : '#4A9EFF',
       strokeWidth: isSelected ? 3 : 2,
       opacity: isSelected ? 1 : 0.8,
       transition: 'all 0.3s ease',
@@ -137,7 +137,7 @@ export default function WorkflowCanvas() {
         animated: true,
         type: 'smoothstep',
         style: {
-          stroke: '#7c4dff',
+          stroke: '#4A9EFF',
           strokeWidth: 2,
           opacity: 0.8,
         },
@@ -236,9 +236,9 @@ export default function WorkflowCanvas() {
         fitView={nodes.length > 0}
         colorMode="dark"
         deleteKeyCode={['Backspace', 'Delete']}
-        connectionLineStyle={{ stroke: '#7c4dff', strokeWidth: 2 }}
+        connectionLineStyle={{ stroke: '#4A9EFF', strokeWidth: 2 }}
       >
-        <Background color="#1a1e35" gap={16} size={1} />
+        <Background color="rgba(255, 255, 255, 0.04)" gap={20} size={1} />
         <Controls position="bottom-right" />
         <MiniMap
           nodeColor={(node: any): string => {

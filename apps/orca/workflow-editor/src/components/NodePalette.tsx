@@ -86,107 +86,159 @@ export default function NodePalette() {
   )
 
   return (
-    <div className="space-y-3">
-      {/* Search Input */}
-      <div className="relative">
-        <Search size={16} className="absolute left-3 top-2.5 text-[rgba(var(--color-base-400))]" />
-        <input
-          type="text"
-          placeholder="Search nodes..."
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-          className="w-full pl-8 pr-3 py-2 rounded text-sm focus:outline-none transition"
-          style={{
-            backgroundColor: 'rgb(var(--color-base-200))',
-            border: '1px solid rgb(var(--color-base-300))',
-            color: 'rgb(var(--color-base-700))',
-            borderRadius: '6px',
-          }}
-          onFocus={(e) => {
-            e.currentTarget.style.borderColor = 'rgb(var(--color-primary-400))'
-            e.currentTarget.style.boxShadow = '0 0 0 2px rgba(var(--color-primary-400) / 0.1)'
-          }}
-          onBlur={(e) => {
-            e.currentTarget.style.borderColor = 'rgb(var(--color-base-300))'
-            e.currentTarget.style.boxShadow = 'none'
-          }}
-        />
-      </div>
-
-      {/* Instructions */}
-      <div style={{
-        padding: '8px',
-        fontSize: '11px',
-        color: 'rgb(var(--color-base-400))',
-        backgroundColor: 'rgba(var(--color-primary-400) / 0.05)',
-        borderRadius: '6px',
-        borderLeft: '3px solid rgb(var(--color-primary-400))',
+    <div className="flex flex-col h-full" style={{
+      display: 'flex',
+      flexDirection: 'column',
+      height: '100%',
+      gap: '0',
+    }}>
+      {/* Scrollable Content Area */}
+      <div className="flex-1 overflow-y-auto space-y-3 pb-2" style={{
+        flex: '1 1 0%',
+        overflow: 'auto',
+        paddingBottom: '8px',
       }}>
-        👆 <strong>Click o Drag</strong> para agregar nodos al canvas
+        {/* Search Input */}
+        <div className="relative">
+          <Search size={16} className="absolute left-3 top-2.5 text-[rgba(var(--color-base-400))]" />
+          <input
+            type="text"
+            placeholder="Search nodes..."
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            className="w-full pl-8 pr-3 py-2 rounded text-sm focus:outline-none transition"
+            style={{
+              backgroundColor: 'rgb(var(--color-base-300))',
+              border: '1px solid rgba(255, 255, 255, 0.1)',
+              color: 'rgb(var(--color-base-700))',
+              borderRadius: '6px',
+            }}
+            onFocus={(e) => {
+              e.currentTarget.style.borderColor = 'rgb(var(--color-primary-400))'
+              e.currentTarget.style.boxShadow = '0 0 0 2px rgba(74, 158, 255 / 0.1)'
+            }}
+            onBlur={(e) => {
+              e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.1)'
+              e.currentTarget.style.boxShadow = 'none'
+            }}
+          />
+        </div>
+
+        {/* Instructions */}
+        <div style={{
+          padding: '8px',
+          fontSize: '11px',
+          color: 'rgb(var(--color-base-400))',
+          backgroundColor: 'rgba(74, 158, 255 / 0.05)',
+          borderRadius: '6px',
+          borderLeft: '3px solid rgb(var(--color-primary-400))',
+        }}>
+          👆 <strong>Click o Drag</strong> para agregar nodos al canvas
+        </div>
+
+        {/* Categories */}
+        <div className="space-y-2">
+          {Object.entries(filtered).map(([category, items]) => (
+            <div key={category} className="node-item">
+              <button
+                onClick={() =>
+                  setExpandedCategories((prev) => ({
+                    ...prev,
+                    [category]: !prev[category],
+                  }))
+                }
+                className="w-full text-left text-xs font-semibold flex items-center justify-between px-2 py-2 rounded transition"
+                style={{
+                  color: 'rgb(var(--color-base-400))',
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.color = 'rgb(var(--color-base-500))'
+                  e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255 / 0.05)'
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.color = 'rgb(var(--color-base-400))'
+                  e.currentTarget.style.backgroundColor = 'transparent'
+                }}
+              >
+                <span>{category}</span>
+                <span className="text-xs px-2 py-1 rounded" style={{
+                  backgroundColor: 'rgba(var(--color-base-300))',
+                }}>
+                  {items.length}
+                </span>
+              </button>
+
+              {(expandedCategories[category] !== false || !expandedCategories[category] === undefined) && (
+                <div className="space-y-1 ml-2">
+                  {items.map(([key, info]: [string, any]) => (
+                    <button
+                      key={key}
+                      onClick={() => handleAddNode(key, info)}
+                      draggable
+                      onDragStart={(e) => onDragStart(e, key)}
+                      className="w-full node-row hover:brightness-110 transition-all cursor-pointer active:scale-95 text-left border-none"
+                      style={{
+                        backgroundColor: hexToPanelColor(info.color || '#30343a'),
+                        borderLeft: `4px solid ${info.color || '#30343a'}`,
+                        padding: '8px 12px',
+                        borderRadius: '6px',
+                        margin: 0,
+                      }}
+                      title={`Click to add ${info.label} or drag to canvas`}
+                    >
+                      <div className="node-row-title font-semibold text-sm">
+                        {info.label}
+                      </div>
+                      <div className="node-row-description text-xs text-gray-400 mt-0.5">
+                        {info.description}
+                      </div>
+                    </button>
+                  ))}
+                </div>
+              )}
+            </div>
+          ))}
+        </div>
       </div>
 
-      {/* Categories */}
-      <div className="space-y-2">
-        {Object.entries(filtered).map(([category, items]) => (
-          <div key={category} className="node-item">
-            <button
-              onClick={() =>
-                setExpandedCategories((prev) => ({
-                  ...prev,
-                  [category]: !prev[category],
-                }))
-              }
-              className="w-full text-left text-xs font-semibold flex items-center justify-between px-2 py-2 rounded transition"
-              style={{
-                color: 'rgb(var(--color-base-400))',
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.color = 'rgb(var(--color-base-500))'
-                e.currentTarget.style.backgroundColor = 'rgba(var(--color-base-300) / 0.5)'
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.color = 'rgb(var(--color-base-400))'
-                e.currentTarget.style.backgroundColor = 'transparent'
-              }}
-            >
-              <span>{category}</span>
-              <span className="text-xs px-2 py-1 rounded" style={{
-                backgroundColor: 'rgba(var(--color-base-300))',
-              }}>
-                {items.length}
-              </span>
-            </button>
+      {/* Fixed Bottom - Agent Log + Chat Input */}
+      <div className="flex-shrink-0 border-t" style={{
+        borderColor: 'rgba(255, 255, 255, 0.08)',
+        paddingTop: '12px',
+      }}>
+        {/* Agent Log Toggle */}
+        <button
+          className="w-full flex items-center justify-between px-3 py-2 text-xs font-semibold rounded hover:bg-white/5 transition mb-2"
+          style={{
+            color: 'rgb(var(--color-base-400))',
+          }}
+        >
+          <span>🚀 Agent log</span>
+          <span>▲</span>
+        </button>
 
-            {(expandedCategories[category] !== false || !expandedCategories[category] === undefined) && (
-              <div className="space-y-1 ml-2">
-                {items.map(([key, info]: [string, any]) => (
-                  <button
-                    key={key}
-                    onClick={() => handleAddNode(key, info)}
-                    draggable
-                    onDragStart={(e) => onDragStart(e, key)}
-                    className="w-full node-row hover:brightness-110 transition-all cursor-pointer active:scale-95 text-left border-none"
-                    style={{
-                      backgroundColor: hexToPanelColor(info.color || '#30343a'),
-                      borderLeft: `4px solid ${info.color || '#30343a'}`,
-                      padding: '8px 12px',
-                      borderRadius: '6px',
-                      margin: 0,
-                    }}
-                    title={`Click to add ${info.label} or drag to canvas`}
-                  >
-                    <div className="node-row-title font-semibold text-sm">
-                      {info.label}
-                    </div>
-                    <div className="node-row-description text-xs text-gray-400 mt-0.5">
-                      {info.description}
-                    </div>
-                  </button>
-                ))}
-              </div>
-            )}
+        {/* Chat Input */}
+        <div
+          className="rounded-lg p-3 space-y-2"
+          style={{
+            backgroundColor: 'rgb(var(--color-base-300))',
+            border: '1px solid rgba(255, 255, 255, 0.08)',
+          }}
+        >
+          <input
+            type="text"
+            placeholder="What would you like to add or create?"
+            className="w-full bg-transparent text-xs text-white/70 placeholder:text-white/40 focus:outline-none"
+          />
+          <div className="flex items-center justify-between gap-2">
+            <button className="text-xs text-white/50 hover:text-white/70 transition">+</button>
+            <button className="text-xs text-white/50 hover:text-white/70 transition">/</button>
+            <button className="text-xs text-white/50 hover:text-white/70 transition">🎨</button>
+            <button className="text-xs px-2 py-1 rounded bg-white/10 text-white/70 hover:bg-white/20 transition">3 Flash ▼</button>
+            <button className="text-xs text-white/50 hover:text-white/70 transition">🎤</button>
+            <button className="text-xs text-white/50 hover:text-white/70 transition ml-auto">→</button>
           </div>
-        ))}
+        </div>
       </div>
     </div>
   )

@@ -24,15 +24,16 @@
 }
 
 [data-mode=dark] {
-  --color-base-100: 18 18 18;
-  --color-base-200: 34 34 34;
-  --color-base-300: 53 53 53;
-  --color-base-400: 116 114 114;
-  --color-base-500: 209 209 209;
-  --color-base-600: 237 237 237;
-  --color-base-700: 255 255 255;
-  --color-primary-400: 29 29 255;
-  --color-primary-500: 0 0 130;
+  /* Stitch theme palette */
+  --color-base-100: 15 15 15;        /* #0F0F0F — canvas background */
+  --color-base-200: 26 26 26;        /* #1A1A1A — sidebar/panel background */
+  --color-base-300: 36 36 36;        /* #242424 — raised inputs/cards */
+  --color-base-400: 136 136 136;     /* #888 — muted text */
+  --color-base-500: 180 180 180;     /* secondary text */
+  --color-base-600: 220 220 220;     /* primary labels */
+  --color-base-700: 255 255 255;     /* #FFF — foreground text */
+  --color-primary-400: 74 158 255;   /* #4A9EFF — Stitch blue accent */
+  --color-primary-500: 37 99 235;    /* #2563EB — darker blue */
 }
 
 * {
@@ -63,8 +64,8 @@ body {
 }
 
 .react-flow__background-pattern {
-  fill: rgb(var(--color-base-300));
-  opacity: 0.3;
+  fill: rgba(255, 255, 255, 0.04);
+  opacity: 1;
 }
 
 .react-flow__node {
@@ -157,10 +158,10 @@ body {
 
 @keyframes nodeGlow {
   0%, 100% {
-    box-shadow: 0 0 0 2px #7c4dff;
+    box-shadow: 0 0 0 2px #4A9EFF;
   }
   50% {
-    box-shadow: 0 0 0 4px rgba(124, 77, 255, 0.3);
+    box-shadow: 0 0 0 4px rgba(74, 158, 255, 0.3);
   }
 }
 
@@ -209,10 +210,10 @@ body {
 /* Selected glow animation */
 @keyframes selectedGlow {
   0%, 100% {
-    box-shadow: 0 8px 24px rgba(124, 77, 255, 0.4);
+    box-shadow: 0 8px 24px rgba(74, 158, 255, 0.4);
   }
   50% {
-    box-shadow: 0 12px 32px rgba(124, 77, 255, 0.6);
+    box-shadow: 0 12px 32px rgba(74, 158, 255, 0.6);
   }
 }
 
@@ -282,8 +283,8 @@ body {
   align-items: center;
   gap: 8px;
   padding: 12px 16px;
-  background: rgb(var(--color-base-200));
-  border-bottom: 1px solid rgb(var(--color-base-300));
+  background: rgb(var(--color-base-100));
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 .toolbar-group {

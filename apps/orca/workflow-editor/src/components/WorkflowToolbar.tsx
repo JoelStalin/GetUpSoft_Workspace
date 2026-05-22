@@ -11,7 +11,7 @@ import {
   runWorkflow,
 } from '../api/orcaApi'
 import GenerateModal from './GenerateModal'
-import { RotateCcw, RotateCw } from 'lucide-react'
+import { RotateCcw, RotateCw, Wand2, FileUp, Download, Save, Play } from 'lucide-react'
 
 export default function WorkflowToolbar() {
   const { workflow, setWorkflow } = useWorkflowOperations()
@@ -109,77 +109,195 @@ export default function WorkflowToolbar() {
 
   return (
     <>
-      <div className="workflow-toolbar">
-            <div className="toolbar-group">
-              <button
-                onClick={undo}
-                disabled={!canUndo || isLoading}
-                title="Undo (Ctrl+Z)"
-                className={`toolbar-button ${canUndo ? 'toolbar-enabled' : 'toolbar-disabled'}`}
-              >
-                <RotateCcw size={18} />
-                <span>Undo</span>
-              </button>
+      <div className="workflow-toolbar" style={{
+        justifyContent: 'space-between',
+        backgroundColor: 'rgb(var(--color-base-100))',
+        borderColor: 'rgba(255, 255, 255, 0.08)',
+      }}>
+        {/* Left: Undo/Redo */}
+        <div className="toolbar-group">
+          <button
+            onClick={undo}
+            disabled={!canUndo || isLoading}
+            title="Undo (Ctrl+Z)"
+            className="toolbar-button"
+            style={{
+              backgroundColor: canUndo ? 'rgba(74, 158, 255, 0.1)' : 'transparent',
+              borderColor: canUndo ? 'rgba(74, 158, 255, 0.3)' : 'rgba(255, 255, 255, 0.1)',
+              padding: '6px 8px',
+            }}
+          >
+            <RotateCcw size={16} />
+          </button>
 
-              <button
-                onClick={redo}
-                disabled={!canRedo || isLoading}
-                title="Redo (Ctrl+Y)"
-                className={`toolbar-button ${canRedo ? 'toolbar-enabled' : 'toolbar-disabled'}`}
-              >
-                <RotateCw size={18} />
-                <span>Redo</span>
-              </button>
-            </div>
+          <button
+            onClick={redo}
+            disabled={!canRedo || isLoading}
+            title="Redo (Ctrl+Y)"
+            className="toolbar-button"
+            style={{
+              backgroundColor: canRedo ? 'rgba(74, 158, 255, 0.1)' : 'transparent',
+              borderColor: canRedo ? 'rgba(74, 158, 255, 0.3)' : 'rgba(255, 255, 255, 0.1)',
+              padding: '6px 8px',
+            }}
+          >
+            <RotateCw size={16} />
+          </button>
+        </div>
 
-            <div className="toolbar-separator" />
+        {/* Center: Action Pills */}
+        <div className="toolbar-group" style={{ gap: '8px' }}>
+          <button
+            onClick={() => setShowGenerateModal(true)}
+            disabled={isLoading}
+            title="Generate workflow with AI"
+            style={{
+              padding: '6px 12px',
+              borderRadius: '20px',
+              fontSize: '12px',
+              backgroundColor: 'rgba(255, 255, 255, 0.05)',
+              borderColor: 'rgba(255, 255, 255, 0.1)',
+              border: '1px solid',
+              color: 'rgb(var(--color-base-700))',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '4px',
+              cursor: 'pointer',
+              transition: 'all 0.2s ease',
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.1)'
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.05)'
+            }}
+          >
+            <Wand2 size={14} />
+            <span>Generate</span>
+            <span style={{ fontSize: '10px', opacity: 0.6 }}>▼</span>
+          </button>
 
-            <div className="toolbar-group">
-              <button
-                onClick={() => setShowGenerateModal(true)}
-                disabled={isLoading}
-                title="Generate workflow with AI"
-                className="toolbar-button toolbar-action"
-              >
-                ✨ Generate
-              </button>
+          <button
+            onClick={handleImport}
+            disabled={isLoading}
+            title="Import workflow from file"
+            style={{
+              padding: '6px 12px',
+              borderRadius: '20px',
+              fontSize: '12px',
+              backgroundColor: 'rgba(255, 255, 255, 0.05)',
+              borderColor: 'rgba(255, 255, 255, 0.1)',
+              border: '1px solid',
+              color: 'rgb(var(--color-base-700))',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '4px',
+              cursor: 'pointer',
+              transition: 'all 0.2s ease',
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.1)'
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.05)'
+            }}
+          >
+            <FileUp size={14} />
+            <span>Import</span>
+          </button>
 
-              <button
-                onClick={handleImport}
-                disabled={isLoading}
-                title="Import workflow from file"
-                className="toolbar-button toolbar-action"
-              >
-                📥 Import
-              </button>
+          <button
+            onClick={handleExport}
+            disabled={!workflow || isLoading}
+            title="Export workflow to file"
+            style={{
+              padding: '6px 12px',
+              borderRadius: '20px',
+              fontSize: '12px',
+              backgroundColor: 'rgba(255, 255, 255, 0.05)',
+              borderColor: 'rgba(255, 255, 255, 0.1)',
+              border: '1px solid',
+              color: 'rgb(var(--color-base-700))',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '4px',
+              cursor: 'pointer',
+              transition: 'all 0.2s ease',
+              opacity: !workflow ? 0.5 : 1,
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.1)'
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.05)'
+            }}
+          >
+            <Download size={14} />
+            <span>Export</span>
+          </button>
+        </div>
 
-              <button
-                onClick={handleExport}
-                disabled={!workflow || isLoading}
-                title="Export workflow to file"
-                className="toolbar-button toolbar-action"
-              >
-                📥 Export
-              </button>
+        {/* Right: Save & Run */}
+        <div className="toolbar-group" style={{ gap: '8px' }}>
+          <button
+            onClick={handleSave}
+            disabled={!workflow || isLoading}
+            title="Save workflow"
+            style={{
+              padding: '6px 10px',
+              borderRadius: '6px',
+              fontSize: '12px',
+              backgroundColor: 'rgba(255, 255, 255, 0.05)',
+              borderColor: 'rgba(255, 255, 255, 0.1)',
+              border: '1px solid',
+              color: 'rgb(var(--color-base-700))',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '4px',
+              cursor: 'pointer',
+              transition: 'all 0.2s ease',
+              opacity: !workflow ? 0.5 : 1,
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.1)'
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.backgroundColor = 'rgba(255, 255, 255, 0.05)'
+            }}
+          >
+            <Save size={14} />
+          </button>
 
-              <button
-                onClick={handleSave}
-                disabled={!workflow || isLoading}
-                title="Save workflow"
-                className="toolbar-button toolbar-action"
-              >
-                💾 Save
-              </button>
-
-              <button
-                onClick={handleRun}
-                disabled={!workflow || isLoading}
-                title="Run workflow (Ctrl+Enter)"
-                className="toolbar-button toolbar-run"
-              >
-                ▶️ Run
-              </button>
-            </div>
+          <button
+            onClick={handleRun}
+            disabled={!workflow || isLoading}
+            title="Run workflow (Ctrl+Enter)"
+            style={{
+              padding: '6px 12px',
+              borderRadius: '6px',
+              fontSize: '12px',
+              backgroundColor: 'rgba(15, 163, 136, 0.15)',
+              borderColor: 'rgb(15, 163, 136)',
+              border: '1px solid',
+              color: 'rgb(15, 163, 136)',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '4px',
+              cursor: 'pointer',
+              transition: 'all 0.2s ease',
+              opacity: !workflow ? 0.5 : 1,
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.backgroundColor = 'rgba(15, 163, 136, 0.25)'
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.backgroundColor = 'rgba(15, 163, 136, 0.15)'
+            }}
+          >
+            <Play size={14} />
+            <span>Run</span>
+          </button>
+        </div>
       </div>
 
       <input
