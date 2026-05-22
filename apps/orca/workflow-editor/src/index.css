@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -21,6 +23,34 @@
   --secondary: rgb(15 163 136);
   --destructive: rgb(237 49 93);
   --muted: rgb(var(--color-base-400));
+
+  /* Stitch light mode fallbacks */
+  --stitch-bg: #ffffff;
+  --stitch-panel: #f8f9fa;
+  --stitch-elevated: #f0f0f0;
+  --stitch-border: rgba(0, 0, 0, 0.08);
+  --stitch-text: rgba(0, 0, 0, 0.92);
+  --stitch-muted: rgba(0, 0, 0, 0.4);
+  --stitch-hover: rgba(0, 0, 0, 0.05);
+  --stitch-accent: #4A9EFF;
+  --stitch-green: #1DB954;
+
+  /* Status colors */
+  --status-running: rgb(255, 193, 7);
+  --status-completed: rgb(15, 163, 136);
+  --status-failed: rgb(237, 49, 93);
+  --status-pending: rgb(136, 136, 136);
+
+  /* Node tokens */
+  --node-bg: #ffffff;
+  --node-border: rgba(0, 0, 0, 0.1);
+  --node-border-width: 5px;
+
+  /* Type scale */
+  --text-xs: 11px;
+  --text-sm: 12px;
+  --text-base: 13px;
+  --text-md: 14px;
 }
 
 [data-mode=dark] {
@@ -34,6 +64,21 @@
   --color-base-700: 255 255 255;     /* #FFF — foreground text */
   --color-primary-400: 74 158 255;   /* #4A9EFF — Stitch blue accent */
   --color-primary-500: 37 99 235;    /* #2563EB — darker blue */
+
+  /* Stitch exact colors */
+  --stitch-bg: #0F0F0F;
+  --stitch-panel: #141414;
+  --stitch-elevated: #1E1E1E;
+  --stitch-border: rgba(255, 255, 255, 0.06);
+  --stitch-text: rgba(255, 255, 255, 0.92);
+  --stitch-muted: rgba(255, 255, 255, 0.4);
+  --stitch-hover: rgba(255, 255, 255, 0.05);
+  --stitch-accent: #4A9EFF;
+  --stitch-green: #1DB954;
+
+  /* Node tokens dark mode */
+  --node-bg: #1E1E1E;
+  --node-border: rgba(255, 255, 255, 0.1);
 }
 
 * {
@@ -51,9 +96,10 @@ body,
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
     sans-serif;
+  font-size: 13px;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -64,7 +110,7 @@ body {
 }
 
 .react-flow__background-pattern {
-  fill: rgba(255, 255, 255, 0.04);
+  fill: rgba(255, 255, 255, 0.02);
   opacity: 1;
 }
 
@@ -269,6 +315,10 @@ body {
   animation: selectedGlow 2s ease-in-out infinite;
 }
 
+.node-selected {
+  animation: selectedGlow 2s ease-in-out infinite;
+}
+
 .react-flow__node[data-status="completed"] {
   animation: completionPulse 2s ease-out;
 }
@@ -356,4 +406,49 @@ body {
 .toolbar-run:hover:not(:disabled) {
   background: rgba(15, 163, 136, 0.25);
   box-shadow: 0 2px 8px rgba(15, 163, 136 / 0.3);
+}
+
+/* Accordion Animation */
+.accordion-body {
+  overflow: hidden;
+  transition: max-height 0.22s cubic-bezier(0.4, 0, 0.2, 1),
+              opacity 0.22s ease;
+}
+
+.accordion-body.open {
+  max-height: 600px;
+  opacity: 1;
+}
+
+.accordion-body.closed {
+  max-height: 0;
+  opacity: 0;
+}
+
+/* Nav State */
+.nav-expanded {
+  width: 240px;
+  transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.nav-collapsed {
+  width: 48px;
+  transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.nav-collapsed .nav-label,
+.nav-collapsed .nav-chevron {
+  display: none;
+}
+
+/* Resize Handle */
+.resize-handle {
+  height: 4px;
+  background: transparent;
+  cursor: ns-resize;
+  transition: background-color 0.2s ease;
+}
+
+.resize-handle:hover {
+  background: var(--stitch-border);
 }

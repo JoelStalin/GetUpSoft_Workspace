@@ -115,7 +115,7 @@ export default function WorkflowCanvas() {
     return {
       stroke: isSelected ? '#ff9f43' : '#4A9EFF',
       strokeWidth: isSelected ? 3 : 2,
-      opacity: isSelected ? 1 : 0.8,
+      opacity: 1,
       transition: 'all 0.3s ease',
     }
   }, [selectedEdgeId])
@@ -238,7 +238,7 @@ export default function WorkflowCanvas() {
         deleteKeyCode={['Backspace', 'Delete']}
         connectionLineStyle={{ stroke: '#4A9EFF', strokeWidth: 2 }}
       >
-        <Background color="rgba(255, 255, 255, 0.04)" gap={20} size={1} />
+        <Background color="rgba(255, 255, 255, 0.02)" gap={20} size={1} />
         <Controls position="bottom-right" />
         <MiniMap
           nodeColor={(node: any): string => {
@@ -250,12 +250,12 @@ export default function WorkflowCanvas() {
           pannable
           zoomable
           position="bottom-left"
-          width={200}
-          height={150}
           style={{
             backgroundColor: 'rgba(15, 18, 40, 0.9)',
             borderRadius: '8px',
             border: '1px solid rgba(255, 255, 255, 0.1)',
+            width: '200px',
+            height: '150px',
           }}
         />
       </ReactFlow>

@@ -2,29 +2,32 @@ import { useState, useEffect, useCallback } from 'react'
 import '@xyflow/react/dist/style.css'
 import { ReactFlowProvider } from '@xyflow/react'
 import WorkflowCanvas from './components/WorkflowCanvas'
-import NodePalette from './components/NodePalette'
-import NodeConfigPanel from './components/NodeConfigPanel'
 import WorkflowToolbar from './components/WorkflowToolbar'
 import SearchDialog from './components/Search/SearchDialog'
-import ExecutionTimeline from './components/ExecutionTimeline'
+import FloatingWindow from './components/FloatingWindow'
+import FloatingComponentsPanel from './components/FloatingComponentsPanel'
+import FloatingChatPanel from './components/FloatingChatPanel'
+import FloatingPropertiesPanel from './components/FloatingPropertiesPanel'
+import CollapsedCategoryBar from './components/CollapsedCategoryBar'
+import QuickAccessBar from './components/QuickAccessBar'
+import EditorToolsPanel from './components/EditorToolsPanel'
 import { WorkflowProvider } from './contexts/WorkflowContext'
 import { ExecutionProvider } from './contexts/ExecutionContext'
+import { WindowProvider, useWindows } from './contexts/WindowContext'
 import { useWorkflowOperations } from './hooks/useWorkflowOperations'
-import { useWorkflowState } from './hooks/useWorkflowState'
 import { useExecutionStatus } from './hooks/useExecutionStatus'
 import { useSearch } from './hooks/useSearch'
 import { useKeyboardShortcuts, SHORTCUTS } from './hooks/useKeyboardShortcuts'
 import { useClipboard } from './hooks/useClipboard'
 import { useMultiSelect } from './hooks/useMultiSelect'
 import { addToRecent } from './utils/search/searchHistory'
-import { Menu, X, ChevronUp, ChevronDown } from 'lucide-react'
 
 function AppContent() {
   const [isLoading, setIsLoading] = useState(true)
-  const [sidebarOpen, setSidebarOpen] = useState(true)
-  const [executionPanelOpen, setExecutionPanelOpen] = useState(true)
+  const [activeTab, setActiveTab] = useState<'canvas' | 'properties' | 'version'>('canvas')
   const [nodeTypes, setNodeTypes] = useState<Record<string, any>>({})
   const { workflow, setWorkflow, addNode, deleteNode, selectedNodeId } = useWorkflowOperations()
+  const { updateWindow } = useWindows()
   const { logs: executionLogs } = useExecutionStatus()
   const { copy, paste, hasContent } = useClipboard()
   const multiSelect = useMultiSelect()
@@ -49,10 +52,13 @@ function AppContent() {
     document.documentElement.setAttribute('data-mode', 'dark')
   }, [])
 
+  // Show/hide properties panel when node is selected/deselected
+  useEffect(() => {
+    updateWindow('properties', { isVisible: !!selectedNodeId })
+  }, [selectedNodeId, updateWindow])
+
   // Setup keyboard shortcuts
-  useKeyboardShortcuts([
-    { ...SHORTCUTS.SEARCH, callback: openSearch },
-  ])
+  useKeyboardShortcuts([{ ...SHORTCUTS.SEARCH, callback: openSearch }])
 
   // Handle additional keyboard shortcuts
   useEffect(() => {
@@ -67,7 +73,7 @@ function AppContent() {
       if ((e.ctrlKey || e.metaKey) && e.key === 'd' && selectedNodeId) {
         e.preventDefault()
         if (workflow?.nodes) {
-          const selectedNode = workflow.nodes.find(n => n.id === selectedNodeId)
+          const selectedNode = workflow.nodes.find((n) => n.id === selectedNodeId)
           if (selectedNode) {
             addNode({
               ...selectedNode,
@@ -85,7 +91,7 @@ function AppContent() {
       if ((e.ctrlKey || e.metaKey) && e.key === 'c') {
         e.preventDefault()
         if (workflow?.nodes && selectedNodeId) {
-          const selectedNode = workflow.nodes.find(n => n.id === selectedNodeId)
+          const selectedNode = workflow.nodes.find((n) => n.id === selectedNodeId)
           if (selectedNode) {
             copy([selectedNode])
           }
@@ -110,7 +116,7 @@ function AppContent() {
       if ((e.ctrlKey || e.metaKey) && e.key === 'a') {
         e.preventDefault()
         if (workflow?.nodes) {
-          multiSelect.selectAll(workflow.nodes.map(n => n.id))
+          multiSelect.selectAll(workflow.nodes.map((n) => n.id))
         }
       }
     }
@@ -206,8 +212,22 @@ function AppContent() {
             },
           ],
           edges: [
-            { id: 'edge-1', source: 'trigger-1', target: 'http-1', animated: true, type: 'smoothstep', style: { stroke: '#7c4dff', strokeWidth: 2 } },
-            { id: 'edge-2', source: 'http-1', target: 'ai-1', animated: true, type: 'smoothstep', style: { stroke: '#7c4dff', strokeWidth: 2 } },
+            {
+              id: 'edge-1',
+              source: 'trigger-1',
+              target: 'http-1',
+              animated: true,
+              type: 'smoothstep',
+              style: { stroke: '#7c4dff', strokeWidth: 2 },
+            },
+            {
+              id: 'edge-2',
+              source: 'http-1',
+              target: 'ai-1',
+              animated: true,
+              type: 'smoothstep',
+              style: { stroke: '#7c4dff', strokeWidth: 2 },
+            },
           ],
           settings: {},
           createdAt: new Date().toISOString(),
@@ -228,9 +248,7 @@ function AppContent() {
     if (!workflow || executionLogs.length === 0) return
 
     const updatedNodes = workflow.nodes.map((node) => {
-      const nodeLog = executionLogs.find(
-        (log) => log.nodeId === node.id || log.node_id === node.id
-      )
+      const nodeLog = executionLogs.find((log) => log.nodeId === node.id || log.node_id === node.id)
       const nodeStatus = nodeLog?.status || 'pending'
       return {
         ...node,
@@ -251,10 +269,23 @@ function AppContent() {
 
   if (isLoading) {
     return (
-      <div className="h-screen flex items-center justify-center bg-[#0a0e27] text-white">
-        <div className="text-center">
-          <div className="mb-4 text-lg">Loading ORCA Orchestrator...</div>
-          <div className="text-gray-400">Initializing workflow editor</div>
+      <div
+        style={{
+          height: '100vh',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          backgroundColor: 'rgb(var(--color-base-100))',
+          color: 'var(--stitch-text)',
+        }}
+      >
+        <div style={{ textAlign: 'center' }}>
+          <div style={{ marginBottom: '16px', fontSize: '16px', fontWeight: 500 }}>
+            Loading ORCA Orchestrator...
+          </div>
+          <div style={{ color: 'var(--stitch-muted)', fontSize: '12px' }}>
+            Initializing workflow editor
+          </div>
         </div>
       </div>
     )
@@ -262,34 +293,56 @@ function AppContent() {
 
   return (
     <ReactFlowProvider>
-      <div className="fixed inset-0 text-white flex flex-col" style={{
-        position: 'fixed',
-        inset: '0',
-        display: 'flex',
-        flexDirection: 'column',
-        backgroundColor: 'rgb(var(--color-base-100))',
-        color: 'rgb(var(--color-base-700))',
-      }}>
-        {/* Full Screen Canvas */}
-        <div className="flex-1 overflow-hidden relative min-h-0" style={{
-          flex: '1 1 0%',
-          overflow: 'hidden',
-          position: 'relative',
-          minHeight: '0',
-        }}>
+      <div
+        style={{
+          position: 'fixed',
+          inset: 0,
+          display: 'flex',
+          flexDirection: 'column',
+          backgroundColor: 'rgb(var(--color-base-100))',
+          color: 'var(--stitch-text)',
+        }}
+      >
+        {/* Top Bar */}
+        <WorkflowToolbar activeTab={activeTab} onTabChange={setActiveTab} />
+
+        {/* Main Canvas Area */}
+        <div
+          style={{
+            flex: 1,
+            position: 'relative',
+            overflow: 'hidden',
+          }}
+        >
           {workflow ? (
-            <div style={{ width: '100%', height: '100%' }}>
-              <WorkflowCanvas />
-            </div>
+            <WorkflowCanvas />
           ) : (
-            <div className="flex items-center justify-center h-full">
-              <div className="text-center">
-                <h2 className="text-2xl font-bold mb-4">No Workflow</h2>
-                <p style={{ color: 'rgb(var(--color-base-400))' }}>Create a new workflow to get started</p>
+            <div
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                height: '100%',
+              }}
+            >
+              <div style={{ textAlign: 'center' }}>
+                <h2 style={{ fontSize: '24px', fontWeight: 'bold', marginBottom: '16px' }}>
+                  No Workflow
+                </h2>
+                <p style={{ color: 'var(--stitch-muted)' }}>Create a new workflow to get started</p>
               </div>
             </div>
           )}
         </div>
+
+        {/* Floating Windows */}
+        <FloatingWindowsManager />
+
+        {/* Quick Access Bar */}
+        <QuickAccessBar />
+
+        {/* Editor Tools Panel */}
+        <EditorToolsPanel />
 
         {/* Search Dialog */}
         <SearchDialog
@@ -311,11 +364,62 @@ function AppContent() {
   )
 }
 
+function FloatingWindowsManager() {
+  const { windows, toggleMinimize } = useWindows()
+  const componentsWindow = windows.find((w) => w.type === 'components')
+
+  return (
+    <>
+      {windows.map((window) => {
+        if (!window.isVisible) return null
+
+        if (window.type === 'components') {
+          return (
+            <FloatingWindow key={window.id} window={window}>
+              <FloatingComponentsPanel />
+            </FloatingWindow>
+          )
+        }
+
+        if (window.type === 'chat') {
+          return (
+            <FloatingWindow key={window.id} window={window}>
+              <FloatingChatPanel />
+            </FloatingWindow>
+          )
+        }
+
+        if (window.type === 'properties') {
+          return (
+            <FloatingWindow key={window.id} window={window}>
+              <FloatingPropertiesPanel />
+            </FloatingWindow>
+          )
+        }
+
+        return null
+      })}
+
+      {/* Show category bar when components window is minimized */}
+      {componentsWindow && componentsWindow.isMinimized && (
+        <CollapsedCategoryBar
+          x={componentsWindow.x + 8}
+          y={componentsWindow.y}
+          height={componentsWindow.height}
+          onExpand={() => toggleMinimize(componentsWindow.id)}
+        />
+      )}
+    </>
+  )
+}
+
 export default function App() {
   return (
     <WorkflowProvider>
       <ExecutionProvider>
-        <AppContent />
+        <WindowProvider>
+          <AppContent />
+        </WindowProvider>
       </ExecutionProvider>
     </WorkflowProvider>
   )

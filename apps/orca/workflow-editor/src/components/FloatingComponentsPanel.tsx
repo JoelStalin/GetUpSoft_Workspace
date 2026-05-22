@@ -3,7 +3,7 @@ import { getNodeTypes } from '../api/orcaApi'
 import { useWorkflowOperations } from '../hooks/useWorkflowOperations'
 import { useWorkflowHistory } from '../hooks/useWorkflowHistory'
 import { Node } from '@xyflow/react'
-import { Search, Bell, Brain, Globe, GitBranch, Wrench, ChevronRight, ChevronDown } from 'lucide-react'
+import { Search, Bell, Brain, Globe, GitBranch, Wrench, ChevronDown } from 'lucide-react'
 
 interface NodeType {
   label: string
@@ -11,20 +11,7 @@ interface NodeType {
   description?: string
 }
 
-interface AccordionCategory {
-  name: string
-  icon: React.ComponentType<{ size: number }>
-  items: [string, NodeType][]
-  isOpen: boolean
-}
-
-export default function NodePalette({
-  collapsed = false,
-  onToggle = () => {},
-}: {
-  collapsed?: boolean
-  onToggle?: () => void
-}) {
+export default function FloatingComponentsPanel() {
   const [nodeTypes, setNodeTypes] = useState<Record<string, NodeType>>({})
   const [searchTerm, setSearchTerm] = useState('')
   const [expandedCategories, setExpandedCategories] = useState<Record<string, boolean>>({
@@ -128,141 +115,10 @@ export default function NodePalette({
     return order.indexOf(a) - order.indexOf(b)
   })
 
-  if (collapsed) {
-    return (
-      <div
-        style={{
-          width: '48px',
-          backgroundColor: 'rgb(var(--color-base-200))',
-          borderRight: `1px solid var(--stitch-border)`,
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          padding: '8px 0',
-          gap: '8px',
-          overflow: 'hidden',
-        }}
-      >
-        {/* Expand button */}
-        <button
-          onClick={onToggle}
-          title="Expand nav"
-          style={{
-            width: '32px',
-            height: '32px',
-            background: 'none',
-            border: 'none',
-            color: 'var(--stitch-muted)',
-            cursor: 'pointer',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            transition: 'color 0.2s ease',
-          }}
-          onMouseEnter={(e) => {
-            e.currentTarget.style.color = 'var(--stitch-text)'
-          }}
-          onMouseLeave={(e) => {
-            e.currentTarget.style.color = 'var(--stitch-muted)'
-          }}
-        >
-          <ChevronRight size={16} />
-        </button>
-
-        {/* Category icons */}
-        {categories.map((category) => {
-          const Icon = getCategoryIcon(category)
-          return (
-            <button
-              key={category}
-              title={category}
-              style={{
-                width: '32px',
-                height: '32px',
-                background: 'none',
-                border: 'none',
-                color: 'var(--stitch-muted)',
-                cursor: 'pointer',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                borderRadius: '6px',
-                transition: 'all 0.2s ease',
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.color = 'var(--stitch-text)'
-                e.currentTarget.style.backgroundColor = 'var(--stitch-hover)'
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.color = 'var(--stitch-muted)'
-                e.currentTarget.style.backgroundColor = 'transparent'
-              }}
-            >
-              <Icon size={18} />
-            </button>
-          )
-        })}
-      </div>
-    )
-  }
-
   return (
-    <div
-      style={{
-        width: '240px',
-        backgroundColor: 'rgb(var(--color-base-200))',
-        borderRight: `1px solid var(--stitch-border)`,
-        display: 'flex',
-        flexDirection: 'column',
-        overflow: 'hidden',
-      }}
-    >
-      {/* Header */}
-      <div
-        style={{
-          padding: '16px 16px 12px',
-          flexShrink: 0,
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'space-between',
-          borderBottom: `1px solid var(--stitch-border)`,
-        }}
-      >
-        <div
-          style={{
-            fontSize: '12px',
-            fontWeight: 600,
-            color: 'var(--stitch-text)',
-          }}
-        >
-          Components
-        </div>
-        <button
-          onClick={onToggle}
-          title="Collapse nav"
-          style={{
-            background: 'none',
-            border: 'none',
-            color: 'var(--stitch-muted)',
-            cursor: 'pointer',
-            padding: '4px',
-            display: 'flex',
-            alignItems: 'center',
-            transition: 'color 0.2s ease',
-          }}
-          onMouseEnter={(e) => {
-            e.currentTarget.style.color = 'var(--stitch-text)'
-          }}
-          onMouseLeave={(e) => {
-            e.currentTarget.style.color = 'var(--stitch-muted)'
-          }}
-        >
-          <ChevronRight size={14} />
-        </button>
-      </div>
-
+    <>
       {/* Search Input */}
-      <div style={{ padding: '8px 16px', flexShrink: 0 }}>
+      <div style={{ padding: '12px 16px', flexShrink: 0 }}>
         <div style={{ position: 'relative' }}>
           <Search
             size={14}
@@ -303,7 +159,7 @@ export default function NodePalette({
       </div>
 
       {/* Accordions */}
-      <div style={{ flex: 1, overflowY: 'auto', padding: '8px' }}>
+      <div style={{ flex: 1, overflowY: 'auto', padding: '8px 12px' }}>
         {categories.map((category) => {
           const Icon = getCategoryIcon(category)
           const isOpen = expandedCategories[category]
@@ -330,7 +186,7 @@ export default function NodePalette({
                   justifyContent: 'space-between',
                   cursor: 'pointer',
                   color: 'var(--stitch-muted)',
-                  fontSize: '11px',
+                  fontSize: '12px',
                   fontWeight: 600,
                   textTransform: 'uppercase',
                   letterSpacing: '0.5px',
@@ -358,7 +214,7 @@ export default function NodePalette({
                 >
                   <span
                     style={{
-                      fontSize: '10px',
+                      fontSize: '11px',
                       backgroundColor: 'rgba(255, 255, 255, 0.1)',
                       padding: '2px 6px',
                       borderRadius: '4px',
@@ -467,7 +323,7 @@ export default function NodePalette({
           )
         })}
       </div>
-    </div>
+    </>
   )
 }
 

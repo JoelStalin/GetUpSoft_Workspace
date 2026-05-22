@@ -32,20 +32,18 @@ export default function OrcaNode({ data, id, selected, isConnecting }: any) {
         px-0 py-0 rounded-lg border-2 transition-all duration-300 cursor-pointer
         relative w-56 group shadow-lg will-change-transform
         ${selected
-          ? 'border-[rgb(var(--color-primary-400))] shadow-2xl'
-          : 'border-[rgba(100,100,120,0.5)] hover:border-[rgba(124,77,255,0.5)]'
+          ? 'border-[rgb(var(--color-primary-400))] node-selected'
+          : 'border-[rgba(100,100,120,0.5)] hover:border-[rgba(74,158,255,0.5)]'
         }
         ${isRunning ? 'node-running' : ''}
         ${isFailed ? 'border-[rgb(237_49_93)]' : ''}
         ${isCompleted ? 'border-[rgb(15_163_136)]' : ''}
       `}
       style={{
-        backgroundColor: '#1f2340',
+        backgroundColor: 'var(--node-bg)',
         borderLeftColor: data.color || 'rgb(var(--color-primary-400))',
         borderLeftWidth: '5px',
-        boxShadow: selected
-          ? '0 8px 24px rgba(124, 77, 255, 0.4)'
-          : '0 4px 12px rgba(0, 0, 0, 0.6)',
+        boxShadow: '0 4px 12px rgba(0, 0, 0, 0.6)',
       }}
       title={errorMessage || undefined}
     >
@@ -56,12 +54,13 @@ export default function OrcaNode({ data, id, selected, isConnecting }: any) {
         }`}
         style={{
           backgroundColor: statusColor,
+          transition: 'background-color 0.4s ease, border-color 0.4s ease',
         }}
       />
 
       {/* Error Tooltip */}
       {errorMessage && (
-        <div className="absolute -top-10 left-0 hidden group-hover:block bg-[rgb(237_49_93)] text-white text-xs px-2 py-1 rounded z-10 w-48 break-words">
+        <div className="absolute -top-10 left-0 opacity-0 group-hover:opacity-100 transition-opacity duration-200 bg-[rgb(237_49_93)] text-white text-xs px-2 py-1 rounded z-10 w-48 break-words pointer-events-none">
           {errorMessage}
         </div>
       )}
@@ -113,7 +112,7 @@ export default function OrcaNode({ data, id, selected, isConnecting }: any) {
         position={Position.Top}
         isConnectable={!isConnecting}
         style={{
-          backgroundColor: data.color || '#7c4dff',
+          backgroundColor: data.color || 'rgb(var(--color-primary-400))',
         }}
       />
       <Handle
@@ -121,7 +120,7 @@ export default function OrcaNode({ data, id, selected, isConnecting }: any) {
         position={Position.Bottom}
         isConnectable={!isConnecting}
         style={{
-          backgroundColor: data.color || '#7c4dff',
+          backgroundColor: data.color || 'rgb(var(--color-primary-400))',
         }}
       />
     </div>
