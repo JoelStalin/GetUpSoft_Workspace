@@ -1,5 +1,5 @@
 import { useCallback, useState, useEffect } from 'react'
-import { WorkflowState } from '../types/workflow'
+import { Workflow } from '../types/workflow'
 import { useToast } from '../contexts/ToastContext'
 
 export interface WorkflowVersion {
@@ -7,7 +7,7 @@ export interface WorkflowVersion {
   timestamp: string
   name?: string
   description?: string
-  workflow: WorkflowState
+  workflow: Workflow
   author?: string
   nodeCount: number
   edgeCount: number
@@ -62,7 +62,7 @@ export function useWorkflowVersioning(workflowId: string | null) {
 
   // Create a new version
   const createVersion = useCallback(
-    (workflow: WorkflowState, versionName?: string, description?: string) => {
+    (workflow: Workflow, versionName?: string, description?: string) => {
       if (!workflowId) return
 
       const newVersion: WorkflowVersion = {
@@ -107,7 +107,7 @@ export function useWorkflowVersioning(workflowId: string | null) {
 
   // Restore a version
   const restoreVersion = useCallback(
-    (versionId: string): WorkflowState | null => {
+    (versionId: string): Workflow | null => {
       const version = getVersion(versionId)
       if (!version) {
         addToast('Version not found', 'error')

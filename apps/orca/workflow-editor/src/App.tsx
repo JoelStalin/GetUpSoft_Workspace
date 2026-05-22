@@ -529,6 +529,7 @@ function AppContent() {
 
 function FloatingWindowsManager() {
   const { windows, updateWindow } = useWindows()
+  const { workflow } = useWorkflowOperations()
   const componentsWindow = windows.find((w) => w.type === 'components')
 
   return (

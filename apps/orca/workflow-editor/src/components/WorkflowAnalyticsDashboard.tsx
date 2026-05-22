@@ -1,9 +1,9 @@
 import { useWorkflowAnalytics, formatDuration } from "../hooks/useWorkflowAnalytics"
-import { WorkflowState } from "../types/workflow"
+import { Workflow } from "../types/workflow"
 import { TrendingUp, BarChart3, Clock, CheckCircle } from "lucide-react"
 
 interface WorkflowAnalyticsDashboardProps {
-  workflow: WorkflowState | null
+  workflow: Workflow | null
 }
 
 export default function WorkflowAnalyticsDashboard({ workflow }: WorkflowAnalyticsDashboardProps) {

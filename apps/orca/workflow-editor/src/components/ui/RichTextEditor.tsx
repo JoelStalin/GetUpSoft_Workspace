@@ -62,7 +62,7 @@ export default function RichTextEditor({
   const addLink = useCallback(() => {
     const url = prompt('Enter URL:')
     if (url) {
-      editor?.chain().focus().extendMarkRange('link').setLink({ href: url }).run()
+      editor?.chain().focus().extendMarkRange('link').setMark('link', { href: url }).run()
     }
   }, [editor])
 

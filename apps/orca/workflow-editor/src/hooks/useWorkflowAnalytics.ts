@@ -1,5 +1,5 @@
 import { useMemo } from 'react'
-import { WorkflowState } from '../types/workflow'
+import { Workflow } from '../types/workflow'
 
 export interface NodeStats {
   nodeId: string
@@ -24,7 +24,7 @@ export interface WorkflowStats {
   nodeStats: NodeStats[]
 }
 
-export function useWorkflowAnalytics(workflow: WorkflowState | null) {
+export function useWorkflowAnalytics(workflow: Workflow | null) {
   const stats = useMemo<WorkflowStats | null>(() => {
     if (!workflow) return null
 
