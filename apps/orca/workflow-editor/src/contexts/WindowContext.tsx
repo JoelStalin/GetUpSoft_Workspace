@@ -28,7 +28,7 @@ interface WindowContextType {
 
 const WindowContext = createContext<WindowContextType | undefined>(undefined)
 
-const STORAGE_KEY = 'orca_windows_state'
+const STORAGE_KEY = 'orca_windows_state_v3'
 
 const loadWindowsFromStorage = (): FloatingWindow[] => {
   if (typeof window === 'undefined') return getDefaultWindows()
@@ -52,7 +52,7 @@ const getDefaultWindows = (): FloatingWindow[] => [
       y: 72,
       width: 280,
       height: 500,
-      isMinimized: true,
+      isMinimized: false,
       isVisible: false,
       isLocked: false,
       zIndex: 10,
@@ -66,7 +66,7 @@ const getDefaultWindows = (): FloatingWindow[] => [
       width: 400,
       height: 280,
       isMinimized: false,
-      isVisible: true,
+      isVisible: false,
       isLocked: false,
       zIndex: 9,
     },

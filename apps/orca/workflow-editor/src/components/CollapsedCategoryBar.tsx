@@ -5,15 +5,15 @@ interface CollapsedCategoryBarProps {
   x: number
   y: number
   height: number
-  onExpand: () => void
+  onExpand: (category?: string) => void
 }
 
 const categories = [
   { name: 'Triggers', icon: Bell, color: '#ff6d5a' },
   { name: 'AI', icon: Brain, color: '#7c4dff' },
-  { name: 'Network', icon: Globe, color: '#1a9ba1' },
+  { name: 'Network', icon: Globe, color: '#22B5C0' },
   { name: 'Control Flow', icon: GitBranch, color: '#ff9f43' },
-  { name: 'Utils', icon: Wrench, color: '#576574' },
+  { name: 'Utils', icon: Wrench, color: '#7c8695' },
 ]
 
 export default function CollapsedCategoryBar({ x, y, height, onExpand }: CollapsedCategoryBarProps) {
@@ -74,7 +74,7 @@ export default function CollapsedCategoryBar({ x, y, height, onExpand }: Collaps
         padding: '8px 0',
         gap: '8px',
         overflow: 'hidden',
-        zIndex: 5,
+        zIndex: 30,
         cursor: isDragging ? 'grabbing' : 'grab',
         userSelect: isDragging ? 'none' : 'auto',
         transition: isDragging ? 'none' : 'box-shadow 0.2s ease',
@@ -86,7 +86,8 @@ export default function CollapsedCategoryBar({ x, y, height, onExpand }: Collaps
           key={name}
           onClick={(e) => {
             e.stopPropagation()
-            onExpand()
+            e.preventDefault()
+            onExpand(name)
           }}
           title={`View ${name} components`}
           style={{
@@ -102,7 +103,7 @@ export default function CollapsedCategoryBar({ x, y, height, onExpand }: Collaps
             backgroundColor: 'transparent',
             border: 'none',
             padding: 0,
-            pointerEvents: isDragging ? 'none' : 'auto',
+            pointerEvents: 'auto',
           }}
           onMouseEnter={(e) => {
             e.currentTarget.style.backgroundColor = 'var(--stitch-hover)'
@@ -113,7 +114,7 @@ export default function CollapsedCategoryBar({ x, y, height, onExpand }: Collaps
             e.currentTarget.style.color = 'var(--stitch-muted)'
           }}
         >
-          <Icon size={18} />
+          {Icon && <Icon size={18} color={color} />}
         </button>
       ))}
     </div>

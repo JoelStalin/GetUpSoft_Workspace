@@ -69,12 +69,13 @@ export default function SearchDialog({
     <>
       {/* Backdrop */}
       <div
-        className="fixed inset-0 bg-black/50 z-40 transition-opacity"
+        className="fixed inset-0 bg-black/50 transition-opacity"
+        style={{ zIndex: 9995 }}
         onClick={onClose}
       />
 
       {/* Dialog */}
-      <div className="fixed top-1/3 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-full max-w-2xl mx-4 z-50 animate-in fade-in scale-in">
+      <div className="fixed top-1/3 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-full max-w-2xl mx-4 animate-in fade-in scale-in" style={{ zIndex: 9996 }}>
         <div
           className="rounded-lg shadow-2xl overflow-hidden border"
           style={{
@@ -128,6 +129,15 @@ export default function SearchDialog({
           </div>
         </div>
       </div>
+
+      <style>{`
+        @media (prefers-reduced-motion: reduce) {
+          .animate-in,
+          .fade-in {
+            animation: none !important;
+          }
+        }
+      `}</style>
     </>
   )
 }

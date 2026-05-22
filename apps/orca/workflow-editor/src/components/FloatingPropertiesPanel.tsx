@@ -1,8 +1,12 @@
 import { useWorkflowOperations } from '../hooks/useWorkflowOperations'
+import { useToast } from '../contexts/ToastContext'
 import { Settings, Trash2 } from 'lucide-react'
+import RichTextEditor from './ui/RichTextEditor'
+import ImageUpload from './ui/ImageUpload'
 
 export default function FloatingPropertiesPanel() {
   const { workflow, selectedNodeId, deleteNode, updateNode } = useWorkflowOperations()
+  const { addToast } = useToast()
 
   if (!selectedNodeId || !workflow) {
     return (
@@ -47,10 +51,29 @@ export default function FloatingPropertiesPanel() {
     })
   }
 
+  const handleDescriptionChange = (newDescription: string) => {
+    updateNode(selectedNodeId, {
+      ...selectedNode,
+      data: {
+        ...selectedNode.data,
+        description: newDescription,
+      },
+    })
+  }
+
+  const handleImageChange = (imageUrl: string) => {
+    updateNode(selectedNodeId, {
+      ...selectedNode,
+      data: {
+        ...selectedNode.data,
+        imageUrl,
+      },
+    })
+  }
+
   const handleDelete = () => {
-    if (confirm(`Delete node "${selectedNode.data.label}"?`)) {
-      deleteNode(selectedNodeId)
-    }
+    deleteNode(selectedNodeId)
+    addToast(`Node "${selectedNode.data.label}" deleted`, 'success')
   }
 
   return (
@@ -193,6 +216,29 @@ export default function FloatingPropertiesPanel() {
           />
         </div>
 
+        {/* Description */}
+        <div style={{ marginBottom: '16px' }}>
+          <label
+            style={{
+              display: 'block',
+              fontSize: '11px',
+              fontWeight: 600,
+              color: 'var(--stitch-muted)',
+              textTransform: 'uppercase',
+              letterSpacing: '0.5px',
+              marginBottom: '6px',
+            }}
+          >
+            Description
+          </label>
+          <RichTextEditor
+            value={selectedNode.data.description || ''}
+            onChange={handleDescriptionChange}
+            placeholder="Add a description..."
+            simple={false}
+          />
+        </div>
+
         {/* Node Type */}
         <div style={{ marginBottom: '16px' }}>
           <label
@@ -301,6 +347,28 @@ export default function FloatingPropertiesPanel() {
               />
             </div>
           </div>
+        </div>
+
+        {/* Cover Image */}
+        <div style={{ marginBottom: '16px' }}>
+          <label
+            style={{
+              display: 'block',
+              fontSize: '11px',
+              fontWeight: 600,
+              color: 'var(--stitch-muted)',
+              textTransform: 'uppercase',
+              letterSpacing: '0.5px',
+              marginBottom: '6px',
+            }}
+          >
+            Cover Image
+          </label>
+          <ImageUpload
+            value={selectedNode.data.imageUrl || ''}
+            onChange={handleImageChange}
+            maxSize={5}
+          />
         </div>
 
         {/* Status */}

@@ -32,6 +32,7 @@ export default function WorkflowCanvas() {
   const [nodes, setNodes, onNodesChange] = useNodesState(workflow?.nodes || [])
   const [edges, setEdges, onEdgesChange] = useEdgesState(workflow?.edges || [])
   const [selectedEdgeId, setSelectedEdgeId] = useState<string | null>(null)
+  const [miniMapVisible, setMiniMapVisible] = useState(true)
 
   // Sync workflow nodes to ReactFlow nodes
   useEffect(() => {
@@ -240,7 +241,7 @@ export default function WorkflowCanvas() {
       >
         <Background color="rgba(255, 255, 255, 0.02)" gap={20} size={1} />
         <Controls position="bottom-right" />
-        <MiniMap
+        {miniMapVisible && <MiniMap
           nodeColor={(node: any): string => {
             if (selectedNodeId === node.id) return '#4A9EFF'
             return '#6B7280'
@@ -256,8 +257,9 @@ export default function WorkflowCanvas() {
             border: '1px solid rgba(255, 255, 255, 0.1)',
             width: '200px',
             height: '150px',
+            fontSize: '11px',
           }}
-        />
+        />}
       </ReactFlow>
     </div>
   )

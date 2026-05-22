@@ -1,7 +1,9 @@
 import { Handle, Position } from '@xyflow/react'
 import { useWorkflowOperations } from '../hooks/useWorkflowOperations'
 import { useExecutionStatus } from '../hooks/useExecutionStatus'
+import { useToast } from '../contexts/ToastContext'
 import { getNodeIcon } from '../utils/nodeIcons'
+import ContextMenu, { Edit, Copy, Trash2, Lock } from './ui/ContextMenu'
 
 const statusColors = {
   running: 'rgb(255 193 7)',  // Amber
@@ -11,8 +13,9 @@ const statusColors = {
 }
 
 export default function OrcaNode({ data, id, selected, isConnecting }: any) {
-  const { selectNode } = useWorkflowOperations()
+  const { selectNode, deleteNode, addNode, workflow } = useWorkflowOperations()
   const { getNodeLog } = useExecutionStatus()
+  const { addToast } = useToast()
 
   const nodeLog = getNodeLog(id)
   const nodeStatus = nodeLog?.status || 'pending'
@@ -24,8 +27,38 @@ export default function OrcaNode({ data, id, selected, isConnecting }: any) {
   const isCompleted = nodeStatus === 'completed'
   const IconComponent = getNodeIcon(data.type)
 
+  const handleDuplicate = () => {
+    if (workflow?.nodes) {
+      const node = workflow.nodes.find((n) => n.id === id)
+      if (node) {
+        addNode({
+          ...node,
+          id: `${node.type}-${Date.now()}`,
+          position: {
+            x: node.position.x + 80,
+            y: node.position.y + 80,
+          },
+        })
+        addToast('Node duplicated', 'success')
+      }
+    }
+  }
+
+  const contextMenuItems: any[] = [
+    { icon: Edit, label: 'Edit with AI', onClick: () => addToast('Edit with AI coming soon', 'info') },
+    { icon: Copy, label: 'Duplicate', onClick: handleDuplicate },
+    { separator: true },
+    { icon: Trash2, label: 'Delete', onClick: () => {
+      deleteNode(id)
+      addToast('Node deleted', 'success')
+    }, color: 'rgb(255, 109, 90)' },
+    { separator: true },
+    { icon: Lock, label: 'Lock', onClick: () => addToast('Node locked', 'info') },
+  ]
+
   return (
-    <div
+    <ContextMenu items={contextMenuItems}>
+      <div
       onClick={() => selectNode(id)}
       data-status={nodeStatus}
       className={`
@@ -123,6 +156,7 @@ export default function OrcaNode({ data, id, selected, isConnecting }: any) {
           backgroundColor: data.color || 'rgb(var(--color-primary-400))',
         }}
       />
-    </div>
+      </div>
+    </ContextMenu>
   )
 }

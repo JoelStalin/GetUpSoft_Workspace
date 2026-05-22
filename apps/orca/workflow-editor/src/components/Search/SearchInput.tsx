@@ -23,7 +23,7 @@ export default function SearchInput({
       <Search
         size={16}
         className="absolute left-3"
-        style={{ color: 'rgb(var(--color-base-500))' }}
+        style={{ color: '#4A9EFF' }}
       />
 
       <input
@@ -32,11 +32,24 @@ export default function SearchInput({
         value={query}
         onChange={(e) => onQueryChange(e.target.value)}
         autoFocus={autoFocus}
-        className="w-full pl-10 pr-10 py-2.5 rounded-lg border focus:outline-none focus:border-[rgb(var(--color-primary-400))] focus:ring-1 focus:ring-[rgb(var(--color-primary-400))] transition"
+        className="w-full pl-10 pr-10 py-2.5 border transition"
         style={{
           backgroundColor: 'rgb(var(--color-base-200))',
           borderColor: 'rgb(var(--color-base-300))',
-          color: 'rgb(var(--color-base-700))',
+          color: '#ffffff',
+          caretColor: '#4A9EFF',
+          outline: 'none',
+          fontSize: '14px',
+          fontWeight: '500',
+          borderRadius: '8px',
+        }}
+        onFocus={(e) => {
+          e.currentTarget.style.borderColor = '#4A9EFF'
+          e.currentTarget.style.boxShadow = '0 0 0 2px rgba(74, 158, 255, 0.2)'
+        }}
+        onBlur={(e) => {
+          e.currentTarget.style.borderColor = 'rgb(var(--color-base-300))'
+          e.currentTarget.style.boxShadow = 'none'
         }}
       />
 

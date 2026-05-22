@@ -10,10 +10,14 @@ import FloatingChatPanel from './components/FloatingChatPanel'
 import FloatingPropertiesPanel from './components/FloatingPropertiesPanel'
 import CollapsedCategoryBar from './components/CollapsedCategoryBar'
 import QuickAccessBar from './components/QuickAccessBar'
+import AgentLogButton from './components/AgentLogButton'
 import EditorToolsPanel from './components/EditorToolsPanel'
+import ToastContainer from './components/ToastContainer'
+import MiniZoom from './components/MiniZoom'
 import { WorkflowProvider } from './contexts/WorkflowContext'
 import { ExecutionProvider } from './contexts/ExecutionContext'
 import { WindowProvider, useWindows } from './contexts/WindowContext'
+import { ToastProvider } from './contexts/ToastContext'
 import { useWorkflowOperations } from './hooks/useWorkflowOperations'
 import { useExecutionStatus } from './hooks/useExecutionStatus'
 import { useSearch } from './hooks/useSearch'
@@ -26,6 +30,8 @@ function AppContent() {
   const [isLoading, setIsLoading] = useState(true)
   const [activeTab, setActiveTab] = useState<'canvas' | 'properties' | 'version'>('canvas')
   const [nodeTypes, setNodeTypes] = useState<Record<string, any>>({})
+  const [miniZoomEnabled, setMiniZoomEnabled] = useState(false)
+  const [searchVisible, setSearchVisible] = useState(false)
   const { workflow, setWorkflow, addNode, deleteNode, selectedNodeId } = useWorkflowOperations()
   const { updateWindow } = useWindows()
   const { logs: executionLogs } = useExecutionStatus()
@@ -339,10 +345,18 @@ function AppContent() {
         <FloatingWindowsManager />
 
         {/* Quick Access Bar */}
-        <QuickAccessBar />
+        <QuickAccessBar
+          searchOpen={searchOpen}
+          onSearchToggle={() => searchOpen ? closeSearch() : openSearch()}
+          miniZoomEnabled={miniZoomEnabled}
+          onMiniZoomToggle={() => setMiniZoomEnabled(!miniZoomEnabled)}
+        />
 
         {/* Editor Tools Panel */}
         <EditorToolsPanel />
+
+        {/* Agent Log Button */}
+        <AgentLogButton />
 
         {/* Search Dialog */}
         <SearchDialog
@@ -359,13 +373,19 @@ function AppContent() {
           onNavigate={handleNavigate}
           onClearHistory={clearHistory}
         />
+
+        {/* Toast Container */}
+        <ToastContainer />
+
+        {/* Mini Zoom */}
+        <MiniZoom enabled={miniZoomEnabled} zoom={2} size={160} />
       </div>
     </ReactFlowProvider>
   )
 }
 
 function FloatingWindowsManager() {
-  const { windows, toggleMinimize } = useWindows()
+  const { windows, updateWindow } = useWindows()
   const componentsWindow = windows.find((w) => w.type === 'components')
 
   return (
@@ -375,7 +395,11 @@ function FloatingWindowsManager() {
 
         if (window.type === 'components') {
           return (
-            <FloatingWindow key={window.id} window={window}>
+            <FloatingWindow
+              key={window.id}
+              window={window}
+              onMinimize={() => updateWindow(window.id, { isVisible: false })}
+            >
               <FloatingComponentsPanel />
             </FloatingWindow>
           )
@@ -400,13 +424,15 @@ function FloatingWindowsManager() {
         return null
       })}
 
-      {/* Show category bar when components window is minimized */}
-      {componentsWindow && componentsWindow.isMinimized && (
+      {/* Show category bar when components window is hidden */}
+      {componentsWindow && !componentsWindow.isVisible && (
         <CollapsedCategoryBar
           x={componentsWindow.x + 8}
           y={componentsWindow.y}
           height={componentsWindow.height}
-          onExpand={() => toggleMinimize(componentsWindow.id)}
+          onExpand={() => {
+            updateWindow(componentsWindow.id, { isVisible: true })
+          }}
         />
       )}
     </>
@@ -415,13 +441,15 @@ function FloatingWindowsManager() {
 
 export default function App() {
   return (
-    <WorkflowProvider>
-      <ExecutionProvider>
-        <WindowProvider>
-          <AppContent />
-        </WindowProvider>
-      </ExecutionProvider>
-    </WorkflowProvider>
+    <ToastProvider>
+      <WorkflowProvider>
+        <ExecutionProvider>
+          <WindowProvider>
+            <AppContent />
+          </WindowProvider>
+        </ExecutionProvider>
+      </WorkflowProvider>
+    </ToastProvider>
   )
 }
 

@@ -5,9 +5,10 @@ import { useWindows, FloatingWindow as Window } from '../contexts/WindowContext'
 interface FloatingWindowProps {
   window: Window
   children: React.ReactNode
+  onMinimize?: (windowId: string) => void
 }
 
-export default function FloatingWindow({ window, children }: FloatingWindowProps) {
+export default function FloatingWindow({ window, children, onMinimize }: FloatingWindowProps) {
   const { updateWindow, bringToFront, toggleMinimize, toggleLock, removeWindow } = useWindows()
   const [isDragging, setIsDragging] = useState(false)
   const [dragOffset, setDragOffset] = useState({ x: 0, y: 0 })
@@ -176,7 +177,13 @@ export default function FloatingWindow({ window, children }: FloatingWindowProps
             />
           </button>
           <button
-            onClick={() => toggleMinimize(window.id)}
+            onClick={() => {
+              if (onMinimize) {
+                onMinimize(window.id)
+              } else {
+                toggleMinimize(window.id)
+              }
+            }}
             title={window.isMinimized ? 'Expand' : 'Minimize'}
             style={{
               background: 'none',

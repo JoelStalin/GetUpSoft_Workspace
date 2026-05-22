@@ -21,6 +21,7 @@ export default function FloatingComponentsPanel() {
     'Control Flow': false,
     Utils: false,
   })
+  const [expandedNode, setExpandedNode] = useState<string | null>(null)
   const { addNode } = useWorkflowOperations()
   const { pushHistory } = useWorkflowHistory()
 
@@ -202,7 +203,7 @@ export default function FloatingComponentsPanel() {
                 }}
               >
                 <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-                  <Icon size={14} />
+                  {Icon && <Icon size={14} color="#4A9EFF" />}
                   <span>{category}</span>
                 </div>
                 <div
@@ -242,82 +243,90 @@ export default function FloatingComponentsPanel() {
                   opacity: isOpen ? 1 : 0,
                 }}
               >
-                {items.map(([key, info]) => (
-                  <button
-                    key={key}
-                    onClick={() => handleAddNode(key, info)}
-                    draggable
-                    onDragStart={(e) => onDragStart(e, key)}
-                    style={{
-                      width: '100%',
-                      padding: '8px 8px',
-                      marginBottom: '2px',
-                      backgroundColor: 'transparent',
-                      border: `1px solid rgba(255, 255, 255, 0.05)`,
-                      borderRadius: '6px',
-                      display: 'flex',
-                      alignItems: 'center',
-                      gap: '8px',
-                      cursor: 'pointer',
-                      textAlign: 'left',
-                      transition: 'all 0.2s ease',
-                    }}
-                    onMouseEnter={(e) => {
-                      e.currentTarget.style.backgroundColor = 'var(--stitch-hover)'
-                      e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.1)'
-                    }}
-                    onMouseLeave={(e) => {
-                      e.currentTarget.style.backgroundColor = 'transparent'
-                      e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.05)'
-                    }}
-                  >
-                    {/* Color Dot */}
-                    <div
-                      style={{
-                        width: '10px',
-                        height: '10px',
-                        borderRadius: '50%',
-                        backgroundColor: info.color || '#7c4dff',
-                        flexShrink: 0,
+                {items.map(([key, info]) => {
+                  const isExpanded = expandedNode === key
+                  return (
+                    <button
+                      key={key}
+                      onClick={(e) => {
+                        e.stopPropagation()
+                        setExpandedNode(isExpanded ? null : key)
                       }}
-                    />
-
-                    {/* Label and Description */}
-                    <div
+                      draggable
+                      onDragStart={(e) => {
+                        e.stopPropagation()
+                        onDragStart(e, key)
+                      }}
                       style={{
-                        flex: 1,
-                        minWidth: 0,
+                        width: '100%',
+                        padding: '8px 8px',
+                        marginBottom: '2px',
+                        backgroundColor: isExpanded ? 'rgba(255, 255, 255, 0.05)' : 'transparent',
+                        border: `1px solid ${isExpanded ? 'rgba(74, 158, 255, 0.3)' : 'rgba(255, 255, 255, 0.05)'}`,
+                        borderRadius: '6px',
+                        display: 'flex',
+                        flexDirection: 'column',
+                        alignItems: 'stretch',
+                        gap: '0px',
+                        cursor: 'pointer',
+                        textAlign: 'left',
+                        transition: 'all 0.2s ease',
+                      }}
+                      onMouseEnter={(e) => {
+                        e.currentTarget.style.backgroundColor = 'var(--stitch-hover)'
+                        e.currentTarget.style.borderColor = 'rgba(255, 255, 255, 0.1)'
+                      }}
+                      onMouseLeave={(e) => {
+                        e.currentTarget.style.backgroundColor = isExpanded ? 'rgba(255, 255, 255, 0.05)' : 'transparent'
+                        e.currentTarget.style.borderColor = isExpanded ? 'rgba(74, 158, 255, 0.3)' : 'rgba(255, 255, 255, 0.05)'
                       }}
                     >
-                      <div
-                        style={{
-                          fontSize: '12px',
-                          fontWeight: 500,
-                          color: 'var(--stitch-text)',
-                          whiteSpace: 'nowrap',
-                          overflow: 'hidden',
-                          textOverflow: 'ellipsis',
-                        }}
-                      >
-                        {info.label}
+                      {/* Header with Dot and Label */}
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '8px', padding: '4px 0' }}>
+                        <div
+                          style={{
+                            width: '10px',
+                            height: '10px',
+                            borderRadius: '50%',
+                            backgroundColor: info.color || '#7c4dff',
+                            flexShrink: 0,
+                          }}
+                        />
+                        <div
+                          style={{
+                            flex: 1,
+                            fontSize: '12px',
+                            fontWeight: 500,
+                            color: 'var(--stitch-text)',
+                            whiteSpace: 'nowrap',
+                            overflow: 'hidden',
+                            textOverflow: 'ellipsis',
+                          }}
+                        >
+                          {info.label}
+                        </div>
                       </div>
-                      {info.description && (
+
+                      {/* Description - Only Show When Expanded */}
+                      {isExpanded && info.description && (
                         <div
                           style={{
                             fontSize: '11px',
                             color: 'var(--stitch-muted)',
-                            whiteSpace: 'nowrap',
-                            overflow: 'hidden',
-                            textOverflow: 'ellipsis',
-                            marginTop: '2px',
+                            marginTop: '6px',
+                            paddingTop: '6px',
+                            borderTop: '1px solid rgba(255, 255, 255, 0.05)',
+                            lineHeight: '1.4',
+                            wordWrap: 'break-word',
+                            whiteSpace: 'normal',
                           }}
                         >
                           {info.description}
                         </div>
                       )}
-                    </div>
-                  </button>
-                ))}
+                    </button>
+                  )
+                })}
               </div>
             </div>
           )
@@ -356,7 +365,7 @@ function getDefaultNodeTypes() {
     },
     'orca-nodes-base.setVariable': {
       label: 'Set Variable',
-      color: '#576574',
+      color: '#7c8695',
       description: 'Store a value in a variable',
     },
     'orca-nodes-base.executeCommand': {
@@ -366,7 +375,7 @@ function getDefaultNodeTypes() {
     },
     'orca-nodes-base.end': {
       label: 'End',
-      color: '#353b48',
+      color: '#6B7280',
       description: 'End the workflow',
     },
   }

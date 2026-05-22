@@ -2,9 +2,12 @@ import { useRef, useState } from 'react'
 import { useWorkflowOperations } from '../hooks/useWorkflowOperations'
 import { useExecutionStatus } from '../hooks/useExecutionStatus'
 import { useWorkflowExecution } from '../hooks/useWorkflowExecution'
+import { useToast } from '../contexts/ToastContext'
 import { handleApiError } from '../utils/errorHandler'
 import { runWorkflow, exportWorkflow } from '../api/orcaApi'
-import { Menu, Play, Share2, Download, Globe, Network, Smartphone } from 'lucide-react'
+import { Menu, Play, Share2, Globe, Network, Smartphone } from 'lucide-react'
+import ToggleGroup from './ui/ToggleGroup'
+import ThemeSelector from './ui/ThemeSelector'
 
 export default function WorkflowToolbar({
   activeTab = 'canvas',
@@ -16,6 +19,7 @@ export default function WorkflowToolbar({
   const { workflow } = useWorkflowOperations()
   const { setCurrentExecution, setIsExecuting } = useExecutionStatus()
   const { simulateExecution } = useWorkflowExecution()
+  const { addToast } = useToast()
   const [isLoading, setIsLoading] = useState(false)
   const fileInputRef = useRef<HTMLInputElement>(null)
 
@@ -162,47 +166,11 @@ export default function WorkflowToolbar({
             justifyContent: 'center',
           }}
         >
-          {modes.map((mode) => {
-            const Icon = mode.icon
-            return (
-              <button
-                key={mode.id}
-                onClick={() => onTabChange(mode.id)}
-                title={mode.label}
-                style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '6px',
-                  padding: '6px 12px',
-                  fontSize: '12px',
-                  backgroundColor: activeTab === mode.id ? 'rgba(74, 158, 255, 0.15)' : 'transparent',
-                  border: `1.5px solid ${activeTab === mode.id ? 'var(--stitch-accent)' : 'var(--stitch-border)'}`,
-                  color: activeTab === mode.id ? 'var(--stitch-accent)' : 'var(--stitch-muted)',
-                  fontWeight: activeTab === mode.id ? 600 : 400,
-                  cursor: 'pointer',
-                  borderRadius: '6px',
-                  transition: 'all 0.2s ease',
-                }}
-                onMouseEnter={(e) => {
-                  if (activeTab !== mode.id) {
-                    e.currentTarget.style.borderColor = 'var(--stitch-accent)'
-                    e.currentTarget.style.color = 'var(--stitch-accent)'
-                    e.currentTarget.style.backgroundColor = 'rgba(74, 158, 255, 0.08)'
-                  }
-                }}
-                onMouseLeave={(e) => {
-                  if (activeTab !== mode.id) {
-                    e.currentTarget.style.borderColor = 'var(--stitch-border)'
-                    e.currentTarget.style.color = 'var(--stitch-muted)'
-                    e.currentTarget.style.backgroundColor = 'transparent'
-                  }
-                }}
-              >
-                <Icon size={14} />
-                <span>{mode.label}</span>
-              </button>
-            )
-          })}
+          <ToggleGroup
+            items={modes}
+            value={activeTab}
+            onChange={onTabChange}
+          />
         </div>
 
         {/* Right Section */}
@@ -215,8 +183,10 @@ export default function WorkflowToolbar({
             justifyContent: 'flex-end',
           }}
         >
+          <ThemeSelector />
+
           <button
-            onClick={() => console.log('Share functionality coming soon')}
+            onClick={() => addToast('Share functionality coming soon', 'info')}
             style={{
               padding: '6px 10px',
               borderRadius: '6px',

@@ -1,0 +1,22 @@
+allowed_targets:
+  - stitch.withgoogle.com
+
+allowed_client_domains:
+  - stitch.withgoogle.com
+  - accounts.google.com
+  - google.com
+  - www.google.com
+  - gstatic.com
+  - fonts.gstatic.com
+  - googleapis.com
+  - apis.google.com
+  - googleusercontent.com
+
+defaults:
+  output_dir: .traffic-control
+  nmap_args:
+    - -sV
+    - --top-ports
+    - "100"
+  capture_seconds: 60
+  capture_packet_limit: 1000

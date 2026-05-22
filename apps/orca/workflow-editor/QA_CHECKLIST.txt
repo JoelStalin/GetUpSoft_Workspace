@@ -1,0 +1,345 @@
+================================================================================
+  ORCA WORKFLOW EDITOR - MANDATORY QA CHECKLIST
+  Required AFTER every UI-UX change before code review
+  Time required: 20 minutes
+================================================================================
+
+CHANGE DETAILS
+==============
+Component changed: ___________________________
+Date: ________________  Time spent: ___________
+Files modified:
+  [ ]
+  [ ]
+  [ ]
+
+================================================================================
+A. VISUAL REGRESSION CHECK (5 min)
+================================================================================
+
+Before opening browser:
+  [ ] Compiled successfully: npm run build
+  [ ] No TypeScript errors
+  [ ] No console warnings pre-change
+
+In Browser (http://localhost:5173):
+  [ ] Component appears correctly (not hidden/broken)
+  [ ] All colors visible (not too dim, not washed out)
+  [ ] Text readable (size ≥ 12px)
+  [ ] Icons render (not blank/broken squares)
+  [ ] Spacing consistent (padding, gap, margins)
+  [ ] No unintended layout shift
+  [ ] Borders/shadows render as designed
+  [ ] Hover state works (scale/color change)
+  [ ] Focus state visible (keyboard navigation)
+
+Status: ___✅ PASS / ❌ FAIL
+
+Issues found: _________________________________________________________________
+
+================================================================================
+B. CONTRAST & ACCESSIBILITY (3 min)
+================================================================================
+
+Contrast Check (Use: https://accessible-colors.com/ or axe DevTools):
+  [ ] Text contrast ≥ 4.5:1 (WCAG AA)
+  [ ] UI component contrast ≥ 3:1 (buttons, borders)
+  [ ] Color not the only signal (icon + label, not just color)
+
+Text & Typography:
+  [ ] Font size ≥ 12px (body text)
+  [ ] Font size ≥ 16px (titles/headers)
+  [ ] Line height readable (1.4-1.5 minimum)
+
+Interactive Elements:
+  [ ] Buttons ≥ 44px (width and height)
+  [ ] Touch targets adequate (no tiny buttons)
+  [ ] Disabled state visually distinct (if applicable)
+
+Motion & Animation:
+  [ ] No flashing or strobing
+  [ ] Smooth transitions (0.2s standard)
+  [ ] prefers-reduced-motion respected? YES/NO
+
+Status: ___✅ PASS / ❌ FAIL
+
+Contrast values (document here):
+  - Element 1: _____  on  _____  = _____ : 1 ratio
+  - Element 2: _____  on  _____  = _____ : 1 ratio
+  - Element 3: _____  on  _____  = _____ : 1 ratio
+
+Issues found: _________________________________________________________________
+
+================================================================================
+C. INTERACTION STATES (3 min)
+================================================================================
+
+Button States:
+  [ ] Default: Border + transparent bg
+  [ ] Hover: Bright border + colored bg (0.2 alpha)
+  [ ] Active: Colored border + bg (0.15 alpha)
+  [ ] Focus: Visible focus ring or outline
+  [ ] Disabled: Grayed out / opacity reduced (if needed)
+
+Input States:
+  [ ] Default: Border visible
+  [ ] Focus: Blue glow / ring
+  [ ] Disabled: Grayed out (if needed)
+  [ ] Valid: Green indicator (if applicable)
+  [ ] Invalid: Red indicator (if applicable)
+
+Popover/Modal States:
+  [ ] Appears with backdrop
+  [ ] Closes on Escape key
+  [ ] Closes on outside click
+  [ ] Smooth animations
+
+Status: ___✅ PASS / ❌ FAIL
+
+Issues found: _________________________________________________________________
+
+================================================================================
+D. Z-INDEX & LAYERING (2 min)
+================================================================================
+
+Z-Index Validation:
+  [ ] Search dialog backdrop: z-index 9995 ✓
+  [ ] Search dialog content: z-index 9996 ✓
+  [ ] Toast notifications: z-index 9999 ✓
+  [ ] Popovers: z-index ≥ 100 ✓
+  [ ] Floating windows: WindowContext managed ✓
+  [ ] No unexpected overlapping
+  [ ] Stacking order matches visual hierarchy
+
+Status: ___✅ PASS / ❌ FAIL
+
+Z-Index issues: ______________________________________________________________
+
+================================================================================
+E. RESPONSIVE DESIGN (3 min)
+================================================================================
+
+Test on 3+ viewport sizes. Resize browser window to:
+
+1. Narrow (1024px wide):
+  [ ] No overflow or clipping
+  [ ] Text remains readable
+  [ ] Buttons touch-friendly
+  [ ] Layout adapts gracefully
+
+2. Standard (1440px wide):
+  [ ] No overflow or clipping
+  [ ] Elements scale properly
+  [ ] Intended design visible
+  [ ] All features accessible
+
+3. Wide (1920px wide):
+  [ ] No overflow or clipping
+  [ ] Elements don't stretch awkwardly
+  [ ] Layout looks balanced
+  [ ] Touch targets adequate
+
+Status: ___✅ PASS / ❌ FAIL
+
+Responsive issues: ____________________________________________________________
+
+================================================================================
+F. KEYBOARD NAVIGATION (2 min)
+================================================================================
+
+Tab Order:
+  [ ] Tab key moves focus logically (left-to-right, top-to-bottom)
+  [ ] Shift+Tab moves focus backwards
+  [ ] Focus indicator visible at all times
+  [ ] No focus traps (can always move away)
+
+Keyboard Shortcuts:
+  [ ] Ctrl+K or Cmd+K: Opens search ✓
+  [ ] Escape: Closes dialogs ✓
+  [ ] Enter: Activates buttons ✓
+  [ ] Arrow Up/Down: Navigate lists ✓
+  [ ] Delete: Removes selected item ✓
+
+Status: ___✅ PASS / ❌ FAIL
+
+Keyboard issues: ______________________________________________________________
+
+================================================================================
+G. BROWSER DEVTOOLS VALIDATION (2 min)
+================================================================================
+
+Open Chrome DevTools (F12):
+
+Console Tab:
+  [ ] 0 red errors
+  [ ] No TypeScript errors
+  [ ] No CSS warnings
+  [ ] Only normal logs (info level)
+
+Elements Tab:
+  [ ] All CSS variables resolve correctly (not "--undefined")
+  [ ] No conflicting styles
+  [ ] Inline styles applied correctly
+
+Network Tab:
+  [ ] No 404 errors on assets
+  [ ] Images load successfully
+  [ ] All resources cached properly
+
+Performance Tab:
+  [ ] No jank on interactions (should be 60fps)
+  [ ] Smooth scrolling
+  [ ] No long tasks
+
+Lighthouse (Tools > Lighthouse):
+  [ ] Performance ≥ 70
+  [ ] Accessibility ≥ 85
+  [ ] Best Practices ≥ 85
+
+Status: ___✅ PASS / ❌ FAIL
+
+Console errors (if any): ______________________________________________________
+
+================================================================================
+H. BUNDLE SIZE & PERFORMANCE
+================================================================================
+
+After npm run build:
+  [ ] Build completed successfully
+  [ ] dist/assets/ generated
+  [ ] Main bundle size reasonable (<900KB)
+  [ ] CSS bundle <50KB
+  [ ] No chunk larger than 500KB (or justified)
+
+Size comparison:
+  - Previous build: _________ KB
+  - Current build: _________ KB
+  - Difference: _________ KB (acceptable if < 50KB increase)
+
+Status: ___✅ PASS / ❌ FAIL
+
+================================================================================
+I. SCREENSHOTS (DOCUMENTATION)
+================================================================================
+
+BEFORE Change:
+  [ ] Screenshot taken (http://localhost:5173)
+  [ ] Timestamp in filename: before_2026-05-22_14-30.png
+  [ ] Shows OLD state clearly
+  [ ] Same viewport as AFTER
+
+AFTER Change:
+  [ ] Screenshot taken (http://localhost:5173)
+  [ ] Timestamp in filename: after_2026-05-22_14-30.png
+  [ ] Shows NEW state clearly
+  [ ] Same viewport as BEFORE
+  [ ] Visual differences obvious
+
+Additional Evidence:
+  [ ] Hover state screenshot (if interactive element changed)
+  [ ] Focus state screenshot (if input changed)
+  [ ] Mobile/responsive screenshot (if width changed)
+  [ ] Dark/Light theme variants (if applicable)
+
+Storage: Saved to QA_REPORTS/screenshots/2026-05-22/
+
+Status: ___✅ PROVIDED / ❌ MISSING
+
+================================================================================
+J. CONSISTENCY MATRIX (5 min)
+================================================================================
+
+Check these haven't changed unintentionally:
+
+Spacing:
+  [ ] Padding 8px, 12px, 16px consistent
+  [ ] Gap spacing 8px standard
+  [ ] Margins aligned
+
+Typography:
+  [ ] Header: 16px, 600 weight
+  [ ] Body: 12px, 400 weight
+  [ ] Small: 10px, 400 weight
+  [ ] Consistent throughout
+
+Colors:
+  [ ] Primary: #4A9EFF (blue)
+  [ ] Accent: #4A9EFF (blue)
+  [ ] Success: #1DB954 (green)
+  [ ] Danger: #ed315d (red)
+  [ ] Component colors documented
+
+Border Radius:
+  [ ] Buttons: 8px
+  [ ] Inputs: 8px
+  [ ] Cards: 8px
+  [ ] Icons: N/A (circular)
+
+Shadows:
+  [ ] Light: 0 4px 12px rgba(0,0,0,0.3)
+  [ ] Medium: 0 8px 24px rgba(0,0,0,0.6)
+  [ ] Consistent throughout
+
+Status: ___✅ CONSISTENT / ❌ ISSUES
+
+Consistency violations: _______________________________________________________
+
+================================================================================
+FINAL QA SIGN-OFF
+================================================================================
+
+CHECKLIST SUMMARY:
+  A. Visual Regression:        ___✅ / ❌
+  B. Contrast & Accessibility: ___✅ / ❌
+  C. Interaction States:       ___✅ / ❌
+  D. Z-Index & Layering:       ___✅ / ❌
+  E. Responsive Design:        ___✅ / ❌
+  F. Keyboard Navigation:      ___✅ / ❌
+  G. Browser DevTools:         ___✅ / ❌
+  H. Bundle Size & Perf:       ___✅ / ❌
+  I. Screenshots:              ___✅ / ❌
+  J. Consistency Matrix:       ___✅ / ❌
+
+OVERALL RESULT: ___✅ READY FOR CODE REVIEW / ❌ BLOCKED (Needs Fixes)
+
+If ANY section failed (❌), list issues to fix:
+______________________________________________________________________________
+______________________________________________________________________________
+______________________________________________________________________________
+
+Code Review Gate (Must all be ✅):
+  [ ] 7/7 categories passed
+  [ ] Accessibility WCAG AA verified
+  [ ] Performance acceptable (<50KB increase)
+  [ ] Before/after screenshots provided
+  [ ] Consistency maintained
+  [ ] Console clean (0 errors)
+  [ ] Merge ready
+
+SIGN-OFF:
+  Agent Name: _______________________________
+  Date: ________________  Time: _____________
+  Status: ___🟢 APPROVED / 🟡 REVIEW / 🔴 BLOCKED
+
+Reviewed by (QA Lead): ________________________  Date: ________________
+
+================================================================================
+NOTES & ISSUES LOG
+================================================================================
+
+New Issues Found:
+  - Issue 1: ________________________________________________________________
+  - Issue 2: ________________________________________________________________
+  - Issue 3: ________________________________________________________________
+
+Existing Issues Fixed:
+  - Issue 1: ________________________________________________________________
+  - Issue 2: ________________________________________________________________
+
+Future Improvements:
+  - TODO 1: ________________________________________________________________
+  - TODO 2: ________________________________________________________________
+
+================================================================================
+END OF CHECKLIST
+================================================================================

@@ -1,5 +1,11 @@
 import { useState, useRef, useEffect } from 'react'
-import { Plus, Slash, Mic, Send, Bot, MessageCircle, Trash2, MessageSquare } from 'lucide-react'
+import { Plus, Slash, Mic, Send, Bot, MessageCircle, Trash2, Lightbulb } from 'lucide-react'
+import { useToast } from '../contexts/ToastContext'
+import { useMentions } from '../hooks/useMentions'
+import RichTextEditor from './ui/RichTextEditor'
+import MentionsPanel from './ui/MentionsPanel'
+import PromptTemplates, { Prompt } from './ui/PromptTemplates'
+import Popover from './ui/Popover'
 
 interface ChatMessage {
   id: string
@@ -35,7 +41,11 @@ const getDefaultMessages = (): ChatMessage[] => [
 export default function FloatingChatPanel() {
   const [messages, setMessages] = useState<ChatMessage[]>(loadChatHistory())
   const [input, setInput] = useState('')
+  const [showPrompts, setShowPrompts] = useState(false)
+  const { addToast } = useToast()
+  const { mentions, filteredUsers, handleInputChange, selectMention, handleKeyDown } = useMentions()
   const messagesEndRef = useRef<HTMLDivElement>(null)
+  const inputRef = useRef<HTMLDivElement>(null)
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' })
@@ -80,16 +90,22 @@ export default function FloatingChatPanel() {
   }
 
   const handleClearHistory = () => {
-    if (confirm('¿Limpiar todo el historial de chat?')) {
-      setMessages(getDefaultMessages())
-    }
+    setMessages(getDefaultMessages())
+    addToast('Chat history cleared', 'success')
   }
 
-  const handleKeyDown = (e: React.KeyboardEvent) => {
-    if (e.key === 'Enter' && !e.shiftKey) {
+  const handleInputKeyDown = (e: React.KeyboardEvent) => {
+    handleKeyDown(e)
+    if (e.key === 'Enter' && !e.shiftKey && !mentions.isOpen) {
       e.preventDefault()
       handleSend()
     }
+  }
+
+  const handlePromptSelect = (prompt: Prompt) => {
+    setInput(prompt.template)
+    setShowPrompts(false)
+    addToast(`Prompt "${prompt.title}" inserted`, 'info')
   }
 
   return (
@@ -228,35 +244,59 @@ export default function FloatingChatPanel() {
           gap: '8px',
           flexShrink: 0,
           backgroundColor: 'rgb(var(--color-base-200))',
+          maxHeight: '200px',
+          position: 'relative',
         }}
       >
-        <textarea
-          value={input}
-          onChange={(e) => setInput(e.target.value)}
-          onKeyDown={handleKeyDown}
-          placeholder="What would you like to add or create?"
+        <div
+          ref={inputRef}
           style={{
-            width: '100%',
-            backgroundColor: 'var(--stitch-elevated)',
-            border: `1px solid var(--stitch-border)`,
-            borderRadius: '8px',
-            padding: '8px 12px',
-            color: 'var(--stitch-text)',
-            fontSize: '12px',
-            fontFamily: 'Inter, sans-serif',
-            outline: 'none',
-            resize: 'none',
-            minHeight: '40px',
             maxHeight: '80px',
-            transition: 'border-color 0.2s ease',
+            overflow: 'auto',
+            position: 'relative',
           }}
-          onFocus={(e) => {
-            e.currentTarget.style.borderColor = 'var(--stitch-accent)'
-          }}
-          onBlur={(e) => {
-            e.currentTarget.style.borderColor = 'var(--stitch-border)'
-          }}
-        />
+        >
+          <RichTextEditor
+            value={input}
+            onChange={(newInput) => {
+              setInput(newInput)
+              handleInputChange(newInput, newInput.length)
+            }}
+            placeholder="Type @ to mention, / for commands..."
+            simple
+          />
+
+          {/* Mentions Panel */}
+          {mentions.isOpen && filteredUsers.length > 0 && (
+            <div
+              style={{
+                position: 'absolute',
+                bottom: '100%',
+                left: 0,
+                right: 0,
+                marginBottom: '4px',
+                backgroundColor: 'rgb(var(--color-base-200))',
+                border: `1px solid var(--stitch-border)`,
+                borderRadius: '8px',
+                boxShadow: '0 8px 24px rgba(0, 0, 0, 0.6)',
+                zIndex: 10000,
+                maxHeight: '200px',
+                overflow: 'auto',
+              }}
+            >
+              <MentionsPanel
+                users={filteredUsers}
+                query={mentions.query}
+                selectedIndex={mentions.selectedIndex}
+                onSelect={(user) => {
+                  selectMention(user)
+                  const newText = input.replace(/@[\w]*$/, `@${user.name.replace(/\s+/g, '_')} `)
+                  setInput(newText)
+                }}
+              />
+            </div>
+          )}
+        </div>
 
         {/* Action Buttons */}
         <div
@@ -269,6 +309,15 @@ export default function FloatingChatPanel() {
         >
           <div style={{ display: 'flex', gap: '4px' }}>
             <ActionButton icon={Plus} title="Attach" />
+            <Popover
+              trigger={<ActionButton icon={Lightbulb} title="Prompt Templates" />}
+              side="top"
+              align="start"
+            >
+              <div style={{ width: '280px', maxHeight: '400px' }}>
+                <PromptTemplates onSelectPrompt={handlePromptSelect} />
+              </div>
+            </Popover>
             <ActionButton icon={Slash} title="Commands" />
             <button
               style={{
