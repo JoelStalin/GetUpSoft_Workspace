@@ -3,7 +3,7 @@ import { createContext, useContext, useState, useCallback, useEffect } from 'rea
 export interface FloatingWindow {
   id: string
   title: string
-  type: 'components' | 'chat' | 'properties' | 'settings' | 'tools'
+  type: 'components' | 'chat' | 'properties' | 'versions' | 'analytics' | 'settings' | 'tools'
   x: number
   y: number
   width: number
@@ -82,6 +82,32 @@ const getDefaultWindows = (): FloatingWindow[] => [
       isVisible: false,
       isLocked: false,
       zIndex: 8,
+    },
+    {
+      id: 'versions',
+      title: 'Version History',
+      type: 'versions',
+      x: 300,
+      y: 300,
+      width: 320,
+      height: 450,
+      isMinimized: false,
+      isVisible: false,
+      isLocked: false,
+      zIndex: 7,
+    },
+    {
+      id: 'analytics',
+      title: 'Analytics',
+      type: 'analytics',
+      x: 650,
+      y: 300,
+      width: 360,
+      height: 450,
+      isMinimized: false,
+      isVisible: false,
+      isLocked: false,
+      zIndex: 7,
     },
   ]
 

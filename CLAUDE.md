@@ -10,6 +10,12 @@ Required sequence:
 4. Run the prompt through `.\scripts\caveman_route.ps1`.
 5. Select the most specific skills from `.agents\skills`.
 
+Persistent workspace guard:
+
+- Use `.\scripts\claude_project_watchdog.ps1` to keep a Claude process active for this workspace.
+- Use `.\scripts\install_claude_project_watchdog_task.ps1` once to start the watchdog automatically at Windows logon.
+- Before closing work, only report QA and functional tests that were actually executed, and reference real videos/screenshots from `.claude\evidence` when they exist. Do not invent or generate fake evidence.
+
 Use `agency-agents` for multiagent coordination, `webapp-testing` for browser QA, and `authorized-security-testing` for defensive security validation only.
 
 For design projects, use `mcp-servers.shared.json` plus `.\scripts\stitch_mcp_bootstrap.ps1` to validate Stitch MCP before generating UI work.

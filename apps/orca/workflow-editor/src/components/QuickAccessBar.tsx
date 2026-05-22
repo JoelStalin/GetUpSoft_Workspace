@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { useWindows } from '../contexts/WindowContext'
-import { Package, Bot, Settings, Bell, Search, Maximize2 } from 'lucide-react'
+import { Package, Bot, Settings, Bell, Search, Maximize2, Clock, BarChart3 } from 'lucide-react'
 import Popover from './ui/Popover'
 import WhatsNewPanel from './ui/WhatsNewPanel'
 
@@ -45,6 +45,18 @@ export default function QuickAccessBar({
       label: 'Properties',
       icon: Settings,
       color: '#1DB954',
+    },
+    {
+      id: 'versions',
+      label: 'Versions',
+      icon: Clock,
+      color: '#FF9F43',
+    },
+    {
+      id: 'analytics',
+      label: 'Analytics',
+      icon: BarChart3,
+      color: '#BB8FCE',
     },
   ]
 

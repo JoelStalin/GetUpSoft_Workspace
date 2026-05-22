@@ -14,6 +14,8 @@ import AgentLogButton from './components/AgentLogButton'
 import EditorToolsPanel from './components/EditorToolsPanel'
 import ToastContainer from './components/ToastContainer'
 import MiniZoom from './components/MiniZoom'
+import WorkflowVersionManager from './components/WorkflowVersionManager'
+import WorkflowAnalyticsDashboard from './components/WorkflowAnalyticsDashboard'
 import { WorkflowProvider } from './contexts/WorkflowContext'
 import { ExecutionProvider } from './contexts/ExecutionContext'
 import { WindowProvider, useWindows } from './contexts/WindowContext'
@@ -417,6 +419,22 @@ function FloatingWindowsManager() {
           return (
             <FloatingWindow key={window.id} window={window}>
               <FloatingPropertiesPanel />
+            </FloatingWindow>
+          )
+        }
+
+        if (window.type === 'versions') {
+          return (
+            <FloatingWindow key={window.id} window={window}>
+              <WorkflowVersionManager workflowId={workflow?.id || null} currentWorkflow={workflow} />
+            </FloatingWindow>
+          )
+        }
+
+        if (window.type === 'analytics') {
+          return (
+            <FloatingWindow key={window.id} window={window}>
+              <WorkflowAnalyticsDashboard workflow={workflow} />
             </FloatingWindow>
           )
         }
