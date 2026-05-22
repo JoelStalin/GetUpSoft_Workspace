@@ -285,14 +285,155 @@ function AppContent() {
           justifyContent: 'center',
           backgroundColor: 'rgb(var(--color-base-100))',
           color: 'var(--stitch-text)',
+          position: 'relative',
+          overflow: 'hidden',
         }}
       >
-        <div style={{ textAlign: 'center' }}>
-          <div style={{ marginBottom: '16px', fontSize: '16px', fontWeight: 500 }}>
-            Loading ORCA Orchestrator...
+        {/* Animated background elements */}
+        <div
+          style={{
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            opacity: 0.05,
+            background: 'radial-gradient(circle at 50% 50%, rgb(124, 77, 255), transparent)',
+            animation: 'pulse 4s ease-in-out infinite',
+            pointerEvents: 'none',
+          }}
+        />
+
+        <style>{`
+          @keyframes fadeInDown {
+            from {
+              opacity: 0;
+              transform: translateY(-20px);
+            }
+            to {
+              opacity: 1;
+              transform: translateY(0);
+            }
+          }
+
+          @keyframes fadeInUp {
+            from {
+              opacity: 0;
+              transform: translateY(20px);
+            }
+            to {
+              opacity: 1;
+              transform: translateY(0);
+            }
+          }
+
+          @keyframes pulse {
+            0%, 100% {
+              opacity: 0.05;
+            }
+            50% {
+              opacity: 0.15;
+            }
+          }
+
+          @keyframes loadingBar {
+            0% {
+              width: 0;
+            }
+            100% {
+              width: 100%;
+            }
+          }
+        `}</style>
+
+        <div
+          style={{
+            textAlign: 'center',
+            position: 'relative',
+            zIndex: 10,
+          }}
+        >
+          {/* Logo/Icon */}
+          <div
+            style={{
+              marginBottom: '32px',
+              animation: 'fadeInDown 0.8s ease-out',
+            }}
+          >
+            <div
+              style={{
+                width: '80px',
+                height: '80px',
+                margin: '0 auto 16px',
+                borderRadius: '12px',
+                background: 'linear-gradient(135deg, rgb(124, 77, 255), rgb(74, 158, 255))',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                fontSize: '40px',
+                fontWeight: 'bold',
+                color: 'white',
+                boxShadow: '0 8px 32px rgba(124, 77, 255, 0.3)',
+              }}
+            >
+              ◇
+            </div>
           </div>
-          <div style={{ color: 'var(--stitch-muted)', fontSize: '12px' }}>
+
+          {/* Main text */}
+          <div
+            style={{
+              marginBottom: '8px',
+              fontSize: '28px',
+              fontWeight: 600,
+              animation: 'fadeInUp 0.8s ease-out 0.2s both',
+            }}
+          >
+            ORCA Orchestrator
+          </div>
+
+          {/* Subtitle */}
+          <div
+            style={{
+              marginBottom: '32px',
+              color: 'var(--stitch-muted)',
+              fontSize: '14px',
+              animation: 'fadeInUp 0.8s ease-out 0.4s both',
+            }}
+          >
             Initializing workflow editor
+          </div>
+
+          {/* Loading bar */}
+          <div
+            style={{
+              width: '240px',
+              height: '3px',
+              backgroundColor: 'rgba(74, 158, 255, 0.1)',
+              borderRadius: '2px',
+              overflow: 'hidden',
+              animation: 'fadeInUp 0.8s ease-out 0.6s both',
+            }}
+          >
+            <div
+              style={{
+                height: '100%',
+                background: 'linear-gradient(90deg, transparent, rgb(74, 158, 255), transparent)',
+                animation: 'loadingBar 2s ease-in-out infinite',
+              }}
+            />
+          </div>
+
+          {/* Loading status text */}
+          <div
+            style={{
+              marginTop: '24px',
+              fontSize: '12px',
+              color: 'var(--stitch-muted)',
+              animation: 'fadeInUp 0.8s ease-out 0.8s both',
+            }}
+          >
+            Loading components...
           </div>
         </div>
       </div>
