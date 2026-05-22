@@ -1,5 +1,6 @@
 import { useRef, useState } from 'react'
 import { useWorkflowOperations } from '../hooks/useWorkflowOperations'
+import { useWorkflowHistory } from '../hooks/useWorkflowHistory'
 import { useExecutionStatus } from '../hooks/useExecutionStatus'
 import { useWorkflowExecution } from '../hooks/useWorkflowExecution'
 import { handleApiError } from '../utils/errorHandler'
@@ -10,9 +11,11 @@ import {
   runWorkflow,
 } from '../api/orcaApi'
 import GenerateModal from './GenerateModal'
+import { RotateCcw, RotateCw } from 'lucide-react'
 
 export default function WorkflowToolbar() {
   const { workflow, setWorkflow } = useWorkflowOperations()
+  const { canUndo, canRedo, undo, redo } = useWorkflowHistory()
   const { setCurrentExecution, setIsExecuting } = useExecutionStatus()
   const { simulateExecution } = useWorkflowExecution()
   const [showGenerateModal, setShowGenerateModal] = useState(false)
@@ -107,40 +110,76 @@ export default function WorkflowToolbar() {
   return (
     <>
       <div className="workflow-toolbar">
-            <button
-              onClick={() => setShowGenerateModal(true)}
-              disabled={isLoading}
-            >
-              ✨ Generate
-            </button>
+            <div className="toolbar-group">
+              <button
+                onClick={undo}
+                disabled={!canUndo || isLoading}
+                title="Undo (Ctrl+Z)"
+                className={`toolbar-button ${canUndo ? 'toolbar-enabled' : 'toolbar-disabled'}`}
+              >
+                <RotateCcw size={18} />
+                <span>Undo</span>
+              </button>
 
-            <button
-              onClick={handleImport}
-              disabled={isLoading}
-            >
-              📥 Import
-            </button>
+              <button
+                onClick={redo}
+                disabled={!canRedo || isLoading}
+                title="Redo (Ctrl+Y)"
+                className={`toolbar-button ${canRedo ? 'toolbar-enabled' : 'toolbar-disabled'}`}
+              >
+                <RotateCw size={18} />
+                <span>Redo</span>
+              </button>
+            </div>
 
-            <button
-              onClick={handleExport}
-              disabled={!workflow || isLoading}
-            >
-              📥 Export
-            </button>
+            <div className="toolbar-separator" />
 
-            <button
-              onClick={handleSave}
-              disabled={!workflow || isLoading}
-            >
-              💾 Save
-            </button>
+            <div className="toolbar-group">
+              <button
+                onClick={() => setShowGenerateModal(true)}
+                disabled={isLoading}
+                title="Generate workflow with AI"
+                className="toolbar-button toolbar-action"
+              >
+                ✨ Generate
+              </button>
 
-            <button
-              onClick={handleRun}
-              disabled={!workflow || isLoading}
-            >
-              ▶️ Run
-            </button>
+              <button
+                onClick={handleImport}
+                disabled={isLoading}
+                title="Import workflow from file"
+                className="toolbar-button toolbar-action"
+              >
+                📥 Import
+              </button>
+
+              <button
+                onClick={handleExport}
+                disabled={!workflow || isLoading}
+                title="Export workflow to file"
+                className="toolbar-button toolbar-action"
+              >
+                📥 Export
+              </button>
+
+              <button
+                onClick={handleSave}
+                disabled={!workflow || isLoading}
+                title="Save workflow"
+                className="toolbar-button toolbar-action"
+              >
+                💾 Save
+              </button>
+
+              <button
+                onClick={handleRun}
+                disabled={!workflow || isLoading}
+                title="Run workflow (Ctrl+Enter)"
+                className="toolbar-button toolbar-run"
+              >
+                ▶️ Run
+              </button>
+            </div>
       </div>
 
       <input

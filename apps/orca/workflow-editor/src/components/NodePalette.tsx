@@ -30,7 +30,7 @@ export default function NodePalette() {
   }, [])
 
   const onDragStart = (
-    event: React.DragEvent<HTMLDivElement>,
+    event: React.DragEvent<HTMLElement>,
     nodeType: string
   ) => {
     event.dataTransfer.effectAllowed = 'move'
@@ -113,6 +113,18 @@ export default function NodePalette() {
         />
       </div>
 
+      {/* Instructions */}
+      <div style={{
+        padding: '8px',
+        fontSize: '11px',
+        color: 'rgb(var(--color-base-400))',
+        backgroundColor: 'rgba(var(--color-primary-400) / 0.05)',
+        borderRadius: '6px',
+        borderLeft: '3px solid rgb(var(--color-primary-400))',
+      }}>
+        👆 <strong>Click o Drag</strong> para agregar nodos al canvas
+      </div>
+
       {/* Categories */}
       <div className="space-y-2">
         {Object.entries(filtered).map(([category, items]) => (
@@ -148,18 +160,20 @@ export default function NodePalette() {
             {(expandedCategories[category] !== false || !expandedCategories[category] === undefined) && (
               <div className="space-y-1 ml-2">
                 {items.map(([key, info]: [string, any]) => (
-                  <div
+                  <button
                     key={key}
+                    onClick={() => handleAddNode(key, info)}
                     draggable
                     onDragStart={(e) => onDragStart(e, key)}
-                    onClick={() => handleAddNode(key, info)}
-                    className="node-row hover:brightness-110 transition-all cursor-grab active:cursor-grabbing"
+                    className="w-full node-row hover:brightness-110 transition-all cursor-pointer active:scale-95 text-left border-none"
                     style={{
                       backgroundColor: hexToPanelColor(info.color || '#30343a'),
                       borderLeft: `4px solid ${info.color || '#30343a'}`,
                       padding: '8px 12px',
                       borderRadius: '6px',
+                      margin: 0,
                     }}
+                    title={`Click to add ${info.label} or drag to canvas`}
                   >
                     <div className="node-row-title font-semibold text-sm">
                       {info.label}
@@ -167,7 +181,7 @@ export default function NodePalette() {
                     <div className="node-row-description text-xs text-gray-400 mt-0.5">
                       {info.description}
                     </div>
-                  </div>
+                  </button>
                 ))}
               </div>
             )}

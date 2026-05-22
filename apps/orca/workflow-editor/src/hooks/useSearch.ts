@@ -34,7 +34,7 @@ export function useSearch(options: UseSearchOptions = {}) {
         setIsLoading(true)
         // Simulate search delay
         requestAnimationFrame(() => {
-          const searchResults = search(query, searchIndex)
+          const searchResults = search(searchIndex, query)
           setResults(searchResults)
           setSelectedIndex(0)
           setIsLoading(false)
@@ -68,7 +68,7 @@ export function useSearch(options: UseSearchOptions = {}) {
 
   const handleSelectResult = useCallback(
     (result: SearchResult) => {
-      addToHistory(query, results.length, result.id)
+      addToHistory(result)
       setHistory(getHistory())
       return result
     },

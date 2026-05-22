@@ -27,9 +27,10 @@ export default function OrcaNode({ data, id, selected, isConnecting }: any) {
   return (
     <div
       onClick={() => selectNode(id)}
+      data-status={nodeStatus}
       className={`
-        px-0 py-0 rounded-lg border-2 transition cursor-pointer
-        hover:opacity-90 relative w-56 group shadow-lg
+        px-0 py-0 rounded-lg border-2 transition-all duration-300 cursor-pointer
+        relative w-56 group shadow-lg will-change-transform
         ${selected
           ? 'border-[rgb(var(--color-primary-400))] shadow-2xl'
           : 'border-[rgba(100,100,120,0.5)] hover:border-[rgba(124,77,255,0.5)]'

@@ -7,7 +7,7 @@ import { test, expect } from '@playwright/test'
 
 test.describe('Workflow Editor E2E Tests', () => {
   test.beforeEach(async ({ page }) => {
-    await page.goto('http://localhost:5173')
+    await page.goto('http://localhost:5176')
     // Wait for app to load
     await page.waitForLoadState('networkidle')
   })
@@ -149,7 +149,7 @@ test.describe('Workflow Editor E2E Tests', () => {
 
 test.describe('Workflow Operations', () => {
   test.beforeEach(async ({ page }) => {
-    await page.goto('http://localhost:5173')
+    await page.goto('http://localhost:5176')
     await page.waitForLoadState('networkidle')
   })
 
@@ -183,7 +183,7 @@ test.describe('API Error Handling', () => {
     // This is primarily tested in unit tests
     // E2E test verifies the hook integrations work end-to-end
 
-    await page.goto('http://localhost:5173')
+    await page.goto('http://localhost:5176')
     await page.waitForLoadState('networkidle')
 
     // Page should load successfully with retry logic
@@ -192,11 +192,80 @@ test.describe('API Error Handling', () => {
   })
 
   test('P2-008-012: Error messages display properly', async ({ page }) => {
-    await page.goto('http://localhost:5173')
+    await page.goto('http://localhost:5176')
     await page.waitForLoadState('networkidle')
 
     // Verify UI is responsive even with potential errors
     const toolbar = page.locator('button').first()
     await expect(toolbar).toBeVisible()
+  })
+})
+
+test.describe('Canvas Rendering & Layout Fix Verification', () => {
+  test('P2-008-013: Canvas SVG renders with correct height', async ({ page }) => {
+    await page.goto('http://localhost:5176')
+    await page.waitForLoadState('networkidle')
+
+    // Find the main canvas SVG element
+    const canvasSvg = page.locator('div[role="button"] svg').first()
+
+    // Verify canvas SVG is visible and has height > 0
+    const boundingBox = await canvasSvg.boundingBox()
+    expect(boundingBox).toBeTruthy()
+    expect(boundingBox?.height).toBeGreaterThan(400) // Should be ~900px for full canvas
+  })
+
+  test('P2-008-014: Default workflow nodes render on canvas', async ({ page }) => {
+    await page.goto('http://localhost:5176')
+    await page.waitForLoadState('networkidle')
+
+    // Verify the 3 default nodes exist in the DOM
+    const triggerNode = page.locator('text=Start Trigger')
+    const httpNode = page.locator('text=Fetch Data')
+    const aiNode = page.locator('text=Process AI')
+
+    await expect(triggerNode).toBeVisible()
+    await expect(httpNode).toBeVisible()
+    await expect(aiNode).toBeVisible()
+  })
+
+  test('P2-008-015: Center container has proper flex layout height', async ({ page }) => {
+    await page.goto('http://localhost:5176')
+    await page.waitForLoadState('networkidle')
+
+    // Get the center container (flex-1 with flex-col)
+    const centerContainer = page.locator('div.flex-col.relative').filter({ has: page.locator('svg') }).first()
+    const bounds = await centerContainer.boundingBox()
+
+    expect(bounds).toBeTruthy()
+    // Center container should span most of the viewport height (minus toolbar 64px and execution panel 200px)
+    expect(bounds?.height).toBeGreaterThan(600)
+  })
+
+  test('P2-008-016: Nodes have non-zero dimensions in canvas', async ({ page }) => {
+    await page.goto('http://localhost:5176')
+    await page.waitForLoadState('networkidle')
+
+    // Get a node element from the canvas
+    const firstNode = page.locator('text=Start Trigger').first()
+    const bounds = await firstNode.boundingBox()
+
+    expect(bounds).toBeTruthy()
+    expect(bounds?.width).toBeGreaterThan(0)
+    expect(bounds?.height).toBeGreaterThan(0)
+  })
+
+  test('P2-008-017: Execution panel is visible and properly sized', async ({ page }) => {
+    await page.goto('http://localhost:5176')
+    await page.waitForLoadState('networkidle')
+
+    // Find execution panel
+    const executionPanel = page.locator('text=Execution Logs').first()
+    await expect(executionPanel).toBeVisible()
+
+    // Verify panel has correct height (should be 200px when open)
+    const panelContainer = executionPanel.locator('..').first()
+    const bounds = await panelContainer.boundingBox()
+    expect(bounds?.height).toBeGreaterThan(150)
   })
 })

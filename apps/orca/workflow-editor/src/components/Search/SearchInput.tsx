@@ -1,5 +1,5 @@
 import { Search, X } from 'lucide-react'
-import { getPlatformShortcut } from '../../hooks/useKeyboardShortcuts'
+import { getPlatformShortcut } from '../../hooks/useKeyboardShortcuts.ts'
 
 interface SearchInputProps {
   query: string

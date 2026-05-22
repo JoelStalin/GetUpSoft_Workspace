@@ -1,5 +1,5 @@
 import { SearchResult } from '../../types/search'
-import { getNodeIcon } from '../../utils/nodeIcons'
+import { getNodeIcon } from '../../utils/nodeIcons.ts'
 
 interface SearchResultsProps {
   results: SearchResult[]

@@ -47,6 +47,9 @@ export default function WorkflowCanvas() {
     }
   }, [workflow?.edges, setEdges])
 
+  // Setup drag and drop with React handlers on wrapper (already added to JSX)
+  // No additional listeners needed - the React onDragOver and onDrop handlers on the wrapper div are sufficient
+
   // Keyboard shortcuts for undo/redo/delete
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -112,6 +115,8 @@ export default function WorkflowCanvas() {
     return {
       stroke: isSelected ? '#ff9f43' : '#7c4dff',
       strokeWidth: isSelected ? 3 : 2,
+      opacity: isSelected ? 1 : 0.8,
+      transition: 'all 0.3s ease',
     }
   }, [selectedEdgeId])
 
@@ -131,7 +136,11 @@ export default function WorkflowCanvas() {
         target: connection.target || '',
         animated: true,
         type: 'smoothstep',
-        style: { stroke: '#7c4dff', strokeWidth: 2 },
+        style: {
+          stroke: '#7c4dff',
+          strokeWidth: 2,
+          opacity: 0.8,
+        },
         data: { priority: 'normal' },
       }
       setEdges((eds: any[]) => addEdgeUtil(connection, eds))
@@ -159,10 +168,24 @@ export default function WorkflowCanvas() {
 
       pushHistory()
 
-      const position = project({
-        x: event.clientX - reactFlowBounds.left,
-        y: event.clientY - reactFlowBounds.top,
-      })
+      // Calculate position with fallback if project() fails
+      let position = { x: 0, y: 0 }
+      try {
+        if (project && typeof project === 'function') {
+          position = project({
+            x: event.clientX - reactFlowBounds.left,
+            y: event.clientY - reactFlowBounds.top,
+          })
+        } else {
+          throw new Error('project function not available')
+        }
+      } catch {
+        // Fallback: use relative canvas position
+        position = {
+          x: event.clientX - reactFlowBounds.left,
+          y: event.clientY - reactFlowBounds.top,
+        }
+      }
 
       const newNode: Node = {
         id: `node-${Date.now()}`,
@@ -198,9 +221,9 @@ export default function WorkflowCanvas() {
     <div
       ref={reactFlowWrapper}
       style={{ width: '100%', height: '100%' }}
+      onClick={() => setSelectedEdgeId(null)}
       onDragOver={onDragOver}
       onDrop={onDrop}
-      onClick={() => setSelectedEdgeId(null)}
     >
       <ReactFlow
         nodes={nodes}

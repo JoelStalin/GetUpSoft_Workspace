@@ -24,9 +24,7 @@ function AppContent() {
   const [sidebarOpen, setSidebarOpen] = useState(true)
   const [executionPanelOpen, setExecutionPanelOpen] = useState(true)
   const [nodeTypes, setNodeTypes] = useState<Record<string, any>>({})
-  const { workflow, setWorkflow, addNode, deleteNode } = useWorkflowOperations()
-  const { workflow: workflowState } = useWorkflowState()
-  const selectedNodeId = workflowState?.selectedNodeId || null
+  const { workflow, setWorkflow, addNode, deleteNode, selectedNodeId } = useWorkflowOperations()
   const { logs: executionLogs } = useExecutionStatus()
   const { copy, paste, hasContent } = useClipboard()
   const multiSelect = useMultiSelect()
@@ -265,6 +263,10 @@ function AppContent() {
   return (
     <ReactFlowProvider>
       <div className="fixed inset-0 text-white flex flex-col" style={{
+        position: 'fixed',
+        inset: '0',
+        display: 'flex',
+        flexDirection: 'column',
         backgroundColor: 'rgb(var(--color-base-100))',
         color: 'rgb(var(--color-base-700))',
       }}>
@@ -303,12 +305,17 @@ function AppContent() {
         </div>
 
         {/* Main Content - Canvas + Execution Panel */}
-        <div className="flex-1 overflow-hidden flex flex-row" style={{
+        <div className="flex-1 overflow-hidden flex flex-row min-h-0" style={{
+          flex: '1 1 0%',
+          overflow: 'hidden',
+          display: 'flex',
+          flexDirection: 'row',
+          minHeight: '0',
           backgroundColor: 'rgb(var(--color-base-100))',
         }}>
           {/* Sidebar - Left Panel */}
           <div
-            className={`border-r shadow-lg transition-all duration-300 overflow-y-auto flex-shrink-0 ${
+            className={`border-r shadow-lg transition-all duration-300 overflow-y-auto flex-shrink-0 min-h-0 ${
               sidebarOpen ? 'w-80' : 'w-0'
             }`}
             style={{
@@ -335,9 +342,21 @@ function AppContent() {
           </div>
 
           {/* Center - Canvas + Execution */}
-          <div className="flex-1 overflow-hidden flex flex-col relative">
+          <div className="flex-1 overflow-hidden flex flex-col relative min-h-0" style={{
+            flex: '1 1 0%',
+            overflow: 'hidden',
+            display: 'flex',
+            flexDirection: 'column',
+            position: 'relative',
+            minHeight: '0',
+          }}>
             {/* Canvas Area */}
-            <div className="flex-1 overflow-hidden relative">
+            <div className="flex-1 overflow-hidden relative min-h-0" style={{
+              flex: '1 1 0%',
+              overflow: 'hidden',
+              position: 'relative',
+              minHeight: '0',
+            }}>
               {workflow ? (
                 <div style={{ width: '100%', height: '100%' }}>
                   <WorkflowCanvas />
