@@ -29,6 +29,21 @@ const QUICK_PROMPTS = [
   { icon: MessageCircle, label: 'Integrar API', prompt: 'Ayúdame a integrar Slack con mi workflow actual' },
 ]
 
+const AI_MODELS = [
+  { id: 'nvidia-llama', label: 'NVIDIA Llama 2', category: 'LLM', status: 'available' },
+  { id: 'nvidia-nemo', label: 'NVIDIA NeMo', category: 'Speech', status: 'available' },
+  { id: 'openai-gpt4', label: 'OpenAI GPT-4', category: 'LLM', status: 'available' },
+  { id: 'stripe-payment', label: 'Stripe Payment Model', category: 'Payment', status: 'available' },
+  { id: 'paypal-payment', label: 'PayPal Integration', category: 'Payment', status: 'available' },
+]
+
+const ROOT_WORKFLOWS = [
+  { id: 'main-1', name: 'Customer Data Pipeline', description: 'Main ORCA workflow for customer data processing' },
+  { id: 'main-2', name: 'Payment Processing Engine', description: 'Centralized payment workflow with multiple providers' },
+  { id: 'main-3', name: 'AI Model Orchestration', description: 'Distributed AI model inference and management' },
+  { id: 'main-4', name: 'Analytics & Reporting', description: 'System-wide analytics and business intelligence' },
+]
+
 export default function AIMode() {
   const { workflow, setWorkflow } = useWorkflowOperations()
   const { addToast } = useToast()
@@ -47,11 +62,20 @@ export default function AIMode() {
     { id: '2', name: 'Data Pipeline', description: 'Data processing and ETL' },
     { id: '3', name: 'Slack Bot Integration', description: 'Slack automation and notifications' },
   ])
+  const [selectedModel, setSelectedModel] = useState<string>('nvidia-llama')
+  const [showModelSelector, setShowModelSelector] = useState(false)
+  const [isRootUser, setIsRootUser] = useState(false)
   const messagesEndRef = useRef<HTMLDivElement>(null)
   const inputRef = useRef<HTMLTextAreaElement>(null)
 
   // Check if we have an active project (nodes with content)
   const hasActiveProject = !!workflow && workflow.nodes && workflow.nodes.length > 0
+
+  // Check if user is root (can be detected by email or user role)
+  useEffect(() => {
+    const userEmail = localStorage.getItem('orca_user_email') || 'joelstalin2105@gmail.com'
+    setIsRootUser(userEmail.includes('root') || userEmail === 'joelstalin2105@gmail.com')
+  }, [])
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' })
@@ -257,6 +281,121 @@ export default function AIMode() {
           overflowY: 'auto',
         }}
       >
+        {/* Model Selector */}
+        <div style={{ marginBottom: '12px' }}>
+          <div style={{ fontSize: '11px', fontWeight: 600, color: 'var(--stitch-muted)', textTransform: 'uppercase', letterSpacing: '0.5px', marginBottom: '8px' }}>
+            Modelo IA
+          </div>
+          <button
+            onClick={() => setShowModelSelector(!showModelSelector)}
+            style={{
+              width: '100%',
+              padding: '10px 12px',
+              borderRadius: '8px',
+              border: `1px solid var(--stitch-border)`,
+              backgroundColor: 'var(--stitch-hover)',
+              color: 'var(--stitch-text)',
+              cursor: 'pointer',
+              fontSize: '12px',
+              textAlign: 'left',
+              transition: 'all 0.15s ease',
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.backgroundColor = 'var(--stitch-elevated)'
+              e.currentTarget.style.borderColor = 'var(--stitch-accent)'
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.backgroundColor = 'var(--stitch-hover)'
+              e.currentTarget.style.borderColor = 'var(--stitch-border)'
+            }}
+          >
+            {AI_MODELS.find(m => m.id === selectedModel)?.label || 'Select Model'}
+          </button>
+          {showModelSelector && (
+            <div style={{ marginTop: '4px', maxHeight: '150px', overflowY: 'auto' }}>
+              {AI_MODELS.map((model) => (
+                <button
+                  key={model.id}
+                  onClick={() => {
+                    setSelectedModel(model.id)
+                    setShowModelSelector(false)
+                    addToast(`Modelo "${model.label}" seleccionado`, 'info')
+                  }}
+                  style={{
+                    width: '100%',
+                    padding: '8px 12px',
+                    marginTop: '4px',
+                    borderRadius: '6px',
+                    border: selectedModel === model.id ? `1px solid var(--stitch-accent)` : `1px solid var(--stitch-border)`,
+                    backgroundColor: selectedModel === model.id ? 'rgba(124, 77, 255, 0.1)' : 'transparent',
+                    color: 'var(--stitch-text)',
+                    cursor: 'pointer',
+                    fontSize: '11px',
+                    textAlign: 'left',
+                    transition: 'all 0.15s ease',
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    alignItems: 'center',
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.backgroundColor = 'var(--stitch-hover)'
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.backgroundColor = selectedModel === model.id ? 'rgba(124, 77, 255, 0.1)' : 'transparent'
+                  }}
+                >
+                  <span>{model.label}</span>
+                  <span style={{ fontSize: '10px', color: 'var(--stitch-muted)' }}>{model.category}</span>
+                </button>
+              ))}
+            </div>
+          )}
+        </div>
+
+        <div style={{ height: '1px', backgroundColor: 'var(--stitch-border)', margin: '8px 0' }} />
+
+        {/* Root User Workflows */}
+        {isRootUser && (
+          <>
+            <div style={{ fontSize: '11px', fontWeight: 600, color: 'var(--stitch-muted)', textTransform: 'uppercase', letterSpacing: '0.5px', marginBottom: '8px' }}>
+              🔐 ORCA Workflows
+            </div>
+            {ROOT_WORKFLOWS.map((wf) => (
+              <button
+                key={wf.id}
+                onClick={() => sendMessage(`Cargar workflow: ${wf.name}`)}
+                style={{
+                  display: 'flex',
+                  alignItems: 'flex-start',
+                  gap: '8px',
+                  padding: '10px 12px',
+                  borderRadius: '8px',
+                  border: '1px solid rgba(118, 185, 0, 0.28)',
+                  backgroundColor: 'rgba(118, 185, 0, 0.06)',
+                  color: 'var(--stitch-text)',
+                  cursor: 'pointer',
+                  fontSize: '11px',
+                  textAlign: 'left',
+                  transition: 'all 0.15s ease',
+                  flexDirection: 'column',
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.backgroundColor = 'rgba(118, 185, 0, 0.15)'
+                  e.currentTarget.style.borderColor = 'rgba(118, 185, 0, 0.5)'
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.backgroundColor = 'rgba(118, 185, 0, 0.06)'
+                  e.currentTarget.style.borderColor = 'rgba(118, 185, 0, 0.28)'
+                }}
+              >
+                <span style={{ fontWeight: 600 }}>{wf.name}</span>
+                <span style={{ color: 'var(--stitch-muted)', fontSize: '10px' }}>{wf.description}</span>
+              </button>
+            ))}
+            <div style={{ height: '1px', backgroundColor: 'var(--stitch-border)', margin: '8px 0' }} />
+          </>
+        )}
+
         <div style={{ fontSize: '11px', fontWeight: 600, color: 'var(--stitch-muted)', textTransform: 'uppercase', letterSpacing: '0.5px', marginBottom: '4px' }}>
           Acciones rápidas
         </div>
