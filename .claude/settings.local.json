@@ -2,7 +2,20 @@
   "permissions": {
     "allow": [
       "Bash(rm -rf evidence-screenshots/*)",
-      "Bash(node capture-evidence.mjs)"
+      "Bash(node capture-evidence.mjs)",
+      "Bash(curl -s http://localhost:5175)",
+      "mcp__chrome-devtools__new_page",
+      "mcp__chrome-devtools__take_snapshot",
+      "mcp__chrome-devtools__list_console_messages",
+      "mcp__chrome-devtools__evaluate_script",
+      "mcp__chrome-devtools__lighthouse_audit",
+      "mcp__chrome-devtools__press_key",
+      "PowerShell(head *)",
+      "PowerShell($env:PYTHONIOENCODING=\"utf-8\"; cd \"C:\\\\Users\\\\yoeli\\\\Documents\\\\GetUpSoft_Workspace\"; python scripts\\\\download_web_docs.py 2>&1)",
+      "PowerShell(tail *)",
+      "PowerShell(python -m pip install jupyterlab notebook nbconvert papermill jupytext --upgrade 2>&1 | Select-Object -Last 15)",
+      "PowerShell($env:PYTHONIOENCODING=\"utf-8\"; python -m pip install openml beautifulsoup4 lxml requests --upgrade 2>&1 | Select-Object -Last 10)",
+      "PowerShell($env:PYTHONIOENCODING='utf-8'; python scripts/download_openml_docs.py)"
     ]
   }
 }
