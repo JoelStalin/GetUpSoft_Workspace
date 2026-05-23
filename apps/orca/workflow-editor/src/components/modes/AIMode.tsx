@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect, useCallback } from 'react'
-import { Bot, Send, Trash2, Lightbulb, Plus, Zap, Brain, Code2, MessageCircle, FolderPlus, Folder, Bold, Italic, Code, Image as ImageIcon, Paperclip } from 'lucide-react'
+import { Bot, Send, Trash2, Lightbulb, Plus, Zap, Brain, Code2, MessageCircle, FolderPlus, Folder, Bold, Italic, Code, Image as ImageIcon, Paperclip, Zap as ZapIcon } from 'lucide-react'
 import { useToast } from '../../contexts/ToastContext'
 import { useWorkflowOperations } from '../../hooks/useWorkflowOperations'
 import { NEMOCLAW_CORE_PROFILE } from '../../core/agents/nemoclawCore'
@@ -7,6 +7,8 @@ import { useEditor, EditorContent } from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'
 import Placeholder from '@tiptap/extension-placeholder'
 import Image from '@tiptap/extension-image'
+import { parseWorkflow, validateWorkflow, describeWorkflow } from '../../utils/workflowParser'
+import { generateWorkflow, validateGeneratedWorkflow, summarizeWorkflow } from '../../services/workflowGenerator'
 
 interface ChatMessage {
   id: string
@@ -114,16 +116,75 @@ export default function AIMode() {
     editor?.commands.clearContent()
     setIsTyping(true)
 
+    // Parse workflow intent from user message
+    const workflowIntent = parseWorkflow(plainText.trim())
+
+    let agentResponseContent = ''
+    let workflowCreated = false
+
+    if (workflowIntent.type === 'create' && workflowIntent.nodes.length > 0) {
+      // Validate parsed workflow
+      const validation = validateWorkflow(workflowIntent)
+
+      if (validation.valid) {
+        try {
+          // Generate workflow nodes and edges
+          const generatedWorkflow = generateWorkflow({
+            nodes: workflowIntent.nodes,
+            edges: workflowIntent.edges,
+          })
+
+          // Validate generated workflow
+          const generationValidation = validateGeneratedWorkflow(generatedWorkflow)
+
+          if (generationValidation.valid && workflow) {
+            // Update workflow with new nodes and edges
+            const updatedWorkflow = {
+              ...workflow,
+              nodes: [...(workflow.nodes || []), ...generatedWorkflow.nodes],
+              edges: [...(workflow.edges || []), ...generatedWorkflow.edges],
+              updatedAt: new Date().toISOString(),
+            }
+
+            setWorkflow(updatedWorkflow)
+            workflowCreated = true
+
+            const summary = summarizeWorkflow(generatedWorkflow)
+            agentResponseContent = `✅ Workflow creado exitosamente! ${summary}. Los nodos aparecen en el canvas. Puedes editarlos o conectarlos según sea necesario.`
+          } else {
+            agentResponseContent = `⚠️ Error al generar el workflow: ${generationValidation.errors.join(', ')}`
+          }
+        } catch (error) {
+          agentResponseContent = `❌ Error al procesar tu solicitud: ${String(error)}`
+        }
+      } else {
+        agentResponseContent = `❓ No pude interpretar completamente tu workflow. ${describeWorkflow(workflowIntent)}. ${validation.reason}`
+      }
+    } else if (workflowIntent.nodes.length > 0) {
+      // Workflow intent detected but not specifically 'create'
+      agentResponseContent = `${describeWorkflow(workflowIntent)}. ¿Quieres que cree este workflow? Di "crear workflow" para generarlo.`
+    } else {
+      // No workflow detected, provide generic response
+      agentResponseContent = `Entendido. Para esa tarea puedo generar un workflow con los nodos necesarios. ¿Quieres que lo agregue directamente al canvas de Workflow?`
+    }
+
     await new Promise((r) => setTimeout(r, 1200))
+
     const agentMsg: ChatMessage = {
       id: `a-${Date.now()}`,
       role: 'agent',
-      content: `Entendido. Para esa tarea puedo generar un workflow con los nodos necesarios. ¿Quieres que lo agregue directamente al canvas de Workflow?`,
+      content: agentResponseContent,
       timestamp: new Date().toISOString(),
     }
     setMessages((m) => [...m, agentMsg])
+
+    // Show toast notification for workflow creation
+    if (workflowCreated) {
+      addToast('Workflow creado con nodos automáticos', 'success')
+    }
+
     setIsTyping(false)
-  }, [editor])
+  }, [editor, workflow, setWorkflow, addToast])
 
   const clearHistory = () => {
     setMessages(defaultMessages())
