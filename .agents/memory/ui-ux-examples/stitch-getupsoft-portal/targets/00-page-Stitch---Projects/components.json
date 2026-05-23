@@ -1,0 +1,1131 @@
+[
+  {
+    "index": 0,
+    "tag": "html",
+    "attrs": {},
+    "text": "window['ppConfig'] = {productName: 'Nemo', deleteIsEnforced:  true , sealIsEnforced:  true , heartbeatRate:  0.5 , periodicReportingRateMillis:  60000.0 , disableAllReporting:  false };(function(){'use strict';function k(a){var b=0;return function(){return b<a.length?{done:!1,value:a[b++]}:{done:!0}",
+    "rect": {
+      "x": 0,
+      "y": 0,
+      "w": 1034,
+      "h": 571
+    },
+    "visible": true
+  },
+  {
+    "index": 1,
+    "tag": "head",
+    "attrs": {},
+    "text": "window['ppConfig'] = {productName: 'Nemo', deleteIsEnforced:  true , sealIsEnforced:  true , heartbeatRate:  0.5 , periodicReportingRateMillis:  60000.0 , disableAllReporting:  false };(function(){'use strict';function k(a){var b=0;return function(){return b<a.length?{done:!1,value:a[b++]}:{done:!0}",
+    "rect": {
+      "x": 0,
+      "y": 0,
+      "w": 0,
+      "h": 0
+    },
+    "visible": false
+  },
+  {
+    "index": 2,
+    "tag": "base",
+    "attrs": {
+      "href": "https://stitch.withgoogle.com/"
+    },
+    "text": "",
+    "rect": {
+      "x": 0,
+      "y": 0,
+      "w": 0,
+      "h": 0
+    },
+    "visible": false
+  },
+  {
+    "index": 3,
+    "tag": "link",
+    "attrs": {
+      "href": "//www.gstatic.com"
+    },
+    "text": "",
+    "rect": {
+      "x": 0,
+      "y": 0,
+      "w": 0,
+      "h": 0
+    },
+    "visible": false
+  },
+  {
+    "index": 4,
+    "tag": "meta",
+    "attrs": {
+      "name": "referrer"
+    },
+    "text": "",
+    "rect": {
+      "x": 0,
+      "y": 0,
+      "w": 0,
+      "h": 0
+    },
+    "visible": false
+  },
+  {
+    "index": 5,
+    "tag": "script",
+    "attrs": {
+      "src": "https://apis.google.com/_/scs/abc-static/_/js/k=gapi.lb.en.ch0Jz-JlMrQ.O/m=gapi_iframes/rt=j/sv=1/d=1/ed=1/rs=AHpOoo_YD4KoV8fTh_kLhktsiThAm3yJ5A/cb=gapi.loaded_0?le=scs,fedcm_migration_mod"
+    },
+    "text": "",
+    "rect": {
+      "x": 0,
+      "y": 0,
+      "w": 0,
+      "h": 0
+    },
+    "visible": false
+  },
+  {
+    "index": 6,
+    "tag": "script",
+    "attrs": {},
+    "text": "window['ppConfig'] = {productName: 'Nemo', deleteIsEnforced:  true , sealIsEnforced:  true , heartbeatRate:  0.5 , periodicReportingRateMillis:  60000.0 , disableAllReporting:  false };(function(){'use strict';function k(a){var b=0;return function(){return b<a.length?{done:!1,value:a[b++]}:{done:!0}",
+    "rect": {
+      "x": 0,
+      "y": 0,
+      "w": 0,
+      "h": 0
+    },
+    "visible": false
+  },
+  {
+    "index": 7,
+    "tag": "link",
+    "attrs": {
+      "href": "https://stitch.withgoogle.com/projects/7566593690315888178"
+    },
+    "text": "",
+    "rect": {
+      "x": 0,
+      "y": 0,
+      "w": 0,
+      "h": 0
+    },
+    "visible": false
+  },
+  {
+    "index": 8,
+    "tag": "meta",
+    "attrs": {
+      "name": "viewport"
+    },
+    "text": "",
+    "rect": {
+      "x": 0,
+      "y": 0,
+      "w": 0,
+      "h": 0
+    },
+    "visible": false
+  },
+  {
+    "index": 9,
+    "tag": "meta",
+    "attrs": {
+      "name": "mobile-web-app-capable"
+    },
+    "text": "",
+    "rect": {
+      "x": 0,
+      "y": 0,
+      "w": 0,
+      "h": 0
+    },
+    "visible": false
+  },
+  {
+    "index": 10,
+    "tag": "meta",
+    "attrs": {
+      "name": "apple-mobile-web-app-capable"
+    },
+    "text": "",
+    "rect": {
+      "x": 0,
+      "y": 0,
+      "w": 0,
+      "h": 0
+    },
+    "visible": false
+  },
+  {
+    "index": 11,
+    "tag": "meta",
+    "attrs": {
+      "name": "application-name"
+    },
+    "text": "",
+    "rect": {
+      "x": 0,
+      "y": 0,
+      "w": 0,
+      "h": 0
+    },
+    "visible": false
+  },
+  {
+    "index": 12,
+    "tag": "meta",
+    "attrs": {
+      "name": "apple-mobile-web-app-title"
+    },
+    "text": "",
+    "rect": {
+      "x": 0,
+      "y": 0,
+      "w": 0,
+      "h": 0
+    },
+    "visible": false
+  },
+  {
+    "index": 13,
+    "tag": "meta",
+    "attrs": {
+      "name": "apple-mobile-web-app-status-bar-style"
+    },
+    "text": "",
+    "rect": {
+      "x": 0,
+      "y": 0,
+      "w": 0,
+      "h": 0
+    },
+    "visible": false
+  },
+  {
+    "index": 14,
+    "tag": "meta",
+    "attrs": {
+      "name": "msapplication-tap-highlight"
+    },
+    "text": "",
+    "rect": {
+      "x": 0,
+      "y": 0,
+      "w": 0,
+      "h": 0
+    },
+    "visible": false
+  },
+  {
+    "index": 15,
+    "tag": "link",
+    "attrs": {
+      "href": "https://fonts.googleapis.com/css2?family=Google+Sans+Text:wght@400;500;700"
+    },
+    "text": "",
+    "rect": {
+      "x": 0,
+      "y": 0,
+      "w": 0,
+      "h": 0
+    },
+    "visible": false
+  },
+  {
+    "index": 16,
+    "tag": "link",
+    "attrs": {
+      "href": "//app-companion-430619.appspot.com"
+    },
+    "text": "",
+    "rect": {
+      "x": 0,
+      "y": 0,
+      "w": 0,
+      "h": 0
+    },
+    "visible": false
+  },
+  {
+    "index": 17,
+    "tag": "link",
+    "attrs": {
+      "href": "_/Nemo/manifest.json"
+    },
+    "text": "",
+    "rect": {
+      "x": 0,
+      "y": 0,
+      "w": 0,
+      "h": 0
+    },
+    "visible": false
+  },
+  {
+    "index": 18,
+    "tag": "link",
+    "attrs": {
+      "href": "/?lfhs=2"
+    },
+    "text": "",
+    "rect": {
+      "x": 0,
+      "y": 0,
+      "w": 0,
+      "h": 0
+    },
+    "visible": false
+  },
+  {
+    "index": 19,
+    "tag": "link",
+    "attrs": {
+      "href": "/?lfhs=2"
+    },
+    "text": "",
+    "rect": {
+      "x": 0,
+      "y": 0,
+      "w": 0,
+      "h": 0
+    },
+    "visible": false
+  },
+  {
+    "index": 20,
+    "tag": "link",
+    "attrs": {
+      "href": "https://www.gstatic.com/labs-code/stitch/favicon-16x16.png"
+    },
+    "text": "",
+    "rect": {
+      "x": 0,
+      "y": 0,
+      "w": 0,
+      "h": 0
+    },
+    "visible": false
+  },
+  {
+    "index": 21,
+    "tag": "link",
+    "attrs": {
+      "href": "https://www.gstatic.com/labs-code/stitch/favicon-16x16.png"
+    },
+    "text": "",
+    "rect": {
+      "x": 0,
+      "y": 0,
+      "w": 0,
+      "h": 0
+    },
+    "visible": false
+  },
+  {
+    "index": 22,
+    "tag": "link",
+    "attrs": {
+      "href": "https://www.gstatic.com/labs-code/stitch/favicon-16x16.png"
+    },
+    "text": "",
+    "rect": {
+      "x": 0,
+      "y": 0,
+      "w": 0,
+      "h": 0
+    },
+    "visible": false
+  },
+  {
+    "index": 23,
+    "tag": "link",
+    "attrs": {
+      "href": "https://www.gstatic.com/labs-code/stitch/favicon-32x32.png"
+    },
+    "text": "",
+    "rect": {
+      "x": 0,
+      "y": 0,
+      "w": 0,
+      "h": 0
+    },
+    "visible": false
+  },
+  {
+    "index": 24,
+    "tag": "link",
+    "attrs": {
+      "href": "https://www.gstatic.com/labs-code/stitch/favicon-32x32.png"
+    },
+    "text": "",
+    "rect": {
+      "x": 0,
+      "y": 0,
+      "w": 0,
+      "h": 0
+    },
+    "visible": false
+  },
+  {
+    "index": 25,
+    "tag": "link",
+    "attrs": {
+      "href": "https://www.gstatic.com/labs-code/stitch/favicon-32x32.png"
+    },
+    "text": "",
+    "rect": {
+      "x": 0,
+      "y": 0,
+      "w": 0,
+      "h": 0
+    },
+    "visible": false
+  },
+  {
+    "index": 26,
+    "tag": "link",
+    "attrs": {
+      "href": "https://www.gstatic.com/labs-code/stitch/favicon-48x48.png"
+    },
+    "text": "",
+    "rect": {
+      "x": 0,
+      "y": 0,
+      "w": 0,
+      "h": 0
+    },
+    "visible": false
+  },
+  {
+    "index": 27,
+    "tag": "link",
+    "attrs": {
+      "href": "https://www.gstatic.com/labs-code/stitch/favicon-48x48.png"
+    },
+    "text": "",
+    "rect": {
+      "x": 0,
+      "y": 0,
+      "w": 0,
+      "h": 0
+    },
+    "visible": false
+  },
+  {
+    "index": 28,
+    "tag": "link",
+    "attrs": {
+      "href": "https://www.gstatic.com/labs-code/stitch/favicon-48x48.png"
+    },
+    "text": "",
+    "rect": {
+      "x": 0,
+      "y": 0,
+      "w": 0,
+      "h": 0
+    },
+    "visible": false
+  },
+  {
+    "index": 29,
+    "tag": "link",
+    "attrs": {
+      "href": "https://www.gstatic.com/labs-code/stitch/favicon-192x192.png"
+    },
+    "text": "",
+    "rect": {
+      "x": 0,
+      "y": 0,
+      "w": 0,
+      "h": 0
+    },
+    "visible": false
+  },
+  {
+    "index": 30,
+    "tag": "link",
+    "attrs": {
+      "href": "https://www.gstatic.com/labs-code/stitch/favicon-192x192.png"
+    },
+    "text": "",
+    "rect": {
+      "x": 0,
+      "y": 0,
+      "w": 0,
+      "h": 0
+    },
+    "visible": false
+  },
+  {
+    "index": 31,
+    "tag": "link",
+    "attrs": {
+      "href": "https://www.gstatic.com/labs-code/stitch/favicon-192x192.png"
+    },
+    "text": "",
+    "rect": {
+      "x": 0,
+      "y": 0,
+      "w": 0,
+      "h": 0
+    },
+    "visible": false
+  },
+  {
+    "index": 32,
+    "tag": "link",
+    "attrs": {
+      "href": "https://www.gstatic.com/labs-code/stitch/favicon-512x512.png"
+    },
+    "text": "",
+    "rect": {
+      "x": 0,
+      "y": 0,
+      "w": 0,
+      "h": 0
+    },
+    "visible": false
+  },
+  {
+    "index": 33,
+    "tag": "link",
+    "attrs": {
+      "href": "https://www.gstatic.com/labs-code/stitch/favicon-512x512.png"
+    },
+    "text": "",
+    "rect": {
+      "x": 0,
+      "y": 0,
+      "w": 0,
+      "h": 0
+    },
+    "visible": false
+  },
+  {
+    "index": 34,
+    "tag": "link",
+    "attrs": {
+      "href": "https://www.gstatic.com/labs-code/stitch/favicon-512x512.png"
+    },
+    "text": "",
+    "rect": {
+      "x": 0,
+      "y": 0,
+      "w": 0,
+      "h": 0
+    },
+    "visible": false
+  },
+  {
+    "index": 35,
+    "tag": "link",
+    "attrs": {
+      "href": "https://www.gstatic.com/_/mss/boq-pitchfork/_/js/k=boq-pitchfork.Nemo.en.WWXDtmBXen4.2018.O/d=1/excm=_b/ed=1/dg=0/br=1/wt=2/ujg=1/rs=AFTLRie51DZjJaZhQ2yVPlL3WVnCZy6Qag/ee=Pjplud:PoEs9b;QGR0gd:Mlhmy;ScI3Yc:e7Hzgb;YIZmRd:A1yn5d;cEt90b:ws9Tlc;dowIGb:ebZ3mb/dti=1/m=_b"
+    },
+    "text": "",
+    "rect": {
+      "x": 0,
+      "y": 0,
+      "w": 0,
+      "h": 0
+    },
+    "visible": false
+  },
+  {
+    "index": 36,
+    "tag": "link",
+    "attrs": {
+      "href": "https://www.gstatic.com/_/mss/boq-pitchfork/_/js/k=boq-pitchfork.Nemo.en.WWXDtmBXen4.2018.O/ck=boq-pitchfork.Nemo.Tw_lurKRx98.L.B1.O/d=1/exm=_b/excm=_b/ed=1/br=1/wt=2/ujg=1/rs=AFTLRiekuegONaxp6qODXQBLKg2WmnoVbQ/ee=Pjplud:PoEs9b;QGR0gd:Mlhmy;ScI3Yc:e7Hzgb;YIZmRd:A1yn5d;cEt90b:ws9Tlc;dowIGb:ebZ3mb/dti=1/m=oxe1Cc"
+    },
+    "text": "",
+    "rect": {
+      "x": 0,
+      "y": 0,
+      "w": 0,
+      "h": 0
+    },
+    "visible": false
+  },
+  {
+    "index": 37,
+    "tag": "script",
+    "attrs": {
+      "data-id": "_gd"
+    },
+    "text": "window.WIZ_global_data = {\"ANdtfc\":\"https://accounts.google.com/SignOutOptions?continue\\u003dhttps://stitch.withgoogle.com/projects/7566593690315888178?pli%3D1\",\"AeXYXb\":\"https://accounts.google.com/ServiceLogin?hl\\u003den\\u0026authuser\\u003d0\\u0026continue\\u003dhttps://stitch.withgoogle.com/project",
+    "rect": {
+      "x": 0,
+      "y": 0,
+      "w": 0,
+      "h": 0
+    },
+    "visible": false
+  },
+  {
+    "index": 38,
+    "tag": "script",
+    "attrs": {},
+    "text": "window[\"_F_toggles_default_Nemo\"] = [0x7002008, ];",
+    "rect": {
+      "x": 0,
+      "y": 0,
+      "w": 0,
+      "h": 0
+    },
+    "visible": false
+  },
+  {
+    "index": 39,
+    "tag": "script",
+    "attrs": {},
+    "text": "",
+    "rect": {
+      "x": 0,
+      "y": 0,
+      "w": 0,
+      "h": 0
+    },
+    "visible": false
+  },
+  {
+    "index": 40,
+    "tag": "script",
+    "attrs": {},
+    "text": "var _F_cssRowKey = 'boq-pitchfork.Nemo.Tw_lurKRx98.L.B1.O';var _F_combinedSignature = 'AFTLRiekuegONaxp6qODXQBLKg2WmnoVbQ';function _DumpException(e) {throw e;}",
+    "rect": {
+      "x": 0,
+      "y": 0,
+      "w": 0,
+      "h": 0
+    },
+    "visible": false
+  },
+  {
+    "index": 41,
+    "tag": "style",
+    "attrs": {
+      "data-href": "https://www.gstatic.com/_/mss/boq-pitchfork/_/ss/k=boq-pitchfork.Nemo.Tw_lurKRx98.L.B1.O/am=CCAABw/d=1/ed=1/rs=AFTLRifuHCLsIh6ycWE-ETDW-vIRgshPvw/m=_b"
+    },
+    "text": ".picker-api-container,.picker-iframe-container{height:100%;width:100%;position:relative}.picker-close-button{position:absolute;z-index:100;top:12px;right:14px;width:36px;height:36px;border-radius:18px;border-width:0;background-color:rgba(0,0,0,0)}.picker-close-button:hover{background-color:rgba(60,6",
+    "rect": {
+      "x": 0,
+      "y": 0,
+      "w": 0,
+      "h": 0
+    },
+    "visible": false
+  },
+  {
+    "index": 42,
+    "tag": "style",
+    "attrs": {
+      "data-font-stylesheet": ""
+    },
+    "text": "@font-face{font-family:'Google Material Icons';font-style:normal;font-weight:400;src:url(https://fonts.gstatic.com/s/googlematerialicons/v144/Gw6kwdfw6UnXLJCcmafZyFRXb3BL9rvi0QZG3Q.woff2)format('woff2');}.google-material-icons{font-family:'Google Material Icons';font-weight:normal;font-style:normal;",
+    "rect": {
+      "x": 0,
+      "y": 0,
+      "w": 0,
+      "h": 0
+    },
+    "visible": false
+  },
+  {
+    "index": 43,
+    "tag": "title",
+    "attrs": {},
+    "text": "Stitch - Projects",
+    "rect": {
+      "x": 0,
+      "y": 0,
+      "w": 0,
+      "h": 0
+    },
+    "visible": false
+  },
+  {
+    "index": 44,
+    "tag": "meta",
+    "attrs": {},
+    "text": "",
+    "rect": {
+      "x": 0,
+      "y": 0,
+      "w": 0,
+      "h": 0
+    },
+    "visible": false
+  },
+  {
+    "index": 45,
+    "tag": "meta",
+    "attrs": {
+      "name": "twitter:title"
+    },
+    "text": "",
+    "rect": {
+      "x": 0,
+      "y": 0,
+      "w": 0,
+      "h": 0
+    },
+    "visible": false
+  },
+  {
+    "index": 46,
+    "tag": "meta",
+    "attrs": {
+      "name": "google-site-verification"
+    },
+    "text": "",
+    "rect": {
+      "x": 0,
+      "y": 0,
+      "w": 0,
+      "h": 0
+    },
+    "visible": false
+  },
+  {
+    "index": 47,
+    "tag": "meta",
+    "attrs": {
+      "name": "description"
+    },
+    "text": "",
+    "rect": {
+      "x": 0,
+      "y": 0,
+      "w": 0,
+      "h": 0
+    },
+    "visible": false
+  },
+  {
+    "index": 48,
+    "tag": "meta",
+    "attrs": {},
+    "text": "",
+    "rect": {
+      "x": 0,
+      "y": 0,
+      "w": 0,
+      "h": 0
+    },
+    "visible": false
+  },
+  {
+    "index": 49,
+    "tag": "meta",
+    "attrs": {
+      "name": "twitter:description"
+    },
+    "text": "",
+    "rect": {
+      "x": 0,
+      "y": 0,
+      "w": 0,
+      "h": 0
+    },
+    "visible": false
+  },
+  {
+    "index": 50,
+    "tag": "meta",
+    "attrs": {},
+    "text": "",
+    "rect": {
+      "x": 0,
+      "y": 0,
+      "w": 0,
+      "h": 0
+    },
+    "visible": false
+  },
+  {
+    "index": 51,
+    "tag": "meta",
+    "attrs": {},
+    "text": "",
+    "rect": {
+      "x": 0,
+      "y": 0,
+      "w": 0,
+      "h": 0
+    },
+    "visible": false
+  },
+  {
+    "index": 52,
+    "tag": "meta",
+    "attrs": {},
+    "text": "",
+    "rect": {
+      "x": 0,
+      "y": 0,
+      "w": 0,
+      "h": 0
+    },
+    "visible": false
+  },
+  {
+    "index": 53,
+    "tag": "meta",
+    "attrs": {},
+    "text": "",
+    "rect": {
+      "x": 0,
+      "y": 0,
+      "w": 0,
+      "h": 0
+    },
+    "visible": false
+  },
+  {
+    "index": 54,
+    "tag": "meta",
+    "attrs": {},
+    "text": "",
+    "rect": {
+      "x": 0,
+      "y": 0,
+      "w": 0,
+      "h": 0
+    },
+    "visible": false
+  },
+  {
+    "index": 55,
+    "tag": "meta",
+    "attrs": {
+      "name": "twitter:card"
+    },
+    "text": "",
+    "rect": {
+      "x": 0,
+      "y": 0,
+      "w": 0,
+      "h": 0
+    },
+    "visible": false
+  },
+  {
+    "index": 56,
+    "tag": "meta",
+    "attrs": {
+      "name": "twitter:site"
+    },
+    "text": "",
+    "rect": {
+      "x": 0,
+      "y": 0,
+      "w": 0,
+      "h": 0
+    },
+    "visible": false
+  },
+  {
+    "index": 57,
+    "tag": "meta",
+    "attrs": {
+      "name": "twitter:creator"
+    },
+    "text": "",
+    "rect": {
+      "x": 0,
+      "y": 0,
+      "w": 0,
+      "h": 0
+    },
+    "visible": false
+  },
+  {
+    "index": 58,
+    "tag": "meta",
+    "attrs": {
+      "name": "twitter:url"
+    },
+    "text": "",
+    "rect": {
+      "x": 0,
+      "y": 0,
+      "w": 0,
+      "h": 0
+    },
+    "visible": false
+  },
+  {
+    "index": 59,
+    "tag": "meta",
+    "attrs": {
+      "name": "twitter:image"
+    },
+    "text": "",
+    "rect": {
+      "x": 0,
+      "y": 0,
+      "w": 0,
+      "h": 0
+    },
+    "visible": false
+  },
+  {
+    "index": 60,
+    "tag": "meta",
+    "attrs": {
+      "name": "twitter:image:alt"
+    },
+    "text": "",
+    "rect": {
+      "x": 0,
+      "y": 0,
+      "w": 0,
+      "h": 0
+    },
+    "visible": false
+  },
+  {
+    "index": 61,
+    "tag": "meta",
+    "attrs": {
+      "name": "keywords"
+    },
+    "text": "",
+    "rect": {
+      "x": 0,
+      "y": 0,
+      "w": 0,
+      "h": 0
+    },
+    "visible": false
+  },
+  {
+    "index": 62,
+    "tag": "script",
+    "attrs": {
+      "src": "https://www.googletagmanager.com/gtag/js?id=G-1CD1CPGEYF"
+    },
+    "text": "",
+    "rect": {
+      "x": 0,
+      "y": 0,
+      "w": 0,
+      "h": 0
+    },
+    "visible": false
+  },
+  {
+    "index": 63,
+    "tag": "script",
+    "attrs": {},
+    "text": "var AF_initDataKeys = []; var AF_dataServiceRequests = {}; var AF_initDataChunkQueue = []; var AF_initDataCallback; var AF_initDataInitializeCallback; if (AF_initDataInitializeCallback) {AF_initDataInitializeCallback(AF_initDataKeys, AF_initDataChunkQueue, AF_dataServiceRequests);}if (!AF_initDataCa",
+    "rect": {
+      "x": 0,
+      "y": 0,
+      "w": 0,
+      "h": 0
+    },
+    "visible": false
+  },
+  {
+    "index": 64,
+    "tag": "style",
+    "attrs": {},
+    "text": "[_nghost-ng-c684708932]{display:block}",
+    "rect": {
+      "x": 0,
+      "y": 0,
+      "w": 0,
+      "h": 0
+    },
+    "visible": false
+  },
+  {
+    "index": 65,
+    "tag": "style",
+    "attrs": {
+      "type": "text/css",
+      "data-late-css": ""
+    },
+    "text": ".picker-api-container,.picker-iframe-container{height:100%;width:100%;position:relative}.picker-close-button{position:absolute;z-index:100;top:12px;right:14px;width:36px;height:36px;border-radius:18px;border-width:0;background-color:rgba(0,0,0,0)}.picker-close-button:hover{background-color:rgba(60,6",
+    "rect": {
+      "x": 0,
+      "y": 0,
+      "w": 0,
+      "h": 0
+    },
+    "visible": false
+  },
+  {
+    "index": 66,
+    "tag": "style",
+    "attrs": {},
+    "text": "[_nghost-ng-c1612841027]{display:block}.ac-iframe[_ngcontent-ng-c1612841027]{width:100%;height:100vh;height:100svh;display:-webkit-box;display:-webkit-flex;display:-moz-box;display:-ms-flexbox;display:flex}.ac-iframe[_ngcontent-ng-c1612841027]   iframe[_ngcontent-ng-c1612841027]{width:100%;height:10",
+    "rect": {
+      "x": 0,
+      "y": 0,
+      "w": 0,
+      "h": 0
+    },
+    "visible": false
+  },
+  {
+    "index": 67,
+    "tag": "style",
+    "attrs": {},
+    "text": "[_nghost-ng-c1831684045]{width:100vw;height:100vh;height:100svh;display:-webkit-box;display:-webkit-flex;display:-moz-box;display:-ms-flexbox;display:flex;-webkit-box-orient:horizontal;-webkit-box-direction:normal;-webkit-flex-direction:row;-moz-box-orient:horizontal;-moz-box-direction:normal;-ms-fl",
+    "rect": {
+      "x": 0,
+      "y": 0,
+      "w": 0,
+      "h": 0
+    },
+    "visible": false
+  },
+  {
+    "index": 68,
+    "tag": "script",
+    "attrs": {
+      "src": "https://apis.google.com/js/api.js"
+    },
+    "text": "",
+    "rect": {
+      "x": 0,
+      "y": 0,
+      "w": 0,
+      "h": 0
+    },
+    "visible": false
+  },
+  {
+    "index": 69,
+    "tag": "body",
+    "attrs": {},
+    "text": "",
+    "rect": {
+      "x": 0,
+      "y": 0,
+      "w": 1034,
+      "h": 571
+    },
+    "visible": true
+  },
+  {
+    "index": 70,
+    "tag": "appcompanion-root",
+    "attrs": {},
+    "text": "",
+    "rect": {
+      "x": 0,
+      "y": 0,
+      "w": 1034,
+      "h": 571
+    },
+    "visible": true
+  },
+  {
+    "index": 71,
+    "tag": "router-outlet",
+    "attrs": {},
+    "text": "",
+    "rect": {
+      "x": 0,
+      "y": 0,
+      "w": 0,
+      "h": 0
+    },
+    "visible": false
+  },
+  {
+    "index": 72,
+    "tag": "appcompanion-host",
+    "attrs": {},
+    "text": "",
+    "rect": {
+      "x": 0,
+      "y": 0,
+      "w": 1034,
+      "h": 571
+    },
+    "visible": true
+  },
+  {
+    "index": 73,
+    "tag": "appcompanion-layout",
+    "attrs": {},
+    "text": "",
+    "rect": {
+      "x": 0,
+      "y": 0,
+      "w": 1034,
+      "h": 571
+    },
+    "visible": true
+  },
+  {
+    "index": 74,
+    "tag": "main",
+    "attrs": {
+      "class": "main"
+    },
+    "text": "",
+    "rect": {
+      "x": 0,
+      "y": 0,
+      "w": 1034,
+      "h": 571
+    },
+    "visible": true
+  },
+  {
+    "index": 75,
+    "tag": "div",
+    "attrs": {
+      "class": "ac-iframe"
+    },
+    "text": "",
+    "rect": {
+      "x": 0,
+      "y": 0,
+      "w": 1034,
+      "h": 571
+    },
+    "visible": true
+  },
+  {
+    "index": 76,
+    "tag": "iframe",
+    "attrs": {
+      "title": "Stitch - Design with AI",
+      "id": "I0_1779507530550",
+      "name": "I0_1779507530550",
+      "src": "https://app-companion-430619.appspot.com/projects/7566593690315888178?pli=1&usegapi=1&jsh=m%3B%2F_%2Fscs%2Fabc-static%2F_%2Fjs%2Fk%3Dgapi.lb.en.ch0Jz-JlMrQ.O%2Fd%3D1%2Frs%3DAHpOoo_YD4KoV8fTh_kLhktsiThAm3yJ5A%2Fm%3D__features__#id=I0_1779507530550&_gfid=I0_1779507530550&parent=https%3A%2F%2Fstitch.withgoogle.com&pfname=&rpctoken=40764203"
+    },
+    "text": "",
+    "rect": {
+      "x": 0,
+      "y": 0,
+      "w": 1034,
+      "h": 571
+    },
+    "visible": true
+  },
+  {
+    "index": 77,
+    "tag": "script",
+    "attrs": {
+      "src": "https://www.gstatic.com/_/mss/boq-pitchfork/_/js/k=boq-pitchfork.Nemo.en.WWXDtmBXen4.2018.O/d=1/excm=_b/ed=1/dg=0/br=1/wt=2/ujg=1/rs=AFTLRie51DZjJaZhQ2yVPlL3WVnCZy6Qag/ee=Pjplud:PoEs9b;QGR0gd:Mlhmy;ScI3Yc:e7Hzgb;YIZmRd:A1yn5d;cEt90b:ws9Tlc;dowIGb:ebZ3mb/dti=1/m=_b",
+      "id": "base-js"
+    },
+    "text": "",
+    "rect": {
+      "x": 0,
+      "y": 0,
+      "w": 0,
+      "h": 0
+    },
+    "visible": false
+  }
+]

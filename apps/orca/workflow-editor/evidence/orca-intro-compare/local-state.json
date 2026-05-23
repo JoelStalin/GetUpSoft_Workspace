@@ -1,0 +1,425 @@
+{
+  "ok": true,
+  "state": {
+    "title": "ORCA | Orchestrator",
+    "text": "ORCA\nExample Workflow\nWeb Design\nWorkflow\nMobile Design\nAI\nRun\nStart Trigger\ntrigger\nFetch Data\nhttp\nProcess AI\nai\nReact Flow",
+    "htmlSnippet": "\n    <div id=\"root\"><div style=\"position: fixed; inset: 0px; display: flex; flex-direction: column; background-color: rgb(var(--color-base-100)); color: var(--stitch-text);\"><div style=\"height: 56px; display: flex; align-items: center; justify-content: space-between; padding-left: 16px; padding-right: 16px; background-color: rgb(var(--color-base-100)); border-bottom: 1px solid var(--stitch-border);\"><div style=\"display: flex; align-items: center; gap: 16px; min-width: 200px;\"><button style=\"background: none; border-width: medium; border-style: none; border-color: currentcolor; border-image: initial; color: var(--stitch-text); cursor: pointer; padding: 4px; display: flex; align-items: center; transition: 0.2s;\"><svg xmlns=\"http://www.w3.org/2000/svg\" width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucide-menu\"><line x1=\"4\" x2=\"20\" y1=\"12\" y2=\"12\"></line><line x1=\"4\" x2=\"20\" y1=\"6\" y2=\"6\"></line><line x1=\"4\" x2=\"20\" y1=\"18\" y2=\"18\"></line></svg></button><div style=\"font-size: 14px; font-weight: 600; color: var(--stitch-text); text-transform: uppercase; letter-spacing: 0.5px;\">ORCA</div><div style=\"display: flex; align-items: center; gap: 6px; padding: 4px 8px; background-color: var(--stitch-hover); border-radius: 4px; font-size: 12px; color: var(--stitch-muted);\"><div style=\"width: 6px; height: 6px; border-radius: 50%; background-color: var(--stitch-accent); flex-shrink: 0;\"></div>Example Workflow</div></div><div style=\"display: flex; align-items: center; flex: 1 1 0%; justify-content: center;\"><div role=\"group\" style=\"display: flex; gap: 4px; background-color: rgba(var(--color-base-300), 0.5); padding: 4px; border-radius: 6px; border: 1px solid var(--stitch-border);\"><button role=\"radio\" aria-checked=\"false\" tabindex=\"-1\" style=\"display: flex; align-items: center; justify-content: center; gap: 6px; min-width: 40px; height: 40px; padding: 8px 12px; background-color: transparent; border: 1px solid var(--stitch-border); border-radius: 4px; color: var(--stitch-text); font-size: 12px; font-weight: 500; cursor: pointer; transition: 0.15s; white-space: nowrap;\"><span style=\"display: flex; align-items: center;\"><svg xmlns=\"http://www.w3.org/2000/svg\" width=\"14\" height=\"14\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucide-globe\"><circle cx=\"12\" cy=\"12\" r=\"10\"></circle><path d=\"M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20\"></path><path d=\"M2 12h20\"></path></svg></span><span>Web Design</span></button><button role=\"radio\" aria-checked=\"true\" tabindex=\"0\" style=\"display: flex; align-items: center; justify-content: center; gap: 6px; min-width: 40px; height: 40px; padding: 8px 12px; background-color: rgba(74, 158, 255, 0.15); border: 1px solid rgb(74, 158, 255); border-radius: 4px; color: rgb(74, 158, 255); font-size: 12px; font-weight: 600; cursor: pointer; transition: 0.15s; white-space: nowrap;\"><span style=\"display: flex; align-items: center;\"><svg xmlns=\"http://www.w3.org/2000/svg\" width=\"14\" height=\"14\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucide-network\"><rect x=\"16\" y=\"16\" width=\"6\" height=\"6\" rx=\"1\"></rect><rect x=\"2\" y=\"16\" width=\"6\" height=\"6\" rx=\"1\"></rect><rect x=\"9\" y=\"2\" width=\"6\" height=\"6\" rx=\"1\"></rect><path d=\"M5 16v-3a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v3\"></path><path d=\"M12 12V8\"></path></svg></span><span>Workflow</span></button><button role=\"radio\" aria-checked=\"false\" tabindex=\"-1\" style=\"display: flex; align-items: center; justify-content: center; gap: 6px; min-width: 40px; height: 40px; padding: 8px 12px; background-color: transparent; border: 1px solid var(--stitch-border); border-radius: 4px; color: var(--stitch-text); font-size: 12px; font-weight: 500; cursor: pointer; transition: 0.15s; white-space: nowrap;\"><span style=\"display: flex; align-items: center;\"><svg xmlns=\"http://www.w3.org/2000/svg\" width=\"14\" height=\"14\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucide-smartphone\"><rect width=\"14\" height=\"20\" x=\"5\" y=\"2\" rx=\"2\" ry=\"2\"></rect><path d=\"M12 18h.01\"></path></svg></span><span>Mobile Design</span></button><button role=\"radio\" aria-checked=\"false\" tabindex=\"-1\" style=\"display: flex; align-items: center; justify-content: center; gap: 6px; min-width: 40px; height: 40px; padding: 8px 12px; background-color: transparent; border: 1px solid var(--stitch-border); border-radius: 4px; color: var(--stitch-text); font-size: 12px; font-weight: 500; cursor: pointer; transition: 0.15s; white-space: nowrap;\"><span style=\"display: flex; align-items: center;\"><svg xmlns=\"http://www.w3.org/2000/svg\" width=\"14\" height=\"14\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucide-bot\"><path d=\"M12 8V4H8\"></path><rect width=\"16\" height=\"12\" x=\"4\" y=\"8\" rx=\"2\"></rect><path d=\"M2 14h2\"></path><path d=\"M20 14h2\"></path><path d=\"M15 13v2\"></path><path d=\"M9 13v2\"></path></svg></span><span>AI</span></button></div></div><div style=\"display: flex; align-items: center; gap: 8px; min-width: 200px; justify-content: flex-end;\"><div style=\"position: relative; display: inline-block;\"><button title=\"Switch to light mode\" style=\"padding: 6px 10px; border-radius: 6px; background-color: var(--stitch-hover); border: 1px solid var(--stitch-border); color: var(--stitch-text); cursor: pointer; display: flex; align-items: center; gap: 4px; font-size: 11px; transition: 0.2s;\"><svg xmlns=\"http://www.w3.org/2000/svg\" width=\"12\" height=\"12\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucide-moon\"><path d=\"M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z\"></path></svg></button><button title=\"Change color scheme\" style=\"padding: 6px 10px; border-radius: 6px; background-color: var(--stitch-hover); border: 1px solid var(--stitch-border); color: var(--stitch-text); cursor: pointer; display: flex; align-items: center; gap: 4px; font-size: 11px; margin-left: 4px; transition: 0.2s;\"><svg xmlns=\"http://www.w3.org/2000/svg\" width=\"12\" height=\"12\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucide-palette\"><circle cx=\"13.5\" cy=\"6.5\" r=\".5\"></circle><circle cx=\"17.5\" cy=\"10.5\" r=\".5\"></circle><circle cx=\"8.5\" cy=\"7.5\" r=\".5\"></circle><circle cx=\"6.5\" cy=\"12.5\" r=\".5\"></circle><path d=\"M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.926 0 1.648-.746 1.648-1.688 0-.437-.18-.835-.437-1.125-.29-.289-.438-.652-.438-1.125a1.64 1.64 0 0 1 1.668-1.668h1.996c3.051 0 5.555-2.503 5.555-5.554C21.965 6.012 17.461 2 12 2z\"></path></svg></button></div><button style=\"padding: 6px 10px; border-radius: 6px; font-size: 12px; background-color: transparent; border: 1px solid var(--stitch-border); color: var(--stitch-muted); display: flex; align-items: center; gap: 4px; cursor: pointer; transition: 0.2s;\"><svg xmlns=\"http://www.w3.org/2000/svg\" width=\"14\" height=\"14\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucide-share2\"><circle cx=\"18\" cy=\"5\" r=\"3\"></circle><circle cx=\"6\" cy=\"12\" r=\"3\"></circle><circle cx=\"18\" cy=\"19\" r=\"3\"></circle><line x1=\"8.59\" x2=\"15.42\" y1=\"13.51\" y2=\"17.49\"></line><line x1=\"15.41\" x2=\"8.59\" y1=\"6.51\" y2=\"10.49\"></line></svg></button><button style=\"padding: 6px 12px; border-radius: 6px; font-size: 12px; background-color: var(--stitch-green); border-width: medium; border-style: none; border-color: currentcolor; border-image: initial; color: rgb(255, 255, 255); display: flex; align-items: center; gap: 4px; cursor: pointer; font-weight: 600; transition: opacity 0.2s;\"><svg xmlns=\"http://www.w3.",
+    "scripts": [
+      "http://localhost:5173/@vite/client",
+      "http://localhost:5173/src/main.tsx"
+    ],
+    "styles": [],
+    "classes": [
+      {
+        "tag": "svg",
+        "cls": "[object SVGAnimatedString]",
+        "text": ""
+      },
+      {
+        "tag": "svg",
+        "cls": "[object SVGAnimatedString]",
+        "text": ""
+      },
+      {
+        "tag": "svg",
+        "cls": "[object SVGAnimatedString]",
+        "text": ""
+      },
+      {
+        "tag": "svg",
+        "cls": "[object SVGAnimatedString]",
+        "text": ""
+      },
+      {
+        "tag": "svg",
+        "cls": "[object SVGAnimatedString]",
+        "text": ""
+      },
+      {
+        "tag": "svg",
+        "cls": "[object SVGAnimatedString]",
+        "text": ""
+      },
+      {
+        "tag": "svg",
+        "cls": "[object SVGAnimatedString]",
+        "text": ""
+      },
+      {
+        "tag": "svg",
+        "cls": "[object SVGAnimatedString]",
+        "text": ""
+      },
+      {
+        "tag": "svg",
+        "cls": "[object SVGAnimatedString]",
+        "text": ""
+      },
+      {
+        "tag": "DIV",
+        "cls": "react-flow dark",
+        "text": "Start TriggertriggerFetch DatahttpProcess AIaiMini MapReact FlowPress enter or space to select a node. You can then use "
+      },
+      {
+        "tag": "DIV",
+        "cls": "react-flow__renderer",
+        "text": "Start TriggertriggerFetch DatahttpProcess AIai"
+      },
+      {
+        "tag": "DIV",
+        "cls": "react-flow__pane draggable",
+        "text": "Start TriggertriggerFetch DatahttpProcess AIai"
+      },
+      {
+        "tag": "DIV",
+        "cls": "react-flow__viewport xyflow__viewport react-flow__container",
+        "text": "Start TriggertriggerFetch DatahttpProcess AIai"
+      },
+      {
+        "tag": "DIV",
+        "cls": "react-flow__edges",
+        "text": ""
+      },
+      {
+        "tag": "g",
+        "cls": "[object SVGAnimatedString]",
+        "text": ""
+      },
+      {
+        "tag": "path",
+        "cls": "[object SVGAnimatedString]",
+        "text": ""
+      },
+      {
+        "tag": "path",
+        "cls": "[object SVGAnimatedString]",
+        "text": ""
+      },
+      {
+        "tag": "g",
+        "cls": "[object SVGAnimatedString]",
+        "text": ""
+      },
+      {
+        "tag": "path",
+        "cls": "[object SVGAnimatedString]",
+        "text": ""
+      },
+      {
+        "tag": "path",
+        "cls": "[object SVGAnimatedString]",
+        "text": ""
+      },
+      {
+        "tag": "DIV",
+        "cls": "react-flow__edgelabel-renderer",
+        "text": ""
+      },
+      {
+        "tag": "DIV",
+        "cls": "react-flow__nodes",
+        "text": "Start TriggertriggerFetch DatahttpProcess AIai"
+      },
+      {
+        "tag": "DIV",
+        "cls": "react-flow__node react-flow__node-default nopan selectable draggable",
+        "text": "Start Triggertrigger"
+      },
+      {
+        "tag": "DIV",
+        "cls": "\n        px-0 py-0 rounded-lg border-2 transition-all duration-300 cursor-pointer\n        relative w-56 group shadow-lg will-change-transform\n        border-[rgba(100,100,120,0.5)] hover:border-[rgba(",
+        "text": "Start Triggertrigger"
+      },
+      {
+        "tag": "DIV",
+        "cls": "absolute -top-2 -right-2 w-5 h-5 rounded-full border-2 border-[#0a0e27] ",
+        "text": ""
+      },
+      {
+        "tag": "DIV",
+        "cls": "flex gap-3 p-3",
+        "text": "Start Triggertrigger"
+      },
+      {
+        "tag": "DIV",
+        "cls": "flex items-center justify-center w-10 h-10 rounded-lg flex-shrink-0 relative",
+        "text": ""
+      },
+      {
+        "tag": "DIV",
+        "cls": "flex flex-col justify-center min-w-0 flex-1",
+        "text": "Start Triggertrigger"
+      },
+      {
+        "tag": "DIV",
+        "cls": "font-medium text-[rgb(var(--color-base-700))] text-sm truncate",
+        "text": "Start Trigger"
+      },
+      {
+        "tag": "DIV",
+        "cls": "flex justify-between items-baseline gap-2",
+        "text": "trigger"
+      },
+      {
+        "tag": "DIV",
+        "cls": "text-xs text-[rgba(var(--color-base-400))] truncate",
+        "text": "trigger"
+      },
+      {
+        "tag": "DIV",
+        "cls": "react-flow__handle react-flow__handle-top nodrag nopan target connectable connectablestart connectableend connectionindicator",
+        "text": ""
+      },
+      {
+        "tag": "DIV",
+        "cls": "react-flow__handle react-flow__handle-bottom nodrag nopan source connectable connectablestart connectableend connectionindicator",
+        "text": ""
+      },
+      {
+        "tag": "DIV",
+        "cls": "react-flow__node react-flow__node-default nopan selectable draggable",
+        "text": "Fetch Datahttp"
+      },
+      {
+        "tag": "DIV",
+        "cls": "\n        px-0 py-0 rounded-lg border-2 transition-all duration-300 cursor-pointer\n        relative w-56 group shadow-lg will-change-transform\n        border-[rgba(100,100,120,0.5)] hover:border-[rgba(",
+        "text": "Fetch Datahttp"
+      },
+      {
+        "tag": "DIV",
+        "cls": "absolute -top-2 -right-2 w-5 h-5 rounded-full border-2 border-[#0a0e27] ",
+        "text": ""
+      },
+      {
+        "tag": "DIV",
+        "cls": "flex gap-3 p-3",
+        "text": "Fetch Datahttp"
+      },
+      {
+        "tag": "DIV",
+        "cls": "flex items-center justify-center w-10 h-10 rounded-lg flex-shrink-0 relative",
+        "text": ""
+      },
+      {
+        "tag": "DIV",
+        "cls": "flex flex-col justify-center min-w-0 flex-1",
+        "text": "Fetch Datahttp"
+      },
+      {
+        "tag": "DIV",
+        "cls": "font-medium text-[rgb(var(--color-base-700))] text-sm truncate",
+        "text": "Fetch Data"
+      },
+      {
+        "tag": "DIV",
+        "cls": "flex justify-between items-baseline gap-2",
+        "text": "http"
+      },
+      {
+        "tag": "DIV",
+        "cls": "text-xs text-[rgba(var(--color-base-400))] truncate",
+        "text": "http"
+      },
+      {
+        "tag": "DIV",
+        "cls": "react-flow__handle react-flow__handle-top nodrag nopan target connectable connectablestart connectableend connectionindicator",
+        "text": ""
+      },
+      {
+        "tag": "DIV",
+        "cls": "react-flow__handle react-flow__handle-bottom nodrag nopan source connectable connectablestart connectableend connectionindicator",
+        "text": ""
+      },
+      {
+        "tag": "DIV",
+        "cls": "react-flow__node react-flow__node-default nopan selectable draggable",
+        "text": "Process AIai"
+      },
+      {
+        "tag": "DIV",
+        "cls": "\n        px-0 py-0 rounded-lg border-2 transition-all duration-300 cursor-pointer\n        relative w-56 group shadow-lg will-change-transform\n        border-[rgba(100,100,120,0.5)] hover:border-[rgba(",
+        "text": "Process AIai"
+      },
+      {
+        "tag": "DIV",
+        "cls": "absolute -top-2 -right-2 w-5 h-5 rounded-full border-2 border-[#0a0e27] ",
+        "text": ""
+      },
+      {
+        "tag": "DIV",
+        "cls": "flex gap-3 p-3",
+        "text": "Process AIai"
+      },
+      {
+        "tag": "DIV",
+        "cls": "flex items-center justify-center w-10 h-10 rounded-lg flex-shrink-0 relative",
+        "text": ""
+      },
+      {
+        "tag": "DIV",
+        "cls": "flex flex-col justify-center min-w-0 flex-1",
+        "text": "Process AIai"
+      },
+      {
+        "tag": "DIV",
+        "cls": "font-medium text-[rgb(var(--color-base-700))] text-sm truncate",
+        "text": "Process AI"
+      },
+      {
+        "tag": "DIV",
+        "cls": "flex justify-between items-baseline gap-2",
+        "text": "ai"
+      },
+      {
+        "tag": "DIV",
+        "cls": "text-xs text-[rgba(var(--color-base-400))] truncate",
+        "text": "ai"
+      },
+      {
+        "tag": "DIV",
+        "cls": "react-flow__handle react-flow__handle-top nodrag nopan target connectable connectablestart connectableend connectionindicator",
+        "text": ""
+      },
+      {
+        "tag": "DIV",
+        "cls": "react-flow__handle react-flow__handle-bottom nodrag nopan source connectable connectablestart connectableend connectionindicator",
+        "text": ""
+      },
+      {
+        "tag": "DIV",
+        "cls": "react-flow__viewport-portal",
+        "text": ""
+      },
+      {
+        "tag": "svg",
+        "cls": "[object SVGAnimatedString]",
+        "text": ""
+      },
+      {
+        "tag": "circle",
+        "cls": "[object SVGAnimatedString]",
+        "text": ""
+      },
+      {
+        "tag": "DIV",
+        "cls": "react-flow__panel react-flow__controls vertical bottom right",
+        "text": ""
+      },
+      {
+        "tag": "BUTTON",
+        "cls": "react-flow__controls-button react-flow__controls-zoomin",
+        "text": ""
+      },
+      {
+        "tag": "BUTTON",
+        "cls": "react-flow__controls-button react-flow__controls-zoomout",
+        "text": ""
+      },
+      {
+        "tag": "BUTTON",
+        "cls": "react-flow__controls-button react-flow__controls-fitview",
+        "text": ""
+      },
+      {
+        "tag": "BUTTON",
+        "cls": "react-flow__controls-button react-flow__controls-interactive",
+        "text": ""
+      },
+      {
+        "tag": "DIV",
+        "cls": "react-flow__panel react-flow__minimap bottom left",
+        "text": "Mini Map"
+      },
+      {
+        "tag": "svg",
+        "cls": "[object SVGAnimatedString]",
+        "text": "Mini Map"
+      },
+      {
+        "tag": "rect",
+        "cls": "[object SVGAnimatedString]",
+        "text": ""
+      },
+      {
+        "tag": "rect",
+        "cls": "[object SVGAnimatedString]",
+        "text": ""
+      },
+      {
+        "tag": "rect",
+        "cls": "[object SVGAnimatedString]",
+        "text": ""
+      },
+      {
+        "tag": "path",
+        "cls": "[object SVGAnimatedString]",
+        "text": ""
+      },
+      {
+        "tag": "DIV",
+        "cls": "react-flow__panel react-flow__attribution bottom right",
+        "text": "React Flow"
+      },
+      {
+        "tag": "svg",
+        "cls": "[object SVGAnimatedString]",
+        "text": ""
+      },
+      {
+        "tag": "svg",
+        "cls": "[object SVGAnimatedString]",
+        "text": ""
+      },
+      {
+        "tag": "svg",
+        "cls": "[object SVGAnimatedString]",
+        "text": ""
+      },
+      {
+        "tag": "svg",
+        "cls": "[object SVGAnimatedString]",
+        "text": ""
+      },
+      {
+        "tag": "svg",
+        "cls": "[object SVGAnimatedString]",
+        "text": ""
+      },
+      {
+        "tag": "svg",
+        "cls": "[object SVGAnimatedString]",
+        "text": ""
+      },
+      {
+        "tag": "svg",
+        "cls": "[object SVGAnimatedString]",
+        "text": ""
+      },
+      {
+        "tag": "svg",
+        "cls": "[object SVGAnimatedString]",
+        "text": ""
+      },
+      {
+        "tag": "svg",
+        "cls": "[object SVGAnimatedString]",
+        "text": ""
+      },
+      {
+        "tag": "svg",
+        "cls": "[object SVGAnimatedString]",
+        "text": ""
+      }
+    ]
+  },
+  "errors": [
+    "error: Failed to load resource: the server responded with a status of 500 (Internal Server Error)",
+    "error: Failed to load resource: the server responded with a status of 500 (Internal Server Error)",
+    "error: Failed to load resource: the server responded with a status of 500 (Internal Server Error)",
+    "error: Failed to load resource: the server responded with a status of 500 (Internal Server Error)",
+    "error: Error: <path> attribute d: Expected number, \"MNaN,NaNhNaNvNaNh…\".",
+    "error: Error: <svg> attribute viewBox: Expected number, \"NaN NaN NaN NaN\".",
+    "error: Error: <path> attribute d: Expected number, \"MNaN,NaNhNaNvNaNh…\".",
+    "error: Error: <path> attribute d: Expected number, \"MNaN,NaNhNaNvNaNh…\"."
+  ]
+}

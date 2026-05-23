@@ -1,0 +1,38 @@
+{
+  "images": [],
+  "links": [],
+  "scripts": [
+    {
+      "src": "",
+      "type": "",
+      "async": false,
+      "defer": false,
+      "textLength": 2034
+    },
+    {
+      "src": "",
+      "type": "",
+      "async": false,
+      "defer": false,
+      "textLength": 1649
+    },
+    {
+      "src": "",
+      "type": "",
+      "async": false,
+      "defer": false,
+      "textLength": 717
+    }
+  ],
+  "styles": [
+    {
+      "index": 0,
+      "textLength": 813
+    },
+    {
+      "index": 1,
+      "textLength": 4478
+    }
+  ],
+  "iframes": []
+}

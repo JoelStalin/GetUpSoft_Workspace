@@ -1,0 +1,166 @@
+
+window.onload = function() {
+  // Build a system
+  let url = window.location.search.match(/url=([^&]+)/);
+  if (url && url.length > 1) {
+    url = decodeURIComponent(url[1]);
+  } else {
+    url = window.location.origin;
+  }
+  let options = {
+  "swaggerDoc": {
+    "openapi": "3.0.0",
+    "paths": {
+      "/healthz": {
+        "get": {
+          "operationId": "HealthController_healthz",
+          "parameters": [],
+          "responses": {
+            "200": {
+              "description": ""
+            }
+          },
+          "summary": "NestJS backend liveness probe",
+          "tags": [
+            "health"
+          ]
+        }
+      },
+      "/health": {
+        "get": {
+          "operationId": "OrcaController_health",
+          "parameters": [],
+          "responses": {
+            "200": {
+              "description": ""
+            }
+          },
+          "summary": "Compatibility endpoint migrated from orca/service/app.py",
+          "tags": [
+            "orca"
+          ]
+        }
+      },
+      "/interpret": {
+        "post": {
+          "operationId": "OrcaController_interpret",
+          "parameters": [],
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InterpretRequestDto"
+                }
+              }
+            }
+          },
+          "responses": {
+            "201": {
+              "description": ""
+            }
+          },
+          "summary": "Interpret prompt through the ORCA core bridge",
+          "tags": [
+            "orca"
+          ]
+        }
+      },
+      "/n8n-payload": {
+        "post": {
+          "operationId": "OrcaController_n8nPayload",
+          "parameters": [],
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InterpretRequestDto"
+                }
+              }
+            }
+          },
+          "responses": {
+            "201": {
+              "description": ""
+            }
+          },
+          "summary": "Build n8n payload through the migrated NestJS endpoint",
+          "tags": [
+            "orca"
+          ]
+        }
+      }
+    },
+    "info": {
+      "title": "GetUpSoft Backend Nest",
+      "description": "NestJS migration target for internal GetUpSoft APIs.",
+      "version": "0.1.0",
+      "contact": {}
+    },
+    "tags": [],
+    "servers": [],
+    "components": {
+      "schemas": {
+        "InterpretRequestDto": {
+          "type": "object",
+          "properties": {
+            "source_type": {
+              "type": "string",
+              "enum": [
+                "text",
+                "script",
+                "audio"
+              ],
+              "default": "text"
+            },
+            "content": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "required": [
+            "source_type",
+            "content"
+          ]
+        }
+      }
+    }
+  },
+  "customOptions": {}
+};
+  url = options.swaggerUrl || url
+  let urls = options.swaggerUrls
+  let customOptions = options.customOptions
+  let spec1 = options.swaggerDoc
+  let swaggerOptions = {
+    spec: spec1,
+    url: url,
+    urls: urls,
+    dom_id: '#swagger-ui',
+    deepLinking: true,
+    presets: [
+      SwaggerUIBundle.presets.apis,
+      SwaggerUIStandalonePreset
+    ],
+    plugins: [
+      SwaggerUIBundle.plugins.DownloadUrl
+    ],
+    layout: "StandaloneLayout"
+  }
+  for (let attrname in customOptions) {
+    swaggerOptions[attrname] = customOptions[attrname];
+  }
+  let ui = SwaggerUIBundle(swaggerOptions)
+
+  if (customOptions.initOAuth) {
+    ui.initOAuth(customOptions.initOAuth)
+  }
+
+  if (customOptions.authAction) {
+    ui.authActions.authorize(customOptions.authAction)
+  }
+  
+  window.ui = ui
+}
+

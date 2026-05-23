@@ -1,0 +1,15 @@
+{
+  "found": [
+    "AI AGENTS",
+    "ARCHITECTURE",
+    "RD OPERATIONS",
+    "UI PATTERNS",
+    "Workflow Orchestration",
+    "Agent Core",
+    "Odoo ERP",
+    "Metric Dashboard"
+  ],
+  "missing": [],
+  "messages": [],
+  "bodyText": "ORCA\nExample Workflow\nWeb Design\nWorkflow\nMobile Design\nAI\nRun\nStart Trigger\ntrigger\nFetch Data\nhttp\nProcess AI\nai\nReact Flow\nCOMPONENTS\nTRIGGERS\n1\nTrigger\nAI\n1\nAI Prompt\nAI AGENTS\n8\nWorkflow Orchestration\nCognitive Analysis\nNatural Language Ops\nAgentic Memory\nExecutive Intelligence\nData Interpretation\nProcess Automation\nDecision Support\nARCHITECTURE\n5\nAgent Core\nERP Systems\nCRM Integrations\nBI Platforms\nExternal APIs\nRD OPERATIONS\n4\nOdoo ERP\nFacturación e-CF\nInfrastructure\nEnterprise Network\nNETWORK\n1\nHTTP Request\nCONTROL FLOW\n2\nCondition\nLoop\nUI PATTERNS\n4\nMetric Dashboard\nService Grid\nArchitecture Map\nDiagnostic CTA\nUTILS\n3\nSet Variable\nExecute\nEnd"
+}

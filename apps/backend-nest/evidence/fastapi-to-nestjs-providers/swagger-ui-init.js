@@ -1,0 +1,1027 @@
+
+window.onload = function() {
+  // Build a system
+  let url = window.location.search.match(/url=([^&]+)/);
+  if (url && url.length > 1) {
+    url = decodeURIComponent(url[1]);
+  } else {
+    url = window.location.origin;
+  }
+  let options = {
+  "swaggerDoc": {
+    "openapi": "3.0.0",
+    "paths": {
+      "/healthz": {
+        "get": {
+          "operationId": "HealthController_healthz",
+          "parameters": [],
+          "responses": {
+            "200": {
+              "description": ""
+            }
+          },
+          "summary": "NestJS backend liveness probe",
+          "tags": [
+            "health"
+          ]
+        }
+      },
+      "/health": {
+        "get": {
+          "operationId": "OrcaController_health",
+          "parameters": [],
+          "responses": {
+            "200": {
+              "description": ""
+            }
+          },
+          "summary": "Compatibility endpoint migrated from orca/service/app.py",
+          "tags": [
+            "orca"
+          ]
+        }
+      },
+      "/interpret": {
+        "post": {
+          "operationId": "OrcaController_interpret",
+          "parameters": [],
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InterpretRequestDto"
+                }
+              }
+            }
+          },
+          "responses": {
+            "201": {
+              "description": ""
+            }
+          },
+          "summary": "Interpret prompt through the ORCA core bridge",
+          "tags": [
+            "orca"
+          ]
+        }
+      },
+      "/n8n-payload": {
+        "post": {
+          "operationId": "OrcaController_n8nPayload",
+          "parameters": [],
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InterpretRequestDto"
+                }
+              }
+            }
+          },
+          "responses": {
+            "201": {
+              "description": ""
+            }
+          },
+          "summary": "Build n8n payload through the migrated NestJS endpoint",
+          "tags": [
+            "orca"
+          ]
+        }
+      },
+      "/tasks": {
+        "post": {
+          "operationId": "WorkersController_submitTask",
+          "parameters": [
+            {
+              "name": "api-key",
+              "in": "header",
+              "required": true,
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TaskSubmissionDto"
+                }
+              }
+            }
+          },
+          "responses": {
+            "201": {
+              "description": ""
+            }
+          },
+          "summary": "Submit task migrated from ai_automation_orchestrator/task_server.py",
+          "tags": [
+            "workers"
+          ]
+        },
+        "get": {
+          "operationId": "WorkersController_listTasks",
+          "parameters": [
+            {
+              "name": "api-key",
+              "in": "header",
+              "required": true,
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": ""
+            }
+          },
+          "summary": "List all task statuses",
+          "tags": [
+            "workers"
+          ]
+        }
+      },
+      "/tasks/{taskId}": {
+        "get": {
+          "operationId": "WorkersController_getTaskStatus",
+          "parameters": [
+            {
+              "name": "api-key",
+              "in": "header",
+              "required": true,
+              "schema": {
+                "type": "string"
+              }
+            },
+            {
+              "name": "taskId",
+              "required": true,
+              "in": "path",
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": ""
+            }
+          },
+          "summary": "Get task status by id",
+          "tags": [
+            "workers"
+          ]
+        }
+      },
+      "/api/workspace/status": {
+        "get": {
+          "operationId": "WorkspaceController_status",
+          "parameters": [
+            {
+              "name": "api-key",
+              "in": "header",
+              "required": true,
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": ""
+            }
+          },
+          "summary": "Get workspace and git status",
+          "tags": [
+            "workspace"
+          ]
+        }
+      },
+      "/api/workspace/files": {
+        "get": {
+          "operationId": "WorkspaceController_listFiles",
+          "parameters": [
+            {
+              "name": "api-key",
+              "in": "header",
+              "required": true,
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": ""
+            }
+          },
+          "summary": "List files in workspace directory",
+          "tags": [
+            "workspace"
+          ]
+        }
+      },
+      "/api/workspace/files/read": {
+        "post": {
+          "operationId": "WorkspaceController_readFile",
+          "parameters": [
+            {
+              "name": "api-key",
+              "in": "header",
+              "required": true,
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FileReadRequestDto"
+                }
+              }
+            }
+          },
+          "responses": {
+            "201": {
+              "description": ""
+            }
+          },
+          "summary": "Read a workspace file",
+          "tags": [
+            "workspace"
+          ]
+        }
+      },
+      "/api/workspace/files/write": {
+        "post": {
+          "operationId": "WorkspaceController_writeFile",
+          "parameters": [
+            {
+              "name": "api-key",
+              "in": "header",
+              "required": true,
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FileWriteRequestDto"
+                }
+              }
+            }
+          },
+          "responses": {
+            "201": {
+              "description": ""
+            }
+          },
+          "summary": "Write a workspace file",
+          "tags": [
+            "workspace"
+          ]
+        }
+      },
+      "/api/workspace/files/delete": {
+        "post": {
+          "operationId": "WorkspaceController_deleteFile",
+          "parameters": [
+            {
+              "name": "api-key",
+              "in": "header",
+              "required": true,
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/FileDeleteRequestDto"
+                }
+              }
+            }
+          },
+          "responses": {
+            "201": {
+              "description": ""
+            }
+          },
+          "summary": "Delete a workspace file",
+          "tags": [
+            "workspace"
+          ]
+        }
+      },
+      "/api/workspace/git/commit": {
+        "post": {
+          "operationId": "WorkspaceController_gitCommit",
+          "parameters": [
+            {
+              "name": "api-key",
+              "in": "header",
+              "required": true,
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GitCommitRequestDto"
+                }
+              }
+            }
+          },
+          "responses": {
+            "201": {
+              "description": ""
+            }
+          },
+          "summary": "Create a git commit",
+          "tags": [
+            "workspace"
+          ]
+        }
+      },
+      "/api/workspace/git/push": {
+        "post": {
+          "operationId": "WorkspaceController_gitPush",
+          "parameters": [
+            {
+              "name": "api-key",
+              "in": "header",
+              "required": true,
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GitPushRequestDto"
+                }
+              }
+            }
+          },
+          "responses": {
+            "201": {
+              "description": ""
+            }
+          },
+          "summary": "Push git commits",
+          "tags": [
+            "workspace"
+          ]
+        }
+      },
+      "/api/workspace/git/pull": {
+        "post": {
+          "operationId": "WorkspaceController_gitPull",
+          "parameters": [
+            {
+              "name": "api-key",
+              "in": "header",
+              "required": true,
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GitPullRequestDto"
+                }
+              }
+            }
+          },
+          "responses": {
+            "201": {
+              "description": ""
+            }
+          },
+          "summary": "Pull git changes",
+          "tags": [
+            "workspace"
+          ]
+        }
+      },
+      "/api/workspace/execute": {
+        "post": {
+          "operationId": "WorkspaceController_execute",
+          "parameters": [
+            {
+              "name": "api-key",
+              "in": "header",
+              "required": true,
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CommandExecuteRequestDto"
+                }
+              }
+            }
+          },
+          "responses": {
+            "201": {
+              "description": ""
+            }
+          },
+          "summary": "Execute an allow-listed command in the workspace",
+          "tags": [
+            "workspace"
+          ]
+        }
+      },
+      "/api/workspace/logs": {
+        "get": {
+          "operationId": "WorkspaceController_logs",
+          "parameters": [
+            {
+              "name": "api-key",
+              "in": "header",
+              "required": true,
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": ""
+            }
+          },
+          "summary": "Get workspace operation log",
+          "tags": [
+            "workspace"
+          ]
+        }
+      },
+      "/api/providers": {
+        "get": {
+          "operationId": "ProvidersController_listProviders",
+          "parameters": [
+            {
+              "name": "api-key",
+              "in": "header",
+              "required": true,
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": ""
+            }
+          },
+          "summary": "List available AI providers",
+          "tags": [
+            "ai-automation providers"
+          ]
+        }
+      },
+      "/api/providers/status": {
+        "get": {
+          "operationId": "ProvidersController_providerStatus",
+          "parameters": [
+            {
+              "name": "api-key",
+              "in": "header",
+              "required": true,
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": ""
+            }
+          },
+          "summary": "Get provider configuration status",
+          "tags": [
+            "ai-automation providers"
+          ]
+        }
+      },
+      "/api/providers/config/{providerId}": {
+        "get": {
+          "operationId": "ProvidersController_getProviderConfig",
+          "parameters": [
+            {
+              "name": "api-key",
+              "in": "header",
+              "required": true,
+              "schema": {
+                "type": "string"
+              }
+            },
+            {
+              "name": "providerId",
+              "required": true,
+              "in": "path",
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": ""
+            }
+          },
+          "summary": "Get provider configuration status for current user",
+          "tags": [
+            "ai-automation providers"
+          ]
+        }
+      },
+      "/api/providers/config": {
+        "post": {
+          "operationId": "ProvidersController_saveProviderConfig",
+          "parameters": [
+            {
+              "name": "api-key",
+              "in": "header",
+              "required": true,
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProviderConfigRequestDto"
+                }
+              }
+            }
+          },
+          "responses": {
+            "201": {
+              "description": ""
+            }
+          },
+          "summary": "Save provider configuration",
+          "tags": [
+            "ai-automation providers"
+          ]
+        }
+      },
+      "/api/providers/test": {
+        "post": {
+          "operationId": "ProvidersController_testProvider",
+          "parameters": [
+            {
+              "name": "api-key",
+              "in": "header",
+              "required": true,
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProviderTestRequestDto"
+                }
+              }
+            }
+          },
+          "responses": {
+            "201": {
+              "description": ""
+            }
+          },
+          "summary": "Test provider configuration presence",
+          "tags": [
+            "ai-automation providers"
+          ]
+        }
+      },
+      "/api/providers/{provider}": {
+        "get": {
+          "operationId": "ProvidersController_getProvider",
+          "parameters": [
+            {
+              "name": "api-key",
+              "in": "header",
+              "required": true,
+              "schema": {
+                "type": "string"
+              }
+            },
+            {
+              "name": "provider",
+              "required": true,
+              "in": "path",
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": ""
+            }
+          },
+          "summary": "Get details for a specific provider",
+          "tags": [
+            "ai-automation providers"
+          ]
+        }
+      },
+      "/api/providers/{provider}/validate": {
+        "post": {
+          "operationId": "ProvidersController_validateProvider",
+          "parameters": [
+            {
+              "name": "api-key",
+              "in": "header",
+              "required": true,
+              "schema": {
+                "type": "string"
+              }
+            },
+            {
+              "name": "provider",
+              "required": true,
+              "in": "path",
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProviderValidationRequestDto"
+                }
+              }
+            }
+          },
+          "responses": {
+            "201": {
+              "description": ""
+            }
+          },
+          "summary": "Validate provider credential shape without leaking secrets",
+          "tags": [
+            "ai-automation providers"
+          ]
+        }
+      },
+      "/api/providers/{provider}/connect": {
+        "post": {
+          "operationId": "ProvidersController_connectProvider",
+          "parameters": [
+            {
+              "name": "api-key",
+              "in": "header",
+              "required": true,
+              "schema": {
+                "type": "string"
+              }
+            },
+            {
+              "name": "provider",
+              "required": true,
+              "in": "path",
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProviderValidationRequestDto"
+                }
+              }
+            }
+          },
+          "responses": {
+            "201": {
+              "description": ""
+            }
+          },
+          "summary": "Connect provider for a user",
+          "tags": [
+            "ai-automation providers"
+          ]
+        }
+      },
+      "/api/providers/{provider}/disconnect": {
+        "delete": {
+          "operationId": "ProvidersController_disconnectProvider",
+          "parameters": [
+            {
+              "name": "api-key",
+              "in": "header",
+              "required": true,
+              "schema": {
+                "type": "string"
+              }
+            },
+            {
+              "name": "provider",
+              "required": true,
+              "in": "path",
+              "schema": {
+                "type": "string"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": ""
+            }
+          },
+          "summary": "Disconnect provider for a user",
+          "tags": [
+            "ai-automation providers"
+          ]
+        }
+      }
+    },
+    "info": {
+      "title": "GetUpSoft Backend Nest",
+      "description": "NestJS migration target for internal GetUpSoft APIs.",
+      "version": "0.1.0",
+      "contact": {}
+    },
+    "tags": [],
+    "servers": [],
+    "components": {
+      "schemas": {
+        "InterpretRequestDto": {
+          "type": "object",
+          "properties": {
+            "source_type": {
+              "type": "string",
+              "enum": [
+                "text",
+                "script",
+                "audio"
+              ],
+              "default": "text"
+            },
+            "content": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "required": [
+            "source_type",
+            "content"
+          ]
+        },
+        "TaskSubmissionDto": {
+          "type": "object",
+          "properties": {
+            "goal": {
+              "type": "string",
+              "minLength": 1
+            },
+            "project_id": {
+              "type": "string",
+              "minLength": 1
+            },
+            "priority": {
+              "type": "string",
+              "enum": [
+                "LOW",
+                "NORMAL",
+                "HIGH"
+              ],
+              "default": "NORMAL"
+            }
+          },
+          "required": [
+            "goal",
+            "project_id"
+          ]
+        },
+        "FileReadRequestDto": {
+          "type": "object",
+          "properties": {
+            "path": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "required": [
+            "path"
+          ]
+        },
+        "FileWriteRequestDto": {
+          "type": "object",
+          "properties": {
+            "path": {
+              "type": "string",
+              "minLength": 1
+            },
+            "content": {
+              "type": "string"
+            },
+            "create_dirs": {
+              "type": "boolean",
+              "default": true
+            }
+          },
+          "required": [
+            "path",
+            "content"
+          ]
+        },
+        "FileDeleteRequestDto": {
+          "type": "object",
+          "properties": {
+            "path": {
+              "type": "string",
+              "minLength": 1
+            }
+          },
+          "required": [
+            "path"
+          ]
+        },
+        "GitCommitRequestDto": {
+          "type": "object",
+          "properties": {
+            "message": {
+              "type": "string",
+              "minLength": 1
+            },
+            "files": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          "required": [
+            "message"
+          ]
+        },
+        "GitPushRequestDto": {
+          "type": "object",
+          "properties": {
+            "branch": {
+              "type": "string",
+              "default": "main"
+            },
+            "force": {
+              "type": "boolean",
+              "default": false
+            }
+          }
+        },
+        "GitPullRequestDto": {
+          "type": "object",
+          "properties": {
+            "branch": {
+              "type": "string",
+              "default": "main"
+            }
+          }
+        },
+        "CommandExecuteRequestDto": {
+          "type": "object",
+          "properties": {
+            "command": {
+              "type": "string",
+              "minLength": 1
+            },
+            "cwd": {
+              "type": "string"
+            },
+            "timeout": {
+              "type": "number",
+              "default": 300
+            }
+          },
+          "required": [
+            "command"
+          ]
+        },
+        "ProviderConfigRequestDto": {
+          "type": "object",
+          "properties": {
+            "user_id": {
+              "type": "string"
+            },
+            "provider_id": {
+              "type": "string"
+            },
+            "config": {
+              "type": "object"
+            }
+          },
+          "required": [
+            "user_id",
+            "provider_id",
+            "config"
+          ]
+        },
+        "ProviderTestRequestDto": {
+          "type": "object",
+          "properties": {
+            "provider_id": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "provider_id"
+          ]
+        },
+        "ProviderValidationRequestDto": {
+          "type": "object",
+          "properties": {
+            "api_key": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    }
+  },
+  "customOptions": {}
+};
+  url = options.swaggerUrl || url
+  let urls = options.swaggerUrls
+  let customOptions = options.customOptions
+  let spec1 = options.swaggerDoc
+  let swaggerOptions = {
+    spec: spec1,
+    url: url,
+    urls: urls,
+    dom_id: '#swagger-ui',
+    deepLinking: true,
+    presets: [
+      SwaggerUIBundle.presets.apis,
+      SwaggerUIStandalonePreset
+    ],
+    plugins: [
+      SwaggerUIBundle.plugins.DownloadUrl
+    ],
+    layout: "StandaloneLayout"
+  }
+  for (let attrname in customOptions) {
+    swaggerOptions[attrname] = customOptions[attrname];
+  }
+  let ui = SwaggerUIBundle(swaggerOptions)
+
+  if (customOptions.initOAuth) {
+    ui.initOAuth(customOptions.initOAuth)
+  }
+
+  if (customOptions.authAction) {
+    ui.authActions.authorize(customOptions.authAction)
+  }
+  
+  window.ui = ui
+}
+

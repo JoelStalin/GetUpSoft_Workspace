@@ -17,37 +17,73 @@ import { useWorkflowOperations } from '../hooks/useWorkflowOperations'
 import { useWorkflowHistory } from '../hooks/useWorkflowHistory'
 import { wouldCreateCycle, isValidConnection as validateConnection } from '../utils/connectionValidation'
 import OrcaNode from './OrcaNode'
+import type { AppMode } from '../types/modes'
 
 const nodeTypes = {
   orcaNode: OrcaNode,
   default: OrcaNode,
 }
 
-export default function WorkflowCanvas() {
+export default function WorkflowCanvas({ activeMode = 'workflow' }: { activeMode?: AppMode }) {
   const { workflow, selectedNodeId, addNode, updateNode, addEdge: addEdgeToStore, deleteNode, deleteEdge } = useWorkflowOperations()
   const { pushHistory, undo, redo } = useWorkflowHistory()
 
   const reactFlowWrapper = useRef<HTMLDivElement>(null)
-  const { project } = useReactFlow() as any
+  const reactFlow = useReactFlow() as any
 
   const [nodes, setNodes, onNodesChange] = useNodesState(workflow?.nodes || [])
   const [edges, setEdges, onEdgesChange] = useEdgesState(workflow?.edges || [])
   const [selectedEdgeId, setSelectedEdgeId] = useState<string | null>(null)
-  const [miniMapVisible, setMiniMapVisible] = useState(true)
+  const [miniMapVisible] = useState(false)
+  const [isCanvasReady, setIsCanvasReady] = useState(false)
+
+  useEffect(() => {
+    const element = reactFlowWrapper.current
+    if (!element) return
+
+    const updateCanvasReady = () => {
+      const rect = element.getBoundingClientRect()
+      setIsCanvasReady(Number.isFinite(rect.width) && Number.isFinite(rect.height) && rect.width > 0 && rect.height > 0)
+    }
+
+    updateCanvasReady()
+    const observer = new ResizeObserver(updateCanvasReady)
+    observer.observe(element)
+    return () => observer.disconnect()
+  }, [])
+
+  const nodeBelongsToMode = useCallback((node: any) => {
+    const nodeMode = node?.data?.mode
+    const nodeType = node?.data?.type || ''
+    if (activeMode === 'workflow') {
+      return !nodeMode && !String(nodeType).startsWith('web.layout.')
+    }
+    if (activeMode === 'web') {
+      return nodeMode === 'web' || String(nodeType).startsWith('web.layout.')
+    }
+    if (activeMode === 'ai') {
+      return nodeMode === 'ai' || String(nodeType).startsWith('stitch.ai.') || String(nodeType).startsWith('stitch.arch.') || String(nodeType).startsWith('nemoclaw.core.')
+    }
+    if (activeMode === 'mobile') {
+      return nodeMode === 'mobile'
+    }
+    return true
+  }, [activeMode])
 
   // Sync workflow nodes to ReactFlow nodes
   useEffect(() => {
     if (workflow?.nodes) {
-      setNodes(workflow.nodes as any[])
+      setNodes((workflow.nodes as any[]).filter(nodeBelongsToMode))
     }
-  }, [workflow?.nodes, setNodes])
+  }, [workflow?.nodes, setNodes, nodeBelongsToMode])
 
   // Sync workflow edges to ReactFlow edges
   useEffect(() => {
     if (workflow?.edges) {
-      setEdges(workflow.edges as any[])
+      const visibleNodeIds = new Set((workflow.nodes || []).filter(nodeBelongsToMode).map((node: any) => node.id))
+      setEdges((workflow.edges as any[]).filter((edge) => visibleNodeIds.has(edge.source) && visibleNodeIds.has(edge.target)))
     }
-  }, [workflow?.edges, setEdges])
+  }, [workflow?.edges, workflow?.nodes, setEdges, nodeBelongsToMode])
 
   // Setup drag and drop with React handlers on wrapper (already added to JSX)
   // No additional listeners needed - the React onDragOver and onDrop handlers on the wrapper div are sufficient
@@ -173,13 +209,18 @@ export default function WorkflowCanvas() {
       // Calculate position with fallback if project() fails
       let position = { x: 0, y: 0 }
       try {
-        if (project && typeof project === 'function') {
-          position = project({
+        if (reactFlow?.screenToFlowPosition && typeof reactFlow.screenToFlowPosition === 'function') {
+          position = reactFlow.screenToFlowPosition({
+            x: event.clientX,
+            y: event.clientY,
+          })
+        } else if (reactFlow?.project && typeof reactFlow.project === 'function') {
+          position = reactFlow.project({
             x: event.clientX - reactFlowBounds.left,
             y: event.clientY - reactFlowBounds.top,
           })
         } else {
-          throw new Error('project function not available')
+          throw new Error('React Flow coordinate projection unavailable')
         }
       } catch {
         // Fallback: use relative canvas position
@@ -203,7 +244,7 @@ export default function WorkflowCanvas() {
       addNode(newNode as any)
       setNodes((nds: any[]) => [...nds, newNode])
     },
-    [project, addNode, setNodes, pushHistory]
+    [reactFlow, addNode, setNodes, pushHistory]
   )
 
   const styledEdges = edges.map((edge) => ({
@@ -235,30 +276,31 @@ export default function WorkflowCanvas() {
         onConnect={handleConnect}
         onEdgeClick={handleEdgeClick}
         nodeTypes={nodeTypes}
-        fitView={nodes.length > 0}
+        fitView={isCanvasReady && nodes.length > 0}
         colorMode="dark"
         deleteKeyCode={['Backspace', 'Delete']}
-        connectionLineStyle={{ stroke: '#4A9EFF', strokeWidth: 2 }}
+        connectionLineStyle={{ stroke: '#99F6E4', strokeWidth: 2 }}
       >
-        <Background color="rgba(255, 255, 255, 0.02)" gap={20} size={1} />
+        <Background color="rgba(255, 255, 255, 0.035)" gap={32} size={1} />
         <Controls position="bottom-right" />
-        {miniMapVisible && <MiniMap
+        {miniMapVisible && isCanvasReady && <MiniMap
           nodeColor={(node: any): string => {
-            if (selectedNodeId === node.id) return '#4A9EFF'
-            return '#6B7280'
+            if (selectedNodeId === node.id) return '#99F6E4'
+            return '#44505c'
           }}
-          nodeStrokeColor="#374151"
-          maskColor="rgba(0, 0, 0, 0.3)"
+          nodeStrokeColor="rgba(153, 246, 228, 0.32)"
+          maskColor="rgba(0, 0, 0, 0.36)"
           pannable
           zoomable
           position="bottom-left"
           style={{
-            backgroundColor: 'rgba(15, 18, 40, 0.9)',
+            backgroundColor: 'rgba(10, 12, 14, 0.86)',
             borderRadius: '8px',
-            border: '1px solid rgba(255, 255, 255, 0.1)',
+            border: '1px solid rgba(153, 246, 228, 0.16)',
             width: '200px',
             height: '150px',
             fontSize: '11px',
+            boxShadow: '0 18px 40px rgba(0, 0, 0, 0.36)',
           }}
         />}
       </ReactFlow>

@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from 'react'
+import { useState, useEffect, useCallback, useRef } from 'react'
 import '@xyflow/react/dist/style.css'
 import { ReactFlowProvider } from '@xyflow/react'
 
@@ -12,7 +12,6 @@ import FloatingChatPanel from './components/FloatingChatPanel'
 import FloatingPropertiesPanel from './components/FloatingPropertiesPanel'
 import CollapsedCategoryBar from './components/CollapsedCategoryBar'
 import QuickAccessBar from './components/QuickAccessBar'
-import AgentLogButton from './components/AgentLogButton'
 import EditorToolsPanel from './components/EditorToolsPanel'
 import ToastContainer from './components/ToastContainer'
 import MiniZoom from './components/MiniZoom'
@@ -42,8 +41,6 @@ import type { AppMode } from './types/modes'
 
 // ─── Floating panels are scoped to workflow mode ─────────────────────────────
 const WORKFLOW_ONLY_WINDOWS = ['components', 'properties', 'versions', 'analytics']
-const ALL_MODES_WINDOWS = ['chat']  // chat is always available
-
 function AppContent() {
   const [isLoading, setIsLoading] = useState(true)
   const [activeMode, setActiveMode] = useState<AppMode>('workflow')
@@ -136,9 +133,10 @@ function AppContent() {
     return () => window.removeEventListener('keydown', handleKeyDown)
   }, [selectedNodeId, workflow, deleteNode, addNode, copy, paste, hasContent, setWorkflow, multiSelect, activeMode])
 
-  // Load node types
+  // Load node types only when a backend was explicitly enabled for this session.
   useEffect(() => {
     const loadNodeTypes = async () => {
+      if (localStorage.getItem('orca:use-live-api') !== 'true') return
       try {
         const response = await fetch('/api/n8n/node-types')
         if (response.ok) {
@@ -164,8 +162,27 @@ function AppContent() {
 
   // Initialize workflow
   useEffect(() => {
+    let isMounted = true
+    const bootTimers: number[] = []
+
     const initWorkflow = async () => {
+      const bootStartedAt = Date.now()
+      const finishBoot = () => {
+        const elapsed = Date.now() - bootStartedAt
+        const remaining = Math.max(0, 3400 - elapsed)
+        const timerId = window.setTimeout(() => {
+          if (isMounted) setIsLoading(false)
+        }, remaining)
+        bootTimers.push(timerId)
+      }
+
       try {
+        if (localStorage.getItem('orca:use-live-api') !== 'true') {
+          setDefaultWorkflow()
+          finishBoot()
+          return
+        }
+
         const controller = new AbortController()
         const timeoutId = setTimeout(() => controller.abort(), 3000)
         try {
@@ -184,37 +201,47 @@ function AppContent() {
                 orca_meta: first.orca_meta,
               })
               clearTimeout(timeoutId)
-              setIsLoading(false)
+              finishBoot()
               return
             }
           }
         } catch { clearTimeout(timeoutId) }
 
-        // Default workflow
-        setWorkflow({
-          id: `workflow-${Date.now()}`,
-          name: 'Example Workflow',
-          active: false,
-          nodes: [
-            { id: 'trigger-1', type: 'default', data: { label: 'Start Trigger', type: 'trigger', color: '#E74C3C', status: 'pending' }, position: { x: 100, y: 50 } },
-            { id: 'http-1',    type: 'default', data: { label: 'Fetch Data',    type: 'http',    color: '#3498DB', status: 'pending' }, position: { x: 400, y: 50 } },
-            { id: 'ai-1',     type: 'default', data: { label: 'Process AI',    type: 'ai',      color: '#9B59B6', status: 'pending' }, position: { x: 700, y: 50 } },
-          ],
-          edges: [
-            { id: 'edge-1', source: 'trigger-1', target: 'http-1', animated: true, type: 'smoothstep', style: { stroke: '#7c4dff', strokeWidth: 2 } },
-            { id: 'edge-2', source: 'http-1',    target: 'ai-1',   animated: true, type: 'smoothstep', style: { stroke: '#7c4dff', strokeWidth: 2 } },
-          ],
-          settings: {},
-          createdAt: new Date().toISOString(),
-          updatedAt: new Date().toISOString(),
-        })
-        setIsLoading(false)
+        setDefaultWorkflow()
+        finishBoot()
       } catch (error) {
         console.error('Error initializing workflow:', error)
-        setIsLoading(false)
+        setDefaultWorkflow()
+        finishBoot()
       }
     }
+
+    const setDefaultWorkflow = () => {
+      setWorkflow({
+        id: `workflow-${Date.now()}`,
+        name: 'Example Workflow',
+        active: false,
+        nodes: [
+          { id: 'trigger-1', type: 'default', data: { label: 'Start Trigger', type: 'trigger', color: '#ff4d42', status: 'pending' }, position: { x: 100, y: 50 } },
+          { id: 'http-1',    type: 'default', data: { label: 'Fetch Data',    type: 'http',    color: '#99F6E4', status: 'pending' }, position: { x: 400, y: 50 } },
+          { id: 'ai-1',      type: 'default', data: { label: 'Process AI',    type: 'ai',      color: '#A78BFA', status: 'pending' }, position: { x: 700, y: 50 } },
+        ],
+        edges: [
+          { id: 'edge-1', source: 'trigger-1', target: 'http-1', animated: true, type: 'smoothstep', style: { stroke: '#99F6E4', strokeWidth: 2 } },
+          { id: 'edge-2', source: 'http-1',    target: 'ai-1',   animated: true, type: 'smoothstep', style: { stroke: '#99F6E4', strokeWidth: 2 } },
+        ],
+        settings: {},
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString(),
+      })
+    }
+
     initWorkflow()
+
+    return () => {
+      isMounted = false
+      bootTimers.forEach((timerId) => window.clearTimeout(timerId))
+    }
   }, [setWorkflow])
 
   // Sync execution status to workflow nodes
@@ -230,37 +257,13 @@ function AppContent() {
   }, [executionLogs, workflow, setWorkflow])
 
   if (isLoading) {
-    return (
-      <div style={{
-        height: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center',
-        backgroundColor: 'rgb(var(--color-base-100))', color: 'var(--stitch-text)',
-        position: 'relative', overflow: 'hidden',
-      }}>
-        <div style={{ position: 'absolute', inset: 0, opacity: 0.05, background: 'radial-gradient(circle at 50% 50%, rgb(124, 77, 255), transparent)', animation: 'pulse 4s ease-in-out infinite', pointerEvents: 'none' }} />
-        <style>{`
-          @keyframes fadeInDown { from { opacity:0; transform:translateY(-20px) } to { opacity:1; transform:translateY(0) } }
-          @keyframes fadeInUp   { from { opacity:0; transform:translateY(20px)  } to { opacity:1; transform:translateY(0) } }
-          @keyframes pulse      { 0%,100% { opacity:0.05 } 50% { opacity:0.15 } }
-          @keyframes loadingBar { 0% { width:0 } 100% { width:100% } }
-        `}</style>
-        <div style={{ textAlign: 'center', position: 'relative', zIndex: 10 }}>
-          <div style={{ marginBottom: '32px', animation: 'fadeInDown 0.8s ease-out' }}>
-            <div style={{ width: '80px', height: '80px', margin: '0 auto 16px', borderRadius: '12px', background: 'linear-gradient(135deg, rgb(124, 77, 255), rgb(74, 158, 255))', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '40px', fontWeight: 'bold', color: 'white', boxShadow: '0 8px 32px rgba(124, 77, 255, 0.3)' }}>◇</div>
-          </div>
-          <div style={{ marginBottom: '8px', fontSize: '28px', fontWeight: 600, animation: 'fadeInUp 0.8s ease-out 0.2s both' }}>ORCA Orchestrator</div>
-          <div style={{ marginBottom: '32px', color: 'var(--stitch-muted)', fontSize: '14px', animation: 'fadeInUp 0.8s ease-out 0.4s both' }}>Initializing workspace</div>
-          <div style={{ width: '240px', height: '3px', backgroundColor: 'rgba(74, 158, 255, 0.1)', borderRadius: '2px', overflow: 'hidden', animation: 'fadeInUp 0.8s ease-out 0.6s both' }}>
-            <div style={{ height: '100%', background: 'linear-gradient(90deg, transparent, rgb(74, 158, 255), transparent)', animation: 'loadingBar 2s ease-in-out infinite' }} />
-          </div>
-          <div style={{ marginTop: '24px', fontSize: '12px', color: 'var(--stitch-muted)', animation: 'fadeInUp 0.8s ease-out 0.8s both' }}>Loading components...</div>
-        </div>
-      </div>
-    )
+    return <OrcaIntro />
   }
 
   return (
     <ReactFlowProvider>
-      <div style={{ position: 'fixed', inset: 0, display: 'flex', flexDirection: 'column', backgroundColor: 'rgb(var(--color-base-100))', color: 'var(--stitch-text)' }}>
+      <div className="orca-shell" style={{ position: 'fixed', inset: 0, display: 'flex', flexDirection: 'column', backgroundColor: 'rgb(var(--color-base-100))', color: 'var(--stitch-text)' }}>
+        <OrcaMatrixBackground />
 
         {/* ── Toolbar (always visible) ── */}
         <WorkflowToolbar activeMode={activeMode} onModeChange={setActiveMode} />
@@ -268,26 +271,32 @@ function AppContent() {
         {/* ── Mode Canvas ── */}
         <div style={{ flex: 1, position: 'relative', overflow: 'hidden' }}>
 
-          {/* WORKFLOW MODE — canvas + all editor panels */}
-          {activeMode === 'workflow' && (
-            workflow ? <WorkflowCanvas /> : (
+          {/* Shared canvas for every mode. Mode panels add/edit the relevant canvas components. */}
+          {workflow ? <WorkflowCanvas activeMode={activeMode} /> : (
               <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100%' }}>
                 <div style={{ textAlign: 'center' }}>
                   <h2 style={{ fontSize: '24px', fontWeight: 'bold', marginBottom: '16px' }}>No Workflow</h2>
                   <p style={{ color: 'var(--stitch-muted)' }}>Create a new workflow to get started</p>
                 </div>
               </div>
-            )
           )}
 
           {/* WEB DESIGN MODE */}
           {activeMode === 'web' && <WebDesignMode />}
 
           {/* MOBILE DESIGN MODE */}
-          {activeMode === 'mobile' && <MobileDesignMode />}
+          {activeMode === 'mobile' && (
+            <div className="orca-mode-panel orca-mode-panel--right">
+              <MobileDesignMode />
+            </div>
+          )}
 
           {/* AI MODE */}
-          {activeMode === 'ai' && <AIMode />}
+          {activeMode === 'ai' && (
+            <div className="orca-mode-panel orca-mode-panel--right orca-mode-panel--wide">
+              <AIMode />
+            </div>
+          )}
         </div>
 
         {/* ── Floating Windows (workflow mode only, except chat) ── */}
@@ -303,7 +312,6 @@ function AppContent() {
               onMiniZoomToggle={() => setMiniZoomEnabled(!miniZoomEnabled)}
             />
             <EditorToolsPanel />
-            <AgentLogButton />
             <MiniZoom enabled={miniZoomEnabled} zoom={2} size={160} />
           </>
         )}
@@ -328,6 +336,66 @@ function AppContent() {
       </div>
     </ReactFlowProvider>
   )
+}
+
+function OrcaIntro() {
+  return (
+    <div className="orca-intro" aria-label="ORCA system initializing">
+      <OrcaMatrixBackground />
+      <div className="orca-grid" />
+      <div className="orca-intro__content">
+        <div className="orca-intro__logo">ORCA</div>
+        <div className="orca-intro__status">SYSTEM INITIALIZING...</div>
+      </div>
+    </div>
+  )
+}
+
+function OrcaMatrixBackground() {
+  const canvasRef = useRef<HTMLCanvasElement | null>(null)
+
+  useEffect(() => {
+    const canvas = canvasRef.current
+    const ctx = canvas?.getContext('2d')
+    if (!canvas || !ctx) return
+
+    let width = 0
+    let height = 0
+    let columns = 0
+    const size = 16
+    const drops: number[] = []
+
+    const initMatrix = () => {
+      width = canvas.width = window.innerWidth
+      height = canvas.height = window.innerHeight
+      columns = Math.floor(width / size)
+      for (let i = 0; i < columns; i += 1) drops[i] = Math.floor(Math.random() * height / size)
+    }
+
+    const drawMatrix = () => {
+      ctx.fillStyle = 'rgba(0, 0, 0, 0.05)'
+      ctx.fillRect(0, 0, width, height)
+      ctx.fillStyle = 'rgba(255, 255, 255, 0.2)'
+      ctx.font = `${size}px "Space Mono", monospace`
+      for (let i = 0; i < drops.length; i += 1) {
+        const charCode = 33 + Math.floor(Math.random() * 70)
+        ctx.fillText(String.fromCharCode(charCode), i * size, drops[i] * size)
+        if (drops[i] * size > height && Math.random() > 0.975) drops[i] = 0
+        drops[i] += 1
+      }
+    }
+
+    initMatrix()
+    const interval = window.setInterval(drawMatrix, 50)
+    window.addEventListener('resize', initMatrix)
+
+    return () => {
+      window.clearInterval(interval)
+      window.removeEventListener('resize', initMatrix)
+    }
+  }, [])
+
+  return <canvas ref={canvasRef} className="orca-matrix" aria-hidden="true" />
 }
 
 function FloatingWindowsManager({ activeMode }: { activeMode: AppMode }) {

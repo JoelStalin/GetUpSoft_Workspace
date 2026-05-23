@@ -1,0 +1,119 @@
+{
+  "images": [
+    {
+      "src": "https://lh3.googleusercontent.com/aida-public/AB6AXuAAtTAfYOF4FAQf7UraAVcV6C_sKJTwoophLRSdlkttcoILGfKuWMsB6ppC8NBO7CRxYgcC9DXbosU3lWX-_OygHOppcwsYiELBwsLqnreGQRPyn2ody3IPIweHIR7ME46xtmTGLLgMkgzBTFn3jDaGs-DtovbnktK9EQFlM89K1d4lfU-JckOjWVjb1kw0h_9D1BSl-ynJzy-CbnFvmdZ3F7KNTBJGu1qGa0QHikpP3rTJ_g_sLYvRLbWG98TQ0ZDl5GTLvywRoKY",
+      "alt": "Technical mesh",
+      "w": 512,
+      "h": 512
+    }
+  ],
+  "links": [
+    {
+      "rel": "stylesheet",
+      "href": "https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;700&family=Plus+Jakarta+Sans:wght@400;500;600&display=swap",
+      "as": "",
+      "type": ""
+    },
+    {
+      "rel": "stylesheet",
+      "href": "https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap",
+      "as": "",
+      "type": ""
+    },
+    {
+      "rel": "stylesheet",
+      "href": "https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap",
+      "as": "",
+      "type": ""
+    }
+  ],
+  "scripts": [
+    {
+      "src": "https://cdn.tailwindcss.com/?plugins=forms,container-queries",
+      "type": "",
+      "async": false,
+      "defer": false,
+      "textLength": 0
+    },
+    {
+      "src": "",
+      "type": "",
+      "async": false,
+      "defer": false,
+      "textLength": 4262
+    },
+    {
+      "src": "",
+      "type": "",
+      "async": true,
+      "defer": false,
+      "textLength": 0
+    },
+    {
+      "src": "",
+      "type": "",
+      "async": false,
+      "defer": false,
+      "textLength": 2034
+    },
+    {
+      "src": "",
+      "type": "",
+      "async": false,
+      "defer": false,
+      "textLength": 1649
+    },
+    {
+      "src": "",
+      "type": "",
+      "async": false,
+      "defer": false,
+      "textLength": 717
+    },
+    {
+      "src": "",
+      "type": "",
+      "async": false,
+      "defer": false,
+      "textLength": 482
+    },
+    {
+      "src": "",
+      "type": "",
+      "async": false,
+      "defer": false,
+      "textLength": 120181
+    }
+  ],
+  "styles": [
+    {
+      "index": 0,
+      "textLength": 1190
+    },
+    {
+      "index": 1,
+      "textLength": 813
+    },
+    {
+      "index": 2,
+      "textLength": 4478
+    },
+    {
+      "index": 3,
+      "textLength": 19163
+    },
+    {
+      "index": 4,
+      "textLength": 0
+    },
+    {
+      "index": 5,
+      "textLength": 0
+    },
+    {
+      "index": 6,
+      "textLength": 972
+    }
+  ],
+  "iframes": []
+}

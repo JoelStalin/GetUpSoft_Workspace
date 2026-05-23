@@ -97,19 +97,13 @@ export default function WorkflowToolbar({
             <Menu size={16} />
           </button>
 
-          <div style={{ fontSize: '14px', fontWeight: 600, color: 'var(--stitch-text)', textTransform: 'uppercase', letterSpacing: '0.5px' }}>
+          <div className="orca-brand-wordmark">
             ORCA
           </div>
 
           {workflow && (
-            <div
-              style={{
-                display: 'flex', alignItems: 'center', gap: '6px',
-                padding: '4px 8px', backgroundColor: 'var(--stitch-hover)',
-                borderRadius: '4px', fontSize: '12px', color: 'var(--stitch-muted)',
-              }}
-            >
-              <div style={{ width: '6px', height: '6px', borderRadius: '50%', backgroundColor: 'var(--stitch-accent)', flexShrink: 0 }} />
+            <div className="orca-status-pill">
+              <div className="orca-live-dot" />
               {workflow.name || 'Untitled'}
             </div>
           )}
@@ -143,13 +137,8 @@ export default function WorkflowToolbar({
             <button
               onClick={handleRun}
               disabled={!workflow || isLoading}
-              style={{
-                padding: '6px 12px', borderRadius: '6px', fontSize: '12px',
-                backgroundColor: workflow ? 'var(--stitch-green)' : 'rgba(29, 185, 84, 0.3)',
-                border: 'none', color: '#ffffff', display: 'flex', alignItems: 'center',
-                gap: '4px', cursor: workflow && !isLoading ? 'pointer' : 'not-allowed',
-                fontWeight: 600, transition: 'opacity 0.2s ease',
-              }}
+              className="orca-run-button"
+              style={{ cursor: workflow && !isLoading ? 'pointer' : 'not-allowed', opacity: workflow ? 1 : 0.45 }}
               onMouseEnter={(e) => { if (workflow && !isLoading) e.currentTarget.style.opacity = '0.9' }}
               onMouseLeave={(e) => { if (workflow && !isLoading) e.currentTarget.style.opacity = '1' }}
             >

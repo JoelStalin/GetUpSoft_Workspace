@@ -1,0 +1,604 @@
+{
+  "images": [
+    {
+      "src": "https://lh3.googleusercontent.com/a/ACg8ocI3dGr3C1tHAi1YjmDNgQUTY5TVUi6ukUCFQ9RmSP5sJX0i0Z9y=s96",
+      "alt": "Profile image for JOEL STALIN Martinez Espinal",
+      "w": 94,
+      "h": 96
+    }
+  ],
+  "links": [
+    {
+      "rel": "preconnect",
+      "href": "https://fonts.googleapis.com/",
+      "as": "",
+      "type": ""
+    },
+    {
+      "rel": "preconnect",
+      "href": "https://fonts.gstatic.com/",
+      "as": "",
+      "type": ""
+    },
+    {
+      "rel": "preconnect",
+      "href": "https://apis.google.com/",
+      "as": "",
+      "type": ""
+    },
+    {
+      "rel": "preconnect",
+      "href": "https://cdn.tailwindcss.com/",
+      "as": "",
+      "type": ""
+    },
+    {
+      "rel": "stylesheet",
+      "href": "https://fonts.googleapis.com/css2?family=Google+Sans:ital,opsz,wght@0,17..18,400..700;1,17..18,400..700&family=Google+Sans+Display:wght@400;500;700&family=Google+Sans+Text:wght@400;500;700&display=swap",
+      "as": "",
+      "type": ""
+    },
+    {
+      "rel": "stylesheet",
+      "href": "https://fonts.googleapis.com/css2?family=Anybody:wght@400;700&family=Anton&family=Archivo+Narrow:wght@400;700&family=Arimo:wght@400;500;600;700&family=Atkinson+Hyperlegible+Next:wght@400;700&family=Barlow+Condensed:wght@400;700&family=Be+Vietnam+Pro:wght@400;500;600;700&family=Bebas+Neue&family=Bodoni+Moda:wght@400;700&family=Bricolage+Grotesque:wght@400;700&family=Chivo:wght@400;700&family=Climate+Crisis&family=Comfortaa:wght@400;700&family=Courier+Prime:wght@400;700&family=DM+Sans:wght@400;500;600;700&family=Domine:wght@400;500;600;700&family=EB+Garamond:wght@400;500;600;700&family=Epilogue:wght@400;500;600;700&family=Fira+Sans:wght@400;700&family=Geist:wght@400;700&family=Google+Sans+Code:wght@400;700&family=Google+Sans+Flex:wght@400;700&family=Google+Sans+Mono:wght@400;700&family=Hanken+Grotesk:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Serif:wght@400;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;700&family=Karla:wght@400;700&family=Lexend:wght@400;500;600;700&family=Libre+Caslon+Text:wght@400;700&family=Libre+Franklin:wght@400;700&family=Literata:wght@400;500;600;700&family=Manrope:wght@400;500;600;700&family=Merriweather:wght@400;700&family=Montserrat:wght@400;500;600;700&family=Newsreader:wght@400;500;600;700&family=Noto+Sans:wght@400;700&family=Noto+Serif:wght@400;500;600;700&family=Nunito+Sans:wght@400;500;600;700&family=Open+Sans:wght@400;700&family=Oswald:wght@400;700&family=Outfit:wght@400;700&family=Playfair+Display:wght@400;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Poiret+One&family=Public+Sans:wght@400;500;600;700&family=Questrial&family=Quicksand:wght@400;700&family=Raleway:wght@400;700&family=Roboto+Flex:wght@400;700&family=Rubik:wght@400;500;600;700&family=Sora:wght@400;500;600;700&family=Source+Sans+3:wght@400;500;600;700&family=Source+Serif+4:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&family=Space+Mono:wght@400;700&family=Spline+Sans:wght@400;500;600;700&family=Syne:wght@400;700&family=Vollkorn:wght@400;700&family=Work+Sans:wght@400;500;600;700&display=swap",
+      "as": "",
+      "type": ""
+    },
+    {
+      "rel": "stylesheet",
+      "href": "https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined",
+      "as": "",
+      "type": ""
+    },
+    {
+      "rel": "shortcut icon",
+      "href": "https://www.gstatic.com/labs-code/stitch/favicon.ico",
+      "as": "",
+      "type": ""
+    },
+    {
+      "rel": "icon",
+      "href": "https://www.gstatic.com/labs-code/stitch/favicon-16x16.png",
+      "as": "",
+      "type": "image/png"
+    },
+    {
+      "rel": "icon",
+      "href": "https://www.gstatic.com/labs-code/stitch/favicon-32x32.png",
+      "as": "",
+      "type": "image/png"
+    },
+    {
+      "rel": "icon",
+      "href": "https://www.gstatic.com/labs-code/stitch/favicon-48x48.png",
+      "as": "",
+      "type": "image/png"
+    },
+    {
+      "rel": "icon",
+      "href": "https://www.gstatic.com/labs-code/stitch/favicon-192x192.png",
+      "as": "",
+      "type": "image/png"
+    },
+    {
+      "rel": "icon",
+      "href": "https://www.gstatic.com/labs-code/stitch/favicon-512x512.png",
+      "as": "",
+      "type": "image/png"
+    },
+    {
+      "rel": "apple-touch-icon",
+      "href": "https://www.gstatic.com/labs-code/stitch/apple-touch-icon.png",
+      "as": "",
+      "type": ""
+    },
+    {
+      "rel": "modulepreload",
+      "href": "https://app-companion-430619.appspot.com/assets/rolldown-runtime-C5c2KzVm.js",
+      "as": "",
+      "type": ""
+    },
+    {
+      "rel": "modulepreload",
+      "href": "https://app-companion-430619.appspot.com/assets/preload-helper-5xhW3dnw.js",
+      "as": "",
+      "type": ""
+    },
+    {
+      "rel": "modulepreload",
+      "href": "https://app-companion-430619.appspot.com/assets/vendor-react-odJ06c5r.js",
+      "as": "",
+      "type": ""
+    },
+    {
+      "rel": "modulepreload",
+      "href": "https://app-companion-430619.appspot.com/assets/vendor-ui-DbtEFx1g.js",
+      "as": "",
+      "type": ""
+    },
+    {
+      "rel": "modulepreload",
+      "href": "https://app-companion-430619.appspot.com/assets/vendor-query-B_LPuvL0.js",
+      "as": "",
+      "type": ""
+    },
+    {
+      "rel": "modulepreload",
+      "href": "https://app-companion-430619.appspot.com/assets/vendor-utils-DD5Q3ETg.js",
+      "as": "",
+      "type": ""
+    },
+    {
+      "rel": "modulepreload",
+      "href": "https://app-companion-430619.appspot.com/assets/editor-xyflow-CuAtqOqf.js",
+      "as": "",
+      "type": ""
+    },
+    {
+      "rel": "modulepreload",
+      "href": "https://app-companion-430619.appspot.com/assets/chunk-UIGDSWPH-DWpPGu-C.js",
+      "as": "",
+      "type": ""
+    },
+    {
+      "rel": "modulepreload",
+      "href": "https://app-companion-430619.appspot.com/assets/v4-Dn1DOa4_.js",
+      "as": "",
+      "type": ""
+    },
+    {
+      "rel": "modulepreload",
+      "href": "https://app-companion-430619.appspot.com/assets/auroraTunerConfig-CN7VuFvm.js",
+      "as": "",
+      "type": ""
+    },
+    {
+      "rel": "modulepreload",
+      "href": "https://app-companion-430619.appspot.com/assets/Logger-DP6jWtnu.js",
+      "as": "",
+      "type": ""
+    },
+    {
+      "rel": "modulepreload",
+      "href": "https://app-companion-430619.appspot.com/assets/dist-opBtvj-3.js",
+      "as": "",
+      "type": ""
+    },
+    {
+      "rel": "modulepreload",
+      "href": "https://app-companion-430619.appspot.com/assets/PostMessageClient-DU0Q9DBp.js",
+      "as": "",
+      "type": ""
+    },
+    {
+      "rel": "modulepreload",
+      "href": "https://app-companion-430619.appspot.com/assets/DebugStore-CIBgQzeI.js",
+      "as": "",
+      "type": ""
+    },
+    {
+      "rel": "modulepreload",
+      "href": "https://app-companion-430619.appspot.com/assets/util-B3FQInT8.js",
+      "as": "",
+      "type": ""
+    },
+    {
+      "rel": "modulepreload",
+      "href": "https://app-companion-430619.appspot.com/assets/Popover-B95-mwQ6.js",
+      "as": "",
+      "type": ""
+    },
+    {
+      "rel": "modulepreload",
+      "href": "https://app-companion-430619.appspot.com/assets/Menu-DThKZAdU.js",
+      "as": "",
+      "type": ""
+    },
+    {
+      "rel": "modulepreload",
+      "href": "https://app-companion-430619.appspot.com/assets/DebugHelpers-H4MT5aVR.js",
+      "as": "",
+      "type": ""
+    },
+    {
+      "rel": "modulepreload",
+      "href": "https://app-companion-430619.appspot.com/assets/whatsNewUpdates-D-dgjjn-.js",
+      "as": "",
+      "type": ""
+    },
+    {
+      "rel": "stylesheet",
+      "href": "https://app-companion-430619.appspot.com/assets/editor-xyflow-CHpVij2M.css",
+      "as": "",
+      "type": ""
+    },
+    {
+      "rel": "stylesheet",
+      "href": "https://app-companion-430619.appspot.com/assets/util-C8jEY4Cn.css",
+      "as": "",
+      "type": ""
+    },
+    {
+      "rel": "stylesheet",
+      "href": "https://app-companion-430619.appspot.com/assets/index-zGgZfjhN.css",
+      "as": "",
+      "type": ""
+    },
+    {
+      "rel": "modulepreload",
+      "href": "https://app-companion-430619.appspot.com/assets/design_system_presets-Bz6Kn101.js",
+      "as": "script",
+      "type": ""
+    },
+    {
+      "rel": "modulepreload",
+      "href": "https://app-companion-430619.appspot.com/assets/Design-BR-jnrdc.js",
+      "as": "script",
+      "type": ""
+    },
+    {
+      "rel": "modulepreload",
+      "href": "https://app-companion-430619.appspot.com/assets/UgcTrustBanner-Clw6058G.js",
+      "as": "script",
+      "type": ""
+    },
+    {
+      "rel": "modulepreload",
+      "href": "https://app-companion-430619.appspot.com/assets/useImageUploadNotice-qmTmnKih.js",
+      "as": "script",
+      "type": ""
+    },
+    {
+      "rel": "modulepreload",
+      "href": "https://app-companion-430619.appspot.com/assets/Markdown-CO8VFVsb.js",
+      "as": "script",
+      "type": ""
+    },
+    {
+      "rel": "modulepreload",
+      "href": "https://app-companion-430619.appspot.com/assets/vendor-marked-DlEOvbd4.js",
+      "as": "script",
+      "type": ""
+    },
+    {
+      "rel": "modulepreload",
+      "href": "https://app-companion-430619.appspot.com/assets/ChatScreenMention-CnbJlz87.js",
+      "as": "script",
+      "type": ""
+    },
+    {
+      "rel": "modulepreload",
+      "href": "https://app-companion-430619.appspot.com/assets/clipboard-C7WLxkjD.js",
+      "as": "script",
+      "type": ""
+    },
+    {
+      "rel": "modulepreload",
+      "href": "https://app-companion-430619.appspot.com/assets/editor-monaco-BZUVUT0d.js",
+      "as": "script",
+      "type": ""
+    },
+    {
+      "rel": "modulepreload",
+      "href": "https://app-companion-430619.appspot.com/assets/useHorizontalDragToScroll-ZETZuBcb.js",
+      "as": "script",
+      "type": ""
+    },
+    {
+      "rel": "modulepreload",
+      "href": "https://app-companion-430619.appspot.com/assets/editor-tiptap-BKGIke7L.js",
+      "as": "script",
+      "type": ""
+    },
+    {
+      "rel": "modulepreload",
+      "href": "https://app-companion-430619.appspot.com/assets/useCallbackRef-cCh1wZFd.js",
+      "as": "script",
+      "type": ""
+    },
+    {
+      "rel": "stylesheet",
+      "href": "https://app-companion-430619.appspot.com/assets/useHorizontalDragToScroll-By3QzZ1X.css",
+      "as": "",
+      "type": ""
+    },
+    {
+      "rel": "modulepreload",
+      "href": "https://app-companion-430619.appspot.com/assets/vendor-carousel-DmKsBs0b.js",
+      "as": "script",
+      "type": ""
+    },
+    {
+      "rel": "modulepreload",
+      "href": "https://app-companion-430619.appspot.com/assets/Checkbox--G4YUi3-.js",
+      "as": "script",
+      "type": ""
+    },
+    {
+      "rel": "modulepreload",
+      "href": "https://app-companion-430619.appspot.com/assets/OutageBanner-D5CKMzbJ.js",
+      "as": "script",
+      "type": ""
+    },
+    {
+      "rel": "modulepreload",
+      "href": "https://app-companion-430619.appspot.com/assets/SidePanel-CAtnggLu.js",
+      "as": "script",
+      "type": ""
+    },
+    {
+      "rel": "modulepreload",
+      "href": "https://app-companion-430619.appspot.com/assets/LoadingPage-XBx-BQov.js",
+      "as": "script",
+      "type": ""
+    },
+    {
+      "rel": "modulepreload",
+      "href": "https://app-companion-430619.appspot.com/assets/ToggleGroup-Bpia5OL-.js",
+      "as": "script",
+      "type": ""
+    },
+    {
+      "rel": "modulepreload",
+      "href": "https://app-companion-430619.appspot.com/assets/useCopyToClipboard-BZF8iVcI.js",
+      "as": "script",
+      "type": ""
+    },
+    {
+      "rel": "modulepreload",
+      "href": "https://app-companion-430619.appspot.com/assets/McpSetupPage-C7X_nMow.js",
+      "as": "script",
+      "type": ""
+    },
+    {
+      "rel": "modulepreload",
+      "href": "https://app-companion-430619.appspot.com/assets/Select-4NrSuN4J.js",
+      "as": "script",
+      "type": ""
+    },
+    {
+      "rel": "stylesheet",
+      "href": "https://app-companion-430619.appspot.com/assets/McpSetupPage-CR9N5vNY.css",
+      "as": "",
+      "type": ""
+    },
+    {
+      "rel": "modulepreload",
+      "href": "https://app-companion-430619.appspot.com/assets/DocumentPlaceholder-CYUVJ4kD.js",
+      "as": "script",
+      "type": ""
+    },
+    {
+      "rel": "modulepreload",
+      "href": "https://app-companion-430619.appspot.com/assets/dotGridConfig-BM7KG0Q5.js",
+      "as": "script",
+      "type": ""
+    },
+    {
+      "rel": "modulepreload",
+      "href": "https://app-companion-430619.appspot.com/assets/DotGridBackground-D8EdnK7o.js",
+      "as": "script",
+      "type": ""
+    },
+    {
+      "rel": "modulepreload",
+      "href": "https://app-companion-430619.appspot.com/assets/useCodeExport-BPHfHfri.js",
+      "as": "script",
+      "type": ""
+    },
+    {
+      "rel": "modulepreload",
+      "href": "https://app-companion-430619.appspot.com/assets/live-session-logger-Txr4RqUG.js",
+      "as": "script",
+      "type": ""
+    },
+    {
+      "rel": "stylesheet",
+      "href": "https://app-companion-430619.appspot.com/assets/Design-DC2XrIm5.css",
+      "as": "",
+      "type": ""
+    },
+    {
+      "rel": "stylesheet",
+      "href": "https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;700&family=Plus+Jakarta+Sans:wght@400;700&family=Ibm+Plex+Sans:wght@400;700&display=swap",
+      "as": "",
+      "type": ""
+    },
+    {
+      "rel": "stylesheet",
+      "href": "https://fonts.googleapis.com/css2?family=ibmPlexMono:wght@400;700&display=swap",
+      "as": "",
+      "type": ""
+    },
+    {
+      "rel": "stylesheet",
+      "href": "https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Inter:wght@400;700&family=Public+Sans:wght@400;700&display=swap",
+      "as": "",
+      "type": ""
+    },
+    {
+      "rel": "stylesheet",
+      "href": "https://fonts.googleapis.com/css2?family=Jetbrains+Mono:wght@400;700&display=swap",
+      "as": "",
+      "type": ""
+    },
+    {
+      "rel": "stylesheet",
+      "href": "https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&display=swap",
+      "as": "",
+      "type": ""
+    },
+    {
+      "rel": "stylesheet",
+      "href": "https://cdn.jsdelivr.net/npm/monaco-editor@0.54.0/min/vs/editor/editor.main.css",
+      "as": "",
+      "type": ""
+    },
+    {
+      "rel": "modulepreload",
+      "href": "https://app-companion-430619.appspot.com/assets/Settings-CKd1Vgk4.js",
+      "as": "script",
+      "type": ""
+    },
+    {
+      "rel": "stylesheet",
+      "href": "https://app-companion-430619.appspot.com/assets/Settings-BdWtIb63.css",
+      "as": "",
+      "type": ""
+    }
+  ],
+  "scripts": [
+    {
+      "src": "https://apis.google.com/_/scs/abc-static/_/js/k=gapi.lb.en.ch0Jz-JlMrQ.O/m=gapi_iframes/rt=j/sv=1/d=1/ed=1/rs=AHpOoo_YD4KoV8fTh_kLhktsiThAm3yJ5A/cb=gapi.loaded_0?le=scs,fedcm_migration_mod",
+      "type": "",
+      "async": true,
+      "defer": false,
+      "textLength": 0
+    },
+    {
+      "src": "https://app-companion-430619.appspot.com/assets/index-D7vPDn1n.js",
+      "type": "module",
+      "async": false,
+      "defer": false,
+      "textLength": 0
+    },
+    {
+      "src": "",
+      "type": "",
+      "async": false,
+      "defer": false,
+      "textLength": 61
+    },
+    {
+      "src": "https://cdn.jsdelivr.net/npm/monaco-editor@0.54.0/min/vs/editor/editor.main.js",
+      "type": "text/javascript",
+      "async": true,
+      "defer": false,
+      "textLength": 0
+    },
+    {
+      "src": "https://cdn.jsdelivr.net/npm/monaco-editor@0.54.0/min/vs/nls.messages-loader.js",
+      "type": "text/javascript",
+      "async": true,
+      "defer": false,
+      "textLength": 0
+    },
+    {
+      "src": "https://cdn.jsdelivr.net/npm/monaco-editor@0.54.0/min/vs/basic-languages/monaco.contribution.js",
+      "type": "text/javascript",
+      "async": true,
+      "defer": false,
+      "textLength": 0
+    },
+    {
+      "src": "https://cdn.jsdelivr.net/npm/monaco-editor@0.54.0/min/vs/language/css/monaco.contribution.js",
+      "type": "text/javascript",
+      "async": true,
+      "defer": false,
+      "textLength": 0
+    },
+    {
+      "src": "https://cdn.jsdelivr.net/npm/monaco-editor@0.54.0/min/vs/language/html/monaco.contribution.js",
+      "type": "text/javascript",
+      "async": true,
+      "defer": false,
+      "textLength": 0
+    },
+    {
+      "src": "https://cdn.jsdelivr.net/npm/monaco-editor@0.54.0/min/vs/language/json/monaco.contribution.js",
+      "type": "text/javascript",
+      "async": true,
+      "defer": false,
+      "textLength": 0
+    },
+    {
+      "src": "https://cdn.jsdelivr.net/npm/monaco-editor@0.54.0/min/vs/language/typescript/monaco.contribution.js",
+      "type": "text/javascript",
+      "async": true,
+      "defer": false,
+      "textLength": 0
+    },
+    {
+      "src": "https://cdn.jsdelivr.net/npm/monaco-editor@0.54.0/min/vs/editor.api-i0YVFWkl.js",
+      "type": "text/javascript",
+      "async": true,
+      "defer": false,
+      "textLength": 0
+    },
+    {
+      "src": "https://cdn.jsdelivr.net/npm/monaco-editor@0.54.0/min/vs/markdown-C_rD0bIw.js",
+      "type": "text/javascript",
+      "async": true,
+      "defer": false,
+      "textLength": 0
+    },
+    {
+      "src": "https://apis.google.com/js/api.js",
+      "type": "",
+      "async": true,
+      "defer": true,
+      "textLength": 0
+    },
+    {
+      "src": "https://cdn.jsdelivr.net/npm/monaco-editor@0.54.0/min/vs/loader.js",
+      "type": "",
+      "async": true,
+      "defer": false,
+      "textLength": 0
+    }
+  ],
+  "styles": [
+    {
+      "index": 0,
+      "textLength": 819
+    },
+    {
+      "index": 1,
+      "textLength": 231
+    },
+    {
+      "index": 2,
+      "textLength": 252
+    },
+    {
+      "index": 3,
+      "textLength": 133227
+    },
+    {
+      "index": 4,
+      "textLength": 1329
+    }
+  ],
+  "iframes": [
+    {
+      "src": "",
+      "title": "",
+      "srcdocLength": 151164
+    },
+    {
+      "src": "",
+      "title": "",
+      "srcdocLength": 150562
+    },
+    {
+      "src": "",
+      "title": "",
+      "srcdocLength": 151792
+    },
+    {
+      "src": "",
+      "title": "",
+      "srcdocLength": 11882
+    },
+    {
+      "src": "",
+      "title": "",
+      "srcdocLength": 179257
+    },
+    {
+      "src": "",
+      "title": "",
+      "srcdocLength": 158617
+    }
+  ]
+}

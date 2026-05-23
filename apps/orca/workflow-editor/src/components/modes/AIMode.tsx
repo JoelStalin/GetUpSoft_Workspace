@@ -1,6 +1,7 @@
 import { useState, useRef, useEffect } from 'react'
 import { Bot, Send, Trash2, Lightbulb, Plus, Zap, Brain, Code2, MessageCircle } from 'lucide-react'
 import { useToast } from '../../contexts/ToastContext'
+import { NEMOCLAW_CORE_PROFILE } from '../../core/agents/nemoclawCore'
 
 interface ChatMessage {
   id: string
@@ -144,6 +145,43 @@ export default function AIMode() {
             {label}
           </button>
         ))}
+
+        <div style={{ height: '1px', backgroundColor: 'var(--stitch-border)', margin: '8px 0' }} />
+        <div style={{ fontSize: '11px', fontWeight: 600, color: 'var(--stitch-muted)', textTransform: 'uppercase', letterSpacing: '0.5px' }}>
+          Agent Core
+        </div>
+        <div
+          style={{
+            border: '1px solid rgba(118, 185, 0, 0.28)',
+            borderRadius: '8px',
+            padding: '10px',
+            background: 'rgba(118, 185, 0, 0.06)',
+          }}
+        >
+          <div style={{ fontSize: '12px', fontWeight: 700, color: 'var(--stitch-text)', marginBottom: '4px' }}>
+            {NEMOCLAW_CORE_PROFILE.label}
+          </div>
+          <div style={{ fontSize: '11px', color: 'var(--stitch-muted)', lineHeight: 1.45 }}>
+            Sandbox + policy + routed inference. Profiles: {NEMOCLAW_CORE_PROFILE.inferenceProfiles.length}.
+          </div>
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: '4px', marginTop: '8px' }}>
+            {NEMOCLAW_CORE_PROFILE.protectionLayers.map((layer) => (
+              <span
+                key={layer}
+                style={{
+                  padding: '2px 5px',
+                  borderRadius: '4px',
+                  background: 'rgba(255,255,255,0.06)',
+                  color: '#99F6E4',
+                  fontSize: '10px',
+                  textTransform: 'uppercase',
+                }}
+              >
+                {layer}
+              </span>
+            ))}
+          </div>
+        </div>
 
         <div style={{ marginTop: 'auto' }}>
           <button

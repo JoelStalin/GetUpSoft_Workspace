@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { useWindows } from '../contexts/WindowContext'
-import { Package, Bot, Settings, Bell, Search, Maximize2, Clock, BarChart3 } from 'lucide-react'
+import { Package, MessageCircle, Settings, Bell, Search, Maximize2, Clock, BarChart3 } from 'lucide-react'
 import Popover from './ui/Popover'
 import WhatsNewPanel from './ui/WhatsNewPanel'
 
@@ -36,9 +36,9 @@ export default function QuickAccessBar({
     },
     {
       id: 'chat',
-      label: 'Chat',
-      icon: Bot,
-      color: '#4A9EFF',
+      label: 'Agent Log',
+      icon: MessageCircle,
+      color: '#99F6E4',
     },
     {
       id: 'properties',

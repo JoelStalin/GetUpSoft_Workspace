@@ -1,0 +1,4 @@
+var e=500,t=[];function n(n,r){t.push({timestamp:new Date().toISOString(),type:n,detail:r}),t.length>e&&(t=t.slice(t.length-e))}function r(){return t}function i(){t=[]}function a(){return t.length>0}function o(){if(t.length===0)return`# Live Mode Session Log
+
+No events recorded.`;let e=[`# Live Mode Session Log`,`Started: ${t[0].timestamp}`,`Entries: ${t.length}`,``,`| Time | Type | Detail |`,`|------|------|--------|`];for(let n of t){let t=n.timestamp.split(`T`)[1]?.replace(`Z`,``)||n.timestamp,r=n.detail.replace(/\|/g,`\\|`).replace(/\n/g,` `);e.push(`| ${t} | ${n.type} | ${r} |`)}return e.join(`
+`)}export{n as a,o as i,r as n,a as r,i as t};

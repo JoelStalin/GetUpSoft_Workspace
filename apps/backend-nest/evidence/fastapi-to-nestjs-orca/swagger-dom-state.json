@@ -1,0 +1,16 @@
+{
+  "state": {
+    "title": "Swagger UI",
+    "bodyText": "GetUpSoft Backend Nest\n 0.1.0 \nOAS 3.0\n\nNestJS migration target for internal GetUpSoft APIs.\n\nhealth\nGET\n/healthz\nNestJS backend liveness probe\norca\nGET\n/health\nCompatibility endpoint migrated from orca/service/app.py\nPOST\n/interpret\nInterpret prompt through the ORCA core bridge\nPOST\n/n8n-payload\nBuild n8n payload through the migrated NestJS endpoint\nSchemas\nInterpretRequestDto",
+    "htmlLength": 32476,
+    "cssLinks": [
+      "http://localhost:8788/docs/swagger-ui.css"
+    ],
+    "scripts": [
+      "http://localhost:8788/docs/swagger-ui-bundle.js",
+      "http://localhost:8788/docs/swagger-ui-standalone-preset.js",
+      "http://localhost:8788/docs/swagger-ui-init.js"
+    ]
+  },
+  "messages": []
+}

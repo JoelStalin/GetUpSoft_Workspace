@@ -1,0 +1,93 @@
+getupsoft RD
+Inicio
+Odoo ERP
+Facturación
+Infraestructura
+Sectores
+Nosotros
+Diagnóstico
+// ODOO ERP CERTIFICADO
+Odoo ERP para empresas dominicanas.
+
+Simplificamos la gestión de su negocio con implementaciones localizadas para el mercado Dominicano, integración total con DGII y procesos optimizados para el crecimiento sostenible.
+
+Cotizar Implementación
+Explorar Módulos
+Soluciones Modulares
+
+Todo lo que su empresa necesita en un ecosistema unificado y ágil.
+
+payments
+Ventas
+
+Gestión completa de presupuestos y pedidos con seguimiento automatizado de ciclos de venta.
+
+inventory_2
+Inventario
+
+Control multi-almacén con trazabilidad total y reabastecimiento inteligente basado en demanda.
+
+shopping_cart
+Compras
+
+Optimización de la cadena de suministro y gestión de proveedores con flujos de aprobación.
+
+account_balance
+Contabilidad
+
+Automatización contable completa bajo NIIF y catálogo de cuentas adaptado a RD.
+
+group
+CRM
+
+Seguimiento de leads y oportunidades para maximizar la conversión de clientes potenciales.
+
+point_of_sale
+POS
+
+Punto de venta táctil sincronizado, ideal para retail y restauración en tiempo real.
+
+analytics
+Reportes
+
+Business Intelligence integrado para decisiones basadas en datos técnicos precisos.
+
+description
+Facturación e-CF
+
+Emisión y recepción de Facturas Electrónicas autorizadas según normativas vigentes.
+
+verified
+Integración DGII
+
+Generación automática de 606, 607 y 608. Compliance fiscal 100% garantizado.
+
+Control Total desde una Consola Centralizada.
+
+Visualice el rendimiento de su empresa en tiempo real. Nuestra interfaz premium ofrece una experiencia de usuario sin fricciones, diseñada para la alta productividad.
+
+check_circle
+Métricas de inventario en tiempo real
+check_circle
+Panel de cumplimiento DGII "Al Día"
+check_circle
+Gestión de cuentas por pagar automatizada
+shield
+
+DGII COMPLIANCE
+
+ACTIVO
+
+¿Listo para implementar Odoo?
+
+Nuestros consultores están listos para analizar sus procesos actuales y diseñar un mapa de ruta personalizado para su transformación digital.
+
+Solicitar Diagnóstico
+getupsoft RD
+
+Soluciones ERP de clase mundial en el Caribe.
+
+Privacidad
+Términos
+Soporte
+© 2024 getupsoft RD. All rights reserved.

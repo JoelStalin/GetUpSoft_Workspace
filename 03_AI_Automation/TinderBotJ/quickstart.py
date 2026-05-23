@@ -5,6 +5,8 @@ import random
 import sys
 import io
 
+print("🚀 Bot de Tinder iniciando...")
+
 # Fix UnicodeEncodError on Windows terminals
 if sys.platform.startswith('win'):
     sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')

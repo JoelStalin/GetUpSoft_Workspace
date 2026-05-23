@@ -1,0 +1,19 @@
+{
+  "state": {
+    "title": "Swagger UI",
+    "bodyText": "GetUpSoft Backend Nest\n 0.1.0 \nOAS 3.0\n\nNestJS migration target for internal GetUpSoft APIs.\n\nhealth\nGET\n/healthz\nNestJS backend liveness probe\norca\nGET\n/health\nCompatibility endpoint migrated from orca/service/app.py\nPOST\n/interpret\nInterpret prompt through the ORCA core bridge\nPOST\n/n8n-payload\nBuild n8n payload through the migrated NestJS endpoint\nworkers\nPOST\n/tasks\nSubmit task migrated from ai_automation_orchestrator/task_server.py\nGET\n/tasks\nList all task statuses\nGET\n/tasks/{taskId}\nGet task status by id\nworkspace\nGET\n/api/workspace/status\nGet workspace and git status\nGET\n/api/workspace/files\nList files in workspace directory\nPOST\n/api/workspace/files/read\nRead a workspace file\nPOST\n/api/workspace/files/write\nWrite a workspace file\nPOST\n/api/workspace/files/delete\nDelete a workspace file\nPOST\n/api/workspace/git/commit\nCreate a git commit\nPOST\n/api/workspace/git/push\nPush git commits\nPOST\n/api/workspace/git/pull\nPull git changes\nPOST\n/api/workspace/execute\nExecute an allow-listed command in the workspace\nGET\n/api/workspace/logs\nGet workspace operation log\nai-automation providers\nGET\n/api/providers\nList available AI providers\nGET\n/api/providers/status\nGet provider configuration status\nGET\n/api/providers/config/{providerId}\nGet provider configuration status for current user\nPOST\n/api/providers/config\nSave provider configuration\nPOST\n/api/providers/test\nTest provider configuration presence\nGET\n/api/providers/{provider}\nGet details for a specific provider\nPOST\n/api/providers/{provider}/validate\nValidate provider credential shape without leaking secrets\nPOST\n/api/providers/{provider}/connect\nConnect provider for a user\nDELETE\n/api/providers/{provider}/disconnect\nDisconnect provider for a user\nSchemas\nInterpretRequestDto\nTaskSubmissionDto\nFileReadRequestDto\nFileWriteRequestDto\nFileDeleteRequestDto\nGitCommitRequestDto\nGitPushRequestDto\nGitPullRequestDto\nCommandExecuteRequestDto\nProviderConfigRequestDto\nProviderTestRequestDto\nProviderValidationRequestDto",
+    "htmlLength": 77928,
+    "hasProviders": true,
+    "hasProvidersStatus": true,
+    "hasProviderConfig": true,
+    "cssLinks": [
+      "http://localhost:8788/docs/swagger-ui.css"
+    ],
+    "scripts": [
+      "http://localhost:8788/docs/swagger-ui-bundle.js",
+      "http://localhost:8788/docs/swagger-ui-standalone-preset.js",
+      "http://localhost:8788/docs/swagger-ui-init.js"
+    ]
+  },
+  "messages": []
+}

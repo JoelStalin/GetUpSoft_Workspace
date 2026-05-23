@@ -76,8 +76,9 @@ export default function OrcaNode({ data, id, selected, isConnecting }: any) {
       onClick={() => selectNode(id)}
       data-status={nodeStatus}
       className={`
+        orca-node-card
         px-0 py-0 rounded-lg border-2 transition-all duration-300 cursor-pointer
-        relative w-56 group shadow-lg will-change-transform
+        relative w-56 group will-change-transform
         ${selected
           ? 'border-[rgb(var(--color-primary-400))] node-selected'
           : 'border-[rgba(100,100,120,0.5)] hover:border-[rgba(74,158,255,0.5)]'
@@ -87,10 +88,7 @@ export default function OrcaNode({ data, id, selected, isConnecting }: any) {
         ${isCompleted ? 'border-[rgb(15_163_136)]' : ''}
       `}
       style={{
-        backgroundColor: 'var(--node-bg)',
         borderLeftColor: data.color || 'rgb(var(--color-primary-400))',
-        borderLeftWidth: '5px',
-        boxShadow: '0 4px 12px rgba(0, 0, 0, 0.6)',
       }}
       title={errorMessage || undefined}
     >

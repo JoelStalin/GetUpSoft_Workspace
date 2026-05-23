@@ -1,0 +1,3450 @@
+[
+  {
+    "index": 0,
+    "tag": "html",
+    "attrs": {
+      "class": "dark"
+    },
+    "text": "Inicio\nOdoo ERP\nFacturación\nInfraestructura\nSectores\nNosotros\nDiagnóstico\n// SOLUCIONES TANGIBLES · SOFTWARE + HARDWARE\nInfraestructura y gestión\npara el éxito local.\n\nEspecialistas en implementación de Odoo ERP y despliegue de infraestructura crítica para empresas dominicanas. Alineamos tecnología ",
+    "rect": {
+      "x": 0,
+      "y": 0,
+      "w": 1280,
+      "h": 3514
+    },
+    "visible": true
+  },
+  {
+    "index": 1,
+    "tag": "head",
+    "attrs": {},
+    "text": "GetUpSoft RD | Infraestructura y Gestión de Software\n\n\n\n\n\n        tailwind.config = {\n            darkMode: \"class\",\n            theme: {\n                extend: {\n                    \"colors\": {\n                        \"on-surface\": \"#dfe3e1\",\n                        \"inverse-surface\": \"#dfe3e1\",\n ",
+    "rect": {
+      "x": 0,
+      "y": 0,
+      "w": 0,
+      "h": 0
+    },
+    "visible": false
+  },
+  {
+    "index": 2,
+    "tag": "meta",
+    "attrs": {},
+    "text": "",
+    "rect": {
+      "x": 0,
+      "y": 0,
+      "w": 0,
+      "h": 0
+    },
+    "visible": false
+  },
+  {
+    "index": 3,
+    "tag": "meta",
+    "attrs": {
+      "name": "viewport"
+    },
+    "text": "",
+    "rect": {
+      "x": 0,
+      "y": 0,
+      "w": 0,
+      "h": 0
+    },
+    "visible": false
+  },
+  {
+    "index": 4,
+    "tag": "title",
+    "attrs": {},
+    "text": "GetUpSoft RD | Infraestructura y Gestión de Software",
+    "rect": {
+      "x": 0,
+      "y": 0,
+      "w": 0,
+      "h": 0
+    },
+    "visible": false
+  },
+  {
+    "index": 5,
+    "tag": "script",
+    "attrs": {
+      "src": "https://cdn.tailwindcss.com?plugins=forms,container-queries"
+    },
+    "text": "",
+    "rect": {
+      "x": 0,
+      "y": 0,
+      "w": 0,
+      "h": 0
+    },
+    "visible": false
+  },
+  {
+    "index": 6,
+    "tag": "link",
+    "attrs": {
+      "href": "https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600&family=JetBrains+Mono:wght@500&display=swap"
+    },
+    "text": "",
+    "rect": {
+      "x": 0,
+      "y": 0,
+      "w": 0,
+      "h": 0
+    },
+    "visible": false
+  },
+  {
+    "index": 7,
+    "tag": "link",
+    "attrs": {
+      "href": "https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+    },
+    "text": "",
+    "rect": {
+      "x": 0,
+      "y": 0,
+      "w": 0,
+      "h": 0
+    },
+    "visible": false
+  },
+  {
+    "index": 8,
+    "tag": "link",
+    "attrs": {
+      "href": "https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+    },
+    "text": "",
+    "rect": {
+      "x": 0,
+      "y": 0,
+      "w": 0,
+      "h": 0
+    },
+    "visible": false
+  },
+  {
+    "index": 9,
+    "tag": "script",
+    "attrs": {
+      "id": "tailwind-config"
+    },
+    "text": "tailwind.config = {\n            darkMode: \"class\",\n            theme: {\n                extend: {\n                    \"colors\": {\n                        \"on-surface\": \"#dfe3e1\",\n                        \"inverse-surface\": \"#dfe3e1\",\n                        \"surface-container-high\": \"#262b2a\",\n      ",
+    "rect": {
+      "x": 0,
+      "y": 0,
+      "w": 0,
+      "h": 0
+    },
+    "visible": false
+  },
+  {
+    "index": 10,
+    "tag": "style",
+    "attrs": {},
+    "text": "body {\n            background-color: #101413;\n            color: #dfe3e1;\n            overflow-x: hidden;\n        }\n        .glass-panel {\n            background: rgba(255, 255, 255, 0.03);\n            backdrop-filter: blur(24px);\n            border: 1px solid rgba(255, 255, 255, 0.07);\n        }\n  ",
+    "rect": {
+      "x": 0,
+      "y": 0,
+      "w": 0,
+      "h": 0
+    },
+    "visible": false
+  },
+  {
+    "index": 11,
+    "tag": "script",
+    "attrs": {
+      "data-stitch-injected": ""
+    },
+    "text": "",
+    "rect": {
+      "x": 0,
+      "y": 0,
+      "w": 0,
+      "h": 0
+    },
+    "visible": false
+  },
+  {
+    "index": 12,
+    "tag": "style",
+    "attrs": {
+      "data-stitch-injected": ""
+    },
+    "text": "/* Hide scrollbars on ALL elements (Webkit) */\n  *::-webkit-scrollbar {\n    display: none;\n  }\n\n  /* Hide scrollbars on ALL elements (Firefox) */\n  * {\n    scrollbar-width: none;\n  }\n\n  /* Suppress horizontal overflow and legacy IE/Edge */\n  html, body {\n    overflow-x: hidden !important;\n    -ms-ov",
+    "rect": {
+      "x": 0,
+      "y": 0,
+      "w": 0,
+      "h": 0
+    },
+    "visible": false
+  },
+  {
+    "index": 13,
+    "tag": "script",
+    "attrs": {
+      "data-stitch-injected": ""
+    },
+    "text": "(function Ze(){window.addEventListener(`message`,async function(e){let t=e.data;if(!t||t.type!==`capture_screenshot`||e.source!==window.parent)return;let n=t.requestId,r=t.captureEngineSource,i=t.options||{},a=window.innerWidth,o=window.innerHeight,s=window.scrollX,c=window.scrollY,l=document.docume",
+    "rect": {
+      "x": 0,
+      "y": 0,
+      "w": 0,
+      "h": 0
+    },
+    "visible": false
+  },
+  {
+    "index": 14,
+    "tag": "script",
+    "attrs": {
+      "data-stitch-injected": ""
+    },
+    "text": "(function et(){let e=`__stitch-highlight-css`,t=`stitch-highlight-element`,n=null;function r(){if(document.getElementById(e))return;let n=document.createElement(`style`);n.id=e,n.textContent=[`@keyframes stitch-highlight-pulse {`,`  0%, 100% { box-shadow: 0 0 0 3px rgba(113,105,237,0.8), 0 0 12px 4p",
+    "rect": {
+      "x": 0,
+      "y": 0,
+      "w": 0,
+      "h": 0
+    },
+    "visible": false
+  },
+  {
+    "index": 15,
+    "tag": "script",
+    "attrs": {
+      "data-stitch-injected": ""
+    },
+    "text": "(function rt(){let e=0;window.onerror=function(){e++},window.addEventListener(`unhandledrejection`,function(){e++});let t=console.error;console.error=function(...n){e++,t.apply(console,n)};function n(){let t=document.documentElement.scrollHeight;window.parent.postMessage({type:`stitch:content-dimens",
+    "rect": {
+      "x": 0,
+      "y": 0,
+      "w": 0,
+      "h": 0
+    },
+    "visible": false
+  },
+  {
+    "index": 16,
+    "tag": "style",
+    "attrs": {
+      "data-stitch-injected": ""
+    },
+    "text": "/* ─── Animation styles ─── */\n  .stitch-anim-highlight {\n    outline: 2px solid #6056f080;\n    outline-offset: 2px;\n    border-radius: 4px;\n    transition: outline-color 0.4s ease;\n  }\n  .stitch-anim-highlight-fade {\n    outline-color: transparent;\n  }\n  @keyframes stitch-anim-fade-in {\n    from { ",
+    "rect": {
+      "x": 0,
+      "y": 0,
+      "w": 0,
+      "h": 0
+    },
+    "visible": false
+  },
+  {
+    "index": 17,
+    "tag": "style",
+    "attrs": {},
+    "text": "*, ::before, ::after{--tw-border-spacing-x:0;--tw-border-spacing-y:0;--tw-translate-x:0;--tw-translate-y:0;--tw-rotate:0;--tw-skew-x:0;--tw-skew-y:0;--tw-scale-x:1;--tw-scale-y:1;--tw-pan-x: ;--tw-pan-y: ;--tw-pinch-zoom: ;--tw-scroll-snap-strictness:proximity;--tw-gradient-from-position: ;--tw-grad",
+    "rect": {
+      "x": 0,
+      "y": 0,
+      "w": 0,
+      "h": 0
+    },
+    "visible": false
+  },
+  {
+    "index": 18,
+    "tag": "style",
+    "attrs": {
+      "data-stitch-cursor": ""
+    },
+    "text": "",
+    "rect": {
+      "x": 0,
+      "y": 0,
+      "w": 0,
+      "h": 0
+    },
+    "visible": false
+  },
+  {
+    "index": 19,
+    "tag": "style",
+    "attrs": {
+      "data-stitch-scroll-lock": ""
+    },
+    "text": "",
+    "rect": {
+      "x": 0,
+      "y": 0,
+      "w": 0,
+      "h": 0
+    },
+    "visible": false
+  },
+  {
+    "index": 20,
+    "tag": "style",
+    "attrs": {
+      "data-stitch-injected": ""
+    },
+    "text": "*:focus,*:focus-visible{outline:none!important;box-shadow:none!important}::selection{background-color:rgba(96, 86, 240, 0.3)!important;color:inherit!important}::-moz-selection{background-color:rgba(96, 86, 240, 0.3)!important;color:inherit!important}*{user-select:none!important;-webkit-user-select:n",
+    "rect": {
+      "x": 0,
+      "y": 0,
+      "w": 0,
+      "h": 0
+    },
+    "visible": false
+  },
+  {
+    "index": 21,
+    "tag": "body",
+    "attrs": {
+      "class": "font-body-md selection:bg-primary-fixed selection:text-on-primary-fixed"
+    },
+    "text": "Inicio\nOdoo ERP\nFacturación\nInfraestructura\nSectores\nNosotros\nDiagnóstico\n// SOLUCIONES TANGIBLES · SOFTWARE + HARDWARE\nInfraestructura y gestión\npara el éxito local.\n\nEspecialistas en implementación de Odoo ERP y despliegue de infraestructura crítica para empresas dominicanas. Alineamos tecnología ",
+    "rect": {
+      "x": 0,
+      "y": 0,
+      "w": 1280,
+      "h": 3514
+    },
+    "visible": true
+  },
+  {
+    "index": 22,
+    "tag": "header",
+    "attrs": {
+      "class": "docked full-width top-0 sticky z-50 bg-surface/10 backdrop-blur-24 border-b border-white/10"
+    },
+    "text": "Inicio\nOdoo ERP\nFacturación\nInfraestructura\nSectores\nNosotros\nDiagnóstico",
+    "rect": {
+      "x": 0,
+      "y": 0,
+      "w": 1280,
+      "h": 73
+    },
+    "visible": true
+  },
+  {
+    "index": 23,
+    "tag": "nav",
+    "attrs": {
+      "class": "flex justify-between items-center px-margin py-md w-full max-w-7xl mx-auto"
+    },
+    "text": "Inicio\nOdoo ERP\nFacturación\nInfraestructura\nSectores\nNosotros\nDiagnóstico",
+    "rect": {
+      "x": 0,
+      "y": 0,
+      "w": 1280,
+      "h": 72
+    },
+    "visible": true
+  },
+  {
+    "index": 24,
+    "tag": "div",
+    "attrs": {
+      "class": "flex items-center gap-sm"
+    },
+    "text": "",
+    "rect": {
+      "x": 32,
+      "y": 20,
+      "w": 167,
+      "h": 32
+    },
+    "visible": true
+  },
+  {
+    "index": 25,
+    "tag": "img",
+    "attrs": {
+      "alt": "GetUpSoft RD Logo",
+      "class": "h-8",
+      "src": "https://lh3.googleusercontent.com/aida/ADBb0uhKvw3Zppt27w4ONiZZ1bNwHHH3pdGTbUK9E7g37eCslfOLZdEnwhlopOnmf4ki9SwER69nsJTba1tskUkz-D8oG8IpReR7R5tXH9Aoldf_rBjsXo7HslJ11_WzQMMnVcv5vtEn8de2VC9tIr4a95ilGSyfZ0s06lCnNh4ciTOhZkBB1FsJ1XfjhSiCYYql0_SqlwDHwNrDBOxEtqkT4FrdCfTXjmSjb7oXSGXhhOeLtpI60ilthWjjjw"
+    },
+    "text": "",
+    "rect": {
+      "x": 32,
+      "y": 20,
+      "w": 167,
+      "h": 32
+    },
+    "visible": true
+  },
+  {
+    "index": 26,
+    "tag": "div",
+    "attrs": {
+      "class": "hidden md:flex items-center gap-lg"
+    },
+    "text": "Inicio\nOdoo ERP\nFacturación\nInfraestructura\nSectores\nNosotros",
+    "rect": {
+      "x": 393,
+      "y": 23,
+      "w": 522,
+      "h": 26
+    },
+    "visible": true
+  },
+  {
+    "index": 27,
+    "tag": "a",
+    "attrs": {
+      "class": "font-body-md text-body-md text-primary-fixed border-b-2 border-primary-fixed pb-1 hover:text-primary-fixed transition-colors duration-200",
+      "href": "#"
+    },
+    "text": "Inicio",
+    "rect": {
+      "x": 393,
+      "y": 23,
+      "w": 35,
+      "h": 26
+    },
+    "visible": true
+  },
+  {
+    "index": 28,
+    "tag": "a",
+    "attrs": {
+      "class": "font-body-md text-body-md text-on-surface-variant hover:text-primary-fixed transition-colors duration-200",
+      "href": "#"
+    },
+    "text": "Odoo ERP",
+    "rect": {
+      "x": 452,
+      "y": 26,
+      "w": 68,
+      "h": 20
+    },
+    "visible": true
+  },
+  {
+    "index": 29,
+    "tag": "a",
+    "attrs": {
+      "class": "font-body-md text-body-md text-on-surface-variant hover:text-primary-fixed transition-colors duration-200",
+      "href": "#"
+    },
+    "text": "Facturación",
+    "rect": {
+      "x": 544,
+      "y": 26,
+      "w": 78,
+      "h": 20
+    },
+    "visible": true
+  },
+  {
+    "index": 30,
+    "tag": "a",
+    "attrs": {
+      "class": "font-body-md text-body-md text-on-surface-variant hover:text-primary-fixed transition-colors duration-200",
+      "href": "#"
+    },
+    "text": "Infraestructura",
+    "rect": {
+      "x": 646,
+      "y": 26,
+      "w": 99,
+      "h": 20
+    },
+    "visible": true
+  },
+  {
+    "index": 31,
+    "tag": "a",
+    "attrs": {
+      "class": "font-body-md text-body-md text-on-surface-variant hover:text-primary-fixed transition-colors duration-200",
+      "href": "#"
+    },
+    "text": "Sectores",
+    "rect": {
+      "x": 769,
+      "y": 26,
+      "w": 61,
+      "h": 20
+    },
+    "visible": true
+  },
+  {
+    "index": 32,
+    "tag": "a",
+    "attrs": {
+      "class": "font-body-md text-body-md text-on-surface-variant hover:text-primary-fixed transition-colors duration-200",
+      "href": "#"
+    },
+    "text": "Nosotros",
+    "rect": {
+      "x": 854,
+      "y": 26,
+      "w": 61,
+      "h": 20
+    },
+    "visible": true
+  },
+  {
+    "index": 33,
+    "tag": "button",
+    "attrs": {
+      "class": "bg-primary-container text-on-primary-container px-lg py-sm rounded-lg font-body-md font-bold active:scale-95 transition-all"
+    },
+    "text": "Diagnóstico",
+    "rect": {
+      "x": 1108,
+      "y": 16,
+      "w": 140,
+      "h": 40
+    },
+    "visible": true
+  },
+  {
+    "index": 34,
+    "tag": "main",
+    "attrs": {},
+    "text": "// SOLUCIONES TANGIBLES · SOFTWARE + HARDWARE\nInfraestructura y gestión\npara el éxito local.\n\nEspecialistas en implementación de Odoo ERP y despliegue de infraestructura crítica para empresas dominicanas. Alineamos tecnología y normativa fiscal (e-CF) para un crecimiento sin fricciones.\n\nSolicitar D",
+    "rect": {
+      "x": 0,
+      "y": 73,
+      "w": 1280,
+      "h": 3292
+    },
+    "visible": true
+  },
+  {
+    "index": 35,
+    "tag": "section",
+    "attrs": {
+      "class": "relative pt-xl pb-24 px-margin overflow-hidden"
+    },
+    "text": "// SOLUCIONES TANGIBLES · SOFTWARE + HARDWARE\nInfraestructura y gestión\npara el éxito local.\n\nEspecialistas en implementación de Odoo ERP y despliegue de infraestructura crítica para empresas dominicanas. Alineamos tecnología y normativa fiscal (e-CF) para un crecimiento sin fricciones.\n\nSolicitar D",
+    "rect": {
+      "x": 0,
+      "y": 73,
+      "w": 1280,
+      "h": 891
+    },
+    "visible": true
+  },
+  {
+    "index": 36,
+    "tag": "div",
+    "attrs": {
+      "class": "max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-xl items-center"
+    },
+    "text": "// SOLUCIONES TANGIBLES · SOFTWARE + HARDWARE\nInfraestructura y gestión\npara el éxito local.\n\nEspecialistas en implementación de Odoo ERP y despliegue de infraestructura crítica para empresas dominicanas. Alineamos tecnología y normativa fiscal (e-CF) para un crecimiento sin fricciones.\n\nSolicitar D",
+    "rect": {
+      "x": 32,
+      "y": 113,
+      "w": 1216,
+      "h": 755
+    },
+    "visible": true
+  },
+  {
+    "index": 37,
+    "tag": "div",
+    "attrs": {
+      "class": "lg:col-span-7 flex flex-col gap-lg"
+    },
+    "text": "// SOLUCIONES TANGIBLES · SOFTWARE + HARDWARE\nInfraestructura y gestión\npara el éxito local.\n\nEspecialistas en implementación de Odoo ERP y despliegue de infraestructura crítica para empresas dominicanas. Alineamos tecnología y normativa fiscal (e-CF) para un crecimiento sin fricciones.\n\nSolicitar D",
+    "rect": {
+      "x": 32,
+      "y": 113,
+      "w": 693,
+      "h": 755
+    },
+    "visible": true
+  },
+  {
+    "index": 38,
+    "tag": "span",
+    "attrs": {
+      "class": "font-label-mono text-label-mono text-primary-fixed tracking-widest uppercase"
+    },
+    "text": "// SOLUCIONES TANGIBLES · SOFTWARE + HARDWARE",
+    "rect": {
+      "x": 32,
+      "y": 113,
+      "w": 693,
+      "h": 16
+    },
+    "visible": true
+  },
+  {
+    "index": 39,
+    "tag": "h1",
+    "attrs": {
+      "class": "font-headline-lg text-5xl md:text-7xl lg:text-8xl hero-title font-light tracking-tighter"
+    },
+    "text": "Infraestructura y gestión\npara el éxito local.",
+    "rect": {
+      "x": 32,
+      "y": 153,
+      "w": 693,
+      "h": 384
+    },
+    "visible": true
+  },
+  {
+    "index": 40,
+    "tag": "span",
+    "attrs": {
+      "class": "italic text-primary-fixed font-normal mint-glow"
+    },
+    "text": "gestión",
+    "rect": {
+      "x": 106,
+      "y": 236,
+      "w": 321,
+      "h": 122
+    },
+    "visible": true
+  },
+  {
+    "index": 41,
+    "tag": "br",
+    "attrs": {},
+    "text": "",
+    "rect": {
+      "x": 428,
+      "y": 236,
+      "w": 0,
+      "h": 122
+    },
+    "visible": true
+  },
+  {
+    "index": 42,
+    "tag": "p",
+    "attrs": {
+      "class": "font-body-lg text-body-lg text-on-surface-variant max-w-xl"
+    },
+    "text": "Especialistas en implementación de Odoo ERP y despliegue de infraestructura crítica para empresas dominicanas. Alineamos tecnología y normativa fiscal (e-CF) para un crecimiento sin fricciones.",
+    "rect": {
+      "x": 32,
+      "y": 561,
+      "w": 576,
+      "h": 72
+    },
+    "visible": true
+  },
+  {
+    "index": 43,
+    "tag": "div",
+    "attrs": {
+      "class": "flex flex-wrap gap-md mt-sm"
+    },
+    "text": "Solicitar Diagnóstico\nVer Servicios",
+    "rect": {
+      "x": 32,
+      "y": 665,
+      "w": 693,
+      "h": 58
+    },
+    "visible": true
+  },
+  {
+    "index": 44,
+    "tag": "button",
+    "attrs": {
+      "class": "bg-primary-fixed text-on-primary-fixed px-xl py-md rounded-xl font-body-md font-bold hover:brightness-110 transition-all"
+    },
+    "text": "Solicitar Diagnóstico",
+    "rect": {
+      "x": 32,
+      "y": 665,
+      "w": 238,
+      "h": 58
+    },
+    "visible": true
+  },
+  {
+    "index": 45,
+    "tag": "button",
+    "attrs": {
+      "class": "border border-white/20 text-on-surface px-xl py-md rounded-xl font-body-md hover:bg-white/5 transition-all"
+    },
+    "text": "Ver Servicios",
+    "rect": {
+      "x": 286,
+      "y": 665,
+      "w": 178,
+      "h": 58
+    },
+    "visible": true
+  },
+  {
+    "index": 46,
+    "tag": "div",
+    "attrs": {
+      "class": "grid grid-cols-3 gap-md pt-xl border-t border-white/5 mt-xl"
+    },
+    "text": "ERP / Odoo\n\nGold Standard\n\nFacturación / DGII\n\ne-CF Ready\n\nSoporte / Local\n\n24/7 On-Site",
+    "rect": {
+      "x": 32,
+      "y": 787,
+      "w": 693,
+      "h": 81
+    },
+    "visible": true
+  },
+  {
+    "index": 47,
+    "tag": "div",
+    "attrs": {},
+    "text": "ERP / Odoo\n\nGold Standard",
+    "rect": {
+      "x": 32,
+      "y": 828,
+      "w": 220,
+      "h": 40
+    },
+    "visible": true
+  },
+  {
+    "index": 48,
+    "tag": "p",
+    "attrs": {
+      "class": "font-label-mono text-label-mono text-on-surface-variant"
+    },
+    "text": "ERP / Odoo",
+    "rect": {
+      "x": 32,
+      "y": 828,
+      "w": 220,
+      "h": 16
+    },
+    "visible": true
+  },
+  {
+    "index": 49,
+    "tag": "p",
+    "attrs": {
+      "class": "font-headline-md text-primary-fixed font-bold"
+    },
+    "text": "Gold Standard",
+    "rect": {
+      "x": 32,
+      "y": 844,
+      "w": 220,
+      "h": 24
+    },
+    "visible": true
+  },
+  {
+    "index": 50,
+    "tag": "div",
+    "attrs": {},
+    "text": "Facturación / DGII\n\ne-CF Ready",
+    "rect": {
+      "x": 268,
+      "y": 828,
+      "w": 220,
+      "h": 40
+    },
+    "visible": true
+  },
+  {
+    "index": 51,
+    "tag": "p",
+    "attrs": {
+      "class": "font-label-mono text-label-mono text-on-surface-variant"
+    },
+    "text": "Facturación / DGII",
+    "rect": {
+      "x": 268,
+      "y": 828,
+      "w": 220,
+      "h": 16
+    },
+    "visible": true
+  },
+  {
+    "index": 52,
+    "tag": "p",
+    "attrs": {
+      "class": "font-headline-md text-primary-fixed font-bold"
+    },
+    "text": "e-CF Ready",
+    "rect": {
+      "x": 268,
+      "y": 844,
+      "w": 220,
+      "h": 24
+    },
+    "visible": true
+  },
+  {
+    "index": 53,
+    "tag": "div",
+    "attrs": {},
+    "text": "Soporte / Local\n\n24/7 On-Site",
+    "rect": {
+      "x": 504,
+      "y": 828,
+      "w": 220,
+      "h": 40
+    },
+    "visible": true
+  },
+  {
+    "index": 54,
+    "tag": "p",
+    "attrs": {
+      "class": "font-label-mono text-label-mono text-on-surface-variant"
+    },
+    "text": "Soporte / Local",
+    "rect": {
+      "x": 504,
+      "y": 828,
+      "w": 220,
+      "h": 16
+    },
+    "visible": true
+  },
+  {
+    "index": 55,
+    "tag": "p",
+    "attrs": {
+      "class": "font-headline-md text-primary-fixed font-bold"
+    },
+    "text": "24/7 On-Site",
+    "rect": {
+      "x": 504,
+      "y": 844,
+      "w": 220,
+      "h": 24
+    },
+    "visible": true
+  },
+  {
+    "index": 56,
+    "tag": "div",
+    "attrs": {
+      "class": "lg:col-span-5 relative"
+    },
+    "text": "R&D LAB DASHBOARD\nHealth Metrics\nCumplimiento DGII Activo\nOdoo ERP\n92%\nFacturación e-CF\n88%\nInventario Real-time\n95%\nRedes y Seguridad\n78%\nConectividad DGII\n100%\nhub",
+    "rect": {
+      "x": 765,
+      "y": 318,
+      "w": 483,
+      "h": 345
+    },
+    "visible": true
+  },
+  {
+    "index": 57,
+    "tag": "div",
+    "attrs": {
+      "class": "glass-panel rounded-3xl p-lg relative z-10 overflow-hidden"
+    },
+    "text": "R&D LAB DASHBOARD\nHealth Metrics\nCumplimiento DGII Activo\nOdoo ERP\n92%\nFacturación e-CF\n88%\nInventario Real-time\n95%\nRedes y Seguridad\n78%\nConectividad DGII\n100%\nhub",
+    "rect": {
+      "x": 765,
+      "y": 318,
+      "w": 483,
+      "h": 345
+    },
+    "visible": true
+  },
+  {
+    "index": 58,
+    "tag": "div",
+    "attrs": {
+      "class": "flex justify-between items-center mb-xl"
+    },
+    "text": "R&D LAB DASHBOARD\nHealth Metrics\nCumplimiento DGII Activo",
+    "rect": {
+      "x": 790,
+      "y": 343,
+      "w": 433,
+      "h": 39
+    },
+    "visible": true
+  },
+  {
+    "index": 59,
+    "tag": "div",
+    "attrs": {
+      "class": "flex flex-col"
+    },
+    "text": "R&D LAB DASHBOARD\nHealth Metrics",
+    "rect": {
+      "x": 790,
+      "y": 343,
+      "w": 119,
+      "h": 39
+    },
+    "visible": true
+  },
+  {
+    "index": 60,
+    "tag": "span",
+    "attrs": {
+      "class": "font-label-mono text-[10px] text-on-surface-variant uppercase tracking-widest"
+    },
+    "text": "R&D LAB DASHBOARD",
+    "rect": {
+      "x": 790,
+      "y": 343,
+      "w": 119,
+      "h": 15
+    },
+    "visible": true
+  },
+  {
+    "index": 61,
+    "tag": "h3",
+    "attrs": {
+      "class": "font-headline-md text-on-surface"
+    },
+    "text": "Health Metrics",
+    "rect": {
+      "x": 790,
+      "y": 358,
+      "w": 119,
+      "h": 24
+    },
+    "visible": true
+  },
+  {
+    "index": 62,
+    "tag": "div",
+    "attrs": {
+      "class": "bg-primary-fixed/10 border border-primary-fixed/20 px-sm py-xs rounded-full flex items-center gap-xs"
+    },
+    "text": "Cumplimiento DGII Activo",
+    "rect": {
+      "x": 1049,
+      "y": 350,
+      "w": 174,
+      "h": 25
+    },
+    "visible": true
+  },
+  {
+    "index": 63,
+    "tag": "span",
+    "attrs": {
+      "class": "w-2 h-2 rounded-full bg-primary-fixed status-dot"
+    },
+    "text": "",
+    "rect": {
+      "x": 1058,
+      "y": 359,
+      "w": 8,
+      "h": 8
+    },
+    "visible": true
+  },
+  {
+    "index": 64,
+    "tag": "span",
+    "attrs": {
+      "class": "font-label-mono text-[10px] text-primary-fixed"
+    },
+    "text": "Cumplimiento DGII Activo",
+    "rect": {
+      "x": 1070,
+      "y": 355,
+      "w": 144,
+      "h": 15
+    },
+    "visible": true
+  },
+  {
+    "index": 65,
+    "tag": "div",
+    "attrs": {
+      "class": "space-y-lg"
+    },
+    "text": "Odoo ERP\n92%\nFacturación e-CF\n88%\nInventario Real-time\n95%\nRedes y Seguridad\n78%\nConectividad DGII\n100%",
+    "rect": {
+      "x": 790,
+      "y": 422,
+      "w": 433,
+      "h": 216
+    },
+    "visible": true
+  },
+  {
+    "index": 66,
+    "tag": "div",
+    "attrs": {
+      "class": "space-y-xs"
+    },
+    "text": "Odoo ERP\n92%",
+    "rect": {
+      "x": 790,
+      "y": 422,
+      "w": 433,
+      "h": 24
+    },
+    "visible": true
+  },
+  {
+    "index": 67,
+    "tag": "div",
+    "attrs": {
+      "class": "flex justify-between font-label-mono text-xs"
+    },
+    "text": "Odoo ERP\n92%",
+    "rect": {
+      "x": 790,
+      "y": 422,
+      "w": 433,
+      "h": 16
+    },
+    "visible": true
+  },
+  {
+    "index": 68,
+    "tag": "span",
+    "attrs": {
+      "class": "text-on-surface-variant"
+    },
+    "text": "Odoo ERP",
+    "rect": {
+      "x": 790,
+      "y": 422,
+      "w": 56,
+      "h": 16
+    },
+    "visible": true
+  },
+  {
+    "index": 69,
+    "tag": "span",
+    "attrs": {
+      "class": "text-primary-fixed"
+    },
+    "text": "92%",
+    "rect": {
+      "x": 1202,
+      "y": 422,
+      "w": 21,
+      "h": 16
+    },
+    "visible": true
+  },
+  {
+    "index": 70,
+    "tag": "div",
+    "attrs": {
+      "class": "h-1 w-full bg-surface-container rounded-full overflow-hidden"
+    },
+    "text": "",
+    "rect": {
+      "x": 790,
+      "y": 442,
+      "w": 433,
+      "h": 4
+    },
+    "visible": true
+  },
+  {
+    "index": 71,
+    "tag": "div",
+    "attrs": {
+      "class": "h-full bg-primary-fixed w-[92%]"
+    },
+    "text": "",
+    "rect": {
+      "x": 790,
+      "y": 442,
+      "w": 399,
+      "h": 4
+    },
+    "visible": true
+  },
+  {
+    "index": 72,
+    "tag": "div",
+    "attrs": {
+      "class": "space-y-xs"
+    },
+    "text": "Facturación e-CF\n88%",
+    "rect": {
+      "x": 790,
+      "y": 470,
+      "w": 433,
+      "h": 24
+    },
+    "visible": true
+  },
+  {
+    "index": 73,
+    "tag": "div",
+    "attrs": {
+      "class": "flex justify-between font-label-mono text-xs"
+    },
+    "text": "Facturación e-CF\n88%",
+    "rect": {
+      "x": 790,
+      "y": 470,
+      "w": 433,
+      "h": 16
+    },
+    "visible": true
+  },
+  {
+    "index": 74,
+    "tag": "span",
+    "attrs": {
+      "class": "text-on-surface-variant"
+    },
+    "text": "Facturación e-CF",
+    "rect": {
+      "x": 790,
+      "y": 470,
+      "w": 112,
+      "h": 16
+    },
+    "visible": true
+  },
+  {
+    "index": 75,
+    "tag": "span",
+    "attrs": {
+      "class": "text-primary-fixed"
+    },
+    "text": "88%",
+    "rect": {
+      "x": 1202,
+      "y": 470,
+      "w": 21,
+      "h": 16
+    },
+    "visible": true
+  },
+  {
+    "index": 76,
+    "tag": "div",
+    "attrs": {
+      "class": "h-1 w-full bg-surface-container rounded-full overflow-hidden"
+    },
+    "text": "",
+    "rect": {
+      "x": 790,
+      "y": 490,
+      "w": 433,
+      "h": 4
+    },
+    "visible": true
+  },
+  {
+    "index": 77,
+    "tag": "div",
+    "attrs": {
+      "class": "h-full bg-primary-fixed w-[88%]"
+    },
+    "text": "",
+    "rect": {
+      "x": 790,
+      "y": 490,
+      "w": 381,
+      "h": 4
+    },
+    "visible": true
+  },
+  {
+    "index": 78,
+    "tag": "div",
+    "attrs": {
+      "class": "space-y-xs"
+    },
+    "text": "Inventario Real-time\n95%",
+    "rect": {
+      "x": 790,
+      "y": 518,
+      "w": 433,
+      "h": 24
+    },
+    "visible": true
+  },
+  {
+    "index": 79,
+    "tag": "div",
+    "attrs": {
+      "class": "flex justify-between font-label-mono text-xs"
+    },
+    "text": "Inventario Real-time\n95%",
+    "rect": {
+      "x": 790,
+      "y": 518,
+      "w": 433,
+      "h": 16
+    },
+    "visible": true
+  },
+  {
+    "index": 80,
+    "tag": "span",
+    "attrs": {
+      "class": "text-on-surface-variant"
+    },
+    "text": "Inventario Real-time",
+    "rect": {
+      "x": 790,
+      "y": 518,
+      "w": 140,
+      "h": 16
+    },
+    "visible": true
+  },
+  {
+    "index": 81,
+    "tag": "span",
+    "attrs": {
+      "class": "text-primary-fixed"
+    },
+    "text": "95%",
+    "rect": {
+      "x": 1202,
+      "y": 518,
+      "w": 21,
+      "h": 16
+    },
+    "visible": true
+  },
+  {
+    "index": 82,
+    "tag": "div",
+    "attrs": {
+      "class": "h-1 w-full bg-surface-container rounded-full overflow-hidden"
+    },
+    "text": "",
+    "rect": {
+      "x": 790,
+      "y": 538,
+      "w": 433,
+      "h": 4
+    },
+    "visible": true
+  },
+  {
+    "index": 83,
+    "tag": "div",
+    "attrs": {
+      "class": "h-full bg-primary-fixed w-[95%]"
+    },
+    "text": "",
+    "rect": {
+      "x": 790,
+      "y": 538,
+      "w": 412,
+      "h": 4
+    },
+    "visible": true
+  },
+  {
+    "index": 84,
+    "tag": "div",
+    "attrs": {
+      "class": "space-y-xs"
+    },
+    "text": "Redes y Seguridad\n78%",
+    "rect": {
+      "x": 790,
+      "y": 566,
+      "w": 433,
+      "h": 24
+    },
+    "visible": true
+  },
+  {
+    "index": 85,
+    "tag": "div",
+    "attrs": {
+      "class": "flex justify-between font-label-mono text-xs"
+    },
+    "text": "Redes y Seguridad\n78%",
+    "rect": {
+      "x": 790,
+      "y": 566,
+      "w": 433,
+      "h": 16
+    },
+    "visible": true
+  },
+  {
+    "index": 86,
+    "tag": "span",
+    "attrs": {
+      "class": "text-on-surface-variant"
+    },
+    "text": "Redes y Seguridad",
+    "rect": {
+      "x": 790,
+      "y": 566,
+      "w": 119,
+      "h": 16
+    },
+    "visible": true
+  },
+  {
+    "index": 87,
+    "tag": "span",
+    "attrs": {
+      "class": "text-primary-fixed"
+    },
+    "text": "78%",
+    "rect": {
+      "x": 1202,
+      "y": 566,
+      "w": 21,
+      "h": 16
+    },
+    "visible": true
+  },
+  {
+    "index": 88,
+    "tag": "div",
+    "attrs": {
+      "class": "h-1 w-full bg-surface-container rounded-full overflow-hidden"
+    },
+    "text": "",
+    "rect": {
+      "x": 790,
+      "y": 586,
+      "w": 433,
+      "h": 4
+    },
+    "visible": true
+  },
+  {
+    "index": 89,
+    "tag": "div",
+    "attrs": {
+      "class": "h-full bg-primary-fixed w-[78%]"
+    },
+    "text": "",
+    "rect": {
+      "x": 790,
+      "y": 586,
+      "w": 338,
+      "h": 4
+    },
+    "visible": true
+  },
+  {
+    "index": 90,
+    "tag": "div",
+    "attrs": {
+      "class": "space-y-xs"
+    },
+    "text": "Conectividad DGII\n100%",
+    "rect": {
+      "x": 790,
+      "y": 614,
+      "w": 433,
+      "h": 24
+    },
+    "visible": true
+  },
+  {
+    "index": 91,
+    "tag": "div",
+    "attrs": {
+      "class": "flex justify-between font-label-mono text-xs"
+    },
+    "text": "Conectividad DGII\n100%",
+    "rect": {
+      "x": 790,
+      "y": 614,
+      "w": 433,
+      "h": 16
+    },
+    "visible": true
+  },
+  {
+    "index": 92,
+    "tag": "span",
+    "attrs": {
+      "class": "text-on-surface-variant"
+    },
+    "text": "Conectividad DGII",
+    "rect": {
+      "x": 790,
+      "y": 614,
+      "w": 119,
+      "h": 16
+    },
+    "visible": true
+  },
+  {
+    "index": 93,
+    "tag": "span",
+    "attrs": {
+      "class": "text-primary-fixed"
+    },
+    "text": "100%",
+    "rect": {
+      "x": 1195,
+      "y": 614,
+      "w": 28,
+      "h": 16
+    },
+    "visible": true
+  },
+  {
+    "index": 94,
+    "tag": "div",
+    "attrs": {
+      "class": "h-1 w-full bg-surface-container rounded-full overflow-hidden"
+    },
+    "text": "",
+    "rect": {
+      "x": 790,
+      "y": 634,
+      "w": 433,
+      "h": 4
+    },
+    "visible": true
+  },
+  {
+    "index": 95,
+    "tag": "div",
+    "attrs": {
+      "class": "h-full bg-primary-fixed w-full shadow-[0_0_10px_#99F6E4]"
+    },
+    "text": "",
+    "rect": {
+      "x": 790,
+      "y": 634,
+      "w": 433,
+      "h": 4
+    },
+    "visible": true
+  },
+  {
+    "index": 96,
+    "tag": "div",
+    "attrs": {
+      "class": "absolute -bottom-10 -right-10 opacity-10 pointer-events-none"
+    },
+    "text": "hub",
+    "rect": {
+      "x": 1159,
+      "y": 568,
+      "w": 128,
+      "h": 134
+    },
+    "visible": true
+  },
+  {
+    "index": 97,
+    "tag": "span",
+    "attrs": {
+      "class": "material-symbols-outlined text-9xl"
+    },
+    "text": "hub",
+    "rect": {
+      "x": 1159,
+      "y": 568,
+      "w": 128,
+      "h": 128
+    },
+    "visible": true
+  },
+  {
+    "index": 98,
+    "tag": "div",
+    "attrs": {
+      "class": "absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-72 h-72 bg-primary-fixed/5 rounded-full blur-[100px] -z-10"
+    },
+    "text": "",
+    "rect": {
+      "x": 862,
+      "y": 347,
+      "w": 288,
+      "h": 288
+    },
+    "visible": true
+  },
+  {
+    "index": 99,
+    "tag": "section",
+    "attrs": {
+      "class": "py-24 px-margin bg-surface-container-low/30"
+    },
+    "text": "// PORTAFOLIO DE SOLUCIONES\nTecnología de nivel enterprise.\nDISTRIBUIDORAS\nRETAIL\nFERRETERÍAS\nRESTAURANTES\nLOGÍSTICA\nterminal\n01\nOdoo ERP\n\nIntegración completa de procesos: contabilidad Dominicana, inventarios multi-almacén, ventas y CRM en una sola plataforma unificada.\n\nDETALLES TÉCNICOS\narrow_for",
+    "rect": {
+      "x": 0,
+      "y": 964,
+      "w": 1280,
+      "h": 940
+    },
+    "visible": true
+  },
+  {
+    "index": 100,
+    "tag": "div",
+    "attrs": {
+      "class": "max-w-7xl mx-auto"
+    },
+    "text": "// PORTAFOLIO DE SOLUCIONES\nTecnología de nivel enterprise.\nDISTRIBUIDORAS\nRETAIL\nFERRETERÍAS\nRESTAURANTES\nLOGÍSTICA\nterminal\n01\nOdoo ERP\n\nIntegración completa de procesos: contabilidad Dominicana, inventarios multi-almacén, ventas y CRM en una sola plataforma unificada.\n\nDETALLES TÉCNICOS\narrow_for",
+    "rect": {
+      "x": 32,
+      "y": 1060,
+      "w": 1216,
+      "h": 748
+    },
+    "visible": true
+  },
+  {
+    "index": 101,
+    "tag": "div",
+    "attrs": {
+      "class": "flex flex-col md:flex-row justify-between items-end mb-xl gap-md"
+    },
+    "text": "// PORTAFOLIO DE SOLUCIONES\nTecnología de nivel enterprise.\nDISTRIBUIDORAS\nRETAIL\nFERRETERÍAS\nRESTAURANTES\nLOGÍSTICA",
+    "rect": {
+      "x": 32,
+      "y": 1060,
+      "w": 1216,
+      "h": 72
+    },
+    "visible": true
+  },
+  {
+    "index": 102,
+    "tag": "div",
+    "attrs": {},
+    "text": "// PORTAFOLIO DE SOLUCIONES\nTecnología de nivel enterprise.",
+    "rect": {
+      "x": 32,
+      "y": 1060,
+      "w": 463,
+      "h": 72
+    },
+    "visible": true
+  },
+  {
+    "index": 103,
+    "tag": "span",
+    "attrs": {
+      "class": "font-label-mono text-label-mono text-primary-fixed uppercase tracking-widest"
+    },
+    "text": "// PORTAFOLIO DE SOLUCIONES",
+    "rect": {
+      "x": 32,
+      "y": 1066,
+      "w": 221,
+      "h": 16
+    },
+    "visible": true
+  },
+  {
+    "index": 104,
+    "tag": "h2",
+    "attrs": {
+      "class": "font-headline-lg text-headline-lg mt-sm"
+    },
+    "text": "Tecnología de nivel enterprise.",
+    "rect": {
+      "x": 32,
+      "y": 1092,
+      "w": 463,
+      "h": 40
+    },
+    "visible": true
+  },
+  {
+    "index": 105,
+    "tag": "div",
+    "attrs": {
+      "class": "flex flex-wrap gap-xs pb-sm overflow-x-auto max-w-full"
+    },
+    "text": "DISTRIBUIDORAS\nRETAIL\nFERRETERÍAS\nRESTAURANTES\nLOGÍSTICA",
+    "rect": {
+      "x": 750,
+      "y": 1099,
+      "w": 498,
+      "h": 33
+    },
+    "visible": true
+  },
+  {
+    "index": 106,
+    "tag": "span",
+    "attrs": {
+      "class": "px-md py-xs rounded-full bg-surface-container border border-white/5 font-label-mono text-[10px] text-on-surface-variant"
+    },
+    "text": "DISTRIBUIDORAS",
+    "rect": {
+      "x": 750,
+      "y": 1099,
+      "w": 118,
+      "h": 25
+    },
+    "visible": true
+  },
+  {
+    "index": 107,
+    "tag": "span",
+    "attrs": {
+      "class": "px-md py-xs rounded-full bg-surface-container border border-white/5 font-label-mono text-[10px] text-on-surface-variant"
+    },
+    "text": "RETAIL",
+    "rect": {
+      "x": 872,
+      "y": 1099,
+      "w": 70,
+      "h": 25
+    },
+    "visible": true
+  },
+  {
+    "index": 108,
+    "tag": "span",
+    "attrs": {
+      "class": "px-md py-xs rounded-full bg-surface-container border border-white/5 font-label-mono text-[10px] text-on-surface-variant"
+    },
+    "text": "FERRETERÍAS",
+    "rect": {
+      "x": 946,
+      "y": 1099,
+      "w": 100,
+      "h": 25
+    },
+    "visible": true
+  },
+  {
+    "index": 109,
+    "tag": "span",
+    "attrs": {
+      "class": "px-md py-xs rounded-full bg-surface-container border border-white/5 font-label-mono text-[10px] text-on-surface-variant"
+    },
+    "text": "RESTAURANTES",
+    "rect": {
+      "x": 1050,
+      "y": 1099,
+      "w": 106,
+      "h": 25
+    },
+    "visible": true
+  },
+  {
+    "index": 110,
+    "tag": "span",
+    "attrs": {
+      "class": "px-md py-xs rounded-full bg-surface-container border border-white/5 font-label-mono text-[10px] text-on-surface-variant"
+    },
+    "text": "LOGÍSTICA",
+    "rect": {
+      "x": 1160,
+      "y": 1099,
+      "w": 88,
+      "h": 25
+    },
+    "visible": true
+  },
+  {
+    "index": 111,
+    "tag": "div",
+    "attrs": {
+      "class": "grid grid-cols-1 md:grid-cols-2 gap-lg"
+    },
+    "text": "terminal\n01\nOdoo ERP\n\nIntegración completa de procesos: contabilidad Dominicana, inventarios multi-almacén, ventas y CRM en una sola plataforma unificada.\n\nDETALLES TÉCNICOS\narrow_forward\nreceipt_long\n02\nFacturación Electrónica\n\nImplementación de e-CF bajo normativas de la DGII. Conexión segura y au",
+    "rect": {
+      "x": 32,
+      "y": 1172,
+      "w": 1216,
+      "h": 636
+    },
+    "visible": true
+  },
+  {
+    "index": 112,
+    "tag": "div",
+    "attrs": {
+      "class": "glass-panel group p-xl rounded-2xl hover:border-primary-fixed/30 transition-all duration-300"
+    },
+    "text": "terminal\n01\nOdoo ERP\n\nIntegración completa de procesos: contabilidad Dominicana, inventarios multi-almacén, ventas y CRM en una sola plataforma unificada.\n\nDETALLES TÉCNICOS\narrow_forward",
+    "rect": {
+      "x": 32,
+      "y": 1172,
+      "w": 596,
+      "h": 318
+    },
+    "visible": true
+  },
+  {
+    "index": 113,
+    "tag": "div",
+    "attrs": {
+      "class": "flex justify-between items-start mb-lg"
+    },
+    "text": "terminal\n01",
+    "rect": {
+      "x": 73,
+      "y": 1213,
+      "w": 514,
+      "h": 48
+    },
+    "visible": true
+  },
+  {
+    "index": 114,
+    "tag": "div",
+    "attrs": {
+      "class": "w-12 h-12 rounded-lg bg-primary-fixed/5 flex items-center justify-center border border-primary-fixed/10 group-hover:bg-primary-fixed group-hover:text-black transition-all"
+    },
+    "text": "terminal",
+    "rect": {
+      "x": 73,
+      "y": 1213,
+      "w": 48,
+      "h": 48
+    },
+    "visible": true
+  },
+  {
+    "index": 115,
+    "tag": "span",
+    "attrs": {
+      "class": "material-symbols-outlined",
+      "data-icon": "terminal"
+    },
+    "text": "terminal",
+    "rect": {
+      "x": 85,
+      "y": 1225,
+      "w": 24,
+      "h": 24
+    },
+    "visible": true
+  },
+  {
+    "index": 116,
+    "tag": "span",
+    "attrs": {
+      "class": "font-label-mono text-xs text-on-surface-variant opacity-40"
+    },
+    "text": "01",
+    "rect": {
+      "x": 573,
+      "y": 1213,
+      "w": 14,
+      "h": 16
+    },
+    "visible": true
+  },
+  {
+    "index": 117,
+    "tag": "h3",
+    "attrs": {
+      "class": "font-headline-md text-headline-md mb-md"
+    },
+    "text": "Odoo ERP",
+    "rect": {
+      "x": 73,
+      "y": 1285,
+      "w": 514,
+      "h": 32
+    },
+    "visible": true
+  },
+  {
+    "index": 118,
+    "tag": "p",
+    "attrs": {
+      "class": "text-on-surface-variant font-body-md mb-lg"
+    },
+    "text": "Integración completa de procesos: contabilidad Dominicana, inventarios multi-almacén, ventas y CRM en una sola plataforma unificada.",
+    "rect": {
+      "x": 73,
+      "y": 1333,
+      "w": 514,
+      "h": 72
+    },
+    "visible": true
+  },
+  {
+    "index": 119,
+    "tag": "a",
+    "attrs": {
+      "class": "text-primary-fixed font-label-mono text-xs flex items-center gap-xs group-hover:translate-x-2 transition-transform",
+      "href": "#"
+    },
+    "text": "DETALLES TÉCNICOS\narrow_forward",
+    "rect": {
+      "x": 73,
+      "y": 1429,
+      "w": 514,
+      "h": 20
+    },
+    "visible": true
+  },
+  {
+    "index": 120,
+    "tag": "span",
+    "attrs": {
+      "class": "material-symbols-outlined text-sm"
+    },
+    "text": "arrow_forward",
+    "rect": {
+      "x": 196,
+      "y": 1429,
+      "w": 14,
+      "h": 20
+    },
+    "visible": true
+  },
+  {
+    "index": 121,
+    "tag": "div",
+    "attrs": {
+      "class": "glass-panel group p-xl rounded-2xl hover:border-primary-fixed/30 transition-all duration-300"
+    },
+    "text": "receipt_long\n02\nFacturación Electrónica\n\nImplementación de e-CF bajo normativas de la DGII. Conexión segura y automatizada para comprobantes fiscales electrónicos dominicanos.\n\nDETALLES TÉCNICOS\narrow_forward",
+    "rect": {
+      "x": 652,
+      "y": 1172,
+      "w": 596,
+      "h": 318
+    },
+    "visible": true
+  },
+  {
+    "index": 122,
+    "tag": "div",
+    "attrs": {
+      "class": "flex justify-between items-start mb-lg"
+    },
+    "text": "receipt_long\n02",
+    "rect": {
+      "x": 693,
+      "y": 1213,
+      "w": 514,
+      "h": 48
+    },
+    "visible": true
+  },
+  {
+    "index": 123,
+    "tag": "div",
+    "attrs": {
+      "class": "w-12 h-12 rounded-lg bg-primary-fixed/5 flex items-center justify-center border border-primary-fixed/10 group-hover:bg-primary-fixed group-hover:text-black transition-all"
+    },
+    "text": "receipt_long",
+    "rect": {
+      "x": 693,
+      "y": 1213,
+      "w": 48,
+      "h": 48
+    },
+    "visible": true
+  },
+  {
+    "index": 124,
+    "tag": "span",
+    "attrs": {
+      "class": "material-symbols-outlined",
+      "data-icon": "receipt_long"
+    },
+    "text": "receipt_long",
+    "rect": {
+      "x": 705,
+      "y": 1225,
+      "w": 24,
+      "h": 24
+    },
+    "visible": true
+  },
+  {
+    "index": 125,
+    "tag": "span",
+    "attrs": {
+      "class": "font-label-mono text-xs text-on-surface-variant opacity-40"
+    },
+    "text": "02",
+    "rect": {
+      "x": 1193,
+      "y": 1213,
+      "w": 14,
+      "h": 16
+    },
+    "visible": true
+  },
+  {
+    "index": 126,
+    "tag": "h3",
+    "attrs": {
+      "class": "font-headline-md text-headline-md mb-md"
+    },
+    "text": "Facturación Electrónica",
+    "rect": {
+      "x": 693,
+      "y": 1285,
+      "w": 514,
+      "h": 32
+    },
+    "visible": true
+  },
+  {
+    "index": 127,
+    "tag": "p",
+    "attrs": {
+      "class": "text-on-surface-variant font-body-md mb-lg"
+    },
+    "text": "Implementación de e-CF bajo normativas de la DGII. Conexión segura y automatizada para comprobantes fiscales electrónicos dominicanos.",
+    "rect": {
+      "x": 693,
+      "y": 1333,
+      "w": 514,
+      "h": 72
+    },
+    "visible": true
+  },
+  {
+    "index": 128,
+    "tag": "a",
+    "attrs": {
+      "class": "text-primary-fixed font-label-mono text-xs flex items-center gap-xs group-hover:translate-x-2 transition-transform",
+      "href": "#"
+    },
+    "text": "DETALLES TÉCNICOS\narrow_forward",
+    "rect": {
+      "x": 693,
+      "y": 1429,
+      "w": 514,
+      "h": 20
+    },
+    "visible": true
+  },
+  {
+    "index": 129,
+    "tag": "span",
+    "attrs": {
+      "class": "material-symbols-outlined text-sm"
+    },
+    "text": "arrow_forward",
+    "rect": {
+      "x": 816,
+      "y": 1429,
+      "w": 14,
+      "h": 20
+    },
+    "visible": true
+  },
+  {
+    "index": 130,
+    "tag": "div",
+    "attrs": {
+      "class": "glass-panel group p-xl rounded-2xl hover:border-primary-fixed/30 transition-all duration-300"
+    },
+    "text": "dns\n03\nInfraestructura\n\nServidores locales y cloud, redundancia de datos y virtualización optimizada para entornos de alta transaccionalidad.\n\nDETALLES TÉCNICOS\narrow_forward",
+    "rect": {
+      "x": 32,
+      "y": 1514,
+      "w": 596,
+      "h": 294
+    },
+    "visible": true
+  },
+  {
+    "index": 131,
+    "tag": "div",
+    "attrs": {
+      "class": "flex justify-between items-start mb-lg"
+    },
+    "text": "dns\n03",
+    "rect": {
+      "x": 73,
+      "y": 1555,
+      "w": 514,
+      "h": 48
+    },
+    "visible": true
+  },
+  {
+    "index": 132,
+    "tag": "div",
+    "attrs": {
+      "class": "w-12 h-12 rounded-lg bg-primary-fixed/5 flex items-center justify-center border border-primary-fixed/10 group-hover:bg-primary-fixed group-hover:text-black transition-all"
+    },
+    "text": "dns",
+    "rect": {
+      "x": 73,
+      "y": 1555,
+      "w": 48,
+      "h": 48
+    },
+    "visible": true
+  },
+  {
+    "index": 133,
+    "tag": "span",
+    "attrs": {
+      "class": "material-symbols-outlined",
+      "data-icon": "dns"
+    },
+    "text": "dns",
+    "rect": {
+      "x": 85,
+      "y": 1567,
+      "w": 24,
+      "h": 24
+    },
+    "visible": true
+  },
+  {
+    "index": 134,
+    "tag": "span",
+    "attrs": {
+      "class": "font-label-mono text-xs text-on-surface-variant opacity-40"
+    },
+    "text": "03",
+    "rect": {
+      "x": 573,
+      "y": 1555,
+      "w": 14,
+      "h": 16
+    },
+    "visible": true
+  },
+  {
+    "index": 135,
+    "tag": "h3",
+    "attrs": {
+      "class": "font-headline-md text-headline-md mb-md"
+    },
+    "text": "Infraestructura",
+    "rect": {
+      "x": 73,
+      "y": 1627,
+      "w": 514,
+      "h": 32
+    },
+    "visible": true
+  },
+  {
+    "index": 136,
+    "tag": "p",
+    "attrs": {
+      "class": "text-on-surface-variant font-body-md mb-lg"
+    },
+    "text": "Servidores locales y cloud, redundancia de datos y virtualización optimizada para entornos de alta transaccionalidad.",
+    "rect": {
+      "x": 73,
+      "y": 1675,
+      "w": 514,
+      "h": 48
+    },
+    "visible": true
+  },
+  {
+    "index": 137,
+    "tag": "a",
+    "attrs": {
+      "class": "text-primary-fixed font-label-mono text-xs flex items-center gap-xs group-hover:translate-x-2 transition-transform",
+      "href": "#"
+    },
+    "text": "DETALLES TÉCNICOS\narrow_forward",
+    "rect": {
+      "x": 73,
+      "y": 1747,
+      "w": 514,
+      "h": 20
+    },
+    "visible": true
+  },
+  {
+    "index": 138,
+    "tag": "span",
+    "attrs": {
+      "class": "material-symbols-outlined text-sm"
+    },
+    "text": "arrow_forward",
+    "rect": {
+      "x": 196,
+      "y": 1747,
+      "w": 14,
+      "h": 20
+    },
+    "visible": true
+  },
+  {
+    "index": 139,
+    "tag": "div",
+    "attrs": {
+      "class": "glass-panel group p-xl rounded-2xl hover:border-primary-fixed/30 transition-all duration-300"
+    },
+    "text": "router\n04\nRedes Empresariales\n\nCableado estructurado, redes Wi-Fi de alta densidad y auditoría de seguridad para infraestructuras corporativas robustas.\n\nDETALLES TÉCNICOS\narrow_forward",
+    "rect": {
+      "x": 652,
+      "y": 1514,
+      "w": 596,
+      "h": 294
+    },
+    "visible": true
+  },
+  {
+    "index": 140,
+    "tag": "div",
+    "attrs": {
+      "class": "flex justify-between items-start mb-lg"
+    },
+    "text": "router\n04",
+    "rect": {
+      "x": 693,
+      "y": 1555,
+      "w": 514,
+      "h": 48
+    },
+    "visible": true
+  },
+  {
+    "index": 141,
+    "tag": "div",
+    "attrs": {
+      "class": "w-12 h-12 rounded-lg bg-primary-fixed/5 flex items-center justify-center border border-primary-fixed/10 group-hover:bg-primary-fixed group-hover:text-black transition-all"
+    },
+    "text": "router",
+    "rect": {
+      "x": 693,
+      "y": 1555,
+      "w": 48,
+      "h": 48
+    },
+    "visible": true
+  },
+  {
+    "index": 142,
+    "tag": "span",
+    "attrs": {
+      "class": "material-symbols-outlined",
+      "data-icon": "router"
+    },
+    "text": "router",
+    "rect": {
+      "x": 705,
+      "y": 1567,
+      "w": 24,
+      "h": 24
+    },
+    "visible": true
+  },
+  {
+    "index": 143,
+    "tag": "span",
+    "attrs": {
+      "class": "font-label-mono text-xs text-on-surface-variant opacity-40"
+    },
+    "text": "04",
+    "rect": {
+      "x": 1193,
+      "y": 1555,
+      "w": 14,
+      "h": 16
+    },
+    "visible": true
+  },
+  {
+    "index": 144,
+    "tag": "h3",
+    "attrs": {
+      "class": "font-headline-md text-headline-md mb-md"
+    },
+    "text": "Redes Empresariales",
+    "rect": {
+      "x": 693,
+      "y": 1627,
+      "w": 514,
+      "h": 32
+    },
+    "visible": true
+  },
+  {
+    "index": 145,
+    "tag": "p",
+    "attrs": {
+      "class": "text-on-surface-variant font-body-md mb-lg"
+    },
+    "text": "Cableado estructurado, redes Wi-Fi de alta densidad y auditoría de seguridad para infraestructuras corporativas robustas.",
+    "rect": {
+      "x": 693,
+      "y": 1675,
+      "w": 514,
+      "h": 48
+    },
+    "visible": true
+  },
+  {
+    "index": 146,
+    "tag": "a",
+    "attrs": {
+      "class": "text-primary-fixed font-label-mono text-xs flex items-center gap-xs group-hover:translate-x-2 transition-transform",
+      "href": "#"
+    },
+    "text": "DETALLES TÉCNICOS\narrow_forward",
+    "rect": {
+      "x": 693,
+      "y": 1747,
+      "w": 514,
+      "h": 20
+    },
+    "visible": true
+  },
+  {
+    "index": 147,
+    "tag": "span",
+    "attrs": {
+      "class": "material-symbols-outlined text-sm"
+    },
+    "text": "arrow_forward",
+    "rect": {
+      "x": 816,
+      "y": 1747,
+      "w": 14,
+      "h": 20
+    },
+    "visible": true
+  },
+  {
+    "index": 148,
+    "tag": "section",
+    "attrs": {
+      "class": "py-24 px-margin overflow-hidden"
+    },
+    "text": "// CASOS DE ÉXITO\nResultados Tangibles en el Mercado.\nRETAIL LUXURY\nGalantes Jewelry\n\nMigración total a Odoo Enterprise y control de inventario certificado con DGII.\n\n+45%\n\nEficiencia en Ventas\n\n100%\n\nCumplimiento Fiscal\n\nGASTRONOMÍA & DELIVERY\nchefalitas\n\nOptimización de cadena de suministros y sis",
+    "rect": {
+      "x": 0,
+      "y": 1904,
+      "w": 1280,
+      "h": 798
+    },
+    "visible": true
+  },
+  {
+    "index": 149,
+    "tag": "div",
+    "attrs": {
+      "class": "max-w-7xl mx-auto"
+    },
+    "text": "// CASOS DE ÉXITO\nResultados Tangibles en el Mercado.\nRETAIL LUXURY\nGalantes Jewelry\n\nMigración total a Odoo Enterprise y control de inventario certificado con DGII.\n\n+45%\n\nEficiencia en Ventas\n\n100%\n\nCumplimiento Fiscal\n\nGASTRONOMÍA & DELIVERY\nchefalitas\n\nOptimización de cadena de suministros y sis",
+    "rect": {
+      "x": 32,
+      "y": 2000,
+      "w": 1216,
+      "h": 606
+    },
+    "visible": true
+  },
+  {
+    "index": 150,
+    "tag": "div",
+    "attrs": {
+      "class": "mb-xl"
+    },
+    "text": "// CASOS DE ÉXITO\nResultados Tangibles en el Mercado.",
+    "rect": {
+      "x": 32,
+      "y": 2000,
+      "w": 1216,
+      "h": 72
+    },
+    "visible": true
+  },
+  {
+    "index": 151,
+    "tag": "span",
+    "attrs": {
+      "class": "font-label-mono text-label-mono text-primary-fixed uppercase tracking-widest"
+    },
+    "text": "// CASOS DE ÉXITO",
+    "rect": {
+      "x": 32,
+      "y": 2006,
+      "w": 139,
+      "h": 16
+    },
+    "visible": true
+  },
+  {
+    "index": 152,
+    "tag": "h2",
+    "attrs": {
+      "class": "font-headline-lg text-headline-lg mt-sm"
+    },
+    "text": "Resultados Tangibles en el Mercado.",
+    "rect": {
+      "x": 32,
+      "y": 2032,
+      "w": 1216,
+      "h": 40
+    },
+    "visible": true
+  },
+  {
+    "index": 153,
+    "tag": "div",
+    "attrs": {
+      "class": "grid grid-cols-1 md:grid-cols-2 gap-xl"
+    },
+    "text": "RETAIL LUXURY\nGalantes Jewelry\n\nMigración total a Odoo Enterprise y control de inventario certificado con DGII.\n\n+45%\n\nEficiencia en Ventas\n\n100%\n\nCumplimiento Fiscal\n\nGASTRONOMÍA & DELIVERY\nchefalitas\n\nOptimización de cadena de suministros y sistema POS sincronizado en tiempo real.\n\n-30%\n\nTiempo de",
+    "rect": {
+      "x": 32,
+      "y": 2112,
+      "w": 1216,
+      "h": 494
+    },
+    "visible": true
+  },
+  {
+    "index": 154,
+    "tag": "div",
+    "attrs": {
+      "class": "flex flex-col gap-lg group"
+    },
+    "text": "RETAIL LUXURY\nGalantes Jewelry\n\nMigración total a Odoo Enterprise y control de inventario certificado con DGII.\n\n+45%\n\nEficiencia en Ventas\n\n100%\n\nCumplimiento Fiscal",
+    "rect": {
+      "x": 32,
+      "y": 2112,
+      "w": 588,
+      "h": 494
+    },
+    "visible": true
+  },
+  {
+    "index": 155,
+    "tag": "div",
+    "attrs": {
+      "class": "relative aspect-video rounded-3xl overflow-hidden glass-panel"
+    },
+    "text": "RETAIL LUXURY",
+    "rect": {
+      "x": 32,
+      "y": 2112,
+      "w": 588,
+      "h": 331
+    },
+    "visible": true
+  },
+  {
+    "index": 156,
+    "tag": "img",
+    "attrs": {
+      "class": "w-full h-full object-cover opacity-60 grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-700",
+      "data-alt": "A professional high-end jewelry store interior with minimalist glass displays and focused warm lighting. The aesthetic is luxurious and pristine, highlighting the intricate detail of jewelry pieces in a modern, secure retail environment with deep black and soft pink accents.",
+      "src": "https://lh3.googleusercontent.com/aida-public/AB6AXuDIUq8X0tL9Bd7dIPADqLq8FeyRrfqBkXpo6EuD1dPnX7GEP2_Pp-ReB33fMzbNTlHgMqaZlrUdMb8eRslpxySLrEjobFIUVE4WGCuDaniZEtmdIvoYhgbLIKwr-JjUGUsmF5TIlZPc1d4T7Z4pMUYMFSV7Gs0dWMWh9BepuQsZrVah2Wgp0SllJAeDrcd09EIuxhWNyuLSkHINITIJr_D4jUOARiII9e1pSaaW6jkXgOVNc_KAYkS6-Nw0is6UMRsocc6NLEgKlTg"
+    },
+    "text": "",
+    "rect": {
+      "x": 33,
+      "y": 2113,
+      "w": 586,
+      "h": 329
+    },
+    "visible": true
+  },
+  {
+    "index": 157,
+    "tag": "div",
+    "attrs": {
+      "class": "absolute inset-0 bg-gradient-to-t from-[#101413] to-transparent"
+    },
+    "text": "",
+    "rect": {
+      "x": 33,
+      "y": 2113,
+      "w": 586,
+      "h": 329
+    },
+    "visible": true
+  },
+  {
+    "index": 158,
+    "tag": "div",
+    "attrs": {
+      "class": "absolute bottom-md left-md"
+    },
+    "text": "RETAIL LUXURY",
+    "rect": {
+      "x": 49,
+      "y": 2402,
+      "w": 112,
+      "h": 24
+    },
+    "visible": true
+  },
+  {
+    "index": 159,
+    "tag": "span",
+    "attrs": {
+      "class": "px-md py-xs rounded-full bg-[#F0ABFC]/20 text-[#F0ABFC] border border-[#F0ABFC]/30 font-label-mono text-[10px]"
+    },
+    "text": "RETAIL LUXURY",
+    "rect": {
+      "x": 49,
+      "y": 2405,
+      "w": 112,
+      "h": 23
+    },
+    "visible": true
+  },
+  {
+    "index": 160,
+    "tag": "div",
+    "attrs": {
+      "class": "px-sm"
+    },
+    "text": "Galantes Jewelry\n\nMigración total a Odoo Enterprise y control de inventario certificado con DGII.\n\n+45%\n\nEficiencia en Ventas\n\n100%\n\nCumplimiento Fiscal",
+    "rect": {
+      "x": 32,
+      "y": 2467,
+      "w": 588,
+      "h": 139
+    },
+    "visible": true
+  },
+  {
+    "index": 161,
+    "tag": "h3",
+    "attrs": {
+      "class": "font-headline-md text-headline-md text-on-surface mb-xs"
+    },
+    "text": "Galantes Jewelry",
+    "rect": {
+      "x": 40,
+      "y": 2467,
+      "w": 572,
+      "h": 32
+    },
+    "visible": true
+  },
+  {
+    "index": 162,
+    "tag": "p",
+    "attrs": {
+      "class": "text-on-surface-variant font-body-md mb-md"
+    },
+    "text": "Migración total a Odoo Enterprise y control de inventario certificado con DGII.",
+    "rect": {
+      "x": 40,
+      "y": 2503,
+      "w": 572,
+      "h": 48
+    },
+    "visible": true
+  },
+  {
+    "index": 163,
+    "tag": "div",
+    "attrs": {
+      "class": "flex gap-lg"
+    },
+    "text": "+45%\n\nEficiencia en Ventas\n\n100%\n\nCumplimiento Fiscal",
+    "rect": {
+      "x": 40,
+      "y": 2567,
+      "w": 572,
+      "h": 39
+    },
+    "visible": true
+  },
+  {
+    "index": 164,
+    "tag": "div",
+    "attrs": {},
+    "text": "+45%\n\nEficiencia en Ventas",
+    "rect": {
+      "x": 40,
+      "y": 2567,
+      "w": 120,
+      "h": 39
+    },
+    "visible": true
+  },
+  {
+    "index": 165,
+    "tag": "p",
+    "attrs": {
+      "class": "font-headline-md text-[#F0ABFC] font-bold"
+    },
+    "text": "+45%",
+    "rect": {
+      "x": 40,
+      "y": 2567,
+      "w": 120,
+      "h": 24
+    },
+    "visible": true
+  },
+  {
+    "index": 166,
+    "tag": "p",
+    "attrs": {
+      "class": "font-label-mono text-[10px] text-on-surface-variant"
+    },
+    "text": "Eficiencia en Ventas",
+    "rect": {
+      "x": 40,
+      "y": 2591,
+      "w": 120,
+      "h": 15
+    },
+    "visible": true
+  },
+  {
+    "index": 167,
+    "tag": "div",
+    "attrs": {},
+    "text": "100%\n\nCumplimiento Fiscal",
+    "rect": {
+      "x": 184,
+      "y": 2567,
+      "w": 114,
+      "h": 39
+    },
+    "visible": true
+  },
+  {
+    "index": 168,
+    "tag": "p",
+    "attrs": {
+      "class": "font-headline-md text-[#F0ABFC] font-bold"
+    },
+    "text": "100%",
+    "rect": {
+      "x": 184,
+      "y": 2567,
+      "w": 114,
+      "h": 24
+    },
+    "visible": true
+  },
+  {
+    "index": 169,
+    "tag": "p",
+    "attrs": {
+      "class": "font-label-mono text-[10px] text-on-surface-variant"
+    },
+    "text": "Cumplimiento Fiscal",
+    "rect": {
+      "x": 184,
+      "y": 2591,
+      "w": 114,
+      "h": 15
+    },
+    "visible": true
+  },
+  {
+    "index": 170,
+    "tag": "div",
+    "attrs": {
+      "class": "flex flex-col gap-lg group"
+    },
+    "text": "GASTRONOMÍA & DELIVERY\nchefalitas\n\nOptimización de cadena de suministros y sistema POS sincronizado en tiempo real.\n\n-30%\n\nTiempo de Entrega\n\n+20k\n\nÓrdenes Mensuales",
+    "rect": {
+      "x": 660,
+      "y": 2112,
+      "w": 588,
+      "h": 494
+    },
+    "visible": true
+  },
+  {
+    "index": 171,
+    "tag": "div",
+    "attrs": {
+      "class": "relative aspect-video rounded-3xl overflow-hidden glass-panel"
+    },
+    "text": "GASTRONOMÍA & DELIVERY",
+    "rect": {
+      "x": 660,
+      "y": 2112,
+      "w": 588,
+      "h": 331
+    },
+    "visible": true
+  },
+  {
+    "index": 172,
+    "tag": "img",
+    "attrs": {
+      "class": "w-full h-full object-cover opacity-60 grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-700",
+      "data-alt": "A fast-paced, modern restaurant kitchen and ordering counter with sleek industrial design. Vibrant fresh greens and warm wood tones are illuminated by bright architectural lighting. The scene captures a high-tech logistics and hospitality vibe, featuring digital displays and efficient staff movement.",
+      "src": "https://lh3.googleusercontent.com/aida-public/AB6AXuBWXsj_CcrmUQ1sHNrkjaHnMb6H86svJ6FieZdCApTrICMirP3f3b2AkSyXgtk2q0wDjp-ml14aT6AHtgXh1vAi3r-nyu9wTi9fkFOf_r4GyLMcC5eUj230FKD7xBoPHU-IOChzwLG1KhMajuAWMSSd8pt-2_wPFgcW8XBsdGek4masJ79vNo38TUa313Jbq5siYbsmyZtWB8zYQvyOD8ETNkLW5bqdh4ioZohecHKhrVzMFRD6rNKdYBXCEl-jPVAqCFLqm3MsfVA"
+    },
+    "text": "",
+    "rect": {
+      "x": 661,
+      "y": 2113,
+      "w": 586,
+      "h": 329
+    },
+    "visible": true
+  },
+  {
+    "index": 173,
+    "tag": "div",
+    "attrs": {
+      "class": "absolute inset-0 bg-gradient-to-t from-[#101413] to-transparent"
+    },
+    "text": "",
+    "rect": {
+      "x": 661,
+      "y": 2113,
+      "w": 586,
+      "h": 329
+    },
+    "visible": true
+  },
+  {
+    "index": 174,
+    "tag": "div",
+    "attrs": {
+      "class": "absolute bottom-md left-md"
+    },
+    "text": "GASTRONOMÍA & DELIVERY",
+    "rect": {
+      "x": 677,
+      "y": 2402,
+      "w": 166,
+      "h": 24
+    },
+    "visible": true
+  },
+  {
+    "index": 175,
+    "tag": "span",
+    "attrs": {
+      "class": "px-md py-xs rounded-full bg-[#6EE7B7]/20 text-[#6EE7B7] border border-[#6EE7B7]/30 font-label-mono text-[10px]"
+    },
+    "text": "GASTRONOMÍA & DELIVERY",
+    "rect": {
+      "x": 677,
+      "y": 2405,
+      "w": 166,
+      "h": 23
+    },
+    "visible": true
+  },
+  {
+    "index": 176,
+    "tag": "div",
+    "attrs": {
+      "class": "px-sm"
+    },
+    "text": "chefalitas\n\nOptimización de cadena de suministros y sistema POS sincronizado en tiempo real.\n\n-30%\n\nTiempo de Entrega\n\n+20k\n\nÓrdenes Mensuales",
+    "rect": {
+      "x": 660,
+      "y": 2467,
+      "w": 588,
+      "h": 139
+    },
+    "visible": true
+  },
+  {
+    "index": 177,
+    "tag": "h3",
+    "attrs": {
+      "class": "font-headline-md text-headline-md text-on-surface mb-xs"
+    },
+    "text": "chefalitas",
+    "rect": {
+      "x": 668,
+      "y": 2467,
+      "w": 572,
+      "h": 32
+    },
+    "visible": true
+  },
+  {
+    "index": 178,
+    "tag": "p",
+    "attrs": {
+      "class": "text-on-surface-variant font-body-md mb-md"
+    },
+    "text": "Optimización de cadena de suministros y sistema POS sincronizado en tiempo real.",
+    "rect": {
+      "x": 668,
+      "y": 2503,
+      "w": 572,
+      "h": 48
+    },
+    "visible": true
+  },
+  {
+    "index": 179,
+    "tag": "div",
+    "attrs": {
+      "class": "flex gap-lg"
+    },
+    "text": "-30%\n\nTiempo de Entrega\n\n+20k\n\nÓrdenes Mensuales",
+    "rect": {
+      "x": 668,
+      "y": 2567,
+      "w": 572,
+      "h": 39
+    },
+    "visible": true
+  },
+  {
+    "index": 180,
+    "tag": "div",
+    "attrs": {},
+    "text": "-30%\n\nTiempo de Entrega",
+    "rect": {
+      "x": 668,
+      "y": 2567,
+      "w": 102,
+      "h": 39
+    },
+    "visible": true
+  },
+  {
+    "index": 181,
+    "tag": "p",
+    "attrs": {
+      "class": "font-headline-md text-[#6EE7B7] font-bold"
+    },
+    "text": "-30%",
+    "rect": {
+      "x": 668,
+      "y": 2567,
+      "w": 102,
+      "h": 24
+    },
+    "visible": true
+  },
+  {
+    "index": 182,
+    "tag": "p",
+    "attrs": {
+      "class": "font-label-mono text-[10px] text-on-surface-variant"
+    },
+    "text": "Tiempo de Entrega",
+    "rect": {
+      "x": 668,
+      "y": 2591,
+      "w": 102,
+      "h": 15
+    },
+    "visible": true
+  },
+  {
+    "index": 183,
+    "tag": "div",
+    "attrs": {},
+    "text": "+20k\n\nÓrdenes Mensuales",
+    "rect": {
+      "x": 794,
+      "y": 2567,
+      "w": 102,
+      "h": 39
+    },
+    "visible": true
+  },
+  {
+    "index": 184,
+    "tag": "p",
+    "attrs": {
+      "class": "font-headline-md text-[#6EE7B7] font-bold"
+    },
+    "text": "+20k",
+    "rect": {
+      "x": 794,
+      "y": 2567,
+      "w": 102,
+      "h": 24
+    },
+    "visible": true
+  },
+  {
+    "index": 185,
+    "tag": "p",
+    "attrs": {
+      "class": "font-label-mono text-[10px] text-on-surface-variant"
+    },
+    "text": "Órdenes Mensuales",
+    "rect": {
+      "x": 794,
+      "y": 2591,
+      "w": 102,
+      "h": 15
+    },
+    "visible": true
+  },
+  {
+    "index": 186,
+    "tag": "section",
+    "attrs": {
+      "class": "py-24 px-margin"
+    },
+    "text": "// PRÓXIMO PASO\nEvalúa tu infraestructura hoy.\n\nDescubre cuellos de botella en tu gestión y prepárate para la facturación electrónica obligatoria. Nuestros ingenieros están listos para auditar tu sistema.\n\nAgendar Diagnóstico Gratuito",
+    "rect": {
+      "x": 0,
+      "y": 2702,
+      "w": 1280,
+      "h": 663
+    },
+    "visible": true
+  },
+  {
+    "index": 187,
+    "tag": "div",
+    "attrs": {
+      "class": "max-w-5xl mx-auto glass-panel rounded-[40px] p-xl md:p-24 relative overflow-hidden text-center flex flex-col items-center gap-lg"
+    },
+    "text": "// PRÓXIMO PASO\nEvalúa tu infraestructura hoy.\n\nDescubre cuellos de botella en tu gestión y prepárate para la facturación electrónica obligatoria. Nuestros ingenieros están listos para auditar tu sistema.\n\nAgendar Diagnóstico Gratuito",
+    "rect": {
+      "x": 128,
+      "y": 2798,
+      "w": 1024,
+      "h": 471
+    },
+    "visible": true
+  },
+  {
+    "index": 188,
+    "tag": "div",
+    "attrs": {
+      "class": "absolute top-0 left-0 w-full h-full pointer-events-none -z-10 overflow-hidden"
+    },
+    "text": "",
+    "rect": {
+      "x": 129,
+      "y": 2799,
+      "w": 1022,
+      "h": 469
+    },
+    "visible": true
+  },
+  {
+    "index": 189,
+    "tag": "div",
+    "attrs": {
+      "class": "absolute top-0 right-0 w-96 h-96 bg-primary-fixed/5 blur-[120px] rounded-full -translate-y-1/2 translate-x-1/2"
+    },
+    "text": "",
+    "rect": {
+      "x": 959,
+      "y": 2607,
+      "w": 384,
+      "h": 384
+    },
+    "visible": true
+  },
+  {
+    "index": 190,
+    "tag": "div",
+    "attrs": {
+      "class": "absolute bottom-0 left-0 w-96 h-96 bg-primary-fixed/5 blur-[120px] rounded-full translate-y-1/2 -translate-x-1/2"
+    },
+    "text": "",
+    "rect": {
+      "x": -63,
+      "y": 3076,
+      "w": 384,
+      "h": 384
+    },
+    "visible": true
+  },
+  {
+    "index": 191,
+    "tag": "span",
+    "attrs": {
+      "class": "font-label-mono text-label-mono text-primary-fixed uppercase tracking-widest"
+    },
+    "text": "// PRÓXIMO PASO",
+    "rect": {
+      "x": 579,
+      "y": 2895,
+      "w": 123,
+      "h": 16
+    },
+    "visible": true
+  },
+  {
+    "index": 192,
+    "tag": "h2",
+    "attrs": {
+      "class": "font-headline-lg text-4xl md:text-6xl font-light tracking-tighter"
+    },
+    "text": "Evalúa tu infraestructura hoy.",
+    "rect": {
+      "x": 256,
+      "y": 2935,
+      "w": 769,
+      "h": 61
+    },
+    "visible": true
+  },
+  {
+    "index": 193,
+    "tag": "span",
+    "attrs": {
+      "class": "italic text-primary-fixed"
+    },
+    "text": "hoy",
+    "rect": {
+      "x": 912,
+      "y": 2927,
+      "w": 102,
+      "h": 76
+    },
+    "visible": true
+  },
+  {
+    "index": 194,
+    "tag": "p",
+    "attrs": {
+      "class": "font-body-lg text-body-lg text-on-surface-variant max-w-2xl"
+    },
+    "text": "Descubre cuellos de botella en tu gestión y prepárate para la facturación electrónica obligatoria. Nuestros ingenieros están listos para auditar tu sistema.",
+    "rect": {
+      "x": 304,
+      "y": 3020,
+      "w": 672,
+      "h": 48
+    },
+    "visible": true
+  },
+  {
+    "index": 195,
+    "tag": "div",
+    "attrs": {
+      "class": "pt-md"
+    },
+    "text": "Agendar Diagnóstico Gratuito",
+    "rect": {
+      "x": 479,
+      "y": 3092,
+      "w": 323,
+      "h": 80
+    },
+    "visible": true
+  },
+  {
+    "index": 196,
+    "tag": "button",
+    "attrs": {
+      "class": "bg-primary-fixed text-on-primary-fixed px-12 py-5 rounded-2xl font-headline-md font-bold hover:scale-105 transition-all shadow-[0_0_30px_rgba(153,246,228,0.2)]"
+    },
+    "text": "Agendar Diagnóstico Gratuito",
+    "rect": {
+      "x": 479,
+      "y": 3108,
+      "w": 323,
+      "h": 64
+    },
+    "visible": true
+  },
+  {
+    "index": 197,
+    "tag": "footer",
+    "attrs": {
+      "class": "bg-surface-container-low border-t border-white/5"
+    },
+    "text": "© 2024 GetUpSoft RD. Todos los derechos reservados.\n\nPrivacidad\nTérminos\nSoporte\nshare\npublic",
+    "rect": {
+      "x": 0,
+      "y": 3365,
+      "w": 1280,
+      "h": 149
+    },
+    "visible": true
+  },
+  {
+    "index": 198,
+    "tag": "div",
+    "attrs": {
+      "class": "flex flex-col md:flex-row justify-between items-center px-margin py-xl w-full max-w-7xl mx-auto gap-lg"
+    },
+    "text": "© 2024 GetUpSoft RD. Todos los derechos reservados.\n\nPrivacidad\nTérminos\nSoporte\nshare\npublic",
+    "rect": {
+      "x": 0,
+      "y": 3366,
+      "w": 1280,
+      "h": 148
+    },
+    "visible": true
+  },
+  {
+    "index": 199,
+    "tag": "div",
+    "attrs": {
+      "class": "flex flex-col gap-sm items-center md:items-start"
+    },
+    "text": "© 2024 GetUpSoft RD. Todos los derechos reservados.",
+    "rect": {
+      "x": 32,
+      "y": 3406,
+      "w": 361,
+      "h": 68
+    },
+    "visible": true
+  },
+  {
+    "index": 200,
+    "tag": "img",
+    "attrs": {
+      "alt": "GetUpSoft RD Logo",
+      "class": "h-6",
+      "src": "https://lh3.googleusercontent.com/aida/ADBb0uhKvw3Zppt27w4ONiZZ1bNwHHH3pdGTbUK9E7g37eCslfOLZdEnwhlopOnmf4ki9SwER69nsJTba1tskUkz-D8oG8IpReR7R5tXH9Aoldf_rBjsXo7HslJ11_WzQMMnVcv5vtEn8de2VC9tIr4a95ilGSyfZ0s06lCnNh4ciTOhZkBB1FsJ1XfjhSiCYYql0_SqlwDHwNrDBOxEtqkT4FrdCfTXjmSjb7oXSGXhhOeLtpI60ilthWjjjw"
+    },
+    "text": "",
+    "rect": {
+      "x": 32,
+      "y": 3406,
+      "w": 167,
+      "h": 24
+    },
+    "visible": true
+  },
+  {
+    "index": 201,
+    "tag": "p",
+    "attrs": {
+      "class": "font-body-md text-on-surface-variant text-sm mt-md"
+    },
+    "text": "© 2024 GetUpSoft RD. Todos los derechos reservados.",
+    "rect": {
+      "x": 32,
+      "y": 3454,
+      "w": 361,
+      "h": 20
+    },
+    "visible": true
+  },
+  {
+    "index": 202,
+    "tag": "div",
+    "attrs": {
+      "class": "flex items-center gap-xl"
+    },
+    "text": "Privacidad\nTérminos\nSoporte",
+    "rect": {
+      "x": 641,
+      "y": 3430,
+      "w": 264,
+      "h": 20
+    },
+    "visible": true
+  },
+  {
+    "index": 203,
+    "tag": "a",
+    "attrs": {
+      "class": "font-body-md text-body-md text-on-surface-variant hover:text-primary transition-colors",
+      "href": "#"
+    },
+    "text": "Privacidad",
+    "rect": {
+      "x": 641,
+      "y": 3430,
+      "w": 69,
+      "h": 20
+    },
+    "visible": true
+  },
+  {
+    "index": 204,
+    "tag": "a",
+    "attrs": {
+      "class": "font-body-md text-body-md text-on-surface-variant hover:text-primary transition-colors",
+      "href": "#"
+    },
+    "text": "Términos",
+    "rect": {
+      "x": 750,
+      "y": 3430,
+      "w": 60,
+      "h": 20
+    },
+    "visible": true
+  },
+  {
+    "index": 205,
+    "tag": "a",
+    "attrs": {
+      "class": "font-body-md text-body-md text-on-surface-variant hover:text-primary transition-colors",
+      "href": "#"
+    },
+    "text": "Soporte",
+    "rect": {
+      "x": 850,
+      "y": 3430,
+      "w": 55,
+      "h": 20
+    },
+    "visible": true
+  },
+  {
+    "index": 206,
+    "tag": "div",
+    "attrs": {
+      "class": "flex gap-md"
+    },
+    "text": "share\npublic",
+    "rect": {
+      "x": 1152,
+      "y": 3420,
+      "w": 96,
+      "h": 40
+    },
+    "visible": true
+  },
+  {
+    "index": 207,
+    "tag": "div",
+    "attrs": {
+      "class": "w-10 h-10 rounded-full glass-panel flex items-center justify-center text-on-surface-variant hover:text-primary-fixed hover:border-primary-fixed transition-all cursor-pointer"
+    },
+    "text": "share",
+    "rect": {
+      "x": 1152,
+      "y": 3420,
+      "w": 40,
+      "h": 40
+    },
+    "visible": true
+  },
+  {
+    "index": 208,
+    "tag": "span",
+    "attrs": {
+      "class": "material-symbols-outlined text-md"
+    },
+    "text": "share",
+    "rect": {
+      "x": 1160,
+      "y": 3428,
+      "w": 24,
+      "h": 24
+    },
+    "visible": true
+  },
+  {
+    "index": 209,
+    "tag": "div",
+    "attrs": {
+      "class": "w-10 h-10 rounded-full glass-panel flex items-center justify-center text-on-surface-variant hover:text-primary-fixed hover:border-primary-fixed transition-all cursor-pointer"
+    },
+    "text": "public",
+    "rect": {
+      "x": 1208,
+      "y": 3420,
+      "w": 40,
+      "h": 40
+    },
+    "visible": true
+  },
+  {
+    "index": 210,
+    "tag": "span",
+    "attrs": {
+      "class": "material-symbols-outlined text-md"
+    },
+    "text": "public",
+    "rect": {
+      "x": 1216,
+      "y": 3428,
+      "w": 24,
+      "h": 24
+    },
+    "visible": true
+  },
+  {
+    "index": 211,
+    "tag": "script",
+    "attrs": {},
+    "text": "// Micro-interaction for buttons\n        document.querySelectorAll('button').forEach(btn => {\n            btn.addEventListener('mousedown', () => btn.classList.add('scale-95'));\n            btn.addEventListener('mouseup', () => btn.classList.remove('scale-95'));\n            btn.addEventListener('mou",
+    "rect": {
+      "x": 0,
+      "y": 0,
+      "w": 0,
+      "h": 0
+    },
+    "visible": false
+  },
+  {
+    "index": 212,
+    "tag": "script",
+    "attrs": {
+      "data-stitch-injected": ""
+    },
+    "text": "window.__STITCH_CONFIG__={\"screenId\":\"aa1ad49707ae4172b660fcdb5282b1b9\",\"targetOrigin\":\"https://app-companion-430619.appspot.com\",\"disableAnimations\":false};(function(){var Ne=\"\",ve=\"\";function Wt(e,o){Ne=e,ve=o}function Xt(e){e&&(Ne=e)}function c(e,o){try{window.parent.postMessage({type:e,screenId:",
+    "rect": {
+      "x": 0,
+      "y": 0,
+      "w": 0,
+      "h": 0
+    },
+    "visible": false
+  },
+  {
+    "index": 213,
+    "tag": "div",
+    "attrs": {
+      "id": "stitch-agent-cursor",
+      "data-stitch-injected": ""
+    },
+    "text": "",
+    "rect": {
+      "x": 0,
+      "y": 0,
+      "w": 0,
+      "h": 0
+    },
+    "visible": false
+  },
+  {
+    "index": 214,
+    "tag": "svg",
+    "attrs": {
+      "class": "cursor-pointer"
+    },
+    "text": "",
+    "rect": {
+      "x": 0,
+      "y": 0,
+      "w": 0,
+      "h": 0
+    },
+    "visible": false
+  },
+  {
+    "index": 215,
+    "tag": "path",
+    "attrs": {},
+    "text": "",
+    "rect": {
+      "x": 0,
+      "y": 0,
+      "w": 0,
+      "h": 0
+    },
+    "visible": false
+  },
+  {
+    "index": 216,
+    "tag": "path",
+    "attrs": {},
+    "text": "",
+    "rect": {
+      "x": 0,
+      "y": 0,
+      "w": 0,
+      "h": 0
+    },
+    "visible": false
+  },
+  {
+    "index": 217,
+    "tag": "svg",
+    "attrs": {
+      "class": "cursor-text"
+    },
+    "text": "",
+    "rect": {
+      "x": 0,
+      "y": 0,
+      "w": 0,
+      "h": 0
+    },
+    "visible": false
+  },
+  {
+    "index": 218,
+    "tag": "path",
+    "attrs": {},
+    "text": "",
+    "rect": {
+      "x": 0,
+      "y": 0,
+      "w": 0,
+      "h": 0
+    },
+    "visible": false
+  },
+  {
+    "index": 219,
+    "tag": "svg",
+    "attrs": {
+      "class": "cursor-paint"
+    },
+    "text": "",
+    "rect": {
+      "x": 0,
+      "y": 0,
+      "w": 0,
+      "h": 0
+    },
+    "visible": false
+  },
+  {
+    "index": 220,
+    "tag": "path",
+    "attrs": {},
+    "text": "",
+    "rect": {
+      "x": 0,
+      "y": 0,
+      "w": 0,
+      "h": 0
+    },
+    "visible": false
+  },
+  {
+    "index": 221,
+    "tag": "path",
+    "attrs": {},
+    "text": "",
+    "rect": {
+      "x": 0,
+      "y": 0,
+      "w": 0,
+      "h": 0
+    },
+    "visible": false
+  },
+  {
+    "index": 222,
+    "tag": "path",
+    "attrs": {},
+    "text": "",
+    "rect": {
+      "x": 0,
+      "y": 0,
+      "w": 0,
+      "h": 0
+    },
+    "visible": false
+  },
+  {
+    "index": 223,
+    "tag": "svg",
+    "attrs": {
+      "id": "stitch-cursor-label"
+    },
+    "text": "",
+    "rect": {
+      "x": 0,
+      "y": 0,
+      "w": 0,
+      "h": 0
+    },
+    "visible": false
+  },
+  {
+    "index": 224,
+    "tag": "rect",
+    "attrs": {},
+    "text": "",
+    "rect": {
+      "x": 0,
+      "y": 0,
+      "w": 0,
+      "h": 0
+    },
+    "visible": false
+  },
+  {
+    "index": 225,
+    "tag": "circle",
+    "attrs": {},
+    "text": "",
+    "rect": {
+      "x": 0,
+      "y": 0,
+      "w": 0,
+      "h": 0
+    },
+    "visible": false
+  },
+  {
+    "index": 226,
+    "tag": "circle",
+    "attrs": {},
+    "text": "",
+    "rect": {
+      "x": 0,
+      "y": 0,
+      "w": 0,
+      "h": 0
+    },
+    "visible": false
+  },
+  {
+    "index": 227,
+    "tag": "div",
+    "attrs": {
+      "data-stitch-injected": ""
+    },
+    "text": "",
+    "rect": {
+      "x": 0,
+      "y": 0,
+      "w": 0,
+      "h": 0
+    },
+    "visible": false
+  },
+  {
+    "index": 228,
+    "tag": "div",
+    "attrs": {},
+    "text": "",
+    "rect": {
+      "x": 0,
+      "y": 0,
+      "w": 0,
+      "h": 0
+    },
+    "visible": false
+  },
+  {
+    "index": 229,
+    "tag": "div",
+    "attrs": {},
+    "text": "",
+    "rect": {
+      "x": 0,
+      "y": 0,
+      "w": 0,
+      "h": 0
+    },
+    "visible": false
+  },
+  {
+    "index": 230,
+    "tag": "div",
+    "attrs": {},
+    "text": "",
+    "rect": {
+      "x": 0,
+      "y": 0,
+      "w": 0,
+      "h": 0
+    },
+    "visible": false
+  },
+  {
+    "index": 231,
+    "tag": "div",
+    "attrs": {},
+    "text": "",
+    "rect": {
+      "x": 0,
+      "y": 0,
+      "w": 0,
+      "h": 0
+    },
+    "visible": false
+  }
+]

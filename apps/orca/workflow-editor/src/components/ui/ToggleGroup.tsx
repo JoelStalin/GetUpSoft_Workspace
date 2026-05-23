@@ -63,24 +63,8 @@ export default function ToggleGroup({
             onClick={() => onChange(item.id)}
             onKeyDown={(e) => handleKeyDown(e, item.id)}
             tabIndex={isActive ? 0 : -1}
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              gap: '6px',
-              minWidth: baseSize,
-              height: baseSize,
-              padding,
-              backgroundColor: isActive ? 'rgba(74, 158, 255, 0.15)' : 'transparent',
-              border: isActive ? '1px solid rgb(74, 158, 255)' : '1px solid var(--stitch-border)',
-              borderRadius: '4px',
-              color: isActive ? 'rgb(74, 158, 255)' : 'var(--stitch-text)',
-              fontSize,
-              fontWeight: isActive ? '600' : '500',
-              cursor: 'pointer',
-              transition: 'all 0.15s ease',
-              whiteSpace: 'nowrap',
-            }}
+            className={isActive ? 'orca-toggle-item orca-toggle-item--active' : 'orca-toggle-item'}
+            style={{ minWidth: baseSize, height: baseSize, padding, fontSize }}
             onMouseEnter={(e) => {
               if (!isActive) {
                 e.currentTarget.style.backgroundColor = 'rgba(var(--color-base-400), 0.3)'

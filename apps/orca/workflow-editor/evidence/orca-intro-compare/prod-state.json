@@ -1,0 +1,423 @@
+{
+  "ok": true,
+  "state": {
+    "title": "ORCA | Orchestrator",
+    "text": "ORCA\nSYSTEM INITIALIZING...\nO\nSYSTEM: ONLINE\nMODEL:\nGEMMA 7B\nORCA\nWelcome, Operator. I am ready to orchestrate your autonomous workflows. What is our objective today?\nEXECUTE\n\"\"\" EstadoTipoTituloModelo\nSelecciona una ejecucion.",
+    "htmlSnippet": "\n  <div class=\"bg-grid\"></div>\n  <canvas id=\"matrix-canvas\" width=\"1440\" height=\"900\"></canvas>\n\n  \n\n  <div class=\"intro-overlay\" style=\"translate: none; rotate: none; scale: none; transform: translate(0px, -100%);\">\n    <div class=\"intro-logo\" style=\"opacity: 1; letter-spacing: 1em;\">ORCA</div>\n    <div style=\"font-family: 'Space Mono'; font-size: 10px; color: var(--muted); margin-top: 20px; letter-spacing: 0.5em;\">SYSTEM INITIALIZING...</div>\n  </div><div class=\"shell\" style=\"opacity: 1;\">\n    <aside class=\"sidebar\">\n      <div class=\"brand-icon\">O</div>\n      <nav class=\"nav-icons\">\n        <button class=\"nav-btn active\" data-target=\"chat-view\" title=\"Chat\">\n          <svg width=\"20\" height=\"20\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" viewBox=\"0 0 24 24\"><path d=\"M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z\"></path></svg>\n        </button>\n        <button class=\"nav-btn\" data-target=\"workflow-view\" title=\"Blueprints\">\n          <svg width=\"20\" height=\"20\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" viewBox=\"0 0 24 24\"><path d=\"M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5\"></path></svg>\n        </button>\n        <button class=\"nav-btn\" data-target=\"vault-view\" title=\"Vault\">\n          <svg width=\"20\" height=\"20\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" viewBox=\"0 0 24 24\"><path d=\"M4 7v10c0 1.1.9 2 2 2h12a2 2 0 0 0 2-2V7M20 7l-8-4-8 4M20 7l-8 4-8-4m16 0V5a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v2\"></path></svg>\n        </button>\n        <button class=\"nav-btn\" data-target=\"providers-view\" title=\"AI Providers\">\n          <svg width=\"20\" height=\"20\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" viewBox=\"0 0 24 24\"><path d=\"M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z\"></path><polyline points=\"13 2 13 9 20 9\"></polyline><path d=\"M9 15h2M9 11h6\"></path></svg>\n        </button>\n        <button class=\"nav-btn\" data-target=\"deploy-view\" title=\"Deploy Copilot\">\n          <svg width=\"20\" height=\"20\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" viewBox=\"0 0 24 24\"><polyline points=\"22 12 18 12 15 21 9 3 6 12 2 12\"></polyline></svg>\n        </button>\n        <button class=\"nav-btn\" data-target=\"providers-login-view\" title=\"Provider Login\">\n          <svg width=\"20\" height=\"20\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" viewBox=\"0 0 24 24\"><path d=\"M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2\"></path><circle cx=\"12\" cy=\"7\" r=\"4\"></circle></svg>\n        </button>\n        <button class=\"nav-btn\" data-target=\"config-view\" title=\"Kernel\">\n          <svg width=\"20\" height=\"20\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" viewBox=\"0 0 24 24\"><circle cx=\"12\" cy=\"12\" r=\"3\"></circle><path d=\"M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z\"></path></svg>\n        </button>\n      </nav>\n    </aside>\n\n    <main class=\"main\">\n      <div class=\"floating-stats\">\n        <div class=\"stat-pill\"><span class=\"dot live\"></span> System: Online</div>\n        <div class=\"stat-pill\">Model: <span id=\"active-model\">Gemma 7B</span></div>\n      </div>\n\n      <div class=\"view-container\">\n        \n        <!-- CHAT VIEW (Default) -->\n        <section id=\"chat-view\" class=\"view active\">\n          <div class=\"chat-hero\">\n            <div id=\"chat-log\" class=\"chat-messages\">\n                <div class=\"msg orca\">\n                    <strong>ORCA</strong><br>\n                    Welcome, Operator. I am ready to orchestrate your autonomous workflows. \n                    What is our objective today?\n                </div>\n            </div>\n            <div class=\"chat-input-area\">\n              <input id=\"chat-input\" class=\"orca-input\" placeholder=\"Type a command or objective...\" autocomplete=\"off\" style=\"\">\n              <button id=\"send-chat\" class=\"btn-exec\">Execute</button>\n            </div>\n          </div>\n        </section>\n\n        <!-- WORKFLOW VIEW -->\n        <section id=\"workflow-view\" class=\"view\">\n          <header style=\"margin-bottom: 20px;\">\n            <h2 style=\"font-family: 'Space Mono'; font-weight: 700; font-size: 32px;\">BLUEPRINTS</h2>\n          </header>\n          <div class=\"workbench-grid\">\n            <div class=\"card\">\n              <h3>Create Blueprint</h3>\n              <div style=\"display:flex; flex-direction:column; gap:15px\">\n                <input id=\"bp-name\" class=\"orca-input\" placeholder=\"Workflow Name\" style=\"padding: 12px 16px; font-size: 14px;\">\n                <textarea id=\"bp-prompt\" class=\"orca-input\" placeholder=\"Objective...\" style=\"height: 120px; padding: 12px 16px; font-size: 14px;\"></textarea>\n                <button id=\"save-bp\" class=\"btn-exec\" style=\"height:48px\">Commit Blueprint</button>\n              </div>\n            </div>\n            <div class=\"card\">\n              <h3>Active Blueprints</h3>\n              <div id=\"bp-list\" style=\"display:flex; flex-direction:column; gap:10px\">\n                <!-- Blueprints here -->\n              </div>\n            </div>\n          </div>\n        </section>\n\n        <!-- VAULT VIEW -->\n        <section id=\"vault-view\" class=\"view\">\n            <header style=\"margin-bottom: 20px;\">\n              <h2 style=\"font-family: 'Space Mono'; font-weight: 700; font-size: 32px;\">KNOWLEDGE VAULT</h2>\n            </header>\n            <div class=\"workbench-grid\">\n              <div class=\"card\">\n                <h3>Obsidian</h3>\n                <p style=\"color:var(--muted); font-size:12px\">Connected to Local Vault</p>\n                <button class=\"nav-btn\" style=\"width:100%; margin-top:10px; border:1px solid var(--border)\">Sync Now</button>\n              </div>\n              <div class=\"card\">\n                <h3>NotebookLM</h3>\n                <p style=\"color:var(--muted); font-size:12px\">Integration Ready</p>\n                <button class=\"nav-btn\" style=\"width:100%; margin-top:10px; border:1px solid var(--border)\">Generate Audio</button>\n              </div>\n            </div>\n        </section>\n\n        <!-- CONFIG VIEW -->\n        <section id=\"config-view\" class=\"view\">\n            <header style=\"margin-bottom: 20px;\">\n              <h2 style=\"font-family: 'Space Mono'; font-weight: 700; font-size: 32px;\">KERNEL</h2>\n            </header>\n            <div class=\"card\">\n              <h3>Credentials</h3>\n              <div style=\"display:flex; flex-direction:column; gap:10px\">\n                <div style=\"display:flex; justify-content:space-between; align-items:center; padding:15px; border-bottom:1px solid var(--border)\">\n                    <span>OpenAI API</span>\n                    <button class=\"badge\">Connected</button>\n                </div>\n                <div style=\"display:flex; justify-content:space-between; align-items:center; padding:15px; border-bottom:1px solid var(--border)\">\n                    <span>NVIDIA Cloud</span>\n                    <button class=\"badge\" style=\"border-color:var(--accent); color:var(--accent)\">Required</button>\n                </div>\n              </div>\n            </div>\n        </section>\n\n        \n        <!-- AI PROVIDERS VIEW -->\n        <section id=\"providers-view\" class=\"view\">\n            <header style=\"margin-bottom: 30px; display: flex; justify-content: space-between; align-items: center;\">\n              <div>\n                <h2 style=\"font-family: 'Space Mono'; font-weight: 700; font-size: 32px; margin: ",
+    "scripts": [
+      "https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js",
+      "https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js",
+      "https://static.cloudflareinsights.com/beacon.min.js/v833ccba57c9e4d2798f2e76cebdd09a11778172276447"
+    ],
+    "styles": [
+      "https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700;900&family=Space+Mono:wght@400;700&display=swap"
+    ],
+    "classes": [
+      {
+        "tag": "DIV",
+        "cls": "bg-grid",
+        "text": ""
+      },
+      {
+        "tag": "DIV",
+        "cls": "intro-overlay",
+        "text": "ORCA\n    SYSTEM INITIALIZING..."
+      },
+      {
+        "tag": "DIV",
+        "cls": "intro-logo",
+        "text": "ORCA"
+      },
+      {
+        "tag": "DIV",
+        "cls": "shell",
+        "text": "O\n      \n        \n          \n        \n        \n          \n        \n        \n          \n        \n        \n          \n    "
+      },
+      {
+        "tag": "ASIDE",
+        "cls": "sidebar",
+        "text": "O"
+      },
+      {
+        "tag": "DIV",
+        "cls": "brand-icon",
+        "text": "O"
+      },
+      {
+        "tag": "NAV",
+        "cls": "nav-icons",
+        "text": ""
+      },
+      {
+        "tag": "BUTTON",
+        "cls": "nav-btn active",
+        "text": ""
+      },
+      {
+        "tag": "BUTTON",
+        "cls": "nav-btn",
+        "text": ""
+      },
+      {
+        "tag": "BUTTON",
+        "cls": "nav-btn",
+        "text": ""
+      },
+      {
+        "tag": "BUTTON",
+        "cls": "nav-btn",
+        "text": ""
+      },
+      {
+        "tag": "BUTTON",
+        "cls": "nav-btn",
+        "text": ""
+      },
+      {
+        "tag": "BUTTON",
+        "cls": "nav-btn",
+        "text": ""
+      },
+      {
+        "tag": "BUTTON",
+        "cls": "nav-btn",
+        "text": ""
+      },
+      {
+        "tag": "MAIN",
+        "cls": "main",
+        "text": "System: Online\n        Model: Gemma 7B\n      \n\n      \n        \n        \n        \n          \n            \n               "
+      },
+      {
+        "tag": "DIV",
+        "cls": "floating-stats",
+        "text": "System: Online\n        Model: Gemma 7B"
+      },
+      {
+        "tag": "DIV",
+        "cls": "stat-pill",
+        "text": "System: Online"
+      },
+      {
+        "tag": "SPAN",
+        "cls": "dot live",
+        "text": ""
+      },
+      {
+        "tag": "DIV",
+        "cls": "stat-pill",
+        "text": "Model: Gemma 7B"
+      },
+      {
+        "tag": "DIV",
+        "cls": "view-container",
+        "text": "ORCA\n                    Welcome, Operator. I am ready to orchestrate your autonomous workflows. \n                    Wh"
+      },
+      {
+        "tag": "SECTION",
+        "cls": "view active",
+        "text": "ORCA\n                    Welcome, Operator. I am ready to orchestrate your autonomous workflows. \n                    Wh"
+      },
+      {
+        "tag": "DIV",
+        "cls": "chat-hero",
+        "text": "ORCA\n                    Welcome, Operator. I am ready to orchestrate your autonomous workflows. \n                    Wh"
+      },
+      {
+        "tag": "DIV",
+        "cls": "chat-messages",
+        "text": "ORCA\n                    Welcome, Operator. I am ready to orchestrate your autonomous workflows. \n                    Wh"
+      },
+      {
+        "tag": "DIV",
+        "cls": "msg orca",
+        "text": "ORCA\n                    Welcome, Operator. I am ready to orchestrate your autonomous workflows. \n                    Wh"
+      },
+      {
+        "tag": "DIV",
+        "cls": "chat-input-area",
+        "text": "Execute"
+      },
+      {
+        "tag": "INPUT",
+        "cls": "orca-input",
+        "text": ""
+      },
+      {
+        "tag": "BUTTON",
+        "cls": "btn-exec",
+        "text": "Execute"
+      },
+      {
+        "tag": "SECTION",
+        "cls": "view",
+        "text": "BLUEPRINTS\n          \n          \n            \n              Create Blueprint\n              \n                \n           "
+      },
+      {
+        "tag": "DIV",
+        "cls": "workbench-grid",
+        "text": "Create Blueprint\n              \n                \n                \n                Commit Blueprint\n              \n      "
+      },
+      {
+        "tag": "DIV",
+        "cls": "card",
+        "text": "Create Blueprint\n              \n                \n                \n                Commit Blueprint"
+      },
+      {
+        "tag": "INPUT",
+        "cls": "orca-input",
+        "text": ""
+      },
+      {
+        "tag": "TEXTAREA",
+        "cls": "orca-input",
+        "text": ""
+      },
+      {
+        "tag": "BUTTON",
+        "cls": "btn-exec",
+        "text": "Commit Blueprint"
+      },
+      {
+        "tag": "DIV",
+        "cls": "card",
+        "text": "Active Blueprints"
+      },
+      {
+        "tag": "SECTION",
+        "cls": "view",
+        "text": "KNOWLEDGE VAULT\n            \n            \n              \n                Obsidian\n                Connected to Local Vau"
+      },
+      {
+        "tag": "DIV",
+        "cls": "workbench-grid",
+        "text": "Obsidian\n                Connected to Local Vault\n                Sync Now\n              \n              \n               "
+      },
+      {
+        "tag": "DIV",
+        "cls": "card",
+        "text": "Obsidian\n                Connected to Local Vault\n                Sync Now"
+      },
+      {
+        "tag": "BUTTON",
+        "cls": "nav-btn",
+        "text": "Sync Now"
+      },
+      {
+        "tag": "DIV",
+        "cls": "card",
+        "text": "NotebookLM\n                Integration Ready\n                Generate Audio"
+      },
+      {
+        "tag": "BUTTON",
+        "cls": "nav-btn",
+        "text": "Generate Audio"
+      },
+      {
+        "tag": "SECTION",
+        "cls": "view",
+        "text": "KERNEL\n            \n            \n              Credentials\n              \n                \n                    OpenAI AP"
+      },
+      {
+        "tag": "DIV",
+        "cls": "card",
+        "text": "Credentials\n              \n                \n                    OpenAI API\n                    Connected\n               "
+      },
+      {
+        "tag": "BUTTON",
+        "cls": "badge",
+        "text": "Connected"
+      },
+      {
+        "tag": "BUTTON",
+        "cls": "badge",
+        "text": "Required"
+      },
+      {
+        "tag": "SECTION",
+        "cls": "view",
+        "text": "AI PROVIDERS\n                Configure paid LLM providers for specialized tasks\n              \n              0 / undefin"
+      },
+      {
+        "tag": "DIV",
+        "cls": "workbench-grid",
+        "text": "DISCONNECTED\n                \n                🤖 OpenAI\n                GPT-4o for documentation, SEO copywriting, and t"
+      },
+      {
+        "tag": "DIV",
+        "cls": "card",
+        "text": "DISCONNECTED\n                \n                🤖 OpenAI\n                GPT-4o for documentation, SEO copywriting, and t"
+      },
+      {
+        "tag": "SPAN",
+        "cls": "provider-badge",
+        "text": "DISCONNECTED"
+      },
+      {
+        "tag": "INPUT",
+        "cls": "orca-input",
+        "text": ""
+      },
+      {
+        "tag": "BUTTON",
+        "cls": "btn-exec",
+        "text": "Connect"
+      },
+      {
+        "tag": "BUTTON",
+        "cls": "nav-btn",
+        "text": "Test"
+      },
+      {
+        "tag": "BUTTON",
+        "cls": "nav-btn",
+        "text": "Clear"
+      },
+      {
+        "tag": "DIV",
+        "cls": "card",
+        "text": "DISCONNECTED\n                \n                🧠 Claude 3.5 Sonnet\n                Anthropic Claude for planning, code r"
+      },
+      {
+        "tag": "SPAN",
+        "cls": "provider-badge",
+        "text": "DISCONNECTED"
+      },
+      {
+        "tag": "INPUT",
+        "cls": "orca-input",
+        "text": ""
+      },
+      {
+        "tag": "BUTTON",
+        "cls": "btn-exec",
+        "text": "Connect"
+      },
+      {
+        "tag": "BUTTON",
+        "cls": "nav-btn",
+        "text": "Test"
+      },
+      {
+        "tag": "BUTTON",
+        "cls": "nav-btn",
+        "text": "Clear"
+      },
+      {
+        "tag": "DIV",
+        "cls": "card",
+        "text": "DISCONNECTED\n                \n                🎨 Google Gemini\n                Gemini 2.0 Flash for image generation, UI"
+      },
+      {
+        "tag": "SPAN",
+        "cls": "provider-badge",
+        "text": "DISCONNECTED"
+      },
+      {
+        "tag": "INPUT",
+        "cls": "orca-input",
+        "text": ""
+      },
+      {
+        "tag": "BUTTON",
+        "cls": "btn-exec",
+        "text": "Connect"
+      },
+      {
+        "tag": "BUTTON",
+        "cls": "nav-btn",
+        "text": "Test"
+      },
+      {
+        "tag": "BUTTON",
+        "cls": "nav-btn",
+        "text": "Clear"
+      },
+      {
+        "tag": "DIV",
+        "cls": "card",
+        "text": "DISCONNECTED\n                \n                📱 Manus AI\n                Social media automation, content scheduling, a"
+      },
+      {
+        "tag": "SPAN",
+        "cls": "provider-badge",
+        "text": "DISCONNECTED"
+      },
+      {
+        "tag": "INPUT",
+        "cls": "orca-input",
+        "text": ""
+      },
+      {
+        "tag": "BUTTON",
+        "cls": "btn-exec",
+        "text": "Connect"
+      },
+      {
+        "tag": "BUTTON",
+        "cls": "nav-btn",
+        "text": "Test"
+      },
+      {
+        "tag": "BUTTON",
+        "cls": "nav-btn",
+        "text": "Clear"
+      },
+      {
+        "tag": "DIV",
+        "cls": "workbench-grid",
+        "text": "Documentation\n                  OpenAI GPT-4o\n                  $5-15 per M tokens\n                \n\n                \n  "
+      },
+      {
+        "tag": "SECTION",
+        "cls": "view",
+        "text": "AI PROVIDERS\n            Login to your AI provider accounts to use their models\n        \n\n        \n            \n        "
+      },
+      {
+        "tag": "DIV",
+        "cls": "card",
+        "text": "Google Gemini\n                \n                    \n                    Not connected\n                \n                \n"
+      },
+      {
+        "tag": "DIV",
+        "cls": "status-dot",
+        "text": ""
+      },
+      {
+        "tag": "BUTTON",
+        "cls": "nav-btn",
+        "text": "🔐 Login with Google"
+      },
+      {
+        "tag": "BUTTON",
+        "cls": "nav-btn",
+        "text": "🚪 Logout"
+      },
+      {
+        "tag": "DIV",
+        "cls": "card",
+        "text": "OpenAI (GPT-4, GPT-o1)\n                \n                    \n                    Not connected\n                \n        "
+      },
+      {
+        "tag": "DIV",
+        "cls": "status-dot",
+        "text": ""
+      },
+      {
+        "tag": "BUTTON",
+        "cls": "nav-btn",
+        "text": "💾 Save API Key"
+      },
+      {
+        "tag": "BUTTON",
+        "cls": "nav-btn",
+        "text": "🚪 Logout"
+      }
+    ]
+  },
+  "errors": [
+    "pageerror: Invalid left-hand side in assignment",
+    "pageerror: Cannot set properties of null (setting 'value')",
+    "error: Failed to load resource: the server responded with a status of 404 ()"
+  ]
+}

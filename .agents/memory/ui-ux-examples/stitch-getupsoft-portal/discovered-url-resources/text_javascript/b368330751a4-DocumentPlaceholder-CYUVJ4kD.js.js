@@ -1,0 +1,1 @@
+import{n as e}from"./vendor-react-odJ06c5r.js";var t=e();function n({state:e,width:n,height:r,label:i}){return(0,t.jsx)(`div`,{className:`flex items-center justify-center`,style:{width:n,height:r},children:(0,t.jsx)(`p`,{className:e===`error`?`text-error`:`text-secondary`,children:i})})}export{n as t};

@@ -1,0 +1,19 @@
+{
+  "state": {
+    "componentLabels": [
+      "Trigger",
+      "AI Prompt",
+      "HTTP Request",
+      "Condition",
+      "Loop",
+      "Set Variable",
+      "Execute",
+      "End"
+    ],
+    "agentLogButtons": 1,
+    "chatButtons": 0,
+    "agentLogTextCount": 0,
+    "bodyText": "ORCA\nExample Workflow\nWeb Design\nWorkflow\nMobile Design\nAI\nRun\nStart Trigger\ntrigger\nFetch Data\nhttp\nProcess AI\nai\nReact Flow\nCOMPONENTS\nTRIGGERS\n1\nTrigger\nAI\n1\nAI Prompt\nNETWORK\n1\nHTTP Request\nCONTROL FLOW\n2\nCondition\nLoop\nUTILS\n3\nSet Variable\nExecute\nEnd"
+  },
+  "messages": []
+}

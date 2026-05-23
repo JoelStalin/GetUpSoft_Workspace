@@ -3,12 +3,14 @@ import { getNodeTypes } from '../api/orcaApi'
 import { useWorkflowOperations } from '../hooks/useWorkflowOperations'
 import { useWorkflowHistory } from '../hooks/useWorkflowHistory'
 import { Node } from '@xyflow/react'
-import { Search, Bell, Brain, Globe, GitBranch, Wrench, ChevronRight, ChevronDown } from 'lucide-react'
+import { Search, Bell, Brain, Globe, GitBranch, Wrench, ChevronRight, ChevronDown, Cpu, LayoutGrid, ServerCog } from 'lucide-react'
+import { STITCH_MEMORY_CATEGORIES, STITCH_MEMORY_NODE_TYPES } from '../constants/stitchMemoryComponents'
 
 interface NodeType {
   label: string
   color: string
   description?: string
+  category?: string
 }
 
 interface AccordionCategory {
@@ -25,13 +27,18 @@ export default function NodePalette({
   collapsed?: boolean
   onToggle?: () => void
 }) {
-  const [nodeTypes, setNodeTypes] = useState<Record<string, NodeType>>({})
+  const [nodeTypes, setNodeTypes] = useState<Record<string, NodeType>>(getDefaultNodeTypes())
   const [searchTerm, setSearchTerm] = useState('')
   const [expandedCategories, setExpandedCategories] = useState<Record<string, boolean>>({
     Triggers: true,
     AI: false,
+    'Agent Core': true,
+    'AI Agents': true,
+    Architecture: false,
+    'RD Operations': false,
     Network: false,
     'Control Flow': false,
+    'UI Patterns': false,
     Utils: false,
   })
   const { addNode } = useWorkflowOperations()
@@ -39,6 +46,7 @@ export default function NodePalette({
 
   useEffect(() => {
     const loadNodeTypes = async () => {
+      if (localStorage.getItem('orca:use-live-api') !== 'true') return
       try {
         const types = await getNodeTypes()
         if (types && typeof types === 'object' && Object.keys(types).length > 0) {
@@ -60,6 +68,7 @@ export default function NodePalette({
 
   const handleAddNode = (nodeType: string, typeInfo: NodeType) => {
     pushHistory()
+    const mode = getNodeMode(typeInfo.category)
     const node: Node = {
       id: `node-${Date.now()}`,
       type: 'default',
@@ -67,6 +76,7 @@ export default function NodePalette({
         label: typeInfo.label,
         type: nodeType,
         color: typeInfo.color,
+        ...(mode ? { mode } : {}),
       },
       position: { x: 300 + Math.random() * 100 - 50, y: 200 + Math.random() * 100 - 50 },
     }
@@ -74,6 +84,7 @@ export default function NodePalette({
   }
 
   const getCategory = (nodeType: string): string => {
+    if (nodeTypes[nodeType]?.category) return nodeTypes[nodeType].category!
     if (nodeType.includes('trigger')) return 'Triggers'
     if (nodeType.includes('aiPrompt')) return 'AI'
     if (nodeType.includes('http')) return 'Network'
@@ -87,10 +98,18 @@ export default function NodePalette({
         return Bell
       case 'AI':
         return Brain
+      case 'AI Agents':
+        return Cpu
+      case 'Architecture':
+        return GitBranch
+      case 'RD Operations':
+        return ServerCog
       case 'Network':
         return Globe
       case 'Control Flow':
         return GitBranch
+      case 'UI Patterns':
+        return LayoutGrid
       case 'Utils':
         return Wrench
       default:
@@ -124,7 +143,7 @@ export default function NodePalette({
   )
 
   const categories = Object.keys(filtered).sort((a, b) => {
-    const order = ['Triggers', 'AI', 'Network', 'Control Flow', 'Utils']
+    const order = STITCH_MEMORY_CATEGORIES
     return order.indexOf(a) - order.indexOf(b)
   })
 
@@ -471,6 +490,12 @@ export default function NodePalette({
   )
 }
 
+function getNodeMode(category?: string) {
+  if (category === 'Agent Core' || category === 'AI Agents' || category === 'Architecture') return 'ai'
+  if (category === 'UI Patterns') return 'web'
+  return undefined
+}
+
 function getDefaultNodeTypes() {
   return {
     'orca-nodes-base.trigger': {
@@ -513,5 +538,6 @@ function getDefaultNodeTypes() {
       color: '#353b48',
       description: 'End the workflow',
     },
+    ...STITCH_MEMORY_NODE_TYPES,
   }
 }

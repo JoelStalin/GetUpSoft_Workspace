@@ -1,0 +1,348 @@
+[
+  {
+    "index": 0,
+    "tag": "html",
+    "attrs": {},
+    "text": "getupsoft RD",
+    "rect": {
+      "x": 0,
+      "y": 0,
+      "w": 200,
+      "h": 61
+    },
+    "visible": true
+  },
+  {
+    "index": 1,
+    "tag": "head",
+    "attrs": {},
+    "text": "/* Hide scrollbars on ALL elements (Webkit) */\n  *::-webkit-scrollbar {\n    display: none;\n  }\n\n  /* Hide scrollbars on ALL elements (Firefox) */\n  * {\n    scrollbar-width: none;\n  }\n\n  /* Suppress horizontal overflow and legacy IE/Edge */\n  html, body {\n    overflow-x: hidden !important;\n    -ms-ov",
+    "rect": {
+      "x": 0,
+      "y": 0,
+      "w": 0,
+      "h": 0
+    },
+    "visible": false
+  },
+  {
+    "index": 2,
+    "tag": "style",
+    "attrs": {
+      "data-stitch-injected": ""
+    },
+    "text": "/* Hide scrollbars on ALL elements (Webkit) */\n  *::-webkit-scrollbar {\n    display: none;\n  }\n\n  /* Hide scrollbars on ALL elements (Firefox) */\n  * {\n    scrollbar-width: none;\n  }\n\n  /* Suppress horizontal overflow and legacy IE/Edge */\n  html, body {\n    overflow-x: hidden !important;\n    -ms-ov",
+    "rect": {
+      "x": 0,
+      "y": 0,
+      "w": 0,
+      "h": 0
+    },
+    "visible": false
+  },
+  {
+    "index": 3,
+    "tag": "style",
+    "attrs": {
+      "data-stitch-injected": ""
+    },
+    "text": "/* ─── Animation styles ─── */\n  .stitch-anim-highlight {\n    outline: 2px solid #6056f080;\n    outline-offset: 2px;\n    border-radius: 4px;\n    transition: outline-color 0.4s ease;\n  }\n  .stitch-anim-highlight-fade {\n    outline-color: transparent;\n  }\n  @keyframes stitch-anim-fade-in {\n    from { ",
+    "rect": {
+      "x": 0,
+      "y": 0,
+      "w": 0,
+      "h": 0
+    },
+    "visible": false
+  },
+  {
+    "index": 4,
+    "tag": "script",
+    "attrs": {
+      "data-stitch-injected": ""
+    },
+    "text": "(function Ze(){window.addEventListener(`message`,async function(e){let t=e.data;if(!t||t.type!==`capture_screenshot`||e.source!==window.parent)return;let n=t.requestId,r=t.captureEngineSource,i=t.options||{},a=window.innerWidth,o=window.innerHeight,s=window.scrollX,c=window.scrollY,l=document.docume",
+    "rect": {
+      "x": 0,
+      "y": 0,
+      "w": 0,
+      "h": 0
+    },
+    "visible": false
+  },
+  {
+    "index": 5,
+    "tag": "script",
+    "attrs": {
+      "data-stitch-injected": ""
+    },
+    "text": "(function et(){let e=`__stitch-highlight-css`,t=`stitch-highlight-element`,n=null;function r(){if(document.getElementById(e))return;let n=document.createElement(`style`);n.id=e,n.textContent=[`@keyframes stitch-highlight-pulse {`,`  0%, 100% { box-shadow: 0 0 0 3px rgba(113,105,237,0.8), 0 0 12px 4p",
+    "rect": {
+      "x": 0,
+      "y": 0,
+      "w": 0,
+      "h": 0
+    },
+    "visible": false
+  },
+  {
+    "index": 6,
+    "tag": "script",
+    "attrs": {
+      "data-stitch-injected": ""
+    },
+    "text": "(function rt(){let e=0;window.onerror=function(){e++},window.addEventListener(`unhandledrejection`,function(){e++});let t=console.error;console.error=function(...n){e++,t.apply(console,n)};function n(){let t=document.documentElement.scrollHeight;window.parent.postMessage({type:`stitch:content-dimens",
+    "rect": {
+      "x": 0,
+      "y": 0,
+      "w": 0,
+      "h": 0
+    },
+    "visible": false
+  },
+  {
+    "index": 7,
+    "tag": "body",
+    "attrs": {},
+    "text": "getupsoft RD",
+    "rect": {
+      "x": 8,
+      "y": 8,
+      "w": 184,
+      "h": 45
+    },
+    "visible": true
+  },
+  {
+    "index": 8,
+    "tag": "svg",
+    "attrs": {},
+    "text": "getupsoft RD",
+    "rect": {
+      "x": 8,
+      "y": 8,
+      "w": 200,
+      "h": 40
+    },
+    "visible": true
+  },
+  {
+    "index": 9,
+    "tag": "text",
+    "attrs": {},
+    "text": "getupsoft RD",
+    "rect": {
+      "x": 8,
+      "y": 15,
+      "w": 136,
+      "h": 29
+    },
+    "visible": true
+  },
+  {
+    "index": 10,
+    "tag": "tspan",
+    "attrs": {},
+    "text": "RD",
+    "rect": {
+      "x": 111,
+      "y": 15,
+      "w": 33,
+      "h": 29
+    },
+    "visible": true
+  },
+  {
+    "index": 11,
+    "tag": "div",
+    "attrs": {
+      "id": "stitch-agent-cursor",
+      "data-stitch-injected": ""
+    },
+    "text": "",
+    "rect": {
+      "x": -40,
+      "y": -40,
+      "w": 45,
+      "h": 28
+    },
+    "visible": true
+  },
+  {
+    "index": 12,
+    "tag": "svg",
+    "attrs": {
+      "class": "cursor-pointer"
+    },
+    "text": "",
+    "rect": {
+      "x": -40,
+      "y": -40,
+      "w": 20,
+      "h": 20
+    },
+    "visible": true
+  },
+  {
+    "index": 13,
+    "tag": "path",
+    "attrs": {},
+    "text": "",
+    "rect": {
+      "x": -37,
+      "y": -37,
+      "w": 16,
+      "h": 16
+    },
+    "visible": true
+  },
+  {
+    "index": 14,
+    "tag": "path",
+    "attrs": {},
+    "text": "",
+    "rect": {
+      "x": -37,
+      "y": -37,
+      "w": 16,
+      "h": 16
+    },
+    "visible": true
+  },
+  {
+    "index": 15,
+    "tag": "svg",
+    "attrs": {
+      "class": "cursor-text"
+    },
+    "text": "",
+    "rect": {
+      "x": 0,
+      "y": 0,
+      "w": 0,
+      "h": 0
+    },
+    "visible": false
+  },
+  {
+    "index": 16,
+    "tag": "path",
+    "attrs": {},
+    "text": "",
+    "rect": {
+      "x": 0,
+      "y": 0,
+      "w": 0,
+      "h": 0
+    },
+    "visible": false
+  },
+  {
+    "index": 17,
+    "tag": "svg",
+    "attrs": {
+      "class": "cursor-paint"
+    },
+    "text": "",
+    "rect": {
+      "x": 0,
+      "y": 0,
+      "w": 0,
+      "h": 0
+    },
+    "visible": false
+  },
+  {
+    "index": 18,
+    "tag": "path",
+    "attrs": {},
+    "text": "",
+    "rect": {
+      "x": 0,
+      "y": 0,
+      "w": 0,
+      "h": 0
+    },
+    "visible": false
+  },
+  {
+    "index": 19,
+    "tag": "path",
+    "attrs": {},
+    "text": "",
+    "rect": {
+      "x": 0,
+      "y": 0,
+      "w": 0,
+      "h": 0
+    },
+    "visible": false
+  },
+  {
+    "index": 20,
+    "tag": "path",
+    "attrs": {},
+    "text": "",
+    "rect": {
+      "x": 0,
+      "y": 0,
+      "w": 0,
+      "h": 0
+    },
+    "visible": false
+  },
+  {
+    "index": 21,
+    "tag": "svg",
+    "attrs": {
+      "id": "stitch-cursor-label"
+    },
+    "text": "",
+    "rect": {
+      "x": -23,
+      "y": -26,
+      "w": 28,
+      "h": 14
+    },
+    "visible": true
+  },
+  {
+    "index": 22,
+    "tag": "rect",
+    "attrs": {},
+    "text": "",
+    "rect": {
+      "x": -23,
+      "y": -26,
+      "w": 28,
+      "h": 14
+    },
+    "visible": true
+  },
+  {
+    "index": 23,
+    "tag": "circle",
+    "attrs": {},
+    "text": "",
+    "rect": {
+      "x": -14,
+      "y": -21,
+      "w": 4,
+      "h": 4
+    },
+    "visible": true
+  },
+  {
+    "index": 24,
+    "tag": "circle",
+    "attrs": {},
+    "text": "",
+    "rect": {
+      "x": -7,
+      "y": -21,
+      "w": 4,
+      "h": 4
+    },
+    "visible": true
+  }
+]
