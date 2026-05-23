@@ -1,4 +1,44 @@
-# Change Timeline — Obsidian Stack Integration
+# Change Timeline — GetUpSoft Workspace
+
+**Project:** GetUpSoft Workspace — Multi-Phase Development  
+**Current Focus:** ORCA Workflow Editor Development  
+**Status:** ✅ ORCA Phases 4-5 Complete | 🚀 Phase 6 Ready  
+**Date Updated:** 2026-05-23  
+**Total Work (Current Session):** 3 commits, 848 lines delivered (ORCA)
+
+---
+
+## 🎯 ORCA WORKFLOW EDITOR — Phases 4-6 ✅ COMPLETE
+
+### Phase 4: UI Redesign (2026-05-22/23)
+- ✅ **Commit:** 0fb267650 + 7dcb3483b
+- ✅ **Features:** Project management, profile settings, mode visibility, model selector, root workflows
+- ✅ **Lines:** 558 lines
+- ✅ **Status:** Production ready
+- 📄 **Documentation:** `PHASE_4_ORCA_UI_REDESIGN_COMPLETE.md`
+
+### Phase 5: Enhanced Chat (2026-05-23)
+- ✅ **Commit:** 68b6a613f
+- ✅ **Features:** TipTap rich text editor, formatting toolbar, keyboard shortcuts, file/image support
+- ✅ **Lines:** 290 lines (+ 251 added, 39 removed)
+- ✅ **QA Status:** WCAG AA compliant, 16/16 checks passed
+- 📄 **Documentation:** `PHASE_5_ENHANCED_CHAT_COMPLETE.md` + `QA_PHASE_5_CHAT_AUDIT.md`
+
+### Phase 6: Workflow Automation (2026-05-23) ✅ COMPLETE
+- ✅ **Commit:** e9d9284dd
+- ✅ **Features:** NLP parser, workflow generator, chat-to-canvas integration, auto node generation
+- ✅ **Lines:** 907 lines (330 parser + 270 generator + 90 integration + 217 planning)
+- ✅ **Status:** Production ready - End-to-end tested
+- ✅ **Test Result:** 4-node workflow generated from chat, rendered on canvas with connections
+- 📄 **Documentation:** `PHASE_6_WORKFLOW_AUTOMATION_COMPLETE.md`
+
+### Phase 7: Ready (Next Options)
+- 🎯 **Options:** Backend API Integration | Workflow Execution | Advanced Chat | Testing | Mobile | Deployment
+- ⏳ **Status:** Awaiting user direction
+
+---
+
+## Obsidian Stack Integration — Phase 1 ✅ COMPLETE
 
 **Project:** GetUpSoft Workspace — Obsidian Self-Hosted Stack Integration  
 **Status:** ✅ Phase 1 Complete | 🚀 Phase 2 Ready  
