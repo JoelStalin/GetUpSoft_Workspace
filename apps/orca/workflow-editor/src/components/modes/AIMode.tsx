@@ -1,6 +1,7 @@
 import { useState, useRef, useEffect } from 'react'
-import { Bot, Send, Trash2, Lightbulb, Plus, Zap, Brain, Code2, MessageCircle } from 'lucide-react'
+import { Bot, Send, Trash2, Lightbulb, Plus, Zap, Brain, Code2, MessageCircle, FolderPlus, Folder } from 'lucide-react'
 import { useToast } from '../../contexts/ToastContext'
+import { useWorkflowOperations } from '../../hooks/useWorkflowOperations'
 import { NEMOCLAW_CORE_PROFILE } from '../../core/agents/nemoclawCore'
 
 interface ChatMessage {
@@ -29,6 +30,8 @@ const QUICK_PROMPTS = [
 ]
 
 export default function AIMode() {
+  const { workflow, setWorkflow } = useWorkflowOperations()
+  const { addToast } = useToast()
   const [messages, setMessages] = useState<ChatMessage[]>(() => {
     try {
       const saved = localStorage.getItem(AI_STORAGE_KEY)
@@ -39,9 +42,16 @@ export default function AIMode() {
   })
   const [input, setInput] = useState('')
   const [isTyping, setIsTyping] = useState(false)
-  const { addToast } = useToast()
+  const [projects, setProjects] = useState<any[]>([
+    { id: '1', name: 'Email Automation', description: 'Automated email workflows' },
+    { id: '2', name: 'Data Pipeline', description: 'Data processing and ETL' },
+    { id: '3', name: 'Slack Bot Integration', description: 'Slack automation and notifications' },
+  ])
   const messagesEndRef = useRef<HTMLDivElement>(null)
   const inputRef = useRef<HTMLTextAreaElement>(null)
+
+  // Check if we have an active project (nodes with content)
+  const hasActiveProject = !!workflow && workflow.nodes && workflow.nodes.length > 0
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' })
@@ -89,6 +99,142 @@ export default function AIMode() {
     addToast('Conversación reiniciada', 'info')
   }
 
+  const createNewProject = (projectName: string, projectDescription?: string) => {
+    const newWorkflow = {
+      id: `workflow-${Date.now()}`,
+      name: projectName,
+      active: false,
+      nodes: [
+        { id: 'start-1', type: 'default', data: { label: 'Inicio', type: 'trigger', color: '#ff4d42', status: 'pending' }, position: { x: 100, y: 50 } },
+      ],
+      edges: [],
+      settings: {},
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
+    }
+    setWorkflow(newWorkflow)
+    addToast(`Proyecto "${projectName}" creado`, 'success')
+  }
+
+  const selectProject = (project: any) => {
+    createNewProject(project.name, project.description)
+  }
+
+  // If no active project, show projects list
+  if (!hasActiveProject) {
+    return (
+      <div
+        style={{
+          display: 'flex',
+          flexDirection: 'column',
+          height: '100%',
+          backgroundColor: 'rgb(var(--color-base-100))',
+          overflow: 'hidden',
+          padding: '40px',
+        }}
+      >
+        {/* Header */}
+        <div style={{ marginBottom: '48px' }}>
+          <h1 style={{ fontSize: '32px', fontWeight: 'bold', marginBottom: '12px', color: 'var(--stitch-text)' }}>
+            Bienvenido a ORCA
+          </h1>
+          <p style={{ color: 'var(--stitch-muted)', fontSize: '16px' }}>
+            Selecciona un proyecto o crea uno nuevo para comenzar
+          </p>
+        </div>
+
+        {/* Create New Project */}
+        <button
+          onClick={() => {
+            const projectName = prompt('Nombre del proyecto:', 'Nuevo Proyecto')
+            if (projectName) createNewProject(projectName)
+          }}
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: '12px',
+            padding: '16px 24px',
+            borderRadius: '12px',
+            border: '2px dashed var(--stitch-accent)',
+            backgroundColor: 'rgba(124, 77, 255, 0.08)',
+            color: 'var(--stitch-accent)',
+            cursor: 'pointer',
+            fontSize: '15px',
+            fontWeight: '600',
+            marginBottom: '32px',
+            transition: 'all 0.2s ease',
+            maxWidth: '300px',
+          }}
+          onMouseEnter={(e) => {
+            e.currentTarget.style.backgroundColor = 'rgba(124, 77, 255, 0.15)'
+            e.currentTarget.style.transform = 'scale(1.02)'
+          }}
+          onMouseLeave={(e) => {
+            e.currentTarget.style.backgroundColor = 'rgba(124, 77, 255, 0.08)'
+            e.currentTarget.style.transform = 'scale(1)'
+          }}
+        >
+          <FolderPlus size={18} />
+          Crear nuevo proyecto
+        </button>
+
+        {/* Projects Grid */}
+        <div>
+          <h2 style={{ fontSize: '16px', fontWeight: '600', marginBottom: '16px', color: 'var(--stitch-text)' }}>
+            Proyectos disponibles
+          </h2>
+          <div
+            style={{
+              display: 'grid',
+              gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))',
+              gap: '16px',
+            }}
+          >
+            {projects.map((project) => (
+              <button
+                key={project.id}
+                onClick={() => selectProject(project)}
+                style={{
+                  padding: '20px',
+                  borderRadius: '12px',
+                  border: '1px solid var(--stitch-border)',
+                  backgroundColor: 'var(--stitch-elevated)',
+                  cursor: 'pointer',
+                  textAlign: 'left',
+                  transition: 'all 0.2s ease',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  gap: '8px',
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.borderColor = 'var(--stitch-accent)'
+                  e.currentTarget.style.backgroundColor = 'rgba(124, 77, 255, 0.06)'
+                  e.currentTarget.style.transform = 'translateY(-4px)'
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.borderColor = 'var(--stitch-border)'
+                  e.currentTarget.style.backgroundColor = 'var(--stitch-elevated)'
+                  e.currentTarget.style.transform = 'translateY(0)'
+                }}
+              >
+                <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '4px' }}>
+                  <Folder size={16} style={{ color: 'var(--stitch-accent)' }} />
+                  <span style={{ fontSize: '15px', fontWeight: '600', color: 'var(--stitch-text)' }}>
+                    {project.name}
+                  </span>
+                </div>
+                <p style={{ fontSize: '13px', color: 'var(--stitch-muted)' }}>
+                  {project.description}
+                </p>
+              </button>
+            ))}
+          </div>
+        </div>
+      </div>
+    )
+  }
+
+  // If project exists, show chat interface
   return (
     <div
       style={{

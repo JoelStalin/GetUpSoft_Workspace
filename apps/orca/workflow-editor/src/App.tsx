@@ -43,7 +43,7 @@ import type { AppMode } from './types/modes'
 const WORKFLOW_ONLY_WINDOWS = ['components', 'properties', 'versions', 'analytics']
 function AppContent() {
   const [isLoading, setIsLoading] = useState(true)
-  const [activeMode, setActiveMode] = useState<AppMode>('workflow')
+  const [activeMode, setActiveMode] = useState<AppMode>('ai')
   const [nodeTypes, setNodeTypes] = useState<Record<string, any>>({})
   const [miniZoomEnabled, setMiniZoomEnabled] = useState(false)
   const [searchVisible, setSearchVisible] = useState(false)
@@ -219,17 +219,10 @@ function AppContent() {
     const setDefaultWorkflow = () => {
       setWorkflow({
         id: `workflow-${Date.now()}`,
-        name: 'Example Workflow',
+        name: 'Nuevo Proyecto',
         active: false,
-        nodes: [
-          { id: 'trigger-1', type: 'default', data: { label: 'Start Trigger', type: 'trigger', color: '#ff4d42', status: 'pending' }, position: { x: 100, y: 50 } },
-          { id: 'http-1',    type: 'default', data: { label: 'Fetch Data',    type: 'http',    color: '#99F6E4', status: 'pending' }, position: { x: 400, y: 50 } },
-          { id: 'ai-1',      type: 'default', data: { label: 'Process AI',    type: 'ai',      color: '#A78BFA', status: 'pending' }, position: { x: 700, y: 50 } },
-        ],
-        edges: [
-          { id: 'edge-1', source: 'trigger-1', target: 'http-1', animated: true, type: 'smoothstep', style: { stroke: '#99F6E4', strokeWidth: 2 } },
-          { id: 'edge-2', source: 'http-1',    target: 'ai-1',   animated: true, type: 'smoothstep', style: { stroke: '#99F6E4', strokeWidth: 2 } },
-        ],
+        nodes: [],
+        edges: [],
         settings: {},
         createdAt: new Date().toISOString(),
         updatedAt: new Date().toISOString(),

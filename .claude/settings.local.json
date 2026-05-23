@@ -15,7 +15,11 @@
       "PowerShell(tail *)",
       "PowerShell(python -m pip install jupyterlab notebook nbconvert papermill jupytext --upgrade 2>&1 | Select-Object -Last 15)",
       "PowerShell($env:PYTHONIOENCODING=\"utf-8\"; python -m pip install openml beautifulsoup4 lxml requests --upgrade 2>&1 | Select-Object -Last 10)",
-      "PowerShell($env:PYTHONIOENCODING='utf-8'; python scripts/download_openml_docs.py)"
+      "PowerShell($env:PYTHONIOENCODING='utf-8'; python scripts/download_openml_docs.py)",
+      "mcp__chrome-devtools__take_screenshot",
+      "mcp__chrome-devtools__navigate_page",
+      "mcp__chrome-devtools__wait_for",
+      "mcp__chrome-devtools__click"
     ]
   }
 }
