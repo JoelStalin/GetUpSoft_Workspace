@@ -1,0 +1,124 @@
+version: '3.8'
+
+services:
+  couchdb:
+    image: couchdb:3.3
+    container_name: obsidian-couchdb
+    restart: unless-stopped
+
+    ports:
+      - "${COUCHDB_PORT:-5984}:5984"
+
+    environment:
+      COUCHDB_USER: ${COUCHDB_USER:-obsidian_user}
+      COUCHDB_PASSWORD: ${COUCHDB_PASSWORD:-changeme}
+      COUCHDB_SECRET: ${COUCHDB_SECRET:-your-secret-key}
+
+    volumes:
+      # Persist CouchDB data across container restarts
+      - couchdb_data:/opt/couchdb/data
+
+      # Optional: Custom CouchDB configuration
+      - ./docker/couchdb/local.ini:/opt/couchdb/etc/local.ini:ro
+
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:5984/_up"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 40s
+
+    networks:
+      - obsidian-net
+
+    labels:
+      - "app=obsidian-sync"
+      - "component=couchdb"
+
+volumes:
+  couchdb_data:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: ${PWD}/docker/couchdb/data
+
+networks:
+  obsidian-net:
+    driver: bridge
+
+# ───────────────────────────────────────────────────────────────────────────
+# USAGE:
+#
+# 1. Setup environment:
+#    cp .env.obsidian.example .env.obsidian
+#    Edit .env.obsidian with real credentials
+#
+# 2. Start CouchDB:
+#    docker-compose -f docker-compose.obsidian-sync.yml up -d
+#
+# 3. Verify health:
+#    docker-compose -f docker-compose.obsidian-sync.yml logs couchdb
+#    curl http://localhost:5984
+#
+# 4. Access CouchDB Fauxton UI:
+#    http://localhost:5984/_utils/
+#
+# 5. Create database:
+#    curl -X PUT http://<user>:<password>@localhost:5984/obsidian_vault
+#
+# 6. Configure Obsidian Live Sync plugin:
+#    - CouchDB URI: http://<user>:<password>@localhost:5984
+#    - Database: obsidian_vault
+#
+# 7. Stop CouchDB:
+#    docker-compose -f docker-compose.obsidian-sync.yml down
+#
+# ───────────────────────────────────────────────────────────────────────────
+# BACKUP STRATEGY:
+#
+# Backup data directory:
+#   docker run --rm -v obsidian-sync_couchdb_data:/data -v $(pwd):/backup \
+#     alpine tar czf /backup/couchdb-backup-$(date +%Y%m%d_%H%M%S).tar.gz -C /data .
+#
+# Restore from backup:
+#   docker-compose down
+#   rm -rf docker/couchdb/data/*
+#   docker run --rm -v obsidian-sync_couchdb_data:/data -v $(pwd):/backup \
+#     alpine tar xzf /backup/couchdb-backup-XXXXX.tar.gz -C /data
+#   docker-compose up -d
+#
+# ───────────────────────────────────────────────────────────────────────────
+# SECURITY:
+#
+# 1. Change default credentials immediately after first start
+# 2. Use HTTPS in production (reverse proxy with nginx/Caddy)
+# 3. Enable CORS only for trusted origins
+# 4. Use Tailscale or Cloudflare Tunnel for remote access
+# 5. Restrict network access: use firewall rules
+# 6. Regularly update CouchDB image: docker pull couchdb:latest
+# 7. Monitor logs: docker logs obsidian-couchdb
+#
+# ───────────────────────────────────────────────────────────────────────────
+# TROUBLESHOOTING:
+#
+# CouchDB won't start:
+#   docker-compose logs couchdb
+#
+# Permission denied on data folder:
+#   sudo chown -R 5984:5984 docker/couchdb/data
+#
+# Port 5984 already in use:
+#   lsof -i :5984        # Find process
+#   kill <PID>           # Kill process
+#   # OR change port in docker-compose.yml
+#
+# Connection refused:
+#   docker-compose exec couchdb curl http://localhost:5984
+#
+# Performance issues:
+#   Check disk space: df -h
+#   Check memory: docker stats obsidian-couchdb
+#   Increase ulimit: docker-compose exec couchdb ulimit
+#
+# ───────────────────────────────────────────────────────────────────────────

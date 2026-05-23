@@ -71,3 +71,24 @@ _Knowledge_Center/Shared_Tests/
 _Knowledge_Center/Orca_Workflows/automation-flow/Responder leads y crear seguimiento - *.md
 _Knowledge_Center/Orca_Workflows/professional-page-design/Ramos & Asociados Seguros - *.md
 _Knowledge_Center/Orca_Workflows/test-flow/Portal - *.md
+
+# Obsidian vault - local only, do not track
+# To track vault in git, remove these lines and create separate rules
+
+obsidian/vault/private/
+obsidian/vault/attachments/
+obsidian/vault/.obsidian/
+!obsidian/vault/public/
+
+# CouchDB data
+docker/couchdb/data/
+.couchdb/
+
+# Environment files with credentials
+.env.obsidian
+.env.livesync
+couchdb-credentials.json
+
+# LiveSync cache
+obsidian/.livesync/
+obsidian/*.db
