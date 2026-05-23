@@ -1,0 +1,49 @@
+{
+  "downloaded_at": "2026-05-23T13:41:11.006679",
+  "total_files": 2,
+  "total_size_kb": 306.1,
+  "categories": {
+    "getting-started": [
+      {
+        "title": "Getting Started",
+        "url": "https://docs.openml.org/",
+        "file": "getting-started\\getting_started.html",
+        "size_kb": 109.0,
+        "category": "getting-started"
+      }
+    ],
+    "guides": [],
+    "api": [],
+    "python-api": [],
+    "benchmarks": [
+      {
+        "title": "Benchmarks",
+        "url": "https://docs.openml.org/benchmark/",
+        "file": "benchmarks\\benchmarks.html",
+        "size_kb": 197.1,
+        "category": "benchmarks"
+      }
+    ],
+    "data": [],
+    "experiments": [],
+    "advanced": []
+  },
+  "all_documents": [
+    {
+      "title": "Getting Started",
+      "url": "https://docs.openml.org/",
+      "file": "getting-started\\getting_started.html",
+      "size_kb": 109.0,
+      "category": "getting-started"
+    },
+    {
+      "title": "Benchmarks",
+      "url": "https://docs.openml.org/benchmark/",
+      "file": "benchmarks\\benchmarks.html",
+      "size_kb": 197.1,
+      "category": "benchmarks"
+    }
+  ],
+  "base_url": "https://docs.openml.org",
+  "note": "Public OpenML documentation for reference and memory. Use locally."
+}
