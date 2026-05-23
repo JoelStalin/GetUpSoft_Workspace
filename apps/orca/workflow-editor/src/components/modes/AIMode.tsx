@@ -1,8 +1,12 @@
-import { useState, useRef, useEffect } from 'react'
-import { Bot, Send, Trash2, Lightbulb, Plus, Zap, Brain, Code2, MessageCircle, FolderPlus, Folder } from 'lucide-react'
+import { useState, useRef, useEffect, useCallback } from 'react'
+import { Bot, Send, Trash2, Lightbulb, Plus, Zap, Brain, Code2, MessageCircle, FolderPlus, Folder, Bold, Italic, Code, Image as ImageIcon, Paperclip } from 'lucide-react'
 import { useToast } from '../../contexts/ToastContext'
 import { useWorkflowOperations } from '../../hooks/useWorkflowOperations'
 import { NEMOCLAW_CORE_PROFILE } from '../../core/agents/nemoclawCore'
+import { useEditor, EditorContent } from '@tiptap/react'
+import StarterKit from '@tiptap/starter-kit'
+import Placeholder from '@tiptap/extension-placeholder'
+import Image from '@tiptap/extension-image'
 
 interface ChatMessage {
   id: string
@@ -55,7 +59,6 @@ export default function AIMode() {
       return defaultMessages()
     }
   })
-  const [input, setInput] = useState('')
   const [isTyping, setIsTyping] = useState(false)
   const [projects, setProjects] = useState<any[]>([
     { id: '1', name: 'Email Automation', description: 'Automated email workflows' },
@@ -66,7 +69,16 @@ export default function AIMode() {
   const [showModelSelector, setShowModelSelector] = useState(false)
   const [isRootUser, setIsRootUser] = useState(false)
   const messagesEndRef = useRef<HTMLDivElement>(null)
-  const inputRef = useRef<HTMLTextAreaElement>(null)
+  const fileInputRef = useRef<HTMLInputElement>(null)
+
+  const editor = useEditor({
+    extensions: [
+      StarterKit.configure({ codeBlock: false }),
+      Placeholder.configure({ placeholder: 'Describe el flujo de automatización que necesitas...' }),
+      Image,
+    ],
+    content: '',
+  })
 
   // Check if we have an active project (nodes with content)
   const hasActiveProject = !!workflow && workflow.nodes && workflow.nodes.length > 0
@@ -87,19 +99,21 @@ export default function AIMode() {
     } catch { /* ignore */ }
   }, [messages])
 
-  const sendMessage = async (text: string) => {
-    if (!text.trim()) return
+  const sendMessage = useCallback(async (text?: string) => {
+    const contentToSend = text || editor?.getHTML() || ''
+    const plainText = editor?.getText() || ''
+    if (!plainText.trim()) return
+
     const userMsg: ChatMessage = {
       id: `u-${Date.now()}`,
       role: 'user',
-      content: text.trim(),
+      content: plainText.trim(),
       timestamp: new Date().toISOString(),
     }
     setMessages((m) => [...m, userMsg])
-    setInput('')
+    editor?.commands.clearContent()
     setIsTyping(true)
 
-    // Simulate AI response — replace with real API call
     await new Promise((r) => setTimeout(r, 1200))
     const agentMsg: ChatMessage = {
       id: `a-${Date.now()}`,
@@ -109,14 +123,7 @@ export default function AIMode() {
     }
     setMessages((m) => [...m, agentMsg])
     setIsTyping(false)
-  }
-
-  const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
-    if (e.key === 'Enter' && !e.shiftKey) {
-      e.preventDefault()
-      sendMessage(input)
-    }
-  }
+  }, [editor])
 
   const clearHistory = () => {
     setMessages(defaultMessages())
@@ -614,58 +621,221 @@ export default function AIMode() {
             backgroundColor: 'rgb(var(--color-base-100))',
           }}
         >
+          {/* Formatting Toolbar */}
+          {editor && (
+            <div
+              style={{
+                display: 'flex',
+                gap: '4px',
+                padding: '8px',
+                borderRadius: '8px 8px 0 0',
+                backgroundColor: 'var(--stitch-hover)',
+                borderBottom: '1px solid var(--stitch-border)',
+                alignItems: 'center',
+                flexWrap: 'wrap',
+              }}
+            >
+              <button
+                onClick={() => editor.chain().focus().toggleBold().run()}
+                disabled={!editor.can().chain().focus().toggleBold().run()}
+                style={{
+                  padding: '6px 8px',
+                  borderRadius: '6px',
+                  border: 'none',
+                  backgroundColor: editor.isActive('bold') ? 'rgba(124, 77, 255, 0.2)' : 'transparent',
+                  color: editor.isActive('bold') ? 'var(--stitch-accent)' : 'var(--stitch-text)',
+                  cursor: 'pointer',
+                  display: 'flex',
+                  alignItems: 'center',
+                  fontSize: '12px',
+                  transition: 'all 0.15s ease',
+                }}
+                title="Bold (Ctrl+B)"
+              >
+                <Bold size={14} />
+              </button>
+
+              <button
+                onClick={() => editor.chain().focus().toggleItalic().run()}
+                disabled={!editor.can().chain().focus().toggleItalic().run()}
+                style={{
+                  padding: '6px 8px',
+                  borderRadius: '6px',
+                  border: 'none',
+                  backgroundColor: editor.isActive('italic') ? 'rgba(124, 77, 255, 0.2)' : 'transparent',
+                  color: editor.isActive('italic') ? 'var(--stitch-accent)' : 'var(--stitch-text)',
+                  cursor: 'pointer',
+                  display: 'flex',
+                  alignItems: 'center',
+                  fontSize: '12px',
+                  transition: 'all 0.15s ease',
+                }}
+                title="Italic (Ctrl+I)"
+              >
+                <Italic size={14} />
+              </button>
+
+              <button
+                onClick={() => editor.chain().focus().toggleCode().run()}
+                disabled={!editor.can().chain().focus().toggleCode().run()}
+                style={{
+                  padding: '6px 8px',
+                  borderRadius: '6px',
+                  border: 'none',
+                  backgroundColor: editor.isActive('code') ? 'rgba(124, 77, 255, 0.2)' : 'transparent',
+                  color: editor.isActive('code') ? 'var(--stitch-accent)' : 'var(--stitch-text)',
+                  cursor: 'pointer',
+                  display: 'flex',
+                  alignItems: 'center',
+                  fontSize: '12px',
+                  transition: 'all 0.15s ease',
+                }}
+                title="Inline Code"
+              >
+                <Code size={14} />
+              </button>
+
+              <div style={{ width: '1px', height: '20px', backgroundColor: 'var(--stitch-border)', margin: '0 4px' }} />
+
+              <button
+                onClick={() => editor.chain().focus().toggleBulletList().run()}
+                style={{
+                  padding: '6px 8px',
+                  borderRadius: '6px',
+                  border: 'none',
+                  backgroundColor: editor.isActive('bulletList') ? 'rgba(124, 77, 255, 0.2)' : 'transparent',
+                  color: editor.isActive('bulletList') ? 'var(--stitch-accent)' : 'var(--stitch-text)',
+                  cursor: 'pointer',
+                  fontSize: '12px',
+                  transition: 'all 0.15s ease',
+                }}
+                title="Bullet List"
+              >
+                <span style={{ fontSize: '14px', fontWeight: 'bold' }}>•</span>
+              </button>
+
+              <button
+                onClick={() => editor.chain().focus().toggleOrderedList().run()}
+                style={{
+                  padding: '6px 8px',
+                  borderRadius: '6px',
+                  border: 'none',
+                  backgroundColor: editor.isActive('orderedList') ? 'rgba(124, 77, 255, 0.2)' : 'transparent',
+                  color: editor.isActive('orderedList') ? 'var(--stitch-accent)' : 'var(--stitch-text)',
+                  cursor: 'pointer',
+                  fontSize: '12px',
+                  transition: 'all 0.15s ease',
+                }}
+                title="Numbered List"
+              >
+                <span style={{ fontSize: '14px', fontWeight: 'bold' }}>1.</span>
+              </button>
+
+              <div style={{ marginLeft: 'auto' }} />
+
+              <button
+                onClick={() => fileInputRef.current?.click()}
+                style={{
+                  padding: '6px 8px',
+                  borderRadius: '6px',
+                  border: 'none',
+                  backgroundColor: 'transparent',
+                  color: 'var(--stitch-text)',
+                  cursor: 'pointer',
+                  display: 'flex',
+                  alignItems: 'center',
+                  fontSize: '12px',
+                  transition: 'all 0.15s ease',
+                }}
+                title="Attach File"
+              >
+                <Paperclip size={14} />
+              </button>
+
+              <button
+                onClick={() => {
+                  const url = prompt('Ingresa la URL de la imagen:')
+                  if (url) {
+                    editor.chain().focus().setImage({ src: url }).run()
+                  }
+                }}
+                style={{
+                  padding: '6px 8px',
+                  borderRadius: '6px',
+                  border: 'none',
+                  backgroundColor: 'transparent',
+                  color: 'var(--stitch-text)',
+                  cursor: 'pointer',
+                  display: 'flex',
+                  alignItems: 'center',
+                  fontSize: '12px',
+                  transition: 'all 0.15s ease',
+                }}
+                title="Insert Image"
+              >
+                <ImageIcon size={14} />
+              </button>
+            </div>
+          )}
+
+          {/* Editor */}
           <div
             style={{
               display: 'flex',
               gap: '10px',
               alignItems: 'flex-end',
               padding: '12px 16px',
-              borderRadius: '12px',
+              borderRadius: '0 0 12px 12px',
               border: '1px solid var(--stitch-border)',
+              borderTop: 'none',
               backgroundColor: 'var(--stitch-elevated)',
               transition: 'border-color 0.15s ease',
+              minHeight: '60px',
             }}
             onFocusCapture={(e) => {
-              e.currentTarget.style.borderColor = 'var(--stitch-accent)'
+              const border = e.currentTarget as HTMLElement
+              border.style.borderColor = 'var(--stitch-accent)'
             }}
             onBlurCapture={(e) => {
-              e.currentTarget.style.borderColor = 'var(--stitch-border)'
+              const border = e.currentTarget as HTMLElement
+              border.style.borderColor = 'var(--stitch-border)'
             }}
           >
-            <textarea
-              ref={inputRef}
-              value={input}
-              onChange={(e) => setInput(e.target.value)}
-              onKeyDown={handleKeyDown}
-              placeholder="Describe el flujo de automatización que necesitas... (Enter para enviar)"
-              rows={1}
+            <div
               style={{
                 flex: 1,
-                background: 'transparent',
-                border: 'none',
-                outline: 'none',
                 color: 'var(--stitch-text)',
                 fontSize: '13px',
                 lineHeight: '1.5',
-                resize: 'none',
-                maxHeight: '120px',
-                fontFamily: 'inherit',
               }}
-            />
+            >
+              {editor && (
+                <EditorContent
+                  editor={editor}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter' && !e.shiftKey && editor.getText().trim()) {
+                      e.preventDefault()
+                      sendMessage()
+                    }
+                  }}
+                />
+              )}
+            </div>
+
             <button
-              onClick={() => sendMessage(input)}
-              disabled={!input.trim() || isTyping}
+              onClick={() => sendMessage()}
+              disabled={!editor || !editor.getText().trim() || isTyping}
               style={{
                 width: '34px',
                 height: '34px',
                 borderRadius: '8px',
                 border: 'none',
-                backgroundColor: input.trim() && !isTyping ? 'var(--stitch-accent)' : 'var(--stitch-hover)',
-                color: input.trim() && !isTyping ? '#fff' : 'var(--stitch-muted)',
+                backgroundColor: editor && editor.getText().trim() && !isTyping ? 'var(--stitch-accent)' : 'var(--stitch-hover)',
+                color: editor && editor.getText().trim() && !isTyping ? '#fff' : 'var(--stitch-muted)',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                cursor: input.trim() && !isTyping ? 'pointer' : 'not-allowed',
+                cursor: editor && editor.getText().trim() && !isTyping ? 'pointer' : 'not-allowed',
                 flexShrink: 0,
                 transition: 'all 0.15s ease',
               }}
@@ -673,16 +843,58 @@ export default function AIMode() {
               <Send size={14} />
             </button>
           </div>
+
           <div style={{ fontSize: '11px', color: 'var(--stitch-muted)', marginTop: '8px', textAlign: 'center' }}>
             Enter para enviar · Shift+Enter para nueva línea
           </div>
         </div>
+
+        <input ref={fileInputRef} type="file" style={{ display: 'none' }} onChange={(e) => addToast('File upload coming soon', 'info')} />
       </div>
 
       <style>{`
         @keyframes typingBounce {
           0%, 60%, 100% { transform: translateY(0); opacity: 0.4; }
           30% { transform: translateY(-6px); opacity: 1; }
+        }
+
+        .ProseMirror {
+          outline: none;
+          word-wrap: break-word;
+          white-space: pre-wrap;
+        }
+
+        .ProseMirror p {
+          margin: 0;
+        }
+
+        .ProseMirror ul, .ProseMirror ol {
+          padding-left: 20px;
+          margin: 6px 0;
+        }
+
+        .ProseMirror code {
+          background-color: rgba(124, 77, 255, 0.1);
+          padding: 2px 6px;
+          border-radius: 4px;
+          font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+          font-size: 12px;
+          color: var(--stitch-accent);
+        }
+
+        .ProseMirror img {
+          max-width: 100%;
+          height: auto;
+          border-radius: 8px;
+          margin: 8px 0;
+        }
+
+        .ProseMirror p.is-editor-empty:first-child::before {
+          content: attr(data-placeholder);
+          float: left;
+          color: var(--stitch-muted);
+          pointer-events: none;
+          height: 0;
         }
       `}</style>
     </div>
