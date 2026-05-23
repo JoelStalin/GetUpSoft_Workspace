@@ -1,0 +1,187 @@
+{
+  "agent_config": {
+    "version": "1.0",
+    "name": "GetUpSoft Autonomous Agent Framework",
+    "description": "Configuration for agents to access shared memories and ORCA context",
+    "date_created": "2026-05-23"
+  },
+  "memory_system": {
+    "base_path": ".agents/memory",
+    "memories": {
+      "web_documentation": {
+        "path": ".agents/memory/web-documentation",
+        "description": "W3Schools and MDN offline documentation",
+        "size_mb": 7.6,
+        "sections": {
+          "w3schools": {
+            "path": ".agents/memory/web-documentation/w3schools",
+            "topics": ["HTML", "CSS", "JavaScript", "Python", "SQL", "PHP", "Bootstrap", "jQuery", "XML", "React", "Java"],
+            "index_file": ".agents/memory/web-documentation/INDEX.json"
+          },
+          "mdn": {
+            "path": ".agents/memory/web-documentation/mdn",
+            "topics": ["HTML", "CSS", "JavaScript", "WebAPI", "HTTP", "SVG", "Web_Components", "Accessibility", "Security", "Performance"],
+            "index_file": ".agents/memory/web-documentation/INDEX.json"
+          }
+        }
+      },
+      "openml_documentation": {
+        "path": ".agents/memory/openml-documentation",
+        "description": "OpenML platform and benchmarking documentation",
+        "size_mb": 0.3,
+        "sections": {
+          "getting_started": {
+            "path": ".agents/memory/openml-documentation/getting-started"
+          },
+          "benchmarks": {
+            "path": ".agents/memory/openml-documentation/benchmarks"
+          }
+        },
+        "index_file": ".agents/memory/openml-documentation/INDEX.json"
+      }
+    }
+  },
+  "project_orca": {
+    "name": "ORCA Workflow Editor",
+    "path": "apps/orca/workflow-editor",
+    "description": "Visual workflow editor with multi-mode support (Workflow, Web, Mobile, AI)",
+    "components": {
+      "src": {
+        "components": "React components (Canvas, Nodes, Panels, Modes)",
+        "contexts": "React Context providers (Workflow, Execution, Window, Toast)",
+        "hooks": "Custom hooks (useWorkflowOperations, useSearch, useKeyboardShortcuts, etc.)",
+        "stores": "Zustand state management stores",
+        "utils": "Utilities (search, resource loading, etc.)",
+        "types": "TypeScript type definitions"
+      },
+      "notebooks": {
+        "templates": "Memory templates (Memory_Template, Code_Exploration)",
+        "jupyter_config": "JupyterLab configuration"
+      }
+    },
+    "modes": {
+      "workflow": "Node-based workflow editor (n8n-style)",
+      "web_design": "Web layout composition with sections",
+      "mobile_design": "Mobile UI design mode",
+      "ai_mode": "AI agent integration and prompting"
+    },
+    "visual_editor": {
+      "type": "WebGL/Three.js",
+      "components": ["VisualCanvas", "IframeSection"],
+      "state_management": "useEditorStore (Zustand)",
+      "communication": "Penpal (iframe bridge)",
+      "status": "Production Ready - Ready for WebDesignMode integration"
+    }
+  },
+  "agent_access_patterns": {
+    "memory_lookup": {
+      "quick_reference": "Use INDEX.json files in memory folders for quick lookups",
+      "full_content": "Read .html files for complete documentation",
+      "search": "Use grep or text search in memory files"
+    },
+    "project_understanding": {
+      "architecture": "Read apps/orca/workflow-editor/README.md",
+      "components": "Explore apps/orca/workflow-editor/src/components/",
+      "state": "Review Zustand stores in apps/orca/workflow-editor/src/stores/",
+      "types": "Check TypeScript definitions in apps/orca/workflow-editor/src/types/"
+    },
+    "phase_context": {
+      "phase_1": "docs/CHANGE_TIMELINE.md - Obsidian Integration",
+      "phase_2": "docs/CHANGE_TIMELINE.md - ORCA Redesign",
+      "phase_3": "docs/PHASE_3_COMPLETION_SUMMARY.md - JupyterLab + WebGL + Docs",
+      "phase_4": "docs/CHANGE_TIMELINE.md - Obsidian Deployment (Ready)"
+    }
+  },
+  "documentation": {
+    "architecture": [
+      "apps/orca/workflow-editor/WEBGL_EDITOR_GUIDE.md - 3D visual editor",
+      "docs/PHASE_3_COMPLETION_SUMMARY.md - Current phase overview",
+      "docs/CHANGE_TIMELINE.md - Project timeline and history"
+    ],
+    "validation": [
+      "docs/MEMORY_EFFICIENCY_VALIDATION_REPORT.md - Memory accuracy (95.8%)",
+      "docs/MEMORY_COMPARISON_TABLE.md - Detailed test results",
+      "MEMORY_VALIDATION_SUMMARY.txt - Quick reference validation"
+    ],
+    "setup": [
+      "docs/OBSIDIAN_SETUP_CHECKLIST.md - Obsidian integration",
+      "apps/orca/workflow-editor/notebooks/README.md - JupyterLab setup",
+      "CLAUDE.md - Project-specific rules for agents"
+    ]
+  },
+  "environment_setup": {
+    "python": {
+      "version": "3.12+",
+      "packages": ["jupyterlab", "zustand", "beautifulsoup4", "requests"],
+      "notebooks_dir": "apps/orca/workflow-editor/notebooks"
+    },
+    "node": {
+      "version": "18+",
+      "packages": ["@react-three/fiber", "@react-three/drei", "penpal", "zustand"],
+      "app_dir": "apps/orca/workflow-editor"
+    },
+    "memory_paths": {
+      "ORCA_MEMORY_PATH": ".agents/memory",
+      "ORCA_WEB_DOCS": ".agents/memory/web-documentation",
+      "ORCA_ML_DOCS": ".agents/memory/openml-documentation",
+      "ORCA_PROJECT": "apps/orca/workflow-editor"
+    }
+  },
+  "agent_instructions": {
+    "before_task": [
+      "1. Review CLAUDE.md for project-specific rules",
+      "2. Check .agents/AGENT_MEMORY_CONFIG.json (this file)",
+      "3. Access relevant memory using INDEX.json files",
+      "4. Understand current phase from CHANGE_TIMELINE.md",
+      "5. Review PHASE_3_COMPLETION_SUMMARY.md for latest status"
+    ],
+    "during_task": [
+      "1. Reference memories for technical questions (faster than web search)",
+      "2. Use Project memory for ORCA architecture understanding",
+      "3. Update Zustand stores using useEditorStore pattern",
+      "4. Follow component structure in apps/orca/workflow-editor/src/",
+      "5. Test changes with npm run dev"
+    ],
+    "after_task": [
+      "1. Update memories if new documentation found",
+      "2. Commit changes with detailed messages",
+      "3. Push to origin/main",
+      "4. Update CHANGE_TIMELINE.md if major work",
+      "5. Create checkpoint in SESSION_CHECKPOINT_*.md"
+    ]
+  },
+  "shared_context": {
+    "project_name": "GetUpSoft Workspace",
+    "git_url": "https://github.com/JoelStalin/GetUpSoft_Workspace.git",
+    "main_branch": "main",
+    "working_directory": "C:\\Users\\yoeli\\Documents\\GetUpSoft_Workspace",
+    "current_phase": "Phase 3 Complete - Phase 4 Ready",
+    "team_member": "Joel Stalin Martinez Espinal"
+  },
+  "integration_points": {
+    "jupyter": {
+      "path": "apps/orca/workflow-editor/notebooks",
+      "config": "apps/orca/workflow-editor/notebooks/jupyter_config.py",
+      "use_case": "Interactive memory management and code exploration"
+    },
+    "obsidian": {
+      "vault_path": "obsidian/vault",
+      "public": "obsidian/vault/public",
+      "private": "obsidian/vault/private",
+      "sync_script": "scripts/sync_notebooks_to_obsidian.py"
+    },
+    "orca": {
+      "app_path": "apps/orca/workflow-editor",
+      "dev_server": "npm run dev -> localhost:5175",
+      "main_component": "apps/orca/workflow-editor/src/App.tsx"
+    }
+  },
+  "quick_commands": {
+    "view_memory_index": "cat .agents/memory/web-documentation/INDEX.json",
+    "search_memory": "grep -r <keyword> .agents/memory/",
+    "view_orca_status": "git log --oneline -10",
+    "check_phase": "head -30 docs/CHANGE_TIMELINE.md",
+    "run_orca_dev": "cd apps/orca/workflow-editor && npm run dev",
+    "update_memory_validation": "python scripts/download_web_docs.py"
+  }
+}
