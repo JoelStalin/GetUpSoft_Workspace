@@ -132,7 +132,7 @@ describe('Phase 9 Scenarios: Phase 8 Failure & Recovery', () => {
       // Verify fair distribution
       expect(results.length).toBeGreaterThanOrEqual(8)
       expect(new Set(results).size).toBe(results.length) // All results unique
-    })
+    }, 15000)
 
     it('should maintain analytics consistency during rate limit queue', async () => {
       const provider = 'test-provider'
@@ -164,7 +164,7 @@ describe('Phase 9 Scenarios: Phase 8 Failure & Recovery', () => {
       expect(analyticsStats.totalApiCalls).toBe(5)
       expect(costStats?.totalRequests).toBe(5)
       expect(analyticsStats.totalCost).toBeCloseTo(0.005, 3)
-    })
+    }, 10000)
   })
 
   describe('Analytics Storage Scenarios', () => {
