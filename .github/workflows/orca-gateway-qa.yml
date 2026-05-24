@@ -226,6 +226,11 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v6
 
+      - name: Setup Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: "22"
+
       - name: Run desktop production-link sandbox test
         env:
           ORCA_BASE_URL: ${{ github.event.inputs.base_url }}
