@@ -159,9 +159,13 @@ class MLOptimizerService {
 
     // Calculate recommendation score (0-100)
     // Lower cost and response time = higher recommendation
-    const costScore = Math.max(0, 100 - costEMA * 100)
-    const responseScore = Math.max(0, 100 - responseTimeEMA / 100)
-    const recommendation = (costScore + responseScore) / 2
+    // Cost is weighted 70%, response time 30%
+    const maxCost = 0.01 // Reference max cost
+    const maxResponseTime = 1000 // Reference max response time
+
+    const costScore = Math.max(0, 100 * (1 - costEMA / maxCost))
+    const responseScore = Math.max(0, 100 * (1 - responseTimeEMA / maxResponseTime))
+    const recommendation = costScore * 0.7 + responseScore * 0.3
 
     return {
       provider,
@@ -169,7 +173,7 @@ class MLOptimizerService {
       responseTimeEMA,
       anomalyScore,
       predictedCost,
-      recommendation: Math.round(recommendation),
+      recommendation: Math.round(Math.max(0, Math.min(100, recommendation))),
       isAnomaly: anomalyScore > this.anomalyThreshold,
     }
   }
