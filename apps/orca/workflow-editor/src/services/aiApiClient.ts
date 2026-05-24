@@ -54,6 +54,7 @@ export class AIApiClient {
   private requestCount = 0
   private requestTimestamps: number[] = []
   private readonly rateLimitPerMinute = 60
+  private abortController: AbortController | null = null
 
   /**
    * Send a message and get a complete response
@@ -145,18 +146,26 @@ export class AIApiClient {
       throw new AuthError(keyValidation.error || `Invalid API key for ${modelId}`)
     }
 
-    switch (model.provider) {
-      case 'nvidia':
-        yield* this.nvidiaStream(model.endpoint, model.apiKey, messages, temperature, maxTokens)
-        break
-      case 'openai':
-        yield* this.openaiStream(model.endpoint, model.apiKey, messages, temperature, maxTokens)
-        break
-      case 'anthropic':
-        yield* this.anthropicStream(model.endpoint, model.apiKey, messages, temperature, maxTokens)
-        break
-      default:
-        throw new Error(`Unknown provider: ${model.provider}`)
+    // Create abort controller for this stream
+    this.abortController = new AbortController()
+
+    try {
+      switch (model.provider) {
+        case 'nvidia':
+          yield* this.nvidiaStream(model.endpoint, model.apiKey, messages, temperature, maxTokens)
+          break
+        case 'openai':
+          yield* this.openaiStream(model.endpoint, model.apiKey, messages, temperature, maxTokens)
+          break
+        case 'anthropic':
+          yield* this.anthropicStream(model.endpoint, model.apiKey, messages, temperature, maxTokens)
+          break
+        default:
+          throw new Error(`Unknown provider: ${model.provider}`)
+      }
+    } finally {
+      // Clean up abort controller
+      this.abortController = null
     }
   }
 
@@ -229,6 +238,7 @@ export class AIApiClient {
         max_tokens: maxTokens,
         stream: true,
       }),
+      signal: this.abortController?.signal,
     })
 
     if (!response.ok) {
@@ -339,6 +349,7 @@ export class AIApiClient {
         max_tokens: maxTokens,
         stream: true,
       }),
+      signal: this.abortController?.signal,
     })
 
     if (!response.ok) {
@@ -450,6 +461,7 @@ export class AIApiClient {
         messages,
         stream: true,
       }),
+      signal: this.abortController?.signal,
     })
 
     if (!response.ok) {
@@ -515,6 +527,15 @@ export class AIApiClient {
    */
   private sleep(ms: number): Promise<void> {
     return new Promise((resolve) => setTimeout(resolve, ms))
+  }
+
+  /**
+   * Cancel the current streaming request
+   */
+  cancelStream(): void {
+    if (this.abortController) {
+      this.abortController.abort()
+    }
   }
 }
 

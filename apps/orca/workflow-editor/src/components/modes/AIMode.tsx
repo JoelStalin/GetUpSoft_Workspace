@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect, useCallback } from 'react'
-import { Bot, Send, Trash2, Lightbulb, Plus, Zap, Brain, Code2, MessageCircle, FolderPlus, Folder, Bold, Italic, Code, Image as ImageIcon, Paperclip, Zap as ZapIcon } from 'lucide-react'
+import { Bot, Send, Trash2, Lightbulb, Plus, Zap, Brain, Code2, MessageCircle, FolderPlus, Folder, Bold, Italic, Code, Image as ImageIcon, Paperclip, Zap as ZapIcon, X } from 'lucide-react'
 import { useToast } from '../../contexts/ToastContext'
 import { useWorkflowOperations } from '../../hooks/useWorkflowOperations'
 import { NEMOCLAW_CORE_PROFILE } from '../../core/agents/nemoclawCore'
@@ -63,6 +63,9 @@ export default function AIMode() {
     }
   })
   const [isTyping, setIsTyping] = useState(false)
+  const [streamTokens, setStreamTokens] = useState(0)
+  const [streamStartTime, setStreamStartTime] = useState<number | null>(null)
+  const [streamElapsed, setStreamElapsed] = useState(0)
   const [projects, setProjects] = useState<any[]>([
     { id: '1', name: 'Email Automation', description: 'Automated email workflows' },
     { id: '2', name: 'Data Pipeline', description: 'Data processing and ETL' },
@@ -102,6 +105,15 @@ export default function AIMode() {
     } catch { /* ignore */ }
   }, [messages])
 
+  // Timer for streaming elapsed time
+  useEffect(() => {
+    if (!isTyping || streamStartTime === null) return
+    const timer = setInterval(() => {
+      setStreamElapsed(Date.now() - streamStartTime)
+    }, 100)
+    return () => clearInterval(timer)
+  }, [isTyping, streamStartTime])
+
   const sendMessage = useCallback(async (text?: string) => {
     const contentToSend = text || editor?.getHTML() || ''
     const plainText = editor?.getText() || ''
@@ -116,6 +128,9 @@ export default function AIMode() {
     setMessages((m) => [...m, userMsg])
     editor?.commands.clearContent()
     setIsTyping(true)
+    setStreamTokens(0)
+    setStreamStartTime(null)
+    setStreamElapsed(0)
 
     // Parse workflow intent from user message
     const workflowIntent = parseWorkflow(plainText.trim())
@@ -194,6 +209,7 @@ export default function AIMode() {
       // Create placeholder message for streaming response
       const agentMsgId = `a-${Date.now()}`
       let streamedContent = ''
+      setStreamStartTime(Date.now())
 
       setMessages((m) => [
         ...m,
@@ -224,6 +240,9 @@ export default function AIMode() {
 
       for await (const chunk of stream) {
         streamedContent += chunk
+        const newTokens = estimateTokens(streamedContent)
+        setStreamTokens(newTokens)
+
         setMessages((m) => {
           const updated = [...m]
           const lastMsg = updated[updated.length - 1]
@@ -279,6 +298,19 @@ export default function AIMode() {
   const clearHistory = () => {
     setMessages(defaultMessages())
     addToast('Conversación reiniciada', 'info')
+  }
+
+  const handleCancelStream = () => {
+    aiApiClient.cancelStream()
+    setIsTyping(false)
+    setStreamTokens(0)
+    setStreamStartTime(null)
+    setStreamElapsed(0)
+    addToast('Response interrupted', 'info')
+  }
+
+  const estimateTokens = (text: string): number => {
+    return Math.ceil(text.length / 4)
   }
 
   const createNewProject = (projectName: string, projectDescription?: string) => {
@@ -713,6 +745,13 @@ export default function AIMode() {
                 }}
               >
                 {msg.content}
+                {msg.role === 'agent' && isTyping && streamTokens > 0 && (
+                  <div style={{ fontSize: '11px', color: 'var(--stitch-muted)', marginTop: '8px', paddingTop: '8px', borderTop: '1px solid var(--stitch-border)', display: 'flex', gap: '12px', flexWrap: 'wrap' }}>
+                    <span title="Token count">⚡ {streamTokens}</span>
+                    <span title="Cost">💰 ${(streamTokens * (getModel(selectedModel)?.costPerToken || 0)).toFixed(6)}</span>
+                    <span title="Elapsed time">⏱️ {(streamElapsed / 1000).toFixed(1)}s</span>
+                  </div>
+                )}
               </div>
             </div>
           ))}
@@ -973,26 +1012,54 @@ export default function AIMode() {
               )}
             </div>
 
-            <button
-              onClick={() => sendMessage()}
-              disabled={!editor || !editor.getText().trim() || isTyping}
-              style={{
-                width: '34px',
-                height: '34px',
-                borderRadius: '8px',
-                border: 'none',
-                backgroundColor: editor && editor.getText().trim() && !isTyping ? 'var(--stitch-accent)' : 'var(--stitch-hover)',
-                color: editor && editor.getText().trim() && !isTyping ? '#fff' : 'var(--stitch-muted)',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                cursor: editor && editor.getText().trim() && !isTyping ? 'pointer' : 'not-allowed',
+            {isTyping ? (
+              <button
+                onClick={handleCancelStream}
+                style={{
+                  width: '34px',
+                  height: '34px',
+                  borderRadius: '8px',
+                  border: 'none',
+                  backgroundColor: '#FF6B6B',
+                  color: '#fff',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  cursor: 'pointer',
+                  transition: 'background-color 0.15s ease',
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.backgroundColor = '#FF5252'
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.backgroundColor = '#FF6B6B'
+                }}
+                title="Cancel response"
+              >
+                <X size={18} />
+              </button>
+            ) : (
+              <button
+                onClick={() => sendMessage()}
+                disabled={!editor || !editor.getText().trim() || isTyping}
+                style={{
+                  width: '34px',
+                  height: '34px',
+                  borderRadius: '8px',
+                  border: 'none',
+                  backgroundColor: editor && editor.getText().trim() && !isTyping ? 'var(--stitch-accent)' : 'var(--stitch-hover)',
+                  color: editor && editor.getText().trim() && !isTyping ? '#fff' : 'var(--stitch-muted)',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  cursor: editor && editor.getText().trim() && !isTyping ? 'pointer' : 'not-allowed',
                 flexShrink: 0,
                 transition: 'all 0.15s ease',
               }}
             >
               <Send size={14} />
-            </button>
+              </button>
+            )}
           </div>
 
           <div style={{ fontSize: '11px', color: 'var(--stitch-muted)', marginTop: '8px', textAlign: 'center' }}>
