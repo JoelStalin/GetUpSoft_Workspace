@@ -16,9 +16,6 @@ on:
         required: true
         default: "getupsoft-lan"
 
-env:
-  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: "true"
-
 jobs:
   vertical-flow-qa:
     runs-on: ubuntu-latest
