@@ -1,0 +1,38 @@
+{
+  "name": "orca-client-desktop",
+  "version": "0.1.0",
+  "description": "ORCA Client Gateway Desktop Agent MVP",
+  "main": "main.js",
+  "author": "GetUpSoft",
+  "license": "UNLICENSED",
+  "scripts": {
+    "start": "electron .",
+    "smoke": "node scripts/smoke.js",
+    "build:win:packager": "electron-packager . GetUpSoft-Orca-Agent --platform=win32 --arch=x64 --overwrite --out=dist-packager",
+    "build:win:dir": "electron-builder --win --dir",
+    "build:win:portable": "electron-builder --win portable"
+  },
+  "devDependencies": {
+    "electron": "^31.7.7",
+    "electron-builder": "^24.13.3",
+    "electron-packager": "^17.1.2"
+  },
+  "build": {
+    "appId": "com.getupsoft.orca.clientagent",
+    "productName": "GetUpSoft Orca Agent",
+    "directories": {
+      "output": "dist"
+    },
+    "files": [
+      "main.js",
+      "preload.js",
+      "renderer/**/*",
+      "assets/**/*"
+    ],
+    "win": {
+      "target": [
+        "portable"
+      ]
+    }
+  }
+}
