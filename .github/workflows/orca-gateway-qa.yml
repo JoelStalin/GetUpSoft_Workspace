@@ -162,26 +162,17 @@ jobs:
       - name: Validate required secrets presence
         run: |
           set -euo pipefail
-          test -n "${{ secrets.SSH_HOST }}"
-          test -n "${{ secrets.SSH_USER }}"
-          test -n "${{ secrets.SSH_KEY }}"
           test -n "${{ secrets.SUDO_PASSWORD }}"
 
-      - name: Validate service logs over SSH
-        uses: appleboy/ssh-action@v1.0.3
-        with:
-          host: ${{ secrets.SSH_HOST }}
-          username: ${{ secrets.SSH_USER }}
-          key: ${{ secrets.SSH_KEY }}
-          script_stop: true
-          script: |
-            set -euo pipefail
-            SERVICE="orca-client-gateway-api.service"
-            RAW=$(echo '${{ secrets.SUDO_PASSWORD }}' | sudo -S journalctl -u "$SERVICE" --since "15 min ago" --no-pager | grep -iE 'error|exception|fail' || true)
-            FILTERED=$(echo "$RAW" | sed '/^\[sudo\] password for/d')
-            if [ -n "$FILTERED" ]; then
-              echo "Detected error lines in logs:"
-              echo "$FILTERED"
-              exit 2
-            fi
-            echo "No error/exception/fail lines found in the last 15 minutes for $SERVICE"
+      - name: Validate service logs locally (self-hosted runner)
+        run: |
+          set -euo pipefail
+          SERVICE="orca-client-gateway-api.service"
+          RAW=$(echo '${{ secrets.SUDO_PASSWORD }}' | sudo -S journalctl -u "$SERVICE" --since "15 min ago" --no-pager | grep -iE 'error|exception|fail' || true)
+          FILTERED=$(echo "$RAW" | sed '/^\[sudo\] password for/d')
+          if [ -n "$FILTERED" ]; then
+            echo "Detected error lines in logs:"
+            echo "$FILTERED"
+            exit 2
+          fi
+          echo "No error/exception/fail lines found in the last 15 minutes for $SERVICE"
