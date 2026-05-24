@@ -1,0 +1,184 @@
+name: orca-gateway-qa
+
+on:
+  workflow_dispatch:
+    inputs:
+      base_url:
+        description: "Base URL for ORCA Gateway API"
+        required: true
+        default: "https://ethernet-deck-frog-holds.trycloudflare.com"
+      validate_logs:
+        description: "Run remote SSH log validation"
+        required: true
+        default: "false"
+
+jobs:
+  vertical-flow-qa:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Run vertical flow QA
+        env:
+          BASE_URL: ${{ github.event.inputs.base_url }}
+        run: |
+          set -euo pipefail
+          ts="$(date -u +%Y%m%d-%H%M%S)"
+          out_dir="apps/orca-client-gateway/docs/qa/evidence"
+          out_file="$out_dir/vertical-flow-gha-$ts.json"
+          mkdir -p "$out_dir"
+
+          node - <<'NODE' > "$out_file"
+          const base = process.env.BASE_URL;
+          const now = () => new Date().toISOString();
+          const slug = `demo-gha-${Math.floor(Date.now() / 1000)}`;
+
+          async function req(path, method = "GET", body) {
+            const r = await fetch(`${base}${path}`, {
+              method,
+              headers: { "content-type": "application/json" },
+              body: body ? JSON.stringify(body) : undefined
+            });
+            const text = await r.text();
+            let json;
+            try { json = JSON.parse(text); } catch { json = { raw: text }; }
+            return { status: r.status, body: json };
+          }
+
+          (async () => {
+            const tenant = await req("/api/v1/tenants", "POST", { name: "QA Demo Client", slug });
+            if (!tenant.body?.id) throw new Error(`tenant failed: ${JSON.stringify(tenant)}`);
+
+            const pairing = await req(`/api/v1/tenants/${tenant.body.id}/pairing-codes`, "POST", {});
+            if (!pairing.body?.pairingCode) throw new Error(`pairing failed: ${JSON.stringify(pairing)}`);
+
+            const enroll = await req("/api/v1/agent/devices/enroll", "POST", {
+              pairingCode: pairing.body.pairingCode,
+              deviceName: "QA GHA Device",
+              os: "linux",
+              arch: "x64",
+              agentVersion: "1.0.0",
+              publicKey: `PUBKEY-${Date.now()}`
+            });
+            if (!enroll.body?.deviceId) throw new Error(`enroll failed: ${JSON.stringify(enroll)}`);
+
+            const hb = await req(`/api/v1/agent/devices/${enroll.body.deviceId}/heartbeat`, "POST", {
+              status: "connected",
+              agentVersion: "1.0.0",
+              runtimeVersion: "1.0.0",
+              tunnelStatus: "connected",
+              lastError: null,
+              localTime: now()
+            });
+
+            const cmd = await req(`/api/v1/devices/${enroll.body.deviceId}/commands`, "POST", {
+              type: "RUN_FLOW",
+              flowId: "flow-demo-hello",
+              payload: { input: "hello-from-gha" },
+              ttlSeconds: 300,
+              idempotencyKey: `idem-${Date.now()}`
+            });
+            if (!cmd.body?.id) throw new Error(`command failed: ${JSON.stringify(cmd)}`);
+
+            const poll = await req(`/api/v1/agent/devices/${enroll.body.deviceId}/commands/poll`);
+            const commandId = poll.body?.commands?.[0]?.id;
+            if (!commandId) throw new Error(`poll failed: ${JSON.stringify(poll)}`);
+
+            const result = await req(`/api/v1/agent/devices/${enroll.body.deviceId}/commands/${commandId}/result`, "POST", {
+              status: "succeeded",
+              startedAt: now(),
+              finishedAt: new Date(Date.now() + 1000).toISOString(),
+              exitCode: 0,
+              safeLogs: "Flow completed by GitHub Actions",
+              artifacts: []
+            });
+
+            const revoke = await req(`/api/v1/devices/${enroll.body.deviceId}/revoke`, "POST", {});
+            const hbAfter = await req(`/api/v1/agent/devices/${enroll.body.deviceId}/heartbeat`, "POST", {
+              status: "connected",
+              agentVersion: "1.0.0",
+              runtimeVersion: "1.0.0",
+              tunnelStatus: "connected",
+              lastError: null,
+              localTime: now()
+            });
+            const audit = await req(`/api/v1/devices/${enroll.body.deviceId}/audit`);
+
+            const report = {
+              meta: { timestampUtc: now(), baseUrl: base },
+              ids: {
+                tenantId: tenant.body.id,
+                slug,
+                pairingCode: pairing.body.pairingCode,
+                deviceId: enroll.body.deviceId,
+                commandId
+              },
+              checks: {
+                heartbeatOk: hb.body?.ok === true,
+                resultOk: result.body?.ok === true,
+                revokeOk: revoke.body?.ok === true,
+                heartbeatRejectedAfterRevoke: hbAfter.body?.error === "device_revoked_or_not_found",
+                auditCount: Array.isArray(audit.body) ? audit.body.length : 0
+              },
+              responses: { tenant, pairing, enroll, hb, cmd, poll, result, revoke, hbAfter, audit }
+            };
+
+            console.log(JSON.stringify(report, null, 2));
+            const pass =
+              report.checks.heartbeatOk &&
+              report.checks.resultOk &&
+              report.checks.revokeOk &&
+              report.checks.heartbeatRejectedAfterRevoke &&
+              report.checks.auditCount > 0;
+            if (!pass) process.exit(2);
+          })().catch((err) => {
+            console.error(err);
+            process.exit(1);
+          });
+          NODE
+
+          echo "QA artifact: $out_file"
+
+      - name: Upload QA evidence
+        uses: actions/upload-artifact@v4
+        with:
+          name: orca-gateway-qa-evidence
+          path: apps/orca-client-gateway/docs/qa/evidence/vertical-flow-gha-*.json
+
+  remote-log-validation:
+    runs-on: ubuntu-latest
+    needs: vertical-flow-qa
+    if: ${{ github.event.inputs.validate_logs == 'true' && secrets.SSH_HOST != '' && secrets.SSH_USER != '' && secrets.SSH_KEY != '' && secrets.SUDO_PASSWORD != '' }}
+    timeout-minutes: 10
+    steps:
+      - name: Validate service logs over SSH
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_KEY }}
+          script_stop: true
+          script: |
+            set -euo pipefail
+            SERVICE="orca-client-gateway-api.service"
+            RAW=$(echo '${{ secrets.SUDO_PASSWORD }}' | sudo -S journalctl -u "$SERVICE" --since "15 min ago" --no-pager | grep -iE 'error|exception|fail' || true)
+            FILTERED=$(echo "$RAW" | sed '/^\[sudo\] password for/d')
+            if [ -n "$FILTERED" ]; then
+              echo "Detected error lines in logs:"
+              echo "$FILTERED"
+              exit 2
+            fi
+            echo "No error/exception/fail lines found in the last 15 minutes for $SERVICE"
+
+  remote-log-validation-skipped:
+    runs-on: ubuntu-latest
+    needs: vertical-flow-qa
+    if: ${{ github.event.inputs.validate_logs == 'true' && (secrets.SSH_HOST == '' || secrets.SSH_USER == '' || secrets.SSH_KEY == '' || secrets.SUDO_PASSWORD == '') }}
+    steps:
+      - name: Missing secrets notice
+        run: |
+          echo "validate_logs=true but required secrets are missing."
+          echo "Required: SSH_HOST, SSH_USER, SSH_KEY, SUDO_PASSWORD"
+          exit 1
