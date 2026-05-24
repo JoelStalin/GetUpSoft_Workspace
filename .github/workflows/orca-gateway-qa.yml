@@ -11,6 +11,10 @@ on:
         description: "Run remote SSH log validation"
         required: true
         default: "false"
+      remote_runner_label:
+        description: "Self-hosted runner label for remote log validation"
+        required: true
+        default: "getupsoft-lan"
 
 jobs:
   vertical-flow-qa:
@@ -148,7 +152,9 @@ jobs:
           path: apps/orca-client-gateway/docs/qa/evidence/vertical-flow-gha-*.json
 
   remote-log-validation:
-    runs-on: ubuntu-latest
+    runs-on:
+      - self-hosted
+      - ${{ github.event.inputs.remote_runner_label }}
     needs: vertical-flow-qa
     if: ${{ github.event.inputs.validate_logs == 'true' }}
     timeout-minutes: 10
