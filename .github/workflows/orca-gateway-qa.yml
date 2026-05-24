@@ -150,9 +150,17 @@ jobs:
   remote-log-validation:
     runs-on: ubuntu-latest
     needs: vertical-flow-qa
-    if: ${{ github.event.inputs.validate_logs == 'true' && secrets.SSH_HOST != '' && secrets.SSH_USER != '' && secrets.SSH_KEY != '' && secrets.SUDO_PASSWORD != '' }}
+    if: ${{ github.event.inputs.validate_logs == 'true' }}
     timeout-minutes: 10
     steps:
+      - name: Validate required secrets presence
+        run: |
+          set -euo pipefail
+          test -n "${{ secrets.SSH_HOST }}"
+          test -n "${{ secrets.SSH_USER }}"
+          test -n "${{ secrets.SSH_KEY }}"
+          test -n "${{ secrets.SUDO_PASSWORD }}"
+
       - name: Validate service logs over SSH
         uses: appleboy/ssh-action@v1.0.3
         with:
@@ -171,14 +179,3 @@ jobs:
               exit 2
             fi
             echo "No error/exception/fail lines found in the last 15 minutes for $SERVICE"
-
-  remote-log-validation-skipped:
-    runs-on: ubuntu-latest
-    needs: vertical-flow-qa
-    if: ${{ github.event.inputs.validate_logs == 'true' && (secrets.SSH_HOST == '' || secrets.SSH_USER == '' || secrets.SSH_KEY == '' || secrets.SUDO_PASSWORD == '') }}
-    steps:
-      - name: Missing secrets notice
-        run: |
-          echo "validate_logs=true but required secrets are missing."
-          echo "Required: SSH_HOST, SSH_USER, SSH_KEY, SUDO_PASSWORD"
-          exit 1
