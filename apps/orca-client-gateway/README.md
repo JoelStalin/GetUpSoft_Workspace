@@ -51,14 +51,22 @@ Workflow QA manual:
 - Tipo: `workflow_dispatch`
 - Inputs:
   - `base_url` (endpoint a validar)
-  - `validate_logs` (`true|false` para validar `journalctl` remoto por SSH)
+  - `validate_logs` (`true|false` para validar `journalctl` en runner self-hosted)
+  - `remote_runner_label` (label del runner self-hosted para log gate, por defecto `getupsoft-lan`)
 
-Secrets requeridos para validación de logs remotos:
+Secrets requeridos para validación de logs:
 
-- `SSH_HOST`
-- `SSH_USER`
-- `SSH_KEY`
 - `SUDO_PASSWORD`
+
+Prerequisito para log gate:
+
+- Runner self-hosted Linux activo con labels:
+  - `self-hosted`
+  - `getupsoft-lan` (o el label que uses en `remote_runner_label`)
+
+Referencia operativa:
+
+- [`docs/operations/self-hosted-runner.md`](/C:/Users/yoeli/Documents/GetUpSoft_Workspace/apps/orca-client-gateway/docs/operations/self-hosted-runner.md)
 
 Evidencia QA:
 
