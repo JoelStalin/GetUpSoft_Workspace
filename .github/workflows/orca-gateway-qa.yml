@@ -144,6 +144,40 @@ jobs:
           NODE
 
           echo "QA artifact: $out_file"
+          echo "QA_OUT_FILE=$out_file" >> "$GITHUB_ENV"
+
+      - name: Publish QA summary
+        run: |
+          set -euo pipefail
+          test -n "${QA_OUT_FILE:-}"
+          test -f "$QA_OUT_FILE"
+
+          node - <<'NODE'
+          const fs = require("fs");
+          const p = process.env.QA_OUT_FILE;
+          const summaryPath = process.env.GITHUB_STEP_SUMMARY;
+          const r = JSON.parse(fs.readFileSync(p, "utf8"));
+          const checks = r.checks ?? {};
+          const ids = r.ids ?? {};
+          const lines = [
+            "## ORCA Gateway QA Summary",
+            "",
+            `- Base URL: \`${r.meta?.baseUrl ?? "n/a"}\``,
+            `- Tenant: \`${ids.tenantId ?? "n/a"}\``,
+            `- Device: \`${ids.deviceId ?? "n/a"}\``,
+            `- Command: \`${ids.commandId ?? "n/a"}\``,
+            "",
+            "### Checks",
+            `- heartbeatOk: \`${checks.heartbeatOk}\``,
+            `- resultOk: \`${checks.resultOk}\``,
+            `- revokeOk: \`${checks.revokeOk}\``,
+            `- heartbeatRejectedAfterRevoke: \`${checks.heartbeatRejectedAfterRevoke}\``,
+            `- auditCount: \`${checks.auditCount}\``,
+            "",
+            `Evidence file: \`${p}\``
+          ];
+          fs.appendFileSync(summaryPath, `${lines.join("\n")}\n`);
+          NODE
 
       - name: Upload QA evidence
         uses: actions/upload-artifact@v7
