@@ -23,6 +23,9 @@ async function req(urlPath, method = "GET", body) {
 }
 
 function getSandboxRoot() {
+  if (process.platform === "darwin") {
+    return path.join(os.homedir(), "Library", "Application Support", "GetUpSoft", "OrcaAgent", "sandbox");
+  }
   const appData = process.env.APPDATA || path.join(os.homedir(), "AppData", "Roaming");
   return path.join(appData, "GetUpSoft", "OrcaAgent", "sandbox");
 }

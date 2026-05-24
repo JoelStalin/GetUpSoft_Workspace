@@ -19,6 +19,10 @@ on:
         description: "Run desktop client production-link sandbox test"
         required: true
         default: "false"
+      run_macos_client_test:
+        description: "Run macOS client test/build on GitHub macOS runner"
+        required: true
+        default: "false"
 
 jobs:
   vertical-flow-qa:
@@ -245,3 +249,36 @@ jobs:
         with:
           name: orca-client-sandbox-link-evidence
           path: apps/orca-client-gateway/apps/client-desktop/evidence/prod-link-*.json
+
+  macos-client-test:
+    runs-on: macos-latest
+    needs: vertical-flow-qa
+    if: ${{ github.event.inputs.run_macos_client_test == 'true' }}
+    timeout-minutes: 25
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: "22"
+
+      - name: Run macOS client smoke + production-link + package
+        env:
+          ORCA_BASE_URL: ${{ github.event.inputs.base_url }}
+        run: |
+          set -euo pipefail
+          cd apps/orca-client-gateway/apps/client-desktop
+          npm install
+          npm run smoke
+          npm run e2e:prod-link
+          npm run build:mac:packager
+
+      - name: Upload macOS client artifacts
+        uses: actions/upload-artifact@v7
+        with:
+          name: orca-client-macos-evidence
+          path: |
+            apps/orca-client-gateway/apps/client-desktop/evidence/prod-link-*.json
+            apps/orca-client-gateway/apps/client-desktop/dist-packager/GetUpSoft-Orca-Agent-darwin-x64/**/*
