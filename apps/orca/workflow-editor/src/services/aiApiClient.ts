@@ -47,6 +47,20 @@ export class ModelNotFoundError extends Error {
   }
 }
 
+export class TimeoutError extends Error {
+  constructor(message: string) {
+    super(message)
+    this.name = 'TimeoutError'
+  }
+}
+
+export class AllProvidersFailedError extends Error {
+  constructor(message: string) {
+    super(message)
+    this.name = 'AllProvidersFailedError'
+  }
+}
+
 /**
  * Main AI API Client
  */
@@ -54,6 +68,7 @@ export class AIApiClient {
   private requestCount = 0
   private requestTimestamps: number[] = []
   private readonly rateLimitPerMinute = 60
+  private readonly apiTimeout = 30000 // 30 seconds
   private abortController: AbortController | null = null
 
   /**
@@ -180,38 +195,51 @@ export class AIApiClient {
     temperature: number,
     maxTokens: number
   ): Promise<APIResponse> {
-    const response = await fetch(endpoint, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${apiKey}`,
-      },
-      body: JSON.stringify({
-        model: 'llama2_70b',
-        messages,
-        temperature,
-        max_tokens: maxTokens,
-        stream: false,
-      }),
-    })
+    const controller = new AbortController()
+    const timeoutId = setTimeout(() => controller.abort(), this.apiTimeout)
 
-    if (!response.ok) {
-      if (response.status === 429) {
-        throw new RateLimitError('NVIDIA rate limit exceeded')
+    try {
+      const response = await fetch(endpoint, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${apiKey}`,
+        },
+        body: JSON.stringify({
+          model: 'llama2_70b',
+          messages,
+          temperature,
+          max_tokens: maxTokens,
+          stream: false,
+        }),
+        signal: controller.signal,
+      })
+      clearTimeout(timeoutId)
+
+      if (!response.ok) {
+        if (response.status === 429) {
+          throw new RateLimitError('NVIDIA rate limit exceeded')
+        }
+        if (response.status === 401) {
+          throw new AuthError('Invalid NVIDIA API key')
+        }
+        throw new Error(`NVIDIA API error: ${response.statusText}`)
       }
-      if (response.status === 401) {
-        throw new AuthError('Invalid NVIDIA API key')
+
+      const data = await response.json()
+
+      return {
+        content: data.choices[0]?.message?.content || '',
+        tokensUsed: data.usage?.total_tokens || 0,
+        cost: 0, // Calculated by caller
+        finishReason: data.choices[0]?.finish_reason || 'stop',
       }
-      throw new Error(`NVIDIA API error: ${response.statusText}`)
-    }
-
-    const data = await response.json()
-
-    return {
-      content: data.choices[0]?.message?.content || '',
-      tokensUsed: data.usage?.total_tokens || 0,
-      cost: 0, // Calculated by caller
-      finishReason: data.choices[0]?.finish_reason || 'stop',
+    } catch (error) {
+      clearTimeout(timeoutId)
+      if (error instanceof DOMException && error.name === 'AbortError') {
+        throw new TimeoutError('Request timed out after 30 seconds')
+      }
+      throw error
     }
   }
 
@@ -225,59 +253,70 @@ export class AIApiClient {
     temperature: number,
     maxTokens: number
   ): AsyncGenerator<string> {
-    const response = await fetch(endpoint, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${apiKey}`,
-      },
-      body: JSON.stringify({
-        model: 'llama2_70b',
-        messages,
-        temperature,
-        max_tokens: maxTokens,
-        stream: true,
-      }),
-      signal: this.abortController?.signal,
-    })
-
-    if (!response.ok) {
-      if (response.status === 429) {
-        throw new RateLimitError('NVIDIA rate limit exceeded')
-      }
-      if (response.status === 401) {
-        throw new AuthError('Invalid NVIDIA API key')
-      }
-      throw new Error(`NVIDIA streaming error: ${response.statusText}`)
-    }
-
-    const reader = response.body?.getReader()
-    if (!reader) throw new Error('No response body')
-
-    const decoder = new TextDecoder()
+    const timeoutId = setTimeout(() => this.abortController?.abort(), this.apiTimeout)
 
     try {
-      while (true) {
-        const { done, value } = await reader.read()
-        if (done) break
+      const response = await fetch(endpoint, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${apiKey}`,
+        },
+        body: JSON.stringify({
+          model: 'llama2_70b',
+          messages,
+          temperature,
+          max_tokens: maxTokens,
+          stream: true,
+        }),
+        signal: this.abortController?.signal,
+      })
+      clearTimeout(timeoutId)
 
-        const chunk = decoder.decode(value)
-        const lines = chunk.split('\n')
+      if (!response.ok) {
+        if (response.status === 429) {
+          throw new RateLimitError('NVIDIA rate limit exceeded')
+        }
+        if (response.status === 401) {
+          throw new AuthError('Invalid NVIDIA API key')
+        }
+        throw new Error(`NVIDIA streaming error: ${response.statusText}`)
+      }
 
-        for (const line of lines) {
-          if (line.startsWith('data: ')) {
-            try {
-              const data = JSON.parse(line.slice(6))
-              const content = data.choices[0]?.delta?.content || ''
-              if (content) yield content
-            } catch {
-              // Skip invalid JSON lines
+      const reader = response.body?.getReader()
+      if (!reader) throw new Error('No response body')
+
+      const decoder = new TextDecoder()
+
+      try {
+        while (true) {
+          const { done, value } = await reader.read()
+          if (done) break
+
+          const chunk = decoder.decode(value)
+          const lines = chunk.split('\n')
+
+          for (const line of lines) {
+            if (line.startsWith('data: ')) {
+              try {
+                const data = JSON.parse(line.slice(6))
+                const content = data.choices[0]?.delta?.content || ''
+                if (content) yield content
+              } catch {
+                // Skip invalid JSON lines
+              }
             }
           }
         }
+      } finally {
+        reader.releaseLock()
       }
-    } finally {
-      reader.releaseLock()
+    } catch (error) {
+      clearTimeout(timeoutId)
+      if (error instanceof DOMException && error.name === 'AbortError') {
+        throw new TimeoutError('Request timed out after 30 seconds')
+      }
+      throw error
     }
   }
 
@@ -291,38 +330,51 @@ export class AIApiClient {
     temperature: number,
     maxTokens: number
   ): Promise<APIResponse> {
-    const response = await fetch(endpoint, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${apiKey}`,
-      },
-      body: JSON.stringify({
-        model: 'gpt-4',
-        messages,
-        temperature,
-        max_tokens: maxTokens,
-        stream: false,
-      }),
-    })
+    const controller = new AbortController()
+    const timeoutId = setTimeout(() => controller.abort(), this.apiTimeout)
 
-    if (!response.ok) {
-      if (response.status === 429) {
-        throw new RateLimitError('OpenAI rate limit exceeded')
+    try {
+      const response = await fetch(endpoint, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${apiKey}`,
+        },
+        body: JSON.stringify({
+          model: 'gpt-4',
+          messages,
+          temperature,
+          max_tokens: maxTokens,
+          stream: false,
+        }),
+        signal: controller.signal,
+      })
+      clearTimeout(timeoutId)
+
+      if (!response.ok) {
+        if (response.status === 429) {
+          throw new RateLimitError('OpenAI rate limit exceeded')
+        }
+        if (response.status === 401) {
+          throw new AuthError('Invalid OpenAI API key')
+        }
+        throw new Error(`OpenAI API error: ${response.statusText}`)
       }
-      if (response.status === 401) {
-        throw new AuthError('Invalid OpenAI API key')
+
+      const data = await response.json()
+
+      return {
+        content: data.choices[0]?.message?.content || '',
+        tokensUsed: data.usage?.total_tokens || 0,
+        cost: 0, // Calculated by caller
+        finishReason: data.choices[0]?.finish_reason || 'stop',
       }
-      throw new Error(`OpenAI API error: ${response.statusText}`)
-    }
-
-    const data = await response.json()
-
-    return {
-      content: data.choices[0]?.message?.content || '',
-      tokensUsed: data.usage?.total_tokens || 0,
-      cost: 0, // Calculated by caller
-      finishReason: data.choices[0]?.finish_reason || 'stop',
+    } catch (error) {
+      clearTimeout(timeoutId)
+      if (error instanceof DOMException && error.name === 'AbortError') {
+        throw new TimeoutError('Request timed out after 30 seconds')
+      }
+      throw error
     }
   }
 
@@ -336,59 +388,70 @@ export class AIApiClient {
     temperature: number,
     maxTokens: number
   ): AsyncGenerator<string> {
-    const response = await fetch(endpoint, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${apiKey}`,
-      },
-      body: JSON.stringify({
-        model: 'gpt-4',
-        messages,
-        temperature,
-        max_tokens: maxTokens,
-        stream: true,
-      }),
-      signal: this.abortController?.signal,
-    })
-
-    if (!response.ok) {
-      if (response.status === 429) {
-        throw new RateLimitError('OpenAI rate limit exceeded')
-      }
-      if (response.status === 401) {
-        throw new AuthError('Invalid OpenAI API key')
-      }
-      throw new Error(`OpenAI streaming error: ${response.statusText}`)
-    }
-
-    const reader = response.body?.getReader()
-    if (!reader) throw new Error('No response body')
-
-    const decoder = new TextDecoder()
+    const timeoutId = setTimeout(() => this.abortController?.abort(), this.apiTimeout)
 
     try {
-      while (true) {
-        const { done, value } = await reader.read()
-        if (done) break
+      const response = await fetch(endpoint, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${apiKey}`,
+        },
+        body: JSON.stringify({
+          model: 'gpt-4',
+          messages,
+          temperature,
+          max_tokens: maxTokens,
+          stream: true,
+        }),
+        signal: this.abortController?.signal,
+      })
+      clearTimeout(timeoutId)
 
-        const chunk = decoder.decode(value)
-        const lines = chunk.split('\n')
+      if (!response.ok) {
+        if (response.status === 429) {
+          throw new RateLimitError('OpenAI rate limit exceeded')
+        }
+        if (response.status === 401) {
+          throw new AuthError('Invalid OpenAI API key')
+        }
+        throw new Error(`OpenAI streaming error: ${response.statusText}`)
+      }
 
-        for (const line of lines) {
-          if (line.startsWith('data: ') && line !== 'data: [DONE]') {
-            try {
-              const data = JSON.parse(line.slice(6))
-              const content = data.choices[0]?.delta?.content || ''
-              if (content) yield content
-            } catch {
-              // Skip invalid JSON lines
+      const reader = response.body?.getReader()
+      if (!reader) throw new Error('No response body')
+
+      const decoder = new TextDecoder()
+
+      try {
+        while (true) {
+          const { done, value } = await reader.read()
+          if (done) break
+
+          const chunk = decoder.decode(value)
+          const lines = chunk.split('\n')
+
+          for (const line of lines) {
+            if (line.startsWith('data: ') && line !== 'data: [DONE]') {
+              try {
+                const data = JSON.parse(line.slice(6))
+                const content = data.choices[0]?.delta?.content || ''
+                if (content) yield content
+              } catch {
+                // Skip invalid JSON lines
+              }
             }
           }
         }
+      } finally {
+        reader.releaseLock()
       }
-    } finally {
-      reader.releaseLock()
+    } catch (error) {
+      clearTimeout(timeoutId)
+      if (error instanceof DOMException && error.name === 'AbortError') {
+        throw new TimeoutError('Request timed out after 30 seconds')
+      }
+      throw error
     }
   }
 
@@ -402,38 +465,51 @@ export class AIApiClient {
     temperature: number,
     maxTokens: number
   ): Promise<APIResponse> {
-    const response = await fetch(endpoint, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'x-api-key': apiKey,
-        'anthropic-version': '2023-06-01',
-      },
-      body: JSON.stringify({
-        model: 'claude-3-opus-20240229',
-        max_tokens: maxTokens,
-        temperature,
-        messages,
-      }),
-    })
+    const controller = new AbortController()
+    const timeoutId = setTimeout(() => controller.abort(), this.apiTimeout)
 
-    if (!response.ok) {
-      if (response.status === 429) {
-        throw new RateLimitError('Anthropic rate limit exceeded')
+    try {
+      const response = await fetch(endpoint, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'x-api-key': apiKey,
+          'anthropic-version': '2023-06-01',
+        },
+        body: JSON.stringify({
+          model: 'claude-3-opus-20240229',
+          max_tokens: maxTokens,
+          temperature,
+          messages,
+        }),
+        signal: controller.signal,
+      })
+      clearTimeout(timeoutId)
+
+      if (!response.ok) {
+        if (response.status === 429) {
+          throw new RateLimitError('Anthropic rate limit exceeded')
+        }
+        if (response.status === 401) {
+          throw new AuthError('Invalid Anthropic API key')
+        }
+        throw new Error(`Anthropic API error: ${response.statusText}`)
       }
-      if (response.status === 401) {
-        throw new AuthError('Invalid Anthropic API key')
+
+      const data = await response.json()
+
+      return {
+        content: data.content[0]?.text || '',
+        tokensUsed: data.usage?.output_tokens || 0,
+        cost: 0, // Calculated by caller
+        finishReason: data.stop_reason || 'end_turn',
       }
-      throw new Error(`Anthropic API error: ${response.statusText}`)
-    }
-
-    const data = await response.json()
-
-    return {
-      content: data.content[0]?.text || '',
-      tokensUsed: data.usage?.output_tokens || 0,
-      cost: 0, // Calculated by caller
-      finishReason: data.stop_reason || 'end_turn',
+    } catch (error) {
+      clearTimeout(timeoutId)
+      if (error instanceof DOMException && error.name === 'AbortError') {
+        throw new TimeoutError('Request timed out after 30 seconds')
+      }
+      throw error
     }
   }
 
@@ -447,61 +523,72 @@ export class AIApiClient {
     temperature: number,
     maxTokens: number
   ): AsyncGenerator<string> {
-    const response = await fetch(endpoint, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'x-api-key': apiKey,
-        'anthropic-version': '2023-06-01',
-      },
-      body: JSON.stringify({
-        model: 'claude-3-opus-20240229',
-        max_tokens: maxTokens,
-        temperature,
-        messages,
-        stream: true,
-      }),
-      signal: this.abortController?.signal,
-    })
-
-    if (!response.ok) {
-      if (response.status === 429) {
-        throw new RateLimitError('Anthropic rate limit exceeded')
-      }
-      if (response.status === 401) {
-        throw new AuthError('Invalid Anthropic API key')
-      }
-      throw new Error(`Anthropic streaming error: ${response.statusText}`)
-    }
-
-    const reader = response.body?.getReader()
-    if (!reader) throw new Error('No response body')
-
-    const decoder = new TextDecoder()
+    const timeoutId = setTimeout(() => this.abortController?.abort(), this.apiTimeout)
 
     try {
-      while (true) {
-        const { done, value } = await reader.read()
-        if (done) break
+      const response = await fetch(endpoint, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'x-api-key': apiKey,
+          'anthropic-version': '2023-06-01',
+        },
+        body: JSON.stringify({
+          model: 'claude-3-opus-20240229',
+          max_tokens: maxTokens,
+          temperature,
+          messages,
+          stream: true,
+        }),
+        signal: this.abortController?.signal,
+      })
+      clearTimeout(timeoutId)
 
-        const chunk = decoder.decode(value)
-        const lines = chunk.split('\n')
+      if (!response.ok) {
+        if (response.status === 429) {
+          throw new RateLimitError('Anthropic rate limit exceeded')
+        }
+        if (response.status === 401) {
+          throw new AuthError('Invalid Anthropic API key')
+        }
+        throw new Error(`Anthropic streaming error: ${response.statusText}`)
+      }
 
-        for (const line of lines) {
-          if (line.startsWith('data: ')) {
-            try {
-              const data = JSON.parse(line.slice(6))
-              if (data.type === 'content_block_delta' && data.delta?.type === 'text_delta') {
-                yield data.delta.text || ''
+      const reader = response.body?.getReader()
+      if (!reader) throw new Error('No response body')
+
+      const decoder = new TextDecoder()
+
+      try {
+        while (true) {
+          const { done, value } = await reader.read()
+          if (done) break
+
+          const chunk = decoder.decode(value)
+          const lines = chunk.split('\n')
+
+          for (const line of lines) {
+            if (line.startsWith('data: ')) {
+              try {
+                const data = JSON.parse(line.slice(6))
+                if (data.type === 'content_block_delta' && data.delta?.type === 'text_delta') {
+                  yield data.delta.text || ''
+                }
+              } catch {
+                // Skip invalid JSON lines
               }
-            } catch {
-              // Skip invalid JSON lines
             }
           }
         }
+      } finally {
+        reader.releaseLock()
       }
-    } finally {
-      reader.releaseLock()
+    } catch (error) {
+      clearTimeout(timeoutId)
+      if (error instanceof DOMException && error.name === 'AbortError') {
+        throw new TimeoutError('Request timed out after 30 seconds')
+      }
+      throw error
     }
   }
 

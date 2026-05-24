@@ -9,7 +9,7 @@ import Placeholder from '@tiptap/extension-placeholder'
 import Image from '@tiptap/extension-image'
 import { parseWorkflow, validateWorkflow, describeWorkflow } from '../../utils/workflowParser'
 import { generateWorkflow, validateGeneratedWorkflow, summarizeWorkflow } from '../../services/workflowGenerator'
-import { aiApiClient, AuthError, RateLimitError, ModelNotFoundError } from '../../services/aiApiClient'
+import { aiApiClient, AuthError, RateLimitError, ModelNotFoundError, TimeoutError, AllProvidersFailedError } from '../../services/aiApiClient'
 import { getAllModels, getModel, validateModelApiKey } from '../../config/models'
 
 interface ChatMessage {
@@ -74,6 +74,7 @@ export default function AIMode() {
   const [selectedModel, setSelectedModel] = useState<string>('nvidia-llama2-70b')
   const [showModelSelector, setShowModelSelector] = useState(false)
   const [isRootUser, setIsRootUser] = useState(false)
+  const [isOnline, setIsOnline] = useState(typeof navigator !== 'undefined' ? navigator.onLine : true)
   const messagesEndRef = useRef<HTMLDivElement>(null)
   const fileInputRef = useRef<HTMLInputElement>(null)
 
@@ -94,6 +95,26 @@ export default function AIMode() {
     const userEmail = localStorage.getItem('orca_user_email') || 'joelstalin2105@gmail.com'
     setIsRootUser(userEmail.includes('root') || userEmail === 'joelstalin2105@gmail.com')
   }, [])
+
+  // Track online/offline status
+  useEffect(() => {
+    const handleOnline = () => {
+      setIsOnline(true)
+      addToast('Conexión restaurada', 'success')
+    }
+    const handleOffline = () => {
+      setIsOnline(false)
+      addToast('Sin conexión a internet', 'warning')
+    }
+
+    window.addEventListener('online', handleOnline)
+    window.addEventListener('offline', handleOffline)
+
+    return () => {
+      window.removeEventListener('online', handleOnline)
+      window.removeEventListener('offline', handleOffline)
+    }
+  }, [addToast])
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' })
@@ -267,7 +288,13 @@ export default function AIMode() {
     } catch (error) {
       let errorMsg = 'Error desconocido'
 
-      if (error instanceof AuthError) {
+      if (error instanceof TimeoutError) {
+        errorMsg = `⏱️ ${error.message}. Intenta nuevamente o selecciona un modelo diferente.`
+        addToast('Tiempo de espera agotado', 'warning')
+      } else if (!isOnline) {
+        errorMsg = '🌐 No hay conexión a internet. Por favor, verifica tu red.'
+        addToast('Sin conexión', 'error')
+      } else if (error instanceof AuthError) {
         errorMsg = `Error de autenticación: ${error.message}`
         addToast('Verifica tu API key', 'error')
       } else if (error instanceof RateLimitError) {
@@ -276,6 +303,9 @@ export default function AIMode() {
       } else if (error instanceof ModelNotFoundError) {
         errorMsg = `Modelo no encontrado: ${error.message}`
         addToast('Modelo no disponible', 'error')
+      } else if (error instanceof AllProvidersFailedError) {
+        errorMsg = `❌ Todos los servicios no están disponibles. Intenta más tarde o selecciona un modelo diferente.`
+        addToast('Servicios no disponibles', 'error')
       } else if (error instanceof Error) {
         errorMsg = `Error: ${error.message}`
         addToast('Error en la API', 'error')
@@ -1041,18 +1071,19 @@ export default function AIMode() {
             ) : (
               <button
                 onClick={() => sendMessage()}
-                disabled={!editor || !editor.getText().trim() || isTyping}
+                disabled={!editor || !editor.getText().trim() || isTyping || !isOnline}
+                title={!isOnline ? 'Sin conexión a internet' : ''}
                 style={{
                   width: '34px',
                   height: '34px',
                   borderRadius: '8px',
                   border: 'none',
-                  backgroundColor: editor && editor.getText().trim() && !isTyping ? 'var(--stitch-accent)' : 'var(--stitch-hover)',
-                  color: editor && editor.getText().trim() && !isTyping ? '#fff' : 'var(--stitch-muted)',
+                  backgroundColor: editor && editor.getText().trim() && !isTyping && isOnline ? 'var(--stitch-accent)' : 'var(--stitch-hover)',
+                  color: editor && editor.getText().trim() && !isTyping && isOnline ? '#fff' : 'var(--stitch-muted)',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
-                  cursor: editor && editor.getText().trim() && !isTyping ? 'pointer' : 'not-allowed',
+                  cursor: editor && editor.getText().trim() && !isTyping && isOnline ? 'pointer' : 'not-allowed',
                 flexShrink: 0,
                 transition: 'all 0.15s ease',
               }}
