@@ -5,6 +5,9 @@
  */
 
 import { getModel, validateModelApiKey } from '../config/models'
+import { analytics } from './analytics'
+import { rateLimitManager } from './rateLimitManager'
+import { costOptimizer } from './costOptimizer'
 
 export interface ChatMessage {
   role: 'user' | 'assistant' | 'system'
@@ -94,8 +97,9 @@ export class AIApiClient {
    */
   async sendMessage(options: AIClientOptions): Promise<APIResponse> {
     const { modelId, messages, temperature = 0.7, maxTokens = 2048 } = options
+    const startTime = Date.now()
 
-    // Check rate limit
+    // Check legacy rate limit
     this.checkRateLimit()
 
     // Validate model
@@ -116,18 +120,17 @@ export class AIApiClient {
 
     while (retries > 0) {
       try {
-        switch (model.provider) {
-          case 'nvidia':
-            response = await this.nvidiaRequest(model.endpoint, model.apiKey, messages, temperature, maxTokens)
-            break
-          case 'openai':
-            response = await this.openaiRequest(model.endpoint, model.apiKey, messages, temperature, maxTokens)
-            break
-          case 'anthropic':
-            response = await this.anthropicRequest(model.endpoint, model.apiKey, messages, temperature, maxTokens)
-            break
-          default:
-            throw new Error(`Unknown provider: ${model.provider}`)
+        // Check Phase 8 rate limiter before making request
+        const canRequest = rateLimitManager.canMakeRequest(model.provider)
+        if (!canRequest) {
+          // Execute with rate limiting (will queue if necessary)
+          response = await rateLimitManager.executeWithRateLimit(model.provider, async () => {
+            return await this.makeProviderRequest(model, messages, temperature, maxTokens)
+          })
+        } else {
+          // Consume token and make request
+          rateLimitManager.consumeToken(model.provider)
+          response = await this.makeProviderRequest(model, messages, temperature, maxTokens)
         }
 
         // Success: reset failure tracking
@@ -137,9 +140,21 @@ export class AIApiClient {
         const cost = response.tokensUsed * model.costPerToken
         response.cost = cost
 
+        // Track in analytics
+        const duration = Date.now() - startTime
+        analytics.trackApiCall(modelId, model.provider, cost, response.tokensUsed, duration)
+
+        // Track cost for optimization
+        costOptimizer.trackRequest(model.provider, cost, response.tokensUsed, duration, true)
+
         return response
       } catch (error) {
         retries--
+
+        // Track error in analytics
+        if (error instanceof Error) {
+          analytics.trackError(error.name, modelId)
+        }
 
         if (error instanceof RateLimitError) {
           // Wait and retry on rate limit
@@ -159,6 +174,8 @@ export class AIApiClient {
             const fallbackModel = getModel(fallbackProviders[0])
             if (fallbackModel) {
               console.log(`Fallback from ${model.provider} to ${fallbackModel.provider}`)
+              // Track fallback in analytics
+              analytics.trackFallback(model.provider, fallbackModel.provider, modelId)
               model = fallbackModel
               retries = 3 // Reset retries for fallback provider
               continue
@@ -181,6 +198,31 @@ export class AIApiClient {
     }
 
     throw new Error('Failed to get response after retries')
+  }
+
+  /**
+   * Make a provider request (extracted for rate limit wrapping)
+   */
+  private async makeProviderRequest(
+    model: ReturnType<typeof getModel>,
+    messages: ChatMessage[],
+    temperature: number,
+    maxTokens: number
+  ): Promise<APIResponse> {
+    if (!model) {
+      throw new ModelNotFoundError('Model is required')
+    }
+
+    switch (model.provider) {
+      case 'nvidia':
+        return await this.nvidiaRequest(model.endpoint, model.apiKey, messages, temperature, maxTokens)
+      case 'openai':
+        return await this.openaiRequest(model.endpoint, model.apiKey, messages, temperature, maxTokens)
+      case 'anthropic':
+        return await this.anthropicRequest(model.endpoint, model.apiKey, messages, temperature, maxTokens)
+      default:
+        throw new Error(`Unknown provider: ${model.provider}`)
+    }
   }
 
   /**
