@@ -15,6 +15,10 @@ on:
         description: "Self-hosted runner label for remote log validation"
         required: true
         default: "getupsoft-lan"
+      run_sandbox_link_test:
+        description: "Run desktop client production-link sandbox test"
+        required: true
+        default: "false"
 
 jobs:
   vertical-flow-qa:
@@ -210,3 +214,29 @@ jobs:
             exit 2
           fi
           echo "No error/exception/fail lines found in the last 15 minutes for $SERVICE"
+
+  sandbox-link-test:
+    runs-on:
+      - self-hosted
+      - ${{ github.event.inputs.remote_runner_label }}
+    needs: vertical-flow-qa
+    if: ${{ github.event.inputs.run_sandbox_link_test == 'true' }}
+    timeout-minutes: 20
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Run desktop production-link sandbox test
+        env:
+          ORCA_BASE_URL: ${{ github.event.inputs.base_url }}
+        run: |
+          set -euo pipefail
+          cd apps/orca-client-gateway/apps/client-desktop
+          npm install
+          npm run e2e:prod-link
+
+      - name: Upload sandbox link evidence
+        uses: actions/upload-artifact@v7
+        with:
+          name: orca-client-sandbox-link-evidence
+          path: apps/orca-client-gateway/apps/client-desktop/evidence/prod-link-*.json

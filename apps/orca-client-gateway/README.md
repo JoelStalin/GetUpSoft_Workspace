@@ -53,6 +53,7 @@ Workflow QA manual:
   - `base_url` (endpoint a validar)
   - `validate_logs` (`true|false` para validar `journalctl` en runner self-hosted)
   - `remote_runner_label` (label del runner self-hosted para log gate, por defecto `getupsoft-lan`)
+  - `run_sandbox_link_test` (`true|false` para ejecutar prueba ORCA producción -> cliente -> sandbox)
 
 Secrets requeridos para validación de logs:
 
