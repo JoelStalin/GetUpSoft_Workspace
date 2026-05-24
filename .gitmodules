@@ -1,0 +1,15 @@
+[submodule "03_AI_Automation/NemoClaw"]
+	path = 03_AI_Automation/NemoClaw
+	url = https://github.com/JoelStalin/NemoClaw.git
+
+[submodule "03_AI_Automation/hermes-agent"]
+	path = 03_AI_Automation/hermes-agent
+	url = https://github.com/NousResearch/hermes-agent.git
+
+[submodule "03_AI_Automation/loader"]
+	path = 03_AI_Automation/loader
+	url = https://github.com/dperini/loader.git
+
+[submodule "03_AI_Automation/scrapling"]
+	path = 03_AI_Automation/scrapling
+	url = https://github.com/D4Vinci/Scrapling.git
