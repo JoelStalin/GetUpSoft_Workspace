@@ -70,6 +70,24 @@ export class AIApiClient {
   private readonly rateLimitPerMinute = 60
   private readonly apiTimeout = 30000 // 30 seconds
   private abortController: AbortController | null = null
+  private readonly providerPriority = ['nvidia', 'openai', 'anthropic'] // Fallback order
+  private failedProviders = new Set<string>() // Track provider failures
+
+  /**
+   * Get available fallback providers (exclude primary and failed ones)
+   */
+  private getAvailableFallbackProviders(primaryProvider: string): string[] {
+    return this.providerPriority.filter(
+      (p) => p !== primaryProvider && !this.failedProviders.has(p)
+    )
+  }
+
+  /**
+   * Reset provider failure tracking (e.g., after successful request)
+   */
+  private resetProviderFailureTracking(): void {
+    this.failedProviders.clear()
+  }
 
   /**
    * Send a message and get a complete response
@@ -94,6 +112,7 @@ export class AIApiClient {
 
     let response: APIResponse
     let retries = 3
+    const primaryProvider = model.provider
 
     while (retries > 0) {
       try {
@@ -110,6 +129,9 @@ export class AIApiClient {
           default:
             throw new Error(`Unknown provider: ${model.provider}`)
         }
+
+        // Success: reset failure tracking
+        this.resetProviderFailureTracking()
 
         // Calculate cost
         const cost = response.tokensUsed * model.costPerToken
@@ -128,7 +150,28 @@ export class AIApiClient {
           throw error
         }
 
+        // On critical errors, try fallback providers
+        if (error instanceof AuthError || error instanceof TimeoutError) {
+          this.failedProviders.add(model.provider)
+          const fallbackProviders = this.getAvailableFallbackProviders(primaryProvider)
+
+          if (fallbackProviders.length > 0) {
+            const fallbackModel = getModel(fallbackProviders[0])
+            if (fallbackModel) {
+              console.log(`Fallback from ${model.provider} to ${fallbackModel.provider}`)
+              model = fallbackModel
+              retries = 3 // Reset retries for fallback provider
+              continue
+            }
+          }
+        }
+
         if (retries === 0) {
+          if (this.failedProviders.size > 0) {
+            throw new AllProvidersFailedError(
+              `All providers failed. Tried: ${[primaryProvider, ...Array.from(this.failedProviders)].join(', ')}`
+            )
+          }
           throw error
         }
 
