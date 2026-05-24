@@ -23,6 +23,10 @@ on:
         description: "Run macOS client test/build on GitHub macOS runner"
         required: true
         default: "false"
+      internal_base_url:
+        description: "Internal base URL for self-hosted sandbox-link-test"
+        required: true
+        default: "http://localhost:8915"
 
 jobs:
   vertical-flow-qa:
@@ -237,7 +241,7 @@ jobs:
 
       - name: Run desktop production-link sandbox test
         env:
-          ORCA_BASE_URL: ${{ github.event.inputs.base_url }}
+          ORCA_BASE_URL: ${{ github.event.inputs.internal_base_url }}
         run: |
           set -euo pipefail
           cd apps/orca-client-gateway/apps/client-desktop

@@ -55,6 +55,7 @@ Workflow QA manual:
   - `remote_runner_label` (label del runner self-hosted para log gate, por defecto `getupsoft-lan`)
   - `run_sandbox_link_test` (`true|false` para ejecutar prueba ORCA producción -> cliente -> sandbox)
   - `run_macos_client_test` (`true|false` para ejecutar prueba del cliente en runner macOS)
+  - `internal_base_url` (URL interna usada por `sandbox-link-test` en self-hosted, por defecto `http://localhost:8915`)
 
 Secrets requeridos para validación de logs:
 
