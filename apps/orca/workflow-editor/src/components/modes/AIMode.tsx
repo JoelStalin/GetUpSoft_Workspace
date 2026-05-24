@@ -9,6 +9,8 @@ import Placeholder from '@tiptap/extension-placeholder'
 import Image from '@tiptap/extension-image'
 import { parseWorkflow, validateWorkflow, describeWorkflow } from '../../utils/workflowParser'
 import { generateWorkflow, validateGeneratedWorkflow, summarizeWorkflow } from '../../services/workflowGenerator'
+import { aiApiClient, AuthError, RateLimitError, ModelNotFoundError } from '../../services/aiApiClient'
+import { getAllModels, getModel, validateModelApiKey } from '../../config/models'
 
 interface ChatMessage {
   id: string
@@ -35,13 +37,12 @@ const QUICK_PROMPTS = [
   { icon: MessageCircle, label: 'Integrar API', prompt: 'Ayúdame a integrar Slack con mi workflow actual' },
 ]
 
-const AI_MODELS = [
-  { id: 'nvidia-llama', label: 'NVIDIA Llama 2', category: 'LLM', status: 'available' },
-  { id: 'nvidia-nemo', label: 'NVIDIA NeMo', category: 'Speech', status: 'available' },
-  { id: 'openai-gpt4', label: 'OpenAI GPT-4', category: 'LLM', status: 'available' },
-  { id: 'stripe-payment', label: 'Stripe Payment Model', category: 'Payment', status: 'available' },
-  { id: 'paypal-payment', label: 'PayPal Integration', category: 'Payment', status: 'available' },
-]
+const AI_MODELS = getAllModels().map((m) => ({
+  id: m.id,
+  label: m.name,
+  category: m.provider.toUpperCase(),
+  status: validateModelApiKey(m.id).valid ? 'available' : 'no-key',
+}))
 
 const ROOT_WORKFLOWS = [
   { id: 'main-1', name: 'Customer Data Pipeline', description: 'Main ORCA workflow for customer data processing' },
@@ -67,7 +68,7 @@ export default function AIMode() {
     { id: '2', name: 'Data Pipeline', description: 'Data processing and ETL' },
     { id: '3', name: 'Slack Bot Integration', description: 'Slack automation and notifications' },
   ])
-  const [selectedModel, setSelectedModel] = useState<string>('nvidia-llama')
+  const [selectedModel, setSelectedModel] = useState<string>('nvidia-llama2-70b')
   const [showModelSelector, setShowModelSelector] = useState(false)
   const [isRootUser, setIsRootUser] = useState(false)
   const messagesEndRef = useRef<HTMLDivElement>(null)
@@ -122,6 +123,7 @@ export default function AIMode() {
     let agentResponseContent = ''
     let workflowCreated = false
 
+    // Check for workflow creation intent
     if (workflowIntent.type === 'create' && workflowIntent.nodes.length > 0) {
       // Validate parsed workflow
       const validation = validateWorkflow(workflowIntent)
@@ -160,31 +162,119 @@ export default function AIMode() {
       } else {
         agentResponseContent = `❓ No pude interpretar completamente tu workflow. ${describeWorkflow(workflowIntent)}. ${validation.reason}`
       }
-    } else if (workflowIntent.nodes.length > 0) {
-      // Workflow intent detected but not specifically 'create'
-      agentResponseContent = `${describeWorkflow(workflowIntent)}. ¿Quieres que cree este workflow? Di "crear workflow" para generarlo.`
-    } else {
-      // No workflow detected, provide generic response
-      agentResponseContent = `Entendido. Para esa tarea puedo generar un workflow con los nodos necesarios. ¿Quieres que lo agregue directamente al canvas de Workflow?`
+
+      // Workflow was handled, show response and return
+      await new Promise((r) => setTimeout(r, 600))
+      const agentMsg: ChatMessage = {
+        id: `a-${Date.now()}`,
+        role: 'agent',
+        content: agentResponseContent,
+        timestamp: new Date().toISOString(),
+      }
+      setMessages((m) => [...m, agentMsg])
+      if (workflowCreated) {
+        addToast('Workflow creado con nodos automáticos', 'success')
+      }
+      setIsTyping(false)
+      return
     }
 
-    await new Promise((r) => setTimeout(r, 1200))
+    // Not a workflow creation - use real AI API
+    try {
+      // Validate model has API key
+      const modelValidation = validateModelApiKey(selectedModel)
+      if (!modelValidation.valid) {
+        agentResponseContent = `⚠️ Modelo no configurado: ${modelValidation.error}\n\nPor favor, configura las variables de entorno necesarias.`
+        setMessages((m) => [...m, { id: `a-${Date.now()}`, role: 'agent', content: agentResponseContent, timestamp: new Date().toISOString() }])
+        setIsTyping(false)
+        addToast('API key no configurada', 'error')
+        return
+      }
 
-    const agentMsg: ChatMessage = {
-      id: `a-${Date.now()}`,
-      role: 'agent',
-      content: agentResponseContent,
-      timestamp: new Date().toISOString(),
+      // Create placeholder message for streaming response
+      const agentMsgId = `a-${Date.now()}`
+      let streamedContent = ''
+
+      setMessages((m) => [
+        ...m,
+        {
+          id: agentMsgId,
+          role: 'agent',
+          content: '▌',
+          timestamp: new Date().toISOString(),
+        },
+      ])
+
+      // Stream response from API
+      const stream = aiApiClient.streamMessage({
+        modelId: selectedModel,
+        messages: [
+          ...messages.map((m) => ({
+            role: m.role === 'user' ? ('user' as const) : ('assistant' as const),
+            content: m.content,
+          })),
+          {
+            role: 'user',
+            content: plainText.trim(),
+          },
+        ],
+        temperature: 0.7,
+        maxTokens: 2048,
+      })
+
+      for await (const chunk of stream) {
+        streamedContent += chunk
+        setMessages((m) => {
+          const updated = [...m]
+          const lastMsg = updated[updated.length - 1]
+          if (lastMsg && lastMsg.id === agentMsgId) {
+            lastMsg.content = streamedContent || '▌'
+          }
+          return updated
+        })
+      }
+
+      // Update final message
+      setMessages((m) => {
+        const updated = [...m]
+        const lastMsg = updated[updated.length - 1]
+        if (lastMsg && lastMsg.id === agentMsgId) {
+          lastMsg.content = streamedContent
+        }
+        return updated
+      })
+
+      addToast('Respuesta completada', 'success')
+    } catch (error) {
+      let errorMsg = 'Error desconocido'
+
+      if (error instanceof AuthError) {
+        errorMsg = `Error de autenticación: ${error.message}`
+        addToast('Verifica tu API key', 'error')
+      } else if (error instanceof RateLimitError) {
+        errorMsg = `Límite de velocidad excedido: Intenta nuevamente en unos segundos`
+        addToast('Rate limit alcanzado', 'warning')
+      } else if (error instanceof ModelNotFoundError) {
+        errorMsg = `Modelo no encontrado: ${error.message}`
+        addToast('Modelo no disponible', 'error')
+      } else if (error instanceof Error) {
+        errorMsg = `Error: ${error.message}`
+        addToast('Error en la API', 'error')
+      }
+
+      setMessages((m) => [
+        ...m,
+        {
+          id: `a-${Date.now()}`,
+          role: 'agent',
+          content: `❌ ${errorMsg}`,
+          timestamp: new Date().toISOString(),
+        },
+      ])
+    } finally {
+      setIsTyping(false)
     }
-    setMessages((m) => [...m, agentMsg])
-
-    // Show toast notification for workflow creation
-    if (workflowCreated) {
-      addToast('Workflow creado con nodos automáticos', 'success')
-    }
-
-    setIsTyping(false)
-  }, [editor, workflow, setWorkflow, addToast])
+  }, [editor, workflow, setWorkflow, addToast, selectedModel, messages])
 
   const clearHistory = () => {
     setMessages(defaultMessages())
@@ -197,14 +287,14 @@ export default function AIMode() {
       name: projectName,
       active: false,
       nodes: [
-        { id: 'start-1', type: 'default', data: { label: 'Inicio', type: 'trigger', color: '#ff4d42', status: 'pending' }, position: { x: 100, y: 50 } },
+        { id: 'start-1', type: 'default', data: { label: 'Inicio', type: 'trigger', color: '#ff4d42', status: 'pending' as const }, position: { x: 100, y: 50 } },
       ],
       edges: [],
       settings: {},
       createdAt: new Date().toISOString(),
       updatedAt: new Date().toISOString(),
     }
-    setWorkflow(newWorkflow)
+    setWorkflow(newWorkflow as any)
     addToast(`Proyecto "${projectName}" creado`, 'success')
   }
 

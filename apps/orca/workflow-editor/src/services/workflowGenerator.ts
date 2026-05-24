@@ -12,7 +12,7 @@ export interface GeneratedNode {
     label: string
     type: NodeType
     color: string
-    status: 'pending' | 'running' | 'success' | 'error'
+    status: 'pending' | 'running' | 'completed' | 'failed'
   }
   position: {
     x: number
