@@ -1,25 +1,78 @@
 {
   "permissions": {
     "allow": [
-      "Bash(rm -rf evidence-screenshots/*)",
-      "Bash(node capture-evidence.mjs)",
-      "Bash(curl -s http://localhost:5175)",
-      "mcp__chrome-devtools__new_page",
-      "mcp__chrome-devtools__take_snapshot",
-      "mcp__chrome-devtools__list_console_messages",
-      "mcp__chrome-devtools__evaluate_script",
-      "mcp__chrome-devtools__lighthouse_audit",
-      "mcp__chrome-devtools__press_key",
-      "PowerShell(head *)",
+      "Bash(*)",
+      "Read(**)",
+      "Write(**)",
+      "Edit(**)",
+      "WebFetch(*)",
+      "WebSearch(*)",
+      "mcp__*__*",
+      "Task(*)",
+      "TodoWrite(*)",
+      "NotebookRead(**)",
+      "NotebookEdit(**)",
+         "PowerShell(head *)",
       "PowerShell($env:PYTHONIOENCODING=\"utf-8\"; cd \"C:\\\\Users\\\\yoeli\\\\Documents\\\\GetUpSoft_Workspace\"; python scripts\\\\download_web_docs.py 2>&1)",
       "PowerShell(tail *)",
       "PowerShell(python -m pip install jupyterlab notebook nbconvert papermill jupytext --upgrade 2>&1 | Select-Object -Last 15)",
       "PowerShell($env:PYTHONIOENCODING=\"utf-8\"; python -m pip install openml beautifulsoup4 lxml requests --upgrade 2>&1 | Select-Object -Last 10)",
-      "PowerShell($env:PYTHONIOENCODING='utf-8'; python scripts/download_openml_docs.py)",
-      "mcp__chrome-devtools__take_screenshot",
-      "mcp__chrome-devtools__navigate_page",
-      "mcp__chrome-devtools__wait_for",
-      "mcp__chrome-devtools__click"
+      "PowerShell($env:PYTHONIOENCODING='utf-8'; python scripts/download_openml_docs.py)"
+    ],
+    "defaultMode": "bypassPermissions"
+  },
+  "model": "haiku",
+  "hooks": {
+    "Stop": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "prompt",
+            "prompt": "Evalúa si Claude debe detenerse. Contexto del evento: $ARGUMENTS\n\nRegla principal: NO permitas que Claude se detenga si existe cualquier trabajo seguro pendiente en el repositorio.\n\nClaude solo puede detenerse si TODAS estas condiciones son verdaderas:\n1. Ya revisó git status.\n2. Ya revisó git diff.\n3. Ya revisó git diff --staged.\n4. No hay cambios locales pendientes sin analizar.\n5. No hay tarea local incompleta.\n6. No hay tests fallando que pueda corregir.\n7. No hay TODO, FIXME, HACK o backlog documentado pendiente que sea seguro tomar.\n8. No hay commits locales pendientes de push.\n9. CHANGE_TIMELINE.md existe y está actualizado con el estado final.\n10. Ya dejó documentado el último checkpoint, commit o forma de revertir.\n11. No hay siguiente tarea segura disponible.\n\nSi cualquiera de esas condiciones falta, responde exactamente en JSON:\n{\"ok\": false, \"reason\": \"No te detengas. Continúa trabajando: ejecuta git status, git diff, git diff --staged, revisa TODO/FIXME/HACK/backlog, completa pendientes locales, ejecuta pruebas, actualiza CHANGE_TIMELINE.md, crea checkpoint o commit pequeño si corresponde y toma la siguiente tarea segura. No preguntes si debes continuar.\"}\n\nSolo responde exactamente {\"ok\": true} si realmente no queda trabajo seguro o existe un bloqueo real que requiere intervención humana.",
+            "timeout": 30,
+            "continueOnBlock": true
+          }
+        ]
+      }
+    ],
+    "SubagentStop": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "prompt",
+            "prompt": "Evalúa si este subagente debe detenerse. Contexto: $ARGUMENTS\n\nNo permitas que se detenga si todavía hay tareas seguras pendientes relacionadas con su objetivo, revisión local, pruebas, timeline, commits, backlog o Git.\n\nResponde {\"ok\": false, \"reason\": \"Continúa con la siguiente tarea segura relacionada. Actualiza progreso, pruebas y CHANGE_TIMELINE.md antes de detenerte.\"} si falta trabajo seguro.\n\nSolo responde {\"ok\": true} si no queda trabajo seguro o existe un bloqueo real.",
+            "timeout": 30,
+            "continueOnBlock": true
+          }
+        ]
+      }
+    ],
+    "StopFailure": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python \"C:\\Users\\yoeli\\.claude\\scripts\\credit_retry.py\""
+          }
+        ]
+      }
+    ],
+    "PostToolUseFailure": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python \"C:\\Users\\yoeli\\.claude\\scripts\\credit_retry.py\""
+          }
+        ]
+      }
     ]
-  }
+  },
+  "skipDangerousModePermissionPrompt": true,
+  "skipAutoPermissionPrompt": true,
+  "agentPushNotifEnabled": true
 }
