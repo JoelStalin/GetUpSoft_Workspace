@@ -201,13 +201,16 @@ export const useEditorStore = create<EditorState>()(
         },
 
         // History operations
-        // FUTURO: Implement proper undo/redo with Command pattern
+        // PHASE 2: Implement proper undo/redo with Command pattern (deferred to State Management Enhancement phase)
+        // See: master-phase-plan.md Phase 2 - Task P2-002 (Custom hooks for workflow operations)
         undo: () => {
-          // TODO: Implement
+          // Deferred to Phase 2: Requires Command pattern implementation with history stack traversal
+          console.warn('Undo not yet implemented - scheduled for Phase 2 State Management Enhancement')
         },
 
         redo: () => {
-          // TODO: Implement
+          // Deferred to Phase 2: Requires Command pattern implementation with history stack traversal
+          console.warn('Redo not yet implemented - scheduled for Phase 2 State Management Enhancement')
         },
 
         clearHistory: () => {

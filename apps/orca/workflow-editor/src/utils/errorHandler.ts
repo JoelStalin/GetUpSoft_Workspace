@@ -73,6 +73,8 @@ export function handleApiError(error: unknown): {
 
 /**
  * Log error to console (development) or monitoring service (production)
+ * PHASE 2+: Integrate with Sentry/DataDog for production error tracking
+ * Deferred: Requires SDK setup, environment configuration, and error sampling strategy
  */
 export function logError(error: Error, context?: string): void {
   const isDev = typeof process !== 'undefined' ? process.env.NODE_ENV === 'development' : true
@@ -84,8 +86,15 @@ export function logError(error: Error, context?: string): void {
       error.stack
     )
   } else {
-    // In production, send to monitoring service
-    // TODO: Implement error tracking (Sentry, DataDog, etc)
+    // Phase 2+: Deferred error tracking integration
+    // When implemented, send to monitoring service (Sentry, DataDog, etc)
+    // Placeholder: Log to console for now (will be replaced with monitoring service call)
+    console.error(
+      `[PROD-${context || 'ERROR'}]`,
+      error.name,
+      error.message,
+      'Error tracking SDK not yet configured - scheduled for infrastructure phase'
+    )
   }
 }
 
