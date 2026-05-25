@@ -1,68 +1,107 @@
-'use client'
-
-import { createContext, useReducer, ReactNode, useCallback } from 'react'
-import { Workflow, WorkflowState, WorkflowNode } from '../types/workflow'
-import { WORKFLOW_ACTIONS } from '../constants/events'
-import { Edge } from '@xyflow/react'
+import React, { createContext, useCallback, useReducer } from 'react'
+import { Workflow, WorkflowNode, WorkflowEdge, isWorkflow } from '../types/workflow'
 
 /**
- * Workflow Context Type
+ * Workflow state for context
  */
-export interface WorkflowContextType extends WorkflowState {
-  dispatch: (action: WorkflowAction) => void
+export interface WorkflowContextState {
+  workflow: Workflow | null
+  selectedNodeId: string | null
+  selectedEdgeId: string | null
+  isDirty: boolean
+  isLoading: boolean
+  error: string | null
+  history: readonly Workflow[]
+  historyIndex: number
 }
 
 /**
- * Workflow Action Types
+ * Workflow context actions
  */
 export type WorkflowAction =
   | { type: 'SET_WORKFLOW'; payload: Workflow }
+  | { type: 'UPDATE_NODES'; payload: readonly WorkflowNode[] }
+  | { type: 'UPDATE_EDGES'; payload: readonly WorkflowEdge[] }
   | { type: 'ADD_NODE'; payload: WorkflowNode }
   | { type: 'DELETE_NODE'; payload: string }
-  | { type: 'UPDATE_NODE'; payload: { id: string; data: any } }
-  | { type: 'SELECT_NODE'; payload: string | null }
-  | { type: 'ADD_EDGE'; payload: Edge }
+  | { type: 'ADD_EDGE'; payload: WorkflowEdge }
   | { type: 'DELETE_EDGE'; payload: string }
-  | { type: 'PUSH_HISTORY' }
+  | { type: 'SELECT_NODE'; payload: string | null }
+  | { type: 'SELECT_EDGE'; payload: string | null }
+  | { type: 'SET_LOADING'; payload: boolean }
+  | { type: 'SET_ERROR'; payload: string | null }
+  | { type: 'MARK_DIRTY' }
+  | { type: 'MARK_CLEAN' }
+  | { type: 'PUSH_HISTORY'; payload: Workflow }
   | { type: 'UNDO' }
   | { type: 'REDO' }
-  | { type: 'SET_ERROR'; payload: string }
-  | { type: 'CLEAR_ERROR' }
-  | { type: 'SET_LOADING'; payload: boolean }
+  | { type: 'RESET' }
 
 /**
- * Initial state
+ * Workflow context value
  */
-const initialState: WorkflowState = {
-  workflow: null,
-  selectedNodeId: null,
-  selectedEdgeId: null,
-  history: [],
-  future: [],
-  isLoading: false,
-  error: null,
+export interface WorkflowContextValue {
+  state: WorkflowContextState
+  dispatch: React.Dispatch<WorkflowAction>
 }
 
 /**
- * Create Workflow Context
+ * Create Workflow context
  */
-export const WorkflowContext = createContext<WorkflowContextType | undefined>(undefined)
+export const WorkflowContext = createContext<WorkflowContextValue | undefined>(undefined)
 
 /**
- * Reducer function
+ * Initial state for workflow
  */
-function workflowReducer(state: WorkflowState, action: WorkflowAction): WorkflowState {
+const initialState: WorkflowContextState = {
+  workflow: null,
+  selectedNodeId: null,
+  selectedEdgeId: null,
+  isDirty: false,
+  isLoading: false,
+  error: null,
+  history: [],
+  historyIndex: -1,
+}
+
+/**
+ * Workflow reducer function
+ */
+function workflowReducer(state: WorkflowContextState, action: WorkflowAction): WorkflowContextState {
   switch (action.type) {
-    case WORKFLOW_ACTIONS.SET_WORKFLOW:
+    case 'SET_WORKFLOW':
       return {
         ...state,
         workflow: action.payload,
-        history: [],
-        future: [],
-        selectedNodeId: null,
+        isDirty: false,
+        error: null,
       }
 
-    case WORKFLOW_ACTIONS.ADD_NODE:
+    case 'UPDATE_NODES':
+      if (!state.workflow) return state
+      return {
+        ...state,
+        workflow: {
+          ...state.workflow,
+          nodes: action.payload,
+          updatedAt: new Date().toISOString(),
+        },
+        isDirty: true,
+      }
+
+    case 'UPDATE_EDGES':
+      if (!state.workflow) return state
+      return {
+        ...state,
+        workflow: {
+          ...state.workflow,
+          edges: action.payload,
+          updatedAt: new Date().toISOString(),
+        },
+        isDirty: true,
+      }
+
+    case 'ADD_NODE':
       if (!state.workflow) return state
       return {
         ...state,
@@ -71,55 +110,27 @@ function workflowReducer(state: WorkflowState, action: WorkflowAction): Workflow
           nodes: [...state.workflow.nodes, action.payload],
           updatedAt: new Date().toISOString(),
         },
-        future: [],
+        isDirty: true,
       }
 
-    case WORKFLOW_ACTIONS.DELETE_NODE: {
+    case 'DELETE_NODE':
       if (!state.workflow) return state
-      const nodeId = action.payload
       return {
         ...state,
         workflow: {
           ...state.workflow,
-          nodes: state.workflow.nodes.filter((n) => n.id !== nodeId),
+          nodes: state.workflow.nodes.filter((n) => n.id !== action.payload),
           edges: state.workflow.edges.filter(
-            (e) => e.source !== nodeId && e.target !== nodeId
+            (e) => e.source !== action.payload && e.target !== action.payload
           ),
           updatedAt: new Date().toISOString(),
         },
-        selectedNodeId: state.selectedNodeId === nodeId ? null : state.selectedNodeId,
-        future: [],
+        selectedNodeId: state.selectedNodeId === action.payload ? null : state.selectedNodeId,
+        isDirty: true,
       }
-    }
 
-    case WORKFLOW_ACTIONS.UPDATE_NODE:
+    case 'ADD_EDGE':
       if (!state.workflow) return state
-      return {
-        ...state,
-        workflow: {
-          ...state.workflow,
-          nodes: state.workflow.nodes.map((n) =>
-            n.id === action.payload.id ? { ...n, ...action.payload.data } : n
-          ),
-          updatedAt: new Date().toISOString(),
-        },
-        future: [],
-      }
-
-    case WORKFLOW_ACTIONS.SELECT_NODE:
-      return {
-        ...state,
-        selectedNodeId: action.payload,
-      }
-
-    case WORKFLOW_ACTIONS.ADD_EDGE:
-      if (!state.workflow) return state
-      // Check if edge already exists
-      const edgeExists = state.workflow.edges.some(
-        (e) => e.source === action.payload.source && e.target === action.payload.target
-      )
-      if (edgeExists) return state
-
       return {
         ...state,
         workflow: {
@@ -127,10 +138,10 @@ function workflowReducer(state: WorkflowState, action: WorkflowAction): Workflow
           edges: [...state.workflow.edges, action.payload],
           updatedAt: new Date().toISOString(),
         },
-        future: [],
+        isDirty: true,
       }
 
-    case WORKFLOW_ACTIONS.DELETE_EDGE:
+    case 'DELETE_EDGE':
       if (!state.workflow) return state
       return {
         ...state,
@@ -139,68 +150,73 @@ function workflowReducer(state: WorkflowState, action: WorkflowAction): Workflow
           edges: state.workflow.edges.filter((e) => e.id !== action.payload),
           updatedAt: new Date().toISOString(),
         },
-        future: [],
+        selectedEdgeId: state.selectedEdgeId === action.payload ? null : state.selectedEdgeId,
+        isDirty: true,
       }
 
-    case WORKFLOW_ACTIONS.PUSH_HISTORY:
-      if (!state.workflow) return state
-      // Keep only last 20 history entries
-      const newHistory = [
-        ...state.history,
-        JSON.parse(JSON.stringify(state.workflow)),
-      ].slice(-20)
-
+    case 'SELECT_NODE':
       return {
         ...state,
-        history: newHistory,
-        future: [],
+        selectedNodeId: action.payload,
+        selectedEdgeId: null,
       }
 
-    case WORKFLOW_ACTIONS.UNDO: {
-      if (state.history.length === 0 || !state.workflow) return state
-      const newHistory = [...state.history]
-      const workflowToRestore = newHistory.pop()
-      const newFuture = [...state.future, JSON.parse(JSON.stringify(state.workflow))]
-
+    case 'SELECT_EDGE':
       return {
         ...state,
-        workflow: workflowToRestore || null,
-        history: newHistory,
-        future: newFuture,
+        selectedEdgeId: action.payload,
+        selectedNodeId: null,
       }
-    }
 
-    case WORKFLOW_ACTIONS.REDO: {
-      if (state.future.length === 0 || !state.workflow) return state
-      const newFuture = [...state.future]
-      const workflowToRestore = newFuture.pop()
-      const newHistory = [...state.history, JSON.parse(JSON.stringify(state.workflow))]
-
+    case 'SET_LOADING':
       return {
         ...state,
-        workflow: workflowToRestore || null,
-        history: newHistory,
-        future: newFuture,
+        isLoading: action.payload,
       }
-    }
 
-    case WORKFLOW_ACTIONS.SET_ERROR:
+    case 'SET_ERROR':
       return {
         ...state,
         error: action.payload,
       }
 
-    case WORKFLOW_ACTIONS.CLEAR_ERROR:
+    case 'MARK_DIRTY':
       return {
         ...state,
-        error: null,
+        isDirty: true,
       }
 
-    case WORKFLOW_ACTIONS.SET_LOADING:
+    case 'MARK_CLEAN':
       return {
         ...state,
-        isLoading: action.payload,
+        isDirty: false,
       }
+
+    case 'PUSH_HISTORY':
+      return {
+        ...state,
+        history: [...state.history.slice(0, state.historyIndex + 1), action.payload],
+        historyIndex: state.historyIndex + 1,
+      }
+
+    case 'UNDO':
+      if (state.historyIndex <= 0) return state
+      return {
+        ...state,
+        workflow: state.history[state.historyIndex - 1],
+        historyIndex: state.historyIndex - 1,
+      }
+
+    case 'REDO':
+      if (state.historyIndex >= state.history.length - 1) return state
+      return {
+        ...state,
+        workflow: state.history[state.historyIndex + 1],
+        historyIndex: state.historyIndex + 1,
+      }
+
+    case 'RESET':
+      return initialState
 
     default:
       return state
@@ -208,26 +224,21 @@ function workflowReducer(state: WorkflowState, action: WorkflowAction): Workflow
 }
 
 /**
- * Workflow Provider Component
+ * Workflow Provider component
  */
 export interface WorkflowProviderProps {
-  children: ReactNode
-  initialWorkflow?: Workflow | null
+  children: React.ReactNode
+  initialWorkflow?: Workflow
 }
 
-export function WorkflowProvider({ children, initialWorkflow }: WorkflowProviderProps) {
+export function WorkflowProvider({ children, initialWorkflow }: WorkflowProviderProps): JSX.Element {
   const [state, dispatch] = useReducer(
     workflowReducer,
-    initialWorkflow
-      ? {
-          ...initialState,
-          workflow: initialWorkflow,
-        }
-      : initialState
+    initialWorkflow ? { ...initialState, workflow: initialWorkflow } : initialState
   )
 
-  const value: WorkflowContextType = {
-    ...state,
+  const value: WorkflowContextValue = {
+    state,
     dispatch,
   }
 
@@ -238,3 +249,13 @@ export function WorkflowProvider({ children, initialWorkflow }: WorkflowProvider
   )
 }
 
+/**
+ * Hook to use Workflow context
+ */
+export function useWorkflowContext(): WorkflowContextValue {
+  const context = React.useContext(WorkflowContext)
+  if (!context) {
+    throw new Error('useWorkflowContext must be used within WorkflowProvider')
+  }
+  return context
+}

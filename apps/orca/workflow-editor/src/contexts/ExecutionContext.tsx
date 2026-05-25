@@ -1,96 +1,141 @@
-'use client'
-
-import { createContext, useReducer, ReactNode } from 'react'
-import { ExecutionLog } from '../types/execution'
-import { EXECUTION_ACTIONS } from '../constants/events'
+import React, { createContext, useReducer } from 'react'
+import { ExecutionEvent, ExecutionLog, ExecutionStatus, ExecutionSummary } from '../types/execution'
 
 /**
- * Execution State
+ * Execution state for context
  */
-export interface ExecutionState {
-  logs: ExecutionLog[]
-  isExecuting: boolean
-  currentExecutionId: string | null
+export interface ExecutionContextState {
+  executionId: string | null
+  workflowId: string | null
+  status: ExecutionStatus
+  currentNodeId: string | null
+  events: readonly ExecutionEvent[]
+  logs: readonly ExecutionLog[]
+  summary: ExecutionSummary | null
+  isRunning: boolean
   error: string | null
+  progress: number
 }
 
 /**
- * Execution Context Type
- */
-export interface ExecutionContextType extends ExecutionState {
-  dispatch: (action: ExecutionAction) => void
-}
-
-/**
- * Execution Action Types
+ * Execution context actions
  */
 export type ExecutionAction =
-  | { type: 'SET_LOGS'; payload: ExecutionLog[] }
+  | { type: 'START_EXECUTION'; payload: { executionId: string; workflowId: string } }
+  | { type: 'ADD_EVENT'; payload: ExecutionEvent }
   | { type: 'ADD_LOG'; payload: ExecutionLog }
-  | { type: 'UPDATE_LOG'; payload: { nodeId: string; update: Partial<ExecutionLog> } }
-  | { type: 'CLEAR_LOGS' }
-  | { type: 'SET_CURRENT_EXECUTION'; payload: string | null }
-  | { type: 'SET_IS_EXECUTING'; payload: boolean }
+  | { type: 'UPDATE_NODE_STATUS'; payload: { nodeId: string; status: string } }
+  | { type: 'SET_CURRENT_NODE'; payload: string }
+  | { type: 'UPDATE_PROGRESS'; payload: number }
+  | { type: 'EXECUTION_COMPLETE'; payload: ExecutionSummary }
+  | { type: 'EXECUTION_FAILED'; payload: string }
+  | { type: 'EXECUTION_CANCELLED' }
+  | { type: 'RESET' }
 
 /**
- * Initial state
+ * Execution context value
  */
-const initialState: ExecutionState = {
-  logs: [],
-  isExecuting: false,
-  currentExecutionId: null,
-  error: null,
+export interface ExecutionContextValue {
+  state: ExecutionContextState
+  dispatch: React.Dispatch<ExecutionAction>
 }
 
 /**
- * Create Execution Context
+ * Create Execution context
  */
-export const ExecutionContext = createContext<ExecutionContextType | undefined>(undefined)
+export const ExecutionContext = createContext<ExecutionContextValue | undefined>(undefined)
 
 /**
- * Reducer function
+ * Initial state for execution
  */
-function executionReducer(state: ExecutionState, action: ExecutionAction): ExecutionState {
+const initialState: ExecutionContextState = {
+  executionId: null,
+  workflowId: null,
+  status: 'pending',
+  currentNodeId: null,
+  events: [],
+  logs: [],
+  summary: null,
+  isRunning: false,
+  error: null,
+  progress: 0,
+}
+
+/**
+ * Execution reducer function
+ */
+function executionReducer(state: ExecutionContextState, action: ExecutionAction): ExecutionContextState {
   switch (action.type) {
-    case EXECUTION_ACTIONS.SET_LOGS:
+    case 'START_EXECUTION':
       return {
-        ...state,
-        logs: action.payload,
+        ...initialState,
+        executionId: action.payload.executionId,
+        workflowId: action.payload.workflowId,
+        status: 'running',
+        isRunning: true,
+        progress: 0,
       }
 
-    case EXECUTION_ACTIONS.ADD_LOG:
+    case 'ADD_EVENT':
+      return {
+        ...state,
+        events: [...state.events, action.payload],
+      }
+
+    case 'ADD_LOG':
       return {
         ...state,
         logs: [...state.logs, action.payload],
       }
 
-    case EXECUTION_ACTIONS.UPDATE_LOG: {
-      const { nodeId, update } = action.payload
+    case 'UPDATE_NODE_STATUS':
       return {
         ...state,
         logs: state.logs.map((log) =>
-          log.nodeId === nodeId ? { ...log, ...update } : log
+          log.nodeId === action.payload.nodeId
+            ? { ...log, status: action.payload.status as any }
+            : log
         ),
       }
-    }
 
-    case EXECUTION_ACTIONS.CLEAR_LOGS:
+    case 'SET_CURRENT_NODE':
       return {
         ...state,
-        logs: [],
+        currentNodeId: action.payload,
       }
 
-    case EXECUTION_ACTIONS.SET_CURRENT_EXECUTION:
+    case 'UPDATE_PROGRESS':
       return {
         ...state,
-        currentExecutionId: action.payload,
+        progress: Math.min(100, Math.max(0, action.payload)),
       }
 
-    case EXECUTION_ACTIONS.SET_IS_EXECUTING:
+    case 'EXECUTION_COMPLETE':
       return {
         ...state,
-        isExecuting: action.payload,
+        status: 'completed',
+        isRunning: false,
+        progress: 100,
+        summary: action.payload,
       }
+
+    case 'EXECUTION_FAILED':
+      return {
+        ...state,
+        status: 'failed',
+        isRunning: false,
+        error: action.payload,
+      }
+
+    case 'EXECUTION_CANCELLED':
+      return {
+        ...state,
+        status: 'cancelled',
+        isRunning: false,
+      }
+
+    case 'RESET':
+      return initialState
 
     default:
       return state
@@ -98,26 +143,17 @@ function executionReducer(state: ExecutionState, action: ExecutionAction): Execu
 }
 
 /**
- * Execution Provider Component
+ * Execution Provider component
  */
 export interface ExecutionProviderProps {
-  children: ReactNode
-  initialLogs?: ExecutionLog[]
+  children: React.ReactNode
 }
 
-export function ExecutionProvider({ children, initialLogs }: ExecutionProviderProps) {
-  const [state, dispatch] = useReducer(
-    executionReducer,
-    initialLogs
-      ? {
-          ...initialState,
-          logs: initialLogs,
-        }
-      : initialState
-  )
+export function ExecutionProvider({ children }: ExecutionProviderProps): JSX.Element {
+  const [state, dispatch] = useReducer(executionReducer, initialState)
 
-  const value: ExecutionContextType = {
-    ...state,
+  const value: ExecutionContextValue = {
+    state,
     dispatch,
   }
 
@@ -128,3 +164,13 @@ export function ExecutionProvider({ children, initialLogs }: ExecutionProviderPr
   )
 }
 
+/**
+ * Hook to use Execution context
+ */
+export function useExecutionContext(): ExecutionContextValue {
+  const context = React.useContext(ExecutionContext)
+  if (!context) {
+    throw new Error('useExecutionContext must be used within ExecutionProvider')
+  }
+  return context
+}
