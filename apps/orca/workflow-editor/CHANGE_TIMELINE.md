@@ -517,3 +517,144 @@ Ready to push: YES
 - Rollback procedures documented
 
 **Final Checkpoint:** All development complete, deployment awaiting user execution via one of 3 documented methods. Full audit trail in this CHANGE_TIMELINE.md file.
+
+---
+
+## Session 2026-05-25 - Phase 2 State Management Enhancement (ONGOING)
+
+### Summary
+Continuing Phase 2 implementation with advanced state management using React Context API, custom hooks, error handling, and event-driven architecture. Building foundation for Phase 3+ features with production-grade patterns.
+
+### Completed Tasks (5/8)
+
+#### P2-001: React Contexts ✅
+- **Commit:** `1c6e0ef23`
+- **Files:**
+  - `src/contexts/WorkflowContext.tsx` - Core workflow state management
+  - `src/contexts/ExecutionContext.tsx` - Execution tracking and progress
+- **Features:**
+  - WorkflowContextState: workflow, nodes, edges, selection, history, UI state
+  - WorkflowAction discriminated union: 16 action types for all operations
+  - WorkflowReducer: full reducer pattern with undo/redo support (historyIndex-based)
+  - ExecutionContextState: execution progress (0-100), events, logs, current node, status
+  - ExecutionAction discriminated union: 10 action types
+  - ExecutionReducer: state management for real-time execution tracking
+  - Both contexts with Provider components and useContext hooks
+
+#### P2-002: Custom Hooks ✅
+- **Commit:** `062420525`
+- **File:** `src/hooks/useWorkflowOperations.ts` (4 hooks)
+- **Hooks:**
+  - `useWorkflowState()` - Simple context state access
+  - `useWorkflowOperations()` - Dispatch wrappers for 16 workflow operations (add/delete nodes/edges, select, mark dirty, etc.)
+  - `useWorkflowHistory()` - Undo/redo management with canUndo/canRedo flags
+  - `useExecutionStatus()` - Execution context state access
+  - `useExecutionOperations()` - Dispatch wrappers for 7 execution operations, returns isRunning/progress flags
+- **Features:**
+  - All hooks use useCallback for stable reference equality
+  - Separation of concerns: state vs. operations
+  - Convenience flags for component consumption (canUndo, canRedo, isRunning, progress)
+
+#### P2-003: Type Definitions ✅
+- **Commit:** `13fed8c30`
+- **Enhanced Files:**
+  - `src/types/workflow.ts` - NodeStatus, NodeData, NodeMetadata, WorkflowNode, WorkflowEdge, factory functions (createWorkflowNode, createWorkflow), type guards
+  - `src/types/execution.ts` - ExecutionEventType (7 types), ExecutionStatus, NodeExecutionStatus, ExecutionError, ExecutionEvent, ExecutionSummary (with metrics), ExecutionState, factory functions, comprehensive type guards
+  - `src/types/api.ts` - Generic ApiResponse<T,E>, ApiStatus discriminated union, PaginationMetadata, ExecutionStatus, factory functions (createApiSuccess, createApiError), type guards
+- **Patterns:** Discriminated unions, readonly properties, factory functions for type-safe creation
+
+#### P2-004: Error Handling & Recovery ✅
+- **Commit:** `276803cf9`
+- **Files:**
+  - `src/utils/retry.ts` - Async utilities with exponential backoff
+  - `src/contexts/ErrorRecoveryContext.tsx` - Centralized error tracking
+- **Features:**
+  - ErrorRecoveryContext: tracks errors with retry counts and timestamps
+  - ErrorRecoveryProvider: context provider with reducer pattern
+  - useErrorRecovery(): manage error state, add/remove errors, track retry attempts
+  - retryAsync<T>(): execute functions with automatic retry (exponential backoff)
+  - executeWithTimeout(): promise timeout management
+  - isRetryableError(): classify NetworkError, TimeoutError, 5xx, 429 errors
+  - batchAsync<T,R>(): concurrent batch processing with concurrency control
+  - Circular buffer of max 10 errors with automatic cleanup
+  - Integration with existing error classes (ApiError, NetworkError, TimeoutError, ExecutionError)
+
+#### P2-005: Events & Error Types ✅
+- **Commit:** `8e164a296`
+- **Files:**
+  - `src/constants/events.ts` - Event constants and event bus
+  - `src/constants/errorTypes.ts` - Extended error types
+- **Event Constants:**
+  - WORKFLOW_EVENTS: created, updated, deleted, activated, deactivated, published
+  - NODE_EVENTS: added, removed, updated, selected, deselected, executed, failed, skipped
+  - CONNECTION_EVENTS: created, removed, validated, invalid
+  - EXECUTION_EVENTS: started, node-start, node-complete, node-error, progress, completed, failed, cancelled
+  - UI_EVENTS: panel, mode, zoom, search events
+- **EventBus:** Publish-subscribe pattern with subscribe(), subscribeAll(), publish(), clear()
+- **Extended Error Types:**
+  - WorkflowValidationError - invalid workflow structure
+  - NodeExecutionError - node execution failures with context
+  - ConnectionValidationError - connection validation issues
+  - DataSourceError - external data source failures
+  - FileOperationError - import/export failures
+  - Error type guards for all types
+  - Utility functions: getErrorMessage(), getErrorCode(), isRecoverableError()
+
+### In Progress (3/8)
+
+#### P2-006: Migrate Components to Use Hooks
+- **Status:** Planning phase
+- **Target:** Update ExecutionViewer, WorkflowToolbar, and other components to use new hooks
+- **Scope:** Replace old store patterns with context hooks
+- **Complexity:** 1.5 hours estimated
+
+#### P2-007: Unit + Integration Tests
+- **Status:** Pending (depends on P2-006)
+- **Scope:** Jest tests for contexts, hooks, error handling
+- **Target:** 100% coverage on core logic
+
+#### P2-008: Selenium Tests & QA
+- **Status:** Pending (depends on P2-007)
+- **Scope:** End-to-end execution flow, undo/redo, error recovery
+
+### Architecture Decisions
+
+**Discriminated Unions:** Type safety at runtime with exhaustive checking
+**Factory Functions:** Consistent object creation with correct defaults
+**Reducer Pattern:** Predictable state transitions, easy to debug and test
+**Custom Hooks:** Hide dispatch complexity, provide semantic API for components
+**Error Recovery:** Centralized error handling with automatic retry logic
+**Event Bus:** Loosely-coupled communication between independent features
+
+### Deferred to Phase 2+
+
+- **Undo/redo implementation:** Currently stubbed in `useEditorStore.ts`, will use Phase 2-001 history context
+- **Error tracking SDK:** Deferred to infrastructure phase (Sentry/DataDog setup)
+- **Component migration:** Staged over P2-006, P2-007, P2-008
+
+### Git Commits
+
+Latest commits:
+1. `e8d883ecc` - refactor: Export ErrorRecoveryContext from contexts index
+2. `8e164a296` - feat: Add event constants and extended error types (P2-005)
+3. `276803cf9` - feat: Add error handling and recovery context (P2-004)
+4. `062420525` - feat: Create custom hooks for Phase 2 workflow operations (P2-002)
+5. `1c6e0ef23` - feat: Create React Contexts for Phase 2 State Management (P2-001)
+6. `13fed8c30` - feat: Refactor type definitions for Phase 2 State Management (P2-003)
+
+### Next Steps
+
+1. **P2-006:** Migrate ExecutionViewer, WorkflowToolbar, ErrorPanel to use new hooks
+2. **P2-007:** Write Jest tests for all contexts, hooks, and utilities
+3. **P2-008:** Run Selenium tests and verify execution flow
+4. **Push to origin/main:** All commits currently staged
+
+### Session Status
+
+**Time:** 2026-05-25  
+**Progress:** 5/8 core tasks completed  
+**Code Added:** ~1,200+ lines across 8 new files  
+**Type Coverage:** 100% TypeScript with discriminated unions  
+**Error Handling:** Comprehensive retry logic and error recovery  
+**Testing:** Pending (P2-007, P2-008)  
+**Status:** ✅ FOUNDATION COMPLETE, COMPONENT MIGRATION PENDING
