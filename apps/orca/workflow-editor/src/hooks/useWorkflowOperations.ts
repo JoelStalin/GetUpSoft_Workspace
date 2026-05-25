@@ -1,104 +1,251 @@
-'use client'
-
 import { useCallback } from 'react'
-import { useWorkflowState } from './useWorkflowState'
-import { Workflow, WorkflowNode } from '../types/workflow'
-import { WORKFLOW_ACTIONS } from '../constants/events'
-import { Edge } from '@xyflow/react'
+import { useWorkflowContext } from '../contexts/WorkflowContext'
+import { useExecutionContext } from '../contexts/ExecutionContext'
+import { Workflow, WorkflowNode, WorkflowEdge } from '../types/workflow'
+import { ExecutionEvent, ExecutionLog } from '../types/execution'
 
 /**
- * Hook providing workflow mutation operations
- * All operations automatically clear redo stack
+ * Hook for workflow state access
+ */
+export function useWorkflowState() {
+  const { state } = useWorkflowContext()
+  return state
+}
+
+/**
+ * Hook for workflow operations with dispatch wrappers
  */
 export function useWorkflowOperations() {
-  const { dispatch, workflow, selectedNodeId } = useWorkflowState()
+  const { state, dispatch } = useWorkflowContext()
 
   const setWorkflow = useCallback(
-    (newWorkflow: Workflow) => {
-      dispatch({ type: WORKFLOW_ACTIONS.SET_WORKFLOW, payload: newWorkflow })
+    (workflow: Workflow) => {
+      dispatch({ type: 'SET_WORKFLOW', payload: workflow })
+    },
+    [dispatch]
+  )
+
+  const updateNodes = useCallback(
+    (nodes: readonly WorkflowNode[]) => {
+      dispatch({ type: 'UPDATE_NODES', payload: nodes })
+    },
+    [dispatch]
+  )
+
+  const updateEdges = useCallback(
+    (edges: readonly WorkflowEdge[]) => {
+      dispatch({ type: 'UPDATE_EDGES', payload: edges })
     },
     [dispatch]
   )
 
   const addNode = useCallback(
     (node: WorkflowNode) => {
-      dispatch({ type: WORKFLOW_ACTIONS.ADD_NODE, payload: node })
+      dispatch({ type: 'ADD_NODE', payload: node })
     },
     [dispatch]
   )
 
   const deleteNode = useCallback(
     (nodeId: string) => {
-      dispatch({ type: WORKFLOW_ACTIONS.DELETE_NODE, payload: nodeId })
-    },
-    [dispatch]
-  )
-
-  const updateNode = useCallback(
-    (nodeId: string, data: any) => {
-      dispatch({
-        type: WORKFLOW_ACTIONS.UPDATE_NODE,
-        payload: { id: nodeId, data },
-      })
-    },
-    [dispatch]
-  )
-
-  const selectNode = useCallback(
-    (nodeId: string | null) => {
-      dispatch({ type: WORKFLOW_ACTIONS.SELECT_NODE, payload: nodeId })
+      dispatch({ type: 'DELETE_NODE', payload: nodeId })
     },
     [dispatch]
   )
 
   const addEdge = useCallback(
-    (edge: Edge) => {
-      dispatch({ type: WORKFLOW_ACTIONS.ADD_EDGE, payload: edge })
+    (edge: WorkflowEdge) => {
+      dispatch({ type: 'ADD_EDGE', payload: edge })
     },
     [dispatch]
   )
 
   const deleteEdge = useCallback(
     (edgeId: string) => {
-      dispatch({ type: WORKFLOW_ACTIONS.DELETE_EDGE, payload: edgeId })
+      dispatch({ type: 'DELETE_EDGE', payload: edgeId })
+    },
+    [dispatch]
+  )
+
+  const selectNode = useCallback(
+    (nodeId: string | null) => {
+      dispatch({ type: 'SELECT_NODE', payload: nodeId })
+    },
+    [dispatch]
+  )
+
+  const selectEdge = useCallback(
+    (edgeId: string | null) => {
+      dispatch({ type: 'SELECT_EDGE', payload: edgeId })
+    },
+    [dispatch]
+  )
+
+  const setLoading = useCallback(
+    (loading: boolean) => {
+      dispatch({ type: 'SET_LOADING', payload: loading })
     },
     [dispatch]
   )
 
   const setError = useCallback(
-    (error: string) => {
-      dispatch({ type: WORKFLOW_ACTIONS.SET_ERROR, payload: error })
+    (error: string | null) => {
+      dispatch({ type: 'SET_ERROR', payload: error })
     },
     [dispatch]
   )
 
-  const clearError = useCallback(() => {
-    dispatch({ type: WORKFLOW_ACTIONS.CLEAR_ERROR })
+  const markDirty = useCallback(() => {
+    dispatch({ type: 'MARK_DIRTY' })
   }, [dispatch])
 
-  const setLoading = useCallback(
-    (loading: boolean) => {
-      dispatch({ type: WORKFLOW_ACTIONS.SET_LOADING, payload: loading })
-    },
-    [dispatch]
-  )
+  const markClean = useCallback(() => {
+    dispatch({ type: 'MARK_CLEAN' })
+  }, [dispatch])
+
+  const reset = useCallback(() => {
+    dispatch({ type: 'RESET' })
+  }, [dispatch])
 
   return {
-    // Getters
-    workflow,
-    selectedNodeId,
-
-    // Mutations
+    state,
     setWorkflow,
+    updateNodes,
+    updateEdges,
     addNode,
     deleteNode,
-    updateNode,
-    selectNode,
     addEdge,
     deleteEdge,
-    setError,
-    clearError,
+    selectNode,
+    selectEdge,
     setLoading,
+    setError,
+    markDirty,
+    markClean,
+    reset,
   }
 }
 
+/**
+ * Hook for workflow history (undo/redo)
+ */
+export function useWorkflowHistory() {
+  const { state, dispatch } = useWorkflowContext()
+
+  const pushHistory = useCallback(
+    (workflow: Workflow) => {
+      dispatch({ type: 'PUSH_HISTORY', payload: workflow })
+    },
+    [dispatch]
+  )
+
+  const undo = useCallback(() => {
+    if (state.historyIndex > 0) {
+      dispatch({ type: 'UNDO' })
+    }
+  }, [state.historyIndex, dispatch])
+
+  const redo = useCallback(() => {
+    if (state.historyIndex < state.history.length - 1) {
+      dispatch({ type: 'REDO' })
+    }
+  }, [state.history.length, state.historyIndex, dispatch])
+
+  const canUndo = state.historyIndex > 0
+  const canRedo = state.historyIndex < state.history.length - 1
+
+  return {
+    pushHistory,
+    undo,
+    redo,
+    canUndo,
+    canRedo,
+    historyIndex: state.historyIndex,
+    historyLength: state.history.length,
+  }
+}
+
+/**
+ * Hook for execution status access
+ */
+export function useExecutionStatus() {
+  const { state } = useExecutionContext()
+  return state
+}
+
+/**
+ * Hook for execution operations with dispatch wrappers
+ */
+export function useExecutionOperations() {
+  const { state, dispatch } = useExecutionContext()
+
+  const startExecution = useCallback(
+    (executionId: string, workflowId: string) => {
+      dispatch({
+        type: 'START_EXECUTION',
+        payload: { executionId, workflowId },
+      })
+    },
+    [dispatch]
+  )
+
+  const addEvent = useCallback(
+    (event: ExecutionEvent) => {
+      dispatch({ type: 'ADD_EVENT', payload: event })
+    },
+    [dispatch]
+  )
+
+  const addLog = useCallback(
+    (log: ExecutionLog) => {
+      dispatch({ type: 'ADD_LOG', payload: log })
+    },
+    [dispatch]
+  )
+
+  const updateNodeStatus = useCallback(
+    (nodeId: string, status: 'pending' | 'running' | 'completed' | 'failed' | 'skipped') => {
+      dispatch({ type: 'UPDATE_NODE_STATUS', payload: { nodeId, status } })
+    },
+    [dispatch]
+  )
+
+  const setCurrentNode = useCallback(
+    (nodeId: string | null) => {
+      dispatch({ type: 'SET_CURRENT_NODE', payload: nodeId })
+    },
+    [dispatch]
+  )
+
+  const updateProgress = useCallback(
+    (progress: number) => {
+      dispatch({ type: 'UPDATE_PROGRESS', payload: progress })
+    },
+    [dispatch]
+  )
+
+  const completeExecution = useCallback(
+    (status: 'completed' | 'failed' | 'cancelled') => {
+      dispatch({ type: 'EXECUTION_COMPLETE', payload: status })
+    },
+    [dispatch]
+  )
+
+  const resetExecution = useCallback(() => {
+    dispatch({ type: 'RESET' })
+  }, [dispatch])
+
+  return {
+    state,
+    startExecution,
+    addEvent,
+    addLog,
+    updateNodeStatus,
+    setCurrentNode,
+    updateProgress,
+    completeExecution,
+    resetExecution,
+    isRunning: state.status === 'running',
+    progress: state.progress,
+  }
+}
