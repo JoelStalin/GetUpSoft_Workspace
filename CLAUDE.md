@@ -22,6 +22,28 @@ For design projects, use `mcp-servers.shared.json` plus `.\scripts\stitch_mcp_bo
 
 ---
 
+## 🔴 FASTAPI DEPRECATION - MANDATORY COMPLIANCE
+
+**EFFECTIVE 2026-05-25: All FastAPI HTTP services are DISCONTINUED and RESTRICTED**
+
+**ALL agents MUST follow:**
+
+### ❌ DO NOT:
+1. Create, modify, or deploy any FastAPI HTTP services
+2. Recommend FastAPI for new API development
+3. Call FastAPI endpoints (legacy/python-fastapi/*, apps/orca/ai_automation_orchestrator/*)
+4. Add FastAPI dependencies or routes
+
+### ✅ DO:
+1. Use **NestJS** (`apps/backend-nest/`) for all new HTTP APIs
+2. Use **Python CLI** (`orca/cli.py`) for local ORCA tooling
+3. Reference `00_Workspace_Governance/FASTAPI_DEPRECATION_POLICY.md` for service mapping
+4. Report any discovered FastAPI usage as a code review finding
+
+**Reference:** See full policy at `00_Workspace_Governance/FASTAPI_DEPRECATION_POLICY.md`
+
+---
+
 ## 🔴 ORCA WORKFLOW EDITOR - MANDATORY QA UI-UX RULES
 
 **ALL agents making UI-UX changes MUST follow these rules or code will be BLOCKED:**
