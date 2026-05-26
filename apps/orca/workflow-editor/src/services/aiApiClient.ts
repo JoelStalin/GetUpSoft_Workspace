@@ -103,7 +103,7 @@ export class AIApiClient {
     this.checkRateLimit()
 
     // Validate model
-    const model = getModel(modelId)
+    let model = getModel(modelId)
     if (!model) {
       throw new ModelNotFoundError(`Model ${modelId} not found`)
     }

@@ -5,3 +5,4 @@ export {
   useExecutionStatus,
   useExecutionOperations,
 } from './useWorkflowOperations'
+export { useErrorRecovery } from './useErrorRecovery'

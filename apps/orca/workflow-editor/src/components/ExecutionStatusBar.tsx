@@ -19,7 +19,7 @@ export default function ExecutionStatusBar() {
   const running = logs.filter(l => l.status === 'running').length
   const total = logs.length
 
-  const progress = total > 0 ? Math.round((completed / total) * 100) : 0
+  const progressPercent = total > 0 ? Math.round((completed / total) * 100) : 0
 
   return (
     <div
@@ -50,7 +50,7 @@ export default function ExecutionStatusBar() {
           <div
             style={{
               height: '100%',
-              width: `${progress}%`,
+              width: `${progressPercent}%`,
               backgroundColor: 'rgb(var(--color-primary-400))',
               transition: 'width 0.3s ease',
             }}

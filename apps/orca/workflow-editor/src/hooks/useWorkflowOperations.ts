@@ -32,6 +32,16 @@ export function useWorkflowOperations() {
     [dispatch]
   )
 
+  const updateNode = useCallback(
+    (node: WorkflowNode) => {
+      if (state.workflow) {
+        const updatedNodes = state.workflow.nodes.map((n) => (n.id === node.id ? node : n))
+        dispatch({ type: 'UPDATE_NODES', payload: updatedNodes })
+      }
+    },
+    [dispatch, state.workflow]
+  )
+
   const updateEdges = useCallback(
     (edges: readonly WorkflowEdge[]) => {
       dispatch({ type: 'UPDATE_EDGES', payload: edges })
@@ -109,8 +119,10 @@ export function useWorkflowOperations() {
 
   return {
     state,
+    ...state,
     setWorkflow,
     updateNodes,
+    updateNode,
     updateEdges,
     addNode,
     deleteNode,

@@ -29,9 +29,9 @@ import { ExecutionProvider } from './contexts/ExecutionContext'
 import { ErrorRecoveryProvider } from './contexts/ErrorRecoveryContext'
 import { WindowProvider, useWindows } from './contexts/WindowContext'
 import { ToastProvider } from './contexts/ToastContext'
-import { useWorkflowOperations } from './hooks/useWorkflowOperations'
-import { useExecutionStatus } from './hooks/useWorkflowOperations'
-import { useErrorRecovery } from './hooks/useWorkflowOperations'
+import { useWorkflowOperations } from './hooks'
+import { useExecutionStatus } from './hooks'
+import { useErrorRecovery } from './hooks'
 import { useSearch } from './hooks/useSearch'
 import { useKeyboardShortcuts, SHORTCUTS } from './hooks/useKeyboardShortcuts'
 import { useClipboard } from './hooks/useClipboard'
@@ -243,7 +243,7 @@ function AppContent() {
   useEffect(() => {
     if (!workflow || executionLogs.length === 0) return
     const updatedNodes = workflow.nodes.map((node) => {
-      const nodeLog = executionLogs.find((log) => log.nodeId === node.id || log.node_id === node.id)
+      const nodeLog = executionLogs.find((log) => log.nodeId === node.id)
       return { ...node, data: { ...node.data, status: (nodeLog?.status || 'pending') as any } }
     })
     if (JSON.stringify(updatedNodes) !== JSON.stringify(workflow.nodes)) {

@@ -1,6 +1,6 @@
 import { useRef, useEffect, useState } from 'react'
-import { useExecutionStatus, useExecutionOperations } from '../hooks/useWorkflowOperations'
-import { useErrorRecovery } from '../hooks/useWorkflowOperations'
+import { useExecutionStatus, useExecutionOperations } from '../hooks'
+import { useErrorRecovery } from '../hooks'
 import { ExecutionLog } from '../types/execution'
 
 /**

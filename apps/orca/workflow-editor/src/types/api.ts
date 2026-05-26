@@ -1,3 +1,5 @@
+import type { ExecutionStatus, ExecutionLog } from './execution'
+
 /**
  * API response status discriminated union
  */
@@ -84,11 +86,6 @@ export interface ApiNodeType {
 }
 
 /**
- * Discriminated union for execution status
- */
-export type ExecutionStatus = 'pending' | 'running' | 'completed' | 'failed' | 'cancelled'
-
-/**
  * API Execution Result with detailed tracking
  */
 export interface ApiExecutionResult {
@@ -101,22 +98,6 @@ export interface ApiExecutionResult {
   readonly logs: readonly ExecutionLog[]
   readonly output?: unknown
   readonly error?: ApiError
-}
-
-/**
- * Execution log entry
- */
-export interface ExecutionLog {
-  readonly nodeId: string
-  readonly nodeName?: string
-  readonly status: 'pending' | 'running' | 'completed' | 'failed'
-  readonly startTime?: string
-  readonly endTime?: string
-  readonly duration?: number
-  readonly message?: string
-  readonly output?: unknown
-  readonly error?: string
-  readonly metadata?: Record<string, unknown>
 }
 
 /**

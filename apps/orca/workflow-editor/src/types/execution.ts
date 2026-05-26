@@ -58,6 +58,7 @@ export interface ExecutionLog {
   readonly endTime?: string
   readonly duration?: number
   readonly message?: string
+  readonly timestamp?: string
   readonly metadata?: Record<string, unknown>
 }
 

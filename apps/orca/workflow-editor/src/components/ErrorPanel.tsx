@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { AlertCircle, CheckCircle, AlertTriangle, X } from 'lucide-react'
 import { ValidationIssue } from '../utils/workflowValidation'
-import { useErrorRecovery } from '../hooks/useWorkflowOperations'
+import { useErrorRecovery } from '../hooks'
 
 interface ErrorPanelProps {
   errors?: ValidationIssue[]
