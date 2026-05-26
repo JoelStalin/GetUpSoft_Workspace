@@ -1,6 +1,6 @@
 import { Handle, Position } from '@xyflow/react'
 import { useWorkflowOperations } from '../hooks/useWorkflowOperations'
-import { useExecutionStatus } from '../hooks/useExecutionStatus'
+import { useExecutionStatus } from '../hooks/useWorkflowOperations'
 import { useAINodeEditor } from '../hooks/useAINodeEditor'
 import { useToast } from '../contexts/ToastContext'
 import { getNodeIcon } from '../utils/nodeIcons'
@@ -13,15 +13,19 @@ const statusColors = {
   pending: 'rgb(116 114 114)',  // Muted gray
 }
 
+/**
+ * MIGRATED: Now uses P2 hooks (useWorkflowOperations, useExecutionStatus)
+ */
 export default function OrcaNode({ data, id, selected, isConnecting }: any) {
   const { selectNode, deleteNode, addNode, workflow } = useWorkflowOperations()
-  const { getNodeLog } = useExecutionStatus()
+  const executionState = useExecutionStatus()
   const { addToast } = useToast()
   const { generateNodeSuggestions } = useAINodeEditor()
 
-  const nodeLog = getNodeLog(id)
+  // Find log entry for this node from execution logs
+  const nodeLog = executionState.logs?.find((log) => log.nodeId === id)
   const nodeStatus = nodeLog?.status || 'pending'
-  const errorMessage = nodeLog?.error || nodeLog?.message
+  const errorMessage = nodeLog?.error?.message || nodeLog?.message
 
   const statusColor = statusColors[nodeStatus as keyof typeof statusColors] || statusColors.pending
   const isRunning = nodeStatus === 'running'
