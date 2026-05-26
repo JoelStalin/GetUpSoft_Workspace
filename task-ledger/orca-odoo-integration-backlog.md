@@ -93,15 +93,17 @@ This epic tracks the comprehensive refactoring of all GetUpSoft custom Odoo modu
 
 ---
 
-## Phase 4: Wire Real APIs (TODO)
+## Phase 4: Wire Real APIs (PARTIAL - 1/3 COMPLETE)
 
-| ID | Title | Status | Est. | Priority |
-|----|-------|--------|------|----------|
-| OO-011 | Wire AbstractOrcaService.push_log() to NestJS endpoint | TODO | 2h | P1 |
-| OO-012 | Wire EasyCountFiscalService to OdooAccountingSyncService | TODO | 3h | P0 |
-| OO-013 | E2E test: create invoice → ORCA log → EasyCount sync | TODO | 2h | P0 |
+| ID | Title | Status | Est. | Actual | Priority |
+|----|-------|--------|------|--------|----------|
+| OO-011 | Wire AbstractOrcaService.push_log() to NestJS endpoint | ✅ DONE | 2h | 0.25h | P1 |
+| OO-012 | Wire EasyCountFiscalService to OdooAccountingSyncService | TODO | 3h | - | P0 |
+| OO-013 | E2E test: create invoice → ORCA log → EasyCount sync | TODO | 2h | - | P0 |
 
-**Estimated Phase 4 Effort:** 7 hours
+**Phase 4 Progress:** 1/3 complete (33%)  
+**Actual Phase 4 Effort So Far:** 0.25h vs 7h estimate  
+**Note:** OO-011 completed: uncommented HTTP calls in AbstractOrcaService, updated payload field names, copied to all three base_orca_integration deployments. Ready to sync real audit logs to NestJS endpoints. OO-012/OO-013 require deeper EasyCount backend integration.
 
 ---
 
