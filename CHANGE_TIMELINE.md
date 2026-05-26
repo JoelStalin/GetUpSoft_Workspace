@@ -1,8 +1,8 @@
 # CHANGE TIMELINE - ORCA Phase 10 Advanced Features + Multi-Mode Architecture
 
-**Status:** 🔄 IN PROGRESS - Phases 0-4 Complete, Phase 5 (Deployment Model) Next  
-**Current Session:** ORCA Unified React Panel - Phases 0-4 Complete, Phase 4 E2E Testing (2026-05-26)  
-**Previous Session:** Phase 3 Live Browser In Canvas + Phase 4 Start (2026-05-26)  
+**Status:** 🔄 IN PROGRESS - Phases 0-4 Complete, Phase 5 In Progress (Deployment Model)  
+**Current Session:** ORCA Unified React Panel - Phase 5 Production Deployment (2026-05-26)  
+**Previous Session:** Phase 4 Complete, Phase 5 Started (2026-05-26)  
 **Author:** Claude Haiku 4.5
 
 ---
@@ -256,6 +256,67 @@
 - `9f66d39a2` - Feature: Phase 4 enhanced follow-up questions and product name normalization
 
 **Status:** ✅ COMPLETE and PRODUCTION-READY. Ready for Phase 5 (Deployment Model)
+
+---
+
+## 🔄 ORCA-U-5: Deployment Model - Vite Production Root (2026-05-26 - IN PROGRESS)
+
+### Phase 5 Implementation Status (Production Serving & API Proxy)
+
+**Completion Time:** Started 2026-05-26 (16:30 UTC approx)  
+**Objective:** Serve Vite production build as main application root with API proxying
+
+**Completed Work:**
+- ✅ **Production HTTP Server** (server.prod.js - 97 lines)
+  - Node.js built-in http module (zero external dependencies)
+  - SPA fallback routing for client-side React Router
+  - API proxy for `/api/*` routes to NestJS backend
+  - Odoo proxy for `/web`, `/report`, `/odoo`, `/websocket`, `/mail`, etc.
+  - Strips frame-blocking headers from Odoo responses
+  - Environment-based configuration
+
+- ✅ **Environment Configuration**
+  - .env.example template with all configuration options
+  - Support for development and production URLs
+  - Configurable port, API URL, Odoo URL
+
+- ✅ **Package.json Updates**
+  - `npm start` - Default production server
+  - `npm run start:prod` - Local development server
+  - `npm run start:production` - Production deployment
+
+- ✅ **Deployment Documentation** (PHASE5_DEPLOYMENT.md)
+  - Architecture diagram and overview
+  - Deployment procedures for dev/prod
+  - Environment configuration guide
+  - Testing and troubleshooting guide
+  - Performance metrics
+  - Deployment checklist
+
+**Architecture:**
+```
+Vite React Build (dist/)
+        ↓
+Node.js HTTP Server (port 3000)
+    ↙              ↖
+API Proxy        Odoo Proxy
+  ↓                ↓
+NestJS (8015)   Odoo ERP (8069)
+```
+
+**Key Features:**
+- ✅ Static file serving with proper MIME types
+- ✅ SPA fallback routing to index.html
+- ✅ Request proxying with header preservation
+- ✅ Environment-based configuration
+- ✅ Frame header stripping for Odoo iframes
+- ✅ Error handling and logging
+
+**Commits:**
+- `49c0db44b` - Feature: Phase 5 - Add production server for Vite deployment model
+- `acfbea925` - Docs: Phase 5 deployment documentation and environment configuration
+
+**Status:** Core infrastructure complete. Ready for production build testing.
 
 ---
 
