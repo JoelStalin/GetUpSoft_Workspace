@@ -1,6 +1,5 @@
 import { useRef, useState } from 'react'
-import { useWorkflowOperations } from '../hooks/useWorkflowOperations'
-import { useExecutionStatus } from '../hooks/useExecutionStatus'
+import { useWorkflowOperations, useExecutionStatus, useExecutionOperations } from '../hooks/useWorkflowOperations'
 import { useWorkflowExecution } from '../hooks/useWorkflowExecution'
 import { useToast } from '../contexts/ToastContext'
 import { handleApiError } from '../utils/errorHandler'
@@ -16,6 +15,9 @@ interface UserProfile {
   avatar?: string
 }
 
+/**
+ * MIGRATED: Now uses P2 hooks (useWorkflowOperations, useExecutionStatus, useExecutionOperations)
+ */
 export default function WorkflowToolbar({
   activeMode = 'workflow',
   onModeChange = () => {},
@@ -24,7 +26,8 @@ export default function WorkflowToolbar({
   onModeChange?: (mode: AppMode) => void
 }) {
   const { workflow } = useWorkflowOperations()
-  const { setCurrentExecution, setIsExecuting } = useExecutionStatus()
+  const executionState = useExecutionStatus()
+  const { startExecution, completeExecution } = useExecutionOperations()
   const { simulateExecution } = useWorkflowExecution()
   const { addToast } = useToast()
   const [isLoading, setIsLoading] = useState(false)
@@ -67,14 +70,15 @@ export default function WorkflowToolbar({
       return
     }
     setIsLoading(true)
-    setIsExecuting(true)
     try {
       const result = await runWorkflow(workflow.id)
-      setCurrentExecution(result.execution_id)
-    } catch {
+      startExecution(result.execution_id, workflow.id)
+      addToast('Workflow execution started', 'success')
+    } catch (error) {
       const nodeIds = workflow.nodes.map((n) => n.id)
       await simulateExecution(nodeIds, { delayBetweenNodes: 1500 })
-      setIsExecuting(false)
+      const { message } = handleApiError(error)
+      addToast(`Using simulation: ${message}`, 'info')
     } finally {
       setIsLoading(false)
     }
