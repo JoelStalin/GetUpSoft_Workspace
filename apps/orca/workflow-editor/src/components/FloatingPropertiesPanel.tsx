@@ -4,6 +4,9 @@ import { Settings, Trash2 } from 'lucide-react'
 import RichTextEditor from './ui/RichTextEditor'
 import ImageUpload from './ui/ImageUpload'
 
+/**
+ * MIGRATED: Uses P2 hooks (useWorkflowOperations)
+ */
 export default function FloatingPropertiesPanel() {
   const { workflow, selectedNodeId, deleteNode, updateNode } = useWorkflowOperations()
   const { addToast } = useToast()
