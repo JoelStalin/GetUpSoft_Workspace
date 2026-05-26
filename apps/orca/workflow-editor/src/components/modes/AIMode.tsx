@@ -1087,12 +1087,20 @@ export default function AIMode() {
     const now = new Date().toISOString()
     const existing = (workflow.nodes || []).find((n: any) => n.id === id)
     const data = {
-      label: 'Odoo Invoice Live',
-      type: 'odoo-live',
-      color: status === 'error' ? '#ef4444' : status === 'done' ? '#22c55e' : '#7c4dff',
-      status: status === 'error' ? 'failed' : status === 'done' ? 'completed' : 'running',
-      detail,
-      updatedAt: now,
+      label: 'Odoo Live Browser',
+      iframeSrc: odooLiveIframeSrc,
+      currentStep: detail,
+      steps: odooLiveSteps,
+      isError: status === 'error',
+      errorMessage: status === 'error' ? detail : null,
+      frameImage: odooLiveFrameSrc,
+      onClose: () => {
+        if (!workflow) return
+        setWorkflow({
+          ...workflow,
+          nodes: (workflow?.nodes || []).filter((n: any) => n.id !== id),
+        } as any)
+      },
     }
     if (existing) {
       setWorkflow({
@@ -1106,7 +1114,7 @@ export default function AIMode() {
       ...workflow,
       nodes: [
         ...(workflow.nodes || []),
-        { id, type: 'default', data, position: { x: 560, y: 160 } },
+        { id, type: 'odoo-live-browser', data, position: { x: 320, y: 200 }, style: { width: 900, height: 520 } },
       ],
       edges: [...(workflow.edges || [])],
       updatedAt: now,

@@ -17,11 +17,13 @@ import { useWorkflowOperations } from '../hooks/useWorkflowOperations'
 import { useWorkflowHistory } from '../hooks/useWorkflowHistory'
 import { wouldCreateCycle, isValidConnection as validateConnection } from '../utils/connectionValidation'
 import OrcaNode from './OrcaNode'
+import OdooLiveBrowserNode from './OdooLiveBrowserNode'
 import type { AppMode } from '../types/modes'
 
 const nodeTypes = {
   orcaNode: OrcaNode,
   default: OrcaNode,
+  'odoo-live-browser': OdooLiveBrowserNode,
 }
 
 /**
@@ -34,8 +36,8 @@ export default function WorkflowCanvas({ activeMode = 'workflow' }: { activeMode
   const reactFlowWrapper = useRef<HTMLDivElement>(null)
   const reactFlow = useReactFlow() as any
 
-  const [nodes, setNodes, onNodesChange] = useNodesState(workflow?.nodes || [])
-  const [edges, setEdges, onEdgesChange] = useEdgesState(workflow?.edges || [])
+  const [nodes, setNodes, onNodesChange] = useNodesState([...(workflow?.nodes || [])])
+  const [edges, setEdges, onEdgesChange] = useEdgesState([...(workflow?.edges || [])])
   const [selectedEdgeId, setSelectedEdgeId] = useState<string | null>(null)
   const [miniMapVisible] = useState(false)
   const [isCanvasReady, setIsCanvasReady] = useState(false)
