@@ -18,6 +18,12 @@ export const DEFAULT_RETRY_OPTIONS: RetryOptions = {
   timeoutMs: 30000,
 }
 
+export interface LegacyRetryOptions {
+  maxRetries?: number
+  baseDelayMs?: number
+  onRetry?: (attempt: number, error: Error) => void
+}
+
 /**
  * Check if error is retryable
  */
@@ -58,6 +64,38 @@ export async function retryAsync<T>(
   }
 
   throw lastError
+}
+
+export async function withRetry<T>(
+  fn: () => Promise<T>,
+  options: LegacyRetryOptions = {}
+): Promise<T> {
+  const maxRetries = options.maxRetries ?? 3
+  const baseDelayMs = options.baseDelayMs ?? 1000
+  let lastError: any
+
+  for (let attempt = 1; attempt <= maxRetries; attempt++) {
+    try {
+      return await fn()
+    } catch (error) {
+      lastError = error
+      if (!isRetryableError(error) || attempt === maxRetries) {
+        throw error
+      }
+      options.onRetry?.(attempt, error instanceof Error ? error : new Error(String(error)))
+      await sleep(baseDelayMs * attempt)
+    }
+  }
+
+  throw lastError
+}
+
+export async function withRetryAndTimeout<T>(
+  fn: () => Promise<T>,
+  timeoutMs = DEFAULT_RETRY_OPTIONS.timeoutMs || 30000,
+  options: LegacyRetryOptions = {}
+): Promise<T> {
+  return withRetry(() => executeWithTimeout(fn(), timeoutMs), options)
 }
 
 /**

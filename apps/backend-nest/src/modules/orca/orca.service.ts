@@ -20,6 +20,10 @@ export class OrcaService {
   }
 
   async interpret(request: InterpretRequestDto): Promise<unknown> {
+    const bridgeMode = (this.config.get<string>('ORCA_BRIDGE_MODE') ?? 'mock').toLowerCase();
+    if (bridgeMode !== 'python') {
+      return this.mockInterpretation(request);
+    }
     const command = this.commandForSource(request.source_type);
     return this.runOrcaCli(command, request.content);
   }
@@ -91,5 +95,31 @@ export class OrcaService {
     if (!value || typeof value !== 'object') return false;
     const payload = value as Record<string, unknown>;
     return typeof payload.source_type === 'string' && typeof payload.scrum === 'object' && typeof payload.model_prompt === 'object';
+  }
+
+  private mockInterpretation(request: InterpretRequestDto) {
+    const normalized = String(request.content ?? '').trim().toLowerCase();
+    const isBugfix = normalized.includes('bug') || normalized.includes('error') || normalized.includes('fix');
+    const intent = isBugfix ? 'bugfix' : 'automation';
+    const skill = isBugfix ? 'bugfix_skill' : 'automation_skill';
+    return {
+      source_type: request.source_type,
+      original_input: request.content,
+      normalized_prompt: normalized,
+      canonical_language: this.config.get<string>('ORCA_CANONICAL_LANGUAGE') ?? 'es',
+      detected_intent: intent,
+      confidence: 0.75,
+      selected_skill: skill,
+      scrum: {
+        tasks: ['Analizar requerimiento', 'Implementar cambio', 'Validar con pruebas'],
+        risks: isBugfix ? ['Regresion funcional'] : [],
+        dependencies: [],
+      },
+      model_prompt: {
+        paid_model_prompt: `Intent: ${intent}\nSkill: ${skill}\nPrompt: ${request.content}`,
+        free_model_followup_prompt: `Refina alcance para: ${request.content}`,
+        error_recovery_prompt: `Diagnosticar y recuperar para: ${request.content}`,
+      },
+    };
   }
 }

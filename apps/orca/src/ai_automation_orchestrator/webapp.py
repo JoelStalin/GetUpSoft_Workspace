@@ -5,12 +5,18 @@ from functools import partial
 from html import escape
 import os
 import json
+import subprocess
+import sys
 from pathlib import Path
 from typing import Any, Callable
+import xmlrpc.client
+import threading
 
 from fastapi import FastAPI, HTTPException, Request, BackgroundTasks, BackgroundTasks
-from fastapi.responses import HTMLResponse, Response
+from fastapi.responses import HTMLResponse, JSONResponse, FileResponse
 from fastapi.staticfiles import StaticFiles
+import requests
+
 from pydantic import BaseModel, Field
 import uvicorn
 
@@ -35,6 +41,7 @@ from ai_automation_orchestrator.jarvis_endpoints import register_jarvis_endpoint
 from ai_automation_orchestrator.workspace_endpoints import register_workspace_endpoints
 from ai_automation_orchestrator.deploy_endpoints import register_deploy_endpoints
 from ai_automation_orchestrator.deploy_dashboard_section import get_deploy_dashboard_html
+from ai_automation_orchestrator.tinder_dashboard_section import get_tinder_dashboard_html
 from ai_automation_orchestrator.n8n_endpoints import register_n8n_endpoints
 from ai_automation_orchestrator.user_auth import UserAuthManager, SessionManager
 from ai_automation_orchestrator.auth_endpoints import register_auth_endpoints, init_auth
@@ -42,6 +49,7 @@ from ai_automation_orchestrator.unified_providers_section import get_unified_pro
 from ai_automation_orchestrator.provider_config_endpoints import register_provider_config_endpoints, init_provider_config_manager
 from ai_automation_orchestrator.google_oauth import GoogleOAuthManager, load_google_oauth_config
 from ai_automation_orchestrator.google_oauth_endpoints import register_google_oauth_endpoints, init_google_oauth
+from ai_automation_orchestrator.tinder_endpoints import register_tinder_endpoints
 from ai_automation_orchestrator.init_root_user import init_root_user
 
 
@@ -70,6 +78,33 @@ class RowboatChatRequest(BaseModel):
     message: str = Field(min_length=1)
     conversation_id: str | None = None
     mock_tools: dict[str, str] | None = None
+
+
+class OdooE2ERunRequest(BaseModel):
+    base_url: str = "http://localhost:8069"
+    db: str = "odoo"
+    user: str = "admin"
+    password: str = "admin"
+    qty: float = 1.0
+    price: float = 229.99
+    product_name: str = ""
+    customer_name: str = ""
+    allow_price_update_existing: bool = False
+
+
+class OdooProductCheckRequest(BaseModel):
+    base_url: str = "http://localhost:8069"
+    db: str = "odoo"
+    user: str = "admin"
+    password: str = "admin"
+    product_name: str = Field(min_length=1)
+
+
+class OdooLiveTutorialStartRequest(BaseModel):
+    base_url: str = "http://localhost:8069"
+    db: str = "odoo"
+    user: str = "admin"
+    password: str = "admin"
 
 
 class WorkflowBlueprintRequest(BaseModel):
@@ -549,6 +584,9 @@ def create_dashboard_html(app_name: str) -> str:
         <button class="nav-btn" data-target="deploy-view" title="Deploy Copilot">
           <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline></svg>
         </button>
+        <button class="nav-btn" data-target="tinder-view" title="Tinder Service">
+          <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 21c4.97 0 9-4.03 9-9s-4.03-9-9-9-9 4.03-9 9 4.03 9 9 9z"/><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4z"/><path d="M12 14c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
+        </button>
         <button class="nav-btn" data-target="ai-providers-view" title="AI Providers & Auth">
           <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
         </button>
@@ -658,6 +696,11 @@ def create_dashboard_html(app_name: str) -> str:
         <!-- DEPLOY COPILOT VIEW -->
         <section id="deploy-view" class="view">
           """ + get_deploy_dashboard_html() + """
+        </section>
+
+        <!-- TINDER SERVICE VIEW -->
+        <section id="tinder-view" class="view">
+          """ + get_tinder_dashboard_html() + """
         </section>
 
       </div>
@@ -1432,10 +1475,47 @@ def create_app(
     @app.post("/api/hermes/run")
     async def api_run_hermes(request: Request):
         data = await request.json()
-        prompt = data.get("prompt")
+        prompt = data.get("prompt", "").strip()
         if not prompt:
             raise HTTPException(status_code=400, detail="No prompt provided")
         
+        # --- Direct Command Interceptor ---
+        if prompt.lower().startswith("/tinder") or prompt.lower().startswith("/bot"):
+            parts = prompt.split()
+            cmd = parts[1].lower() if len(parts) > 1 else "status"
+            
+            bot_url = "http://localhost:8025"
+            try:
+                if cmd == "start":
+                    mode = parts[2].lower() if len(parts) > 2 else "auto"
+                    r = requests.post(f"{bot_url}/api/action", json={"platform": "tinder", "mode": mode}, timeout=5)
+                    return {"response": f"🚀 Bot de Tinder iniciado en modo {mode.upper()}."}
+                elif cmd == "stop":
+                    r = requests.post(f"{bot_url}/api/stop", timeout=5)
+                    return {"response": "🛑 Bot de Tinder detenido correctamente."}
+                elif cmd == "status":
+                    r = requests.get(f"{bot_url}/api/status", timeout=5)
+                    s = r.json()
+                    status_msg = f"📊 **Estado del Bot:** {'ACTIVO' if s['running'] else 'INACTIVO'}\n"
+                    status_msg += f"👤 **Usuario:** {s['user']}\n"
+                    status_msg += f"🌍 **Plataforma:** {s['platform'].upper()}\n"
+                    if s.get("active_profile") and s["active_profile"].get("name"):
+                        status_msg += f"🔍 **Analizando:** {s['active_profile']['name']}"
+                    return {"response": status_msg}
+                elif cmd == "like":
+                    r = requests.post(f"{bot_url}/api/action_manual_like", timeout=5)
+                    return {"response": "👍 Comandado 'LIKE' enviado al navegador."}
+                elif cmd == "dislike":
+                    r = requests.post(f"{bot_url}/api/action_manual_dislike", timeout=5)
+                    return {"response": "👎 Comandado 'DISLIKE' enviado al navegador."}
+                elif cmd == "msg" or cmd == "chat":
+                    text = " ".join(parts[2:])
+                    if not text: return {"response": "⚠️ Por favor especifica el mensaje. Uso: `/tinder msg Hola!`"}
+                    r = requests.post(f"{bot_url}/api/type", json={"text": text + "\\ue007"}, timeout=5)
+                    return {"response": f"💬 Enviando mensaje: *{text}*"}
+            except Exception as e:
+                return {"response": f"❌ Error al conectar con DatingBot PRO: {str(e)}"}
+
         response = await run_hermes_autonomous_workflow(prompt)
         return {"response": response}
 
@@ -1457,6 +1537,208 @@ def create_app(
             "output_text": extract_output_text(response),
             "raw": response,
         }
+
+    @app.post("/api/orca/odoo-e2e")
+    def orca_odoo_e2e(request: OdooE2ERunRequest) -> dict[str, Any]:
+        workspace_root = Path(__file__).resolve().parents[4]
+        script_path = workspace_root / "scripts" / "odoo_invoice_e2e.py"
+        if not script_path.exists():
+            raise HTTPException(status_code=404, detail=f"Script not found: {script_path}")
+        cmd = [
+            sys.executable,
+            str(script_path),
+            "--base-url",
+            request.base_url,
+            "--db",
+            request.db,
+            "--user",
+            request.user,
+            "--password",
+            request.password,
+            "--qty",
+            str(request.qty),
+            "--price",
+            str(request.price),
+        ]
+        if request.product_name.strip():
+            cmd.extend(["--product-name", request.product_name.strip()])
+        if request.customer_name.strip():
+            cmd.extend(["--customer-name", request.customer_name.strip()])
+        if request.allow_price_update_existing:
+            cmd.append("--allow-price-update-existing")
+        proc = subprocess.run(cmd, cwd=str(workspace_root), capture_output=True, text=True, timeout=300)
+        stdout = (proc.stdout or "").strip()
+        stderr = (proc.stderr or "").strip()
+        parsed: dict[str, Any] | None = None
+        if stdout:
+            try:
+                parsed = json.loads(stdout.splitlines()[-1] if "\n" in stdout else stdout)
+            except Exception:
+                # stdout may include multiline json
+                try:
+                    parsed = json.loads(stdout)
+                except Exception:
+                    parsed = None
+        return {
+            "ok": proc.returncode == 0 and bool(parsed and parsed.get("ok") is True),
+            "return_code": proc.returncode,
+            "stdout": stdout,
+            "stderr": stderr,
+            "result": parsed,
+        }
+
+    @app.post("/api/orca/odoo-product-check")
+    def orca_odoo_product_check(request: OdooProductCheckRequest) -> dict[str, Any]:
+        try:
+            common = xmlrpc.client.ServerProxy(f"{request.base_url}/xmlrpc/2/common")
+            uid = common.authenticate(request.db, request.user, request.password, {})
+            if not uid:
+                raise HTTPException(status_code=401, detail="No se pudo autenticar en Odoo")
+            models = xmlrpc.client.ServerProxy(f"{request.base_url}/xmlrpc/2/object")
+            product_ids = models.execute_kw(
+                request.db,
+                uid,
+                request.password,
+                "product.product",
+                "search",
+                [[["name", "=", request.product_name.strip()]]],
+                {"limit": 1},
+            )
+            if not product_ids:
+                return {"ok": True, "exists": False, "product_name": request.product_name.strip()}
+            product_data = models.execute_kw(
+                request.db,
+                uid,
+                request.password,
+                "product.product",
+                "read",
+                [[product_ids[0]], ["name", "lst_price"]],
+            )[0]
+            return {
+                "ok": True,
+                "exists": True,
+                "product_id": product_ids[0],
+                "product_name": product_data.get("name"),
+                "list_price": float(product_data.get("lst_price") or 0),
+            }
+        except HTTPException:
+            raise
+        except Exception as exc:
+            raise HTTPException(status_code=500, detail=f"Error verificando producto en Odoo: {exc}") from exc
+
+    odoo_tutorial_state: dict[str, Any] = {
+        "running": False,
+        "last_run_dir": "",
+        "last_video": "",
+        "last_error": "",
+        "started_at": "",
+    }
+    odoo_tutorial_lock = threading.Lock()
+
+    def _latest_tutorial_dir() -> Path | None:
+        base = Path.home() / "Downloads" / "orca-odoo-evidence"
+        if not base.exists():
+            return None
+        candidates = sorted([p for p in base.glob("selenium-tutorial-*") if p.is_dir()], key=lambda p: p.stat().st_mtime, reverse=True)
+        return candidates[0] if candidates else None
+
+    @app.post("/api/orca/odoo-live-tutorial/start")
+    def orca_odoo_live_tutorial_start(request: OdooLiveTutorialStartRequest) -> dict[str, Any]:
+        workspace_root = Path(__file__).resolve().parents[4]
+        script_path = workspace_root / "scripts" / "orca_odoo_selenium_tutorial.py"
+        if not script_path.exists():
+            raise HTTPException(status_code=404, detail=f"Script not found: {script_path}")
+
+        with odoo_tutorial_lock:
+            if odoo_tutorial_state.get("running"):
+                return {"ok": True, "running": True, "message": "Tutorial already running"}
+            odoo_tutorial_state.update(
+                {
+                    "running": True,
+                    "last_error": "",
+                    "started_at": str(Path.cwd()),
+                }
+            )
+
+        env = os.environ.copy()
+        env["ORCA_WEB_URL"] = "http://localhost:5173"
+        env["ODOO_BASE_URL"] = request.base_url
+        env["ODOO_DB"] = request.db
+        env["ODOO_USER"] = request.user
+        env["ODOO_PASSWORD"] = request.password
+        log_dir = Path.home() / "Downloads" / "orca-odoo-evidence"
+        log_dir.mkdir(parents=True, exist_ok=True)
+        out_path = log_dir / "odoo-live-tutorial.out.log"
+        err_path = log_dir / "odoo-live-tutorial.err.log"
+        out_f = open(out_path, "w", encoding="utf-8")
+        err_f = open(err_path, "w", encoding="utf-8")
+        proc = subprocess.Popen([sys.executable, str(script_path)], cwd=str(workspace_root), env=env, stdout=out_f, stderr=err_f, text=True)
+
+        def _watch() -> None:
+            rc = proc.wait()
+            latest = _latest_tutorial_dir()
+            with odoo_tutorial_lock:
+                odoo_tutorial_state["running"] = False
+                if latest:
+                    odoo_tutorial_state["last_run_dir"] = str(latest)
+                    result_path = latest / "result.json"
+                    if result_path.exists():
+                        try:
+                            result = json.loads(result_path.read_text(encoding="utf-8"))
+                            odoo_tutorial_state["last_video"] = str(result.get("video", ""))
+                            if not result.get("ok"):
+                                odoo_tutorial_state["last_error"] = str(result.get("error", "tutorial failed"))
+                        except Exception as exc:  # pragma: no cover
+                            odoo_tutorial_state["last_error"] = f"Result parse error: {exc}"
+                if rc != 0 and not odoo_tutorial_state.get("last_error"):
+                    odoo_tutorial_state["last_error"] = f"Tutorial process exited with code {rc}"
+            out_f.close()
+            err_f.close()
+
+        threading.Thread(target=_watch, daemon=True).start()
+        return {"ok": True, "running": True, "message": "Tutorial started"}
+
+    @app.get("/api/orca/odoo-live-tutorial/status")
+    def orca_odoo_live_tutorial_status() -> dict[str, Any]:
+        latest = _latest_tutorial_dir()
+        frames: list[str] = []
+        log_lines: list[str] = []
+        latest_frame = ""
+        if latest:
+            frame_dir = latest / "frames"
+            if frame_dir.exists():
+                frame_files = sorted(frame_dir.glob("*.png"))
+                frames = [f.name for f in frame_files]
+                if frame_files:
+                    latest_frame = frame_files[-1].name
+            log_path = latest / "run.log"
+            if log_path.exists():
+                try:
+                    log_lines = log_path.read_text(encoding="utf-8", errors="ignore").splitlines()[-50:]
+                except Exception:
+                    log_lines = []
+        with odoo_tutorial_lock:
+            state = dict(odoo_tutorial_state)
+        return {
+            "ok": True,
+            "running": bool(state.get("running")),
+            "last_error": state.get("last_error", ""),
+            "last_video": state.get("last_video", ""),
+            "run_dir": str(latest) if latest else state.get("last_run_dir", ""),
+            "latest_frame": latest_frame,
+            "frame_count": len(frames),
+            "log_lines": log_lines,
+        }
+
+    @app.get("/api/orca/odoo-live-tutorial/frame/{frame_name}")
+    def orca_odoo_live_tutorial_frame(frame_name: str) -> FileResponse:
+        latest = _latest_tutorial_dir()
+        if not latest:
+            raise HTTPException(status_code=404, detail="No tutorial run found")
+        frame_path = latest / "frames" / frame_name
+        if not frame_path.exists():
+            raise HTTPException(status_code=404, detail="Frame not found")
+        return FileResponse(str(frame_path), media_type="image/png")
 
     @app.get("/", response_class=HTMLResponse)
     def dashboard() -> str:
@@ -1521,6 +1803,9 @@ def create_app(
     if google_oauth_mgr:
         register_google_oauth_endpoints(app)
 
+    # Register Tinder automation endpoints
+    register_tinder_endpoints(app)
+
     # Mount workflow editor static assets
     workflow_editor_assets = Path(__file__).parent.parent.parent / "workflow-editor" / "dist" / "assets"
     if workflow_editor_assets.exists():
@@ -1576,3 +1861,7 @@ def create_app(
 
 def run() -> None:
     uvicorn.run("ai_automation_orchestrator.webapp:create_app", factory=True, host="0.0.0.0", port=8015)
+
+
+if __name__ == "__main__":
+    run()

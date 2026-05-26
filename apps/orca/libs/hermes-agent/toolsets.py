@@ -70,6 +70,8 @@ _HERMES_CORE_TOOLS = [
     "kanban_unblock",
     # Computer use (macOS, gated on cua-driver being installed via check_fn)
     "computer_use",
+    # Dating Bot Control
+    "control_dating_bot", "get_dating_bot_status",
 ]
 
 

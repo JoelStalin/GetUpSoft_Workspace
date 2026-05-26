@@ -1,7 +1,0 @@
-This site can’t be reached
-
-http://0.0.0.1/ is unreachable.
-
-Try running Windows Network Diagnostics.
-ERR_ADDRESS_UNREACHABLE
-Reload

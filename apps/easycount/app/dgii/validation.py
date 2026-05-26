@@ -2,6 +2,8 @@ from __future__ import annotations
 
 from pathlib import Path
 from lxml import etree
+from defusedxml.lxml import fromstring as defused_fromstring
+from defusedxml.lxml import fromstring as defused_fromstring
 
 XSD_DIR_OFFICIAL = Path(__file__).parent.parent.parent / "xsd"
 XSD_DIR_SIMPLIFIED = Path(__file__).parent.parent.parent / "schemas"
@@ -32,7 +34,7 @@ class XSDValidator:
         :return: True if the XML is valid, False otherwise.
         """
         try:
-            xml_doc = etree.fromstring(xml_content)
+            xml_doc = defused_fromstring(xml_content)
             self.schema.assertValid(xml_doc)
             return True
         except etree.DocumentInvalid:

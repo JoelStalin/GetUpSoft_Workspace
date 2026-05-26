@@ -23,6 +23,10 @@ on:
         description: "Run macOS client test/build on GitHub macOS runner"
         required: true
         default: "false"
+      run_linux_client_test:
+        description: "Run Linux client test/build on GitHub Ubuntu runner"
+        required: true
+        default: "false"
       internal_base_url:
         description: "Internal base URL for self-hosted sandbox-link-test"
         required: true
@@ -286,3 +290,36 @@ jobs:
           path: |
             apps/orca-client-gateway/apps/client-desktop/evidence/prod-link-*.json
             apps/orca-client-gateway/apps/client-desktop/dist-packager/GetUpSoft-Orca-Agent-darwin-x64/**/*
+
+  linux-client-test:
+    runs-on: ubuntu-latest
+    needs: vertical-flow-qa
+    if: ${{ github.event.inputs.run_linux_client_test == 'true' }}
+    timeout-minutes: 25
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: "22"
+
+      - name: Run Linux client smoke + production-link + package
+        env:
+          ORCA_BASE_URL: ${{ github.event.inputs.base_url }}
+        run: |
+          set -euo pipefail
+          cd apps/orca-client-gateway/apps/client-desktop
+          npm install
+          npm run smoke
+          npm run e2e:prod-link
+          npm run build:linux:packager
+
+      - name: Upload Linux client artifacts
+        uses: actions/upload-artifact@v7
+        with:
+          name: orca-client-linux-evidence
+          path: |
+            apps/orca-client-gateway/apps/client-desktop/evidence/prod-link-*.json
+            apps/orca-client-gateway/apps/client-desktop/dist-packager/GetUpSoft-Orca-Agent-linux-x64/**/*

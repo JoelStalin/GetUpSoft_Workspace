@@ -26,6 +26,9 @@ function getSandboxRoot() {
   if (process.platform === "darwin") {
     return path.join(os.homedir(), "Library", "Application Support", "GetUpSoft", "OrcaAgent", "sandbox");
   }
+  if (process.platform === "linux") {
+    return path.join(os.homedir(), ".local", "share", "GetUpSoft", "OrcaAgent", "sandbox");
+  }
   const appData = process.env.APPDATA || path.join(os.homedir(), "AppData", "Roaming");
   return path.join(appData, "GetUpSoft", "OrcaAgent", "sandbox");
 }

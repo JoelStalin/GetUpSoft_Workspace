@@ -10,6 +10,12 @@ export const WORKFLOW_EVENTS = {
   PUBLISHED: 'workflow:published',
 } as const
 
+export const WORKFLOW_ACTIONS = {
+  PUSH_HISTORY: 'PUSH_HISTORY',
+  UNDO: 'UNDO',
+  REDO: 'REDO',
+} as const
+
 /**
  * Node event types
  */
@@ -46,6 +52,15 @@ export const EXECUTION_EVENTS = {
   COMPLETED: 'execution:completed',
   FAILED: 'execution:failed',
   CANCELLED: 'execution:cancelled',
+} as const
+
+export const EXECUTION_ACTIONS = {
+  ADD_LOG: 'ADD_LOG',
+  UPDATE_LOG: 'UPDATE_LOG',
+  SET_LOGS: 'SET_LOGS',
+  CLEAR_LOGS: 'CLEAR_LOGS',
+  SET_CURRENT_EXECUTION: 'SET_CURRENT_EXECUTION',
+  SET_IS_EXECUTING: 'SET_IS_EXECUTING',
 } as const
 
 /**

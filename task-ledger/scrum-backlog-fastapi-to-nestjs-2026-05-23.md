@@ -2,7 +2,7 @@
 
 Fecha: 2026-05-23
 Workspace: `GetUpSoft_Workspace`
-Estado: `planned`
+Estado: `implemented` (migracion ejecutada, legacy consolidado)
 Owner sugerido: Backend Architect / Scrum Master
 Prioridad: Alta
 
@@ -110,7 +110,7 @@ Buscar y migrar todo uso interno de:
 
 Rutas esperadas a revisar especialmente:
 
-- `orca/service/`
+- `legacy/python-fastapi/orca-service/`
 - `orca/`
 - `apps/orca/`
 - `apps/orca/src/ai_automation_orchestrator/`
@@ -123,8 +123,8 @@ Rutas esperadas a revisar especialmente:
 - `apps/easycount/app/auth/`
 - `apps/easycount/app/application/`
 - `apps/easycount/app/services/`
-- `01_Core_Platform/easycount-core/`
-- `01_Core_Platform/Easycouting_Refactor/`
+- `legacy/python-fastapi/easycount-core/`
+- `legacy/python-fastapi/Easycouting_Refactor/`
 - cualquier otra ruta interna con FastAPI
 
 No asumir que solo hay una app FastAPI. La auditoria debe buscar en todo el repo.
@@ -195,7 +195,7 @@ Modulos esperados:
 - `HealthModule`: liveness/readiness.
 - `AuthModule`: login, JWT, guards, roles si existen.
 - `EasyCountModule`: producto canonico unico para `apps/easycount/`, `easycount-core/` y `Easycouting_Refactor/`.
-- `OrcaModule`: `orca/service/app.py`, endpoints HTTP ORCA y comandos HTTP si existen.
+- `OrcaModule`: `legacy/python-fastapi/orca-service/app.py`, endpoints HTTP ORCA y comandos HTTP si existen.
 - `AiAutomationModule`: endpoints bajo `apps/orca/src/ai_automation_orchestrator/`, n8n, deploy, provider login y task server si existen.
 - `WorkspaceModule`: workspace manager, status, file operations, git operations, command execution y logs con seguridad estricta.
 - `OdooModule`: solo APIs FastAPI relacionadas con Odoo; no mover addons ni modulos Odoo.
@@ -268,7 +268,7 @@ Entregables:
 
 Objetivo: migrar superficies internas de ORCA sin mover carpetas sin auditoria.
 
-- Migrar `orca/service/app.py`.
+- Migrar `legacy/python-fastapi/orca-service/app.py`.
 - Migrar endpoints HTTP bajo `apps/orca/src/ai_automation_orchestrator/`.
 - Revisar `apps/orca/libs/hermes-agent/` como tooling/agente relacionado.
 - Documentar Python que quede como CLI, worker no HTTP o legacy temporal.
@@ -320,12 +320,12 @@ Objetivo: cerrar migracion sin FastAPI interno activo injustificado y limpiar el
 
 Directorio legacy sugerido:
 
-`09_Archives/legacy-fastapi-python/`
+`legacy/python-fastapi/`
 
 Estructura sugerida:
 
 ```text
-09_Archives/legacy-fastapi-python/
+legacy/python-fastapi/
 ├── README.md
 ├── legacy_manifest.md
 ├── orca/
@@ -369,7 +369,7 @@ La migracion se considera completa solo si:
 14. La documentacion explica como correr NestJS.
 15. La documentacion explica que queda de FastAPI, si queda algo.
 16. No hay endpoints FastAPI internos activos sin justificar.
-17. El codigo FastAPI reemplazado fue eliminado o centralizado en `09_Archives/legacy-fastapi-python/`.
+17. El codigo FastAPI reemplazado fue eliminado o centralizado en `legacy/python-fastapi/`.
 18. El manifiesto legacy indica que fue reemplazado, retirado, aislado o dejado temporalmente como legacy.
 
 ## Validaciones Requeridas
@@ -419,8 +419,8 @@ Validacion de exclusiones:
 - `apps/backend-nest/README.md`
 - `apps/backend-nest/docs/migration-notes.md`
 - `apps/backend-nest/docs/api-compatibility.md`
-- `09_Archives/legacy-fastapi-python/README.md`
-- `09_Archives/legacy-fastapi-python/legacy_manifest.md`
+- `legacy/python-fastapi/README.md`
+- `legacy/python-fastapi/legacy_manifest.md`
 
 Actualizar si aplica:
 
@@ -460,4 +460,3 @@ No declarar la migracion como completada si queda algun endpoint FastAPI interno
 - migrado a NestJS;
 - excluido por ser client solution;
 - documentado como legacy/tooling no HTTP o bloqueo temporal.
-

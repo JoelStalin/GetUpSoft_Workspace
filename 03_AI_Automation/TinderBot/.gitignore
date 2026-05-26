@@ -1,9 +1,0 @@
-venv
-.idea
-constants.py
-data/
-tinderbotz.egg-info
-dist
-build
-__pycache__/
-chrome_profile/

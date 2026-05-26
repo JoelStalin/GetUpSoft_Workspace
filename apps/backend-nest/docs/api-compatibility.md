@@ -1,6 +1,6 @@
 # API Compatibility
 
-## Migrated From `orca/service/app.py`
+## Migrated From `legacy/python-fastapi/orca-service/app.py`
 
 | FastAPI endpoint | NestJS endpoint | Status | Notes |
 |---|---|---|---|

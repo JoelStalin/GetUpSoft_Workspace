@@ -5,7 +5,6 @@ from pathlib import Path
 from typing import Literal
 
 import typer
-import uvicorn
 import yaml
 
 from orca.audio.jarvis_listener import JarvisListener
@@ -16,10 +15,11 @@ from orca.audio.transcript_history import TranscriptHistory
 from orca.config import get_settings
 from orca.core.prompt_interpreter import PromptInterpreter
 from orca.integrations.n8n_contract import build_n8n_contract
+from orca.integrations.tinder import handle_tinder_command
 from orca.memory.obsidian_vault import ObsidianVault
 from orca.ml.train_intent_model import train_intent_model
 from orca.output.output_adapter import OutputAdapter
-from orca.service.app import build_health_response
+from orca.service_health import build_health_response
 from orca.storage.error_registry import ErrorRegistry
 
 app = typer.Typer(help="ORCA offline prompt interpreter")
@@ -102,6 +102,40 @@ def record_error(
         manual_validation_steps=validation_step,
     )
     typer.echo(json.dumps(record.__dict__, ensure_ascii=False, indent=2))
+
+
+@app.command("tinder-automation")
+def tinder_automation(action: str, headless: bool = False, extra_args: list[str] = typer.Argument(None)) -> None:
+    """Control the integrated Tinder automation service."""
+    if action == "logs":
+        from orca.storage.activity_registry import ActivityRegistry
+        registry = ActivityRegistry(get_settings())
+        logs = registry.recent(service="Tinder", limit=50)
+        typer.echo(json.dumps([log.__dict__ for log in logs], ensure_ascii=False))
+        return
+
+    if action == "stats":
+        from orca.storage.activity_registry import ActivityRegistry
+        registry = ActivityRegistry(get_settings())
+        stats = registry.get_stats(service="Tinder")
+        typer.echo(json.dumps(stats, ensure_ascii=False))
+        return
+
+    if action == "matches":
+        result = handle_tinder_command(action, headless=headless)
+        typer.echo(json.dumps(result, ensure_ascii=False))
+        return
+
+    if action == "ai-reply":
+        if not extra_args:
+            typer.echo(json.dumps({"error": "Missing chat_id"}, ensure_ascii=False))
+            return
+        result = handle_tinder_command(action, headless=headless, extra_args=extra_args)
+        typer.echo(json.dumps(result, ensure_ascii=False))
+        return
+
+    result = handle_tinder_command(action, headless=headless, extra_args=extra_args)
+    typer.echo(json.dumps(result, ensure_ascii=False))
 
 
 def _resolve_transcript_history(*, enabled: bool) -> TranscriptHistory:
@@ -347,13 +381,10 @@ def service_health() -> None:
 
 @service_app.command("run")
 def service_run(host: str | None = None, port: int | None = None) -> None:
-    """Run the local ORCA HTTP service."""
-    settings = get_settings()
-    uvicorn.run(
-        "orca.service.app:create_app",
-        factory=True,
-        host=host or settings.service_host,
-        port=port or settings.service_port,
+    """Run the migrated ORCA backend service."""
+    del host, port
+    typer.echo(
+        "ORCA FastAPI service was migrated. Use apps/backend-nest instead (npm run start:dev in apps/backend-nest)."
     )
 
 

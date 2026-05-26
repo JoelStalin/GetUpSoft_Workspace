@@ -36,3 +36,13 @@ Nota:
 
 En algunos entornos Windows puede fallar por permisos de symlink en el cache de `winCodeSign`.
 Usar `build:win:packager` como fallback operativo local.
+
+## Build Linux (packager)
+
+```bash
+npm run build:linux:packager
+```
+
+Salida:
+
+`dist-packager/GetUpSoft-Orca-Agent-linux-x64/`

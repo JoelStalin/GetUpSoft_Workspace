@@ -65,6 +65,14 @@ class OrcaSettings(BaseModel):
     def transcript_history_path(self) -> Path:
         return self.sqlite_dir / "jarvis_transcript_history.jsonl"
 
+    @property
+    def activity_registry_path(self) -> Path:
+        return self.sqlite_dir / "orca_activity.sqlite3"
+
+    @property
+    def tinder_settings_path(self) -> Path:
+        return self.sqlite_dir / "tinder_settings.yaml"
+
 
 def get_settings() -> OrcaSettings:
     return OrcaSettings()

@@ -5,11 +5,11 @@ NestJS migration target for internal GetUpSoft FastAPI/Python HTTP surfaces.
 ## Current Status
 
 - `HealthModule`: implemented.
-- `OrcaModule`: first compatibility migration for `orca/service/app.py`.
+- `OrcaModule`: compatibility migration for `legacy/python-fastapi/orca-service/app.py` (source FastAPI legacy).
 - `WorkersModule`: compatibility migration for `apps/orca/src/ai_automation_orchestrator/task_server.py`.
 - `WorkspaceModule`: compatibility migration for `apps/orca/src/ai_automation_orchestrator/workspace_endpoints.py`.
 - `AiAutomationModule`: provider catalog/config migration for provider endpoints.
-- Python ORCA core is currently used as non-HTTP bridge through `python -m orca.cli` while the internal interpreter logic is ported to TypeScript.
+- ORCA bridge mode defaults to deterministic `mock` in NestJS (`ORCA_BRIDGE_MODE=mock`); set `ORCA_BRIDGE_MODE=python` to invoke Python CLI bridge when needed.
 
 ## Commands
 
