@@ -12,6 +12,7 @@ import { parseWorkflow, validateWorkflow, describeWorkflow } from '../../utils/w
 import { generateWorkflow, validateGeneratedWorkflow, summarizeWorkflow } from '../../services/workflowGenerator'
 import { aiApiClient, AuthError, RateLimitError, ModelNotFoundError, TimeoutError, AllProvidersFailedError } from '../../services/aiApiClient'
 import { getAllModels, getModel, validateModelApiKey } from '../../config/models'
+import { resolveProductName, getRecentTemplates, saveTemplate } from '../../utils/invoiceIntentParser'
 
 interface ChatMessage {
   id: string
@@ -264,6 +265,17 @@ export default function AIMode() {
 
   const resolveInvoiceIntentWithMemory = (details: InvoiceIntentData): { details: InvoiceIntentData; notes: string[] } => {
     if (!details.productName) return { details, notes: [] }
+
+    // Use enhanced fuzzy matching first
+    const fuzzyResolution = resolveProductName(details.productName)
+    if (fuzzyResolution.matched) {
+      return {
+        details: { ...details, productName: fuzzyResolution.resolved },
+        notes: fuzzyResolution.notes,
+      }
+    }
+
+    // Fall back to legacy memory-based rewrite
     const productRewrite = rewriteProductWithMemory(details.productName)
     if (productRewrite.productName === details.productName && productRewrite.notes.length === 0) {
       return { details, notes: [] }
@@ -400,10 +412,25 @@ export default function AIMode() {
     return null
   }
 
-  const invoiceMissingMessage = (field: PendingInvoiceDraft['waitingFor']) => {
-    if (field === 'productName') return '¿Para qué producto quieres generar la factura?'
-    if (field === 'customerName') return '¿Para qué cliente debo generar la factura?'
-    return '¿Cuál es el monto o precio unitario del producto?'
+  const invoiceMissingMessage = (
+    field: PendingInvoiceDraft['waitingFor'],
+    context?: { customerName?: string; productName?: string; price?: number }
+  ) => {
+    if (field === 'productName') {
+      if (context?.customerName) {
+        return `¿Qué producto deseas facturar para el cliente ${context.customerName}?`
+      }
+      return '¿Cuál es el nombre del producto para la factura?'
+    }
+    if (field === 'customerName') {
+      if (context?.productName) {
+        return `¿Para qué cliente debo emitir la factura de ${context.productName}?`
+      }
+      return '¿Cuál es el nombre del cliente para esta factura?'
+    }
+    return context?.productName && context?.customerName
+      ? `¿Cuál es el monto o precio de ${context.productName} para ${context.customerName}?`
+      : '¿Cuál es el monto o precio unitario del producto?'
   }
 
   const mergeInvoiceDetails = (previous: PendingInvoiceDraft | null, text: string): InvoiceIntentData => {
@@ -489,13 +516,21 @@ export default function AIMode() {
     const effectiveDetails = interpretation.details
 
     if (interpretation.notes.length > 0) {
-      setOdooLiveSteps((prev) => [...prev, ...interpretation.notes.map((note) => `Memoria/Investigacion: ${note}`)])
+      setOdooLiveSteps((prev) => [...prev, ...interpretation.notes.map((note) => `Normalización: ${note}`)])
+      const correctionText = interpretation.notes
+        .map((note) => {
+          if (note.includes('Producto normalizado')) {
+            return `✓ ${note}`
+          }
+          return note
+        })
+        .join('\n')
       setMessages((m) => [
         ...m,
         {
           id: `a-research-${Date.now()}`,
           role: 'agent',
-          content: `Investigue la instruccion con la memoria del workflow: ${interpretation.notes.join(' ')}`,
+          content: `Detecté y normalicé los datos de tu solicitud:\n${correctionText}`,
           timestamp: new Date().toISOString(),
         },
       ])
@@ -510,7 +545,7 @@ export default function AIMode() {
         {
           id: `a-missing-${Date.now()}`,
           role: 'agent',
-          content: invoiceMissingMessage(missing),
+          content: invoiceMissingMessage(missing, effectiveDetails),
           timestamp: new Date().toISOString(),
         },
       ])
@@ -546,7 +581,7 @@ export default function AIMode() {
         {
           id: `a-missing-${Date.now()}`,
           role: 'agent',
-          content: invoiceMissingMessage('price'),
+          content: invoiceMissingMessage('price', effectiveDetails),
           timestamp: new Date().toISOString(),
         },
       ])
@@ -618,7 +653,7 @@ export default function AIMode() {
           {
             id: `a-missing-${Date.now()}`,
             role: 'agent',
-            content: invoiceMissingMessage(missing),
+            content: invoiceMissingMessage(missing, details),
             timestamp: new Date().toISOString(),
           },
         ])
@@ -1289,6 +1324,11 @@ export default function AIMode() {
         'Operación finalizada correctamente.',
       ])
       upsertLiveNode('done', `Factura ${result.invoiceName || result.invoiceId || 'N/A'} pagada`)
+      // Save workflow template for future reuse
+      if (options?.customerName && options?.productName && price > 0) {
+        saveTemplate(options.customerName, options.productName, price)
+      }
+
       if (fromChat) {
         setMessages((m) => [
           ...m,
