@@ -2,10 +2,11 @@
 
 Use the same workspace policy as Codex.
 
-Before touching a project:
-
-1. Run `.\scripts\agent_start.ps1`.
-2. If needed, re-run `.\scripts\workspace_bootstrap.ps1`.
+## Mandatory Rules (Non-Negotiable)
+1. **DatingBot PRO Continuity**: NEVER remove, deprecate, or hide existing system functions (WhatsApp, Bumble, Orca Chat, etc.) without explicit user approval through DOUBLE VALIDATION.
+2. Before touching a project:
+   - Run `.\scripts\agent_start.ps1`.
+   - If needed, re-run `.\scripts\workspace_bootstrap.ps1`.
 3. Read `task-ledger\skill-recommendations.md`.
 4. Normalize the request with `.\scripts\caveman_route.ps1`.
 5. Use the most specific skill set from `.agents\skills`.
