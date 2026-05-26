@@ -462,6 +462,25 @@ export default function AIMode() {
     }
   }
 
+  const lookupOdooCustomer = async (customerName: string): Promise<{ exists: boolean; id?: number; email?: string } | null> => {
+    try {
+      const checkResp = await fetch('/api/orca/odoo-customer-check', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ customer_name: customerName }),
+      })
+      const checkData = await checkResp.json()
+      if (!checkResp.ok || !checkData?.ok) return null
+      return {
+        exists: Boolean(checkData.exists),
+        id: typeof checkData.id === 'number' ? checkData.id : undefined,
+        email: typeof checkData.email === 'string' ? checkData.email : undefined,
+      }
+    } catch {
+      return null
+    }
+  }
+
   const showExistingPriceDecisionInLive = (data: PendingExistingPriceDecision) => {
     setShowOdooLiveIframe(true)
     setLiveIframeError(null)
@@ -553,6 +572,19 @@ export default function AIMode() {
     }
 
     const productCheck = await lookupOdooProduct(effectiveDetails.productName)
+    const customerCheck = await lookupOdooCustomer(effectiveDetails.customerName)
+
+    if (!customerCheck?.exists) {
+      setMessages((m) => [
+        ...m,
+        {
+          id: `a-customer-info-${Date.now()}`,
+          role: 'agent',
+          content: `El cliente "${effectiveDetails.customerName}" no existe en Odoo. Crearé uno automáticamente con la información disponible.`,
+          timestamp: new Date().toISOString(),
+        },
+      ])
+    }
 
     if (!effectiveDetails.price) {
       if (productCheck?.exists && typeof productCheck.listPrice === 'number' && productCheck.listPrice > 0) {
