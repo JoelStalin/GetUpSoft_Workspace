@@ -1,12 +1,13 @@
 # -*- coding: utf-8 -*-
 {
     "name": "POS Printing Suite",
-    "version": "18.0.1.0.0",
+    "version": "18.0.2.0.0",
+    "author": "getupsoft",
+    "website": "https://getupsoft.com/",
     "license": "LGPL-3",
     "category": "Sales/Point of Sale",
     "summary": "Unified POS printing: Local Agent (Windows), HW Proxy, Self-Order",
-    "author": "GetUpSoft",
-    "depends": ["point_of_sale", 'pos_self_order'],
+    "depends": ["point_of_sale", 'pos_self_order', 'base_orca_integration'],
     "post_init_hook": "post_init_hook",
     "assets": {
         # Legacy compatibility: /pos/web (older POS route) may rely on this bundle key.
@@ -24,8 +25,10 @@
     "data": [
         "security/ir.model.access.csv",
         "security/security.xml",
+        "security/pos_printing_orca_access.csv",
         "views/pos_config_views.xml",
         "views/agent_install_wizard_views.xml",
+        "views/pos_printing_orca_log_views.xml",
     ],
     "installable": True,
     "application": False,
