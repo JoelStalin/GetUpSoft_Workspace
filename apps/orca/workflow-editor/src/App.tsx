@@ -26,10 +26,12 @@ import MobileDesignMode from './components/modes/MobileDesignMode'
 // Contexts & hooks
 import { WorkflowProvider } from './contexts/WorkflowContext'
 import { ExecutionProvider } from './contexts/ExecutionContext'
+import { ErrorRecoveryProvider } from './contexts/ErrorRecoveryContext'
 import { WindowProvider, useWindows } from './contexts/WindowContext'
 import { ToastProvider } from './contexts/ToastContext'
 import { useWorkflowOperations } from './hooks/useWorkflowOperations'
-import { useExecutionStatus } from './hooks/useExecutionStatus'
+import { useExecutionStatus } from './hooks/useWorkflowOperations'
+import { useErrorRecovery } from './hooks/useWorkflowOperations'
 import { useSearch } from './hooks/useSearch'
 import { useKeyboardShortcuts, SHORTCUTS } from './hooks/useKeyboardShortcuts'
 import { useClipboard } from './hooks/useClipboard'
@@ -460,9 +462,11 @@ export default function App() {
     <ToastProvider>
       <WorkflowProvider>
         <ExecutionProvider>
-          <WindowProvider>
-            <AppContent />
-          </WindowProvider>
+          <ErrorRecoveryProvider>
+            <WindowProvider>
+              <AppContent />
+            </WindowProvider>
+          </ErrorRecoveryProvider>
         </ExecutionProvider>
       </WorkflowProvider>
     </ToastProvider>
