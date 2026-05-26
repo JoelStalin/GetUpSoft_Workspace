@@ -24,6 +24,9 @@ const nodeTypes = {
   default: OrcaNode,
 }
 
+/**
+ * MIGRATED: Uses P2 hooks (useWorkflowOperations, useWorkflowHistory)
+ */
 export default function WorkflowCanvas({ activeMode = 'workflow' }: { activeMode?: AppMode }) {
   const { workflow, selectedNodeId, addNode, updateNode, addEdge: addEdgeToStore, deleteNode, deleteEdge } = useWorkflowOperations()
   const { pushHistory, undo, redo } = useWorkflowHistory()
