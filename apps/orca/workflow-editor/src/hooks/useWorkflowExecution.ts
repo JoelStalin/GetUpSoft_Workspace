@@ -1,5 +1,5 @@
 import { useCallback, useRef } from 'react'
-import { useExecutionStatus } from './useExecutionStatus'
+import { useExecutionOperations } from './useWorkflowOperations'
 
 interface ExecutionStep {
   nodeId: string
@@ -9,8 +9,11 @@ interface ExecutionStep {
   duration?: number
 }
 
+/**
+ * MIGRATED: Now uses P2 hooks (useExecutionOperations)
+ */
 export function useWorkflowExecution() {
-  const { addLog } = useExecutionStatus()
+  const { addLog } = useExecutionOperations()
   const executionRef = useRef<NodeJS.Timeout | null>(null)
 
   const simulateExecution = useCallback(
