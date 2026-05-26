@@ -1,12 +1,14 @@
-import { useExecutionStatus } from '../hooks/useExecutionStatus'
+import { useExecutionStatus } from '../hooks/useWorkflowOperations'
 import { CheckCircle, AlertCircle, Clock, Zap, X } from 'lucide-react'
 
 /**
  * Compact execution status bar for toolbar
  * Shows real-time execution progress and stats
+ * MIGRATED: Now uses P2 ExecutionContext hooks
  */
 export default function ExecutionStatusBar() {
-  const { isExecuting, logs } = useExecutionStatus()
+  const executionState = useExecutionStatus()
+  const { status: executionStatus, logs, isRunning: isExecuting, progress } = executionState
 
   if (!isExecuting && logs.length === 0) {
     return null
