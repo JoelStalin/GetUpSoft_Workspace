@@ -1,11 +1,12 @@
 # Chefalitas Odoo Deployment
 
-Este repositorio prepara una instancia de **Odoo 18** junto con PostgreSQL, pgAdmin y un *reverse proxy* **Nginx + Certbot**. El objetivo es poder desplegar `chefalitas.com.do` (y su alias `www.chefalitas.com.do`), comenzando con HTTP puro para emitir los certificados y luego activando HTTPS.
+Este repositorio prepara una instancia de **Odoo 18** con opción de usar PostgreSQL local o un PostgreSQL unificado (`getupsoft-db`), junto con pgAdmin y un *reverse proxy* **Nginx + Certbot**. El objetivo es poder desplegar `chefalitas.com.do` (y su alias `www.chefalitas.com.do`), comenzando con HTTP puro para emitir los certificados y luego activando HTTPS.
 
 ## Servicios incluidos
 
 - **Odoo 18.0** – aplicación principal
-- **PostgreSQL 15** – base de datos
+- **PostgreSQL 15 (opcional con profile `local-db`)** – base de datos local
+- **PostgreSQL unificado (`getupsoft-db`)** – modo recomendado para operación compartida
 - **pgAdmin 4** – administración de PostgreSQL
 - **Nginx** – *reverse proxy* para publicar Odoo
 - **Certbot** – emisión y renovación automática de certificados SSL
@@ -32,11 +33,17 @@ Ademas instala `addons/requirements.txt` en build para evitar `pip install` en r
 
 ## Puesta en marcha básica
 
-1. Copia el `.env` correspondiente y define las variables para Odoo, PostgreSQL y pgAdmin.
+1. Copia `.env.example` a `.env` y define variables.
 2. Levanta los servicios base:
 
    ```bash
-   docker compose up -d db odoo pgadmin nginx certbot
+   docker compose up -d odoo pgadmin nginx certbot
+   ```
+
+   Si necesitas PostgreSQL local para laboratorio:
+
+   ```bash
+   docker compose --profile local-db up -d db
    ```
 
 3. (Firewall opcional) Si el servidor utiliza **UFW**, abre HTTP y HTTPS para Nginx:
@@ -116,6 +123,11 @@ En el directorio `backups/` encontrarás dos scripts para crear y recuperar resp
 - `backup_odoo18.sh` genera tres archivos comprimidos con los volúmenes de PostgreSQL y Odoo, además de un `pg_dumpall` lógico. Solo mantiene la copia más reciente para evitar acumular archivos.
 - `restore_odoo18.sh` toma el respaldo más nuevo disponible y restaura los volúmenes y la base de datos.
 
+Además, para modo PostgreSQL unificado (`getupsoft-db`) usa:
+
+- `backup_unified_pg.sh`: respaldo lógico de la base del servicio + archivos clave.
+- `restore_unified_pg.sh`: restaura el último respaldo lógico y archivos.
+
 ### Crear un respaldo manual
 
 ```bash
@@ -133,6 +145,31 @@ cd ~/odoo18/backups
 ```
 
 El script detendrá los servicios, limpiará los volúmenes y aplicará el `pg_dumpall` comprimido. Verifica nuevamente el nombre del contenedor de PostgreSQL (`PG_CONTAINER`) y el usuario (`PG_USER`) si difieren de la configuración por defecto.
+
+### Backup para PostgreSQL unificado (recomendado para migrar AWS/GCloud)
+
+```bash
+cd ~/odoo18/backups
+chmod +x backup_unified_pg.sh
+./backup_unified_pg.sh
+```
+
+### Restore para PostgreSQL unificado
+
+```bash
+cd ~/odoo18/backups
+chmod +x restore_unified_pg.sh
+./restore_unified_pg.sh
+```
+
+## Portabilidad de migración (AWS / GCloud)
+
+Con el modo unificado:
+1. Ejecuta `backup_unified_pg.sh` en origen.
+2. Copia los artefactos `chefalitas_db_*.sql.gz` y `chefalitas_files_*.tgz` al destino.
+3. En el destino, configura `.env` apuntando a `ODOO_HOST=getupsoft-db`.
+4. Ejecuta `restore_unified_pg.sh`.
+5. Ejecuta `COMPOSE_PROJECT_NAME=odoo18 bash ./restart.sh`.
 
 ## Deploy automático con GitHub Actions
 

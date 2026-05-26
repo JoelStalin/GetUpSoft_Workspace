@@ -6,8 +6,6 @@ services:
       dockerfile: odoo/Dockerfile
       args:
         ODOO_IMAGE: odoo:18.0
-    depends_on:
-      - db
     env_file: .env
     restart: always
     ports:
@@ -27,6 +25,7 @@ services:
 
   db:
     image: postgres:15
+    profiles: ["local-db"]
     env_file: .env
     restart: always
     ports:
