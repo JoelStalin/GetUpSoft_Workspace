@@ -1,6 +1,8 @@
 import { BadRequestException, Body, Controller, Get, Post } from '@nestjs/common';
-import { ApiOperation, ApiTags } from '@nestjs/swagger';
+import { ApiOperation, ApiTags, ApiResponse } from '@nestjs/swagger';
 import { InterpretRequestDto } from './dto/interpret-request.dto';
+import { AuditLogRequestDto } from './dto/audit-log-request.dto';
+import { FiscalSyncRequestDto } from './dto/fiscal-sync-request.dto';
 import { OrcaService } from './orca.service';
 
 @ApiTags('orca')
@@ -30,5 +32,24 @@ export class OrcaController {
       throw new BadRequestException('Unsupported source_type');
     }
     return this.orcaService.n8nPayload(request);
+  }
+
+  @Post('audit-log')
+  @ApiOperation({ summary: 'Record audit log from Odoo module' })
+  @ApiResponse({ status: 201, description: 'Audit log recorded successfully' })
+  @ApiResponse({ status: 400, description: 'Invalid request payload' })
+  async auditLog(@Body() request: AuditLogRequestDto) {
+    if (!['create', 'write', 'unlink', 'sync'].includes(request.action)) {
+      throw new BadRequestException('Unsupported action type');
+    }
+    return this.orcaService.recordAuditLog(request);
+  }
+
+  @Post('fiscal-sync')
+  @ApiOperation({ summary: 'Sync fiscal operation from Odoo module' })
+  @ApiResponse({ status: 201, description: 'Fiscal operation synced successfully' })
+  @ApiResponse({ status: 400, description: 'Invalid request payload' })
+  async fiscalSync(@Body() request: FiscalSyncRequestDto) {
+    return this.orcaService.processFiscalSync(request);
   }
 }

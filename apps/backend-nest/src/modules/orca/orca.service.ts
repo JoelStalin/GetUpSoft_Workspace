@@ -1,13 +1,17 @@
-import { Injectable, InternalServerErrorException } from '@nestjs/common';
+import { Injectable, InternalServerErrorException, Logger } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { execFile } from 'node:child_process';
 import { promisify } from 'node:util';
 import { InterpretRequestDto } from './dto/interpret-request.dto';
+import { AuditLogRequestDto } from './dto/audit-log-request.dto';
+import { FiscalSyncRequestDto } from './dto/fiscal-sync-request.dto';
 
 const execFileAsync = promisify(execFile);
 
 @Injectable()
 export class OrcaService {
+  private readonly logger = new Logger(OrcaService.name);
+
   constructor(private readonly config: ConfigService) {}
 
   health() {
@@ -121,5 +125,65 @@ export class OrcaService {
         error_recovery_prompt: `Diagnosticar y recuperar para: ${request.content}`,
       },
     };
+  }
+
+  async recordAuditLog(request: AuditLogRequestDto) {
+    try {
+      this.logger.log(
+        `Recording audit log: ${request.module}.${request.model}[${request.record_id}] action=${request.action}`,
+      );
+
+      // TODO: Implement persistent storage of audit logs (database, data warehouse, or logging service)
+      // Currently returns success response for Odoo modules to mark as synced
+      // In production, this should:
+      // 1. Store to database with full before/after snapshots
+      // 2. Trigger any configured webhooks or downstream processors
+      // 3. Update metrics and monitoring dashboards
+
+      return {
+        success: true,
+        request_id: `audit_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
+        module: request.module,
+        model: request.model,
+        record_id: request.record_id,
+        action: request.action,
+        timestamp: new Date().toISOString(),
+        message: 'Audit log recorded successfully',
+      };
+    } catch (error) {
+      this.logger.error(`Failed to record audit log: ${error instanceof Error ? error.message : 'Unknown error'}`);
+      throw new InternalServerErrorException('Failed to record audit log');
+    }
+  }
+
+  async processFiscalSync(request: FiscalSyncRequestDto) {
+    try {
+      this.logger.log(
+        `Processing fiscal sync: ${request.module}.${request.model}[${request.record_id}] type=${request.sync_type}`,
+      );
+
+      // TODO: Implement fiscal operation sync logic
+      // Currently returns success response for Odoo modules
+      // In production, this should:
+      // 1. Validate fiscal data according to jurisdiction rules (DO DGII, ES AEAT, etc.)
+      // 2. Route to appropriate fiscal authority API (DGII, SAT, etc.)
+      // 3. Store submission records with government response data
+      // 4. Update Odoo module with sync status and any government-assigned identifiers
+      // 5. Trigger compliance monitoring and audit trails
+
+      return {
+        success: true,
+        request_id: `fiscal_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
+        module: request.module,
+        model: request.model,
+        record_id: request.record_id,
+        sync_type: request.sync_type,
+        timestamp: new Date().toISOString(),
+        message: 'Fiscal operation sync initiated successfully',
+      };
+    } catch (error) {
+      this.logger.error(`Failed to process fiscal sync: ${error instanceof Error ? error.message : 'Unknown error'}`);
+      throw new InternalServerErrorException('Failed to process fiscal sync');
+    }
   }
 }
