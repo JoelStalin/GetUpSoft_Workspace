@@ -4,7 +4,9 @@
 
 {
     'name': 'Emy POS Epson Printer',
-    'version': '1.0',
+    'version': '1.1.0',
+    'author': 'getupsoft',
+    'website': 'https://getupsoft.com/',
     'category': 'Sales/Point of Sale',
     'sequence': 2,
     'summary': 'Epson ePOS Printers in PoS',
@@ -12,11 +14,13 @@
 
 Use Epson ePOS Printers without the IoT Box in the Point of Sale
 """,
-    'depends': ['point_of_sale'],
+    'depends': ['point_of_sale', 'base_orca_integration'],
     'data': [
         'views/pos_config_views.xml',
         'views/res_config_settings_views.xml',
         'views/pos_printer_views.xml',
+        'views/pos_printer_orca_log_views.xml',
+        'security/ir.model.access.csv',
     ],
     'installable': True,
     'auto_install': True,
