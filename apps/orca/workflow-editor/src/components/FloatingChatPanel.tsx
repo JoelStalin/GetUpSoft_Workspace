@@ -38,6 +38,10 @@ const getDefaultMessages = (): ChatMessage[] => [
   },
 ]
 
+/**
+ * Chat panel UI component - manages local chat state with localStorage persistence
+ * Uses useMentions hook and ToastContext, independent of P2 workflow state
+ */
 export default function FloatingChatPanel() {
   const [messages, setMessages] = useState<ChatMessage[]>(loadChatHistory())
   const [input, setInput] = useState('')
