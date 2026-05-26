@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { AlertCircle, CheckCircle, AlertTriangle, X } from 'lucide-react'
 import { ValidationIssue } from '../utils/workflowValidation'
+import { useErrorRecovery } from '../hooks/useWorkflowOperations'
 
 interface ErrorPanelProps {
   errors?: ValidationIssue[]
@@ -12,6 +13,7 @@ interface ErrorPanelProps {
 /**
  * Panel for displaying validation errors and warnings
  * Can be used in modal, sidebar, or inline
+ * MIGRATED: Now integrates with P2 ErrorRecoveryContext
  */
 export default function ErrorPanel({
   errors = [],
@@ -20,6 +22,7 @@ export default function ErrorPanel({
   compact = false,
 }: ErrorPanelProps) {
   const [dismissed, setDismissed] = useState(false)
+  const { retryableErrors } = useErrorRecovery()
 
   if (dismissed || (errors.length === 0 && warnings.length === 0)) {
     return null
