@@ -1,9 +1,13 @@
 import { useMemo } from 'react'
-import { useExecutionStatus } from '../hooks/useExecutionStatus'
+import { useExecutionStatus } from '../hooks/useWorkflowOperations'
 import { CheckCircle, AlertCircle, Clock, Zap } from 'lucide-react'
 
+/**
+ * MIGRATED: Now uses P2 hooks (useExecutionStatus)
+ */
 export default function ExecutionTimeline() {
-  const { logs: executionLogs } = useExecutionStatus()
+  const executionState = useExecutionStatus()
+  const executionLogs = executionState.logs
 
   const stats = useMemo(() => {
     if (!executionLogs || executionLogs.length === 0) {
