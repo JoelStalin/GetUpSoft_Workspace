@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- ORCA Log List View -->
+        <record id="view_account_move_orca_log_tree" model="ir.ui.view">
+            <field name="name">l10n.do.accounting.orca.log.tree</field>
+            <field name="model">l10n.do.accounting.orca.log</field>
+            <field name="arch" type="xml">
+                <tree string="Account Move ORCA Audit Log" create="false" edit="false" delete="false">
+                    <field name="date" string="Date"/>
+                    <field name="user_id" string="User"/>
+                    <field name="record_id" string="Record ID"/>
+                    <field name="action" string="Action"/>
+                    <field name="encf" string="e-CF"/>
+                    <field name="fiscal_state" string="Fiscal State"/>
+                    <field name="amount_total" string="Amount"/>
+                    <field name="orca_synced" string="ORCA Synced"/>
+                </tree>
+            </field>
+        </record>
+
+        <!-- ORCA Log Form View -->
+        <record id="view_account_move_orca_log_form" model="ir.ui.view">
+            <field name="name">l10n.do.accounting.orca.log.form</field>
+            <field name="model">l10n.do.accounting.orca.log</field>
+            <field name="arch" type="xml">
+                <form string="Account Move ORCA Audit Log" create="false" edit="false" delete="false">
+                    <sheet>
+                        <div class="oe_title">
+                            <h1>
+                                <field name="id"/>
+                                <span class="oe_read_only">-</span>
+                                <field name="action" class="oe_inline"/>
+                            </h1>
+                        </div>
+                        <group>
+                            <group>
+                                <field name="date"/>
+                                <field name="user_id"/>
+                                <field name="module_name"/>
+                                <field name="model_name"/>
+                            </group>
+                            <group>
+                                <field name="record_id"/>
+                                <field name="encf"/>
+                                <field name="fiscal_state"/>
+                                <field name="dgii_uuid"/>
+                            </group>
+                        </group>
+                        <group>
+                            <group>
+                                <field name="amount_total"/>
+                                <field name="move_type"/>
+                            </group>
+                            <group>
+                                <field name="orca_synced"/>
+                                <field name="orca_request_id"/>
+                            </group>
+                        </group>
+                        <separator string="Values"/>
+                        <group>
+                            <field name="before_values" widget="text" nolabel="1"/>
+                        </group>
+                        <group>
+                            <field name="after_values" widget="text" nolabel="1"/>
+                        </group>
+                        <separator string="ORCA Sync Status"/>
+                        <group>
+                            <field name="orca_sync_error" widget="text" nolabel="1"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!-- Search View -->
+        <record id="view_account_move_orca_log_search" model="ir.ui.view">
+            <field name="name">l10n.do.accounting.orca.log.search</field>
+            <field name="model">l10n.do.accounting.orca.log</field>
+            <field name="arch" type="xml">
+                <search string="Account Move ORCA Audit Log">
+                    <field name="record_id"/>
+                    <field name="encf"/>
+                    <field name="user_id"/>
+                    <field name="date"/>
+                    <filter name="synced" string="Synced to ORCA" domain="[('orca_synced', '=', True)]"/>
+                    <filter name="not_synced" string="Not Synced" domain="[('orca_synced', '=', False)]"/>
+                    <filter name="errors" string="With Errors" domain="[('orca_sync_error', '!=', False)]"/>
+                    <filter name="creates" string="Creates" domain="[('action', '=', 'create')]"/>
+                    <filter name="writes" string="Writes" domain="[('action', '=', 'write')]"/>
+                    <separator/>
+                    <filter name="today" string="Today" domain="[('date', '&gt;=', context_today().strftime('%Y-%m-%d'))]"/>
+                    <separator/>
+                    <group expand="0" string="Group By">
+                        <filter name="group_by_action" string="Action" domain="[]" context="{'group_by': 'action'}"/>
+                        <filter name="group_by_user" string="User" domain="[]" context="{'group_by': 'user_id'}"/>
+                        <filter name="group_by_date" string="Date" domain="[]" context="{'group_by': 'date:day'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <!-- Action -->
+        <record id="action_account_move_orca_log" model="ir.actions.act_window">
+            <field name="name">Account Move ORCA Audit Log</field>
+            <field name="res_model">l10n.do.accounting.orca.log</field>
+            <field name="view_mode">tree,form</field>
+            <field name="search_view_id" ref="view_account_move_orca_log_search"/>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    No audit logs found. All account move changes are automatically logged here for ORCA traceability.
+                </p>
+            </field>
+        </record>
+
+        <!-- Menu Item -->
+        <menuitem
+            id="menu_account_move_orca_log"
+            parent="l10n_do_accounting.menu_dgii_reports"
+            name="ORCA Audit Log"
+            action="action_account_move_orca_log"
+            sequence="50"
+        />
+    </data>
+</odoo>
