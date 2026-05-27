@@ -30,8 +30,8 @@ const nodeTypes = {
  * MIGRATED: Uses P2 hooks (useWorkflowOperations, useWorkflowHistory)
  */
 export default function WorkflowCanvas({ activeMode = 'workflow' }: { activeMode?: AppMode }) {
-  const { workflow, selectedNodeId, addNode, updateNode, addEdge: addEdgeToStore, deleteNode, deleteEdge } = useWorkflowOperations()
-  const { pushHistory, undo, redo } = useWorkflowHistory()
+  const { workflow, selectedNodeId, addNode, updateNode, addEdge: addEdgeToStore, deleteNode, deleteEdge, pushHistory } = useWorkflowOperations()
+  const { undo, redo } = useWorkflowHistory()
 
   const reactFlowWrapper = useRef<HTMLDivElement>(null)
   const reactFlow = useReactFlow() as any
@@ -98,7 +98,6 @@ export default function WorkflowCanvas({ activeMode = 'workflow' }: { activeMode
     const handleKeyDown = (e: KeyboardEvent) => {
       if ((e.ctrlKey || e.metaKey) && e.key === 'z') {
         e.preventDefault()
-        pushHistory()
         undo()
       }
       if ((e.ctrlKey || e.metaKey) && (e.key === 'y' || (e.shiftKey && e.key === 'z'))) {
@@ -108,10 +107,14 @@ export default function WorkflowCanvas({ activeMode = 'workflow' }: { activeMode
       if (e.key === 'Delete' || e.key === 'Backspace') {
         e.preventDefault()
         if (selectedNodeId) {
-          pushHistory()
+          if (workflow) {
+            pushHistory(workflow)
+          }
           deleteNode(selectedNodeId)
         } else if (selectedEdgeId) {
-          pushHistory()
+          if (workflow) {
+            pushHistory(workflow)
+          }
           deleteEdge(selectedEdgeId)
           setEdges((eds) => eds.filter((e) => e.id !== selectedEdgeId))
           setSelectedEdgeId(null)
@@ -121,19 +124,22 @@ export default function WorkflowCanvas({ activeMode = 'workflow' }: { activeMode
 
     window.addEventListener('keydown', handleKeyDown)
     return () => window.removeEventListener('keydown', handleKeyDown)
-  }, [selectedNodeId, selectedEdgeId, pushHistory, undo, redo, deleteNode, deleteEdge, setEdges])
+  }, [selectedNodeId, selectedEdgeId, pushHistory, undo, redo, deleteNode, deleteEdge, setEdges, workflow])
 
   // Sync node position changes back to store
   const handleNodesChange = useCallback(
     (changes: any[]) => {
       changes.forEach((change) => {
         if (change.type === 'position' && change.position) {
-          updateNode(change.id, { position: change.position })
+          const node = nodes.find((n) => n.id === change.id)
+          if (node) {
+            updateNode({ ...node, position: change.position })
+          }
         }
       })
       onNodesChange(changes)
     },
-    [onNodesChange, updateNode]
+    [onNodesChange, updateNode, nodes]
   )
 
   // Validate connection - prevent self-loops, duplicates, and cycles

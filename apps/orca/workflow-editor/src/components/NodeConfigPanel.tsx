@@ -1,13 +1,11 @@
 import { useWorkflowOperations } from '../hooks/useWorkflowOperations'
-import { useWorkflowHistory } from '../hooks/useWorkflowHistory'
 
 interface NodeConfigPanelProps {
   nodeId: string
 }
 
 export default function NodeConfigPanel({ nodeId }: NodeConfigPanelProps) {
-  const { workflow, updateNode, deleteNode, setWorkflow } = useWorkflowOperations()
-  const { pushHistory } = useWorkflowHistory()
+  const { workflow, updateNode, deleteNode, pushHistory, setWorkflow } = useWorkflowOperations()
 
   const node = workflow?.nodes.find((n) => n.id === nodeId)
 
@@ -20,7 +18,8 @@ export default function NodeConfigPanel({ nodeId }: NodeConfigPanelProps) {
   }
 
   const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    updateNode(nodeId, {
+    updateNode({
+      ...node,
       data: {
         ...node.data,
         label: e.target.value,
@@ -29,7 +28,8 @@ export default function NodeConfigPanel({ nodeId }: NodeConfigPanelProps) {
   }
 
   const handleParameterChange = (key: string, value: any) => {
-    updateNode(nodeId, {
+    updateNode({
+      ...node,
       data: {
         ...node.data,
         parameters: {
@@ -42,7 +42,9 @@ export default function NodeConfigPanel({ nodeId }: NodeConfigPanelProps) {
 
   const handleDelete = () => {
     if (confirm('Delete this node?')) {
-      pushHistory()
+      if (workflow) {
+        pushHistory(workflow)
+      }
       deleteNode(nodeId)
     }
   }
@@ -57,7 +59,7 @@ export default function NodeConfigPanel({ nodeId }: NodeConfigPanelProps) {
           y: node.position.y + 80,
         },
       }
-      pushHistory()
+      pushHistory(workflow)
       setWorkflow({
         ...workflow,
         nodes: [...workflow.nodes, newNode],

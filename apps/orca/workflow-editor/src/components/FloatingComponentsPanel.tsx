@@ -29,8 +29,7 @@ export default function FloatingComponentsPanel() {
     Utils: false,
   })
   const [expandedNode, setExpandedNode] = useState<string | null>(null)
-  const { addNode } = useWorkflowOperations()
-  const { pushHistory } = useWorkflowHistory()
+  const { addNode, workflow, pushHistory } = useWorkflowOperations()
 
   useEffect(() => {
     const loadNodeTypes = async () => {
@@ -55,7 +54,9 @@ export default function FloatingComponentsPanel() {
   }
 
   const handleAddNode = (nodeType: string, typeInfo: NodeType) => {
-    pushHistory()
+    if (workflow) {
+      pushHistory(workflow)
+    }
     const mode = getNodeMode(typeInfo.category)
     const node: Node = {
       id: `node-${Date.now()}`,

@@ -77,7 +77,7 @@ describe('useExecutionStatus', () => {
         status: 'failed' as const,
         startTime: new Date().toISOString(),
         endTime: new Date().toISOString(),
-        error: 'Test error',
+        error: { message: 'Test error' },
       },
     ]
 

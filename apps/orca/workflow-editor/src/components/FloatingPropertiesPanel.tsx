@@ -45,7 +45,7 @@ export default function FloatingPropertiesPanel() {
   }
 
   const handleLabelChange = (newLabel: string) => {
-    updateNode(selectedNodeId, {
+    updateNode({
       ...selectedNode,
       data: {
         ...selectedNode.data,
@@ -55,7 +55,7 @@ export default function FloatingPropertiesPanel() {
   }
 
   const handleDescriptionChange = (newDescription: string) => {
-    updateNode(selectedNodeId, {
+    updateNode({
       ...selectedNode,
       data: {
         ...selectedNode.data,
@@ -65,7 +65,7 @@ export default function FloatingPropertiesPanel() {
   }
 
   const handleImageChange = (imageUrl: string) => {
-    updateNode(selectedNodeId, {
+    updateNode({
       ...selectedNode,
       data: {
         ...selectedNode.data,
