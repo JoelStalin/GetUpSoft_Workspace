@@ -1,0 +1,15 @@
+{
+  "ok": true,
+  "baseUrl": "http://localhost:8069",
+  "db": "odoo",
+  "partnerId": 12,
+  "productId": 6,
+  "saleOrderId": 5,
+  "invoiceId": 6,
+  "invoiceName": "INV/2026/00003",
+  "invoiceState": "posted",
+  "paymentState": "paid",
+  "amountTotal": 229.99,
+  "amountResidual": 0.0,
+  "pdfPath": "C:\\Users\\yoeli\\Downloads\\odoo-invoice-6-20260525-101734.pdf"
+}
