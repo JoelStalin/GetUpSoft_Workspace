@@ -117,6 +117,25 @@ export function useWorkflowOperations() {
     dispatch({ type: 'RESET' })
   }, [dispatch])
 
+  const pushHistory = useCallback(
+    (workflow: Workflow) => {
+      dispatch({ type: 'PUSH_HISTORY', payload: workflow })
+    },
+    [dispatch]
+  )
+
+  const undo = useCallback(() => {
+    if (state.historyIndex > 0) {
+      dispatch({ type: 'UNDO' })
+    }
+  }, [state.historyIndex, dispatch])
+
+  const redo = useCallback(() => {
+    if (state.historyIndex < state.history.length - 1) {
+      dispatch({ type: 'REDO' })
+    }
+  }, [state.history.length, state.historyIndex, dispatch])
+
   return {
     state,
     ...state,
@@ -135,6 +154,9 @@ export function useWorkflowOperations() {
     markDirty,
     markClean,
     reset,
+    pushHistory,
+    undo,
+    redo,
   }
 }
 
