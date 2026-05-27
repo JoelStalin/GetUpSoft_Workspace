@@ -7,4 +7,6 @@ access_dgii_exterior_report_line,access_dgii_reports_exterior_line,model_dgii_re
 access_dgii_reports,access_dgii_reports,model_dgii_reports,account.group_account_user,1,1,1,0
 access_dgii_report_regenerate_wizard,access_dgii_report_regenerate_wizard,model_dgii_report_regenerate_wizard,account.group_account_user,1,1,1,1
 access_dgii_reports_it1_line,access_dgii_reports_it1_line,model_dgii_reports_it1_line,account.group_account_user,1,1,1,1
+dgii_report_orca_log_user,dgii.report.orca.log user,model_dgii_report_orca_log,account.group_account_invoice,1,0,0,0
+dgii_report_orca_log_manager,dgii.report.orca.log manager,model_dgii_report_orca_log,account.group_account_manager,1,1,1,0
 

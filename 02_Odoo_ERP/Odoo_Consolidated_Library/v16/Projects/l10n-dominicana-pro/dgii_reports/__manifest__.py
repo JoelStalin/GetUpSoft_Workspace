@@ -20,7 +20,8 @@
         'web',
         'account',
         'l10n_do',
-        'l10n_do_accounting'
+        'l10n_do_accounting',
+        'base_orca_integration',
     ],
 
     # always loaded
@@ -38,6 +39,7 @@
         'views/dgii_report_views.xml',
         'views/account_tax_views.xml',
         'views/res_config_settings_views.xml',
+        'views/dgii_report_orca_log_views.xml',
 
         'wizard/dgii_report_regenerate_wizard_views.xml',
     ],

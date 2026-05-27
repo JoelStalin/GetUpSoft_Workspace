@@ -16,6 +16,7 @@
         "web",
         "account",
         "l10n_do",
+        "base_orca_integration",
     ],
     # always loaded
     "data": [
@@ -40,6 +41,7 @@
         "views/account_fiscal_sequence_views.xml",
         'views/res_company_views.xml',
         'views/account_invoice_cancel_views.xml',
+        'views/account_move_orca_log_views.xml',
         # "views/backend_js.xml",
 
         "views/report_templates.xml",
