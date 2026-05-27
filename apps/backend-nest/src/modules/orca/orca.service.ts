@@ -1,9 +1,9 @@
-import { Injectable, InternalServerErrorException, Logger } from '@nestjs/common';
+import { Injectable, InternalServerErrorException, Logger, NotFoundException } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { execFile } from 'node:child_process';
 import { promisify } from 'node:util';
 import { InterpretRequestDto } from './dto/interpret-request.dto';
-import { AuditLogRequestDto } from './dto/audit-log-request.dto';
+import { AuditLogRequestDto, AuditLogResponseDto } from './dto/audit-log-request.dto';
 import { FiscalSyncRequestDto } from './dto/fiscal-sync-request.dto';
 
 const execFileAsync = promisify(execFile);
@@ -127,32 +127,100 @@ export class OrcaService {
     };
   }
 
-  async recordAuditLog(request: AuditLogRequestDto) {
+  private auditLogs: Map<number, AuditLogResponseDto> = new Map();
+  private auditLogId = 0;
+
+  async recordAuditLog(request: AuditLogRequestDto): Promise<AuditLogResponseDto> {
     try {
       this.logger.log(
-        `Recording audit log: ${request.module}.${request.model}[${request.record_id}] action=${request.action}`,
+        `Recording audit log: ${request.module_name}.${request.model_name}[${request.record_id}] action=${request.action}`,
       );
 
       // TODO: Implement persistent storage of audit logs (database, data warehouse, or logging service)
-      // Currently returns success response for Odoo modules to mark as synced
+      // Currently stores in-memory and returns success response for Odoo modules to mark as synced
       // In production, this should:
       // 1. Store to database with full before/after snapshots
       // 2. Trigger any configured webhooks or downstream processors
       // 3. Update metrics and monitoring dashboards
 
-      return {
-        success: true,
-        request_id: `audit_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
-        module: request.module,
-        model: request.model,
+      const now = new Date().toISOString();
+      const id = ++this.auditLogId;
+
+      const response: AuditLogResponseDto = {
+        id,
+        project_id: request.project_id,
+        module_name: request.module_name,
+        model_name: request.model_name,
         record_id: request.record_id,
         action: request.action,
-        timestamp: new Date().toISOString(),
-        message: 'Audit log recorded successfully',
+        user_id: request.user_id,
+        date: request.date,
+        before_values: request.before_values,
+        after_values: request.after_values,
+        orca_synced: request.orca_synced ?? true,
+        orca_sync_error: request.orca_sync_error,
+        orca_request_id: `audit_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
+        created_at: now,
+        updated_at: now,
       };
+
+      this.auditLogs.set(id, response);
+
+      this.logger.log(`Audit log recorded successfully: ID=${id}, request_id=${response.orca_request_id}`);
+
+      return response;
     } catch (error) {
       this.logger.error(`Failed to record audit log: ${error instanceof Error ? error.message : 'Unknown error'}`);
       throw new InternalServerErrorException('Failed to record audit log');
+    }
+  }
+
+  async getAuditLog(id: string): Promise<AuditLogResponseDto> {
+    const numId = parseInt(id, 10);
+    const log = this.auditLogs.get(numId);
+
+    if (!log) {
+      throw new NotFoundException(`Audit log with ID ${id} not found`);
+    }
+
+    return log;
+  }
+
+  async queryAuditLogs(filters: {
+    project_id?: string;
+    module_name?: string;
+    model_name?: string;
+    record_id?: number;
+    action?: string;
+    limit: number;
+  }): Promise<AuditLogResponseDto[]> {
+    try {
+      let results = Array.from(this.auditLogs.values());
+
+      if (filters.project_id) {
+        results = results.filter((log) => log.project_id === filters.project_id);
+      }
+      if (filters.module_name) {
+        results = results.filter((log) => log.module_name === filters.module_name);
+      }
+      if (filters.model_name) {
+        results = results.filter((log) => log.model_name === filters.model_name);
+      }
+      if (filters.record_id !== undefined) {
+        results = results.filter((log) => log.record_id === filters.record_id);
+      }
+      if (filters.action) {
+        results = results.filter((log) => log.action === filters.action);
+      }
+
+      // Sort by created_at descending (newest first)
+      results.sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime());
+
+      // Apply limit
+      return results.slice(0, filters.limit);
+    } catch (error) {
+      this.logger.error(`Failed to query audit logs: ${error instanceof Error ? error.message : 'Unknown error'}`);
+      throw new InternalServerErrorException('Failed to query audit logs');
     }
   }
 
