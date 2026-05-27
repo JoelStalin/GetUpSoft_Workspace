@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- RNC Search ORCA Log Tree View -->
+        <record id="l10n_do_rnc_search_orca_log_tree_view" model="ir.ui.view">
+            <field name="name">RNC Search ORCA Log - Tree</field>
+            <field name="model">l10n.do.rnc.search.orca.log</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="date"/>
+                    <field name="search_term"/>
+                    <field name="searched_rnc"/>
+                    <field name="result_count"/>
+                    <field name="result_status"/>
+                    <field name="user_id"/>
+                    <field name="orca_synced"/>
+                </tree>
+            </field>
+        </record>
+
+        <!-- RNC Search ORCA Log Form View -->
+        <record id="l10n_do_rnc_search_orca_log_form_view" model="ir.ui.view">
+            <field name="name">RNC Search ORCA Log - Form</field>
+            <field name="model">l10n.do.rnc.search.orca.log</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="date"/>
+                                <field name="user_id"/>
+                                <field name="action"/>
+                            </group>
+                            <group>
+                                <field name="search_term"/>
+                                <field name="searched_rnc"/>
+                                <field name="result_count"/>
+                            </group>
+                        </group>
+                        <group>
+                            <group>
+                                <field name="result_status"/>
+                                <field name="dgii_response_code"/>
+                            </group>
+                            <group>
+                                <field name="orca_synced"/>
+                                <field name="orca_request_id"/>
+                            </group>
+                        </group>
+                        <group>
+                            <field name="orca_sync_error" widget="text"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!-- RNC Search ORCA Log Search View -->
+        <record id="l10n_do_rnc_search_orca_log_search_view" model="ir.ui.view">
+            <field name="name">RNC Search ORCA Log - Search</field>
+            <field name="model">l10n.do.rnc.search.orca.log</field>
+            <field name="type">search</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="search_term"/>
+                    <field name="searched_rnc"/>
+                    <field name="user_id"/>
+                    <filter name="synced" string="Synced" domain="[('orca_synced', '=', True)]"/>
+                    <filter name="not_synced" string="Not Synced" domain="[('orca_synced', '=', False)]"/>
+                    <group expand="0" string="Group By">
+                        <filter name="group_by_user" string="User" context="{'group_by': 'user_id'}"/>
+                        <filter name="group_by_status" string="Status" context="{'group_by': 'result_status'}"/>
+                        <filter name="group_by_date" string="Date" context="{'group_by': 'date'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <!-- Action to Open RNC Search ORCA Logs -->
+        <record id="l10n_do_rnc_search_orca_log_action" model="ir.actions.act_window">
+            <field name="name">RNC Search Audit Logs</field>
+            <field name="res_model">l10n.do.rnc.search.orca.log</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <!-- Menu Item for RNC Search Audit Logs -->
+        <menuitem
+            id="l10n_do_rnc_search_orca_log_menu"
+            name="RNC Search Audit Logs"
+            parent="l10n_do_accounting.menu_localization_do"
+            action="l10n_do_rnc_search_orca_log_action"
+            sequence="50"
+        />
+    </data>
+</odoo>
