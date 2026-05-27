@@ -156,7 +156,7 @@ export function validateNode(node: WorkflowNode): ValidationIssue[] {
 /**
  * Validate edge connection
  */
-export function validateEdge(edge: WorkflowEdge, nodes: WorkflowNode[]): ValidationIssue[] {
+export function validateEdge(edge: WorkflowEdge, nodes: readonly WorkflowNode[]): ValidationIssue[] {
   const issues: ValidationIssue[] = []
 
   if (!edge.id || edge.id.trim() === '') {
@@ -280,7 +280,7 @@ export function validateWorkflowInputs(
 /**
  * Find orphaned nodes (nodes with no incoming or outgoing connections)
  */
-export function findOrphanedNodes(nodes: WorkflowNode[], edges: WorkflowEdge[]): string[] {
+export function findOrphanedNodes(nodes: readonly WorkflowNode[], edges: readonly WorkflowEdge[]): string[] {
   if (nodes.length === 0) return []
   if (nodes.length === 1) return nodes.map((n) => n.id) // Single node is orphaned
 

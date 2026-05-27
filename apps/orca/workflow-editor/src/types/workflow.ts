@@ -17,6 +17,7 @@ export interface NodeData {
   readonly inputs?: Record<string, unknown>
   readonly outputs?: Record<string, unknown>
   readonly metadata?: NodeMetadata
+  readonly [key: string]: unknown
 }
 
 /**
@@ -38,6 +39,7 @@ export interface EdgeData {
   readonly type?: string
   readonly condition?: string
   readonly metadata?: Record<string, unknown>
+  readonly [key: string]: unknown
 }
 
 /**

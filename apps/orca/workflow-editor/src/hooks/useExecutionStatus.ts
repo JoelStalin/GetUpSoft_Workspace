@@ -64,7 +64,7 @@ export function useExecutionStatus() {
   // Helper to get log for a specific node
   const getNodeLog = useCallback(
     (nodeId: string) => {
-      return logs.find((log) => log.nodeId === nodeId || log.node_id === nodeId)
+      return logs.find((log) => log.nodeId === nodeId)
     },
     [logs]
   )

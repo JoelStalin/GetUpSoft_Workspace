@@ -41,7 +41,7 @@ describe('useWorkflowHistory', () => {
     })
 
     act(() => {
-      result.current.hist.pushHistory()
+      result.current.ops.pushHistory(workflow)
     })
 
     expect(result.current.hist.historySize).toBe(1)

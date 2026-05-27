@@ -1,11 +1,12 @@
 import { useCallback, useRef } from 'react'
 import { useExecutionOperations } from './useWorkflowOperations'
+import { ExecutionError } from '../types/execution'
 
 interface ExecutionStep {
   nodeId: string
   status: 'pending' | 'running' | 'completed' | 'failed'
   message?: string
-  error?: string
+  error?: ExecutionError
   duration?: number
 }
 
@@ -61,7 +62,7 @@ export function useWorkflowExecution() {
           addLog({
             nodeId,
             status: 'failed',
-            error: 'Execution failed: Connection timeout',
+            error: { message: 'Execution failed: Connection timeout' },
             timestamp: new Date().toISOString(),
             duration: delayBetweenNodes,
           })
