@@ -151,12 +151,12 @@ class LoadTestGenerator:
                     elapsed = time.time() - start_time
                     rate = i / elapsed
                     estimated_total = self.num_invoices / rate
-                    print(f"  ✓ {i:4d}/{self.num_invoices} invoices created ({rate:.1f} inv/sec, "
+                    print(f"  [OK] {i:4d}/{self.num_invoices} invoices created ({rate:.1f} inv/sec, "
                           f"~{estimated_total-elapsed:.0f}s remaining)")
 
             except Exception as e:
                 self.metrics['failed_creates'] += 1
-                print(f"  ✗ Failed to create invoice {i}: {e}")
+                print(f"  [ERR] Failed to create invoice {i}: {e}")
 
         end_time = time.time()
         self.metrics['timestamp_end'] = datetime.now().isoformat()
@@ -194,7 +194,7 @@ class LoadTestGenerator:
             writer = csv.DictWriter(f, fieldnames=['invoice_id', 'creation_time_ms', 'amount', 'document_type'])
             writer.writeheader()
             writer.writerows(self.metrics['creation_times'])
-        print(f"✓ Metrics exported to {filepath}")
+        print(f"[OK] Metrics exported to {filepath}")
 
     def export_metrics_json(self, filepath: str) -> None:
         """Export full metrics to JSON."""
@@ -213,7 +213,7 @@ class LoadTestGenerator:
 
         with open(filepath, 'w') as f:
             json.dump(summary, f, indent=2)
-        print(f"✓ Summary exported to {filepath}")
+        print(f"[OK] Summary exported to {filepath}")
 
     def print_summary(self) -> None:
         """Print test summary."""
@@ -239,14 +239,14 @@ class LoadTestGenerator:
             self.metrics['average_time_ms'] < 500
         )
 
-        status = "✅ PASS" if acceptance_pass else "❌ FAIL"
+        status = "[PASS]" if acceptance_pass else "[FAIL]"
         print(f"Acceptance Criteria: {status}")
         if self.metrics['average_time_ms'] >= 500:
-            print(f"  ⚠ Average time {self.metrics['average_time_ms']:.2f}ms >= 500ms threshold")
+            print(f"  [WARN] Average time {self.metrics['average_time_ms']:.2f}ms >= 500ms threshold")
         if self.metrics['successful_creates'] != self.num_invoices:
-            print(f"  ⚠ {self.metrics['failed_creates']} invoices failed to create")
+            print(f"  [WARN] {self.metrics['failed_creates']} invoices failed to create")
         if self.metrics['orca_logs_created'] != self.num_invoices:
-            print(f"  ⚠ ORCA logs ({self.metrics['orca_logs_created']}) != invoices ({self.num_invoices})")
+            print(f"  [WARN] ORCA logs ({self.metrics['orca_logs_created']}) != invoices ({self.num_invoices})")
 
         print("="*70 + "\n")
 
@@ -275,12 +275,12 @@ def main():
         try:
             import xmlrpc.client
             common = xmlrpc.client.ServerProxy(f'{args.url}/jsonrpc').call
-            print("✓ Connected to Odoo via RPC")
+            print("[OK] Connected to Odoo via RPC")
             client = None  # Would implement real RPC client here
-            print("⚠ Live mode not fully implemented yet. Using mock mode instead.")
+            print("[WARN] Live mode not fully implemented yet. Using mock mode instead.")
             client = MockOdooClient()
         except Exception as e:
-            print(f"✗ Failed to connect: {e}")
+            print(f"[ERR] Failed to connect: {e}")
             print("  Falling back to mock mode...")
             client = MockOdooClient()
     else:
@@ -295,7 +295,7 @@ def main():
     print("\nVerifying ORCA logging...")
     verification = generator.verify_orca_logging()
     print(f"  Total ORCA logs: {verification['total_logs']}")
-    print(f"  Logs match invoices: {'✓' if verification['logs_match'] else '✗'}")
+    print(f"  Logs match invoices: {'[OK]' if verification['logs_match'] else '[ERR]'}")
 
     # Export metrics
     generator.export_metrics_json(args.output)
