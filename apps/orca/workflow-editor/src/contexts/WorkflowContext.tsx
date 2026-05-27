@@ -43,6 +43,10 @@ export type WorkflowAction =
 export interface WorkflowContextValue {
   state: WorkflowContextState
   dispatch: React.Dispatch<WorkflowAction>
+  history: readonly Workflow[]
+  future: readonly Workflow[]
+  undo: () => void
+  redo: () => void
 }
 
 /**
@@ -237,9 +241,24 @@ export function WorkflowProvider({ children, initialWorkflow }: WorkflowProvider
     initialWorkflow ? { ...initialState, workflow: initialWorkflow } : initialState
   )
 
+  const history = state.history
+  const future = state.history.slice(state.historyIndex + 1)
+
+  const undo = useCallback(() => {
+    dispatch({ type: 'UNDO' })
+  }, [])
+
+  const redo = useCallback(() => {
+    dispatch({ type: 'REDO' })
+  }, [])
+
   const value: WorkflowContextValue = {
     state,
     dispatch,
+    history,
+    future,
+    undo,
+    redo,
   }
 
   return (
