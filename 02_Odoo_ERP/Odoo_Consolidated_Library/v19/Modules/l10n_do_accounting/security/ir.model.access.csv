@@ -1,0 +1,4 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+account_move_orca_log_user_read,L10N DO Accounting ORCA Log - Read Only (Users),l10n.do.accounting.orca.log,base.group_user,1,0,0,0
+account_move_orca_log_accounting_read,L10N DO Accounting ORCA Log - Read Only (Accounting),l10n.do.accounting.orca.log,account.group_account_user,1,0,0,0
+account_move_orca_log_admin_full,L10N DO Accounting ORCA Log - Full Access (Admin),l10n.do.accounting.orca.log,base.group_erp_manager,1,1,1,1

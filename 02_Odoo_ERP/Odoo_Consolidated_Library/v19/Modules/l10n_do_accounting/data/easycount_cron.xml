@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <!-- Scheduled job: Retry failed EasyCount syncs -->
+        <record id="easycount_sync_retry_cron" model="ir.cron">
+            <field name="name">L10N DO Accounting - EasyCount Sync Retry</field>
+            <field name="model_id" ref="account.model_account_move" />
+            <field name="state">code</field>
+            <field name="code">
+# Retry failed EasyCount syncs for account.move records
+model.env['l10n.do.accounting.orca.log'].search([
+    ('easycount_synced', '=', False),
+    ('easycount_attempt_count', '&lt;', 5),
+    ('easycount_sync_error', '!=', False)
+])._retry_easycount_sync()
+            </field>
+            <field name="interval_number">1</field>
+            <field name="interval_type">hours</field>
+            <field name="numbercall">-1</field>
+            <field name="doall" eval="False" />
+            <field name="active" eval="False" />
+        </record>
+
+        <!-- Scheduled job: Retry failed ORCA syncs -->
+        <record id="orca_sync_retry_cron" model="ir.cron">
+            <field name="name">L10N DO Accounting - ORCA Sync Retry</field>
+            <field name="model_id" ref="account.model_account_move" />
+            <field name="state">code</field>
+            <field name="code">
+# Retry failed ORCA syncs for account.move records
+model.env['l10n.do.accounting.orca.log'].search([
+    ('orca_synced', '=', False),
+    ('orca_sync_error', '!=', False)
+])._retry_orca_sync()
+            </field>
+            <field name="interval_number">2</field>
+            <field name="interval_type">hours</field>
+            <field name="numbercall">-1</field>
+            <field name="doall" eval="False" />
+            <field name="active" eval="False" />
+        </record>
+    </data>
+</odoo>
