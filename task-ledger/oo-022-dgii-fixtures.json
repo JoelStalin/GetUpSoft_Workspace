@@ -1,0 +1,241 @@
+{
+  "description": "OO-022: DGII Integration Test Fixtures",
+  "test_date_created": "2026-05-26",
+  "fixtures": {
+    "test_taxpayers": [
+      {
+        "id": 1,
+        "rnc": "1-09-0000000-0",
+        "name": "Test Company DR",
+        "type": "supplier",
+        "dgii_status": "active",
+        "currency": "DOP"
+      },
+      {
+        "id": 2,
+        "rnc": "1-09-0000001-1",
+        "name": "Test Retail Business",
+        "type": "customer",
+        "dgii_status": "active",
+        "currency": "DOP"
+      }
+    ],
+    "test_invoices": [
+      {
+        "id": 1,
+        "name": "E310-2026-000001",
+        "move_type": "out_invoice",
+        "partner_id": 2,
+        "amount_total": 5000.00,
+        "amount_tax": 800.00,
+        "amount_untaxed": 4200.00,
+        "currency": "DOP",
+        "l10n_do_fiscal_number": "E310000000000001",
+        "l10n_do_ncf": "E310000000000001",
+        "l10n_latam_document_type_id": 1,
+        "document_type": "out_invoice",
+        "invoice_date": "2026-05-26",
+        "dgii_submittal_timestamp": null,
+        "dgii_status": "not_submitted",
+        "dgii_response_code": null,
+        "dgii_response_message": null,
+        "easycount_synced": false,
+        "easycount_sync_timestamp": null,
+        "orca_logged": true,
+        "orca_log_id": 1,
+        "description": "Test e-CF invoice for DGII submission"
+      },
+      {
+        "id": 2,
+        "name": "E320-2026-000001",
+        "move_type": "out_refund",
+        "partner_id": 2,
+        "amount_total": -1000.00,
+        "amount_tax": -160.00,
+        "amount_untaxed": -840.00,
+        "currency": "DOP",
+        "l10n_do_fiscal_number": "E320000000000001",
+        "l10n_do_ncf": "E320000000000001",
+        "l10n_latam_document_type_id": 3,
+        "document_type": "out_refund",
+        "invoice_date": "2026-05-26",
+        "dgii_submittal_timestamp": null,
+        "dgii_status": "not_submitted",
+        "dgii_response_code": null,
+        "dgii_response_message": null,
+        "easycount_synced": false,
+        "easycount_sync_timestamp": null,
+        "orca_logged": true,
+        "orca_log_id": 2,
+        "description": "Test refund invoice for DGII submission"
+      }
+    ],
+    "dgii_submission_scenarios": [
+      {
+        "scenario_id": "dgii-submit-success",
+        "description": "Successful DGII submission (201)",
+        "request": {
+          "fiscal_number": "E310000000000001",
+          "amount": 5000.00,
+          "taxpayer_rnc": "1-09-0000000-0",
+          "invoice_date": "2026-05-26",
+          "document_type": "out_invoice"
+        },
+        "expected_response": {
+          "status": 201,
+          "body": {
+            "success": true,
+            "fiscal_number": "E310000000000001",
+            "dgii_request_id": "DGII-2026-05-26-0001",
+            "dgii_uuid": "550e8400-e29b-41d4-a716-446655440000",
+            "submission_timestamp": "2026-05-26T10:30:45Z",
+            "dgii_status": "accepted"
+          }
+        }
+      },
+      {
+        "scenario_id": "dgii-submit-duplicate",
+        "description": "Duplicate submission (409 Conflict)",
+        "request": {
+          "fiscal_number": "E310000000000001",
+          "amount": 5000.00,
+          "taxpayer_rnc": "1-09-0000000-0",
+          "invoice_date": "2026-05-26",
+          "document_type": "out_invoice"
+        },
+        "expected_response": {
+          "status": 409,
+          "body": {
+            "success": false,
+            "error": "duplicate_submission",
+            "error_message": "Fiscal number E310000000000001 already submitted",
+            "dgii_uuid": "550e8400-e29b-41d4-a716-446655440000"
+          }
+        }
+      },
+      {
+        "scenario_id": "dgii-submit-invalid-format",
+        "description": "Invalid fiscal number format (400)",
+        "request": {
+          "fiscal_number": "INVALID-123",
+          "amount": 5000.00,
+          "taxpayer_rnc": "1-09-0000000-0",
+          "invoice_date": "2026-05-26",
+          "document_type": "out_invoice"
+        },
+        "expected_response": {
+          "status": 400,
+          "body": {
+            "success": false,
+            "error": "invalid_format",
+            "error_message": "Fiscal number does not match e-CF format",
+            "field": "fiscal_number"
+          }
+        }
+      },
+      {
+        "scenario_id": "dgii-submit-server-error",
+        "description": "DGII server temporary error (503)",
+        "request": {
+          "fiscal_number": "E310000000000002",
+          "amount": 1000.00,
+          "taxpayer_rnc": "1-09-0000000-0",
+          "invoice_date": "2026-05-26",
+          "document_type": "out_invoice"
+        },
+        "expected_response": {
+          "status": 503,
+          "body": {
+            "success": false,
+            "error": "service_unavailable",
+            "error_message": "DGII service temporarily unavailable. Retry after 60 seconds.",
+            "retry_after": 60
+          }
+        }
+      }
+    ],
+    "orca_audit_expectations": [
+      {
+        "log_id": 1,
+        "action": "sync",
+        "model": "account.move",
+        "before_state": {
+          "fiscal_number": "E310000000000001",
+          "dgii_status": "not_submitted",
+          "state": "posted"
+        },
+        "after_state": {
+          "fiscal_number": "E310000000000001",
+          "dgii_status": "accepted",
+          "dgii_uuid": "550e8400-e29b-41d4-a716-446655440000",
+          "dgii_request_id": "DGII-2026-05-26-0001",
+          "orca_synced": true,
+          "orca_request_id": "ORCA-2026-05-26-0001"
+        }
+      },
+      {
+        "log_id": 2,
+        "action": "write",
+        "model": "account.move",
+        "before_state": {
+          "easycount_synced": false,
+          "easycount_sync_error": null
+        },
+        "after_state": {
+          "easycount_synced": true,
+          "easycount_sync_timestamp": "2026-05-26T10:35:00Z",
+          "easycount_sync_error": null
+        }
+      }
+    ],
+    "easycount_sync_expectations": [
+      {
+        "sync_event": "notify_invoice_created",
+        "move_id": 1,
+        "encf": "E310000000000001",
+        "amount": 5000.00,
+        "expected_easycount_response": {
+          "status": 201,
+          "sync_id": "EASY-2026-05-26-0001",
+          "synced": true,
+          "timestamp": "2026-05-26T10:40:00Z"
+        }
+      },
+      {
+        "sync_event": "sync_to_odoo_accounting",
+        "move_id": 1,
+        "action": "post",
+        "expected_easycount_response": {
+          "status": 200,
+          "accounting_entries_created": 5,
+          "general_ledger_id": "GL-2026-05-26-0001",
+          "synced": true
+        }
+      }
+    ],
+    "performance_expectations": {
+      "dgii_submission_time_ms": {
+        "min": 100,
+        "max": 5000,
+        "average": 1500
+      },
+      "orca_logging_time_ms": {
+        "min": 10,
+        "max": 100,
+        "average": 25
+      },
+      "easycount_sync_time_ms": {
+        "min": 50,
+        "max": 2000,
+        "average": 500
+      }
+    }
+  },
+  "notes": {
+    "test_rnc": "1-09-0000000-0 (Test RNC, valid format for Dominican Republic)",
+    "test_fiscal_numbers": "E310XXXXXXXXXX format is valid e-CF for Dominican Republic",
+    "dgii_test_mode": "Some DGII APIs support test mode parameter to avoid real submission",
+    "easycount_test": "Mock endpoints can be used with status codes and realistic response bodies",
+    "orca_logging": "All operations should create corresponding ORCA audit log entries with action='sync' or action='write'"
+  }
+}
