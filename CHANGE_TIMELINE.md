@@ -444,6 +444,78 @@ OO-V19-003, OO-V19-004, OO-V19-005 can now be started in parallel.
 
 ---
 
+## ✅ ORCA-ODOO-11: NestJS Audit Log DTOs (2026-05-27 - COMPLETE)
+
+### Status: ✅ **IMPLEMENTATION COMPLETE** (6 DTO files, 355 lines)
+
+**Objective:** Create TypeScript/NestJS Data Transfer Objects (DTOs) for all ORCA audit logging across Odoo modules
+
+**Completed Deliverables:**
+- ✅ **BaseAuditLogDto** (61 lines)
+  - Foundation DTO with 13 fields: project_id, module_name, model_name, record_id, action, user_id, date, before_values, after_values, orca_synced, orca_sync_error, orca_request_id
+  - Action enum: 'create', 'write', 'unlink', 'sync', 'error'
+  - Extends AuditLogRequestDto with sync tracking fields
+  - Production-ready with full Swagger documentation (@ApiProperty decorators)
+
+- ✅ **AccountMoveAuditLogDto** (71 lines)
+  - Extends BaseAuditLogDto for l10n_do_accounting module
+  - 9 fields: encf, fiscal_state, dgii_uuid, document_type, partner_id, amount_total, journal_id, easycount_synced, easycount_sync_error
+  - Response DTO variant with id, created_at, updated_at
+  - Covers invoice/document state tracking for all Odoo versions (v12-v19)
+
+- ✅ **DgiiReportAuditLogDto** (71 lines)
+  - Extends BaseAuditLogDto for l10n_do_accounting_report module
+  - 9 fields: report_period, report_state, company_id, start_date, end_date, dgii_confirmation_number, report_type, dgii_submitted, dgii_error
+  - Response DTO variant with timestamps
+  - Tracks DGII fiscal report submissions
+
+- ✅ **PosOrderAuditLogDto** (76 lines)
+  - Extends BaseAuditLogDto for l10n_do_pos module
+  - 10 fields: ncf, order_state, fiscal_type, partner_id, amount_total, session_id, payment_method, line_count, fiscal_document_generated, fiscal_error
+  - Response DTO variant with database fields
+  - Covers POS order state changes and fiscal receipt generation
+
+- ✅ **RncSearchAuditLogDto** (71 lines)
+  - Extends BaseAuditLogDto for l10n_do_rnc_search module
+  - 9 fields: rnc, legal_name, commercial_name, validation_status, dgii_response, partner_id, found_in_dgii, dgii_error, response_time_ms
+  - Response DTO variant with timestamps
+  - Tracks Dominican RNC (Taxpayer Registration Number) searches
+
+- ✅ **Barrel Export** (5 lines)
+  - models/index.ts exports all 4 model DTOs + BaseAuditLogDto
+  - Centralized DTO access for controllers and services
+
+**Key Features Implemented:**
+- ✅ All DTOs follow strict class-validator decorators (@IsString, @IsNumber, @IsOptional, @IsBoolean, @IsISO8601, @IsIn, @IsJSON)
+- ✅ Swagger documentation complete (@ApiProperty with descriptions)
+- ✅ Response DTOs include database-generated fields (id, created_at, updated_at)
+- ✅ Optional fields for audit logging flexibility
+- ✅ Type-safe with TypeScript strict mode
+- ✅ Ready for NestJS controller method signatures
+
+**Production Readiness:**
+- ✅ All DTOs validated with class-validator
+- ✅ Swagger documentation auto-generated
+- ✅ JSON serialization safe (no circular references)
+- ✅ Database timestamp fields (ISO8601 format)
+- ✅ Security: No sensitive data in DTOs (API keys, passwords excluded)
+
+**Coverage:**
+- ✅ Primary fiscal modules: l10n_do_accounting, l10n_do_accounting_report, l10n_do_pos, l10n_do_rnc_search
+- ✅ All Odoo versions: v12, v15, v16, v17, v18, v19 (DTOs are version-agnostic)
+- ✅ Both request and response variants
+
+**Commit:**
+- b86c9f319 - "feat: Add ORCA audit log DTOs for NestJS backend (Phase 11 - All Modules)"
+
+**Files Created:** 6 files (355 lines total)  
+**Est. Time:** 1.5 hours | **Actual Time:** <1 hour  
+**Status:** Production-ready, ready for NestJS controller integration
+
+**Next Phase:** Create NestJS controller endpoints that use these DTOs for audit log submission and retrieval
+
+---
+
 ## ✅ ORCA-U-0: Baseline And Evidence Capture (2026-05-26 - COMPLETE)
 
 ### Phase 0 Baseline Establishment
