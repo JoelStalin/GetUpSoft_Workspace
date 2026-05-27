@@ -4,7 +4,7 @@
     "website": "https://neotec.do/",
     "version": "15.0.1.1.0",
     "category": "Localization",
-    "depends": ["base", "l10n_do_accounting", "point_of_sale", "l10n_do_rnc_search"],
+    "depends": ["base", "l10n_do_accounting", "point_of_sale", "l10n_do_rnc_search", "base_orca_integration"],
     "data": [
         'data/pos_payment_method_data.xml',
         'data/account_fiscal_position_data.xml',
@@ -13,6 +13,7 @@
         'views/pos_config_view.xml',
         'views/account_fiscal_position_views.xml',
         'views/pos_order_view.xml',
+        'views/pos_order_orca_log_views.xml',
     ],
     "license": "LGPL-3",
     "assets": {
