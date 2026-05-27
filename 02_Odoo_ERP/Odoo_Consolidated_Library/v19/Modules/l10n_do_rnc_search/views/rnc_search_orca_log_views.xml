@@ -1,0 +1,248 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Tree View: RNC Search ORCA Logs -->
+    <record id="rnc_search_orca_log_view_tree" model="ir.ui.view">
+        <field name="name">l10n.do.rnc.search.orca.log.tree</field>
+        <field name="model">l10n.do.rnc.search.orca.log</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="date" widget="date" />
+                <field name="action" />
+                <field name="searched_rnc" />
+                <field name="search_result" />
+                <field name="validation_status" />
+                <field name="user_id" />
+                <field name="orca_synced" widget="boolean" />
+            </tree>
+        </field>
+    </record>
+
+    <!-- Form View: RNC Search ORCA Log Details -->
+    <record id="rnc_search_orca_log_view_form" model="ir.ui.view">
+        <field name="name">l10n.do.rnc.search.orca.log.form</field>
+        <field name="model">l10n.do.rnc.search.orca.log</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="action" />
+                            <span> — RNC: </span>
+                            <field name="searched_rnc" />
+                        </h1>
+                    </div>
+
+                    <group>
+                        <group>
+                            <field name="record_id" readonly="1" />
+                            <field name="action" readonly="1" />
+                            <field name="user_id" readonly="1" />
+                        </group>
+                        <group>
+                            <field name="date" readonly="1" />
+                            <field name="searched_rnc" readonly="1" />
+                            <field name="search_result" readonly="1" />
+                        </group>
+                    </group>
+
+                    <group string="Validation Results">
+                        <group>
+                            <field name="validation_status" readonly="1" />
+                        </group>
+                    </group>
+
+                    <group string="DGII Response">
+                        <field name="dgii_response" widget="text" readonly="1" />
+                    </group>
+
+                    <group string="Changes">
+                        <field name="before_values" widget="text" readonly="1" />
+                        <field name="after_values" widget="text" readonly="1" />
+                    </group>
+
+                    <group string="ORCA Sync Status">
+                        <group>
+                            <field name="orca_synced" readonly="1" />
+                            <field name="orca_sync_date" readonly="1" />
+                            <field name="orca_request_id" readonly="1" />
+                        </group>
+                        <group>
+                            <field name="orca_sync_error" readonly="1" nolabel="1" />
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Search View: RNC Search ORCA Log Filters -->
+    <record id="rnc_search_orca_log_view_search" model="ir.ui.view">
+        <field name="name">l10n.do.rnc.search.orca.log.search</field>
+        <field name="model">l10n.do.rnc.search.orca.log</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="searched_rnc" />
+                <field name="validation_status" />
+                <field name="user_id" />
+                <field name="date" />
+
+                <filter name="filter_created" string="Created" domain="[('action', '=', 'create')]" />
+                <filter name="filter_modified" string="Modified" domain="[('action', '=', 'write')]" />
+
+                <separator />
+
+                <filter name="filter_found" string="Found" domain="[('search_result', '=', 'found')]" />
+                <filter name="filter_not_found" string="Not Found" domain="[('search_result', '=', 'not_found')]" />
+                <filter name="filter_error" string="Error" domain="[('search_result', '=', 'error')]" />
+
+                <separator />
+
+                <filter name="filter_valid" string="Valid" domain="[('validation_status', '=', 'valid')]" />
+                <filter name="filter_invalid" string="Invalid" domain="[('validation_status', '=', 'invalid')]" />
+
+                <separator />
+
+                <filter name="filter_orca_pending" string="ORCA Pending" domain="[('orca_synced', '=', False)]" />
+                <filter name="filter_orca_synced" string="ORCA Synced" domain="[('orca_synced', '=', True)]" />
+
+                <separator />
+
+                <filter name="filter_this_month" string="This Month" domain="[('date', '&gt;=', context_today().replace(day=1).strftime('%Y-%m-%d'))]" />
+                <filter name="filter_last_month" string="Last Month" domain="[('date', '&lt;', context_today().replace(day=1).strftime('%Y-%m-%d')), ('date', '&gt;=', (context_today().replace(day=1) - relativedelta(months=1)).strftime('%Y-%m-%d'))]" />
+
+                <group expand="0" string="Group By">
+                    <filter name="group_by_result" string="Search Result" domain="[]" context="{'group_by': 'search_result'}" />
+                    <filter name="group_by_validation" string="Validation Status" domain="[]" context="{'group_by': 'validation_status'}" />
+                    <filter name="group_by_user" string="User" domain="[]" context="{'group_by': 'user_id'}" />
+                    <filter name="group_by_date" string="Date" domain="[]" context="{'group_by': 'date'}" />
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- Tree View: RNC Search Results -->
+    <record id="rnc_search_result_view_tree" model="ir.ui.view">
+        <field name="name">l10n.do.rnc.search.result.tree</field>
+        <field name="model">l10n.do.rnc.search.result</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="rnc" />
+                <field name="legal_name" />
+                <field name="commercial_name" />
+                <field name="validation_status" />
+                <field name="activity_type" />
+                <field name="last_validation_date" widget="datetime" />
+            </tree>
+        </field>
+    </record>
+
+    <!-- Form View: RNC Search Result Details -->
+    <record id="rnc_search_result_view_form" model="ir.ui.view">
+        <field name="name">l10n.do.rnc.search.result.form</field>
+        <field name="model">l10n.do.rnc.search.result</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="rnc" />
+                            <span> — </span>
+                            <field name="legal_name" />
+                        </h1>
+                    </div>
+
+                    <group>
+                        <group>
+                            <field name="rnc" readonly="1" />
+                            <field name="legal_name" readonly="1" />
+                            <field name="commercial_name" readonly="1" />
+                        </group>
+                        <group>
+                            <field name="validation_status" readonly="1" />
+                            <field name="status" readonly="1" />
+                            <field name="activity_type" readonly="1" />
+                        </group>
+                    </group>
+
+                    <group string="Registration Details">
+                        <group>
+                            <field name="registration_date" readonly="1" />
+                            <field name="last_validation_date" readonly="1" />
+                            <field name="dgii_uuid" readonly="1" />
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Search View: RNC Search Result Filters -->
+    <record id="rnc_search_result_view_search" model="ir.ui.view">
+        <field name="name">l10n.do.rnc.search.result.search</field>
+        <field name="model">l10n.do.rnc.search.result</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="rnc" />
+                <field name="legal_name" />
+                <field name="commercial_name" />
+                <field name="validation_status" />
+                <field name="activity_type" />
+
+                <filter name="filter_valid" string="Valid" domain="[('validation_status', '=', 'valid')]" />
+                <filter name="filter_invalid" string="Invalid" domain="[('validation_status', '=', 'invalid')]" />
+                <filter name="filter_expired" string="Expired" domain="[('validation_status', '=', 'expired')]" />
+
+                <separator />
+
+                <filter name="filter_this_month" string="Validated This Month" domain="[('last_validation_date', '&gt;=', context_today().replace(day=1).strftime('%Y-%m-%d'))]" />
+
+                <group expand="0" string="Group By">
+                    <filter name="group_by_status" string="Validation Status" domain="[]" context="{'group_by': 'validation_status'}" />
+                    <filter name="group_by_activity" string="Activity Type" domain="[]" context="{'group_by': 'activity_type'}" />
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- Window Action: RNC Search ORCA Logs -->
+    <record id="rnc_search_orca_log_action" model="ir.actions.act_window">
+        <field name="name">RNC Search Audit Logs</field>
+        <field name="res_model">l10n.do.rnc.search.orca.log</field>
+        <field name="view_mode">tree,form</field>
+        <field name="search_view_id" ref="rnc_search_orca_log_view_search" />
+        <field name="help">ORCA audit logs for RNC search operations. Track all DGII validation requests.</field>
+    </record>
+
+    <!-- Window Action: RNC Search Results -->
+    <record id="rnc_search_result_action" model="ir.actions.act_window">
+        <field name="name">RNC Search Results</field>
+        <field name="res_model">l10n.do.rnc.search.result</field>
+        <field name="view_mode">tree,form</field>
+        <field name="search_view_id" ref="rnc_search_result_view_search" />
+        <field name="help">Dominican RNC registration data from DGII. Cached results from validation searches.</field>
+    </record>
+
+    <!-- Menu Item: RNC Search -->
+    <menuitem
+        id="rnc_search_menu_root"
+        name="RNC Search"
+        parent="base.menu_administration"
+        sequence="100"
+    />
+
+    <menuitem
+        id="rnc_search_result_menu"
+        name="RNC Registry"
+        parent="rnc_search_menu_root"
+        action="rnc_search_result_action"
+        sequence="10"
+    />
+
+    <menuitem
+        id="rnc_search_orca_log_menu"
+        name="RNC Audit Logs"
+        parent="rnc_search_menu_root"
+        action="rnc_search_orca_log_action"
+        sequence="20"
+    />
+</odoo>
