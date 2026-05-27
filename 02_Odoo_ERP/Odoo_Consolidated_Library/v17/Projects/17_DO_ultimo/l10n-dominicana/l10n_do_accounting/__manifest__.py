@@ -4,14 +4,14 @@
         Este módulo implementa la administración y gestión de los números de
          comprobantes fiscales para el cumplimento de la norma 06-18 de la
          Dirección de Impuestos Internos en la República Dominicana.""",
-    "author": "iterativo LLC, " "Indexa",
+    "author": "getupsoft",
     "category": "Localization",
     "license": "LGPL-3",
-    "website": "https://github.com/odoo-dominicana",
-    "version": "17.0.1.0.4",
+    "website": "https://getupsoft.com",
+    "version": "17.0.2.0.0",
     "countries": ["do"],
     # any module necessary for this one to work correctly
-    "depends": ["l10n_latam_invoice_document", "l10n_do"],
+    "depends": ["l10n_latam_invoice_document", "l10n_do", "base_orca_integration"],
     # always loaded
     "data": [
         "security/ir.model.access.csv",
@@ -29,6 +29,7 @@
         "views/l10n_latam_document_type_views.xml",
         "views/report_templates.xml",
         "views/report_invoice.xml",
+        "views/account_move_orca_log_views.xml",
     ],
     # only loaded in demonstration mode
     "demo": [
