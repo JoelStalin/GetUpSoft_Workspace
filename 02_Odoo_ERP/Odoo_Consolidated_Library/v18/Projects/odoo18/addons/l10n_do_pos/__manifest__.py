@@ -1,17 +1,18 @@
 {
-    'name': 'Dominican RNC Search and Validation',
-    'version': '18.0.1.0.0',
+    'name': 'Dominican Point of Sale',
+    'version': '18.0.2.0.0',
     'author': 'getupsoft',
     'website': 'https://getupsoft.com',
     'license': 'LGPL-3',
-    'category': 'Localization/Validation',
+    'category': 'Point of Sale/Localization',
     'depends': [
-        'base',
+        'point_of_sale',
         'base_orca_integration',
+        'l10n_do_accounting',
     ],
     'data': [
         'security/ir.model.access.csv',
-        'views/rnc_search_orca_log_views.xml',
+        'views/pos_order_orca_log_views.xml',
     ],
     'installable': True,
     'auto_install': False,

@@ -1,31 +1,41 @@
-from odoo import fields, models
+from odoo import models, fields
 
 
-class RncSearchOrcaLog(models.Model):
+class RNCSearchOrcaLog(models.Model):
     _name = 'l10n.do.rnc.search.orca.log'
-    _description = 'RNC Search ORCA Audit Log'
+    _description = 'l10n_do_rnc_search ORCA Audit Log'
     _inherit = 'orca.log'
 
-    search_term = fields.Char(string='Search Term')
-    result_count = fields.Integer(string='Results Found')
-    result_status = fields.Char(string='Search Status')
     searched_rnc = fields.Char(string='Searched RNC')
-    dgii_response_code = fields.Char(string='DGII Response Code')
+    search_result = fields.Selection([
+        ('found', 'Found'),
+        ('not_found', 'Not Found'),
+        ('error', 'Error'),
+    ], string='Search Result')
+    dgii_response = fields.Text(string='DGII Response')
+    validation_status = fields.Char(string='Validation Status')
 
 
-class RncSearchOrcaMixin(models.AbstractModel):
-    _name = 'rnc.search.orca.mixin'
-    _description = 'RNC Search ORCA Mixin'
+class RNCSearchResult(models.Model):
+    _name = 'l10n.do.rnc.search.result'
+    _description = 'RNC Search Result'
+    _inherit = 'orca.audit.mixin'
 
-    def log_rnc_search(self, search_term, result_count=0, result_status='success', searched_rnc='', dgii_response_code=''):
-        self.env['l10n.do.rnc.search.orca.log'].create({
-            'module_name': 'l10n_do_rnc_search',
-            'model_name': 'l10n_do_rnc_search',
-            'record_id': 0,
-            'action': 'search',
-            'search_term': search_term,
-            'result_count': result_count,
-            'result_status': result_status,
-            'searched_rnc': searched_rnc,
-            'dgii_response_code': dgii_response_code,
-        })
+    rnc = fields.Char(string='RNC', required=True, index=True)
+    legal_name = fields.Char(string='Legal Name')
+    commercial_name = fields.Char(string='Commercial Name')
+    status = fields.Char(string='Status')
+    activity_type = fields.Char(string='Activity Type')
+    registration_date = fields.Date(string='Registration Date')
+    dgii_uuid = fields.Char(string='DGII UUID')
+    last_validation_date = fields.Datetime(string='Last Validation Date', auto_now=True)
+    validation_status = fields.Selection([
+        ('valid', 'Valid'),
+        ('invalid', 'Invalid'),
+        ('expired', 'Expired'),
+        ('unknown', 'Unknown'),
+    ], string='Validation Status')
+
+    _orca_tracked_fields = ['rnc', 'legal_name', 'commercial_name', 'status',
+                            'activity_type', 'validation_status', 'dgii_uuid']
+    _orca_log_model = 'l10n.do.rnc.search.orca.log'
