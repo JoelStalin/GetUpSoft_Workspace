@@ -260,7 +260,28 @@ export function useExecutionOperations() {
 
   const completeExecution = useCallback(
     (status: 'completed' | 'failed' | 'cancelled') => {
-      dispatch({ type: 'EXECUTION_COMPLETE', payload: status })
+      if (status === 'failed') {
+        dispatch({ type: 'EXECUTION_FAILED', payload: 'Execution failed' })
+      } else if (status === 'cancelled') {
+        dispatch({ type: 'EXECUTION_CANCELLED' })
+      } else {
+        // For 'completed' status, we'd need an ExecutionSummary
+        // For now, just dispatch EXECUTION_COMPLETE with minimal summary
+        dispatch({
+          type: 'EXECUTION_COMPLETE',
+          payload: {
+            id: '',
+            workflowId: '',
+            status: 'completed',
+            startTime: new Date().toISOString(),
+            totalNodes: 0,
+            completedNodes: 0,
+            failedNodes: 0,
+            skippedNodes: 0,
+            logs: [],
+          },
+        })
+      }
     },
     [dispatch]
   )

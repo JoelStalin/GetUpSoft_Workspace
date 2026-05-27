@@ -111,7 +111,7 @@ export default function ExecutionTimeline() {
                   <div className="text-xs text-gray-400 truncate">{log.message}</div>
                 )}
                 {log.error && (
-                  <div className="text-xs text-red-400 truncate">{log.error}</div>
+                  <div className="text-xs text-red-400 truncate">{log.error.message}</div>
                 )}
                 <div className="text-xs text-gray-500 flex gap-2">
                   {log.timestamp && (

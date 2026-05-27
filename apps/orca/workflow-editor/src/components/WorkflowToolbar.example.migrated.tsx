@@ -100,7 +100,7 @@ export default function WorkflowToolbarMigrated({
     } catch (error) {
       const err = error instanceof Error ? error : new Error(String(error))
       const { message } = handleApiError(err)
-      addError(err, 'WorkflowToolbar.Execute', 3)
+      addError(err, 'WorkflowToolbar.Execute', true)
       completeExecution('failed')
       addToast(`Execution failed: ${message}`, 'error')
     } finally {
@@ -155,10 +155,10 @@ export default function WorkflowToolbarMigrated({
           value={activeMode}
           onChange={onModeChange}
           items={[
-            { value: 'workflow', label: 'Workflow', icon: Network },
-            { value: 'web', label: 'Web', icon: Globe },
-            { value: 'mobile', label: 'Mobile', icon: Smartphone },
-            { value: 'ai', label: 'AI', icon: Bot },
+            { id: 'workflow', label: 'Workflow', icon: <Network size={14} /> },
+            { id: 'web', label: 'Web', icon: <Globe size={14} /> },
+            { id: 'mobile', label: 'Mobile', icon: <Smartphone size={14} /> },
+            { id: 'ai', label: 'AI', icon: <Bot size={14} /> },
           ]}
         />
       </div>

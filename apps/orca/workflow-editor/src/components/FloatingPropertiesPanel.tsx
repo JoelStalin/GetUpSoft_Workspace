@@ -235,7 +235,7 @@ export default function FloatingPropertiesPanel() {
             Description
           </label>
           <RichTextEditor
-            value={selectedNode.data.description || ''}
+            value={(selectedNode.data.description as string) || ''}
             onChange={handleDescriptionChange}
             placeholder="Add a description..."
             simple={false}
@@ -368,7 +368,7 @@ export default function FloatingPropertiesPanel() {
             Cover Image
           </label>
           <ImageUpload
-            value={selectedNode.data.imageUrl || ''}
+            value={(selectedNode.data.imageUrl as string) || ''}
             onChange={handleImageChange}
             maxSize={5}
           />

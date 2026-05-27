@@ -45,8 +45,6 @@ export class AnalyticsService {
     this.trackEvent({
       type: 'session_start',
       timestamp: Date.now(),
-      sessionId: this.sessionId,
-      userId: this.userId,
     })
   }
 

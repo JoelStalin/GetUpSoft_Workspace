@@ -68,8 +68,8 @@ export const AnalyticsDashboard: React.FC = () => {
               totalCost: providerStats?.totalCost ?? 0,
               totalRequests: providerStats?.totalRequests ?? 0,
               avgResponseTime: providerStats?.averageResponseTime ?? 0,
-              successRate: providerStats ? (providerStats.successCount / providerStats.totalRequests) * 100 : 0,
-              costPerToken: providerStats?.costPerToken ?? 0,
+              successRate: providerStats?.successRate ?? 0,
+              costPerToken: providerStats && providerStats.totalTokens > 0 ? providerStats.totalCost / providerStats.totalTokens : 0,
             })
           }
         }

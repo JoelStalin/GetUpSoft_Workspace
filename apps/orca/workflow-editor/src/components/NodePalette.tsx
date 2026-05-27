@@ -41,8 +41,7 @@ export default function NodePalette({
     'UI Patterns': false,
     Utils: false,
   })
-  const { addNode } = useWorkflowOperations()
-  const { pushHistory } = useWorkflowHistory()
+  const { addNode, workflow, pushHistory } = useWorkflowOperations()
 
   useEffect(() => {
     const loadNodeTypes = async () => {
@@ -67,7 +66,9 @@ export default function NodePalette({
   }
 
   const handleAddNode = (nodeType: string, typeInfo: NodeType) => {
-    pushHistory()
+    if (workflow) {
+      pushHistory(workflow)
+    }
     const mode = getNodeMode(typeInfo.category)
     const node: Node = {
       id: `node-${Date.now()}`,

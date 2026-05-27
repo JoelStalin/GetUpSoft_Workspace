@@ -81,7 +81,7 @@ describe('useWorkflowHistory', () => {
 
     // Push history
     act(() => {
-      result.current.hist.pushHistory()
+      result.current.ops.pushHistory(workflow)
     })
 
     // Make a change
@@ -125,7 +125,7 @@ describe('useWorkflowHistory', () => {
 
     act(() => {
       result.current.ops.setWorkflow(workflow)
-      result.current.hist.pushHistory()
+      result.current.ops.pushHistory(workflow)
       result.current.ops.addNode({
         id: 'node-1',
         type: 'default',
@@ -164,7 +164,7 @@ describe('useWorkflowHistory', () => {
 
     act(() => {
       result.current.ops.setWorkflow(workflow)
-      result.current.hist.pushHistory()
+      result.current.ops.pushHistory(workflow)
       result.current.ops.addNode({
         id: 'node-1',
         type: 'default',
@@ -210,7 +210,7 @@ describe('useWorkflowHistory', () => {
 
     act(() => {
       result.current.ops.setWorkflow(workflow)
-      result.current.hist.pushHistory()
+      result.current.ops.pushHistory(workflow)
     })
 
     expect(result.current.hist.canUndo).toBe(true)

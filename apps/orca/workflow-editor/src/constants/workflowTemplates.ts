@@ -319,10 +319,10 @@ export function getTemplateMetadata(): TemplateMetadata[] {
   return Object.entries(WORKFLOW_TEMPLATES).map(([key, workflow]) => ({
     id: key,
     name: workflow.name,
-    description: workflow.orca_meta?.description || 'No description',
-    category: workflow.orca_meta?.category || 'Other',
-    tags: workflow.orca_meta?.tags || [],
-    difficulty: getDifficulty(workflow.orca_meta?.tags || []),
+    description: (workflow.orca_meta?.description as string) || 'No description',
+    category: (workflow.orca_meta?.category as string) || 'Other',
+    tags: (workflow.orca_meta?.tags as string[]) || [],
+    difficulty: getDifficulty((workflow.orca_meta?.tags as string[]) || []),
     nodeCount: workflow.nodes?.length || 0,
     edgeCount: workflow.edges?.length || 0,
   }))
@@ -351,7 +351,7 @@ export function getTemplateCategories(): string[] {
   const categories = new Set<string>()
   Object.values(WORKFLOW_TEMPLATES).forEach((w) => {
     if (w.orca_meta?.category) {
-      categories.add(w.orca_meta.category)
+      categories.add(w.orca_meta.category as string)
     }
   })
   return Array.from(categories).sort()

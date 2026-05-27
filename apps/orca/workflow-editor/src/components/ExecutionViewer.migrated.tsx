@@ -63,14 +63,14 @@ export default function ExecutionViewerMigrated() {
           setSseLogs((prev) => [...prev, data])
         } catch (e) {
           const error = e instanceof Error ? e : new Error('Failed to parse SSE message')
-          addError(error, 'ExecutionViewer.SSE', 2)
+          addError(error, 'ExecutionViewer.SSE', true)
           console.error('Failed to parse SSE message:', e)
         }
       }
 
       eventSource.onerror = () => {
         const error = new Error('SSE connection error')
-        addError(error, 'ExecutionViewer.SSE', 3)
+        addError(error, 'ExecutionViewer.SSE', true)
         console.error('SSE connection error')
         eventSource.close()
         setIsStreaming(false)
@@ -79,7 +79,7 @@ export default function ExecutionViewerMigrated() {
       eventSourceRef.current = eventSource
     } catch (e) {
       const error = e instanceof Error ? e : new Error('Failed to connect to execution stream')
-      addError(error, 'ExecutionViewer.Stream', 2)
+      addError(error, 'ExecutionViewer.Stream', true)
     }
   }
 

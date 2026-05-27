@@ -123,8 +123,11 @@ describe('useWorkflowOperations', () => {
     })
 
     act(() => {
-      result.current.updateNode('node-1', {
+      result.current.updateNode({
+        id: 'node-1',
+        type: 'default',
         data: { label: 'New Label', type: 'test' },
+        position: { x: 0, y: 0 },
       })
     })
 

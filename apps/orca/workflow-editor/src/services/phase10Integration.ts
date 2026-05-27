@@ -150,16 +150,10 @@ class Phase10IntegrationService {
     }
 
     // Track in Cost Optimizer (Phase 8)
-    costOptimizer.trackRequest(provider, cost, responseTime, success, requestCount)
+    costOptimizer.trackRequest(provider, cost, requestCount, responseTime, success)
 
     // Track in Analytics (Phase 8)
-    analytics.trackApiCall({
-      provider,
-      cost,
-      responseTime,
-      success,
-      tokens: Math.round(requestCount),
-    })
+    analytics.trackApiCall('unknown', provider, cost, Math.round(requestCount), responseTime)
 
     // Track in Tenant Context if available
     const context = tenantContextManager.getContext()

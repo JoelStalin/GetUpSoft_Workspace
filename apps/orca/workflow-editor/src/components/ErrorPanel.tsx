@@ -22,7 +22,7 @@ export default function ErrorPanel({
   compact = false,
 }: ErrorPanelProps) {
   const [dismissed, setDismissed] = useState(false)
-  const { retryableErrors } = useErrorRecovery()
+  useErrorRecovery()
 
   if (dismissed || (errors.length === 0 && warnings.length === 0)) {
     return null

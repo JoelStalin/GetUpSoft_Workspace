@@ -98,8 +98,7 @@ function loadLayouts(): WebLayout[] {
 export default function WebDesignMode() {
   const [layouts, setLayouts] = useState<WebLayout[]>(loadLayouts)
   const [activeLayoutId, setActiveLayoutId] = useState(layouts[0]?.id || 'layout-home')
-  const { addNode } = useWorkflowOperations()
-  const { pushHistory } = useWorkflowHistory()
+  const { addNode, workflow, pushHistory } = useWorkflowOperations()
 
   useEffect(() => {
     loadStylesheet(
@@ -155,7 +154,9 @@ export default function WebDesignMode() {
     const preset = SECTION_PRESETS.find((section) => section.type === sectionType)
     if (!preset) return
 
-    pushHistory()
+    if (workflow) {
+      pushHistory(workflow)
+    }
     const index = activeLayout.sections.indexOf(sectionType)
     const node: Node = {
       id: `web-${sectionType}-${Date.now()}`,

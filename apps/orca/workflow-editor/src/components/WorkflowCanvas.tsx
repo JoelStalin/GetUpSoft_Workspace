@@ -177,7 +177,9 @@ export default function WorkflowCanvas({ activeMode = 'workflow' }: { activeMode
         return
       }
 
-      pushHistory()
+      if (workflow) {
+        pushHistory(workflow)
+      }
       const edgeId = `${connection.source}-${connection.target}-${Date.now()}`
       const edge: Edge = {
         id: edgeId,
@@ -215,7 +217,9 @@ export default function WorkflowCanvas({ activeMode = 'workflow' }: { activeMode
       const nodeType = event.dataTransfer.getData('application/reactflow')
       if (!nodeType) return
 
-      pushHistory()
+      if (workflow) {
+        pushHistory(workflow)
+      }
 
       // Calculate position with fallback if project() fails
       let position = { x: 0, y: 0 }
