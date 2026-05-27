@@ -16,7 +16,8 @@ export function useExecutionStatus() {
     throw new Error('useExecutionStatus must be used within ExecutionProvider')
   }
 
-  const { logs, isExecuting, currentExecutionId, dispatch } = context
+  const { state, dispatch } = context
+  const { logs, isRunning: isExecuting, executionId: currentExecutionId } = state
 
   const addLog = useCallback(
     (log: ExecutionLog) => {

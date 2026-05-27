@@ -31,6 +31,11 @@ export type ExecutionAction =
   | { type: 'EXECUTION_FAILED'; payload: string }
   | { type: 'EXECUTION_CANCELLED' }
   | { type: 'RESET' }
+  | { type: 'CLEAR_LOGS' }
+  | { type: 'SET_LOGS'; payload: ExecutionLog[] }
+  | { type: 'UPDATE_LOG'; payload: { nodeId: string; update: Partial<ExecutionLog> } }
+  | { type: 'SET_CURRENT_EXECUTION'; payload: string | null }
+  | { type: 'SET_IS_EXECUTING'; payload: boolean }
 
 /**
  * Execution context value
@@ -136,6 +141,40 @@ function executionReducer(state: ExecutionContextState, action: ExecutionAction)
 
     case 'RESET':
       return initialState
+
+    case 'CLEAR_LOGS':
+      return {
+        ...state,
+        logs: [],
+      }
+
+    case 'SET_LOGS':
+      return {
+        ...state,
+        logs: action.payload,
+      }
+
+    case 'UPDATE_LOG':
+      return {
+        ...state,
+        logs: state.logs.map((log) =>
+          log.nodeId === action.payload.nodeId
+            ? { ...log, ...action.payload.update }
+            : log
+        ),
+      }
+
+    case 'SET_CURRENT_EXECUTION':
+      return {
+        ...state,
+        executionId: action.payload,
+      }
+
+    case 'SET_IS_EXECUTING':
+      return {
+        ...state,
+        isRunning: action.payload,
+      }
 
     default:
       return state
