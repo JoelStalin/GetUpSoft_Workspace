@@ -4,7 +4,7 @@
     "website": "https://neotec.do/",
     "version": "15.0.1.0.0",
     "category": "Accounting",
-    "depends": ["base", "l10n_do_accounting"],
+    "depends": ["base", "l10n_do_accounting", "base_orca_integration"],
     "data": [
         "data/invoice_service_type_detail_data.xml",
         "security/ir.model.access.csv",
@@ -13,6 +13,7 @@
         "views/account_account_view.xml",
         "views/account_move_view.xml",
         "views/dgii_report_view.xml",
+        "views/dgii_report_orca_log_views.xml",
         "wizard/dgii_report_regenerate_wizard_views.xml",
     ],
     "assets": {
