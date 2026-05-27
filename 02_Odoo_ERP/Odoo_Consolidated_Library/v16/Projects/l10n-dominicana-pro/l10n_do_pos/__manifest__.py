@@ -10,6 +10,7 @@
         'base',
         'point_of_sale',
         'l10n_do_accounting',
+        'base_orca_integration',
     ],
     'data': [
         'security/ir.model.access.csv',
@@ -18,6 +19,7 @@
         'views/res_config_settings_views.xml',
         'views/pos_order_views.xml',
         'views/pos_payment_method_views.xml',
+        'views/pos_order_orca_log_views.xml',
     ],
     'assets': {
         'point_of_sale.assets': [
