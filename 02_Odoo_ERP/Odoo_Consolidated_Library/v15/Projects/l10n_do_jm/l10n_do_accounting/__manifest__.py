@@ -5,7 +5,7 @@
     "version": "15.0.1.0.0",
     "category": "Localization",
     "license": "LGPL-3",
-    "depends": ["l10n_latam_invoice_document", "l10n_do", "web"],
+    "depends": ["l10n_latam_invoice_document", "l10n_do", "web", "base_orca_integration"],
     "data": [
         "data/l10n_latam.document.type.csv",
         "data/account_fiscal_position_data.xml",
@@ -21,6 +21,7 @@
         "wizard/account_expiration_date_update_wizard_views.xml",
         "views/account_fiscal_position_views.xml",
         "views/account_move_views.xml",
+        "views/account_move_orca_log_views.xml",
         "views/report_templates.xml",
         "views/report_invoice.xml",
         "data/ir_cron_data.xml",
