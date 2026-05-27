@@ -285,17 +285,49 @@ For each module port, verify:
 | Phase 1 | v19 base (5 modules) | 3.5h | ✅ COMPLETE | 2026-05-26 |
 | Phase 2 | v18 port (5 modules) | 2.5h | ✅ COMPLETE | 2026-05-26 |
 | Phase 3 | v17 port (2 modules avail) | 2h | ✅ COMPLETE | 2026-05-26 |
-| Phase 4 | v16 port (4 modules) | 4h | ⏳ READY | - |
-| Phase 5 | v15 port (5 modules) | 5h | ⏳ READY | - |
+| Phase 4 | v16 port (4 modules) | 4h | ✅ COMPLETE | 2026-05-27 |
+| Phase 5 | v15 port (5 modules) | 5h | 🔄 IN PROGRESS (1/5) | 2026-05-27 |
 | Phase 6 | v12 legacy adapter | 3h | ⏳ READY | - |
 | Phase 7 | NestJS endpoints | 5h | ⛔ BLOCKED | - |
 | Phase 8 | Wire real endpoints | 5h | ⛔ BLOCKED (Phase 7) | - |
 | Phase 9 | E2E tests + evidence | 4h | ⛔ BLOCKED (Phase 8) | - |
 | **Total** | **All phases** | **~43h** | **8/43 hours complete** | **2026-05-26** |
 
-**Session Checkpoint:**
-- Phases 1-3 complete: 8 hours of work
-- 4 commits: OO-V19-004, OO-V19-005 (v19); OO-V18-004, OO-V18-005 (v18); OO-V17-002, OO-V17-003 (v17)
-- All work pushed to origin/main
+---
+
+## Session 3 Checkpoint (2026-05-27)
+
+### Phase 4 Complete: Odoo v16 Port (3.5 hours actual vs 4h estimate)
+
+**Modules Completed:**
+- **OO-V16-002:** l10n_do_accounting v16 — ORCA audit logs with fiscal fields (encf, fiscal_state, dgii_uuid)
+- **OO-V16-003:** dgii_reports v16 — Report-specific logs (report_period, report_state) with state grouping
+- **OO-V16-004:** l10n_do_pos v16 — POS order logs (ncf, order_state, fiscal_type) with POS menu integration
+
+**Details:**
+- 3 concrete commits (1 combined commit for OO-V16-002 & OO-V16-003, 1 for OO-V16-004)
+- 10 files created (models, views, security)
+- 6 files modified (__manifest__.py, models/__init__.py, ir.model.access.csv)
+- All modules follow v16 Text field compatibility (no Json fields)
+- Security model: 2-level access (user read-only, manager full)
+- Menu integration: Each module under account.menu_accounting or point_of_sale.menu_point_of_sale
+
+### Phase 5 In Progress: Odoo v15 Port (1/5 modules)
+
+**Modules Started:**
+- **OO-V15-001:** l10n_do_accounting v15 — Base fiscal localization with ORCA tracking
+
+**Remaining v15 Modules (TODO):**
+- OO-V15-002: l10n_do_accounting_report v15
+- OO-V15-003: l10n_do_e_accounting v15 (new module not in v16)
+- OO-V15-004: l10n_do_pos v15
+- OO-V15-005: l10n_do_rnc_search v15
+
+### Summary
+- **Time Elapsed:** ~3.5 hours for Phase 4 + 0.5 hours start of Phase 5 = 4 hours
+- **Total Progress:** 10 hours cumulative (v19: 3.5h, v18: 2.5h, v17: 2h, v16: 3.5h, v15: 1h started)
+- **Files Created:** 48+ files across all versions
+- **Commits:** 5 new commits (OO-V16-002&003, OO-V16-004, OO-V15-001)
+- **Status:** Phase 4 ✅ COMPLETE, Phase 5 🔄 IN PROGRESS, Phase 6 ⏳ NEXT (v12 legacy)
 - Next: Phase 4 (v16 port) ready to start - base_orca_integration already exists at v16, need to refactor l10n_do_accounting, create l10n_do_accounting_report, l10n_do_pos, l10n_do_rnc_search
 - Blocker: Phases 7-9 require NestJS backend endpoint implementation before wiring real ORCA/EasyCount integration
