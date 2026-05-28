@@ -1,8 +1,8 @@
 {
     "name": "DO Accounting POS",
-    "author": "Santos J. Marte M. <alejandro@neotec.do> ; Neotec SRL",
-    "website": "https://neotec.do/",
-    "version": "15.0.1.1.0",
+    "author": "getupsoft",
+    "website": "https://getupsoft.com",
+    "version": "15.0.1.2.0",
     "category": "Localization",
     "depends": ["base", "l10n_do_accounting", "point_of_sale", "l10n_do_rnc_search", "base_orca_integration"],
     "data": [

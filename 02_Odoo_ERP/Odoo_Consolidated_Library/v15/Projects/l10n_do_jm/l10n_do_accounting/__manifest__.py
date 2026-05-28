@@ -1,8 +1,8 @@
 {
     "name": "Fiscal Localization (Dominican Republic)",
-    "author": "Santos J. Marte M. <alejandro@neotec.do>, " "Neotec SRL",
-    "website": "https://neotec.do/",
-    "version": "15.0.1.0.0",
+    "author": "getupsoft",
+    "website": "https://getupsoft.com",
+    "version": "15.0.1.1.0",
     "category": "Localization",
     "license": "LGPL-3",
     "depends": ["l10n_latam_invoice_document", "l10n_do", "web", "base_orca_integration"],

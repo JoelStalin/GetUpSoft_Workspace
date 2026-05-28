@@ -1,4 +1,4 @@
-from odoo import models, fields
+from odoo import fields, models
 
 
 class PosOrderOrcaLog(models.Model):
@@ -22,12 +22,17 @@ class PosOrderOrcaLog(models.Model):
 
 
 class PosOrder(models.Model):
-    _inherit = ['pos.order', 'orca.audit.mixin']
+    """POS order with ORCA universal audit logging.
 
-    _orca_tracked_fields = [
-        'name',
-        'state',
-        'amount_total',
-        'partner_id',
-    ]
+    Uses OrcaUniversalMixin which auto-detects fields based on CRITICAL tier.
+    Automatically tracks all relevant POS order fields without explicit configuration.
+    """
+
+    _inherit = ['pos.order', 'orca.universal.mixin']
+
+    # Tier classification: CRITICAL for fiscal/POS operations
+    # OrcaUniversalMixin will auto-select ~20 POS order fields
+    _orca_tier = 'critical'
+
+    # Concrete log model for this module
     _orca_log_model = 'pos.order.orca.log'

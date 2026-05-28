@@ -1,4 +1,4 @@
-from odoo import models, fields
+from odoo import fields, models
 
 
 class DgiiReportOrcaLog(models.Model):
@@ -18,11 +18,17 @@ class DgiiReportOrcaLog(models.Model):
 
 
 class DgiiReport(models.Model):
-    _inherit = ['dgii.reports', 'orca.audit.mixin']
+    """DGII report with ORCA universal audit logging.
 
-    _orca_tracked_fields = [
-        'name',
-        'state',
-        'company_id',
-    ]
+    Uses OrcaUniversalMixin which auto-detects fields based on CRITICAL tier.
+    Automatically tracks all relevant DGII reporting fields without explicit configuration.
+    """
+
+    _inherit = ['dgii.reports', 'orca.universal.mixin']
+
+    # Tier classification: CRITICAL for fiscal/reporting operations
+    # OrcaUniversalMixin will auto-select ~20 reporting fields
+    _orca_tier = 'critical'
+
+    # Concrete log model for this module
     _orca_log_model = 'dgii.report.orca.log'

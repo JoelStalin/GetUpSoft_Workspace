@@ -1,8 +1,8 @@
 {
     "name": "DO Accounting Report",
-    "author": "Santos J. Marte M. <alejandro@neotec.do> ; Neotec SRL",
-    "website": "https://neotec.do/",
-    "version": "15.0.1.0.0",
+    "author": "getupsoft",
+    "website": "https://getupsoft.com",
+    "version": "15.0.1.1.0",
     "category": "Accounting",
     "depends": ["base", "l10n_do_accounting", "base_orca_integration"],
     "data": [
