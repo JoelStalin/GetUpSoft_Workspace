@@ -93,7 +93,7 @@
 **Estimated Effort:** 5 hours (NestJS backend team)
 
 ### Phase 8: Service Integration & Wire Real Endpoints
-**Status:** ⛔ BLOCKED (Depends on Phase 7)
+**Status:** ⏳ READY (Depends on Phase 7 completion)
 
 **Tasks:**
 - Connect AbstractOrcaService to real NestJS endpoints
@@ -176,11 +176,12 @@
 
 ---
 
-## Known Blockers & Dependencies
+## Known Dependencies & Next Steps
 
-### Blocking Phases 7-9:
-- **NestJS endpoints** must be implemented before Phase 8 can wire real API calls
-- **Test environment** authorization needed before Phase 9 E2E testing
+### Phases 7-9 Dependencies (Ready for Backend Team):
+- **Phase 7 (NestJS endpoints):** Required for Phase 8 API wiring — Backend team responsibility
+- **Phase 8 (Wire APIs):** Can proceed once Phase 7 endpoints exist
+- **Phase 9 (E2E testing):** Awaits test environment authorization and Phase 8 completion
 
 ### All Phases 1-6:
 - ✅ **No blockers remaining**
