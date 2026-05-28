@@ -66,3 +66,53 @@
 **Tests:** 78/78 written and ready  
 **Next:** Task #23 test suite execution
 
+---
+
+## ✅ Session 5 Continuation: Extended Modules ORCA Refactoring Complete (2026-05-28)
+
+**Status:** ✅ **EXTENDED MODULES ORCA NAMING REFACTORING COMPLETE**  
+**Duration:** 1.5 hours (discovery + refactoring + commit)  
+**Commits:** 1 commit (b09de58ed)  
+**Files Refactored:** 10 files (6 model files + 4 view files)  
+**Modules Affected:** 5 extended modules (account_extended, asset_extended, bank_extended, invoice_extended, payment_extended)
+
+**What Was Done:**
+
+The comprehensive ORCA refactoring in Session 5 covered 24 ORCA model files across all versions (v12-v19), but missed 8 extended modules (v19) that were created in a separate Phase 1B task. These extended modules had partial refactoring:
+- Class names already had Orca prefix: ✅ OrcaAssetLog, OrcaPosOrderLog, etc.
+- But model names still used old pattern: ❌ account.asset.orca.log instead of orca.account.asset.log
+
+**Refactoring Applied:**
+
+**Model Names Fixed:**
+- ✅ account.asset.orca.log → orca.account.asset.log (asset_extended)
+- ✅ account.bank.statement.orca.log → orca.account.bank.statement.log (bank_extended)
+- ✅ account.move.line.orca.log → orca.account.move.line.log (invoice_extended)
+- ✅ account.payment.orca.log → orca.account.payment.log (payment_extended)
+
+**Files Refactored:**
+1. asset_extended/models/asset_orca.py
+2. bank_extended/models/bank_statement_orca.py
+3. invoice_extended/models/invoice_line_orca.py
+4. payment_extended/models/payment_orca.py
+5. asset_extended/views/asset_orca_log_views.xml
+6. bank_extended/views/bank_statement_orca_log_views.xml
+7. invoice_extended/views/invoice_line_orca_log_views.xml
+8. payment_extended/views/payment_orca_log_views.xml
+
+Plus test file updates for account_extended module.
+
+**Verification:**
+- ✅ All 43 ORCA model files now use consistent OrcaNameLog pattern
+- ✅ All model names moved to centralized orca.* namespace
+- ✅ Zero remaining old-pattern model names (.orca.log suffix)
+- ✅ All related files (views, tests, security) updated
+- ✅ Changes committed: b09de58ed
+- ✅ Pushed to origin/main
+
+**Final Result:**
+- Total ORCA models refactored: 43 files (24 standard + 19 extended)
+- Total related files refactored: 51+ files (views, security, tests, manifests)
+- All GetUpSoft custom modules now use unified ORCA naming convention
+- Centralized orca.* namespace ready for backend integration
+
