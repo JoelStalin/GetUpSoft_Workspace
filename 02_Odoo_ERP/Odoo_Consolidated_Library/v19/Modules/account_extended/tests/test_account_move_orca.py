@@ -58,7 +58,7 @@ class TestOrcaAccountMoveLogging(TransactionCase):
             })],
         })
 
-        logs = self.env['account.move.orca.log'].search([
+        logs = self.env['orca.account.move.log'].search([
             ('record_id', '=', move.id),
             ('action', '=', 'create')
         ])
@@ -83,14 +83,14 @@ class TestOrcaAccountMoveLogging(TransactionCase):
         })
 
         # Clear create logs to isolate write test
-        self.env['account.move.orca.log'].search([
+        self.env['orca.account.move.log'].search([
             ('record_id', '=', move.id)
         ]).unlink()
 
         original_ref = move.ref
         move.write({'ref': 'TEST-INVOICE-001'})
 
-        logs = self.env['account.move.orca.log'].search([
+        logs = self.env['orca.account.move.log'].search([
             ('record_id', '=', move.id),
             ('action', '=', 'write')
         ])
@@ -122,7 +122,7 @@ class TestOrcaAccountMoveLogging(TransactionCase):
         move_id = move.id
         move.unlink()
 
-        logs = self.env['account.move.orca.log'].search([
+        logs = self.env['orca.account.move.log'].search([
             ('record_id', '=', move_id),
             ('action', '=', 'unlink')
         ])
@@ -143,7 +143,7 @@ class TestOrcaAccountMoveLogging(TransactionCase):
             })],
         })
 
-        logs = self.env['account.move.orca.log'].search([
+        logs = self.env['orca.account.move.log'].search([
             ('record_id', '=', move.id),
             ('action', '=', 'create')
         ])
@@ -178,7 +178,7 @@ class TestOrcaAccountMoveLogging(TransactionCase):
             })],
         })
 
-        log = self.env['account.move.orca.log'].search([
+        log = self.env['orca.account.move.log'].search([
             ('record_id', '=', move.id)
         ], limit=1)
 
@@ -207,7 +207,7 @@ class TestOrcaAccountMoveLogging(TransactionCase):
             })],
         })
 
-        log = self.env['account.move.orca.log'].search([
+        log = self.env['orca.account.move.log'].search([
             ('record_id', '=', move.id)
         ], limit=1)
 
@@ -221,7 +221,7 @@ class TestOrcaAccountMoveLogging(TransactionCase):
 
     def test_orca_log_model_fields(self):
         """T1.9: Verify account.move.orca.log model has expected fields"""
-        log_model = self.env['account.move.orca.log']
+        log_model = self.env['orca.account.move.log']
 
         # Check inherited orca.log fields
         expected_fields = [
@@ -248,7 +248,7 @@ class TestOrcaAccountMoveLogging(TransactionCase):
             })],
         })
 
-        logs = self.env['account.move.orca.log'].search([
+        logs = self.env['orca.account.move.log'].search([
             ('record_id', '=', move.id)
         ])
 
@@ -270,7 +270,7 @@ class TestOrcaAccountMoveLogging(TransactionCase):
             })],
         })
 
-        logs = self.env['account.move.orca.log'].search([
+        logs = self.env['orca.account.move.log'].search([
             ('record_id', '=', move.id)
         ])
 
@@ -285,37 +285,37 @@ class TestAccountMoveOrcaUIViews(TransactionCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
-        cls.move_orca_log_model = cls.env['account.move.orca.log']
+        cls.move_orca_log_model = cls.env['orca.account.move.log']
 
     def test_list_view_exists(self):
         """T1.10: Verify tree (list) view is properly configured"""
         view = self.env.ref('account_extended.account_move_orca_log_view_tree')
         self.assertIsNotNone(view)
         self.assertEqual(view.type, 'tree')
-        self.assertEqual(view.model, 'account.move.orca.log')
+        self.assertEqual(view.model, 'orca.account.move.log')
 
     def test_form_view_exists(self):
         """T1.10: Verify form view is properly configured"""
         view = self.env.ref('account_extended.account_move_orca_log_view_form')
         self.assertIsNotNone(view)
         self.assertEqual(view.type, 'form')
-        self.assertEqual(view.model, 'account.move.orca.log')
+        self.assertEqual(view.model, 'orca.account.move.log')
 
     def test_search_view_exists(self):
         """T1.10: Verify search view is properly configured"""
         view = self.env.ref('account_extended.account_move_orca_log_view_search')
         self.assertIsNotNone(view)
         self.assertEqual(view.type, 'search')
-        self.assertEqual(view.model, 'account.move.orca.log')
+        self.assertEqual(view.model, 'orca.account.move.log')
 
     def test_action_window_exists(self):
         """T1.10: Verify action window for ORCA logs is configured"""
         action = self.env.ref('account_extended.account_move_orca_log_action')
         self.assertIsNotNone(action)
-        self.assertEqual(action.res_model, 'account.move.orca.log')
+        self.assertEqual(action.res_model, 'orca.account.move.log')
 
     def test_menu_item_exists(self):
         """T1.10: Verify menu item is properly configured"""
         menu = self.env.ref('account_extended.account_move_orca_log_menu')
         self.assertIsNotNone(menu)
-        self.assertEqual(menu.action.res_model, 'account.move.orca.log')
+        self.assertEqual(menu.action.res_model, 'orca.account.move.log')

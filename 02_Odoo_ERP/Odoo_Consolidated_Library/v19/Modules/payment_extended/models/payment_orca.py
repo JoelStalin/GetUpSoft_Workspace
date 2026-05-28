@@ -2,7 +2,7 @@ from odoo import fields, models
 
 
 class OrcaAccountPaymentLog(models.Model):
-    _name = 'account.payment.orca.log'
+    _name = 'orca.account.payment.log'
     _description = 'Payment ORCA Audit Log'
     _inherit = 'orca.log'
 
@@ -43,4 +43,4 @@ class AccountPayment(models.Model):
     _inherit = ['account.payment', 'orca.universal.mixin']
 
     _orca_tier = 'high'
-    _orca_log_model = 'account.payment.orca.log'
+    _orca_log_model = 'orca.account.payment.log'

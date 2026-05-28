@@ -3,8 +3,8 @@
     <data>
         <!-- List View -->
         <record id="asset_orca_log_view_tree" model="ir.ui.view">
-            <field name="name">account.asset.orca.log.tree</field>
-            <field name="model">account.asset.orca.log</field>
+            <field name="name">orca.account.asset.log.tree</field>
+            <field name="model">orca.account.asset.log</field>
             <field name="arch" type="xml">
                 <tree string="Asset ORCA Logs" decoration-danger="action=='unlink'">
                     <field name="date" />
@@ -21,8 +21,8 @@
 
         <!-- Form View -->
         <record id="asset_orca_log_view_form" model="ir.ui.view">
-            <field name="name">account.asset.orca.log.form</field>
-            <field name="model">account.asset.orca.log</field>
+            <field name="name">orca.account.asset.log.form</field>
+            <field name="model">orca.account.asset.log</field>
             <field name="arch" type="xml">
                 <form string="Asset ORCA Log">
                     <sheet>
@@ -72,8 +72,8 @@
 
         <!-- Search View -->
         <record id="asset_orca_log_view_search" model="ir.ui.view">
-            <field name="name">account.asset.orca.log.search</field>
-            <field name="model">account.asset.orca.log</field>
+            <field name="name">orca.account.asset.log.search</field>
+            <field name="model">orca.account.asset.log</field>
             <field name="arch" type="xml">
                 <search string="Asset ORCA Logs">
                     <field name="date" />
@@ -97,7 +97,7 @@
         <!-- Action -->
         <record id="asset_orca_log_action" model="ir.actions.act_window">
             <field name="name">Asset ORCA Logs</field>
-            <field name="res_model">account.asset.orca.log</field>
+            <field name="res_model">orca.account.asset.log</field>
             <field name="view_mode">tree,form</field>
             <field name="view_id" ref="asset_orca_log_view_tree" />
             <field name="search_view_id" ref="asset_orca_log_view_search" />

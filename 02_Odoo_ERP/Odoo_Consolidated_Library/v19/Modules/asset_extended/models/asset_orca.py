@@ -2,7 +2,7 @@ from odoo import fields, models
 
 
 class OrcaAssetLog(models.Model):
-    _name = 'account.asset.orca.log'
+    _name = 'orca.account.asset.log'
     _description = 'Asset ORCA Audit Log'
     _inherit = 'orca.log'
 
@@ -38,4 +38,4 @@ class AccountAsset(models.Model):
     _inherit = ['account.asset', 'orca.universal.mixin']
 
     _orca_tier = 'high'
-    _orca_log_model = 'account.asset.orca.log'
+    _orca_log_model = 'orca.account.asset.log'

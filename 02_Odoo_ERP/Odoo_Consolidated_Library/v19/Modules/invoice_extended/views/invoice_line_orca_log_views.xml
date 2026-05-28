@@ -3,8 +3,8 @@
     <data>
         <!-- List View -->
         <record id="invoice_line_orca_log_view_tree" model="ir.ui.view">
-            <field name="name">account.move.line.orca.log.tree</field>
-            <field name="model">account.move.line.orca.log</field>
+            <field name="name">orca.account.move.line.log.tree</field>
+            <field name="model">orca.account.move.line.log</field>
             <field name="arch" type="xml">
                 <tree string="Invoice Line ORCA Logs" decoration-danger="action=='unlink'">
                     <field name="date" />
@@ -21,8 +21,8 @@
 
         <!-- Form View -->
         <record id="invoice_line_orca_log_view_form" model="ir.ui.view">
-            <field name="name">account.move.line.orca.log.form</field>
-            <field name="model">account.move.line.orca.log</field>
+            <field name="name">orca.account.move.line.log.form</field>
+            <field name="model">orca.account.move.line.log</field>
             <field name="arch" type="xml">
                 <form string="Invoice Line ORCA Log">
                     <sheet>
@@ -78,8 +78,8 @@
 
         <!-- Search View -->
         <record id="invoice_line_orca_log_view_search" model="ir.ui.view">
-            <field name="name">account.move.line.orca.log.search</field>
-            <field name="model">account.move.line.orca.log</field>
+            <field name="name">orca.account.move.line.log.search</field>
+            <field name="model">orca.account.move.line.log</field>
             <field name="arch" type="xml">
                 <search string="Invoice Line ORCA Logs">
                     <field name="date" />
@@ -104,7 +104,7 @@
         <!-- Action -->
         <record id="invoice_line_orca_log_action" model="ir.actions.act_window">
             <field name="name">Invoice Line ORCA Logs</field>
-            <field name="res_model">account.move.line.orca.log</field>
+            <field name="res_model">orca.account.move.line.log</field>
             <field name="view_mode">tree,form</field>
             <field name="view_id" ref="invoice_line_orca_log_view_tree" />
             <field name="search_view_id" ref="invoice_line_orca_log_view_search" />

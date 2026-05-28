@@ -2,7 +2,7 @@ from odoo import fields, models
 
 
 class OrcaInvoiceLineLog(models.Model):
-    _name = 'account.move.line.orca.log'
+    _name = 'orca.account.move.line.log'
     _description = 'Invoice Line ORCA Audit Log'
     _inherit = 'orca.log'
 
@@ -40,4 +40,4 @@ class InvoiceLine(models.Model):
     _inherit = ['account.move.line', 'orca.universal.mixin']
 
     _orca_tier = 'high'
-    _orca_log_model = 'account.move.line.orca.log'
+    _orca_log_model = 'orca.account.move.line.log'

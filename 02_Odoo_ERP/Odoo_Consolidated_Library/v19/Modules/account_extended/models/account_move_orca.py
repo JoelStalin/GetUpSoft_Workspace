@@ -7,7 +7,7 @@ class OrcaAccountMoveLog(models.Model):
     Inherits from base orca.log with additional accounting-specific fields.
     Auto-populated when account.move records are created, written, or deleted.
     """
-    _name = 'account.move.orca.log'
+    _name = 'orca.account.move.log'
     _description = 'Account Move ORCA Audit Log'
     _inherit = 'orca.log'
 
@@ -61,4 +61,4 @@ class AccountMove(models.Model):
     _orca_tier = 'critical'
 
     # Concrete log model for account operations
-    _orca_log_model = 'account.move.orca.log'
+    _orca_log_model = 'orca.account.move.log'

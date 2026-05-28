@@ -3,8 +3,8 @@
     <data>
         <!-- List View -->
         <record id="bank_statement_orca_log_view_tree" model="ir.ui.view">
-            <field name="name">account.bank.statement.orca.log.tree</field>
-            <field name="model">account.bank.statement.orca.log</field>
+            <field name="name">orca.account.bank.statement.log.tree</field>
+            <field name="model">orca.account.bank.statement.log</field>
             <field name="arch" type="xml">
                 <tree string="Bank Statement ORCA Logs" decoration-danger="action=='unlink'">
                     <field name="date" />
@@ -22,8 +22,8 @@
 
         <!-- Form View -->
         <record id="bank_statement_orca_log_view_form" model="ir.ui.view">
-            <field name="name">account.bank.statement.orca.log.form</field>
-            <field name="model">account.bank.statement.orca.log</field>
+            <field name="name">orca.account.bank.statement.log.form</field>
+            <field name="model">orca.account.bank.statement.log</field>
             <field name="arch" type="xml">
                 <form string="Bank Statement ORCA Log">
                     <sheet>
@@ -77,8 +77,8 @@
 
         <!-- Search View -->
         <record id="bank_statement_orca_log_view_search" model="ir.ui.view">
-            <field name="name">account.bank.statement.orca.log.search</field>
-            <field name="model">account.bank.statement.orca.log</field>
+            <field name="name">orca.account.bank.statement.log.search</field>
+            <field name="model">orca.account.bank.statement.log</field>
             <field name="arch" type="xml">
                 <search string="Bank Statement ORCA Logs">
                     <field name="date" />
@@ -102,7 +102,7 @@
         <!-- Action -->
         <record id="bank_statement_orca_log_action" model="ir.actions.act_window">
             <field name="name">Bank Statement ORCA Logs</field>
-            <field name="res_model">account.bank.statement.orca.log</field>
+            <field name="res_model">orca.account.bank.statement.log</field>
             <field name="view_mode">tree,form</field>
             <field name="view_id" ref="bank_statement_orca_log_view_tree" />
             <field name="search_view_id" ref="bank_statement_orca_log_view_search" />

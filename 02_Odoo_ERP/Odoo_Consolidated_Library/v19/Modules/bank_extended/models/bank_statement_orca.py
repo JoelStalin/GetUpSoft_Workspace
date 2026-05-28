@@ -2,7 +2,7 @@ from odoo import fields, models
 
 
 class OrcaBankStatementLog(models.Model):
-    _name = 'account.bank.statement.orca.log'
+    _name = 'orca.account.bank.statement.log'
     _description = 'Bank Statement ORCA Audit Log'
     _inherit = 'orca.log'
 
@@ -46,4 +46,4 @@ class BankStatement(models.Model):
     _inherit = ['account.bank.statement', 'orca.universal.mixin']
 
     _orca_tier = 'high'
-    _orca_log_model = 'account.bank.statement.orca.log'
+    _orca_log_model = 'orca.account.bank.statement.log'
