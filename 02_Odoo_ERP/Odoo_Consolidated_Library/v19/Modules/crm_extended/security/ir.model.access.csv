@@ -1,0 +1,4 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_orca_lead_log_user,Lead Log - User Read-Only,model_orca_lead_log,base.group_user,1,0,0,0
+access_orca_lead_log_sales,Lead Log - Salesperson Read-Only,model_orca_lead_log,sales.group_sale_salesman,1,0,0,0
+access_orca_lead_log_manager,Lead Log - Manager Full,model_orca_lead_log,sales.group_sale_manager,1,1,1,0

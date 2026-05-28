@@ -2,46 +2,47 @@ import json
 from odoo import models, fields
 
 
-class OrcaSaleOrderLog(models.Model):
-    _name = 'orca.sale.order.log'
-    _description = 'Sale Order ORCA Audit Log'
+class OrcaECommerceOrderLog(models.Model):
+    _name = 'orca.ecommerce.order.log'
+    _description = 'E-Commerce Order ORCA Audit Log'
     _inherit = 'orca.log'
 
-    customer_name = fields.Char(string='Customer Name')
-    order_total = fields.Float(string='Order Total')
-    order_date = fields.Date(string='Order Date')
-    delivery_date = fields.Date(string='Delivery Date')
-    order_state = fields.Selection([
-        ('draft', 'Quotation'),
+    order_reference = fields.Char(string='Order Reference')
+    customer_email = fields.Char(string='Customer Email')
+    order_status = fields.Selection([
+        ('draft', 'Draft'),
         ('sent', 'Quotation Sent'),
         ('sale', 'Sales Order'),
-        ('done', 'Locked'),
-        ('cancel', 'Cancelled'),
-    ], string='Order State')
-    product_count = fields.Integer(string='Product Count')
+        ('shipped', 'Shipped'),
+        ('delivered', 'Delivered'),
+        ('cancelled', 'Cancelled'),
+    ], string='Order Status')
+    order_date = fields.Date(string='Order Date')
+    order_total = fields.Float(string='Order Total')
+    item_count = fields.Integer(string='Item Count')
 
 
 class SaleOrder(models.Model):
     _inherit = ['sale.order', 'orca.universal.mixin']
 
     _orca_tier = 'high'
-    _orca_log_model = 'orca.sale.order.log'
-    _orca_tracked_fields = ['state', 'partner_id', 'amount_total', 'date_order', 'commitment_date', 'order_line']
+    _orca_log_model = 'orca.ecommerce.order.log'
+    _orca_tracked_fields = ['state', 'partner_id', 'amount_total', 'date_order', 'order_line']
 
     def create(self, vals_list):
         records = super().create(vals_list)
         for record in records:
-            self.env['orca.sale.order.log'].create({
+            self.env['orca.ecommerce.order.log'].create({
                 'module_name': self._module,
                 'model_name': self._name,
                 'record_id': record.id,
                 'action': 'create',
-                'customer_name': record.partner_id.name if record.partner_id else '',
-                'order_total': record.amount_total,
+                'order_reference': record.name or 'N/A',
+                'customer_email': record.partner_id.email if record.partner_id else '',
+                'order_status': record.state,
                 'order_date': record.date_order,
-                'delivery_date': record.commitment_date,
-                'order_state': record.state,
-                'product_count': len(record.order_line),
+                'order_total': record.amount_total,
+                'item_count': len(record.order_line),
                 'before_values': json.dumps({}),
                 'after_values': json.dumps(self._orca_snapshot(record)),
             })
@@ -51,17 +52,17 @@ class SaleOrder(models.Model):
         before_snapshots = {r.id: self._orca_snapshot(r) for r in self}
         result = super().write(vals)
         for record in self:
-            self.env['orca.sale.order.log'].create({
+            self.env['orca.ecommerce.order.log'].create({
                 'module_name': self._module,
                 'model_name': self._name,
                 'record_id': record.id,
                 'action': 'write',
-                'customer_name': record.partner_id.name if record.partner_id else '',
-                'order_total': record.amount_total,
+                'order_reference': record.name or 'N/A',
+                'customer_email': record.partner_id.email if record.partner_id else '',
+                'order_status': record.state,
                 'order_date': record.date_order,
-                'delivery_date': record.commitment_date,
-                'order_state': record.state,
-                'product_count': len(record.order_line),
+                'order_total': record.amount_total,
+                'item_count': len(record.order_line),
                 'before_values': json.dumps(before_snapshots[record.id]),
                 'after_values': json.dumps(self._orca_snapshot(record)),
             })
@@ -70,17 +71,17 @@ class SaleOrder(models.Model):
     def unlink(self):
         before_snapshots = {r.id: self._orca_snapshot(r) for r in self}
         for record in self:
-            self.env['orca.sale.order.log'].create({
+            self.env['orca.ecommerce.order.log'].create({
                 'module_name': self._module,
                 'model_name': self._name,
                 'record_id': record.id,
                 'action': 'unlink',
-                'customer_name': record.partner_id.name if record.partner_id else '',
-                'order_total': record.amount_total,
+                'order_reference': record.name or 'N/A',
+                'customer_email': record.partner_id.email if record.partner_id else '',
+                'order_status': record.state,
                 'order_date': record.date_order,
-                'delivery_date': record.commitment_date,
-                'order_state': record.state,
-                'product_count': len(record.order_line),
+                'order_total': record.amount_total,
+                'item_count': len(record.order_line),
                 'before_values': json.dumps(before_snapshots[record.id]),
                 'after_values': json.dumps({}),
             })
@@ -92,6 +93,5 @@ class SaleOrder(models.Model):
             'partner_id': record.partner_id.id if record.partner_id else None,
             'amount_total': record.amount_total,
             'date_order': str(record.date_order) if record.date_order else None,
-            'commitment_date': str(record.commitment_date) if record.commitment_date else None,
             'order_line_count': len(record.order_line),
         }

@@ -1,26 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <odoo>
-    <!-- Sale Order ORCA Log List View -->
-    <record id="view_orca_sale_order_log_tree" model="ir.ui.view">
-        <field name="name">orca.sale.order.log.list</field>
-        <field name="model">orca.sale.order.log</field>
+    <!-- E-Commerce Order ORCA Log List View -->
+    <record id="view_orca_ecommerce_order_log_tree" model="ir.ui.view">
+        <field name="name">orca.ecommerce.order.log.list</field>
+        <field name="model">orca.ecommerce.order.log</field>
         <field name="arch" type="xml">
             <tree>
                 <field name="date"/>
                 <field name="user_id"/>
                 <field name="action"/>
-                <field name="customer_name"/>
-                <field name="order_state"/>
+                <field name="order_reference"/>
+                <field name="customer_email"/>
+                <field name="order_status"/>
                 <field name="order_total"/>
-                <field name="product_count"/>
             </tree>
         </field>
     </record>
 
-    <!-- Sale Order ORCA Log Form View -->
-    <record id="view_orca_sale_order_log_form" model="ir.ui.view">
-        <field name="name">orca.sale.order.log.form</field>
-        <field name="model">orca.sale.order.log</field>
+    <!-- E-Commerce Order ORCA Log Form View -->
+    <record id="view_orca_ecommerce_order_log_form" model="ir.ui.view">
+        <field name="name">orca.ecommerce.order.log.form</field>
+        <field name="model">orca.ecommerce.order.log</field>
         <field name="arch" type="xml">
             <form>
                 <group>
@@ -33,12 +33,12 @@
                         <field name="user_id"/>
                     </group>
                     <group string="Order Details">
-                        <field name="customer_name"/>
-                        <field name="order_state"/>
+                        <field name="order_reference"/>
+                        <field name="customer_email"/>
+                        <field name="order_status"/>
                         <field name="order_date"/>
-                        <field name="delivery_date"/>
                         <field name="order_total"/>
-                        <field name="product_count"/>
+                        <field name="item_count"/>
                     </group>
                     <group string="Audit Data">
                         <field name="before_values" widget="ace"/>
@@ -50,15 +50,15 @@
     </record>
 
     <!-- Menu Items -->
-    <menuitem id="menu_orca_sales_logs" name="ORCA Logs" parent="sale.menu_sale_config"/>
+    <menuitem id="menu_orca_website_sale_logs" name="ORCA Logs" parent="website.menu_website_config"/>
 
-    <menuitem id="menu_orca_sale_order_log" name="Sale Orders"
-              parent="menu_orca_sales_logs"
-              action="action_view_orca_sale_order_log"/>
+    <menuitem id="menu_orca_ecommerce_order_log" name="E-Commerce Orders"
+              parent="menu_orca_website_sale_logs"
+              action="action_view_orca_ecommerce_order_log"/>
 
     <!-- Actions -->
-    <act_window id="action_view_orca_sale_order_log"
-                name="Sale Order ORCA Logs"
-                res_model="orca.sale.order.log"
+    <act_window id="action_view_orca_ecommerce_order_log"
+                name="E-Commerce Order ORCA Logs"
+                res_model="orca.ecommerce.order.log"
                 view_mode="tree,form"/>
 </odoo>

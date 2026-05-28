@@ -1,5 +1,5 @@
 {
-    'name': 'Sale Extended - ORCA Audit Logging',
+    'name': 'Sale Management Extended - ORCA Audit Logging',
     'version': '19.0.1.0.0',
     'author': 'getupsoft',
     'website': 'https://getupsoft.com',
@@ -7,11 +7,11 @@
     'category': 'Sales',
     'depends': [
         'base_orca_integration',
-        'sale',
+        'sale_management',
     ],
     'data': [
         'security/ir.model.access.csv',
-        'views/sale_order_orca_log_views.xml',
+        'views/quotation_orca_log_views.xml',
     ],
     'installable': True,
     'auto_install': False,
