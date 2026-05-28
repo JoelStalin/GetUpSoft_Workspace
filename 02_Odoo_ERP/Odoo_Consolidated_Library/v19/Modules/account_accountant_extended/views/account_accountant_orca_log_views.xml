@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <!-- General Ledger ORCA Log List View -->
+    <record id="view_orca_general_ledger_log_tree" model="ir.ui.view">
+        <field name="name">orca.general.ledger.log.list</field>
+        <field name="model">orca.general.ledger.log</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="date"/>
+                <field name="user_id"/>
+                <field name="action"/>
+                <field name="report_type"/>
+                <field name="report_period"/>
+                <field name="module_name"/>
+                <field name="model_name"/>
+                <field name="record_id"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- General Ledger ORCA Log Form View -->
+    <record id="view_orca_general_ledger_log_form" model="ir.ui.view">
+        <field name="name">orca.general.ledger.log.form</field>
+        <field name="model">orca.general.ledger.log</field>
+        <field name="arch" type="xml">
+            <form>
+                <group>
+                    <group string="Log Metadata">
+                        <field name="module_name"/>
+                        <field name="model_name"/>
+                        <field name="record_id"/>
+                        <field name="action"/>
+                        <field name="date"/>
+                        <field name="user_id"/>
+                    </group>
+                    <group string="Report Details">
+                        <field name="report_type"/>
+                        <field name="report_period"/>
+                        <field name="filter_status"/>
+                        <field name="account_codes"/>
+                    </group>
+                    <group string="Audit Data">
+                        <field name="before_values" widget="ace"/>
+                        <field name="after_values" widget="ace"/>
+                    </group>
+                </group>
+            </form>
+        </field>
+    </record>
+
+    <!-- Trial Balance ORCA Log List View -->
+    <record id="view_orca_trial_balance_log_tree" model="ir.ui.view">
+        <field name="name">orca.trial.balance.log.list</field>
+        <field name="model">orca.trial.balance.log</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="date"/>
+                <field name="user_id"/>
+                <field name="action"/>
+                <field name="balance_date"/>
+                <field name="is_balanced"/>
+                <field name="total_debit"/>
+                <field name="total_credit"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Trial Balance ORCA Log Form View -->
+    <record id="view_orca_trial_balance_log_form" model="ir.ui.view">
+        <field name="name">orca.trial.balance.log.form</field>
+        <field name="model">orca.trial.balance.log</field>
+        <field name="arch" type="xml">
+            <form>
+                <group>
+                    <group string="Log Metadata">
+                        <field name="module_name"/>
+                        <field name="model_name"/>
+                        <field name="record_id"/>
+                        <field name="action"/>
+                        <field name="date"/>
+                        <field name="user_id"/>
+                    </group>
+                    <group string="Balance Details">
+                        <field name="balance_date"/>
+                        <field name="account_count"/>
+                        <field name="is_balanced"/>
+                        <field name="total_debit"/>
+                        <field name="total_credit"/>
+                    </group>
+                    <group string="Audit Data">
+                        <field name="before_values" widget="ace"/>
+                        <field name="after_values" widget="ace"/>
+                    </group>
+                </group>
+            </form>
+        </field>
+    </record>
+
+    <!-- Menu Items -->
+    <menuitem id="menu_orca_accounting_logs" name="ORCA Logs" parent="account.menu_accounting_reports"/>
+
+    <menuitem id="menu_orca_general_ledger_log" name="General Ledger"
+              parent="menu_orca_accounting_logs"
+              action="action_view_orca_general_ledger_log"/>
+
+    <menuitem id="menu_orca_trial_balance_log" name="Trial Balance"
+              parent="menu_orca_accounting_logs"
+              action="action_view_orca_trial_balance_log"/>
+
+    <!-- Actions -->
+    <act_window id="action_view_orca_general_ledger_log"
+                name="General Ledger ORCA Logs"
+                res_model="orca.general.ledger.log"
+                view_mode="tree,form"/>
+
+    <act_window id="action_view_orca_trial_balance_log"
+                name="Trial Balance ORCA Logs"
+                res_model="orca.trial.balance.log"
+                view_mode="tree,form"/>
+</odoo>
