@@ -1,0 +1,66 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:15-alpine
+    container_name: odoo19_postgres
+    environment:
+      POSTGRES_USER: odoo
+      POSTGRES_PASSWORD: odoo
+      POSTGRES_DB: odoo19_orca
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U odoo"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  odoo:
+    image: odoo:19.0
+    container_name: odoo19_orca
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      - HOST=postgres
+      - USER=odoo
+      - PASSWORD=odoo
+      - DB_PORT_5432_TCP_ADDR=postgres
+      - DB_PORT_5432_TCP_PORT=5432
+      - PGHOST=postgres
+      - PGUSER=odoo
+      - PGPASSWORD=odoo
+      - PGDATABASE=odoo19_orca
+    ports:
+      - "8069:8069"
+      - "8072:8072"
+    volumes:
+      - ./02_Odoo_ERP/Odoo_Consolidated_Library/v19/Modules:/mnt/extra-addons
+      - odoo_data:/var/lib/odoo
+    command: >
+      odoo
+      --db_user=odoo
+      --db_password=odoo
+      --db_host=postgres
+      --db_port=5432
+      --database=odoo19_orca
+      --addons-path=/mnt/extra-addons
+      --init=base_orca_integration,account_extended,pos_extended,sale_extended,asset_extended,stock_extended,payment_extended,bank_extended,invoice_extended,l10n_do_accounting,l10n_do_accounting_report,l10n_do_pos,l10n_do_rnc_search
+      --without-demo=all
+      --dev=all
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8069"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+
+volumes:
+  postgres_data:
+  odoo_data:
+
+networks:
+  default:
+    name: odoo19_network

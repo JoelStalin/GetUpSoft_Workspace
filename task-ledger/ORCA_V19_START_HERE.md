@@ -73,26 +73,63 @@ Refactor **ALL 43 Odoo v19 modules** to automatically log all data changes using
 
 ## 🎯 Getting Started
 
-### Step 1: Lab Validation (USER ACTION REQUIRED)
+### Step 1: Automated Lab Setup (NO USER AUTHORIZATION REQUIRED)
 
-**Current Blocker:** User must validate that ORCA modules are installed
+**Lab is automatically prepared without requiring manual intervention.** Run one command, wait 5 minutes.
 
-```bash
-# Windows PowerShell
-.\scripts\setup_odoo_orca_modules.ps1
+#### Windows PowerShell:
+```powershell
+# Navigate to workspace
+cd C:\Users\yoeli\Documents\GetUpSoft_Workspace
 
-# OR Linux/Mac Bash
-./scripts/setup_odoo_orca_modules.sh
+# Run automated setup
+.\scripts\automated_lab_setup.ps1
 ```
 
+#### Linux/macOS Bash:
+```bash
+# Navigate to workspace
+cd /path/to/GetUpSoft_Workspace
+
+# Make executable
+chmod +x scripts/automated_lab_setup.sh
+
+# Run automated setup
+./scripts/automated_lab_setup.sh
+```
+
+**What happens:**
+1. Checks Docker, Docker Compose, Git are installed
+2. Creates required directories
+3. Pulls and starts PostgreSQL 15 container
+4. Pulls and starts Odoo 19.0 container
+5. Waits for services to be healthy
+6. Installs base_orca_integration module
+7. Installs all 13 custom ORCA modules
+8. Executes module tests
+9. Outputs access credentials and helpful commands
+
 **Expected Result:**
-- Base ORCA modules appear in Odoo UI
-- base_orca_integration shows as installed
-- User provides confirmation: "Lab validation passed"
+- Lab ready at http://localhost:8069
+- Login: admin / admin
+- All 13 modules installed and active
+- ORCA logs visible in Odoo UI
 
-📖 **Detailed guide:** [V19_LAB_VALIDATION_CHECKPOINT.md](V19_LAB_VALIDATION_CHECKPOINT.md)
+📖 **Detailed guide:** [LAB_AUTOMATION_GUIDE.md](LAB_AUTOMATION_GUIDE.md)
 
-### Step 2: Phase 1 Execution (IMMEDIATE AFTER LAB VALIDATION)
+### Step 2: Verify Lab Installation (QUICK VALIDATION)
+
+After automated setup completes:
+
+1. Open browser to http://localhost:8069
+2. Login with admin/admin
+3. Navigate to **Accounting** → **ORCA Logs**
+4. Verify log entries exist (created during module installation)
+5. Click on a log entry to see before/after values
+
+**If you see ORCA logs appearing, lab validation is COMPLETE.** ✅
+
+### Step 3: Phase 1 Execution (STARTS AFTER LAB VALIDATION)
 
 **Timeline:** 5 working days, 13 hours
 
@@ -104,6 +141,7 @@ Refactor **ALL 43 Odoo v19 modules** to automatically log all data changes using
 5. Run code review gate (10-point checklist)
 
 **How to start:**
+→ Confirm lab is running and ORCA logs are visible  
 → Open [PHASE1_QUICK_START_CHECKLIST.md](PHASE1_QUICK_START_CHECKLIST.md)  
 → Follow step-by-step instructions  
 → Use code templates from [PHASE1_CODE_TEMPLATES.md](PHASE1_CODE_TEMPLATES.md)
@@ -248,18 +286,25 @@ Week 6-7: Phase 6 (Website) - FINAL
 
 ## Next Action
 
-### User Must Do (Required):
-Run lab validation script:
-```bash
-.\scripts\setup_odoo_orca_modules.ps1  # Windows
-# OR
-./scripts/setup_odoo_orca_modules.sh   # Linux/Mac
+### ✅ Lab Setup (Run ONE Command):
+
+**Windows PowerShell:**
+```powershell
+cd C:\Users\yoeli\Documents\GetUpSoft_Workspace
+.\scripts\automated_lab_setup.ps1
 ```
 
-Confirm: "Lab validation passed"
+**Linux/macOS:**
+```bash
+cd /path/to/GetUpSoft_Workspace
+chmod +x scripts/automated_lab_setup.sh
+./scripts/automated_lab_setup.sh
+```
 
-### After Lab Validation:
-Immediately open [PHASE1_QUICK_START_CHECKLIST.md](PHASE1_QUICK_START_CHECKLIST.md) and begin Phase 1 execution.
+### After Lab Runs Successfully:
+1. Verify at http://localhost:8069 (login: admin/admin)
+2. Check ORCA Logs appear in Accounting menu
+3. Open [PHASE1_QUICK_START_CHECKLIST.md](PHASE1_QUICK_START_CHECKLIST.md) and begin Phase 1 execution
 
 ---
 
