@@ -4,8 +4,8 @@
 from odoo import fields, models
 
 
-class PosPrinterOrcaLog(models.Model):
-    _name = 'pos_any_printer.orca.log'
+class OrcaPosPrinterLog(models.Model):
+    _name = 'orca.pos_any_printer.log'
     _description = 'pos_any_printer ORCA Audit Log'
     _inherit = 'orca.log'
 
@@ -18,7 +18,7 @@ class PosPrinter(models.Model):
     _inherit = ['pos.printer', 'orca.audit.mixin']
 
     _orca_tracked_fields = ['name', 'printer_type', 'any_printer_ip']
-    _orca_log_model = 'pos_any_printer.orca.log'
+    _orca_log_model = 'orca.pos_any_printer.log'
 
     def _orca_log_action(self, record, action, before, after):
         import json

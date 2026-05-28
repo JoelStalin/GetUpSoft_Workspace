@@ -1,8 +1,8 @@
 from odoo import fields, models
 
 
-class AccountingReportOrcaLog(models.Model):
-    _name = 'l10n.do.accounting.report.orca.log'
+class OrcaAccountingReportLog(models.Model):
+    _name = 'orca.l10n.do.accounting.report.log'
     _description = 'l10n_do_accounting_report ORCA Audit Log'
     _inherit = 'orca.log'
 
@@ -30,7 +30,7 @@ class AccountTaxReport(models.Model):
         'name',
         'country_id',
     ]
-    _orca_log_model = 'l10n.do.accounting.report.orca.log'
+    _orca_log_model = 'orca.l10n.do.accounting.report.log'
 
 
 class DGIIReport(models.Model):
@@ -39,4 +39,4 @@ class DGIIReport(models.Model):
         'name',
         'date_created',
     ]
-    _orca_log_model = 'l10n.do.accounting.report.orca.log'
+    _orca_log_model = 'orca.l10n.do.accounting.report.log'

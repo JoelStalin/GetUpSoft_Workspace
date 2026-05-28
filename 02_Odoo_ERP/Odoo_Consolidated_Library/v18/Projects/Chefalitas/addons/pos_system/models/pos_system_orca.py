@@ -4,8 +4,8 @@
 from odoo import fields, models
 
 
-class PosSystemOrcaLog(models.Model):
-    _name = 'pos_system.orca.log'
+class OrcaPosSystemLog(models.Model):
+    _name = 'orca.pos_system.log'
     _description = 'pos_system ORCA Audit Log'
     _inherit = 'orca.log'
 
@@ -18,7 +18,7 @@ class PosOrder(models.Model):
     _inherit = ['pos.order', 'orca.audit.mixin']
 
     _orca_tracked_fields = ['name', 'state', 'partner_id', 'amount_total', 'invoice_name']
-    _orca_log_model = 'pos_system.orca.log'
+    _orca_log_model = 'orca.pos_system.log'
 
     def _orca_log_action(self, record, action, before, after):
         import json

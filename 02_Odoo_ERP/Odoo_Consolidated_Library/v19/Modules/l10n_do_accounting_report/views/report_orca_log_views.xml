@@ -2,8 +2,8 @@
 <odoo>
     <!-- Tree View: Report ORCA Logs -->
     <record id="report_orca_log_view_tree" model="ir.ui.view">
-        <field name="name">l10n.do.accounting.report.orca.log.tree</field>
-        <field name="model">l10n.do.accounting.report.orca.log</field>
+        <field name="name">orca.l10n.do.accounting.report.log.tree</field>
+        <field name="model">orca.l10n.do.accounting.report.log</field>
         <field name="arch" type="xml">
             <tree>
                 <field name="date" widget="date" />
@@ -19,8 +19,8 @@
 
     <!-- Form View: Report ORCA Log Details -->
     <record id="report_orca_log_view_form" model="ir.ui.view">
-        <field name="name">l10n.do.accounting.report.orca.log.form</field>
-        <field name="model">l10n.do.accounting.report.orca.log</field>
+        <field name="name">orca.l10n.do.accounting.report.log.form</field>
+        <field name="model">orca.l10n.do.accounting.report.log</field>
         <field name="arch" type="xml">
             <form>
                 <sheet>
@@ -77,8 +77,8 @@
 
     <!-- Search View: Report ORCA Log Filters -->
     <record id="report_orca_log_view_search" model="ir.ui.view">
-        <field name="name">l10n.do.accounting.report.orca.log.search</field>
-        <field name="model">l10n.do.accounting.report.orca.log</field>
+        <field name="name">orca.l10n.do.accounting.report.log.search</field>
+        <field name="model">orca.l10n.do.accounting.report.log</field>
         <field name="arch" type="xml">
             <search>
                 <field name="report_type" />
@@ -120,7 +120,7 @@
     <!-- Window Action -->
     <record id="report_orca_log_action" model="ir.actions.act_window">
         <field name="name">Accounting Report ORCA Logs</field>
-        <field name="res_model">l10n.do.accounting.report.orca.log</field>
+        <field name="res_model">orca.l10n.do.accounting.report.log</field>
         <field name="view_mode">tree,form</field>
         <field name="search_view_id" ref="report_orca_log_view_search" />
         <field name="help">ORCA audit logs for report operations. Track all DGII submissions.</field>

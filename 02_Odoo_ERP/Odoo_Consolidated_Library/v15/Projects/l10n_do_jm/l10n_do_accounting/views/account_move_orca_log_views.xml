@@ -3,8 +3,8 @@
     <data>
         <!-- Search view for ORCA logs -->
         <record id="account_move_orca_log_search" model="ir.ui.view">
-            <field name="name">l10n.do.accounting.orca.log search</field>
-            <field name="model">l10n.do.accounting.orca.log</field>
+            <field name="name">orca.l10n.do.accounting.move.log search</field>
+            <field name="model">orca.l10n.do.accounting.move.log</field>
             <field name="arch" type="xml">
                 <search string="ORCA Logs">
                     <field name="record_id"/>
@@ -34,8 +34,8 @@
 
         <!-- Tree view for ORCA logs -->
         <record id="account_move_orca_log_tree" model="ir.ui.view">
-            <field name="name">l10n.do.accounting.orca.log tree</field>
-            <field name="model">l10n.do.accounting.orca.log</field>
+            <field name="name">orca.l10n.do.accounting.move.log tree</field>
+            <field name="model">orca.l10n.do.accounting.move.log</field>
             <field name="arch" type="xml">
                 <tree string="ORCA Logs" sample="1">
                     <field name="date"/>
@@ -51,8 +51,8 @@
 
         <!-- Form view for ORCA logs -->
         <record id="account_move_orca_log_form" model="ir.ui.view">
-            <field name="name">l10n.do.accounting.orca.log form</field>
-            <field name="model">l10n.do.accounting.orca.log</field>
+            <field name="name">orca.l10n.do.accounting.move.log form</field>
+            <field name="model">orca.l10n.do.accounting.move.log</field>
             <field name="arch" type="xml">
                 <form string="ORCA Log">
                     <sheet>
@@ -93,7 +93,7 @@
         <!-- Action and menu -->
         <record id="account_move_orca_log_action" model="ir.actions.act_window">
             <field name="name">ORCA Audit Logs (Account Move)</field>
-            <field name="res_model">l10n.do.accounting.orca.log</field>
+            <field name="res_model">orca.l10n.do.accounting.move.log</field>
             <field name="view_mode">tree,form</field>
             <field name="search_view_id" ref="account_move_orca_log_search"/>
             <field name="context">{'search_default_group_by_action': 1}</field>

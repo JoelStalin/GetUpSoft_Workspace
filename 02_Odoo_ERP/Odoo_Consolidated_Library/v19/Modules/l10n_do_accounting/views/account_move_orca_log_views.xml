@@ -2,8 +2,8 @@
 <odoo>
     <!-- Tree View: Account Move ORCA Logs -->
     <record id="account_move_orca_log_view_tree" model="ir.ui.view">
-        <field name="name">l10n.do.accounting.orca.log.tree</field>
-        <field name="model">l10n.do.accounting.orca.log</field>
+        <field name="name">orca.l10n.do.accounting.move.log.tree</field>
+        <field name="model">orca.l10n.do.accounting.move.log</field>
         <field name="arch" type="xml">
             <tree>
                 <field name="date" widget="date" />
@@ -20,8 +20,8 @@
 
     <!-- Form View: Account Move ORCA Log Details -->
     <record id="account_move_orca_log_view_form" model="ir.ui.view">
-        <field name="name">l10n.do.accounting.orca.log.form</field>
-        <field name="model">l10n.do.accounting.orca.log</field>
+        <field name="name">orca.l10n.do.accounting.move.log.form</field>
+        <field name="model">orca.l10n.do.accounting.move.log</field>
         <field name="arch" type="xml">
             <form>
                 <sheet>
@@ -93,8 +93,8 @@
 
     <!-- Search View: Account Move ORCA Log Filters -->
     <record id="account_move_orca_log_view_search" model="ir.ui.view">
-        <field name="name">l10n.do.accounting.orca.log.search</field>
-        <field name="model">l10n.do.accounting.orca.log</field>
+        <field name="name">orca.l10n.do.accounting.move.log.search</field>
+        <field name="model">orca.l10n.do.accounting.move.log</field>
         <field name="arch" type="xml">
             <search>
                 <field name="record_id" />
@@ -136,7 +136,7 @@
     <!-- Window Action -->
     <record id="account_move_orca_log_action" model="ir.actions.act_window">
         <field name="name">Account Move ORCA Logs</field>
-        <field name="res_model">l10n.do.accounting.orca.log</field>
+        <field name="res_model">orca.l10n.do.accounting.move.log</field>
         <field name="view_mode">tree,form</field>
         <field name="search_view_id" ref="account_move_orca_log_view_search" />
         <field name="help">ORCA audit logs for invoice operations. Use filters to find specific fiscal events.</field>

@@ -11,8 +11,8 @@
 from odoo import models, fields
 
 
-class AccountInvoiceOrcaLog(models.Model):
-    _name = 'account.invoice.orca.log'
+class OrcaAccountInvoiceLog(models.Model):
+    _name = 'orca.account.invoice.log'
     _description = 'Account Invoice ORCA Audit Log'
     _inherit = 'orca.log'
     _table = 'account_invoice_orca_log'
@@ -38,4 +38,4 @@ class AccountInvoice(models.Model):
         'partner_id',
         'type',
     ]
-    _orca_log_model = 'account.invoice.orca.log'
+    _orca_log_model = 'orca.account.invoice.log'

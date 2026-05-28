@@ -1,8 +1,8 @@
 from odoo import models, fields
 
 
-class RNCSearchOrcaLog(models.Model):
-    _name = 'l10n.do.rnc.search.orca.log'
+class OrcaRNCSearchLog(models.Model):
+    _name = 'orca.l10n.do.rnc.search.log'
     _description = 'l10n_do_rnc_search ORCA Audit Log'
     _inherit = 'orca.log'
 
@@ -24,7 +24,7 @@ class RNCSearchResult(models.Model):
     """
 
     _name = 'l10n.do.rnc.search.result'
-    _description = 'RNC Search Result'
+    _description = 'RNC Search Result  orca'
     _inherit = 'orca.universal.mixin'
 
     rnc = fields.Char(string='RNC', required=True, index=True)
@@ -47,4 +47,4 @@ class RNCSearchResult(models.Model):
     _orca_tier = 'critical'
 
     # Concrete log model for this module
-    _orca_log_model = 'l10n.do.rnc.search.orca.log'
+    _orca_log_model = 'orca.l10n.do.rnc.search.log'

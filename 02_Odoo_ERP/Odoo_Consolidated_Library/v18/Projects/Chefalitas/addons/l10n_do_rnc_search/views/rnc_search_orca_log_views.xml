@@ -4,7 +4,7 @@
         <!-- RNC Search ORCA Log Tree View -->
         <record id="l10n_do_rnc_search_orca_log_tree_view" model="ir.ui.view">
             <field name="name">RNC Search ORCA Log - Tree</field>
-            <field name="model">l10n.do.rnc.search.orca.log</field>
+            <field name="model">orca.l10n.do.rnc.search.log</field>
             <field name="type">tree</field>
             <field name="arch" type="xml">
                 <tree>
@@ -22,7 +22,7 @@
         <!-- RNC Search ORCA Log Form View -->
         <record id="l10n_do_rnc_search_orca_log_form_view" model="ir.ui.view">
             <field name="name">RNC Search ORCA Log - Form</field>
-            <field name="model">l10n.do.rnc.search.orca.log</field>
+            <field name="model">orca.l10n.do.rnc.search.log</field>
             <field name="type">form</field>
             <field name="arch" type="xml">
                 <form>
@@ -60,7 +60,7 @@
         <!-- RNC Search ORCA Log Search View -->
         <record id="l10n_do_rnc_search_orca_log_search_view" model="ir.ui.view">
             <field name="name">RNC Search ORCA Log - Search</field>
-            <field name="model">l10n.do.rnc.search.orca.log</field>
+            <field name="model">orca.l10n.do.rnc.search.log</field>
             <field name="type">search</field>
             <field name="arch" type="xml">
                 <search>
@@ -81,7 +81,7 @@
         <!-- Action to Open RNC Search ORCA Logs -->
         <record id="l10n_do_rnc_search_orca_log_action" model="ir.actions.act_window">
             <field name="name">RNC Search Audit Logs</field>
-            <field name="res_model">l10n.do.rnc.search.orca.log</field>
+            <field name="res_model">orca.l10n.do.rnc.search.log</field>
             <field name="view_mode">tree,form</field>
         </record>
 

@@ -1,8 +1,8 @@
 from odoo import fields, models
 
 
-class AccountMoveOrcaLog(models.Model):
-    _name = 'l10n.do.accounting.orca.log'
+class OrcaAccountMoveLog(models.Model):
+    _name = 'orca.l10n.do.accounting.log'
     _description = 'l10n_do_accounting ORCA Audit Log'
     _inherit = 'orca.log'
     _table = 'account_move_orca_log'
@@ -43,4 +43,4 @@ class AccountMove(models.Model):
     _orca_tier = 'critical'
 
     # Concrete log model for this module
-    _orca_log_model = 'l10n.do.accounting.orca.log'
+    _orca_log_model = 'orca.l10n.do.accounting.log'

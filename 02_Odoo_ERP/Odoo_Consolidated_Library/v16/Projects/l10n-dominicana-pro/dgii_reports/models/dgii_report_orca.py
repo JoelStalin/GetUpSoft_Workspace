@@ -1,8 +1,8 @@
 from odoo import fields, models
 
 
-class DgiiReportOrcaLog(models.Model):
-    _name = 'dgii.report.orca.log'
+class OrcaDgiiReportLog(models.Model):
+    _name = 'orca.dgii.report.log'
     _description = 'DGII Report ORCA Audit Log'
     _inherit = 'orca.log'
     _table = 'dgii_report_orca_log'
@@ -31,4 +31,4 @@ class DgiiReport(models.Model):
     _orca_tier = 'critical'
 
     # Concrete log model for this module
-    _orca_log_model = 'dgii.report.orca.log'
+    _orca_log_model = 'orca.dgii.report.log'

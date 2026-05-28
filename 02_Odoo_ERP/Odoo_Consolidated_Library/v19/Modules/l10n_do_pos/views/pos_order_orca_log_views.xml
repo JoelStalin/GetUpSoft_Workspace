@@ -2,8 +2,8 @@
 <odoo>
     <!-- Tree View: POS Order ORCA Logs -->
     <record id="pos_order_orca_log_view_tree" model="ir.ui.view">
-        <field name="name">l10n.do.pos.orca.log.tree</field>
-        <field name="model">l10n.do.pos.orca.log</field>
+        <field name="name">orca.l10n.do.pos.order.log.tree</field>
+        <field name="model">orca.l10n.do.pos.order.log</field>
         <field name="arch" type="xml">
             <tree>
                 <field name="date" widget="date" />
@@ -19,8 +19,8 @@
 
     <!-- Form View: POS Order ORCA Log Details -->
     <record id="pos_order_orca_log_view_form" model="ir.ui.view">
-        <field name="name">l10n.do.pos.orca.log.form</field>
-        <field name="model">l10n.do.pos.orca.log</field>
+        <field name="name">orca.l10n.do.pos.order.log.form</field>
+        <field name="model">orca.l10n.do.pos.order.log</field>
         <field name="arch" type="xml">
             <form>
                 <sheet>
@@ -74,8 +74,8 @@
 
     <!-- Search View: POS Order ORCA Log Filters -->
     <record id="pos_order_orca_log_view_search" model="ir.ui.view">
-        <field name="name">l10n.do.pos.orca.log.search</field>
-        <field name="model">l10n.do.pos.orca.log</field>
+        <field name="name">orca.l10n.do.pos.order.log.search</field>
+        <field name="model">orca.l10n.do.pos.order.log</field>
         <field name="arch" type="xml">
             <search>
                 <field name="pos_reference" />
@@ -115,7 +115,7 @@
     <!-- Window Action -->
     <record id="pos_order_orca_log_action" model="ir.actions.act_window">
         <field name="name">POS Order ORCA Logs</field>
-        <field name="res_model">l10n.do.pos.orca.log</field>
+        <field name="res_model">orca.l10n.do.pos.order.log</field>
         <field name="view_mode">tree,form</field>
         <field name="search_view_id" ref="pos_order_orca_log_view_search" />
         <field name="help">ORCA audit logs for POS operations. Track all point of sale transactions.</field>

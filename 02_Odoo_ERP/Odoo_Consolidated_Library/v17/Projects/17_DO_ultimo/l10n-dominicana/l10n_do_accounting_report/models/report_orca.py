@@ -1,8 +1,8 @@
 from odoo import models, fields
 
 
-class AccountingReportOrcaLog(models.Model):
-    _name = 'l10n.do.accounting.report.orca.log'
+class OrcaAccountingReportLog(models.Model):
+    _name = 'orca.l10n.do.accounting.report.log'
     _description = 'l10n_do_accounting_report ORCA Audit Log'
     _inherit = 'orca.log'
 

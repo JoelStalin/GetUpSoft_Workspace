@@ -2,8 +2,8 @@
 <odoo>
     <!-- Tree View: RNC Search ORCA Logs -->
     <record id="rnc_search_orca_log_view_tree" model="ir.ui.view">
-        <field name="name">l10n.do.rnc.search.orca.log.tree</field>
-        <field name="model">l10n.do.rnc.search.orca.log</field>
+        <field name="name">orca.l10n.do.rnc.search.log.tree</field>
+        <field name="model">orca.l10n.do.rnc.search.log</field>
         <field name="arch" type="xml">
             <tree>
                 <field name="date" widget="date" />
@@ -19,8 +19,8 @@
 
     <!-- Form View: RNC Search ORCA Log Details -->
     <record id="rnc_search_orca_log_view_form" model="ir.ui.view">
-        <field name="name">l10n.do.rnc.search.orca.log.form</field>
-        <field name="model">l10n.do.rnc.search.orca.log</field>
+        <field name="name">orca.l10n.do.rnc.search.log.form</field>
+        <field name="model">orca.l10n.do.rnc.search.log</field>
         <field name="arch" type="xml">
             <form>
                 <sheet>
@@ -77,8 +77,8 @@
 
     <!-- Search View: RNC Search ORCA Log Filters -->
     <record id="rnc_search_orca_log_view_search" model="ir.ui.view">
-        <field name="name">l10n.do.rnc.search.orca.log.search</field>
-        <field name="model">l10n.do.rnc.search.orca.log</field>
+        <field name="name">orca.l10n.do.rnc.search.log.search</field>
+        <field name="model">orca.l10n.do.rnc.search.log</field>
         <field name="arch" type="xml">
             <search>
                 <field name="searched_rnc" />
@@ -207,7 +207,7 @@
     <!-- Window Action: RNC Search ORCA Logs -->
     <record id="rnc_search_orca_log_action" model="ir.actions.act_window">
         <field name="name">RNC Search Audit Logs</field>
-        <field name="res_model">l10n.do.rnc.search.orca.log</field>
+        <field name="res_model">orca.l10n.do.rnc.search.log</field>
         <field name="view_mode">tree,form</field>
         <field name="search_view_id" ref="rnc_search_orca_log_view_search" />
         <field name="help">ORCA audit logs for RNC search operations. Track all DGII validation requests.</field>

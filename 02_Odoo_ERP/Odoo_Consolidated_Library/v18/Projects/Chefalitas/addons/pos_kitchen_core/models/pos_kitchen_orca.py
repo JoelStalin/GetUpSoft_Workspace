@@ -4,8 +4,8 @@
 from odoo import fields, models
 
 
-class PosKitchenOrcaLog(models.Model):
-    _name = 'pos_kitchen_core.orca.log'
+class OrcaPosKitchenLog(models.Model):
+    _name = 'orca.pos_kitchen_core.log'
     _description = 'pos_kitchen_core ORCA Audit Log'
     _inherit = 'orca.log'
 
@@ -18,7 +18,7 @@ class RestRecipe(models.Model):
     _inherit = ['rest.recipe', 'orca.audit.mixin']
 
     _orca_tracked_fields = ['name', 'product_id', 'active', 'target_margin_pct', 'notes_kitchen']
-    _orca_log_model = 'pos_kitchen_core.orca.log'
+    _orca_log_model = 'orca.pos_kitchen_core.log'
 
     def _orca_log_action(self, record, action, before, after):
         import json
@@ -40,7 +40,7 @@ class RestPreparation(models.Model):
     _inherit = ['rest.preparation', 'orca.audit.mixin']
 
     _orca_tracked_fields = ['name', 'recipe_id', 'state', 'prepared_portions', 'real_total_weight_g']
-    _orca_log_model = 'pos_kitchen_core.orca.log'
+    _orca_log_model = 'orca.pos_kitchen_core.log'
 
     def _orca_log_action(self, record, action, before, after):
         import json

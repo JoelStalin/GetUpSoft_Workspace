@@ -6,10 +6,10 @@ Tracks all DGII report submissions and fiscal reporting operations.
 from odoo import models, fields
 
 
-class AccountingReportOrcaLog(models.Model):
+class OrcaAccountingReportLog(models.Model):
     """ORCA audit log for accounting report operations."""
 
-    _name = 'l10n.do.accounting.report.orca.log'
+    _name = 'orca.l10n.do.accounting.report.log'
     _description = 'Dominican Accounting Report ORCA Audit Log'
     _inherit = 'orca.log'
 
@@ -46,4 +46,4 @@ class AccountingReport(models.Model):
     _orca_tier = 'critical'
 
     # Concrete log model for this module
-    _orca_log_model = 'l10n.do.accounting.report.orca.log'
+    _orca_log_model = 'orca.l10n.do.accounting.report.log'

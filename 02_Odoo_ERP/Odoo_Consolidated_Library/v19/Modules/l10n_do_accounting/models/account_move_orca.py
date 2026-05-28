@@ -6,10 +6,10 @@ Tracks all invoice/document changes for fiscal compliance and audit trails.
 from odoo import models, fields
 
 
-class AccountMoveOrcaLog(models.Model):
+class OrcaAccountMoveLog(models.Model):
     """Fiscal-specific ORCA audit log for account.move operations."""
 
-    _name = 'l10n.do.accounting.orca.log'
+    _name = 'orca.l10n.do.accounting.log'
     _description = 'Dominican Accounting ORCA Audit Log'
     _inherit = 'orca.log'
 
@@ -46,4 +46,4 @@ class AccountMove(models.Model):
     _orca_tier = 'critical'
 
     # Concrete log model for this module
-    _orca_log_model = 'l10n.do.accounting.orca.log'
+    _orca_log_model = 'orca.l10n.do.accounting.log'

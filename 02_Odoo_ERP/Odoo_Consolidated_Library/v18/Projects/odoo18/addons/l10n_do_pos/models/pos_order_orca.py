@@ -1,8 +1,8 @@
 from odoo import models, fields
 
 
-class POSOrderOrcaLog(models.Model):
-    _name = 'l10n.do.pos.orca.log'
+class OrcaPOSOrderLog(models.Model):
+    _name = 'orca.l10n.do.pos.log'
     _description = 'l10n_do_pos ORCA Audit Log'
     _inherit = 'orca.log'
 
@@ -21,4 +21,4 @@ class POSOrder(models.Model):
 
     _orca_tracked_fields = ['name', 'state', 'partner_id', 'amount_total',
                             'amount_paid', 'amount_return', 'lines']
-    _orca_log_model = 'l10n.do.pos.orca.log'
+    _orca_log_model = 'orca.l10n.do.pos.log'

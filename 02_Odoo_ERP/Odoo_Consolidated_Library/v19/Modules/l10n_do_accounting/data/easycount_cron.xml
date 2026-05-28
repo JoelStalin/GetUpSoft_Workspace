@@ -8,7 +8,7 @@
             <field name="state">code</field>
             <field name="code">
 # Retry failed EasyCount syncs for account.move records
-model.env['l10n.do.accounting.orca.log'].search([
+model.env['orca.l10n.do.accounting.move.log'].search([
     ('easycount_synced', '=', False),
     ('easycount_attempt_count', '&lt;', 5),
     ('easycount_sync_error', '!=', False)
@@ -28,7 +28,7 @@ model.env['l10n.do.accounting.orca.log'].search([
             <field name="state">code</field>
             <field name="code">
 # Retry failed ORCA syncs for account.move records
-model.env['l10n.do.accounting.orca.log'].search([
+model.env['orca.l10n.do.accounting.move.log'].search([
     ('orca_synced', '=', False),
     ('orca_sync_error', '!=', False)
 ])._retry_orca_sync()

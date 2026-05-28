@@ -1,8 +1,8 @@
 from odoo import fields, models
 
 
-class PosOrderOrcaLog(models.Model):
-    _name = 'pos.order.orca.log'
+class OrcaPosOrderLog(models.Model):
+    _name = 'orca.pos.order.log'
     _description = 'POS Order ORCA Audit Log'
     _inherit = 'orca.log'
     _table = 'pos_order_orca_log'
@@ -35,4 +35,4 @@ class PosOrder(models.Model):
     _orca_tier = 'critical'
 
     # Concrete log model for this module
-    _orca_log_model = 'pos.order.orca.log'
+    _orca_log_model = 'orca.pos.order.log'

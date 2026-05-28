@@ -4,8 +4,8 @@
 from odoo import models, fields, api
 
 
-class DgiiReportOrcaLog(models.Model):
-    _name = 'dgii.report.orca.log'
+class OrcaDgiiReportLog(models.Model):
+    _name = 'orca.dgii.report.log'
     _description = 'DGII Report ORCA Audit Log'
     _inherit = 'orca.log'
     _table = 'dgii_report_orca_log'
@@ -28,4 +28,4 @@ class DgiiReport(models.Model):
         'state',
         'company_id',
     ]
-    _orca_log_model = 'dgii.report.orca.log'
+    _orca_log_model = 'orca.dgii.report.log'

@@ -3,8 +3,8 @@
     <data>
         <!-- ORCA Log List View -->
         <record id="view_accounting_report_orca_log_tree" model="ir.ui.view">
-            <field name="name">l10n.do.accounting.report.orca.log.tree</field>
-            <field name="model">l10n.do.accounting.report.orca.log</field>
+            <field name="name">orca.l10n.do.accounting.report.log.tree</field>
+            <field name="model">orca.l10n.do.accounting.report.log</field>
             <field name="arch" type="xml">
                 <tree string="Accounting Report ORCA Audit Log" create="false" edit="false" delete="false">
                     <field name="date" string="Date"/>
@@ -22,8 +22,8 @@
 
         <!-- ORCA Log Form View -->
         <record id="view_accounting_report_orca_log_form" model="ir.ui.view">
-            <field name="name">l10n.do.accounting.report.orca.log.form</field>
-            <field name="model">l10n.do.accounting.report.orca.log</field>
+            <field name="name">orca.l10n.do.accounting.report.log.form</field>
+            <field name="model">orca.l10n.do.accounting.report.log</field>
             <field name="arch" type="xml">
                 <form string="Accounting Report ORCA Audit Log" create="false" edit="false" delete="false">
                     <sheet>
@@ -75,8 +75,8 @@
 
         <!-- Search View -->
         <record id="view_accounting_report_orca_log_search" model="ir.ui.view">
-            <field name="name">l10n.do.accounting.report.orca.log.search</field>
-            <field name="model">l10n.do.accounting.report.orca.log</field>
+            <field name="name">orca.l10n.do.accounting.report.log.search</field>
+            <field name="model">orca.l10n.do.accounting.report.log</field>
             <field name="arch" type="xml">
                 <search string="Accounting Report ORCA Audit Log">
                     <field name="record_id"/>
@@ -99,7 +99,7 @@
         <!-- Action -->
         <record id="action_accounting_report_orca_log" model="ir.actions.act_window">
             <field name="name">Accounting Report ORCA Audit Log</field>
-            <field name="res_model">l10n.do.accounting.report.orca.log</field>
+            <field name="res_model">orca.l10n.do.accounting.report.log</field>
             <field name="view_mode">tree,form</field>
             <field name="search_view_id" ref="view_accounting_report_orca_log_search"/>
         </record>

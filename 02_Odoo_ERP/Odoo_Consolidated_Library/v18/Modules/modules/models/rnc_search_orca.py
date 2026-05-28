@@ -1,8 +1,8 @@
 from odoo import fields, models
 
 
-class RncSearchOrcaLog(models.Model):
-    _name = 'l10n.do.rnc.search.orca.log'
+class OrcaRncSearchLog(models.Model):
+    _name = 'orca.l10n.do.rnc.search.log'
     _description = 'RNC Search ORCA Audit Log'
     _inherit = 'orca.log'
 
@@ -18,7 +18,7 @@ class RncSearchOrcaMixin(models.AbstractModel):
     _description = 'RNC Search ORCA Mixin'
 
     def log_rnc_search(self, search_term, result_count=0, result_status='success', searched_rnc='', dgii_response_code=''):
-        self.env['l10n.do.rnc.search.orca.log'].create({
+        self.env['orca.l10n.do.rnc.search.log'].create({
             'module_name': 'l10n_do_rnc_search',
             'model_name': 'l10n_do_rnc_search',
             'record_id': 0,

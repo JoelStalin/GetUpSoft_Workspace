@@ -4,8 +4,8 @@
 from odoo import fields, models
 
 
-class PosPrintingOrcaLog(models.Model):
-    _name = 'pos_printing_suite.orca.log'
+class OrcaPosPrintingLog(models.Model):
+    _name = 'orca.pos_printing_suite.log'
     _description = 'pos_printing_suite ORCA Audit Log'
     _inherit = 'orca.log'
 
@@ -18,7 +18,7 @@ class PosPrinter(models.Model):
     _inherit = ['pos.printer', 'orca.audit.mixin']
 
     _orca_tracked_fields = ['printer_type', 'local_printer_name', 'hw_proxy_ip']
-    _orca_log_model = 'pos_printing_suite.orca.log'
+    _orca_log_model = 'orca.pos_printing_suite.log'
 
     def _orca_log_action(self, record, action, before, after):
         import json
@@ -39,7 +39,7 @@ class PosPrintDevice(models.Model):
     _inherit = ['pos.print.device', 'orca.audit.mixin']
 
     _orca_tracked_fields = ['name', 'state', 'agent_version', 'pos_config_id']
-    _orca_log_model = 'pos_printing_suite.orca.log'
+    _orca_log_model = 'orca.pos_printing_suite.log'
 
     def _orca_log_action(self, record, action, before, after):
         import json
