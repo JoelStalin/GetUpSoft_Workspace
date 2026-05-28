@@ -1,18 +1,10 @@
 {
-    'name': 'CRM Extended - ORCA Audit Logging',
+    'name': 'CRM Extended',
     'version': '19.0.1.0.0',
     'author': 'getupsoft',
-    'website': 'https://getupsoft.com',
-    'license': 'LGPL-3',
-    'category': 'CRM',
-    'depends': [
-        'base_orca_integration',
-        'crm',
-    ],
-    'data': [
-        'security/ir.model.access.csv',
-        'views/lead_orca_log_views.xml',
-    ],
+    'depends': ['base_orca_integration', 'crm'],
+    'data': ['security/ir.model.access.csv', 'views/crm_orca_log_views.xml'],
+    'tests': ['tests/test_crm_orca.py'],
     'installable': True,
     'auto_install': False,
 }

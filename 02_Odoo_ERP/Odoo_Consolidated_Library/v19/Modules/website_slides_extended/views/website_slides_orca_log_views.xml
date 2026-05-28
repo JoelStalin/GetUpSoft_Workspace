@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+  <data>
+    <record id="view_orca_log_tree" model="ir.ui.view">
+      <field name="name">ORCA Log Tree</field>
+      <field name="model">orca.log</field>
+      <field name="arch" type="xml">
+        <tree><field name="date"/><field name="user_id"/><field name="action"/><field name="record_id"/></tree>
+      </field>
+    </record>
+    <record id="view_orca_log_form" model="ir.ui.view">
+      <field name="name">ORCA Log Form</field>
+      <field name="model">orca.log</field>
+      <field name="arch" type="xml">
+        <form><sheet><group><group string="Metadata"><field name="date"/><field name="user_id"/><field name="action"/></group></group><group string="Data"><field name="before_values" widget="ace" options="{'mode': 'json'}" nolabel="1"/><field name="after_values" widget="ace" options="{'mode': 'json'}" nolabel="1"/></group></sheet></form>
+      </field>
+    </record>
+  </data>
+</odoo>
