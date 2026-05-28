@@ -1,4 +1,4 @@
-from odoo import models, fields, api
+from odoo import fields, models
 
 
 class AccountMoveOrcaLog(models.Model):
@@ -9,28 +9,38 @@ class AccountMoveOrcaLog(models.Model):
 
     encf = fields.Char(
         string='e-CF Number',
-        help='Electronic Fiscal Receipt number'
+        help='Electronic Fiscal Voucher number at time of log'
     )
     fiscal_state = fields.Char(
-        string='Fiscal State at Log Time',
-        help='Fiscal state of the invoice when this log was created'
+        string='Fiscal State',
+        help='Fiscal state (draft, validated, sent, accepted, rejected) at time of log'
     )
     dgii_uuid = fields.Char(
         string='DGII UUID',
-        help='UUID assigned by DGII for this fiscal document'
+        help='DGII UUID at time of log (if already sent to DGII)'
+    )
+    move_type = fields.Char(
+        string='Move Type',
+        help='Type of accounting move (out_invoice, out_refund, etc.)'
+    )
+    amount_total = fields.Float(
+        string='Amount Total',
+        help='Total amount in move'
     )
 
 
 class AccountMove(models.Model):
-    _inherit = ['account.move', 'orca.audit.mixin']
+    """Account move with ORCA universal audit logging.
 
-    _orca_tracked_fields = [
-        'name',
-        'state',
-        'amount_total',
-        'partner_id',
-        'l10n_latam_document_type_id',
-        'l10n_do_fiscal_number',
-        'journal_id',
-    ]
+    Uses OrcaUniversalMixin which auto-detects fields based on CRITICAL tier.
+    Automatically tracks all relevant accounting fields without explicit configuration.
+    """
+
+    _inherit = ['account.move', 'orca.universal.mixin']
+
+    # Tier classification: CRITICAL for fiscal/accounting operations
+    # OrcaUniversalMixin will auto-select ~20 accounting-related fields
+    _orca_tier = 'critical'
+
+    # Concrete log model for this module
     _orca_log_model = 'l10n.do.accounting.orca.log'

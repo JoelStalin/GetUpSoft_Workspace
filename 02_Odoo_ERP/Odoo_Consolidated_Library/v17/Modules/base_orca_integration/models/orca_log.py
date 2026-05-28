@@ -6,6 +6,13 @@ class OrcaLog(models.AbstractModel):
     _description = 'ORCA Audit Log Base'
     _table = 'orca_log'
 
+    project_id = fields.Char(
+        string='Project ID',
+        required=True,
+        index=True,
+        default='default',
+        help='Project/customer identifier for multi-tenant isolation'
+    )
     module_name = fields.Char(
         string='Module',
         required=True,
@@ -31,6 +38,7 @@ class OrcaLog(models.AbstractModel):
             ('unlink', 'Delete'),
             ('sync', 'Sync'),
             ('error', 'Error'),
+            ('validate', 'Validate'),
         ],
         string='Action',
         required=True,
@@ -58,6 +66,16 @@ class OrcaLog(models.AbstractModel):
         string='After Values',
         help='JSON snapshot of tracked fields after change'
     )
+    tier = fields.Selection(
+        [
+            ('critical', 'Critical'),
+            ('high', 'High'),
+            ('medium', 'Medium'),
+            ('optional', 'Optional'),
+        ],
+        string='ORCA Tier',
+        help='Classification tier for audit log depth'
+    )
     orca_synced = fields.Boolean(
         string='ORCA Synced',
         default=False,
@@ -72,6 +90,20 @@ class OrcaLog(models.AbstractModel):
         string='ORCA Request ID',
         index=True,
         help='ID returned by ORCA on successful push'
+    )
+    easycount_synced = fields.Boolean(
+        string='EasyCount Synced',
+        default=False,
+        index=True,
+        help='Whether fiscal data has been synced to EasyCount'
+    )
+    easycount_sync_error = fields.Text(
+        string='EasyCount Sync Error',
+        help='Error message if EasyCount sync failed'
+    )
+    easycount_sync_date = fields.Datetime(
+        string='EasyCount Sync Date',
+        help='Timestamp of last successful EasyCount sync'
     )
 
     _order = 'date DESC'

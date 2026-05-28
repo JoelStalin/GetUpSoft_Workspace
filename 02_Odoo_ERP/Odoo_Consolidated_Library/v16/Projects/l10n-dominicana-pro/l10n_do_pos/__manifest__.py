@@ -5,7 +5,9 @@
     'license': 'LGPL-3',
     'website': "https://github.com/odoo-dominicana",
     'category': 'Localization',
-    'version': '16.0.2.3.7',
+    'version': '16.0.2.4.0',
+    'author': 'getupsoft',
+    'website': 'https://getupsoft.com',
     'depends': [
         'base',
         'point_of_sale',

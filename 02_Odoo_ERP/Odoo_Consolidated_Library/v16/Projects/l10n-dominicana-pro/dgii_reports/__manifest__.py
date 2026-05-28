@@ -11,10 +11,11 @@
         Este módulo extiende las funcionalidades del l10n_do_accounting,
         integrando los reportes de declaraciones fiscales""",
 
-    'author': "Indexa, SRL, Iterativo SRL",
+    'author': "getupsoft",
     'license': 'LGPL-3',
     "category": "Localization",
-    'version': '16.0.1.4.9',
+    'version': '16.0.1.5.0',
+    'website': 'https://getupsoft.com',
     # any module necessary for this one to work correctly
     'depends': [
         'web',

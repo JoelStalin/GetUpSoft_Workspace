@@ -1,6 +1,6 @@
 {
     'name': 'Base ORCA Integration',
-    'version': '17.0.1.0.0',
+    'version': '17.0.1.1.0',
     'author': 'getupsoft',
     'website': 'https://getupsoft.com',
     'license': 'LGPL-3',

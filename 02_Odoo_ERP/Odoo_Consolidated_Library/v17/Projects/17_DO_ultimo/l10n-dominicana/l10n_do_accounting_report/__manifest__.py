@@ -2,7 +2,7 @@
     "name": "DO Accounting Report",
     "author": "getupsoft",
     "website": "https://getupsoft.com/",
-    "version": "17.0.1.0.0",
+    "version": "17.0.1.1.0",
     "category": "Accounting",
     "depends": ["base", "account", "l10n_do_accounting", "base_orca_integration"],
     "data": [

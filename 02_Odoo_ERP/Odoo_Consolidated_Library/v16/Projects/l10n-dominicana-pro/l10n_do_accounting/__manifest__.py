@@ -5,11 +5,11 @@
         comprobantes fiscales para el cumplimento de la norma 06-18 de la
         Dirección de Impuestos Internos en la República Dominicana.
     """,
-    "author": "Marcos, Guavana, Indexa, Iterativo SRL, Neotec",
+    "author": "getupsoft",
     "license": "LGPL-3",
-    "website": "https://github.com/odoo-dominicana",
+    "website": "https://getupsoft.com",
     "category": "Localization",
-    "version": "16.0.2.2.9",
+    "version": "16.0.2.3.0",
     # any module necessary for this one to work correctly
     "depends": [
         "base",

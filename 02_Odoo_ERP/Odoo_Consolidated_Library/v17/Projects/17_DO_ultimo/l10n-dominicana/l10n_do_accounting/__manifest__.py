@@ -8,7 +8,7 @@
     "category": "Localization",
     "license": "LGPL-3",
     "website": "https://getupsoft.com",
-    "version": "17.0.2.0.0",
+    "version": "17.0.2.1.0",
     "countries": ["do"],
     # any module necessary for this one to work correctly
     "depends": ["l10n_latam_invoice_document", "l10n_do", "base_orca_integration"],
