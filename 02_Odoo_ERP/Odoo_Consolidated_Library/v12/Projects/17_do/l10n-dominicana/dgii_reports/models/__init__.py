@@ -3,5 +3,6 @@
 
 from . import res_partner
 from . import dgii_report
+from . import dgii_report_orca
 from . import account_invoice
 from . import account_account
