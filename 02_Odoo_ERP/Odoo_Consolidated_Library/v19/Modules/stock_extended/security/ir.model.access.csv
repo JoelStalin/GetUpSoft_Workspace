@@ -1,3 +1,4 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
-access_stock_move_orca_log_user,Access orca.stock.move.log - User,model_orca_stock_move_log,stock.group_stock_user,1,0,0,0
-access_stock_move_orca_log_manager,Access orca.stock.move.log - Manager,model_orca_stock_move_log,stock.group_stock_manager,1,1,1,0
+access_orca_stock_move_log_user,Stock Move Log - User Read-Only,model_orca_stock_move_log,base.group_user,1,0,0,0
+access_orca_stock_move_log_stock,Stock Move Log - Stock User Read-Only,model_orca_stock_move_log,stock.group_stock_user,1,0,0,0
+access_orca_stock_move_log_manager,Stock Move Log - Manager Full,model_orca_stock_move_log,stock.group_stock_manager,1,1,1,0
