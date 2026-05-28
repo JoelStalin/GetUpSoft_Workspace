@@ -1,4 +1,4 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
-pos_orca_log_user_read,L10N DO POS ORCA Log - Read Only (Users),l10n.do.pos.orca.log,base.group_user,1,0,0,0
-pos_orca_log_accounting_read,L10N DO POS ORCA Log - Read Only (Accounting),l10n.do.pos.orca.log,account.group_account_user,1,0,0,0
-pos_orca_log_admin_full,L10N DO POS ORCA Log - Full Access (Admin),l10n.do.pos.orca.log,base.group_erp_manager,1,1,1,1
+pos_orca_log_user_read,L10N DO POS ORCA Log - Read Only (Users),model_orca_l10n_do_pos_log,base.group_user,1,0,0,0
+pos_orca_log_accounting_read,L10N DO POS ORCA Log - Read Only (Accounting),model_orca_l10n_do_pos_log,account.group_account_user,1,0,0,0
+pos_orca_log_admin_full,L10N DO POS ORCA Log - Full Access (Admin),model_orca_l10n_do_pos_log,base.group_erp_manager,1,1,1,1

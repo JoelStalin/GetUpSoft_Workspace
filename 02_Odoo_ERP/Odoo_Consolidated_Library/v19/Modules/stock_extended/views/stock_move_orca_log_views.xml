@@ -4,7 +4,7 @@
         <!-- List View -->
         <record id="stock_move_orca_log_view_tree" model="ir.ui.view">
             <field name="name">stock.move.orca.log.tree</field>
-            <field name="model">stock.move.orca.log</field>
+            <field name="model">orca.stock.move.log</field>
             <field name="arch" type="xml">
                 <tree string="Stock Move ORCA Logs" decoration-danger="action=='unlink'">
                     <field name="date" />
@@ -21,7 +21,7 @@
         <!-- Form View -->
         <record id="stock_move_orca_log_view_form" model="ir.ui.view">
             <field name="name">stock.move.orca.log.form</field>
-            <field name="model">stock.move.orca.log</field>
+            <field name="model">orca.stock.move.log</field>
             <field name="arch" type="xml">
                 <form string="Stock Move ORCA Log">
                     <sheet>
@@ -75,7 +75,7 @@
         <!-- Search View -->
         <record id="stock_move_orca_log_view_search" model="ir.ui.view">
             <field name="name">stock.move.orca.log.search</field>
-            <field name="model">stock.move.orca.log</field>
+            <field name="model">orca.stock.move.log</field>
             <field name="arch" type="xml">
                 <search string="Stock Move ORCA Logs">
                     <field name="date" />

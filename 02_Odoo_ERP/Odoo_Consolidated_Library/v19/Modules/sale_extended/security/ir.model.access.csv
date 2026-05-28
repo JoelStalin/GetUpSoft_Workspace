@@ -1,3 +1,3 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
-access_sale_order_orca_log_user,Access sale.order.orca.log - User,model_sale_order_orca_log,sales_team.group_sale_salesman,1,0,0,0
-access_sale_order_orca_log_manager,Access sale.order.orca.log - Manager,model_sale_order_orca_log,sales_team.group_sale_manager,1,1,1,0
+access_sale_order_orca_log_user,Access orca.sale.order.log - User,model_orca_sale_order_log,sales_team.group_sale_salesman,1,0,0,0
+access_sale_order_orca_log_manager,Access orca.sale.order.log - Manager,model_orca_sale_order_log,sales_team.group_sale_manager,1,1,1,0
