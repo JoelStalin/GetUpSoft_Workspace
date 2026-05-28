@@ -79,3 +79,96 @@ For design projects, use `mcp-servers.shared.json` plus `.\scripts\stitch_mcp_bo
 - 1st: Warning + mandatory audit
 - 2nd: Blocked PR + re-training
 - 3rd: Removed from ORCA UI-UX tasks
+
+---
+
+## 🔴 ODOO V19 COMPLETE MODULE REFACTORING - MANDATORY COMPLIANCE
+
+**EFFECTIVE 2026-05-28: ALL Odoo v19 modules MUST be refactored with ORCA audit logging**
+
+**This is NOT optional. This is a code review gate that applies to ALL modules.**
+
+### The Rule
+
+**Every single Odoo v19 module (core + custom + localization) MUST:**
+1. Inherit from `OrcaAuditMixin` for all tracked models
+2. Provide automatic audit logging via ORCA
+3. Capture field snapshots (before/after JSON)
+4. Enforce access control (accountants read-only, managers full)
+5. Include tests proving ORCA logging works
+6. Have UI views showing audit logs
+
+**Scope: 43 total modules**
+- ✅ 13 custom/localization modules (DONE)
+- ⏳ 30 core modules (REMAINING - must be refactored sequentially)
+
+### Code Review Gate (BLOCKING)
+
+**NO module PR can merge if it:**
+- ❌ Adds/modifies models WITHOUT ORCA integration
+- ❌ Creates business logic WITHOUT audit logging
+- ❌ Lacks tests proving ORCA logging works
+- ❌ Doesn't include security rules for audit logs
+- ❌ Missing views to show logs in Odoo UI
+
+### PR Requirements
+
+All PRs modifying ANY Odoo v19 module must include:
+- [ ] OrcaLog model created/updated
+- [ ] OrcaAuditMixin applied to tracked models
+- [ ] `_orca_tracked_fields` defined
+- [ ] `_orca_log_model` specified
+- [ ] Security rules (ir.model.access.csv)
+- [ ] Views (list/form for logs)
+- [ ] 5+ unit tests (create/write/delete/access/fields)
+- [ ] README updated with ORCA section
+- [ ] Commit references backlog ID (OO-XXX)
+- [ ] All tests PASSING
+
+**Checklist in PR description:**
+```
+## ORCA Integration Checklist
+- [ ] Models tracked: <model1>, <model2>, ...
+- [ ] Fields tracked (CRITICAL): <field1>, <field2>, ...
+- [ ] Fields tracked (HIGH): <field3>, <field4>, ...
+- [ ] Tests created: <N> test cases
+- [ ] Security rules: Accountant read-only, Manager full
+- [ ] Views created: List view, Form view
+- [ ] Backlog item: OO-XXX
+```
+
+### Backlog Reference
+
+**Complete backlog with all 43 modules:**
+- `task-ledger/V19_COMPLETE_MODULE_REFACTORING_MANDATE.md` - Mandate and rationale
+- `task-ledger/V19_COMPLETE_MODULE_REFACTORING_BACKLOG.md` - All modules with estimates
+
+**Current phases (5 weeks):**
+1. Phase 1 (Week 1): Core Financial (4 modules, 13h)
+2. Phase 2 (Week 2): Sales & CRM (5 modules, 14.5h)
+3. Phase 3 (Week 3): Procurement & Inventory (5 modules, 14.5h)
+4. Phase 4 (Week 4): HR & Payroll (6 modules, 12h)
+5. Phase 5 (Week 5): Manufacturing + Website (5 modules, 17h)
+
+### Penalties for Non-Compliance
+
+- 1st: PR rejected with "Module refactoring required" comment
+- 2nd: Agent escalation + mandatory re-training
+- 3rd: Removed from Odoo module development tasks
+
+### Exceptions
+
+**THERE ARE NO EXCEPTIONS.** This applies to:
+- ✅ Core Odoo modules (account, sale, purchase, etc.)
+- ✅ Custom modules
+- ✅ Localization modules
+- ✅ Any future modules added
+
+No module is exempt. No deadline is flexible. This is non-negotiable.
+
+### Reference Documents
+
+- **Mandate:** `task-ledger/V19_COMPLETE_MODULE_REFACTORING_MANDATE.md`
+- **Backlog:** `task-ledger/V19_COMPLETE_MODULE_REFACTORING_BACKLOG.md`
+- **Lab Setup:** `task-ledger/V19_ODOO_MODULE_SETUP_GUIDE.md`
+- **Lab Validation:** `task-ledger/V19_LAB_VALIDATION_CHECKPOINT.md`
