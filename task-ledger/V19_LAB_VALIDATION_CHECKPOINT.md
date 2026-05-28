@@ -39,6 +39,46 @@
 
 ## What You Must Do to Complete V19
 
+### STEP 0: Setup Odoo to Find ORCA Modules (5 minutes)
+
+**CRITICAL FIRST STEP:** The ORCA modules exist in the repository but Odoo doesn't know where to find them yet.
+
+**Quick Setup (Recommended):**
+
+**Windows Users:**
+```powershell
+cd C:\Users\yoeli\Documents\GetUpSoft_Workspace\scripts
+.\setup_odoo_orca_modules.ps1 -Action copy
+```
+
+**Linux Users:**
+```bash
+cd ~/GetUpSoft_Workspace/scripts
+chmod +x setup_odoo_orca_modules.sh
+./setup_odoo_orca_modules.sh copy
+```
+
+**Expected output:**
+```
+✅ Found addons directory: C:\Odoo\addons
+✅ Copying modules to: C:\Odoo\addons
+✅ Copied: base_orca_integration
+✅ Copied: account_extended
+... (all 13 modules)
+✅ Setup complete!
+```
+
+**What this does:**
+- Automatically detects your Odoo installation
+- Copies all 13 ORCA modules to Odoo's addons directory
+- Prepares them to be discovered by Odoo
+
+**Detailed instructions:** See `task-ledger/V19_ODOO_MODULE_SETUP_GUIDE.md`
+
+If setup fails, see troubleshooting section there.
+
+---
+
 ### Prerequisites
 
 Before starting, ensure you have:
