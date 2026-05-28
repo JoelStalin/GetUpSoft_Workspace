@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- List View -->
+        <record id="sale_order_orca_log_view_tree" model="ir.ui.view">
+            <field name="name">sale.order.orca.log.tree</field>
+            <field name="model">sale.order.orca.log</field>
+            <field name="arch" type="xml">
+                <tree string="Sale Order ORCA Logs" decoration-danger="action=='unlink'">
+                    <field name="date" />
+                    <field name="user_id" />
+                    <field name="action" />
+                    <field name="order_reference" />
+                    <field name="amount_total" />
+                    <field name="order_state" />
+                    <field name="orca_synced" decoration-success="orca_synced" />
+                </tree>
+            </field>
+        </record>
+
+        <!-- Form View -->
+        <record id="sale_order_orca_log_view_form" model="ir.ui.view">
+            <field name="name">sale.order.orca.log.form</field>
+            <field name="model">sale.order.orca.log</field>
+            <field name="arch" type="xml">
+                <form string="Sale Order ORCA Log">
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="date" />
+                                <field name="user_id" />
+                                <field name="action" />
+                                <field name="tier" />
+                            </group>
+                            <group>
+                                <field name="order_reference" />
+                                <field name="order_state" />
+                                <field name="amount_untaxed" />
+                                <field name="amount_total" />
+                            </group>
+                        </group>
+                        <group>
+                            <group>
+                                <field name="partner_name" />
+                                <field name="salesperson_name" />
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="Captured Data">
+                                <group>
+                                    <field name="module_name" />
+                                    <field name="model_name" />
+                                    <field name="record_id" />
+                                </group>
+                            </page>
+                            <page string="Before Values">
+                                <field name="before_values" widget="ace" options="{'mode': 'json'}" />
+                            </page>
+                            <page string="After Values">
+                                <field name="after_values" widget="ace" options="{'mode': 'json'}" />
+                            </page>
+                            <page string="ORCA Sync">
+                                <group>
+                                    <field name="orca_synced" />
+                                    <field name="orca_request_id" attrs="{'invisible': [('orca_synced', '=', False)]}" />
+                                    <field name="orca_sync_error" attrs="{'invisible': [('orca_sync_error', '=', False)]}" />
+                                </group>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!-- Search View -->
+        <record id="sale_order_orca_log_view_search" model="ir.ui.view">
+            <field name="name">sale.order.orca.log.search</field>
+            <field name="model">sale.order.orca.log</field>
+            <field name="arch" type="xml">
+                <search string="Sale Order ORCA Logs">
+                    <field name="date" />
+                    <field name="user_id" />
+                    <field name="action" />
+                    <field name="order_reference" />
+                    <filter string="Created" name="filter_create" domain="[('action', '=', 'create')]" />
+                    <filter string="Written" name="filter_write" domain="[('action', '=', 'write')]" />
+                    <filter string="Deleted" name="filter_delete" domain="[('action', '=', 'unlink')]" />
+                    <filter string="Not Synced" name="filter_not_synced" domain="[('orca_synced', '=', False)]" />
+                    <filter string="Synced" name="filter_synced" domain="[('orca_synced', '=', True)]" />
+                    <group string="Group By">
+                        <filter string="Action" name="group_action" context="{'group_by': 'action'}" />
+                        <filter string="User" name="group_user" context="{'group_by': 'user_id'}" />
+                        <filter string="Order State" name="group_state" context="{'group_by': 'order_state'}" />
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <!-- Action -->
+        <record id="sale_order_orca_log_action" model="ir.actions.act_window">
+            <field name="name">Sale Order ORCA Logs</field>
+            <field name="res_model">sale.order.orca.log</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="sale_order_orca_log_view_tree" />
+            <field name="search_view_id" ref="sale_order_orca_log_view_search" />
+            <field name="domain">[]</field>
+            <field name="context">{}</field>
+        </record>
+
+        <!-- Menu Item -->
+        <menuitem
+            id="sale_order_orca_log_menu"
+            parent="sale.sale_menu_root"
+            action="sale_order_orca_log_action"
+            sequence="99"
+            groups="sales_team.group_sale_manager"
+        />
+    </data>
+</odoo>
