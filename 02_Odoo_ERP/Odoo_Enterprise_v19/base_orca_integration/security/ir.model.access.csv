@@ -1,0 +1,4 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_orca_log_manager,orca.log - Manager,model_orca_log,base.group_system,1,0,0,0
+access_orca_log_auditor,orca.log - Auditor,model_orca_log,base.group_user,1,0,0,0
+access_orca_universal_mixin_all,orca.universal.mixin - All,model_orca_universal_mixin,base.group_user,1,0,0,0

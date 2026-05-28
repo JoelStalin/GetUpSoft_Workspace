@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <!-- ORCA API Configuration -->
+        <record id="orca_api_url" model="ir.config.parameter">
+            <field name="key">orca.api.url</field>
+            <field name="value">http://localhost:3000</field>
+        </record>
+
+        <record id="orca_api_key" model="ir.config.parameter">
+            <field name="key">orca.api.key</field>
+            <field name="value">your-api-key-here</field>
+        </record>
+
+        <record id="orca_project_id" model="ir.config.parameter">
+            <field name="key">orca.project.id</field>
+            <field name="value">default</field>
+        </record>
+
+        <record id="orca_enabled" model="ir.config.parameter">
+            <field name="key">orca.enabled</field>
+            <field name="value">True</field>
+        </record>
+
+        <!-- EasyCount Configuration -->
+        <record id="easycount_enabled" model="ir.config.parameter">
+            <field name="key">easycount.enabled</field>
+            <field name="value">True</field>
+        </record>
+
+        <record id="easycount_api_url" model="ir.config.parameter">
+            <field name="key">easycount.api.url</field>
+            <field name="value">http://localhost:3001</field>
+        </record>
+
+        <record id="easycount_api_key" model="ir.config.parameter">
+            <field name="key">easycount.api.key</field>
+            <field name="value">your-easycount-api-key</field>
+        </record>
+
+        <!-- DGII (Dominican Republic) Configuration -->
+        <record id="dgii_enabled" model="ir.config.parameter">
+            <field name="key">dgii.enabled</field>
+            <field name="value">True</field>
+        </record>
+
+        <record id="dgii_api_url" model="ir.config.parameter">
+            <field name="key">dgii.api.url</field>
+            <field name="value">https://dgii.gov.do/api</field>
+        </record>
+
+        <!-- Rules Engine Configuration -->
+        <record id="rules_engine_enabled" model="ir.config.parameter">
+            <field name="key">rules.engine.enabled</field>
+            <field name="value">True</field>
+        </record>
+
+        <record id="rules_engine_enforcement" model="ir.config.parameter">
+            <field name="key">rules.engine.enforcement</field>
+            <field name="value">block</field>
+        </record>
+
+        <!-- Logging Configuration -->
+        <record id="orca_log_retention_days" model="ir.config.parameter">
+            <field name="key">orca.log.retention.days</field>
+            <field name="value">365</field>
+        </record>
+
+        <record id="orca_log_tier_critical" model="ir.config.parameter">
+            <field name="key">orca.log.tier.critical</field>
+            <field name="value">all_fields</field>
+        </record>
+
+        <record id="orca_log_tier_high" model="ir.config.parameter">
+            <field name="key">orca.log.tier.high</field>
+            <field name="value">core_fields</field>
+        </record>
+
+        <record id="orca_log_tier_medium" model="ir.config.parameter">
+            <field name="key">orca.log.tier.medium</field>
+            <field name="value">key_fields</field>
+        </record>
+
+        <record id="orca_log_tier_optional" model="ir.config.parameter">
+            <field name="key">orca.log.tier.optional</field>
+            <field name="value">minimal_fields</field>
+        </record>
+    </data>
+</odoo>
