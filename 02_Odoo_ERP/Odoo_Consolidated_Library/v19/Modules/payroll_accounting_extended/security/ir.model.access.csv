@@ -1,0 +1,3 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_orca_payroll_entry_log_accountant,Payroll Entry Log - Accountant Read-Only,model_orca_payroll_entry_log,account.group_account_accountant,1,0,0,0
+access_orca_payroll_entry_log_manager,Payroll Entry Log - Manager Full,model_orca_payroll_entry_log,account.group_account_manager,1,1,1,0

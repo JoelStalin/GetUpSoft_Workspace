@@ -1,0 +1,4 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_orca_expense_log_user,Expense Log - User Read-Only,model_orca_expense_log,base.group_user,1,0,0,0
+access_orca_expense_log_hr,Expense Log - HR Read-Only,model_orca_expense_log,hr.group_hr_user,1,0,0,0
+access_orca_expense_log_manager,Expense Log - Manager Full,model_orca_expense_log,hr.group_hr_manager,1,1,1,0
