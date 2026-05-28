@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <!-- Lead Time ORCA Log List View -->
+    <record id="view_orca_lead_time_log_tree" model="ir.ui.view">
+        <field name="name">orca.lead.time.log.list</field>
+        <field name="model">orca.lead.time.log</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="date"/>
+                <field name="user_id"/>
+                <field name="action"/>
+                <field name="product_name"/>
+                <field name="lead_time_type"/>
+                <field name="lead_time_days"/>
+                <field name="procurement_method"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Lead Time ORCA Log Form View -->
+    <record id="view_orca_lead_time_log_form" model="ir.ui.view">
+        <field name="name">orca.lead.time.log.form</field>
+        <field name="model">orca.lead.time.log</field>
+        <field name="arch" type="xml">
+            <form>
+                <group>
+                    <group string="Log Metadata">
+                        <field name="module_name"/>
+                        <field name="model_name"/>
+                        <field name="record_id"/>
+                        <field name="action"/>
+                        <field name="date"/>
+                        <field name="user_id"/>
+                    </group>
+                    <group string="Lead Time Details">
+                        <field name="product_name"/>
+                        <field name="route_name"/>
+                        <field name="lead_time_type"/>
+                        <field name="lead_time_days"/>
+                        <field name="procurement_method"/>
+                        <field name="effective_date"/>
+                        <field name="status"/>
+                    </group>
+                    <group string="Audit Data">
+                        <field name="before_values" widget="ace"/>
+                        <field name="after_values" widget="ace"/>
+                    </group>
+                </group>
+            </form>
+        </field>
+    </record>
+
+    <!-- Menu Items -->
+    <menuitem id="menu_orca_manufacturing_logs" name="ORCA Logs" parent="mrp.menu_mrp_configuration"/>
+
+    <menuitem id="menu_orca_lead_time_log" name="Lead Time Logs"
+              parent="menu_orca_manufacturing_logs"
+              action="action_view_orca_lead_time_log"/>
+
+    <!-- Actions -->
+    <act_window id="action_view_orca_lead_time_log"
+                name="Lead Time ORCA Logs"
+                res_model="orca.lead.time.log"
+                view_mode="tree,form"/>
+</odoo>

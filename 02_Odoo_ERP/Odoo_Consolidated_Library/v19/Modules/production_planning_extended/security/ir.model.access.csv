@@ -1,0 +1,4 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_orca_production_plan_log_user,Production Plan Log - User Read-Only,model_orca_production_plan_log,base.group_user,1,0,0,0
+access_orca_production_plan_log_manager,Production Plan Log - Manager Read-Only,model_orca_production_plan_log,purchase.group_purchase_manager,1,0,0,0
+access_orca_production_plan_log_admin,Production Plan Log - Admin Full,model_orca_production_plan_log,purchase.group_purchase_manager,1,1,1,0
