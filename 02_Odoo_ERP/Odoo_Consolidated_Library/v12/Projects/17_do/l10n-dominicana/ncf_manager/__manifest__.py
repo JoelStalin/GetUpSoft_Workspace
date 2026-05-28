@@ -37,7 +37,7 @@
         "python": ["stdnum.do"],
     },
     # any module necessary for this one to work correctly
-    "depends": ["account", "l10n_do", "account_cancel"],
+    "depends": ["account", "l10n_do", "account_cancel", "base_orca_integration"],
     "data": [
         "data/ir_config_parameters.xml",
         "data/ir_cron_data.xml",
