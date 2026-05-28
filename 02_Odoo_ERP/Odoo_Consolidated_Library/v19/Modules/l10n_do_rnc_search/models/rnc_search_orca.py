@@ -17,9 +17,15 @@ class RNCSearchOrcaLog(models.Model):
 
 
 class RNCSearchResult(models.Model):
+    """RNC search result with ORCA universal audit logging.
+
+    Uses OrcaUniversalMixin which auto-detects fields based on CRITICAL tier.
+    Automatically tracks all relevant RNC validation fields without explicit configuration.
+    """
+
     _name = 'l10n.do.rnc.search.result'
     _description = 'RNC Search Result'
-    _inherit = 'orca.audit.mixin'
+    _inherit = 'orca.universal.mixin'
 
     rnc = fields.Char(string='RNC', required=True, index=True)
     legal_name = fields.Char(string='Legal Name')
@@ -36,6 +42,9 @@ class RNCSearchResult(models.Model):
         ('unknown', 'Unknown'),
     ], string='Validation Status')
 
-    _orca_tracked_fields = ['rnc', 'legal_name', 'commercial_name', 'status',
-                            'activity_type', 'validation_status', 'dgii_uuid']
+    # Tier classification: CRITICAL for DGII RNC validation
+    # OrcaUniversalMixin will auto-select ~10 RNC-related fields
+    _orca_tier = 'critical'
+
+    # Concrete log model for this module
     _orca_log_model = 'l10n.do.rnc.search.orca.log'

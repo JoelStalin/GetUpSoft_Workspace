@@ -1,6 +1,6 @@
 {
     'name': 'Dominican RNC Search and Validation',
-    'version': '19.0.1.0.0',
+    'version': '19.0.1.1.0',
     'author': 'getupsoft',
     'website': 'https://getupsoft.com',
     'license': 'LGPL-3',

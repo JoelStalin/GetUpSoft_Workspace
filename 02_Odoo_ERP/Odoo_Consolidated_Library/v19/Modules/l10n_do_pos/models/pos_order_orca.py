@@ -17,8 +17,17 @@ class POSOrderOrcaLog(models.Model):
 
 
 class POSOrder(models.Model):
-    _inherit = ['pos.order', 'orca.audit.mixin']
+    """POS order with ORCA universal audit logging.
 
-    _orca_tracked_fields = ['name', 'state', 'partner_id', 'amount_total',
-                            'amount_paid', 'amount_return', 'lines']
+    Uses OrcaUniversalMixin which auto-detects fields based on CRITICAL tier.
+    Automatically tracks all relevant POS fields without explicit configuration.
+    """
+
+    _inherit = ['pos.order', 'orca.universal.mixin']
+
+    # Tier classification: CRITICAL for fiscal POS operations
+    # OrcaUniversalMixin will auto-select ~15 POS-related fields
+    _orca_tier = 'critical'
+
+    # Concrete log model for this module
     _orca_log_model = 'l10n.do.pos.orca.log'

@@ -1,6 +1,6 @@
 {
     'name': 'Dominican Accounting',
-    'version': '19.0.2.0.0',
+    'version': '19.0.2.1.0',
     'author': 'getupsoft',
     'website': 'https://getupsoft.com',
     'license': 'LGPL-3',

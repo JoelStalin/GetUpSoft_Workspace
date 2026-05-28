@@ -33,19 +33,17 @@ class AccountingReportOrcaLog(models.Model):
 
 
 class AccountingReport(models.Model):
-    """Extend accounting report wizards with ORCA audit logging."""
+    """Extend accounting report wizards with ORCA universal audit logging.
 
-    _inherit = ['account.report', 'orca.audit.mixin']
+    Uses OrcaUniversalMixin which auto-detects fields based on CRITICAL tier.
+    Automatically tracks all relevant report fields without explicit configuration.
+    """
 
-    # Fields to snapshot on report generation/submission
-    _orca_tracked_fields = [
-        'name',
-        'report_type',
-        'date_from',
-        'date_to',
-        'state',
-        'company_id',
-    ]
+    _inherit = ['account.report', 'orca.universal.mixin']
+
+    # Tier classification: CRITICAL for fiscal reporting operations
+    # OrcaUniversalMixin will auto-select report-related fields based on tier
+    _orca_tier = 'critical'
 
     # Concrete log model for this module
     _orca_log_model = 'l10n.do.accounting.report.orca.log'

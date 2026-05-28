@@ -33,21 +33,17 @@ class AccountMoveOrcaLog(models.Model):
 
 
 class AccountMove(models.Model):
-    """Extend account.move with ORCA audit logging."""
+    """Extend account.move with ORCA universal audit logging.
 
-    _inherit = ['account.move', 'orca.audit.mixin']
+    Uses OrcaUniversalMixin which auto-detects fields based on CRITICAL tier.
+    Automatically tracks all relevant accounting fields without explicit configuration.
+    """
 
-    # Fields to snapshot on create/write/unlink
-    _orca_tracked_fields = [
-        'name',
-        'move_type',
-        'state',
-        'partner_id',
-        'amount_total',
-        'amount_untaxed',
-        'l10n_latam_document_type_id',
-        'l10n_do_fiscal_number',
-    ]
+    _inherit = ['account.move', 'orca.universal.mixin']
+
+    # Tier classification: CRITICAL for fiscal/accounting operations
+    # OrcaUniversalMixin will auto-select ~20 accounting-related fields
+    _orca_tier = 'critical'
 
     # Concrete log model for this module
     _orca_log_model = 'l10n.do.accounting.orca.log'
