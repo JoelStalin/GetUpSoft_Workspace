@@ -8,6 +8,19 @@
 
 ## Session 12 Summary (2026-05-28 - PHASE 6 Website + Core Complete - 100% PROJECT COMPLETE!)
 
+### 🎯 ARCHITECTURE DECISION: Remote Labs (Agent NO Local Edits)
+**NEW WORKFLOW:** code.getupsoft.com agent connects to local labs via HTTP/RPC only
+- ❌ NO local file edits by agent
+- ✅ ONLY HTTP connections to labs (Odoo, n8n, workflow editor, LLM)
+- ✅ Labs stay running locally via docker-compose
+- ✅ All edits/commits/tests in code.getupsoft.com
+- 📋 Documents created:
+  - AGENT_REMOTE_LABS_ARCHITECTURE.md (detailed architecture)
+  - lab-endpoints.json (lab connection config)
+  - IMPLEMENT_REMOTE_LABS_STRATEGY.md (step-by-step setup)
+  - MIGRATION_TO_GETUPSOFT_CODE.md (migration guide)
+  - SESSION_SYNC_GUIDE.md (cross-device sync)
+
 ### 🏆 PHASE 6 COMPLETED - ALL 43 MODULES REFACTORED WITH ORCA INTEGRATION
 
 **18 Modules Created with Full ORCA Integration:**
