@@ -10,6 +10,8 @@ Este repositorio usa ORCA como capa local de interpretación y gobierno Scrum.
 - Toda tarea debe referenciar backlog, DoR, DoD y pruebas.
 - Prefiere cambios pequeños y verificables.
 - Si un comando o solución falla, documenta diagnóstico, causa probable y validación.
+- Para tareas multi-modelo, usa la politica compartida en `docs/GSTACK_ORCA_MULTIAGENT_ADAPTER.md`.
+- Mantiene ORCA como base de orquestacion y GSTACK como router de modelos.
 
 ## Output esperado
 

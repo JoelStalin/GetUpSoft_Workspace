@@ -41,6 +41,12 @@ This workspace is multiagent by default. Every agent working here must follow th
 
 If a task touches a project, the agent must check the bootstrap output before writing code or running tests.
 
+## GSTACK + ORCA multi-model rule
+
+- All agents must follow `docs/GSTACK_ORCA_MULTIAGENT_ADAPTER.md` when routing tasks across Gemini, Claude, Codex, and Copilot.
+- Keep ORCA as the base orchestrator and use GSTACK as the multi-model router for client workloads.
+- Agent outputs must reference backlog, DoR, DoD, and tests for each delivery.
+
 ## Infrastructure boundaries
 
 - `galantesjewelry` / Galantes Jewelry is a GetUpSoft client product, not GetUpSoft production infrastructure.

@@ -20,6 +20,13 @@ Use `agency-agents` for multiagent coordination, `webapp-testing` for browser QA
 
 For design projects, use `mcp-servers.shared.json` plus `.\scripts\stitch_mcp_bootstrap.ps1` to validate Stitch MCP before generating UI work.
 
+## GSTACK + ORCA Multi-Model Adapter (Required)
+
+- Follow `docs/GSTACK_ORCA_MULTIAGENT_ADAPTER.md` for routing contract and fallback policy.
+- Keep ORCA as the base orchestrator for repo workflows.
+- Use GSTACK for multi-model selection across client tasks.
+- Include backlog, DoR, DoD, and tests in delivery summaries.
+
 ---
 
 ## 🔴 FASTAPI DEPRECATION - MANDATORY COMPLIANCE
