@@ -260,6 +260,33 @@
 
 ---
 
+## SESSION 13 - UI INTEGRATION: ORCA Agent Panel for API Key Management ✅
+
+### 🎨 OrcaAgentPanel Component - ORCA Workflow Editor
+
+**New Component:** `apps/orca/workflow-editor/src/components/OrcaAgentPanel.tsx` (334 lines)
+
+**Features:**
+- ✅ Agent connection status monitoring
+- ✅ Generate new API keys
+- ✅ View/hide/copy API keys
+- ✅ Revoke inactive keys
+- ✅ Cloudflare tunnel status
+- ✅ Health check button
+- ✅ Beautiful Tailwind UI with Lucide icons
+- ✅ Security-first (keys masked after 30s)
+
+**Integration:**
+- ✅ Added to App.tsx FloatingWindowsManager
+- ✅ Imported OrcaAgentPanel component
+- ✅ Added to WORKFLOW_ONLY_WINDOWS
+- ✅ Accessible as floating panel in workflow mode
+
+**Commit:**
+- 332665732 — feat: Add OrcaAgentPanel to ORCA Workflow Editor
+
+---
+
 ## SESSION 13 - PHASE 1 FINAL MODULE: l10n_do_accounting_report ORCA COMPLETION ✅
 
 ### 📊 Accounting Report Module - ORCA Tests Completed
