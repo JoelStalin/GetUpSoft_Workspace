@@ -154,25 +154,115 @@ Write-Host "  • Access from code.getupsoft.com" -ForegroundColor Gray
 Write-Host "  • Configure ORCA dashboard" -ForegroundColor Gray
 Write-Host ""
 
+Write-Host ""
+Write-Host "Step 4: Autonomous Cloudflare Gateway Setup (Optional)" -ForegroundColor Cyan
+Write-Host "────────────────────────────────────────" -ForegroundColor Gray
+Write-Host ""
+Write-Host "Orca Agent can automatically configure Cloudflare tunnel and WARP" -ForegroundColor White
+Write-Host "This allows code.getupsoft.com to access your local lab safely" -ForegroundColor Gray
+Write-Host ""
+
+$setupCloudflare = Read-Host "Setup Cloudflare gateway now? (y/n)"
+
+if ($setupCloudflare -eq 'y' -o $setupCloudflare -eq 'Y') {
+    Write-Host ""
+    Write-Host "⚠️  Cloudflare Configuration Requirements:" -ForegroundColor Yellow
+    Write-Host ""
+    Write-Host "You need to provide:" -ForegroundColor White
+    Write-Host "  1. Cloudflare API Token (from dashboard)" -ForegroundColor Gray
+    Write-Host "  2. Cloudflare Account ID" -ForegroundColor Gray
+    Write-Host "  3. Cloudflare Zone ID (for your domain)" -ForegroundColor Gray
+    Write-Host ""
+
+    $haveCredentials = Read-Host "Do you have Cloudflare credentials ready? (y/n)"
+
+    if ($haveCredentials -eq 'y' -o $haveCredentials -eq 'Y') {
+        Write-Host ""
+        Write-Host "Enter your Cloudflare credentials:" -ForegroundColor Cyan
+
+        $cfToken = Read-Host "Cloudflare API Token"
+        $cfAccountId = Read-Host "Cloudflare Account ID"
+        $cfZoneId = Read-Host "Cloudflare Zone ID"
+
+        # Set environment variables for CloudflareConnector
+        $env:CLOUDFLARE_API_TOKEN = $cfToken
+        $env:CLOUDFLARE_ACCOUNT_ID = $cfAccountId
+        $env:CLOUDFLARE_ZONE_ID = $cfZoneId
+
+        Write-Host ""
+        Write-Host "Running autonomous Cloudflare setup..." -ForegroundColor Cyan
+        Write-Host ""
+
+        try {
+            # Call CloudflareConnector via Python
+            $setupResult = python scripts/cloudflare_connector.py --setup | ConvertFrom-Json
+
+            if ($setupResult.status -eq 'success') {
+                Write-Host "✅ Cloudflare setup completed successfully!" -ForegroundColor Green
+                Write-Host ""
+                Write-Host "Gateway Status:" -ForegroundColor Cyan
+                Write-Host "  Tunnel: $($setupResult.tunnel_name)" -ForegroundColor Gray
+                Write-Host "  Routes configured: $($setupResult.routes.Length)" -ForegroundColor Gray
+                Write-Host "  WARP rules updated: $($setupResult.warp_rules.removed.Length + $setupResult.warp_rules.added.Length)" -ForegroundColor Gray
+
+                # Save Cloudflare config
+                $cfConfig = @{
+                    api_token = $cfToken
+                    account_id = $cfAccountId
+                    zone_id = $cfZoneId
+                }
+
+                $cfConfigPath = "$claudeDir\cloudflare-config.json"
+                $cfConfig | ConvertTo-Json | Set-Content $cfConfigPath
+
+                # Secure file (Windows)
+                attrib +h $cfConfigPath -ErrorAction SilentlyContinue
+
+                Write-Host "  Config saved to: $cfConfigPath" -ForegroundColor Gray
+            } else {
+                Write-Host "⚠️  Cloudflare setup incomplete" -ForegroundColor Yellow
+                Write-Host "You can retry setup later when Cloudflare credentials are configured" -ForegroundColor Gray
+            }
+        } catch {
+            Write-Host "⚠️  Error during Cloudflare setup: $_" -ForegroundColor Yellow
+            Write-Host "You can manually run: python scripts/cloudflare_connector.py --setup" -ForegroundColor Gray
+        }
+    } else {
+        Write-Host ""
+        Write-Host "⚠️  Skipping Cloudflare setup" -ForegroundColor Yellow
+        Write-Host "You can configure it later by running:" -ForegroundColor Gray
+        Write-Host "   python scripts/cloudflare_connector.py --setup" -ForegroundColor Gray
+    }
+} else {
+    Write-Host ""
+    Write-Host "⚠️  Skipping Cloudflare gateway setup" -ForegroundColor Yellow
+    Write-Host "You can configure it later. This is only needed for remote access from code.getupsoft.com" -ForegroundColor Gray
+}
+
+Write-Host ""
 Write-Host "Next Steps:" -ForegroundColor Cyan
 Write-Host ""
 Write-Host "1. Set environment variable:" -ForegroundColor White
 Write-Host "   `$env:ORCA_AGENT_API_KEY = '$ApiKey'" -ForegroundColor Gray
 Write-Host ""
-Write-Host "2. Start Orca Agent Server:" -ForegroundColor White
-Write-Host "   .\scripts\start-orca-agent.ps1" -ForegroundColor Gray
-Write-Host ""
-Write-Host "3. Start Docker Labs:" -ForegroundColor White
+Write-Host "2. Start Docker Labs:" -ForegroundColor White
 Write-Host "   docker-compose up -d" -ForegroundColor Gray
+Write-Host ""
+Write-Host "3. Start Orca Agent Server:" -ForegroundColor White
+Write-Host "   .\scripts\start-orca-agent.ps1" -ForegroundColor Gray
 Write-Host ""
 Write-Host "4. Run Triangular Tests:" -ForegroundColor White
 Write-Host "   python scripts/test-triangular-communication.py '$ApiKey'" -ForegroundColor Gray
 Write-Host ""
-Write-Host "5. Open ORCA Dashboard:" -ForegroundColor White
+Write-Host "5. Verify Gateway (if Cloudflare configured):" -ForegroundColor White
+Write-Host "   https://orca-agent.getupsoft.com/api/status" -ForegroundColor Gray
+Write-Host ""
+Write-Host "6. Open ORCA Dashboard:" -ForegroundColor White
 Write-Host "   http://localhost:3000" -ForegroundColor Gray
 Write-Host ""
 
 Write-Host "Questions? Check:" -ForegroundColor Cyan
+Write-Host "  • ORCA_AGENT_AUTONOMOUS_SETUP.md" -ForegroundColor Gray
 Write-Host "  • ORCA_AGENT_BOOTSTRAP_UI.md" -ForegroundColor Gray
 Write-Host "  • ORCA_AGENT_LOCAL_ACCESS.md" -ForegroundColor Gray
 Write-Host ""
