@@ -1,8 +1,8 @@
-# Workspace Skill Recommendations
+﻿# Workspace Skill Recommendations
 
-*Generated:* 2026-05-25T09:22:27.6102369-04:00
+*Generated:* 2026-05-28T12:49:43.8572947-04:00
 *Workspace:* `C:\Users\yoeli\Documents\GetUpSoft_Workspace`
-*Projects analyzed:* 39
+*Projects analyzed:* 40
 
 ## ai-automation
 Agent orchestration, automation, and AI workflow work.
@@ -546,6 +546,24 @@ Recommended skills
 ```
 CAVEMAN BRIEF
 Prompt tokens: workspace, project, family:, general, project:, prompts, path:, c:, users, yoeli, documents, getupsoft, signals:, family, seed, skills:, create-plan, agency-agents, select, the, best, codex, skills, for, this, prefer, most, specific, first, consider, policy:, normalize, request, with, caveman, before, selecting, use, shared, skill, bundle, in, agents, when, multiagent, coordination, helps, include, webapp-testing, browser, ui, verification, relevant
+Workspace skill count: 70
+
+Recommended skills
+- agency-agents [66] - Use The Agency specialist-agent library as Codex-compatible reference personas and workflows. Applies when the user asks to use agency-agents, The Agency, or a named Agency specialist such as Frontend Developer, Reality Checker, Evidence Collector, Backend Architect, Growth Hacker, etc.
+- webapp-testing [66] - Toolkit for interacting with and testing local web applications using Playwright. Supports verifying frontend functionality, debugging UI behavior, capturing browser screenshots, and viewing browser logs.
+- skill-share [63] - A skill that creates new Claude skills and automatically shares them on Slack using Rube for seamless team collaboration and skill discovery.
+- components-build [59] - Build modern, composable, and accessible React UI components following the components.build specification. Use when creating, reviewing, or refactoring component libraries, design systems, or any reusable UI components. Triggers on tasks involving component APIs, composition patterns, accessibility, styling systems, or TypeScript props.
+- mcp-builder [59] - Guide for creating high-quality MCP (Model Context Protocol) servers that enable LLMs to interact with external services through well-designed tools. Use when building MCP servers to integrate external APIs or services, whether in Python (FastMCP) or Node/TypeScript (MCP SDK).
+```
+
+### test-results
+*Signals:* 
+*Family seed skills:* create-plan, agency-agents
+*Recommended skills:* agency-agents [66] - Use The Agency specialist-agent library as Codex-compatible reference personas and workflows. Applies when the user asks to use agency-agents, The Agency, or a named Agency specialist such as Frontend Developer, Reality Checker, Evidence Collector, Backend Architect, Growth Hacker, etc., webapp-testing [66] - Toolkit for interacting with and testing local web applications using Playwright. Supports verifying frontend functionality, debugging UI behavior, capturing browser screenshots, and viewing browser logs., skill-share [63] - A skill that creates new Claude skills and automatically shares them on Slack using Rube for seamless team collaboration and skill discovery., components-build [59] - Build modern, composable, and accessible React UI components following the components.build specification. Use when creating, reviewing, or refactoring component libraries, design systems, or any reusable UI components. Triggers on tasks involving component APIs, composition patterns, accessibility, styling systems, or TypeScript props., mcp-builder [59] - Guide for creating high-quality MCP (Model Context Protocol) servers that enable LLMs to interact with external services through well-designed tools. Use when building MCP servers to integrate external APIs or services, whether in Python (FastMCP) or Node/TypeScript (MCP SDK).
+
+```
+CAVEMAN BRIEF
+Prompt tokens: workspace, project, family:, general, project:, test-results, path:, c:, users, yoeli, documents, getupsoft, signals:, family, seed, skills:, create-plan, agency-agents, select, the, best, codex, skills, for, this, prefer, most, specific, first, consider, policy:, normalize, request, with, caveman, before, selecting, use, shared, skill, bundle, in, agents, when, multiagent, coordination, helps, include, webapp-testing, browser, ui, verification, relevant
 Workspace skill count: 70
 
 Recommended skills

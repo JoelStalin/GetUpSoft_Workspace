@@ -1,8 +1,8 @@
-{
-  "generatedAt": "2026-05-25T09:22:27.7627100-04:00",
-  "configPath": "C:\\Users\\yoeli\\Documents\\GetUpSoft_Workspace\\mcp-servers.shared.json",
-  "command": "npx -y stitch-mcp-auto",
-  "projectIdPresent": false,
-  "apiKeyPresent": false,
-  "ready": false
+﻿{
+    "generatedAt":  "2026-05-28T12:49:44.2170066-04:00",
+    "configPath":  "C:\\Users\\yoeli\\Documents\\GetUpSoft_Workspace\\mcp-servers.shared.json",
+    "command":  "npx -y stitch-mcp-auto",
+    "projectIdPresent":  false,
+    "apiKeyPresent":  false,
+    "ready":  false
 }
