@@ -1,8 +1,15 @@
 # GetUpSoft ORCA v19 Refactoring - Change Timeline
 
 **Last Updated:** 2026-05-28  
-**Session:** 13 (AUTONOMOUS ORCA AGENT GATEWAY)  
-**Status:** 🚀 🤖 ARCHITECTURE: Orca Agent as Autonomous Gateway
+**Session:** 13 (AUTONOMOUS ORCA AGENT GATEWAY + ODOO V18 REFACTORING)  
+**Status:** 🚀 🤖 MULTI-PHASE: Gateway Architecture + ORCA Module Integration
+
+---
+
+## Session 13 Progress (2026-05-28 - TWO MAJOR INITIATIVES)
+
+### INITIATIVE 1: AUTONOMOUS ORCA AGENT GATEWAY ✅ 
+### INITIATIVE 2: ODOO v18 ORCA MODULE REFACTORING (IN PROGRESS)
 
 ---
 
@@ -107,6 +114,52 @@
 - 2e130d625 — docs: Update CHANGE_TIMELINE with Session 13 - Gateway architecture
 - 990958300 — chore: Update task-ledger workspace bootstrap state
 - 38f1759ee — docs: Add autonomous Orca Agent setup architecture
+
+---
+
+## SESSION 13 - INITIATIVE 2: ODOO v18 ORCA MODULE REFACTORING - PHASE 1 STARTED ✅
+
+### 🔧 Base ORCA Integration Module - COMPLETED
+
+**Files Created/Updated:**
+- ✅ `views/orca_log_views.xml` (200 lines) — Tree/Form/Search views + menu
+- ✅ `tests/test_orca_mixin.py` (150+ lines) — 10+ test cases
+- ✅ `tests/__init__.py` — Test module initialization
+- ✅ Updated `__manifest__.py` — Added views to data files
+
+**Implementation Details:**
+
+1. **ORCA Audit Log Views**
+   - Tree view with module, model, record ID, action, user, date
+   - Form view with field snapshot display (before/after JSON)
+   - Search view with filters:
+     - Not Synced filter
+     - Sync Errors filter
+     - Date range filters
+     - Group by options (Module, Model, Action, User, Date)
+
+2. **Test Coverage**
+   - `test_orca_log_model_exists()` — Verify abstract model
+   - `test_orca_log_fields()` — Verify all audit fields
+   - `test_orca_log_action_choices()` — Verify action selection
+   - `test_orca_log_readonly_fields()` — Verify read-only enforcement
+   - `test_orca_log_json_fields()` — Verify JSON storage
+   - `test_orca_log_indexing()` — Verify database indexes
+   - `test_orca_service_placeholder()` — Verify service availability
+   - `test_orca_config_parameters()` — Verify config access
+   - `test_orca_mixin_inheritance()` — Verify mixin availability
+
+**Status:** ✅ COMPLETE - Base module ready for domain modules to inherit
+
+**Next Steps (Phase 2):**
+- Refactor `l10n_do_accounting` (highest priority fiscal module)
+- Apply OrcaAuditMixin to account.move model
+- Create l10n.do.accounting.orca.log model
+- Create EasyCountFiscalService placeholder
+- Create tests for l10n_do_accounting ORCA integration
+
+**Commit:**
+- a13b8157f — feat: Complete base_orca_integration module with views and tests
 
 ---
 
