@@ -3,6 +3,7 @@ from . import res_company
 from . import l10n_latam_document_type
 from . import account_journal
 from . import account_move
+from . import account_move_orca
 from . import monkey_patch
 from . import account_move_line
 from . import l10n_do_ecf_edi_file
