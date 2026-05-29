@@ -158,8 +158,72 @@
 - Create EasyCountFiscalService placeholder
 - Create tests for l10n_do_accounting ORCA integration
 
-**Commit:**
+**Commits:**
 - a13b8157f — feat: Complete base_orca_integration module with views and tests
+- 3736f6db9 — docs: Update CHANGE_TIMELINE with Odoo v18 ORCA refactoring Phase 1 progress
+
+---
+
+## SESSION 13 - PHASE 2: l10n_do_accounting ORCA REFACTORING - COMPLETED ✅
+
+### 📊 Fiscal Accounting Module with ORCA Integration
+
+**Files Created/Modified:**
+- ✅ `models/account_move_orca.py` (180+ lines) — OrcaAuditMixin + fiscal-specific logging
+- ✅ `views/account_move_orca_log_views.xml` (150+ lines) — ORCA log views with fiscal fields
+- ✅ `tests/test_account_move_orca.py` (250+ lines) — 15+ comprehensive test cases
+- ✅ Updated `__manifest__.py` — Version bump + base_orca_integration dependency
+- ✅ Updated `models/__init__.py` — Import account_move_orca module
+- ✅ Updated `tests/__init__.py` — Import ORCA test module
+
+**Implementation Details:**
+
+1. **OrcaAuditMixin Applied to account.move**
+   - Tracked 12 critical fields:
+     - name (NCF/Sequence)
+     - state (Posted/Draft/Cancelled)
+     - amount_total, amount_tax, amount_untaxed
+     - partner_id, l10n_latam_document_type_id
+     - l10n_do_fiscal_number (key field!)
+     - journal_id, currency_id
+     - invoice_date, due_date
+
+2. **Fiscal-Specific ORCA Log Model**
+   - `L10nDoAccountingOrcaLog` with extended fields:
+     - encf (e-CF number)
+     - fiscal_state
+     - dgii_uuid
+     - document_type
+     - operation_type (create/modify/cancel/reverse/validate)
+     - amount_impacted
+     - impact_level (critical/high/medium/low)
+
+3. **Automatic Impact Level Calculation**
+   - Critical: > 100,000 DOP
+   - High: > 50,000 DOP
+   - Medium: > 10,000 DOP
+   - Low: ≤ 10,000 DOP
+
+4. **Test Coverage (15+ tests)**
+   - Model existence and inheritance
+   - Field validation (tracked fields)
+   - Create/Write log generation
+   - Before/after value capture
+   - Fiscal field population
+   - Impact level calculation
+   - Action view generation
+   - Log read-only enforcement
+
+**Status:** ✅ COMPLETE - l10n_do_accounting fully integrated with ORCA
+
+**Manifest Update:**
+- Version: 18.0.1.0.0 → 18.0.2.0.0 (minor bump for ORCA feature)
+- Author: Joel S. Martinez → getupsoft
+- New dependency: base_orca_integration
+- New data files: account_move_orca_log_views.xml
+
+**Commit:**
+- c2a0d5abc — feat: Refactor l10n_do_accounting with ORCA audit integration (OO-002)
 
 ---
 
