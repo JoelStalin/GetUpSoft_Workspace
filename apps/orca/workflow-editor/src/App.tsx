@@ -17,6 +17,7 @@ import ToastContainer from './components/ToastContainer'
 import MiniZoom from './components/MiniZoom'
 import WorkflowVersionManager from './components/WorkflowVersionManager'
 import WorkflowAnalyticsDashboard from './components/WorkflowAnalyticsDashboard'
+import { OrcaAgentPanel } from './components/OrcaAgentPanel'
 
 // Mode views
 import AIMode from './components/modes/AIMode'
@@ -42,7 +43,7 @@ import { addToRecent } from './utils/search/searchHistory'
 import type { AppMode } from './types/modes'
 
 // ─── Floating panels are scoped to workflow mode ─────────────────────────────
-const WORKFLOW_ONLY_WINDOWS = ['components', 'properties', 'versions', 'analytics']
+const WORKFLOW_ONLY_WINDOWS = ['components', 'properties', 'versions', 'analytics', 'orca-agent']
 function AppContent() {
   const [isLoading, setIsLoading] = useState(true)
   const [activeMode, setActiveMode] = useState<AppMode>('ai')
@@ -438,6 +439,13 @@ function FloatingWindowsManager({ activeMode }: { activeMode: AppMode }) {
           return (
             <FloatingWindow key={window.id} window={window}>
               <WorkflowAnalyticsDashboard workflow={workflow} />
+            </FloatingWindow>
+          )
+        }
+        if (window.type === 'orca-agent') {
+          return (
+            <FloatingWindow key={window.id} window={window}>
+              <OrcaAgentPanel />
             </FloatingWindow>
           )
         }
