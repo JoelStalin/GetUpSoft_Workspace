@@ -2,6 +2,11 @@
 
 This workspace uses shared skills and a bootstrap step before project work.
 
+## Universal Context Efficiency (WORKSPACE.map) - GETUPSOFT WORKSPACE STANDARD
+- **MANDATORY FOR ALL GETUPSOFT ECOSYSTEM**: Every agent (Claude, Gemini, Codex, ChatGPT, Copilot, Cursor, OpenClaw, AutoGen, NemoClaw, Rowboat, Hermes, ORCA) MUST run `python scripts/update_repo_map.py` when operating within any sub-project of `GetUpSoft_Workspace`.
+- **ISOLATION**: This standard is exclusive to the GetUpSoft business environment and does not affect external PC projects.
+- **READ FIRST**: Use `WORKSPACE.map` as the primary structural reference.
+
 Required sequence:
 
 1. Run `.\scripts\agent_start.ps1`.

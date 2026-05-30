@@ -1,6 +1,11 @@
 # GetUpSoft Workspace Agent Rules
 
-This workspace is multiagent by default. Every agent working here must follow the shared skill policy below.
+This workspace is multiagent by default. EVERY agent (Gemini, Claude, Codex, ChatGPT, Copilot, Cursor, OpenClaw, AutoGen, NemoClaw, Rowboat, Hermes) must follow the shared policy below.
+
+## Shared Structural Memory (WORKSPACE.map) - GETUPSOFT ECOSYSTEM STANDARD
+- **MANDATORY FOR GETUPSOFT**: Any agent working within `GetUpSoft_Workspace` must run `python scripts/update_repo_map.py` after structural changes.
+- **CORPORATE SCOPE**: This is the mandatory navigation standard for all GetUpSoft sub-projects. It does not apply to other personal or system directories on the PC.
+- **EFFICIENCY**: READ `WORKSPACE.map` FIRST. No exceptions.
 
 ## Start-of-work sequence
 
