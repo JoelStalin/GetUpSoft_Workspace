@@ -1,8 +1,40 @@
 # GetUpSoft ORCA v19 Refactoring - Change Timeline
 
-**Last Updated:** 2026-05-29  
-**Session:** 13 (AUTONOMOUS ORCA AGENT GATEWAY + ODOO V18 REFACTORING)  
-**Status:** 🚀 🤖 DEPLOYMENT IN PROGRESS: Gateway Running + Agent Recompilation
+**Last Updated:** 2026-05-29 (Session 14)  
+**Current Session:** 14 (DEPLOYMENT & TROUBLESHOOTING)  
+**Status:** ⚠️ PARTIAL SUCCESS - Container Deployed, Blocker Identified
+
+---
+
+## 🔴 SESSION 14 SUMMARY (2026-05-29 - DEPLOYMENT & TROUBLESHOOTING)
+
+**Objective**: Publish to GitHub, redeploy container, run tests, recompile executable
+
+**Results**:
+- ✅ **GitHub**: Feature branch pushed (Commit: 794ed9370)
+- ✅ **Container**: Rebuilt and deployed with port 8000:8015 mapping
+- ✅ **Infrastructure**: Docker network, PostgreSQL, Redis all configured
+- ❌ **Tests**: Blocked by dependency issue (see Blocker below)
+- ❌ **Executable**: PyInstaller compilation failed
+
+**🔴 CRITICAL BLOCKER**:
+```
+ModuleNotFoundError: No module named 'ai_automation_orchestrator.tinder_dashboard_section'
+Location: webapp.py:44
+Solution: Fix Dockerfile or install missing module
+```
+
+**Artifacts Created**:
+- `SESSION_14_DEPLOYMENT_REPORT.md` — Comprehensive troubleshooting report
+- `scripts/functional-tests-orca.ps1` — Test suite
+- `scripts/recompile-orca-agent.ps1` — Compilation script
+- Updated `apps/orca/deploy/docker-compose.yml` with port mapping
+
+**Next Steps** (For Next Session):
+1. Investigate `ai_automation_orchestrator.tinder_dashboard_section` module
+2. Fix Dockerfile to resolve import error
+3. Rebuild container and re-run tests
+4. Address PyInstaller bytecode issue or use alternative
 
 ---
 
