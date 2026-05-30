@@ -3,7 +3,7 @@ import { createContext, useContext, useState, useCallback, useEffect } from 'rea
 export interface FloatingWindow {
   id: string
   title: string
-  type: 'components' | 'chat' | 'properties' | 'versions' | 'analytics' | 'settings' | 'tools'
+  type: 'components' | 'chat' | 'properties' | 'versions' | 'analytics' | 'settings' | 'tools' | 'orca-agent'
   x: number
   y: number
   width: number
