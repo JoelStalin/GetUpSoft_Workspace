@@ -5,6 +5,8 @@
       dockerfile: Dockerfile
     container_name: orca
     restart: unless-stopped
+    ports:
+      - "8000:8015"
     env_file:
       - .env
     volumes:
