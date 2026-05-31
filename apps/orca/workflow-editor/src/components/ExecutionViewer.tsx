@@ -1,5 +1,6 @@
 import { useRef, useEffect, useState } from 'react'
 import { useWorkflowStore } from '../store/workflowStore'
+import { getApiUrl } from '../config/runtime'
 
 interface ExecutionLog {
   timestamp?: string
@@ -46,7 +47,7 @@ export default function ExecutionViewer() {
       eventSourceRef.current.close()
     }
 
-    const eventSource = new EventSource(`/api/n8n/executions/${execId}/stream`)
+    const eventSource = new EventSource(getApiUrl(`/api/n8n/executions/${execId}/stream`))
 
     eventSource.onmessage = (event) => {
       try {

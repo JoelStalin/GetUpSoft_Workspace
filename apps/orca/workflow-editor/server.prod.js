@@ -1,4 +1,5 @@
 import http from 'http'
+import https from 'https'
 import { URL } from 'url'
 import path from 'path'
 import fs from 'fs'
@@ -8,8 +9,8 @@ const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
 
 const port = process.env.PORT || 3000
-const apiUrl = process.env.API_URL || 'http://localhost:8015'
-const odooUrl = process.env.ODOO_URL || 'http://localhost:8069'
+const apiUrl = process.env.API_URL || process.env.VITE_API_URL || 'http://127.0.0.1:8788'
+const odooUrl = process.env.ODOO_URL || process.env.VITE_ODOO_URL || 'http://127.0.0.1:8069'
 const distDir = path.join(__dirname, 'dist')
 
 // Simple proxy implementation
@@ -26,7 +27,8 @@ function proxyRequest(req, targetUrl, onResponse) {
     },
   }
 
-  const proxyReq = http.request(options, (proxyRes) => {
+  const proxyClient = targetUrlObj.protocol === 'https:' ? https : http
+  const proxyReq = proxyClient.request(options, (proxyRes) => {
     // Remove frame blocking headers from Odoo
     delete proxyRes.headers['x-frame-options']
     delete proxyRes.headers['content-security-policy']

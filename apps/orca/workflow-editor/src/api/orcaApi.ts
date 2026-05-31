@@ -1,7 +1,8 @@
 import { withRetryAndTimeout } from '../utils/retry'
 import { ApiError, ValidationError } from '../constants/errors'
+import { getApiUrl } from '../config/runtime'
 
-const API_BASE = '/api/n8n'
+const API_BASE = getApiUrl('/api/n8n')
 
 export interface ApiWorkflow {
   id: string
@@ -152,4 +153,3 @@ export async function generateWorkflow(
     { maxRetries: 1 }
   )
 }
-

@@ -2,6 +2,7 @@ import { useRef, useEffect, useState } from 'react'
 import { useExecutionStatus, useExecutionOperations } from '../hooks'
 import { useErrorRecovery } from '../hooks'
 import { ExecutionLog } from '../types/execution'
+import { getApiUrl } from '../config/runtime'
 
 /**
  * ExecutionViewer - MIGRATED TO P2 HOOKS
@@ -48,7 +49,7 @@ export default function ExecutionViewerMigrated() {
     }
 
     try {
-      const eventSource = new EventSource(`/api/n8n/executions/${execId}/stream`)
+      const eventSource = new EventSource(getApiUrl(`/api/n8n/executions/${execId}/stream`))
 
       eventSource.onmessage = (event) => {
         try {

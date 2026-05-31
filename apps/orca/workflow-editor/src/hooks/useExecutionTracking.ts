@@ -4,6 +4,7 @@ import { useCallback, useEffect, useRef } from 'react'
 import { useExecutionStatus } from './useExecutionStatus'
 import { useToast } from '../contexts/ToastContext'
 import { ExecutionLog } from '../types/execution'
+import { getApiUrl } from '../config/runtime'
 
 /**
  * Hook for tracking workflow execution with real-time updates
@@ -40,9 +41,7 @@ export function useExecutionTracking() {
     }
 
     try {
-      const eventSource = new EventSource(
-        `/api/n8n/executions/${executionId}/stream`
-      )
+      const eventSource = new EventSource(getApiUrl(`/api/n8n/executions/${executionId}/stream`))
 
       eventSource.onmessage = (event) => {
         try {

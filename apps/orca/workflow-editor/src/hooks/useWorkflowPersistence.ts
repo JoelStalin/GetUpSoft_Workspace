@@ -3,6 +3,7 @@
 import { useCallback, useState } from 'react'
 import { Workflow } from '../types/workflow'
 import { useToast } from '../contexts/ToastContext'
+import { getApiUrl } from '../config/runtime'
 
 /**
  * Hook for saving and loading workflows
@@ -18,7 +19,7 @@ export function useWorkflowPersistence() {
       setIsSaving(true)
       try {
         // Try backend first
-        const response = await fetch(`/api/n8n/workflows/${workflow.id}`, {
+        const response = await fetch(getApiUrl(`/api/n8n/workflows/${workflow.id}`), {
           method: 'PUT',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
@@ -71,7 +72,7 @@ export function useWorkflowPersistence() {
       setIsLoading(true)
       try {
         // Try backend first
-        const response = await fetch(`/api/n8n/workflows/${workflowId}`)
+        const response = await fetch(getApiUrl(`/api/n8n/workflows/${workflowId}`))
 
         if (response.ok) {
           const data = await response.json()
@@ -115,7 +116,7 @@ export function useWorkflowPersistence() {
   const listWorkflows = useCallback(async (): Promise<Workflow[]> => {
     setIsLoading(true)
     try {
-      const response = await fetch('/api/n8n/workflows')
+      const response = await fetch(getApiUrl('/api/n8n/workflows'))
 
       if (response.ok) {
         const data = await response.json()
@@ -164,7 +165,7 @@ export function useWorkflowPersistence() {
   const deleteWorkflow = useCallback(
     async (workflowId: string): Promise<boolean> => {
       try {
-        const response = await fetch(`/api/n8n/workflows/${workflowId}`, {
+        const response = await fetch(getApiUrl(`/api/n8n/workflows/${workflowId}`), {
           method: 'DELETE',
         })
 

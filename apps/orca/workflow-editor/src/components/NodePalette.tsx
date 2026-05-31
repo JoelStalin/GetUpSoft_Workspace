@@ -5,6 +5,7 @@ import { useWorkflowHistory } from '../hooks/useWorkflowHistory'
 import { Node } from '@xyflow/react'
 import { Search, Bell, Brain, Globe, GitBranch, Wrench, ChevronRight, ChevronDown, Cpu, LayoutGrid, ServerCog } from 'lucide-react'
 import { STITCH_MEMORY_CATEGORIES, STITCH_MEMORY_NODE_TYPES } from '../constants/stitchMemoryComponents'
+import { isLiveApiEnabled } from '../config/runtime'
 
 interface NodeType {
   label: string
@@ -45,7 +46,7 @@ export default function NodePalette({
 
   useEffect(() => {
     const loadNodeTypes = async () => {
-      if (localStorage.getItem('orca:use-live-api') !== 'true') return
+      if (!isLiveApiEnabled()) return
       try {
         const types = await getNodeTypes()
         if (types && typeof types === 'object' && Object.keys(types).length > 0) {
