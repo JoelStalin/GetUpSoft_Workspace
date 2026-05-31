@@ -2,7 +2,7 @@
 
 **Last Updated:** 2026-05-31 (Session 16 Cont. - BACKEND INTEGRATION + WORKSPACE MAP + ORCA LIVE BROWSER TEST)
 **Current Session:** 16
-**Status:** 🟡 **IN PROGRESS** - ORCA + Odoo live browser invoice creation test being resumed
+**Status:** 🟢 **COMPLETE** - ORCA + Odoo E2E invoice test PASSED (4b1e7dc754)
 
 ---
 
@@ -75,9 +75,20 @@
     - Full recursive map updated post-Phase 1 reorganization (467,726 lines)
     - `python scripts/update_repo_map.py` executed with `PYTHONUTF8=1`
 
-11. 🟡 **ORCA + Odoo Live Browser Invoice Creation Test** — IN PROGRESS
-    - Task inconcusa from previous session — resuming end-to-end flow
-    - OdooLiveBrowserNode → invoice creation → live browser view
+11. ✅ **ORCA + Odoo Live Browser Invoice Creation Test** — COMPLETE (commit: 4b1e7dc754)
+    - Root cause identified: `/api/orca/odoo-e2e` endpoint was missing from NestJS backend
+    - Implemented: `OrcaService.runOdooE2E()` with full Odoo v18 JSONRPC flow
+    - Implemented: `odooProductCheck()` and `odooCustomerCheck()` endpoints
+    - Odoo v18 compatibility: direct `account.move` creation (avoids deprecated `action_invoice_create` and private `_create_invoices`)
+    - Local Odoo v18 started via Docker Compose (port 8069)
+    - **E2E Test PASSED** — 4.2 seconds total:
+      - Product created: id=60 "MacBook Pro ORCA Live Test"
+      - Partner created: id=68 "Galantes Jewelry ORCA Live"
+      - Sale order created: id=68 "S00069"
+      - Invoice created + posted: id=130 "INV/2026/00065" state=posted
+      - PDF URL: `http://127.0.0.1:8069/report/pdf/account.report_invoice/130`
+    - Frontend: ORCA Workflow Editor running on port 5174 (5173 was occupied)
+    - Next: test full chat-triggered flow in browser (type "factura MacBook para Galantes")
 
 ### **Commit Log Session 16 (Complete)**
 - `f918e783c0` — docs: Component card templates + migration manifest ISO columns
