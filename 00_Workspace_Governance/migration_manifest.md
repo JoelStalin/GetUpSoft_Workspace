@@ -1,18 +1,31 @@
 # Migration Manifest
 
-| Date | Current path | Target path | Type | Risk | Status | Commit | Notes |
-|---|---|---|---|---|---|---|---|
-| 2026-05-17 | `README.md` | `README.md` (update section) | doc | low | pending | — | Agregar sección workspace architecture |
-| 2026-05-17 | `orca/` | `02_Products/ORCA/` | product | medium | pending | — | Verificar imports y refs internas |
-| 2026-05-17 | `docs/` | `00_Workspace_Governance/` o `_Knowledge_Center/` | doc | low | pending | — | Clasificar por contenido |
-| 2026-05-17 | `03_AI_Automation/orca/` | `02_Products/ORCA/` | product | medium | do not move yet | — | Requiere audit de rutas |
-| 2026-05-17 | `01_Core_Platform/easycount-core/` | `02_Products/EasyCount/` | product | high | pending — requires dependency audit | — | Parte de EasyCount canónico |
-| 2026-05-17 | `01_Core_Platform/Easycouting_Refactor/` | `02_Products/EasyCount/` | product | high | pending — requires dependency audit | — | Parte de EasyCount canónico — misma consolidación |
-| 2026-05-17 | `02_Odoo_ERP/` | `05_ERP_Odoo/` | erp | high | do not move yet | — | Odoo: rutas internas críticas |
-| 2026-05-17 | `03_AI_Automation/n8n/` | `04_Workers/` o mantener | worker-runtime | medium | do not move yet | — | Requiere audit de workflows |
-| 2026-05-17 | `03_AI_Automation/hyperframes/` | `04_Workers/` o `07_Libraries_Tools/` | ai-tooling | medium | do not move yet | — | Determinar si es worker o library |
-| 2026-05-17 | `03_AI_Automation/notebooklm-py/` | `04_Workers/ai_workers/` o `07_Libraries_Tools/` | ai-worker | low | pending | — | Determinar uso real |
-| 2026-05-17 | `03_AI_Automation/local_printer_agent/` | `04_Workers/printer_workers/` | printer-worker | medium | do not move yet | — | Verificar si es client-specific |
-| 2026-05-17 | `06_E_Commerce_Lux/Galantesjewelry/` | `03_Client_Solutions/GalantesJewelry/` | client-solution | medium | do not move yet | — | Client Solution activa: no mover sin card |
-| 2026-05-17 | `02_Odoo_ERP/Odoo_Consolidated_Library/v18/Projects/Chefalitas/` | `03_Client_Solutions/ChefAlitas/` | client-solution | medium | do not move yet | — | Client Solution activa localizada; revisar también `chefalitas_repo/` legado |
-| 2026-05-17 | `_Knowledge_Center/` | `_Knowledge_Center/` (mantener) | knowledge | low | no move needed | — | Mantener en raíz |
+**Last Updated:** 2026-05-31
+**ISO Reference:** ISO/IEC 12207:2017 §6.9.2 (Maintenance Process) · ISO/IEC/IEEE 42010:2011
+
+> All new migration entries MUST include Impact Area, Validation Required, Rollback Strategy, Owner, and ISO Reference.
+> See `MIGRATION_PLAN.md` for phase definitions and pre/post validation checklists.
+
+| Date | Current Path | Target Path | Type | Risk | Impact Area | Validation Required | Rollback Strategy | Owner | ISO Reference | Status | Commit | Notes |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| 2026-05-17 | `README.md` | `README.md` (update section) | doc | low | Documentation | None | git revert | Architecture Lead | 42010 §4.2 | pending | — | Agregar sección workspace architecture |
+| 2026-05-17 | `orca/` | `02_Products/ORCA/` | product | medium | ORCA product, CI/CD | Import scan, Docker Compose check | git mv --dry-run, then revert | Engineering Lead | 12207 §6.9.2 | pending | — | Verificar imports y refs internas |
+| 2026-05-17 | `docs/` | `_Knowledge_Center/Docs/` | doc | low | GitHub Pages | Check .github/workflows for docs/ references | git revert | Architecture Lead | 42010 §4.5 | pending | — | Clasificar por contenido. Verify GitHub Pages source first. |
+| 2026-05-17 | `03_AI_Automation/orca/` | Merge into `apps/orca/` | product | medium | ORCA, CI/CD | Identify unique files not in apps/orca/ | git revert | Engineering Lead | 12207 §6.9.2 | do not move yet | — | Requiere audit de rutas. Resolve duplication with apps/orca/ canonical. |
+| 2026-05-17 | `01_Core_Platform/easycount-core/` | `libs/easycount-core/` or archive | product | high | EasyCount DGII silo | Full import scan, DGII logic audit | git revert | Engineering Lead | ADR-0003 · 12207 §6.9.2 | pending — requires dependency audit | — | Parte de EasyCount canónico. Verify vs libs/easycount-core. |
+| 2026-05-17 | `01_Core_Platform/Easycouting_Refactor/` | `apps/easycount/` or `09_Archives/` | product | high | EasyCount app | Content audit — what is unique vs apps/easycount/ | git revert | Engineering Lead | ADR-0003 · 12207 §6.9.2 | pending — requires dependency audit | — | Parte de EasyCount canónico — misma consolidación. |
+| 2026-05-17 | `02_Odoo_ERP/` | `05_ERP_Odoo/` (rename — long term) | erp | critical | Production ERP, DGII, ChefAlitas | Full ADR-0004 conditions | git revert + Docker volume restore | ERP Lead | ADR-0004 · 27001 A.8.10 | never move (rename only — long term) | — | Odoo: DGII critical. ADR-0004 conditions must be met first. |
+| 2026-05-17 | `03_AI_Automation/n8n/` | `04_Workers/workflow-runtime/n8n/` | worker-runtime | medium | Workflow automation, n8n workers | Resolve duplication with apps/n8n/ first | git revert | Engineering Lead | ADR-0001 · 12207 §6.9.2 | do not move yet | — | Requiere audit de workflows. Duplication with apps/n8n/. |
+| 2026-05-17 | `03_AI_Automation/hyperframes/` | `08_Research_Labs/hyperframes/` or `07_Libraries_Tools/` | ai-tooling | medium | 03_AI_Automation consumers | Confirm no production consumers | git revert | Engineering Lead | ADR-0002 · 12207 §6.9.2 | do not move yet | — | Determinar si es worker o library. |
+| 2026-05-17 | `03_AI_Automation/notebooklm-py/` | `08_Research_Labs/notebooklm-py/` | ai-worker | low | None confirmed | No production consumers confirmed | git revert | Engineering Lead | ADR-0002 | Phase 1 candidate | — | Confirmar que no tiene consumers antes de mover. |
+| 2026-05-17 | `03_AI_Automation/local_printer_agent/` | `04_Workers/printer/local-printer-agent/` | printer-worker | medium | ChefAlitas, printer proxy | Audit ChefAlitas-specific coupling | git revert | Engineering Lead | ADR-0001 · 12207 §6.6 | do not move yet | — | Verificar si es client-specific antes de mover. |
+| 2026-05-17 | `06_E_Commerce_Lux/Galantesjewelry/` | `03_Client_Solutions/GalantesJewelry/` | client-solution | medium | GalantesJewelry e-commerce, Cloudflare | Cloudflare Pages routes, deploy scripts | git revert + Cloudflare route restore | Client Delivery Lead | 12207 §6.6 | do not move yet | — | Client Solution activa. Create client card first. |
+| 2026-05-17 | `02_Odoo_ERP/Odoo_Consolidated_Library/v18/Projects/Chefalitas/` | `03_Client_Solutions/ChefAlitas/` | client-solution | high | ChefAlitas POS, Odoo v18 modules | Extract from Odoo library — full module audit | git revert + Odoo module restore | ERP Lead | ADR-0004 · 12207 §6.6 | do not move yet | — | Embedded in ERP library. Extract requires ERP module audit. |
+| 2026-05-17 | `_Knowledge_Center/` | `_Knowledge_Center/` (mantener) | knowledge | low | All agents | N/A — never move | N/A | Architecture Lead | ADR-0005 | no move needed | — | Permanent at root per ADR-0005. |
+| 2026-05-31 | `archive/` | `09_Archives/root-archive/` | archive | low | None | Verify no CI references to archive/ | git revert | Architecture Lead | 12207 §7.2.2 | Phase 1 candidate | — | Low risk docs/legacy. |
+| 2026-05-31 | `04_Archive_Legacy/` | `09_Archives/legacy/` | archive | low | None | Verify no script references | git revert | Architecture Lead | 12207 §7.2.2 | Phase 1 candidate | — | Consolidate with archive/. |
+| 2026-05-31 | `03_AI_Automation/rowboat/` | `08_Research_Labs/rowboat/` | research | low | None confirmed | Confirm no production consumer | git revert | Engineering Lead | ADR-0002 | Phase 1 candidate | — | Research/POC — no confirmed production consumer. |
+| 2026-05-31 | `03_AI_Automation/scrapling/` | `04_Workers/data/scrapling/` | data-worker | low | None confirmed | Confirm no production consumer | git revert | Engineering Lead | ADR-0001 · ADR-0002 | Phase 1 candidate | — | Web scraping worker — classify and move. |
+| 2026-05-31 | `apps/research-ai/` | `08_Research_Labs/research-ai/` | research | low | None confirmed | No CI/CD references | git revert | Engineering Lead | ADR-0002 | Phase 1 candidate | — | Research project — no consumers. |
+| 2026-05-31 | `apps/ida-pro-mcp/` | `08_Research_Labs/ida-pro-mcp/` | security-tooling | low | None confirmed | No CI/CD references | git revert | Engineering Lead | ADR-0002 | Phase 1 candidate | — | Security research tooling. |
+| 2026-05-31 | `apps/QR_generetor/` + `apps/web_qr_generetor/` | `07_Libraries_Tools/qr-tools/` | utility | low | None confirmed | No CI/CD references | git revert | Engineering Lead | ADR-0002 | Phase 1 candidate | — | Consolidate. Fix typo in canonical name. |
