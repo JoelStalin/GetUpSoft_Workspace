@@ -38,6 +38,7 @@ import { useKeyboardShortcuts, SHORTCUTS } from './hooks/useKeyboardShortcuts'
 import { useClipboard } from './hooks/useClipboard'
 import { useMultiSelect } from './hooks/useMultiSelect'
 import { addToRecent } from './utils/search/searchHistory'
+import { getApiUrl, isLiveApiEnabled } from './config/runtime'
 
 // Types
 import type { AppMode } from './types/modes'
@@ -136,12 +137,12 @@ function AppContent() {
     return () => window.removeEventListener('keydown', handleKeyDown)
   }, [selectedNodeId, workflow, deleteNode, addNode, copy, paste, hasContent, setWorkflow, multiSelect, activeMode])
 
-  // Load node types only when a backend was explicitly enabled for this session.
+  // Load node types from the live ORCA backend by default.
   useEffect(() => {
     const loadNodeTypes = async () => {
-      if (localStorage.getItem('orca:use-live-api') !== 'true') return
+      if (!isLiveApiEnabled()) return
       try {
-        const response = await fetch('/api/n8n/node-types')
+        const response = await fetch(getApiUrl('/api/n8n/node-types'))
         if (response.ok) {
           const types = await response.json()
           setNodeTypes(types)
@@ -180,7 +181,7 @@ function AppContent() {
       }
 
       try {
-        if (localStorage.getItem('orca:use-live-api') !== 'true') {
+        if (!isLiveApiEnabled()) {
           setDefaultWorkflow()
           finishBoot()
           return
@@ -189,7 +190,7 @@ function AppContent() {
         const controller = new AbortController()
         const timeoutId = setTimeout(() => controller.abort(), 3000)
         try {
-          const listResponse = await fetch('/api/n8n/workflows', { signal: controller.signal })
+          const listResponse = await fetch(getApiUrl('/api/n8n/workflows'), { signal: controller.signal })
           if (listResponse.ok) {
             const listData = await listResponse.json()
             if (listData.data?.length > 0) {
