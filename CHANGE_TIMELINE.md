@@ -1,8 +1,39 @@
 # GetUpSoft ORCA v19 Refactoring - Change Timeline
 
-**Last Updated:** 2026-05-30 (Session 14 Final - LOCAL TESTING IN PROGRESS)  
-**Current Session:** 14 (ORCA WORKFLOW EDITOR PRODUCTION DEPLOYMENT - PHASE 2)  
-**Status:** 🟡 **AWAITING LOCAL TESTING CONFIRMATION** - All preparation complete, ORCA running on localhost:5173
+**Last Updated:** 2026-05-31 (Session 15 - MERGE TO MAIN + ISO ARCHITECTURE GOVERNANCE)  
+**Current Session:** 15  
+**Status:** 🟢 **MERGED TO MAIN** - feature/orca-phase-2-sales merged to main (a622da2661). ISO architecture governance in progress.
+
+---
+
+## 🟢 SESSION 15 (2026-05-31 - MERGE + ISO ARCHITECTURE)
+
+### **Completed**
+1. ✅ **Merge feature/orca-phase-2-sales → main** (commit: a622da2661)
+   - 60 commits from Session 14 integrated
+   - ORCA Workflow Editor production build on main
+   - Runtime config helpers (getApiUrl, isLiveApiEnabled)
+   - All deployment scripts, guides, SSH recovery on main
+   - Pushed to GitHub: origin/main
+
+2. 🔄 **ISO Architecture Governance** (background agent running)
+   - ISO/IEC/IEEE 42010 architecture descriptions
+   - ISO/IEC/IEEE 12207 software lifecycle
+   - ISO/IEC 25010 quality attributes
+   - ISO/IEC 27001 security controls
+   - Target: 10+ governance documents, 5 ADRs, component cards
+
+### **Post-Merge Git Status**
+- ✅ git diff --staged: clean (no staged changes)
+- ⚠️ git diff: Pre-existing user modifications in `01_Core_Platform/getupsoft-mail-infra/` (6 files, not from our sessions — user's pending work)
+- ✅ Main branch: up to date with origin/main
+
+### **Pre-existing Uncommitted Files (User's Work)**
+These files were modified before Session 14 and belong to the user:
+- `01_Core_Platform/getupsoft-mail-infra/README.md`
+- `01_Core_Platform/getupsoft-mail-infra/docs/MAILCOW_*.md`
+- `01_Core_Platform/getupsoft-mail-infra/{send,setup,start}_mailcow.py`
+- Action needed: User should commit or stash these when ready
 
 ---
 
