@@ -1,0 +1,4 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_orca_inventory_valuation_log_user,Inventory Valuation Log - User Read-Only,model_orca_inventory_valuation_log,base.group_user,1,0,0,0
+access_orca_inventory_valuation_log_stock,Inventory Valuation Log - Stock User Read-Only,model_orca_inventory_valuation_log,stock.group_stock_user,1,0,0,0
+access_orca_inventory_valuation_log_manager,Inventory Valuation Log - Manager Full,model_orca_inventory_valuation_log,stock.group_stock_manager,1,1,1,0

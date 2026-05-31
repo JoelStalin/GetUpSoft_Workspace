@@ -1,0 +1,4 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_orca_website_page_log_user,access_orca_website_page_log_user,model_orca_website_page_log,base.group_user,1,0,0,0
+access_orca_website_page_log_designer,access_orca_website_page_log_designer,model_orca_website_page_log,website.group_website_designer,1,1,1,0
+access_orca_website_page_log_admin,access_orca_website_page_log_admin,model_orca_website_page_log,base.group_system,1,1,1,1

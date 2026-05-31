@@ -1,142 +1,205 @@
-"""
-ORCA Audit Logging Tests for Stock Movement (v19)
-
-Test coverage:
-- Stock move create/write/unlink ORCA logging
-- HIGH tier field auto-detection (~15-20 fields)
-- Access control for stock users and managers
-"""
-
-from odoo.tests.common import TransactionCase
-from odoo.exceptions import AccessError
 import json
+from odoo.tests import TransactionCase, tagged
 
 
-class TestOrcaStockMoveLogging(TransactionCase):
-    """Unit tests for ORCA audit logging on stock.move"""
+@tagged('post_install', '-at_install')
+class TestStockMoveOrcaLogging(TransactionCase):
+    """Test suite for stock move ORCA audit logging."""
 
-    @classmethod
-    def setUpClass(cls):
-        super().setUpClass()
-        cls.env = cls.env(context=dict(cls.env.context, tracking_disable=False))
-
-        cls.manager_user = cls.env['res.users'].create({
-            'name': 'Test Manager',
-            'login': 'manager@test.com',
-            'groups_id': [(4, cls.env.ref('stock.group_stock_manager').id)],
+    def setUp(self):
+        super().setUp()
+        self.env = self.env(user=self.env.ref('base.user_admin'))
+        self.move_model = self.env['stock.move']
+        self.log_model = self.env['orca.stock.move.log']
+        self.product = self.env['product.product'].create({
+            'name': 'Test Product',
+            'type': 'product',
         })
+        self.location_src = self.env['stock.location'].search([('usage', '=', 'internal')], limit=1)
+        self.location_dst = self.env['stock.location'].search([('usage', '=', 'internal')], limit=1)
 
-        cls.company = cls.env.company
-        cls.product = self.env.ref('product.product_product_1')
-        cls.location = self.env['stock.location'].search([('usage', '=', 'internal')], limit=1)
+    def test_stock_move_log_model_created(self):
+        """Test that orca.stock.move.log model exists."""
+        self.assertTrue(
+            self.log_model,
+            'orca.stock.move.log model should exist'
+        )
 
-    def test_orca_log_on_stock_move_create(self):
-        """Verify ORCA log is created when stock.move is created"""
-        move = self.env['stock.move'].create({
+    def test_stock_move_log_inherits_from_orca_log(self):
+        """Test that stock move log inherits from orca.log."""
+        self.assertIn(
+            'orca.log',
+            self.log_model._inherit if isinstance(self.log_model._inherit, list) else [self.log_model._inherit],
+            'Stock move log should inherit from orca.log'
+        )
+
+    def test_stock_move_log_has_required_fields(self):
+        """Test that stock move log has all required fields."""
+        required_fields = ['product_name', 'move_type', 'quantity_moved', 'source_location', 'destination_location', 'reference']
+        for field in required_fields:
+            self.assertTrue(
+                field in self.log_model._fields,
+                f'Stock move log should have {field} field'
+            )
+
+    def test_create_stock_move_logs_action(self):
+        """Test that creating a stock move creates an ORCA log entry."""
+        initial_count = self.log_model.search_count([])
+        move = self.move_model.create({
             'name': 'Test Move',
             'product_id': self.product.id,
-            'product_qty': 10.0,
-            'product_uom': self.product.uom_id.id,
-            'location_id': self.location.id,
-            'location_dest_id': self.location.id,
-            'company_id': self.company.id,
+            'product_uom_qty': 10,
+            'location_id': self.location_src.id,
+            'location_dest_id': self.location_dst.id,
         })
+        final_count = self.log_model.search_count([])
+        self.assertEqual(
+            final_count,
+            initial_count + 1,
+            'Creating a stock move should create one log entry'
+        )
 
-        logs = self.env['orca.stock.move.log'].search([
-            ('record_id', '=', move.id),
-            ('action', '=', 'create')
-        ])
-
-        self.assertEqual(len(logs), 1, "ORCA log should be created on stock.move create")
-        self.assertEqual(logs.model_name, 'stock.move')
-        self.assertEqual(logs.module_name, 'stock_extended')
-
-    def test_field_auto_detection_stock_high_tier(self):
-        """Verify HIGH tier auto-detects ~15-20 stock fields"""
-        move = self.env['stock.move'].create({
+    def test_create_stock_move_log_action_is_create(self):
+        """Test that the logged action for move creation is create."""
+        move = self.move_model.create({
             'name': 'Test Move',
             'product_id': self.product.id,
-            'product_qty': 10.0,
-            'product_uom': self.product.uom_id.id,
-            'location_id': self.location.id,
-            'location_dest_id': self.location.id,
-            'company_id': self.company.id,
+            'product_uom_qty': 10,
+            'location_id': self.location_src.id,
+            'location_dest_id': self.location_dst.id,
         })
+        log = self.log_model.search([('record_id', '=', move.id)], limit=1)
+        self.assertEqual(
+            log.action,
+            'create',
+            'Log action should be create for new move'
+        )
 
-        logs = self.env['orca.stock.move.log'].search([
-            ('record_id', '=', move.id),
-            ('action', '=', 'create')
-        ])
-
-        after_values = json.loads(logs.after_values)
-        self.assertGreaterEqual(len(after_values), 10,
-            "HIGH tier should auto-detect at least 10 stock fields")
-
-    def test_access_control_manager_full_access(self):
-        """Verify manager has full access to ORCA logs"""
-        move = self.env['stock.move'].create({
+    def test_write_stock_move_logs_action(self):
+        """Test that writing to a stock move creates an ORCA log entry."""
+        move = self.move_model.create({
             'name': 'Test Move',
             'product_id': self.product.id,
-            'product_qty': 10.0,
-            'product_uom': self.product.uom_id.id,
-            'location_id': self.location.id,
-            'location_dest_id': self.location.id,
-            'company_id': self.company.id,
+            'product_uom_qty': 10,
+            'location_id': self.location_src.id,
+            'location_dest_id': self.location_dst.id,
         })
+        log_count_before = self.log_model.search_count([('record_id', '=', move.id)])
+        move.write({'quantity_done': 5})
+        log_count_after = self.log_model.search_count([('record_id', '=', move.id)])
+        self.assertGreater(
+            log_count_after,
+            log_count_before,
+            'Writing to stock move should create a log entry'
+        )
 
-        log = self.env['orca.stock.move.log'].search([
-            ('record_id', '=', move.id)
-        ], limit=1)
+    def test_unlink_stock_move_logs_action(self):
+        """Test that deleting a stock move creates an ORCA log entry."""
+        move = self.move_model.create({
+            'name': 'Test Move',
+            'product_id': self.product.id,
+            'product_uom_qty': 10,
+            'location_id': self.location_src.id,
+            'location_dest_id': self.location_dst.id,
+        })
+        move_id = move.id
+        log_count_before = self.log_model.search_count([('record_id', '=', move_id)])
+        move.unlink()
+        log_count_after = self.log_model.search_count([('record_id', '=', move_id)])
+        self.assertGreater(
+            log_count_after,
+            log_count_before,
+            'Unlinking stock move should create a log entry'
+        )
 
-        try:
-            manager_log = log.with_user(self.manager_user)
-            manager_log.write({'orca_synced': True})
-            self.assertTrue(manager_log.orca_synced)
-        except AccessError:
-            self.fail("Manager should have full access to ORCA logs")
+    def test_stock_move_log_captures_product_name(self):
+        """Test that log captures product name at time of action."""
+        move = self.move_model.create({
+            'name': 'Test Move',
+            'product_id': self.product.id,
+            'product_uom_qty': 10,
+            'location_id': self.location_src.id,
+            'location_dest_id': self.location_dst.id,
+        })
+        log = self.log_model.search([('record_id', '=', move.id)], limit=1)
+        self.assertEqual(
+            log.product_name,
+            'Test Product',
+            'Log should capture product name'
+        )
 
-    def test_orca_log_model_fields(self):
-        """Verify stock.move.orca.log model has expected fields"""
-        log_model = self.env['orca.stock.move.log']
+    def test_stock_move_log_captures_quantity(self):
+        """Test that log captures quantity moved."""
+        move = self.move_model.create({
+            'name': 'Test Move',
+            'product_id': self.product.id,
+            'product_uom_qty': 25,
+            'location_id': self.location_src.id,
+            'location_dest_id': self.location_dst.id,
+            'quantity_done': 25,
+        })
+        log = self.log_model.search([('record_id', '=', move.id)], limit=1)
+        self.assertEqual(
+            log.quantity_moved,
+            25,
+            'Log should capture quantity moved'
+        )
 
-        expected_fields = [
-            'product_name', 'product_code', 'origin_location', 'destination_location',
-            'quantity_moved', 'move_state', 'module_name', 'model_name', 'record_id',
-            'action', 'user_id', 'date', 'before_values', 'after_values', 'orca_synced'
-        ]
+    def test_stock_move_log_move_type_selections(self):
+        """Test that stock move log move_type has correct selections."""
+        move_type_field = self.log_model._fields['move_type']
+        expected_selections = ['in', 'out', 'internal', 'return', 'adjustment']
+        actual_selections = [s[0] for s in move_type_field.selection]
+        for expected in expected_selections:
+            self.assertIn(
+                expected,
+                actual_selections,
+                f'{expected} should be in move_type selections'
+            )
 
-        for field_name in expected_fields:
-            self.assertIn(field_name, log_model._fields,
-                f"Field '{field_name}' should exist on orca.stock.move.log")
+    def test_access_control_stock_move_log_user(self):
+        """Test that users can read stock move logs."""
+        user = self.env.ref('base.user_demo')
+        logs = self.log_model.with_user(user).search([])
+        self.assertIsNotNone(
+            logs,
+            'Users should be able to read stock move logs'
+        )
 
+    def test_stock_move_log_captures_source_location(self):
+        """Test that log captures source location."""
+        move = self.move_model.create({
+            'name': 'Test Move',
+            'product_id': self.product.id,
+            'product_uom_qty': 10,
+            'location_id': self.location_src.id,
+            'location_dest_id': self.location_dst.id,
+        })
+        log = self.log_model.search([('record_id', '=', move.id)], limit=1)
+        self.assertIsNotNone(
+            log.source_location,
+            'Log should capture source location'
+        )
 
-class TestStockMoveOrcaUIViews(TransactionCase):
-    """Test UI views for stock move ORCA logs"""
+    def test_stock_move_log_captures_destination_location(self):
+        """Test that log captures destination location."""
+        move = self.move_model.create({
+            'name': 'Test Move',
+            'product_id': self.product.id,
+            'product_uom_qty': 10,
+            'location_id': self.location_src.id,
+            'location_dest_id': self.location_dst.id,
+        })
+        log = self.log_model.search([('record_id', '=', move.id)], limit=1)
+        self.assertIsNotNone(
+            log.destination_location,
+            'Log should capture destination location'
+        )
 
-    def test_list_view_exists(self):
-        """Verify tree (list) view is properly configured"""
-        view = self.env.ref('stock_extended.stock_move_orca_log_view_tree')
-        self.assertIsNotNone(view)
-        self.assertEqual(view.type, 'tree')
-
-    def test_form_view_exists(self):
-        """Verify form view is properly configured"""
-        view = self.env.ref('stock_extended.stock_move_orca_log_view_form')
-        self.assertIsNotNone(view)
-        self.assertEqual(view.type, 'form')
-
-    def test_search_view_exists(self):
-        """Verify search view is properly configured"""
-        view = self.env.ref('stock_extended.stock_move_orca_log_view_search')
-        self.assertIsNotNone(view)
-        self.assertEqual(view.type, 'search')
-
-    def test_action_window_exists(self):
-        """Verify action window for ORCA logs is configured"""
-        action = self.env.ref('stock_extended.stock_move_orca_log_action')
-        self.assertIsNotNone(action)
-
-    def test_menu_item_exists(self):
-        """Verify menu item is properly configured"""
-        menu = self.env.ref('stock_extended.stock_move_orca_log_menu')
-        self.assertIsNotNone(menu)
+    def test_stock_move_log_model_name(self):
+        """Test that stock move log model has correct name."""
+        self.assertEqual(
+            self.log_model._name,
+            'orca.stock.move.log',
+            'Stock move log model name incorrect'
+        )

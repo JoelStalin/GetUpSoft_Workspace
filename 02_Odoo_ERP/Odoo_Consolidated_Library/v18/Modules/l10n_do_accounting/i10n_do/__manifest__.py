@@ -5,16 +5,17 @@
         comprobantes fiscales para el cumplimento de la norma 06-18 de la
         Dirección de Impuestos Internos en la República Dominicana.
     """,
-    "author": "Joel S. Martinez",
+    "author": "getupsoft",
     "company": "GetUpSoft",
     "category": "Localization",
     "license": "LGPL-3",
     "website": "https://getupsoft.com",
-    "version": "18.0.1.0.0",
+    "version": "18.0.2.0.0",
     "countries": ["do"],
     "depends": [
         "l10n_latam_invoice_document",
         "l10n_do",
+        "base_orca_integration",
     ],
     "data": [
         "security/ir.model.access.csv",
@@ -32,6 +33,7 @@
         "views/l10n_latam_document_type_views.xml",
         "views/report_templates.xml",
         "views/report_invoice.xml",
+        "views/account_move_orca_log_views.xml",
         # 'views/report_invoice_preview.xml',
     ],
     "demo": [

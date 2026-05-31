@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="view_orca_website_page_log_tree" model="ir.ui.view">
+            <field name="name">Website Page ORCA Log Tree</field>
+            <field name="model">orca.website.page.log</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="date"/>
+                    <field name="user_id"/>
+                    <field name="action"/>
+                    <field name="page_title"/>
+                    <field name="page_url"/>
+                    <field name="is_published"/>
+                    <field name="page_type"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_orca_website_page_log_form" model="ir.ui.view">
+            <field name="name">Website Page ORCA Log Form</field>
+            <field name="model">orca.website.page.log</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <group string="Log Metadata">
+                                <field name="date"/>
+                                <field name="user_id"/>
+                                <field name="action"/>
+                            </group>
+                            <group string="Page Details">
+                                <field name="page_title"/>
+                                <field name="page_url"/>
+                                <field name="is_published"/>
+                                <field name="page_type"/>
+                                <field name="author_id"/>
+                                <field name="website_id"/>
+                            </group>
+                        </group>
+                        <group string="Audit Data">
+                            <field name="before_values" widget="ace" options="{'mode': 'json'}" nolabel="1"/>
+                            <field name="after_values" widget="ace" options="{'mode': 'json'}" nolabel="1"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="view_orca_website_page_log_search" model="ir.ui.view">
+            <field name="name">Website Page ORCA Log Search</field>
+            <field name="model">orca.website.page.log</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="page_title" string="Page Title"/>
+                    <field name="user_id"/>
+                    <field name="action"/>
+                    <filter name="published" string="Published" domain="[('is_published', '=', True)]"/>
+                    <filter name="unpublished" string="Unpublished" domain="[('is_published', '=', False)]"/>
+                    <separator/>
+                    <filter name="today" string="Today" domain="[('date', '>=', context_today().strftime('%Y-%m-%d')), ('date', '&lt;', (context_today() + timedelta(days=1)).strftime('%Y-%m-%d'))]"/>
+                    <group expand="0" string="Group By">
+                        <filter name="group_date" string="Date" context="{'group_by': 'date'}"/>
+                        <filter name="group_user" string="User" context="{'group_by': 'user_id'}"/>
+                        <filter name="group_action" string="Action" context="{'group_by': 'action'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <record id="action_orca_website_page_log" model="ir.actions.act_window">
+            <field name="name">Website Page ORCA Logs</field>
+            <field name="res_model">orca.website.page.log</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    No audit logs found.
+                </p>
+            </field>
+        </record>
+
+        <menuitem id="menu_orca_website_page_log" name="Website Page Logs" action="action_orca_website_page_log" parent="website.menu_website_configuration"/>
+    </data>
+</odoo>

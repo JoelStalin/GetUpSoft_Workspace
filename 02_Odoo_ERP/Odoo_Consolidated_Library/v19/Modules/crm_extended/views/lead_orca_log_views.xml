@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <!-- Lead ORCA Log List View -->
+    <record id="view_orca_lead_log_tree" model="ir.ui.view">
+        <field name="name">orca.lead.log.list</field>
+        <field name="model">orca.lead.log</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="date"/>
+                <field name="user_id"/>
+                <field name="action"/>
+                <field name="lead_name"/>
+                <field name="contact_name"/>
+                <field name="lead_status"/>
+                <field name="lead_value"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Lead ORCA Log Form View -->
+    <record id="view_orca_lead_log_form" model="ir.ui.view">
+        <field name="name">orca.lead.log.form</field>
+        <field name="model">orca.lead.log</field>
+        <field name="arch" type="xml">
+            <form>
+                <group>
+                    <group string="Log Metadata">
+                        <field name="module_name"/>
+                        <field name="model_name"/>
+                        <field name="record_id"/>
+                        <field name="action"/>
+                        <field name="date"/>
+                        <field name="user_id"/>
+                    </group>
+                    <group string="Lead Details">
+                        <field name="lead_name"/>
+                        <field name="contact_name"/>
+                        <field name="lead_status"/>
+                        <field name="lead_probability"/>
+                        <field name="lead_value"/>
+                        <field name="team_name"/>
+                    </group>
+                    <group string="Audit Data">
+                        <field name="before_values" widget="ace"/>
+                        <field name="after_values" widget="ace"/>
+                    </group>
+                </group>
+            </form>
+        </field>
+    </record>
+
+    <!-- Menu Items -->
+    <menuitem id="menu_orca_crm_logs" name="ORCA Logs" parent="crm.menu_crm_config"/>
+
+    <menuitem id="menu_orca_lead_log" name="Leads"
+              parent="menu_orca_crm_logs"
+              action="action_view_orca_lead_log"/>
+
+    <!-- Actions -->
+    <act_window id="action_view_orca_lead_log"
+                name="Lead ORCA Logs"
+                res_model="orca.lead.log"
+                view_mode="tree,form"/>
+</odoo>

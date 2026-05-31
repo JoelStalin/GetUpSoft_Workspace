@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- l10n_do_accounting ORCA Log Tree View -->
+        <record id="l10n_do_accounting_orca_log_tree_view" model="ir.ui.view">
+            <field name="name">l10n.do.accounting.orca.log.tree</field>
+            <field name="model">l10n.do.accounting.orca.log</field>
+            <field name="inherit_id" ref="base_orca_integration.orca_log_tree_view"/>
+            <field name="arch" type="xml">
+                <tree position="inside">
+                    <field name="encf"/>
+                    <field name="amount_impacted"/>
+                </tree>
+            </field>
+        </record>
+
+        <!-- l10n_do_accounting ORCA Log Form View -->
+        <record id="l10n_do_accounting_orca_log_form_view" model="ir.ui.view">
+            <field name="name">l10n.do.accounting.orca.log.form</field>
+            <field name="model">l10n.do.accounting.orca.log</field>
+            <field name="inherit_id" ref="base_orca_integration.orca_log_form_view"/>
+            <field name="arch" type="xml">
+                <sheet position="inside">
+                    <group string="Fiscal Document Details" colspan="4">
+                        <field name="encf" readonly="1"/>
+                        <field name="document_type" readonly="1"/>
+                        <field name="fiscal_state" readonly="1"/>
+                        <field name="dgii_uuid" readonly="1"/>
+                    </group>
+                    <group string="Fiscal Operation" colspan="4">
+                        <field name="operation_type" readonly="1"/>
+                        <field name="amount_impacted" readonly="1"/>
+                        <field name="impact_level" readonly="1"/>
+                    </group>
+                </sheet>
+            </field>
+        </record>
+
+        <!-- l10n_do_accounting ORCA Log Action -->
+        <record id="l10n_do_accounting_orca_log_action" model="ir.actions.act_window">
+            <field name="name">l10n_do_accounting ORCA Logs</field>
+            <field name="res_model">l10n.do.accounting.orca.log</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[('module_name', '=', 'l10n_do_accounting')]</field>
+            <field name="help">Audit logs for Dominican fiscal accounting operations</field>
+        </record>
+
+        <!-- Menu entry -->
+        <menuitem
+            id="l10n_do_accounting_orca_logs_menu"
+            name="ORCA Audit Logs"
+            parent="account.menu_finance_reports"
+            action="l10n_do_accounting_orca_log_action"
+            sequence="100"
+            groups="account.group_account_manager"/>
+    </data>
+</odoo>

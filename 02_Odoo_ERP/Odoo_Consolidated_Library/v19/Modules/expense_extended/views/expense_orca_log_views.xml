@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <!-- Expense ORCA Log List View -->
+    <record id="view_orca_expense_log_tree" model="ir.ui.view">
+        <field name="name">orca.expense.log.list</field>
+        <field name="model">orca.expense.log</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="date"/>
+                <field name="user_id"/>
+                <field name="action"/>
+                <field name="expense_ref"/>
+                <field name="employee_name"/>
+                <field name="expense_category"/>
+                <field name="expense_amount"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Expense ORCA Log Form View -->
+    <record id="view_orca_expense_log_form" model="ir.ui.view">
+        <field name="name">orca.expense.log.form</field>
+        <field name="model">orca.expense.log</field>
+        <field name="arch" type="xml">
+            <form>
+                <group>
+                    <group string="Log Metadata">
+                        <field name="module_name"/>
+                        <field name="model_name"/>
+                        <field name="record_id"/>
+                        <field name="action"/>
+                        <field name="date"/>
+                        <field name="user_id"/>
+                    </group>
+                    <group string="Expense Details">
+                        <field name="expense_ref"/>
+                        <field name="employee_name"/>
+                        <field name="expense_date"/>
+                        <field name="expense_category"/>
+                        <field name="expense_amount"/>
+                        <field name="currency"/>
+                        <field name="payment_method"/>
+                        <field name="expense_status"/>
+                    </group>
+                    <group string="Audit Data">
+                        <field name="before_values" widget="ace"/>
+                        <field name="after_values" widget="ace"/>
+                    </group>
+                </group>
+            </form>
+        </field>
+    </record>
+
+    <!-- Menu Items -->
+    <menuitem id="menu_orca_expense_logs" name="ORCA Logs" parent="hr_expense.menu_hr_expense_root"/>
+
+    <menuitem id="menu_orca_expense_log" name="Expense Logs"
+              parent="menu_orca_expense_logs"
+              action="action_view_orca_expense_log"/>
+
+    <!-- Actions -->
+    <act_window id="action_view_orca_expense_log"
+                name="Expense ORCA Logs"
+                res_model="orca.expense.log"
+                view_mode="tree,form"/>
+</odoo>

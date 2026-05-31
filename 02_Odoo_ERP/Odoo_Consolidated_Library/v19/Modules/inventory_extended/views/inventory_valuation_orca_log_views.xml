@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="view_orca_inventory_valuation_log_tree" model="ir.ui.view">
+        <field name="name">orca.inventory.valuation.log.list</field>
+        <field name="model">orca.inventory.valuation.log</field>
+        <field name="arch" type="xml">
+            <tree><field name="date"/><field name="user_id"/><field name="action"/><field name="product_name"/><field name="valuation_method"/><field name="unit_cost"/></tree>
+        </field>
+    </record>
+    <record id="view_orca_inventory_valuation_log_form" model="ir.ui.view">
+        <field name="name">orca.inventory.valuation.log.form</field>
+        <field name="model">orca.inventory.valuation.log</field>
+        <field name="arch" type="xml">
+            <form><group><group string="Log Metadata"><field name="module_name"/><field name="model_name"/><field name="record_id"/><field name="action"/><field name="date"/><field name="user_id"/></group><group string="Valuation Details"><field name="product_name"/><field name="valuation_method"/><field name="unit_cost"/><field name="total_value"/></group><group string="Audit Data"><field name="before_values" widget="ace"/><field name="after_values" widget="ace"/></group></group></form>
+        </field>
+    </record>
+    <menuitem id="menu_orca_inventory_logs" name="ORCA Logs" parent="stock.menu_stock_config"/>
+    <menuitem id="menu_orca_inventory_valuation_log" name="Inventory Valuation" parent="menu_orca_inventory_logs" action="action_view_orca_inventory_valuation_log"/>
+    <act_window id="action_view_orca_inventory_valuation_log" name="Inventory Valuation ORCA Logs" res_model="orca.inventory.valuation.log" view_mode="tree,form"/>
+</odoo>

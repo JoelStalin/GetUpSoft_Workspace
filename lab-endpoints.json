@@ -1,0 +1,124 @@
+{
+  "labs": {
+    "odoo_v19": {
+      "name": "Odoo v19 ORCA Lab",
+      "url": "http://localhost:8069",
+      "api_type": "json-rpc",
+      "database": "odoo19_orca",
+      "credentials": {
+        "username": "admin",
+        "password": "admin"
+      },
+      "modules": 46,
+      "modules_orca_integrated": true,
+      "health_check": "curl -s -I http://localhost:8069",
+      "verify_modules": "curl -X POST http://localhost:8069/json/2/ir.module.module/search -H 'Content-Type: application/json' -d '{}'",
+      "purpose": "Test ORCA audit logging, verify module installation",
+      "status": "deployment_in_progress"
+    },
+    "n8n_workflows": {
+      "name": "n8n Workflow Engine",
+      "url": "http://localhost:5678",
+      "api_type": "rest",
+      "auth_type": "api_key",
+      "health_check": "curl -s -I http://localhost:5678",
+      "purpose": "Orchestrate ORCA workflows, trigger automations",
+      "status": "optional"
+    },
+    "workflow_editor": {
+      "name": "ORCA Workflow Editor UI",
+      "url": "http://localhost:3000",
+      "api_type": "rest+websocket",
+      "health_check": "curl -s -I http://localhost:3000",
+      "purpose": "Visual workflow design, React components",
+      "status": "development"
+    },
+    "llm_nvidia": {
+      "name": "NVIDIA Build API (Remote)",
+      "url": "https://integrate.api.nvidia.com/v1",
+      "api_type": "http",
+      "auth_type": "bearer_token",
+      "models_available": [
+        "meta/llama-2-7b",
+        "meta/llama-2-70b",
+        "mistral/mistral-7b",
+        "mistral/mistral-large"
+      ],
+      "purpose": "LLM inference for ORCA AI features",
+      "status": "ready"
+    },
+    "ollama_local": {
+      "name": "Ollama Local LLM (Optional)",
+      "url": "http://getupsoft-lan:11434/v1",
+      "api_type": "http",
+      "models_available": [
+        "llama2",
+        "mistral",
+        "neural-chat"
+      ],
+      "purpose": "Local LLM without internet (CPU-only)",
+      "status": "optional",
+      "requires_setup": true
+    }
+  },
+  "security": {
+    "local_edits_allowed": false,
+    "docker_commands_allowed": false,
+    "git_commits_allowed": false,
+    "ssh_exec_allowed": false,
+    "http_connections_allowed": true,
+    "read_only_filesystem": true,
+    "rpc_calls_allowed": true,
+    "webhook_triggers_allowed": true
+  },
+  "agent_restrictions": {
+    "no_local_file_modifications": "Agent ONLY reads .claude/ for verification",
+    "no_docker_management": "Labs must be pre-running via docker-compose",
+    "no_package_installs": "All npm/pip done in code.getupsoft.com",
+    "no_git_operations": "Agent cannot commit/push from local",
+    "only_http_connections": "Connect to labs via HTTP/RPC/WebSocket only"
+  },
+  "startup_sequence": {
+    "step_1": "Start labs locally: docker-compose up -d",
+    "step_2": "Verify all endpoints online",
+    "step_3": "Open code.getupsoft.com project",
+    "step_4": "Agent connects to labs via HTTP",
+    "step_5": "code.getupsoft.com handles all edits/commits/tests"
+  },
+  "health_check_endpoints": {
+    "odoo": "/json/2/ir.module.module/search",
+    "n8n": "/api/v1/health",
+    "workflow_editor": "/api/health",
+    "nvidia": "/v1/models"
+  },
+  "authentication": {
+    "odoo_rpc": {
+      "method": "username/password",
+      "url_pattern": "http://localhost:8069/xmlrpc/2/object",
+      "credentials": "stored_in_vault"
+    },
+    "nvidia_api": {
+      "method": "bearer_token",
+      "header": "Authorization: Bearer YOUR_NVIDIA_API_KEY",
+      "credentials": "stored_in_code.getupsoft.com_vault"
+    },
+    "n8n": {
+      "method": "api_key_header",
+      "credentials": "optional_stored_in_vault"
+    }
+  },
+  "example_connections": {
+    "check_odoo_online": "curl -s -I http://localhost:8069 | grep 200",
+    "list_orca_modules": "curl -X POST http://localhost:8069/json/2/ir.module.module/search -H 'Content-Type: application/json' -d '{\"params\": {\"filter\": [[\"name\", \"ilike\", \"orca\"]]}}' | jq",
+    "trigger_n8n_workflow": "curl -X POST http://localhost:5678/webhook/test-workflow -d '{\"data\": \"test\"}'",
+    "call_nvidia_llm": "curl -X POST https://integrate.api.nvidia.com/v1/chat/completions -H 'Authorization: Bearer KEY' -d '{\"model\": \"meta/llama-2-7b\", \"messages\": []}'",
+    "check_workflow_editor": "curl -s http://localhost:3000/api/status | jq"
+  },
+  "lab_management": {
+    "start_all_labs": "docker-compose up -d",
+    "stop_all_labs": "docker-compose down",
+    "view_logs": "docker-compose logs -f [service_name]",
+    "restart_odoo": "docker-compose restart odoo19_orca",
+    "note": "Agent CANNOT execute these. User must run locally. Agent ONLY connects via HTTP."
+  }
+}

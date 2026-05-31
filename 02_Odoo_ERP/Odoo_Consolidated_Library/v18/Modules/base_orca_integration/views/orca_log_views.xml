@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- ORCA Log Tree View -->
+        <record id="orca_log_tree_view" model="ir.ui.view">
+            <field name="name">orca.log.tree</field>
+            <field name="model">orca.log</field>
+            <field name="arch" type="xml">
+                <tree string="ORCA Audit Logs" create="false" edit="false">
+                    <field name="date"/>
+                    <field name="module_name"/>
+                    <field name="model_name"/>
+                    <field name="record_id"/>
+                    <field name="action"/>
+                    <field name="user_id"/>
+                </tree>
+            </field>
+        </record>
+
+        <!-- ORCA Log Form View -->
+        <record id="orca_log_form_view" model="ir.ui.view">
+            <field name="name">orca.log.form</field>
+            <field name="model">orca.log</field>
+            <field name="arch" type="xml">
+                <form string="ORCA Audit Log" create="false" edit="false">
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="date" readonly="1"/>
+                                <field name="user_id" readonly="1"/>
+                                <field name="action" readonly="1"/>
+                            </group>
+                            <group>
+                                <field name="module_name" readonly="1"/>
+                                <field name="model_name" readonly="1"/>
+                                <field name="record_id" readonly="1"/>
+                            </group>
+                        </group>
+                        <group string="Values" colspan="4">
+                            <field name="before_values" widget="ace" options="{'style': 'min-height: 150px'}" readonly="1"/>
+                            <field name="after_values" widget="ace" options="{'style': 'min-height: 150px'}" readonly="1"/>
+                        </group>
+                        <group string="Sync Status" colspan="4">
+                            <field name="orca_synced" readonly="1"/>
+                            <field name="orca_sync_error" readonly="1"/>
+                            <field name="orca_request_id" readonly="1"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!-- ORCA Log Search View -->
+        <record id="orca_log_search_view" model="ir.ui.view">
+            <field name="name">orca.log.search</field>
+            <field name="model">orca.log</field>
+            <field name="arch" type="xml">
+                <search string="ORCA Audit Logs">
+                    <field name="module_name"/>
+                    <field name="model_name"/>
+                    <field name="user_id"/>
+                    <field name="action"/>
+                    <separator/>
+                    <filter name="not_synced" string="Not Synced" domain="[('orca_synced', '=', False)]"/>
+                    <filter name="sync_errors" string="Sync Errors" domain="[('orca_sync_error', '!=', False)]"/>
+                    <separator/>
+                    <filter name="today" string="Today" domain="[('date', '>=', context_today().strftime('%Y-%m-%d')), ('date', '&lt;', (context_today() + relativedelta(days=1)).strftime('%Y-%m-%d'))]"/>
+                    <filter name="this_month" string="This Month" domain="[('date', '&gt;=', context_today().strftime('%Y-%m-01')), ('date', '&lt;', (context_today() + relativedelta(months=1)).strftime('%Y-%m-01'))]"/>
+                    <separator/>
+                    <group expand="0" string="Group By">
+                        <filter name="group_by_module" string="Module" context="{'group_by': 'module_name'}"/>
+                        <filter name="group_by_model" string="Model" context="{'group_by': 'model_name'}"/>
+                        <filter name="group_by_action" string="Action" context="{'group_by': 'action'}"/>
+                        <filter name="group_by_user" string="User" context="{'group_by': 'user_id'}"/>
+                        <filter name="group_by_date" string="Date" context="{'group_by': 'date:day'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <!-- ORCA Audit Log Action (will be inherited by child modules) -->
+        <record id="orca_log_action" model="ir.actions.act_window">
+            <field name="name">ORCA Audit Logs</field>
+            <field name="res_model">orca.log</field>
+            <field name="view_mode">tree,form</field>
+            <field name="search_view_id" ref="orca_log_search_view"/>
+            <field name="context">{'search_default_not_synced': 0}</field>
+            <field name="help">View all audit logs for ORCA-tracked models across all modules</field>
+        </record>
+
+        <!-- Technical Menu -->
+        <menuitem
+            id="orca_audit_logs_menu"
+            name="ORCA Audit Logs"
+            parent="base.menu_custom_reports"
+            action="orca_log_action"
+            sequence="100"/>
+    </data>
+</odoo>

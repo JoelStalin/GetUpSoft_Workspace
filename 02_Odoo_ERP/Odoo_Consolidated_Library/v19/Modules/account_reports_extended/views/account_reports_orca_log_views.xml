@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <!-- Financial Report ORCA Log List View -->
+    <record id="view_orca_financial_report_log_tree" model="ir.ui.view">
+        <field name="name">orca.financial.report.log.list</field>
+        <field name="model">orca.financial.report.log</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="date"/>
+                <field name="user_id"/>
+                <field name="action"/>
+                <field name="report_name"/>
+                <field name="report_type"/>
+                <field name="reporting_date"/>
+                <field name="export_format"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Financial Report ORCA Log Form View -->
+    <record id="view_orca_financial_report_log_form" model="ir.ui.view">
+        <field name="name">orca.financial.report.log.form</field>
+        <field name="model">orca.financial.report.log</field>
+        <field name="arch" type="xml">
+            <form>
+                <group>
+                    <group string="Log Metadata">
+                        <field name="module_name"/>
+                        <field name="model_name"/>
+                        <field name="record_id"/>
+                        <field name="action"/>
+                        <field name="date"/>
+                        <field name="user_id"/>
+                    </group>
+                    <group string="Report Details">
+                        <field name="report_name"/>
+                        <field name="report_type"/>
+                        <field name="reporting_date"/>
+                        <field name="currency_id"/>
+                        <field name="export_format"/>
+                        <field name="line_count"/>
+                    </group>
+                    <group string="Audit Data">
+                        <field name="before_values" widget="ace"/>
+                        <field name="after_values" widget="ace"/>
+                    </group>
+                </group>
+            </form>
+        </field>
+    </record>
+
+    <!-- Tax Report ORCA Log List View -->
+    <record id="view_orca_tax_report_log_tree" model="ir.ui.view">
+        <field name="name">orca.tax.report.log.list</field>
+        <field name="model">orca.tax.report.log</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="date"/>
+                <field name="user_id"/>
+                <field name="action"/>
+                <field name="tax_report_name"/>
+                <field name="tax_period"/>
+                <field name="filing_status"/>
+                <field name="tax_amount"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Tax Report ORCA Log Form View -->
+    <record id="view_orca_tax_report_log_form" model="ir.ui.view">
+        <field name="name">orca.tax.report.log.form</field>
+        <field name="model">orca.tax.report.log</field>
+        <field name="arch" type="xml">
+            <form>
+                <group>
+                    <group string="Log Metadata">
+                        <field name="module_name"/>
+                        <field name="model_name"/>
+                        <field name="record_id"/>
+                        <field name="action"/>
+                        <field name="date"/>
+                        <field name="user_id"/>
+                    </group>
+                    <group string="Tax Report Details">
+                        <field name="tax_report_name"/>
+                        <field name="tax_period"/>
+                        <field name="jurisdiction"/>
+                        <field name="tax_amount"/>
+                        <field name="filing_status"/>
+                    </group>
+                    <group string="Audit Data">
+                        <field name="before_values" widget="ace"/>
+                        <field name="after_values" widget="ace"/>
+                    </group>
+                </group>
+            </form>
+        </field>
+    </record>
+
+    <!-- Menu Items -->
+    <menuitem id="menu_orca_reports_logs" name="ORCA Logs" parent="account.menu_accounting_reports"/>
+
+    <menuitem id="menu_orca_financial_report_log" name="Financial Reports"
+              parent="menu_orca_reports_logs"
+              action="action_view_orca_financial_report_log"/>
+
+    <menuitem id="menu_orca_tax_report_log" name="Tax Reports"
+              parent="menu_orca_reports_logs"
+              action="action_view_orca_tax_report_log"/>
+
+    <!-- Actions -->
+    <act_window id="action_view_orca_financial_report_log"
+                name="Financial Report ORCA Logs"
+                res_model="orca.financial.report.log"
+                view_mode="tree,form"/>
+
+    <act_window id="action_view_orca_tax_report_log"
+                name="Tax Report ORCA Logs"
+                res_model="orca.tax.report.log"
+                view_mode="tree,form"/>
+</odoo>

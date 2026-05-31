@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <!-- Quality Point ORCA Log List View -->
+    <record id="view_orca_quality_point_log_tree" model="ir.ui.view">
+        <field name="name">orca.quality.point.log.list</field>
+        <field name="model">orca.quality.point.log</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="date"/>
+                <field name="user_id"/>
+                <field name="action"/>
+                <field name="point_reference"/>
+                <field name="point_name"/>
+                <field name="test_type"/>
+                <field name="point_status"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Quality Point ORCA Log Form View -->
+    <record id="view_orca_quality_point_log_form" model="ir.ui.view">
+        <field name="name">orca.quality.point.log.form</field>
+        <field name="model">orca.quality.point.log</field>
+        <field name="arch" type="xml">
+            <form>
+                <group>
+                    <group string="Log Metadata">
+                        <field name="module_name"/>
+                        <field name="model_name"/>
+                        <field name="record_id"/>
+                        <field name="action"/>
+                        <field name="date"/>
+                        <field name="user_id"/>
+                    </group>
+                    <group string="Quality Point Details">
+                        <field name="point_reference"/>
+                        <field name="point_name"/>
+                        <field name="test_type"/>
+                        <field name="point_status"/>
+                        <field name="applicable_operation"/>
+                        <field name="measurement_frequency"/>
+                        <field name="responsible_team"/>
+                    </group>
+                    <group string="Audit Data">
+                        <field name="before_values" widget="ace"/>
+                        <field name="after_values" widget="ace"/>
+                    </group>
+                </group>
+            </form>
+        </field>
+    </record>
+
+    <!-- Menu Items -->
+    <menuitem id="menu_orca_quality_point_logs" name="ORCA Logs" parent="quality.menu_quality_root"/>
+
+    <menuitem id="menu_orca_quality_point_log" name="Quality Point Logs"
+              parent="menu_orca_quality_point_logs"
+              action="action_view_orca_quality_point_log"/>
+
+    <!-- Actions -->
+    <act_window id="action_view_orca_quality_point_log"
+                name="Quality Point ORCA Logs"
+                res_model="orca.quality.point.log"
+                view_mode="tree,form"/>
+</odoo>

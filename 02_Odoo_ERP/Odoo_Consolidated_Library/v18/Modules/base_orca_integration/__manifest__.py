@@ -9,6 +9,7 @@
     'data': [
         'security/ir.model.access.csv',
         'data/orca_config_data.xml',
+        'views/orca_log_views.xml',
     ],
     'installable': True,
     'auto_install': False,

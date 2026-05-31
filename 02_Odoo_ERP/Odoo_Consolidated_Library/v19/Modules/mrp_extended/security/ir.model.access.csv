@@ -1,0 +1,4 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_orca_manufacturing_order_log_user,Manufacturing Order Log - User Read-Only,model_orca_manufacturing_order_log,base.group_user,1,0,0,0
+access_orca_manufacturing_order_log_mrp,Manufacturing Order Log - MRP User Read-Only,model_orca_manufacturing_order_log,mrp.group_mrp_user,1,0,0,0
+access_orca_manufacturing_order_log_manager,Manufacturing Order Log - Manager Full,model_orca_manufacturing_order_log,mrp.group_mrp_manager,1,1,1,0
