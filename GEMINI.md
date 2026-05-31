@@ -21,6 +21,13 @@ The workspace keeps shared skills in `.agents\skills` and the pinned inventory i
 
 For design work, use the shared Stitch MCP manifest in `mcp-servers.shared.json` and validate it with `.\scripts\stitch_mcp_bootstrap.ps1`.
 
+## GSTACK + ORCA Multi-Model Adapter (Required)
+
+- Follow `docs/GSTACK_ORCA_MULTIAGENT_ADAPTER.md` for model routing and fallback behavior.
+- Keep ORCA as the orchestration base and source of truth for task state.
+- Use GSTACK as model router for client-facing multi-model execution.
+- Reference backlog, DoR, DoD, and tests in each task delivery.
+
 ## Safety & Infrastructure Mandates
 
 - **Tunnel Safety:** NEVER stop, restart, or modify network tunnels (e.g., `cloudflared`, SSH tunnels, VPNs) without explicitly confirming **TWICE** with the user. Accidental lockout is a critical risk.
