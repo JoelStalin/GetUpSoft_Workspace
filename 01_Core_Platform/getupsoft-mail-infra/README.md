@@ -2,6 +2,8 @@
 
 Infraestructura operativa de correo para `getupsoft.com.do`.
 
+> **Estado:** `mailcow` fue retirado de `getupsoft-lan` y quedó deshabilitado en este repositorio. No uses los scripts `setup_mailcow.py`, `start_mailcow.py` ni `send_mailcow_test.py`.
+
 ## Contenido
 
 - submodulo `vendor/mailcow-dockerized`
@@ -11,12 +13,7 @@ Infraestructura operativa de correo para `getupsoft.com.do`.
 
 ## Comandos base
 
-```bash
-git submodule update --init --recursive
-python setup_mailcow.py
-python start_mailcow.py
-python send_mailcow_test.py
-```
+Los scripts de Mailcow permanecen solo como referencia histórica y ahora fallan de forma explícita para evitar un despliegue accidental.
 
 ## Topologia
 

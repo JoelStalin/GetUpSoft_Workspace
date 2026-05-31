@@ -1,5 +1,7 @@
 # 🚀 Mailcow - Sistema de Correos Profesional Integrado
 
+> **Deshabilitado:** este documento queda solo como referencia histórica. `mailcow` fue retirado de `getupsoft-lan` y ya no debe configurarse desde este repositorio.
+
 **Mailcow** es una solución self-hosted completa para correos electrónicos. Es mucho mejor que SendGrid o Mailpit para DGII porque:
 
 ## ✨ Ventajas de Mailcow

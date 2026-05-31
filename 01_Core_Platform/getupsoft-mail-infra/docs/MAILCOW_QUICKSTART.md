@@ -1,5 +1,7 @@
 # 🚀 GUÍA RÁPIDA MAILCOW - DGII e-CF
 
+> **Deshabilitado:** este flujo ya no está permitido en el workspace. `mailcow` fue retirado del servidor y los scripts del repo fueron bloqueados intencionalmente.
+
 ## ⏱️ Instalación Rápida (10 minutos)
 
 ### Paso 1: Levantar Mailcow
@@ -128,4 +130,3 @@ https://localhost/admin → Mail Accounts
 | **Privacidad** | ✅ Total | ⚠️ Cloud |
 
 **Mailcow es perfecto para DGII porque es profesional, gratuito y bajo tu control** 🚀
-
