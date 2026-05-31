@@ -1,8 +1,45 @@
 # GetUpSoft ORCA v19 Refactoring - Change Timeline
 
-**Last Updated:** 2026-05-31 (Session 15 - MERGE TO MAIN + ISO ARCHITECTURE GOVERNANCE)  
-**Current Session:** 15  
-**Status:** 🟢 **COMPLETE** - Merged to main + ISO architecture governance fully committed (c673d87bf5)
+**Last Updated:** 2026-05-31 (Session 16 - ISO GOVERNANCE COMPLETION + COMPONENT CARDS)
+**Current Session:** 16
+**Status:** 🟢 **COMPLETE** - Full ISO governance documentation set committed (f918e783c0)
+
+---
+
+## 🟢 SESSION 16 (2026-05-31 - ISO GOVERNANCE COMPLETION)
+
+### **Completed**
+1. ✅ **ISO Architecture Governance — Full Completion** (commit: f918e783c0)
+   - 4 new component card templates added to `_Knowledge_Center/Memory/COMPONENT_CARDS/`
+   - `CLIENT_SOLUTION_CARD_TEMPLATE.md` — ISO 12207 §6.6 delivery tracking
+   - `WORKER_CARD_TEMPLATE.md` — Worker contract with input/output schemas, retry policy
+   - `ODOO_MODULE_CARD_TEMPLATE.md` — With ORCA Audit Mixin compliance checklist
+   - `INFRA_COMPONENT_CARD_TEMPLATE.md` — ISO 27001 A.5.9 asset inventory
+   - `migration_manifest.md` updated: 5 new ISO columns + 7 Phase 1 candidate entries
+
+2. ✅ **Confirmed complete document set from Session 15** (all committed in c673d87bf5 ancestry)
+   - `00_Workspace_Governance/ARCHITECTURE_GOVERNANCE.md` (GOV-001)
+   - `00_Workspace_Governance/REPOSITORY_CLASSIFICATION_MATRIX.md` (GOV-002) — 49 dirs classified
+   - `00_Workspace_Governance/MIGRATION_PLAN.md` (GOV-003) — 3-phase plan with rollback
+   - `00_Workspace_Governance/ISO_TRACEABILITY_MATRIX.md` (GOV-004) — 37 ISO controls mapped
+   - `_Knowledge_Center/Architecture/ARCHITECTURE_OVERVIEW.md` (ARCH-001) — C4 L1+L2 diagrams
+   - `_Knowledge_Center/Architecture/ADR/ADR-0001` through `ADR-0005`
+   - `_Knowledge_Center/Memory/REPOSITORY_MEMORY.md` (MEM-001)
+   - `_Knowledge_Center/Memory/AGENT_RULES.md` (MEM-002)
+
+3. ✅ **Internal link validation** — all cross-references verified against repo structure
+   - No broken paths in governance documents
+   - All ADR cross-references resolve to existing files
+   - All migration_manifest entries reference valid current paths
+
+4. ✅ **Task-ledger epic registered** — ISO Architecture Governance epic documented
+
+### **Commit Log Session 16**
+- `f918e783c0` — docs: Add component card templates and expand migration manifest with ISO columns
+
+### **Git Status After Session 16**
+- ✅ main branch: up to date with origin/main
+- ⚠️ Pre-existing user modifications in `01_Core_Platform/getupsoft-mail-infra/` remain uncommitted (user's pending work — not from our sessions)
 
 ---
 
