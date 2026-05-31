@@ -1,16 +1,112 @@
 import { Injectable, InternalServerErrorException, Logger, NotFoundException } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { execFile } from 'node:child_process';
+import { randomUUID } from 'node:crypto';
+import { mkdir, readFile, writeFile } from 'node:fs/promises';
+import * as path from 'node:path';
 import { promisify } from 'node:util';
+import type { Response } from 'express';
 import { InterpretRequestDto } from './dto/interpret-request.dto';
 import { AuditLogRequestDto, AuditLogResponseDto } from './dto/audit-log-request.dto';
 import { FiscalSyncRequestDto } from './dto/fiscal-sync-request.dto';
 
 const execFileAsync = promisify(execFile);
 
+type WorkflowNodeRecord = {
+  id: string;
+  type: string;
+  data: Record<string, unknown>;
+  position: { x: number; y: number };
+};
+
+type WorkflowConnectionRecord = Record<string, Array<{ node_id: string; type?: string }>>;
+
+type StoredWorkflowRecord = {
+  id: string;
+  name: string;
+  active: boolean;
+  nodes: WorkflowNodeRecord[];
+  connections: WorkflowConnectionRecord;
+  settings: Record<string, unknown>;
+  createdAt: string;
+  updatedAt: string;
+  orca_meta?: Record<string, unknown>;
+};
+
+type StoredWorkflowStore = {
+  workflows: StoredWorkflowRecord[];
+};
+
+type ExecutionSession = {
+  executionId: string;
+  workflowId: string;
+  workflowName: string;
+  nodeIds: string[];
+  startedAt: string;
+  inputData: Record<string, unknown>;
+};
+
+type UploadedWorkflowFile = {
+  buffer: Buffer;
+};
+
 @Injectable()
 export class OrcaService {
   private readonly logger = new Logger(OrcaService.name);
+  private readonly executionSessions = new Map<string, ExecutionSession>();
+  private readonly defaultNodeTypes: Record<
+    string,
+    { label: string; color: string; description: string; category?: string }
+  > = {
+    'orca-nodes-base.trigger': {
+      label: 'Trigger',
+      color: '#ff6d5a',
+      description: 'Start a workflow execution',
+      category: 'Triggers',
+    },
+    'orca-nodes-base.aiPrompt': {
+      label: 'AI Prompt',
+      color: '#7c4dff',
+      description: 'Call an AI model with a prompt',
+      category: 'AI',
+    },
+    'orca-nodes-base.httpRequest': {
+      label: 'HTTP Request',
+      color: '#1a9ba1',
+      description: 'Make an HTTP request',
+      category: 'Network',
+    },
+    'orca-nodes-base.condition': {
+      label: 'Condition',
+      color: '#ff9f43',
+      description: 'Conditional branching',
+      category: 'Control Flow',
+    },
+    'orca-nodes-base.loop': {
+      label: 'Loop',
+      color: '#10ac84',
+      description: 'Iterate over a list',
+      category: 'Control Flow',
+    },
+    'orca-nodes-base.setVariable': {
+      label: 'Set Variable',
+      color: '#576574',
+      description: 'Store a value in a variable',
+      category: 'Utils',
+    },
+    'orca-nodes-base.executeCommand': {
+      label: 'Execute',
+      color: '#ee5a24',
+      description: 'Execute a command or script',
+      category: 'Agent Core',
+    },
+    'orca-nodes-base.end': {
+      label: 'End',
+      color: '#353b48',
+      description: 'End the workflow',
+      category: 'Utils',
+    },
+  };
 
   constructor(private readonly config: ConfigService) {}
 
@@ -84,6 +180,299 @@ export class OrcaService {
     return process.cwd().replace(/\\apps\\backend-nest$/, '').replace(/\/apps\/backend-nest$/, '');
   }
 
+  getNodeTypes() {
+    return this.defaultNodeTypes;
+  }
+
+  async listN8nWorkflows({
+    limit,
+    offset,
+  }: {
+    limit: number;
+    offset: number;
+  }) {
+    const workflows = await this.readWorkflowStore();
+    const ordered = [...workflows].sort((a, b) => b.updatedAt.localeCompare(a.updatedAt));
+    return {
+      data: ordered.slice(offset, offset + limit),
+      total: ordered.length,
+      limit,
+      offset,
+    };
+  }
+
+  async getN8nWorkflow(id: string) {
+    const workflows = await this.readWorkflowStore();
+    const workflow = workflows.find((item) => item.id === id);
+    if (!workflow) {
+      throw new NotFoundException(`Workflow ${id} not found`);
+    }
+    return workflow;
+  }
+
+  async createN8nWorkflow(payload: Record<string, unknown>) {
+    const requestedId = typeof payload.id === 'string' && payload.id.trim().length > 0 ? payload.id.trim() : randomUUID();
+    return this.upsertN8nWorkflow(requestedId, payload);
+  }
+
+  async upsertN8nWorkflow(id: string, payload: Record<string, unknown>) {
+    const workflows = await this.readWorkflowStore();
+    const now = new Date().toISOString();
+    const existing = workflows.find((item) => item.id === id);
+    const normalized = this.normalizeWorkflowRecord(id, payload, existing?.createdAt ?? now);
+    normalized.updatedAt = now;
+
+    if (existing) {
+      const index = workflows.findIndex((item) => item.id === id);
+      workflows[index] = normalized;
+    } else {
+      workflows.push(normalized);
+    }
+
+    await this.writeWorkflowStore(workflows);
+    return normalized;
+  }
+
+  async deleteN8nWorkflow(id: string) {
+    const workflows = await this.readWorkflowStore();
+    const next = workflows.filter((item) => item.id !== id);
+    if (next.length === workflows.length) {
+      throw new NotFoundException(`Workflow ${id} not found`);
+    }
+    await this.writeWorkflowStore(next);
+    return { success: true, id };
+  }
+
+  async importN8nWorkflow(file?: UploadedWorkflowFile) {
+    if (!file?.buffer?.length) {
+      throw new InternalServerErrorException('No workflow file received');
+    }
+
+    try {
+      const raw = JSON.parse(file.buffer.toString('utf8')) as Record<string, unknown>;
+      if (raw.workflow && typeof raw.workflow === 'object') {
+        const imported = raw.workflow as Record<string, unknown>;
+        const stored = await this.createN8nWorkflow({
+          id: raw.workflow_id,
+          name: raw.name,
+          nodes: imported.nodes,
+          connections: imported.connections ?? this.connectionsFromGeneratedEdges(imported.edges),
+          active: false,
+          settings: imported.settings,
+          orca_meta: imported.orca_meta,
+          createdAt: imported.createdAt,
+          updatedAt: imported.updatedAt,
+        });
+        return { success: true, workflow: stored };
+      }
+
+      const stored = await this.createN8nWorkflow(raw);
+      return { success: true, workflow: stored };
+    } catch (error) {
+      const message = error instanceof Error ? error.message : 'Unknown import error';
+      throw new InternalServerErrorException(`Workflow import failed: ${message}`);
+    }
+  }
+
+  async generateN8nWorkflow(request: {
+    prompt?: string;
+    model_id?: string;
+    context?: string;
+  }) {
+    const prompt = String(request.prompt ?? '').trim();
+    if (!prompt) {
+      throw new InternalServerErrorException('Prompt is required to generate a workflow');
+    }
+
+    const lowerPrompt = prompt.toLowerCase();
+    const middleType = lowerPrompt.includes('http') || lowerPrompt.includes('api')
+      ? 'orca-nodes-base.httpRequest'
+      : lowerPrompt.includes('condicion') || lowerPrompt.includes('condition')
+        ? 'orca-nodes-base.condition'
+        : 'orca-nodes-base.aiPrompt';
+    const middleLabel = this.defaultNodeTypes[middleType]?.label ?? 'AI Prompt';
+    const createdAt = new Date().toISOString();
+    const workflowId = `wf-${randomUUID()}`;
+    const generatedNodes = [
+      {
+        id: `node-${randomUUID()}`,
+        name: 'Trigger',
+        type: 'orca-nodes-base.trigger',
+        parameters: {
+          prompt,
+        },
+        position: [140, 140],
+      },
+      {
+        id: `node-${randomUUID()}`,
+        name: middleLabel,
+        type: middleType,
+        parameters: {
+          model_id: request.model_id ?? 'kimi-k2-6',
+          context: request.context ?? '',
+          prompt,
+        },
+        position: [420, 140],
+      },
+      {
+        id: `node-${randomUUID()}`,
+        name: 'End',
+        type: 'orca-nodes-base.end',
+        parameters: {
+          status: 'ready',
+        },
+        position: [700, 140],
+      },
+    ];
+
+    const stored = await this.upsertN8nWorkflow(workflowId, {
+      id: workflowId,
+      name: `ORCA ${prompt.slice(0, 48)}`.trim(),
+      active: false,
+      nodes: generatedNodes.map((node) => ({
+        id: node.id,
+        type: 'default',
+        data: {
+          label: node.name,
+          type: node.type,
+          parameters: node.parameters,
+          color: this.defaultNodeTypes[node.type]?.color ?? '#7c4dff',
+          status: 'pending',
+        },
+        position: {
+          x: node.position[0],
+          y: node.position[1],
+        },
+      })),
+      connections: {
+        [generatedNodes[0].id]: [{ node_id: generatedNodes[1].id, type: 'smoothstep' }],
+        [generatedNodes[1].id]: [{ node_id: generatedNodes[2].id, type: 'smoothstep' }],
+      },
+      settings: {
+        mode: 'production-like',
+        model_id: request.model_id ?? 'kimi-k2-6',
+      },
+      orca_meta: {
+        prompt,
+        context: request.context ?? '',
+        source: 'backend-nest',
+      },
+      createdAt,
+      updatedAt: createdAt,
+    });
+
+    return {
+      workflow_id: stored.id,
+      name: stored.name,
+      workflow: {
+        nodes: generatedNodes,
+        connections: stored.connections,
+        createdAt: stored.createdAt,
+        updatedAt: stored.updatedAt,
+        orca_meta: stored.orca_meta,
+      },
+    };
+  }
+
+  async startN8nExecution(workflowId: string, inputData: Record<string, unknown>) {
+    const workflow = await this.getN8nWorkflow(workflowId);
+    const executionId = `exec-${randomUUID()}`;
+    this.executionSessions.set(executionId, {
+      executionId,
+      workflowId,
+      workflowName: workflow.name,
+      nodeIds: workflow.nodes.map((node) => node.id),
+      startedAt: new Date().toISOString(),
+      inputData,
+    });
+
+    return {
+      execution_id: executionId,
+      workflow_id: workflowId,
+      status: 'running',
+    };
+  }
+
+  async streamN8nExecution(executionId: string, res: Response): Promise<() => void> {
+    const execution = this.executionSessions.get(executionId);
+    if (!execution) {
+      throw new NotFoundException(`Execution ${executionId} not found`);
+    }
+
+    res.setHeader('Content-Type', 'text/event-stream');
+    res.setHeader('Cache-Control', 'no-cache, no-transform');
+    res.setHeader('Connection', 'keep-alive');
+    res.flushHeaders?.();
+
+    const timers: NodeJS.Timeout[] = [];
+    const writeEvent = (payload: Record<string, unknown>) => {
+      res.write(`data: ${JSON.stringify(payload)}\n\n`);
+    };
+
+    writeEvent({
+      type: 'execution-start',
+      execution_id: execution.executionId,
+      workflow_id: execution.workflowId,
+      workflow_name: execution.workflowName,
+      timestamp: execution.startedAt,
+    });
+
+    execution.nodeIds.forEach((nodeId, index) => {
+      timers.push(
+        setTimeout(() => {
+          writeEvent({
+            type: 'execution-node-start',
+            execution_id: execution.executionId,
+            workflow_id: execution.workflowId,
+            node_id: nodeId,
+            node_name: nodeId,
+            status: 'running',
+            timestamp: new Date().toISOString(),
+          });
+        }, index * 800),
+      );
+
+      timers.push(
+        setTimeout(() => {
+          writeEvent({
+            type: 'execution-node-complete',
+            execution_id: execution.executionId,
+            workflow_id: execution.workflowId,
+            node_id: nodeId,
+            node_name: nodeId,
+            status: 'completed',
+            output: {
+              ok: true,
+              input_data: execution.inputData,
+            },
+            timestamp: new Date().toISOString(),
+          });
+        }, index * 800 + 450),
+      );
+    });
+
+    timers.push(
+      setTimeout(() => {
+        writeEvent({
+          type: 'execution-complete',
+          execution_id: execution.executionId,
+          workflow_id: execution.workflowId,
+          status: 'done',
+          timestamp: new Date().toISOString(),
+        });
+        res.end();
+        this.executionSessions.delete(executionId);
+      }, execution.nodeIds.length * 800 + 600),
+    );
+
+    return () => {
+      timers.forEach((timer) => clearTimeout(timer));
+      if (!res.writableEnded) {
+        res.end();
+      }
+    };
+  }
+
   private isInterpretationOutput(value: unknown): value is {
     source_type: string;
     detected_intent: string;
@@ -129,6 +518,129 @@ export class OrcaService {
 
   private auditLogs: Map<number, AuditLogResponseDto> = new Map();
   private auditLogId = 0;
+
+  private workflowStorePath() {
+    return path.join(this.config.get<string>('WORKSPACE_ROOT') ?? this.resolveWorkspaceRoot(), 'data', 'n8n_workflows.json');
+  }
+
+  private async ensureWorkflowStore() {
+    const filePath = this.workflowStorePath();
+    await mkdir(path.dirname(filePath), { recursive: true });
+    try {
+      await readFile(filePath, 'utf8');
+    } catch {
+      const initial: StoredWorkflowStore = { workflows: [] };
+      await writeFile(filePath, JSON.stringify(initial, null, 2), 'utf8');
+    }
+  }
+
+  private async readWorkflowStore(): Promise<StoredWorkflowRecord[]> {
+    await this.ensureWorkflowStore();
+    const content = await readFile(this.workflowStorePath(), 'utf8');
+    try {
+      const parsed = JSON.parse(content) as StoredWorkflowStore;
+      return Array.isArray(parsed.workflows) ? parsed.workflows : [];
+    } catch (error) {
+      const message = error instanceof Error ? error.message : 'Unknown workflow store error';
+      throw new InternalServerErrorException(`Workflow storage is invalid: ${message}`);
+    }
+  }
+
+  private async writeWorkflowStore(workflows: StoredWorkflowRecord[]) {
+    await this.ensureWorkflowStore();
+    await writeFile(this.workflowStorePath(), JSON.stringify({ workflows }, null, 2), 'utf8');
+  }
+
+  private normalizeWorkflowRecord(
+    id: string,
+    payload: Record<string, unknown>,
+    createdAt: string,
+  ): StoredWorkflowRecord {
+    const nodes = Array.isArray(payload.nodes)
+      ? payload.nodes.map((node, index) => this.normalizeNode(node, index))
+      : [];
+    const connections = this.normalizeConnections(payload.connections);
+    const rawName = typeof payload.name === 'string' ? payload.name.trim() : '';
+    return {
+      id,
+      name: rawName || `Workflow ${id}`,
+      active: Boolean(payload.active),
+      nodes,
+      connections,
+      settings: this.ensureRecord(payload.settings),
+      createdAt: typeof payload.createdAt === 'string' ? payload.createdAt : createdAt,
+      updatedAt: typeof payload.updatedAt === 'string' ? payload.updatedAt : new Date().toISOString(),
+      orca_meta: this.ensureOptionalRecord(payload.orca_meta),
+    };
+  }
+
+  private normalizeNode(node: unknown, index: number): WorkflowNodeRecord {
+    const record = this.ensureRecord(node);
+    const position = this.ensureRecord(record.position);
+    const data = this.ensureRecord(record.data);
+    return {
+      id: typeof record.id === 'string' && record.id.trim().length > 0 ? record.id : `node-${index + 1}`,
+      type: typeof record.type === 'string' && record.type.trim().length > 0 ? record.type : 'default',
+      data,
+      position: {
+        x: typeof position.x === 'number' ? position.x : 120 + index * 240,
+        y: typeof position.y === 'number' ? position.y : 160,
+      },
+    };
+  }
+
+  private normalizeConnections(value: unknown): WorkflowConnectionRecord {
+    if (!value || typeof value !== 'object' || Array.isArray(value)) {
+      return {};
+    }
+
+    return Object.entries(value as Record<string, unknown>).reduce<WorkflowConnectionRecord>((acc, [source, targets]) => {
+      if (!Array.isArray(targets)) {
+        return acc;
+      }
+      acc[source] = targets
+        .map((target) => this.ensureRecord(target))
+        .filter((target) => typeof target.node_id === 'string')
+        .map((target) => ({
+          node_id: String(target.node_id),
+          type: typeof target.type === 'string' ? target.type : 'smoothstep',
+        }));
+      return acc;
+    }, {});
+  }
+
+  private connectionsFromGeneratedEdges(edges: unknown): WorkflowConnectionRecord {
+    if (!Array.isArray(edges)) {
+      return {};
+    }
+
+    return edges.reduce<WorkflowConnectionRecord>((acc, edge) => {
+      const record = this.ensureRecord(edge);
+      if (typeof record.source !== 'string' || typeof record.target !== 'string') {
+        return acc;
+      }
+      if (!acc[record.source]) {
+        acc[record.source] = [];
+      }
+      acc[record.source].push({
+        node_id: record.target,
+        type: typeof record.type === 'string' ? record.type : 'smoothstep',
+      });
+      return acc;
+    }, {});
+  }
+
+  private ensureRecord(value: unknown): Record<string, unknown> {
+    if (!value || typeof value !== 'object' || Array.isArray(value)) {
+      return {};
+    }
+    return value as Record<string, unknown>;
+  }
+
+  private ensureOptionalRecord(value: unknown): Record<string, unknown> | undefined {
+    const record = this.ensureRecord(value);
+    return Object.keys(record).length > 0 ? record : undefined;
+  }
 
   async recordAuditLog(request: AuditLogRequestDto): Promise<AuditLogResponseDto> {
     try {
