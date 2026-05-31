@@ -6,7 +6,7 @@
 
 ---
 
-## 🟢 SESSION 16 (2026-05-31 - ISO GOVERNANCE COMPLETION)
+## 🟢 SESSION 16 (2026-05-31 - ISO GOVERNANCE + FULL REPO REORGANIZATION)
 
 ### **Completed**
 1. ✅ **ISO Architecture Governance — Full Completion** (commit: f918e783c0)
@@ -34,12 +34,36 @@
 
 4. ✅ **Task-ledger epic registered** — ISO Architecture Governance epic documented
 
+5. ✅ **Phase 1 Repository Reorganization** (commits: 4c79630e83, 758a41d3c2, 30f010aa09)
+   - Created 4 target domain directories: `06_Infrastructure_Networking/`, `07_Libraries_Tools/`, `08_Research_Labs/`, `09_Archives/`
+   - `09_Archives/`: 04_Archive_Legacy → legacy-04, archive/ → legacy-root (~9400 files moved)
+   - `08_Research_Labs/`: rowboat, notebooklm-py, hyperframes, bittorrent-client, kali-pentest, malware-sandbox, miniverse, research-ai (Claude-agents), ida-pro-mcp, undetected-chromedriver-j, NemoClaw (submodule), Knowledge_Center_Research (~3800 files)
+   - `07_Libraries_Tools/`: nexus, nexus-ai, kaliman-mcp, qr-generator, qr-generator-web, traffic-control, loader (submodule) (~200 files)
+   - `06_Infrastructure_Networking/`: infra/, migration/, deploy/ (~180 files)
+   - `_Knowledge_Center/`: obsidian, notebooks, prompts, workspace-docs (~160 files)
+   - `00_Workspace_Governance/legal/`: legal PDFs (~10 files)
+   - `03_AI_Automation/orca-legacy`: root orca/ legacy duplicate (~50 files)
+   - `04_Workers/data/scrapling`: scrapling submodule re-registered at canonical path
+   - `09_Archives/chrome_profile`: accidentally committed browser profile (~1242 files)
+   - READMEs created for all 4 new domain directories
+   - `02_Products/` and `03_Client_Solutions/` READMEs expanded with product/client registries
+   - `04_Workers/` README expanded with worker registry and contract requirements
+
+6. ✅ **Root directory cleaned** — only standard domain dirs + apps/ + libs/ + scripts/ remain
+   - Untracked ephemeral dirs (build/, temp_venv/, logs/, etc.) are gitignored
+
 ### **Commit Log Session 16**
-- `f918e783c0` — docs: Add component card templates and expand migration manifest with ISO columns
+- `f918e783c0` — docs: Component card templates + migration manifest ISO columns
+- `dde316dd02` — docs: Session 16 closure (timeline, epic, validation)
+- `4c79630e83` — refactor: Phase 1 repo reorganization (domain dirs + archive moves)
+- `758a41d3c2` — refactor: Phase 1 continued (root dirs → canonical homes)
+- `30f010aa09` — refactor: Phase 1 final (submodules classified)
+- `[pending]` — refactor: Chrome profile → archives + final cleanup
 
 ### **Git Status After Session 16**
 - ✅ main branch: up to date with origin/main
 - ⚠️ Pre-existing user modifications in `01_Core_Platform/getupsoft-mail-infra/` remain uncommitted (user's pending work — not from our sessions)
+- ⚠️ hermes-agent submodule: needs re-registration at `04_Workers/ai-agents/hermes-agent` (network issue during clone — see task-ledger)
 
 ---
 
