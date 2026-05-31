@@ -9,6 +9,7 @@ import type { Response } from 'express';
 import { InterpretRequestDto } from './dto/interpret-request.dto';
 import { AuditLogRequestDto, AuditLogResponseDto } from './dto/audit-log-request.dto';
 import { FiscalSyncRequestDto } from './dto/fiscal-sync-request.dto';
+import { OdooE2eRequestDto, OdooE2eResult } from './dto/odoo-e2e-request.dto';
 
 const execFileAsync = promisify(execFile);
 
@@ -733,6 +734,290 @@ export class OrcaService {
     } catch (error) {
       this.logger.error(`Failed to query audit logs: ${error instanceof Error ? error.message : 'Unknown error'}`);
       throw new InternalServerErrorException('Failed to query audit logs');
+    }
+  }
+
+  // ---------------------------------------------------------------------------
+  // Odoo E2E — Invoice Creation Flow (called by ORCA Live Browser)
+  // ---------------------------------------------------------------------------
+
+  private get odooBaseUrl(): string {
+    return this.config.get<string>('ODOO_URL') ?? process.env['ODOO_URL'] ?? 'http://127.0.0.1:8069';
+  }
+
+  private get odooDb(): string {
+    return this.config.get<string>('ODOO_DB') ?? process.env['ODOO_DB'] ?? 'odoo';
+  }
+
+  private get odooUser(): string {
+    return this.config.get<string>('ODOO_USER') ?? process.env['ODOO_USER'] ?? 'admin';
+  }
+
+  private get odooPassword(): string {
+    return this.config.get<string>('ODOO_PASSWORD') ?? process.env['ODOO_PASSWORD'] ?? 'admin';
+  }
+
+  private async odooJsonRpc(
+    service: 'common' | 'object',
+    method: string,
+    args: unknown[],
+    uid?: number,
+  ): Promise<unknown> {
+    const url =
+      service === 'common'
+        ? `${this.odooBaseUrl}/web/dataset/call_kw`
+        : `${this.odooBaseUrl}/web/dataset/call_kw`;
+
+    // For common (auth), use /web/dataset/call or the JSONRPC endpoint
+    const jsonrpcUrl =
+      service === 'common'
+        ? `${this.odooBaseUrl}/jsonrpc`
+        : `${this.odooBaseUrl}/jsonrpc`;
+
+    const payload = {
+      jsonrpc: '2.0',
+      method: 'call',
+      id: Date.now(),
+      params: {
+        service,
+        method,
+        args,
+      },
+    };
+
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 30_000);
+
+    try {
+      const res = await fetch(jsonrpcUrl, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+        signal: controller.signal,
+      });
+      clearTimeout(timeout);
+
+      if (!res.ok) {
+        throw new Error(`Odoo JSONRPC HTTP ${res.status}: ${res.statusText}`);
+      }
+
+      const json = (await res.json()) as { result?: unknown; error?: { message?: string; data?: { message?: string } } };
+      if (json.error) {
+        const msg = json.error.data?.message ?? json.error.message ?? 'Odoo JSONRPC error';
+        throw new Error(msg);
+      }
+      return json.result;
+    } catch (err) {
+      clearTimeout(timeout);
+      throw err;
+    }
+  }
+
+  private async odooAuthenticate(): Promise<number> {
+    const uid = await this.odooJsonRpc('common', 'authenticate', [
+      this.odooDb,
+      this.odooUser,
+      this.odooPassword,
+      {},
+    ]);
+    if (typeof uid !== 'number' || uid === 0) {
+      throw new Error('Odoo authentication failed — check ODOO_USER / ODOO_PASSWORD / ODOO_DB');
+    }
+    return uid;
+  }
+
+  private async odooCall(
+    uid: number,
+    model: string,
+    method: string,
+    args: unknown[],
+    kwargs: Record<string, unknown> = {},
+  ): Promise<unknown> {
+    return this.odooJsonRpc('object', 'execute_kw', [
+      this.odooDb,
+      uid,
+      this.odooPassword,
+      model,
+      method,
+      args,
+      kwargs,
+    ]);
+  }
+
+  async runOdooE2E(request: OdooE2eRequestDto): Promise<OdooE2eResult> {
+    const { product_name, customer_name, price = 1, qty = 1, allow_price_update_existing = false } = request;
+
+    this.logger.log(`Odoo E2E start: product="${product_name}" customer="${customer_name}" price=${price} qty=${qty}`);
+
+    try {
+      const uid = await this.odooAuthenticate();
+      this.logger.log(`Odoo authenticated as uid=${uid}`);
+
+      // --- Step 1: Find or create product ---
+      const existingProducts = (await this.odooCall(uid, 'product.product', 'search_read', [
+        [['name', 'ilike', product_name]],
+      ], {
+        fields: ['id', 'name', 'list_price'],
+        limit: 1,
+      })) as Array<{ id: number; name: string; list_price: number }>;
+
+      let productId: number;
+      let productName: string;
+
+      if (existingProducts.length > 0) {
+        productId = existingProducts[0].id;
+        productName = existingProducts[0].name;
+        this.logger.log(`Product found: id=${productId} name="${productName}"`);
+        if (allow_price_update_existing && price > 0 && existingProducts[0].list_price !== price) {
+          await this.odooCall(uid, 'product.product', 'write', [[productId], { list_price: price }]);
+          this.logger.log(`Product price updated to ${price}`);
+        }
+      } else {
+        productId = (await this.odooCall(uid, 'product.product', 'create', [{
+          name: product_name,
+          list_price: price,
+          type: 'service',
+        }])) as number;
+        productName = product_name;
+        this.logger.log(`Product created: id=${productId}`);
+      }
+
+      // --- Step 2: Find or create customer ---
+      const existingPartners = (await this.odooCall(uid, 'res.partner', 'search_read', [
+        [['name', 'ilike', customer_name], ['customer_rank', '>', 0]],
+      ], {
+        fields: ['id', 'name'],
+        limit: 1,
+      })) as Array<{ id: number; name: string }>;
+
+      let partnerId: number;
+      let partnerName: string;
+
+      if (existingPartners.length > 0) {
+        partnerId = existingPartners[0].id;
+        partnerName = existingPartners[0].name;
+        this.logger.log(`Partner found: id=${partnerId} name="${partnerName}"`);
+      } else {
+        partnerId = (await this.odooCall(uid, 'res.partner', 'create', [{
+          name: customer_name,
+          customer_rank: 1,
+        }])) as number;
+        partnerName = customer_name;
+        this.logger.log(`Partner created: id=${partnerId}`);
+      }
+
+      // --- Step 3: Create sale order ---
+      const saleOrderId = (await this.odooCall(uid, 'sale.order', 'create', [{
+        partner_id: partnerId,
+        order_line: [[0, 0, {
+          product_id: productId,
+          product_uom_qty: qty,
+          price_unit: price,
+        }]],
+      }])) as number;
+      this.logger.log(`Sale order created: id=${saleOrderId}`);
+
+      // --- Step 4: Confirm sale order ---
+      await this.odooCall(uid, 'sale.order', 'action_confirm', [[saleOrderId]]);
+      this.logger.log(`Sale order ${saleOrderId} confirmed`);
+
+      // Read sale order name (SO number)
+      const soData = (await this.odooCall(uid, 'sale.order', 'read', [[saleOrderId]], {
+        fields: ['name'],
+      })) as Array<{ name: string }>;
+      const saleOrderName = soData[0]?.name ?? `SO${saleOrderId}`;
+
+      // --- Step 5: Create invoice directly on account.move (Odoo 17+/18 approach) ---
+      // The old action_invoice_create was removed. The wizard private method cannot be called
+      // remotely. The most reliable approach is to create account.move directly from SO lines.
+      const soLines = (await this.odooCall(uid, 'sale.order.line', 'search_read', [
+        [['order_id', '=', saleOrderId]],
+      ], {
+        fields: ['id', 'product_id', 'product_uom_qty', 'price_unit', 'name'],
+      })) as Array<{ id: number; product_id: [number, string]; product_uom_qty: number; price_unit: number; name: string }>;
+
+      const invoiceLineCommands = soLines.map((line) => [
+        0, 0, {
+          product_id: line.product_id[0],
+          quantity: line.product_uom_qty,
+          price_unit: line.price_unit,
+          name: line.name,
+          sale_line_ids: [[4, line.id]],
+        },
+      ]);
+
+      const createResult = (await this.odooCall(uid, 'account.move', 'create', [{
+        move_type: 'out_invoice',
+        partner_id: partnerId,
+        invoice_line_ids: invoiceLineCommands,
+        invoice_origin: saleOrderName,
+      }])) as number | number[];
+
+      // Odoo v18 JSONRPC may return a list from create()
+      const invoiceId = Array.isArray(createResult) ? createResult[0] : createResult;
+      this.logger.log(`Invoice created directly: id=${invoiceId}`);
+
+      // --- Step 6: Post (validate) invoice ---
+      await this.odooCall(uid, 'account.move', 'action_post', [[invoiceId]]);
+      this.logger.log(`Invoice ${invoiceId} posted`);
+
+      // Read final invoice state
+      const finalInvoice = (await this.odooCall(uid, 'account.move', 'read', [[invoiceId]], {
+        fields: ['name', 'state', 'payment_state', 'amount_total'],
+      })) as Array<{ name: string; state: string; payment_state: string; amount_total: number }>;
+
+      const invoiceName = finalInvoice[0]?.name ?? `INV/${invoiceId}`;
+      const invoiceState = finalInvoice[0]?.state ?? 'posted';
+      const paymentState = finalInvoice[0]?.payment_state ?? 'not_paid';
+
+      this.logger.log(`Odoo E2E complete: invoice=${invoiceName} state=${invoiceState} payment=${paymentState}`);
+
+      return {
+        ok: true,
+        result: {
+          productId,
+          productName,
+          partnerId,
+          partnerName,
+          saleOrderId,
+          saleOrderName,
+          invoiceId,
+          invoiceName,
+          invoiceState,
+          paymentState,
+          pdfPath: `${this.odooBaseUrl}/report/pdf/account.report_invoice/${invoiceId}`,
+        },
+      };
+    } catch (error) {
+      const message = error instanceof Error ? error.message : 'Unknown Odoo E2E error';
+      this.logger.error(`Odoo E2E failed: ${message}`);
+      return { ok: false, detail: message };
+    }
+  }
+
+  async odooProductCheck(productName: string): Promise<{ ok: boolean; exists: boolean; list_price?: number; id?: number }> {
+    try {
+      const uid = await this.odooAuthenticate();
+      const results = (await this.odooCall(uid, 'product.product', 'search_read', [
+        [['name', 'ilike', productName]],
+      ], { fields: ['id', 'name', 'list_price'], limit: 1 })) as Array<{ id: number; name: string; list_price: number }>;
+      if (results.length === 0) return { ok: true, exists: false };
+      return { ok: true, exists: true, id: results[0].id, list_price: results[0].list_price };
+    } catch (err) {
+      return { ok: false, exists: false };
+    }
+  }
+
+  async odooCustomerCheck(customerName: string): Promise<{ ok: boolean; exists: boolean; id?: number; email?: string }> {
+    try {
+      const uid = await this.odooAuthenticate();
+      const results = (await this.odooCall(uid, 'res.partner', 'search_read', [
+        [['name', 'ilike', customerName]],
+      ], { fields: ['id', 'name', 'email'], limit: 1 })) as Array<{ id: number; name: string; email?: string }>;
+      if (results.length === 0) return { ok: true, exists: false };
+      return { ok: true, exists: true, id: results[0].id, email: results[0].email };
+    } catch (err) {
+      return { ok: false, exists: false };
     }
   }
 

@@ -3,6 +3,7 @@ import { ApiOperation, ApiTags, ApiResponse } from '@nestjs/swagger';
 import { InterpretRequestDto } from './dto/interpret-request.dto';
 import { AuditLogRequestDto, AuditLogResponseDto } from './dto/audit-log-request.dto';
 import { FiscalSyncRequestDto } from './dto/fiscal-sync-request.dto';
+import { OdooE2eRequestDto } from './dto/odoo-e2e-request.dto';
 import { OrcaService } from './orca.service';
 
 @ApiTags('orca')
@@ -80,5 +81,45 @@ export class OrcaController {
   @ApiResponse({ status: 400, description: 'Invalid request payload' })
   async fiscalSync(@Body() request: FiscalSyncRequestDto) {
     return this.orcaService.processFiscalSync(request);
+  }
+
+  // -------------------------------------------------------------------------
+  // Odoo Live Browser endpoints (called by AIMode.tsx)
+  // -------------------------------------------------------------------------
+
+  @Post('api/orca/odoo-e2e')
+  @ApiOperation({
+    summary: 'ORCA Live Browser — Odoo E2E invoice creation flow',
+    description:
+      'Creates product, partner, sale order, and invoice in Odoo via JSONRPC. ' +
+      'Returns IDs for each step so the frontend can display them in the OdooLiveBrowserNode.',
+  })
+  @ApiResponse({ status: 201, description: 'E2E invoice flow completed' })
+  async odooE2e(@Body() request: OdooE2eRequestDto) {
+    return this.orcaService.runOdooE2E(request);
+  }
+
+  @Post('api/orca/odoo-product-check')
+  @ApiOperation({ summary: 'Check if a product exists in Odoo and return its list price' })
+  async odooProductCheck(@Body() body: { product_name: string }) {
+    return this.orcaService.odooProductCheck(body.product_name);
+  }
+
+  @Post('api/orca/odoo-customer-check')
+  @ApiOperation({ summary: 'Check if a customer partner exists in Odoo' })
+  async odooCustomerCheck(@Body() body: { customer_name: string }) {
+    return this.orcaService.odooCustomerCheck(body.customer_name);
+  }
+
+  @Post('api/orca/odoo-live-tutorial/start')
+  @ApiOperation({ summary: 'Start the Odoo live tutorial flow (Playwright automation)' })
+  async odooLiveTutorialStart() {
+    return { ok: true, message: 'Tutorial started (stub — Playwright integration pending)' };
+  }
+
+  @Get('api/orca/odoo-live-tutorial/status')
+  @ApiOperation({ summary: 'Get Odoo live tutorial status and latest frame' })
+  async odooLiveTutorialStatus() {
+    return { ok: true, running: false, log_lines: [], latest_frame: null };
   }
 }

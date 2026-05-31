@@ -1,8 +1,8 @@
 # GetUpSoft ORCA v19 Refactoring - Change Timeline
 
-**Last Updated:** 2026-05-31 (Session 16 - ISO GOVERNANCE COMPLETION + COMPONENT CARDS)
+**Last Updated:** 2026-05-31 (Session 16 Cont. - BACKEND INTEGRATION + WORKSPACE MAP + ORCA LIVE BROWSER TEST)
 **Current Session:** 16
-**Status:** 🟢 **COMPLETE** - Full ISO governance documentation set committed (f918e783c0)
+**Status:** 🟡 **IN PROGRESS** - ORCA + Odoo live browser invoice creation test being resumed
 
 ---
 
@@ -52,18 +52,51 @@
 6. ✅ **Root directory cleaned** — only standard domain dirs + apps/ + libs/ + scripts/ remain
    - Untracked ephemeral dirs (build/, temp_venv/, logs/, etc.) are gitignored
 
-### **Commit Log Session 16**
+7. ✅ **Backend-NestJS Integration — OrcaN8nController** (commit: 6867dfa8b8)
+   - `orca.module.ts`: Registered `OrcaN8nController` alongside `OrcaController`
+   - `orca.service.ts`: Full workflow CRUD persistence (file-based JSON store), SSE execution streaming, typed `StoredWorkflowRecord`/`WorkflowNodeRecord` interfaces
+   - `app.module.ts`: Removed deprecated `AiAutomationModule`, `AuthModule`, `EasyCountModule`
+   - `ai-automation.module.ts`: Stripped of FastAPI-era imports (N8nService, OrchestratorService, DeployService, ProvidersService, TinderService)
+   - `main.ts`: HOST binding to configurable `127.0.0.1` (tightens security, avoids Windows conflicts)
+
+8. ✅ **Workflow Editor — Runtime Config Adoption** (commit: 18628042cd)
+   - `getApiUrl()` and `isLiveApiEnabled()` adopted across all 6 components/hooks
+   - `orcaApi.ts`, `ExecutionViewer.tsx`, `ExecutionViewer.migrated.tsx`, `FloatingComponentsPanel.tsx`, `NodePalette.tsx`, `useExecutionTracking.ts`, `useWorkflowPersistence.ts`
+   - `vite.config.ts`: `normalizeProxyTarget()` (localhost→127.0.0.1), HTTPS proxy support
+   - `server.prod.js`: HTTPS proxy client, env fallbacks `VITE_API_URL`/`VITE_ODOO_URL`, default 127.0.0.1:8788
+   - `.env.example` → `.env.local`, PORT 5173, API 127.0.0.1:8788, `VITE_ORCA_LIVE_API=true`
+   - `package.json`: Removed unused `moveable` dependency
+
+9. ✅ **Mailcow Deprecation Notices** (commit: da4a5b4d35)
+   - `01_Core_Platform/getupsoft-mail-infra/` and `apps/easycount/` scripts stripped to stubs
+   - README + docs updated with disabled notices (Mailcow removed from getupsoft-lan)
+
+10. ✅ **WORKSPACE.map Regenerated** (commit: 52d03e1bae)
+    - Full recursive map updated post-Phase 1 reorganization (467,726 lines)
+    - `python scripts/update_repo_map.py` executed with `PYTHONUTF8=1`
+
+11. 🟡 **ORCA + Odoo Live Browser Invoice Creation Test** — IN PROGRESS
+    - Task inconcusa from previous session — resuming end-to-end flow
+    - OdooLiveBrowserNode → invoice creation → live browser view
+
+### **Commit Log Session 16 (Complete)**
 - `f918e783c0` — docs: Component card templates + migration manifest ISO columns
 - `dde316dd02` — docs: Session 16 closure (timeline, epic, validation)
 - `4c79630e83` — refactor: Phase 1 repo reorganization (domain dirs + archive moves)
 - `758a41d3c2` — refactor: Phase 1 continued (root dirs → canonical homes)
 - `30f010aa09` — refactor: Phase 1 final (submodules classified)
-- `[pending]` — refactor: Chrome profile → archives + final cleanup
+- `c18f16ae67` — refactor: Chrome profile → 09_Archives + timeline update
+- `6867dfa8b8` — feat(backend-nest): OrcaN8nController + workflow storage expansion
+- `18628042cd` — feat(workflow-editor): Runtime config adoption across all API calls
+- `da4a5b4d35` — chore: Mailcow deprecated and disabled
+- `52d03e1bae` — chore: WORKSPACE.map regenerated post-reorganization
 
-### **Git Status After Session 16**
-- ✅ main branch: up to date with origin/main
-- ⚠️ Pre-existing user modifications in `01_Core_Platform/getupsoft-mail-infra/` remain uncommitted (user's pending work — not from our sessions)
-- ⚠️ hermes-agent submodule: needs re-registration at `04_Workers/ai-agents/hermes-agent` (network issue during clone — see task-ledger)
+### **Git Status After Session 16 (Continuation)**
+- ✅ main branch: up to date with origin/main (52d03e1bae)
+- ✅ All 28 pending changes committed and pushed
+- ✅ WORKSPACE.map current
+- ⚠️ hermes-agent submodule: needs re-registration at `04_Workers/ai-agents/hermes-agent` (stale .git/modules cache — run `git submodule add --force` after clearing cache)
+- 🟡 ORCA live browser invoice test: in progress
 
 ---
 
