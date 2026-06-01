@@ -1,16 +1,27 @@
-# Session 16 Summary — ISO Architecture Governance Completion
+# Session 16 Summary — ISO Governance + Full Repo Reorganization + ORCA Live Browser Invoice Test
 
-**Date:** 2026-05-31
+**Date:** 2026-05-31 to 2026-06-01
 **Session:** 16
 **Branch:** main
 **Agent:** Claude Sonnet 4.6
-**Commits:** f918e783c0
+**Commits:** f918e783c0, dde316dd02, 4c79630e83, 758a41d3c2, 30f010aa09, c18f16ae67,
+             6867dfa8b8, 18628042cd, da4a5b4d35, 52d03e1bae, 4b1e7dc754, 85229638d0,
+             2cdac17347 (13 total)
 
 ---
 
-## Objective
+## Final Status: ALL OBJECTIVES COMPLETE
 
-Complete the ISO architecture governance documentation set for the GetUpSoft Workspace monorepo. Zero code changes. Documentation only.
+1. ISO Architecture Governance documentation — DONE
+2. Phase 1 full repository reorganization (~16,000 files) — DONE
+3. Backend-NestJS OrcaN8nController integration — DONE
+4. ORCA Live Browser invoice creation test — **PASSED** (INV/2026/00067)
+
+---
+
+## Objective (Original)
+
+Complete the ISO architecture governance documentation set for the GetUpSoft Workspace monorepo.
 
 ---
 
@@ -81,7 +92,7 @@ Session 16 block added to `CHANGE_TIMELINE.md` documenting all deliverables and 
 
 ---
 
-## Validation Results
+## Validation Results — Documentation Phase
 
 | Check | Result |
 |---|---|
@@ -95,22 +106,56 @@ Session 16 block added to `CHANGE_TIMELINE.md` documenting all deliverables and 
 
 ---
 
-## Pre-existing Uncommitted Files (User's Pending Work)
+## Validation Results — ORCA Live Browser Invoice Test
 
-These files were modified before Session 14 and are not from our sessions. User should commit or stash when ready:
-- `01_Core_Platform/getupsoft-mail-infra/` (6 files — Mailcow configuration)
-- `apps/backend-nest/src/` (5 files — backend module changes)
-- `apps/orca/workflow-editor/` (10 files — workflow editor updates)
+| Check | Result |
+|---|---|
+| Backend endpoint `/api/orca/odoo-e2e` exists and responds | PASS — HTTP 201 |
+| Vite proxy reaches backend | PASS — directProxyPlugin with family:4 |
+| Odoo v18 local Docker running on port 8069 | PASS |
+| Product creation via JSONRPC | PASS — id=62 |
+| Partner creation via JSONRPC | PASS — id=69 |
+| Sale order creation and confirmation | PASS — id=70 S00071 |
+| Invoice creation via account.move | PASS — id=132 |
+| Invoice posting (action_post) | PASS — state=posted |
+| All 6 steps visible in live browser canvas | PASS |
+| Invoice verified in Odoo XML-RPC | PASS — INV/2026/00067 total=$1,033.85 |
+| Screenshot evidence committed | PASS — 13 PNGs in evidence/ |
 
 ---
 
+## Complete Commit Log (Session 16)
+
+| Commit | Type | Description |
+|---|---|---|
+| `f918e783c0` | docs | Component card templates + migration manifest ISO columns |
+| `dde316dd02` | docs | Session 16 closure (timeline, epic, validation) |
+| `4c79630e83` | refactor | Phase 1 repo reorganization (domain dirs + archive moves) |
+| `758a41d3c2` | refactor | Phase 1 continued (root dirs → canonical homes) |
+| `30f010aa09` | refactor | Phase 1 final (submodules classified) |
+| `c18f16ae67` | refactor | Chrome profile → 09_Archives + timeline update |
+| `6867dfa8b8` | feat | backend-nest: OrcaN8nController + workflow storage |
+| `18628042cd` | feat | workflow-editor: runtime config adoption across all API calls |
+| `da4a5b4d35` | chore | Mailcow deprecated and disabled |
+| `52d03e1bae` | chore | WORKSPACE.map regenerated post-reorganization |
+| `4b1e7dc754` | feat | backend-nest: Odoo E2E invoice creation endpoint |
+| `85229638d0` | docs | CHANGE_TIMELINE ORCA E2E backend test result |
+| `2cdac17347` | fix | workflow-editor: Vite proxy Node 24 ECONNREFUSED — directProxyPlugin |
+
+**13 commits total — all pushed to origin/main**
+
+---
+
+## Known Issues Remaining
+
+- `vite.config.js` is gitignored but must stay in sync with `vite.config.ts` — future devs must update both
+- hermes-agent submodule needs re-registration at `04_Workers/ai-agents/hermes-agent`
+- Natural language parser captures "para" as part of product name ("Samsung Galaxy S25 **para**")
+- Live browser iframe shows step-viewer (not actual Odoo UI) because cloud Odoo is not reachable
+
 ## Next Session Recommended Actions
 
-Based on `EPIC-ISO-ARCHITECTURE-GOVERNANCE-COMPLETE.md` next steps:
-
-1. **EPIC-GOV-002:** Execute Phase 1 low-risk archive migration (8 directories)
-2. **EPIC-GOV-003:** Create product cards for ORCA, EasyCount, GetUpSoft Site in `02_Products/`
-3. **EPIC-GOV-004:** Create client cards for GalantesJewelry and ChefAlitas in `03_Client_Solutions/`
-4. **EPIC-GOV-005:** Resolve ORCA canonical path duplication (`apps/orca/` vs `03_AI_Automation/orca/`)
-
-Or continue with: **Odoo v19 ORCA Audit Mixin refactoring** (43 modules, active mandate)
+1. **EPIC-ORCA-INV-002:** Connect live browser iframe to local Odoo (`http://127.0.0.1:8069`) so Odoo forms render in canvas
+2. **EPIC-ORCA-INV-003:** Improve NL parser — exclude prepositions ("para", "de", "con") from product name extraction
+3. **EPIC-GOV-002:** Execute Phase 2 medium-risk migrations (GalantesJewelry extraction, infra consolidation)
+4. **Odoo v19 ORCA Audit Mixin refactoring** — 43 modules, active mandate, 30 remaining

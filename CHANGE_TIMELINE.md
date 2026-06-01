@@ -1,8 +1,8 @@
 # GetUpSoft ORCA v19 Refactoring - Change Timeline
 
-**Last Updated:** 2026-05-31 (Session 16 Cont. - BACKEND INTEGRATION + WORKSPACE MAP + ORCA LIVE BROWSER TEST)
+**Last Updated:** 2026-06-01 (Session 16 Final - ORCA LIVE BROWSER INVOICE TEST PASSED + PROXY FIX)
 **Current Session:** 16
-**Status:** 🟢 **COMPLETE** - ORCA + Odoo E2E invoice test PASSED (4b1e7dc754)
+**Status:** 🟢 **COMPLETE** - ORCA Live Browser real invoice created from chat — INV/2026/00067 (2cdac17347)
 
 ---
 
@@ -75,22 +75,38 @@
     - Full recursive map updated post-Phase 1 reorganization (467,726 lines)
     - `python scripts/update_repo_map.py` executed with `PYTHONUTF8=1`
 
-11. ✅ **ORCA + Odoo Live Browser Invoice Creation Test** — COMPLETE (commit: 4b1e7dc754)
-    - Root cause identified: `/api/orca/odoo-e2e` endpoint was missing from NestJS backend
-    - Implemented: `OrcaService.runOdooE2E()` with full Odoo v18 JSONRPC flow
-    - Implemented: `odooProductCheck()` and `odooCustomerCheck()` endpoints
-    - Odoo v18 compatibility: direct `account.move` creation (avoids deprecated `action_invoice_create` and private `_create_invoices`)
-    - Local Odoo v18 started via Docker Compose (port 8069)
-    - **E2E Test PASSED** — 4.2 seconds total:
-      - Product created: id=60 "MacBook Pro ORCA Live Test"
-      - Partner created: id=68 "Galantes Jewelry ORCA Live"
-      - Sale order created: id=68 "S00069"
-      - Invoice created + posted: id=130 "INV/2026/00065" state=posted
-      - PDF URL: `http://127.0.0.1:8069/report/pdf/account.report_invoice/130`
-    - Frontend: ORCA Workflow Editor running on port 5174 (5173 was occupied)
-    - Next: test full chat-triggered flow in browser (type "factura MacBook para Galantes")
+11. ✅ **ORCA + Odoo Live Browser — Backend Endpoint** (commit: 4b1e7dc754)
+    - Root cause: `/api/orca/odoo-e2e` endpoint was missing from NestJS backend
+    - `OrcaService.runOdooE2E()`: full Odoo v18 JSONRPC flow (product → partner → sale order → invoice → PDF)
+    - `odooProductCheck()` and `odooCustomerCheck()` — pre-flight lookup endpoints
+    - Odoo v18 compatibility: direct `account.move` creation (avoids removed `action_invoice_create`)
+    - Backend API test via PowerShell: invoice INV/2026/00065 created in 4.2 seconds
 
-### **Commit Log Session 16 (Complete)**
+12. ✅ **ORCA Live Browser — Full Browser Test PASSED** (commit: 2cdac17347)
+    - **User command**: "factura Samsung Galaxy S25 para cliente ChefAlitas por 899"
+    - **Root cause of proxy failure**: `vite.config.js` (compiled output, gitignored) was being loaded
+      by Vite instead of `vite.config.ts` — contained old proxy targeting `localhost:8015` (dead)
+    - **Fix**: `directProxyPlugin` — custom Vite plugin using `http.request({ family: 4 })` directly,
+      bypassing Vite's bundled http-proxy which ignores custom agents on Node 24 (Happy Eyeballs /
+      `internalConnectMultiple` bug)
+    - Backend: restarted with `HOST=::` (dual-stack IPv4 + IPv6)
+    - **6/6 steps completed in live browser canvas:**
+      - Paso 1/6: Mostrando producto #62 (Samsung Galaxy S25 para)
+      - Paso 2/6: Mostrando cliente #69 (ChefAlitas — nuevo, creado automáticamente)
+      - Paso 3/6: Mostrando venta #70
+      - Paso 4/6: Mostrando factura #132
+      - Paso 5/6: PDF de factura #132 descargado
+      - Paso 6/6: Completado → `/web#id=132&model=account.move&view_type=form`
+    - **Invoice verified in Odoo via XML-RPC:**
+      - Número: **INV/2026/00067**
+      - Estado: **posted** (validada)
+      - Cliente: ChefAlitas | Producto: Samsung Galaxy S25 para
+      - Precio unit: $899.00 | Total con ITBIS: **$1,033.85**
+      - PDF: `http://127.0.0.1:8069/report/pdf/account.report_invoice/132`
+    - Evidence screenshots (13): `apps/orca-client-gateway/apps/client-desktop/evidence/live-browser-test-*.png`
+    - Services running: NestJS 127.0.0.1:8788, Vite 127.0.0.1:5173, Odoo v18 Docker 127.0.0.1:8069
+
+### **Commit Log Session 16 (Final — All Commits)**
 - `f918e783c0` — docs: Component card templates + migration manifest ISO columns
 - `dde316dd02` — docs: Session 16 closure (timeline, epic, validation)
 - `4c79630e83` — refactor: Phase 1 repo reorganization (domain dirs + archive moves)
@@ -101,13 +117,17 @@
 - `18628042cd` — feat(workflow-editor): Runtime config adoption across all API calls
 - `da4a5b4d35` — chore: Mailcow deprecated and disabled
 - `52d03e1bae` — chore: WORKSPACE.map regenerated post-reorganization
+- `4b1e7dc754` — feat(backend-nest): Odoo E2E invoice creation endpoint
+- `85229638d0` — docs: CHANGE_TIMELINE — ORCA E2E backend test result
+- `2cdac17347` — fix(workflow-editor): Vite proxy Node 24 ECONNREFUSED — directProxyPlugin (FINAL)
 
-### **Git Status After Session 16 (Continuation)**
-- ✅ main branch: up to date with origin/main (52d03e1bae)
-- ✅ All 28 pending changes committed and pushed
+### **Git Status After Session 16 (Final)**
+- ✅ main branch: up to date with origin/main (`2cdac17347`)
+- ✅ All changes committed and pushed
 - ✅ WORKSPACE.map current
-- ⚠️ hermes-agent submodule: needs re-registration at `04_Workers/ai-agents/hermes-agent` (stale .git/modules cache — run `git submodule add --force` after clearing cache)
-- 🟡 ORCA live browser invoice test: in progress
+- ✅ Live browser invoice test: PASSED — INV/2026/00067 created and verified in Odoo
+- ⚠️ hermes-agent submodule: needs re-registration at `04_Workers/ai-agents/hermes-agent`
+- ⚠️ vite.config.js is gitignored — future changes must update both `.js` and `.ts` files
 
 ---
 
