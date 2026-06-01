@@ -1,0 +1,16 @@
+{
+  "baseUrl": "https://ethernet-deck-frog-holds.trycloudflare.com",
+  "tenantId": "ten_ibpynx26",
+  "pairingCode": "GTS-5439-XL",
+  "deviceId": "dev_hnxgitqt",
+  "commandIssuedId": "cmd_m11wb7zn",
+  "commandReceivedId": "cmd_m11wb7zn",
+  "resultOk": true,
+  "sandbox": {
+    "jobDir": "C:\\Users\\yoeli\\AppData\\Roaming\\GetUpSoft\\OrcaAgent\\sandbox\\cmd_m11wb7zn",
+    "inputFile": "C:\\Users\\yoeli\\AppData\\Roaming\\GetUpSoft\\OrcaAgent\\sandbox\\cmd_m11wb7zn\\input.json",
+    "outputFile": "C:\\Users\\yoeli\\AppData\\Roaming\\GetUpSoft\\OrcaAgent\\sandbox\\cmd_m11wb7zn\\output.json",
+    "runtimeLog": "C:\\Users\\yoeli\\AppData\\Roaming\\GetUpSoft\\OrcaAgent\\sandbox\\cmd_m11wb7zn\\runtime.log"
+  },
+  "auditCount": 4
+}
