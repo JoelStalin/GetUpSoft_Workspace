@@ -1,4 +1,4 @@
-import { createOdooClient } from '../../src/config/odooClient.js';
+import { createOdooClient } from '@/src/config/odooClient';
 
 const client = createOdooClient();
 

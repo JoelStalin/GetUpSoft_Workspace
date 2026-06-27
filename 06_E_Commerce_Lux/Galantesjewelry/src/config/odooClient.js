@@ -218,7 +218,7 @@ function getOdooHeaders(config = getOdooConfig()) {
   return headers;
 }
 
-function buildOdooUrl(model, method, config = getOdooConfig()) {
+function buildOdooUrl(model, method, config = getOdooConfig(), version = 'json2') {
   const normalizedModel = normalizeOptionalString(model);
   const normalizedMethod = normalizeOptionalString(method);
 
@@ -226,11 +226,11 @@ function buildOdooUrl(model, method, config = getOdooConfig()) {
     throw new OdooConfigError('Odoo model and method are required.');
   }
 
-  return `${config.baseUrl}/json/2/${encodeURIComponent(normalizedModel)}/${encodeURIComponent(normalizedMethod)}`;
-}
+  if (version === 'jsonrpc') {
+    return `${config.baseUrl}/jsonrpc`;
+  }
 
-function buildOdooJson2Url(model, method, config = getOdooConfig()) {
-  return buildOdooUrl(model, method, config);
+  return `${config.baseUrl}/json/2/${encodeURIComponent(normalizedModel)}/${encodeURIComponent(normalizedMethod)}`;
 }
 
 async function parseResponseBody(response) {
@@ -285,60 +285,95 @@ function createOdooClient(overrides = {}) {
     const maxRetries = options.maxRetries || 3;
     let lastError;
 
-    for (let attempt = 0; attempt <= maxRetries; attempt++) {
-      const controller = new AbortController();
-      const clearSignal = bindAbortSignal(controller, options.signal);
-      const timeoutId = setTimeout(() => controller.abort(), config.timeoutMs);
+    // Try JSON-2 first, then fallback to JSON-RPC if it fails with 404
+    const endpoints = ['json2', 'jsonrpc'];
 
-      try {
-        if (attempt > 0) {
-          const delay = Math.pow(2, attempt) * 1000;
-          console.log(`[Odoo] Retry attempt ${attempt}/${maxRetries} using json2...`);
-          await new Promise(resolve => setTimeout(resolve, delay));
-        }
+    for (const endpointType of endpoints) {
+      for (let attempt = 0; attempt <= maxRetries; attempt++) {
+        const controller = new AbortController();
+        const clearSignal = bindAbortSignal(controller, options.signal);
+        const timeoutId = setTimeout(() => controller.abort(), config.timeoutMs);
 
-        const cleanPayload = { ...payload };
-        delete cleanPayload.args;
-        delete cleanPayload.kwargs;
+        try {
+          if (attempt > 0) {
+            const delay = Math.pow(2, attempt) * 1000;
+            console.log(`[Odoo] Retry attempt ${attempt}/${maxRetries} using ${endpointType}...`);
+            await new Promise(resolve => setTimeout(resolve, delay));
+          }
 
-        const response = await fetchImpl(buildOdooUrl(model, method, config), {
-          method: 'POST',
-          headers: getOdooHeaders(config),
-          body: JSON.stringify(cleanPayload),
-          signal: controller.signal,
-        });
+          const url = endpointType === 'jsonrpc' ? `${config.baseUrl}/jsonrpc` : buildOdooUrl(model, method, config, endpointType);
+          let body;
+          
+          if (endpointType === 'jsonrpc') {
+            body = JSON.stringify({
+              jsonrpc: '2.0',
+              method: 'call',
+              params: {
+                service: 'object',
+                method: 'execute_kw',
+                args: [
+                  config.database,
+                  1,
+                  config.authToken || config.password,
+                  model,
+                  method,
+                  payload.args || [payload.ids || []],
+                  payload.kwargs || payload.vals || payload.vals_list || {},
+                ],
+              },
+              id: Math.floor(Math.random() * 1000000),
+            });
+          } else {
+            body = JSON.stringify(payload);
+          }
 
-        const result = await parseResponseBody(response);
+          const response = await fetchImpl(url, {
+            method: 'POST',
+            headers: getOdooHeaders(config),
+            body,
+            signal: controller.signal,
+          });
 
-        if (!response.ok) {
-          throw new OdooRequestError(
-            result?.message || `Odoo request failed with status ${response.status}.`,
-            {
-              status: response.status,
-              body: result,
-              model,
-              method,
-            },
-          );
-        }
+          if (response.status === 404 && endpointType === 'json2') {
+            console.warn(`[Odoo] Endpoint /json/2/ not found, trying /jsonrpc...`);
+            clearTimeout(timeoutId);
+            clearSignal();
+            break; // Exit retry loop and switch to next endpointType
+          }
 
-        clearTimeout(timeoutId);
-        clearSignal();
-        return result;
-      } catch (error) {
-        clearTimeout(timeoutId);
-        clearSignal();
-        lastError = error;
+          const result = await parseResponseBody(response);
 
-        const errorStatus = error?.status || error?.details?.status;
-        if (NON_RETRYABLE_STATUS_CODES.has(errorStatus) || error.name === 'OdooConfigError') {
-          throw error;
-        }
+          if (!response.ok) {
+            throw new OdooRequestError(
+              result?.message || `Odoo request failed with status ${response.status}.`,
+              {
+                status: response.status,
+                body: result,
+                model,
+                method,
+              },
+            );
+          }
 
-        console.warn(`[Odoo] Request attempt ${attempt} failed with json2: ${error.message}`);
+          clearTimeout(timeoutId);
+          clearSignal();
+          return result;
+        } catch (error) {
+          clearTimeout(timeoutId);
+          clearSignal();
+          lastError = error;
 
-        if (attempt === maxRetries) {
-          throw error;
+          const errorStatus = error?.status || error?.details?.status;
+          if (NON_RETRYABLE_STATUS_CODES.has(errorStatus) || error.name === 'OdooConfigError') {
+            throw error;
+          }
+
+          console.warn(`[Odoo] Request attempt ${attempt} failed with ${endpointType}: ${error.message}`);
+          
+          if (attempt === maxRetries) {
+            if (endpointType === 'json2') break; // Try jsonrpc
+            throw error;
+          }
         }
       }
     }
@@ -353,13 +388,31 @@ function createOdooClient(overrides = {}) {
     getConfig: resolveConfig,
     call,
     async searchRead(model, payload = {}, options = {}) {
-      return call(model, 'search_read', payload, options);
+      // Standard search_read mapping for JSON-RPC
+      const args = [];
+      const kwargs = {
+        domain: payload.domain || [],
+        fields: payload.fields || [],
+        offset: payload.offset || 0,
+        limit: payload.limit || 0,
+        order: payload.order || '',
+      };
+      
+      return call(model, 'search_read', { domain: kwargs.domain, fields: kwargs.fields, offset: kwargs.offset, limit: kwargs.limit, order: kwargs.order, args, kwargs }, options);
     },
     async create(model, values, options = {}) {
-      return call(model, 'create', {
-        vals: Array.isArray(values) ? undefined : values,
+      // Standard create mapping for JSON-RPC
+      const result = await call(model, 'create', {
         vals_list: Array.isArray(values) ? values : [values],
+        args: [Array.isArray(values) ? values : [values]],
+        kwargs: {},
       }, options);
+
+      if (Array.isArray(result) && result.length === 1) {
+        return result[0];
+      }
+
+      return result;
     },
   };
 }

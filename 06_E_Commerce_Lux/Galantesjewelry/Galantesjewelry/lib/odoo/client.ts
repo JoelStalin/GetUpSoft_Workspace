@@ -203,9 +203,8 @@ class OdooClient {
       const response = await this.fetch<FetchResponse<ShopProduct>>(`/api/products/${slug}`);
       if (!response.data) return null;
       
-      // Always use the local image proxy when we have a product id.
-      // Some Odoo records omit imageUrl even when the image exists.
-      if (response.data.id) {
+      // Proxy image
+      if (response.data.imageUrl) {
         response.data.imageUrl = `/api/products/image?id=${response.data.id}`;
       }
 

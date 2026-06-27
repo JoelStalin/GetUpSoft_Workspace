@@ -6,7 +6,6 @@ import { ShippingEngine } from '@/lib/shipping/engine';
 import type { ShippingRate } from '@/lib/shipping/types';
 import { getSettings } from '@/lib/db';
 import { validateShippingCity } from '@/lib/shipping-settings';
-import { calculateTaxBreakdown } from '@/lib/tax';
 
 export const runtime = 'nodejs';
 
@@ -45,14 +44,6 @@ const PICKUP_RATE = {
   currency: 'USD',
   estimatedDays: 0,
   insuranceIncluded: true,
-};
-
-const STORE_TAX_ADDRESS = {
-  street: '82681 Overseas Highway',
-  city: 'Islamorada',
-  state: 'FL',
-  zip: '33036',
-  country: 'United States',
 };
 
 async function getShippingSettingsWithFallback(timeoutMs = 1200) {
@@ -149,12 +140,6 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: 'Selected shipping method does not meet jewelry insurance requirements.' }, { status: 400 });
     }
 
-    const tax = calculateTaxBreakdown({
-      subtotal,
-      shippingTotal: selectedRate.price,
-      destination: isPickup ? STORE_TAX_ADDRESS : shippingAddress,
-    });
-
     const shippingProductId = await OdooService.getProductVariantIdByDefaultCode(SHIPPING_PRODUCT_DEFAULT_CODE)
       || (Number.isFinite(SHIPPING_PRODUCT_VARIANT_ID) && SHIPPING_PRODUCT_VARIANT_ID > 0
         ? SHIPPING_PRODUCT_VARIANT_ID
@@ -207,15 +192,8 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: 'Unable to create the Odoo order.' }, { status: 500 });
     }
 
-    const orderDetails = await OdooService.getOrderDetails(orderId);
-    const orderTotal = orderDetails?.amount_total ?? tax.total;
-    if (!Number.isFinite(orderTotal)) {
-      return NextResponse.json({ error: 'Unable to resolve the final order total.' }, { status: 500 });
-    }
-    const actualTax = Math.max(0, Math.round((orderTotal - subtotal - selectedRate.price) * 100) / 100);
-
     const stripe = getStripeClient();
-    const amount = orderTotal;
+    const amount = subtotal + selectedRate.price;
     const paymentIntent = await stripe.paymentIntents.create({
       amount: Math.round(amount * 100),
       currency: 'usd',
@@ -230,8 +208,6 @@ export async function POST(request: Request) {
         shipping_carrier: selectedRate.carrier,
         shipping_service_name: selectedRate.serviceName,
         shipping_amount: selectedRate.price.toFixed(2),
-        tax_amount: actualTax.toFixed(2),
-        estimated_total: orderTotal.toFixed(2),
         delivery_method: isPickup ? 'pickup' : 'ship',
       },
     });
