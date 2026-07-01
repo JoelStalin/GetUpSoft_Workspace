@@ -45,6 +45,7 @@ export default async function ShopPage({
   const params   = await searchParams;
   const client   = getOdooClient();
   const settings = await getSettings();
+  const shopHeroImageUrl = settings.hero_image_url || '';
   const page     = Math.max(1, parseInt(params.page || '1', 10));
 
   // Fetch products and categories in parallel; degrade gracefully on errors.
@@ -102,7 +103,7 @@ export default async function ShopPage({
       <section className="relative w-full h-[40vh] min-h-[350px] flex items-center justify-center text-white overflow-hidden">
         <div
           className="absolute inset-0 z-0 bg-cover bg-center transition-transform duration-[2000ms] scale-105 hover:scale-100"
-          style={{ backgroundImage: `url('${settings.shop_hero_image_url}')` }}
+          style={{ backgroundImage: `url('${shopHeroImageUrl}')` }}
         ></div>
         <div className="absolute inset-0 z-0 bg-black/40 backdrop-blur-[2px]"></div>
         
