@@ -8,15 +8,14 @@
         <field name="arch" type="xml">
             <xpath expr="//div[contains(@class, 'oe_button_box')]" position="inside">
                 <button type="action"
-                        name="%(galantes_jewelry.product_gallery_action)d"
+                        name="%(galantes_jewelry.product_gallery_upload_wizard_action)d"
                         class="oe_stat_button"
-                        icon="fa-images">
-                    <field name="gallery_ids" invisible="1"/>
+                        icon="fa-upload">
                     <div class="o_stat_info">
                         <span class="o_stat_value">
                             <field name="gallery_ids_count" nolabel="1" readonly="1"/>
                         </span>
-                        <span class="o_stat_text">Fotos adicionales</span>
+                        <span class="o_stat_text">Subir fotos</span>
                     </div>
                 </button>
             </xpath>
