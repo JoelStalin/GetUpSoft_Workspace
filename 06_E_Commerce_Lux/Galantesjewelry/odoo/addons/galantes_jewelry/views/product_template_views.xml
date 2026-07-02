@@ -6,6 +6,20 @@
         <field name="model">product.template</field>
         <field name="inherit_id" ref="product.product_template_form_view"/>
         <field name="arch" type="xml">
+            <xpath expr="//div[contains(@class, 'oe_button_box')]" position="inside">
+                <button type="action"
+                        name="%(galantes_jewelry.product_gallery_action)d"
+                        class="oe_stat_button"
+                        icon="fa-images">
+                    <field name="gallery_ids" invisible="1"/>
+                    <div class="o_stat_info">
+                        <span class="o_stat_value">
+                            <field name="gallery_ids_count" nolabel="1" readonly="1"/>
+                        </span>
+                        <span class="o_stat_text">Fotos adicionales</span>
+                    </div>
+                </button>
+            </xpath>
             <xpath expr="//notebook" position="inside">
                 <page string="Storefront" name="jewelry_storefront">
                     <!-- Publication & Merchandising -->
@@ -42,6 +56,37 @@
                         <field name="care_and_shipping" widget="text"
                                placeholder="Store in the provided jewelry box away from moisture.&#10;Complimentary gift packaging included.&#10;Free US shipping on orders over $200."
                                help="Shown in the 'Shipping &amp; Care' section on the detail page"/>
+                    </group>
+
+                </page>
+
+                <page string="Fotos adicionales" name="jewelry_gallery">
+                    <group string="Sube varias fotos del mismo artículo">
+                        <label for="gallery_ids" string="Galería del producto"/>
+                        <div class="text-muted" style="margin-bottom: 8px;">
+                            Agrega una imagen por línea. Usa el icono de imagen para subir varias fotos del mismo producto.
+                        </div>
+                        <field name="gallery_ids" context="{'default_product_id': active_id}">
+                            <list editable="bottom" default_order="sequence,id">
+                                <field name="sequence" widget="handle"/>
+                                <field name="active"/>
+                                <field name="image" widget="image" options="{'preview_image': 'image'}"/>
+                                <field name="name"/>
+                                <field name="alt_text"/>
+                            </list>
+                            <form string="Gallery Image">
+                                <sheet>
+                                    <group>
+                                        <field name="product_id" invisible="1"/>
+                                        <field name="image" widget="image"/>
+                                        <field name="sequence"/>
+                                        <field name="name"/>
+                                        <field name="alt_text"/>
+                                        <field name="active"/>
+                                    </group>
+                                </sheet>
+                            </form>
+                        </field>
                     </group>
                 </page>
             </xpath>
