@@ -11,6 +11,13 @@ Cuando el asistente (tú) deba escribir, modificar o ejecutar un script de prueb
 Además, como regla estricta: **SIEMPRE debes realizar pruebas funcionales** proactivamente después de cada implementación, cambio de infraestructura o despliegue. Asimismo, debes **aplicar todos los ajustes (settings) requeridos** de forma autónoma en el repositorio para asegurar que el ambiente quede funcionando de extremo a extremo antes de dar por concluida cualquier misión.
 
 > 📚 **Infraestructura de Producción**: GCP VM `galantes-prod-vm` (us-central1-a, IP 136.114.48.210). Docker Compose con 5 servicios: web (Next.js), odoo, postgres, nginx, cloudflared. No usar Termux ni Android — la producción corre 100% en GCP.
+
+## Product image safety
+- Never ship client code that can surface a broken product image in shop, cart, or PDP views.
+- If Odoo has no product image, the API must return a deterministic fallback asset instead of `404`, `500`, or an empty string.
+- Any change to product image routing must be verified with browser evidence that `naturalWidth > 0` for representative catalog cards.
+- Keep a client-side `onError` fallback to a local placeholder as a second line of defense.
+- Do not remove or replace an existing image fallback until the production browser test proves the new source loads for the real catalog.
 <!-- END:selenium-testing-rules -->
 
 <!-- BEGIN:scrapling-automation-rules -->

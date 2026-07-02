@@ -7,6 +7,7 @@ import { createOdooClient } from '@/src/config/odooClient';
 const CACHE_DIR = process.env.APP_DATA_DIR
   ? path.join(process.env.APP_DATA_DIR, 'blobs', 'product_gallery_images')
   : path.join(process.cwd(), 'data', 'blobs', 'product_gallery_images');
+const PLACEHOLDER_PATH = path.join(process.cwd(), 'public', 'assets', 'products', 'product-placeholder.svg');
 const client = createOdooClient();
 
 function toBinaryBody(buffer: Buffer) {
@@ -55,6 +56,17 @@ function buildCachePath(galleryId: number) {
   return cachePath;
 }
 
+async function readPlaceholderResponse(cacheTag: string) {
+  const buffer = await fs.readFile(PLACEHOLDER_PATH);
+  return new NextResponse(toBinaryBody(buffer), {
+    headers: {
+      'Content-Type': 'image/svg+xml; charset=utf-8',
+      'Cache-Control': 'public, max-age=86400, stale-while-revalidate=43200',
+      'X-Cache': cacheTag,
+    },
+  });
+}
+
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
   const id = searchParams.get('id');
@@ -82,7 +94,7 @@ export async function GET(request: Request) {
 
     const payload = await fetchGalleryImage(galleryId);
     if (!payload) {
-      return new Response('Gallery image not found', { status: 404 });
+      return await readPlaceholderResponse('MISS-PLACEHOLDER');
     }
 
     const buffer = Buffer.from(payload.base64, 'base64');
@@ -105,7 +117,7 @@ export async function GET(request: Request) {
     });
   } catch (error) {
     console.error('[GalleryImageProxy] Error fetching image:', error);
-    return new Response('Error fetching gallery image', { status: 500 });
+    return await readPlaceholderResponse('ERROR-PLACEHOLDER');
   }
 }
 

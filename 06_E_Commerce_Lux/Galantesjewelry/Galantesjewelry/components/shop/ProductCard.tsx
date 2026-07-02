@@ -1,9 +1,9 @@
 'use client';
 
-import Image from 'next/image';
 import Link from 'next/link';
 import { ShopProduct } from '@/lib/odoo/client';
 import { useCart } from '@/context/shop/CartContext';
+import { PRODUCT_IMAGE_FALLBACK_SRC } from '@/lib/product-image';
 
 interface ProductCardProps {
   product: ShopProduct;
@@ -36,13 +36,23 @@ export function ProductCard({ product }: ProductCardProps) {
           {/* Product image */}
           <div className="relative h-72 bg-gray-100 overflow-hidden flex-shrink-0">
             {product.imageUrl ? (
-              <Image
+              <img
                 src={product.imageUrl}
                 alt={product.name}
-                fill
-                unoptimized
-                className="object-cover group-hover:scale-105 transition-transform duration-300"
-                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                className="h-full w-full object-cover group-hover:scale-105 transition-transform duration-300"
+                loading="eager"
+                fetchPriority="high"
+                decoding="async"
+                width={800}
+                height={800}
+                onError={(event) => {
+                  const image = event.currentTarget;
+                  if (image.dataset.fallbackApplied === '1') {
+                    return;
+                  }
+                  image.dataset.fallbackApplied = '1';
+                  image.src = PRODUCT_IMAGE_FALLBACK_SRC;
+                }}
               />
             ) : (
               <div className="w-full h-full flex items-center justify-center bg-gray-200 text-gray-400">

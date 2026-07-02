@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="1200" viewBox="0 0 1200 1200" role="img" aria-labelledby="title desc">
+  <title id="title">Galante's Jewelry placeholder</title>
+  <desc id="desc">Neutral placeholder used when a product image is missing.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#f7f1e8"/>
+      <stop offset="100%" stop-color="#e7d9c7"/>
+    </linearGradient>
+    <linearGradient id="ring" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#9e7d4f"/>
+      <stop offset="100%" stop-color="#c9a46a"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="1200" rx="72" fill="url(#bg)"/>
+  <circle cx="600" cy="520" r="260" fill="none" stroke="url(#ring)" stroke-width="48"/>
+  <circle cx="600" cy="520" r="128" fill="#fff7ef" opacity="0.9"/>
+  <path d="M448 780c88-60 216-60 304 0" fill="none" stroke="#7a5a34" stroke-width="28" stroke-linecap="round"/>
+  <path d="M470 784c72-32 188-32 260 0" fill="none" stroke="#fffaf5" stroke-width="10" stroke-linecap="round" opacity="0.8"/>
+  <text x="600" y="950" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="58" letter-spacing="6" fill="#7a5a34">GALANTE'S</text>
+  <text x="600" y="1018" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="28" letter-spacing="8" fill="#8d6c43">PRODUCT IMAGE</text>
+</svg>

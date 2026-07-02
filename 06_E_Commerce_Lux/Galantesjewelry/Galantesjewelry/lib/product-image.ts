@@ -4,6 +4,9 @@ export type ProductImageSource = {
   image_url?: string | null;
 };
 
+const PRODUCT_IMAGE_VERSION = '2';
+export const PRODUCT_IMAGE_FALLBACK_SRC = '/assets/products/product-placeholder.svg';
+
 function toNumericProductId(value: string | number | undefined | null) {
   if (typeof value === 'number' && Number.isFinite(value) && value > 0) {
     return value;
@@ -23,10 +26,10 @@ export function getProductImageSrc(item: ProductImageSource) {
 
   const numericProductId = toNumericProductId(item.product_id) ?? toNumericProductId(item.id);
   if (!numericProductId) {
-    return '';
+    return PRODUCT_IMAGE_FALLBACK_SRC;
   }
 
-  return `/api/products/image?id=${numericProductId}`;
+  return `/api/products/image?id=${numericProductId}&v=${PRODUCT_IMAGE_VERSION}`;
 }
 
 export function getProductImageCandidates(item: ProductImageSource) {
@@ -34,11 +37,15 @@ export function getProductImageCandidates(item: ProductImageSource) {
   const numericProductId = toNumericProductId(item.product_id) ?? toNumericProductId(item.id);
 
   if (numericProductId) {
-    candidates.push(`/api/products/image?id=${numericProductId}`);
+    candidates.push(`/api/products/image?id=${numericProductId}&v=${PRODUCT_IMAGE_VERSION}`);
   }
 
   if (item.image_url && !candidates.includes(item.image_url)) {
     candidates.push(item.image_url);
+  }
+
+  if (!candidates.includes(PRODUCT_IMAGE_FALLBACK_SRC)) {
+    candidates.push(PRODUCT_IMAGE_FALLBACK_SRC);
   }
 
   return candidates;
