@@ -15,7 +15,7 @@
                         <span class="o_stat_value">
                             <field name="gallery_ids_count" nolabel="1" readonly="1"/>
                         </span>
-                        <span class="o_stat_text">Subir fotos</span>
+                        <span class="o_stat_text">Add photos</span>
                     </div>
                 </button>
             </xpath>
@@ -30,10 +30,10 @@
                         <field name="availability_status" readonly="1"/>
                     </group>
 
-                    <group string="Fotos adicionales">
-                        <label for="gallery_ids" string="Galería del producto"/>
+                    <group string="Additional Photos">
+                        <label for="gallery_ids" string="Product gallery"/>
                         <div class="text-muted" style="margin-bottom: 8px;">
-                            Agrega varias fotos del mismo artículo aquí. Usa el botón superior si prefieres abrir la lista completa.
+                            Add multiple photos of the same product here. Use the button above if you prefer the full upload dialog.
                         </div>
                         <field name="gallery_ids">
                             <list editable="bottom" default_order="sequence,id">
@@ -67,7 +67,7 @@
                     </group>
 
                     <!-- Storefront copy -->
-                    <group string="Storefront Copy (English only — shown to customers)">
+                    <group string="Storefront Copy (English only - shown to customers)">
                         <field name="tagline"
                                placeholder="e.g. Handcrafted in 14K gold with a timeless silhouette"
                                help="One-line value proposition shown on product cards (max ~100 chars)"/>
