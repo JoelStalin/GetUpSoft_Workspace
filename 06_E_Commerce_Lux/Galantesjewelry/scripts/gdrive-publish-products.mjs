@@ -262,6 +262,7 @@ async function publishProducts(options) {
     const existingId = await resolveExistingProductId(odoo, product.slug);
     const categoryId = await resolveCategoryId(odoo, product.category);
     const primary = product.files?.[0];
+    const galleryFiles = (product.files || []).slice(1);
 
     let imageBuffer = null;
     if (primary && drive) {
@@ -288,9 +289,12 @@ async function publishProducts(options) {
         reason: existingId ? 'would_update' : 'would_create',
         name: product.name,
         images: product.files?.length || 0,
+        galleryImages: galleryFiles.length,
       });
       continue;
     }
+
+    let productId = existingId;
 
     if (existingId) {
       await odoo.call('product.template', 'write', {
@@ -301,6 +305,43 @@ async function publishProducts(options) {
     } else {
       const createdId = await odoo.create('product.template', payload);
       summary.created.push({ slug: product.slug, id: createdId });
+      productId = createdId;
+    }
+
+    if (!productId) {
+      throw new Error(`Unable to resolve product id for ${product.slug}`);
+    }
+
+    const existingGallery = await odoo.searchRead('galantes.product.gallery', {
+      domain: [['product_id', '=', productId]],
+      fields: ['id'],
+      limit: 1000,
+    });
+
+    if (existingGallery?.length) {
+      await odoo.call('galantes.product.gallery', 'unlink', {
+        ids: existingGallery.map((item) => item.id),
+      });
+    }
+
+    if (drive && galleryFiles.length > 0) {
+      for (let index = 0; index < galleryFiles.length; index += 1) {
+        const file = galleryFiles[index];
+        const galleryBuffer = await downloadDriveFile(drive, file.id);
+        const enhancedGallery = await maybeEnhanceImage(
+          galleryBuffer,
+          file.name || `${product.slug}-gallery-${index + 1}.jpg`,
+          options.enhanceCommand,
+        );
+
+        await odoo.create('galantes.product.gallery', {
+          product_id: productId,
+          name: file.name || `${product.name} image ${index + 2}`,
+          sequence: index + 2,
+          alt_text: `${product.name} detail ${index + 2}`,
+          image: enhancedGallery.toString('base64'),
+        });
+      }
     }
   }
 

@@ -17,6 +17,7 @@ Run a governed ORCA workflow that scans a Google Drive folder recursively, ident
   - product copy / descriptions: strong writing model
   - QA / consistency checks: review model
   - fallback: secondary model from the GSTACK list
+  - image enhancement: Gemini NanoBanana through a routed API endpoint or equivalent provider token
 
 ## Backlog
 
@@ -31,7 +32,7 @@ Run a governed ORCA workflow that scans a Google Drive folder recursively, ident
 
 - Drive folder access is available.
 - Odoo production connection is available.
-- NanoBanana editing workflow is available.
+- NanoBanana editing workflow is available and authenticated.
 - ORCA has an active routing config with GSTACK fallback models.
 
 ## Definition of Done
@@ -50,6 +51,7 @@ Run a governed ORCA workflow that scans a Google Drive folder recursively, ident
 5. Do not over-retouch. Keep the product faithful to the source.
 6. Publish only after QA validates the product card, images, and category.
 7. Keep an audit trail with the original file IDs, edited file IDs, and final Odoo record IDs.
+8. The NanoBanana node must use a valid API credential or provider token. If no credential is available, keep the images unedited and flag the item.
 
 ## Suggested workflow
 
@@ -101,6 +103,32 @@ ORCA intake
 - Keep the jewelry centered and sharp.
 - Export consistent aspect ratios for shop presentation.
 - Generate a hero image and supporting gallery images.
+- Use a dedicated `NanoBanana Quality` node before publication.
+- Feed the node the primary image, supporting gallery images, and product cluster metadata.
+- Reject edits that distort the jewelry, change the stone shape, or alter the metal tone.
+- If the edit quality is weak, keep the original image and mark the cluster for review.
+
+#### NanoBanana Quality Node
+
+```text
+Input
+  - primary image
+  - supporting gallery images
+  - product cluster metadata
+  - style constraints
+
+Process
+  - identify the same article across images
+  - normalize framing and background
+  - improve lighting and clarity without changing the piece
+  - preserve metal, stone, logo, and setting details
+  - output 1 hero image + N gallery images
+
+Output
+  - edited primary image
+  - edited gallery images
+  - edit metadata including source ids and provider used
+```
 
 ### 6. Odoo publication
 
@@ -135,7 +163,7 @@ ORCA intake
 - folder scan log
 - product cluster manifest
 - before / after image samples
+- NanoBanana request/response ids
 - Odoo record IDs
 - shop preview screenshots
 - QA summary
-
