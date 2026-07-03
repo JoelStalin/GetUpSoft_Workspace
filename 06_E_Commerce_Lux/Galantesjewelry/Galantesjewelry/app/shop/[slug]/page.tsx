@@ -96,6 +96,7 @@ export default async function ProductPage({ params }: Props) {
           <ProductGallery
             mainImage={product.imageUrl}
             gallery={product.gallery}
+            galleryImages={product.galleryImages}
             productName={product.name}
           />
 

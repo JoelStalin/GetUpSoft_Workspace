@@ -13,22 +13,40 @@ COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 
 # Build from a normalized project root. This repository stores deployable Next.js
-# sources in ./Galantesjewelry while package metadata and some shared assets live
-# at the outer root. Materialize a clean /project tree so Turbopack sees one
+# sources in either the repository root or ./Galantesjewelry, depending on the
+# checkout shape. Materialize a clean /project tree so Turbopack sees one
 # consistent app/lib/src layout.
-RUN rm -rf /project \
-    && mkdir -p /project \
-    && cp package.json package-lock.json next.config.ts tsconfig.json next-env.d.ts postcss.config.mjs eslint.config.mjs proxy.ts /project/ \
-    && cp -a public /project/public \
-    && cp -a src /project/src \
-    && ln -sfn /project/src /src \
-    && if [ -d server ]; then cp -a server /project/server; fi \
-    && if [ -d data ]; then cp -a data /project/data; else mkdir -p /project/data; fi \
-    && if [ -d Galantesjewelry/app ]; then cp -a Galantesjewelry/app /project/app; fi \
-    && for dir in components context controllers docs infra integration-contracts lib automation; do \
-         if [ -d "Galantesjewelry/$dir" ]; then cp -a "Galantesjewelry/$dir" "/project/$dir"; fi; \
-       done \
-    && cp -a node_modules /project/node_modules
+RUN set -eux; \
+    copy_first() { \
+      dst="$1"; \
+      shift; \
+      for src in "$@"; do \
+        if [ -e "$src" ]; then \
+          rm -rf "$dst"; \
+          mkdir -p "$(dirname "$dst")"; \
+          cp -a "$src" "$dst"; \
+          return 0; \
+        fi; \
+      done; \
+    }; \
+    rm -rf /project; \
+    mkdir -p /project; \
+    for file in package.json package-lock.json next.config.ts tsconfig.json next-env.d.ts postcss.config.mjs eslint.config.mjs proxy.ts; do \
+      if [ -e "$file" ]; then \
+        cp "$file" /project/; \
+      fi; \
+    done; \
+    copy_first /project/public public Galantesjewelry/public; \
+    copy_first /project/src src Galantesjewelry/src; \
+    ln -sfn /project/src /src; \
+    copy_first /project/server server Galantesjewelry/server; \
+    copy_first /project/data data Galantesjewelry/data; \
+    mkdir -p /project/data; \
+    copy_first /project/app app Galantesjewelry/app; \
+    for dir in components context controllers docs infra integration-contracts lib automation; do \
+      copy_first "/project/$dir" "$dir" "Galantesjewelry/$dir"; \
+    done; \
+    cp -a node_modules /project/node_modules
 
 ARG NODE_OPTIONS=--max-old-space-size=4096
 ENV NEXT_TELEMETRY_DISABLED=1
@@ -62,4 +80,4 @@ USER nextjs
 
 EXPOSE 3000
 
-CMD ["node", "project/server.js"]
+CMD ["node", "server.js"]
