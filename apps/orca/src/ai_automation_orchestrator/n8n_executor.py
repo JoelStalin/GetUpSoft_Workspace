@@ -3,8 +3,11 @@
 from __future__ import annotations
 
 import asyncio
+import os
+import re
 import uuid
 from datetime import UTC, datetime
+from pathlib import Path
 from typing import Any, AsyncGenerator
 from dataclasses import dataclass, field
 
@@ -31,6 +34,42 @@ class WorkflowExecutor:
 
     def __init__(self):
         self.executions: dict[str, ExecutionState] = {}
+
+    def _render_template(self, value: Any, inputs: dict[str, Any]) -> Any:
+        """Render a small subset of n8n-style placeholders."""
+        if not isinstance(value, str):
+            return value
+
+        rendered = value
+
+        def replace_json(match: re.Match[str]) -> str:
+            path = match.group(1).split(".")
+            current: Any = inputs
+            for key in path:
+                if isinstance(current, dict) and key in current:
+                    current = current[key]
+                else:
+                    return ""
+            if current is None:
+                return ""
+            return str(current)
+
+        def replace_env(match: re.Match[str]) -> str:
+            return os.getenv(match.group(1), "")
+
+        rendered = re.sub(r"\{\{\$json\.([A-Za-z0-9_.-]+)\}\}", replace_json, rendered)
+        rendered = re.sub(r"\{\{\$env\.([A-Za-z0-9_]+)\}\}", replace_env, rendered)
+        return rendered
+
+    def _render_node_parameters(self, parameters: dict[str, Any], inputs: dict[str, Any]) -> dict[str, Any]:
+        return {
+            key: self._render_template(value, inputs)
+            for key, value in parameters.items()
+        }
+
+    def _use_real_commands(self) -> bool:
+        flag = os.getenv("ORCA_REAL_COMMANDS", "").strip().lower()
+        return flag in {"1", "true", "yes", "on"}
 
     async def execute_workflow(
         self,
@@ -129,7 +168,12 @@ class WorkflowExecutor:
                                         if target_node and target_node.id not in executed_nodes:
                                             next_nodes.append(target_node)
                                             # Pass output as input
-                                            node_inputs[target_node.id] = result
+                                            merged_inputs = dict(node_inputs.get(node.id, {}))
+                                            if isinstance(result, dict):
+                                                merged_inputs.update(result)
+                                            else:
+                                                merged_inputs["result"] = result
+                                            node_inputs[target_node.id] = merged_inputs
 
                     except Exception as e:
                         execution.node_errors[node.id] = str(e)
@@ -182,6 +226,7 @@ class WorkflowExecutor:
     async def _execute_node(self, node, inputs: dict[str, Any]) -> dict[str, Any]:
         """Execute a single node."""
         node_type = node.type
+        parameters = self._render_node_parameters(getattr(node, "parameters", {}) or {}, inputs)
 
         # Simulate execution based on node type
         if "trigger" in node_type.lower():
@@ -222,9 +267,35 @@ class WorkflowExecutor:
             return {"variable_set": node.parameters.get("variable"), "value": inputs}
 
         elif "executeCommand" in node_type:
-            # Simulate command execution
-            await asyncio.sleep(0.1)
-            return {"exit_code": 0, "output": "Command executed successfully"}
+            command = str(parameters.get("command", "")).strip()
+            if not command:
+                raise ValueError("executeCommand node is missing a command")
+
+            if not self._use_real_commands():
+                await asyncio.sleep(0.1)
+                return {"exit_code": 0, "output": "Command execution simulated", "command": command}
+
+            process = await asyncio.create_subprocess_shell(
+                command,
+                stdout=asyncio.subprocess.PIPE,
+                stderr=asyncio.subprocess.PIPE,
+                cwd=str(Path.cwd()),
+                env=os.environ.copy(),
+            )
+            stdout_bytes, stderr_bytes = await asyncio.wait_for(process.communicate(), timeout=900)
+            stdout = stdout_bytes.decode("utf-8", errors="replace")
+            stderr = stderr_bytes.decode("utf-8", errors="replace")
+            result: dict[str, Any] = {
+                "exit_code": process.returncode,
+                "command": command,
+                "stdout": stdout.strip(),
+                "stderr": stderr.strip(),
+            }
+            if process.returncode != 0:
+                raise RuntimeError(
+                    f"Command failed with exit code {process.returncode}: {stderr.strip() or stdout.strip() or command}"
+                )
+            return result
 
         elif "end" in node_type:
             # End node

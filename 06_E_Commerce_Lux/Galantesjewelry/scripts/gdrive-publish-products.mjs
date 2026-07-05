@@ -2,12 +2,14 @@
 
 import fs from 'fs/promises';
 import path from 'path';
+import { pathToFileURL } from 'url';
 import { google } from 'googleapis';
 import dotenv from 'dotenv';
 import { createOdooClient } from '../src/config/odooClient.js';
 import {
   buildProductPayload,
   buildScanReport,
+  buildManifestFromScanReport,
   normalizeManifest,
   parseDriveFolderId,
   slugify,
@@ -21,7 +23,9 @@ const DRIVE_SCOPE = 'https://www.googleapis.com/auth/drive.readonly';
 function parseArgs(argv) {
   const options = {
     folder: process.env.GALANTES_DRIVE_FOLDER_ID || '',
+    sourcePath: '',
     manifest: '',
+    scanReport: '',
     out: path.join(ARTIFACTS_DIR, 'gdrive-product-scan.json'),
     mode: 'scan',
     dryRun: true,
@@ -34,8 +38,14 @@ function parseArgs(argv) {
     if (current === '--folder' && argv[index + 1]) {
       options.folder = argv[index + 1];
       index += 1;
+    } else if (current === '--source-path' && argv[index + 1]) {
+      options.sourcePath = argv[index + 1];
+      index += 1;
     } else if (current === '--manifest' && argv[index + 1]) {
       options.manifest = path.resolve(argv[index + 1]);
+      index += 1;
+    } else if (current === '--scan-report' && argv[index + 1]) {
+      options.scanReport = path.resolve(argv[index + 1]);
       index += 1;
     } else if (current === '--out' && argv[index + 1]) {
       options.out = path.resolve(argv[index + 1]);
@@ -56,7 +66,8 @@ function parseArgs(argv) {
     } else if (current === '-h' || current === '--help') {
       console.log([
         'Usage:',
-        '  node scripts/gdrive-publish-products.mjs --folder <drive-folder> [--out <scan.json>]',
+        '  node scripts/gdrive-publish-products.mjs --folder <drive-folder> [--source-path <fixture-dir>] [--out <scan.json>]',
+        '  node scripts/gdrive-publish-products.mjs --mode build-manifest --scan-report <scan.json> --out <manifest.json>',
         '  node scripts/gdrive-publish-products.mjs --mode publish --manifest <manifest.json> [--dry-run]',
         '',
         'Environment:',
@@ -102,6 +113,27 @@ async function fetchChildren(drive, folderId) {
   return response.data.files || [];
 }
 
+function inferMimeType(fileName) {
+  const extension = path.extname(fileName || '').toLowerCase();
+  switch (extension) {
+    case '.png':
+      return 'image/png';
+    case '.webp':
+      return 'image/webp';
+    case '.gif':
+      return 'image/gif';
+    case '.bmp':
+      return 'image/bmp';
+    case '.tif':
+    case '.tiff':
+      return 'image/tiff';
+    case '.jpg':
+    case '.jpeg':
+    default:
+      return 'image/jpeg';
+  }
+}
+
 async function scanFolderRecursive(drive, folderId, pathParts = [], accumulator = []) {
   const children = await fetchChildren(drive, folderId);
 
@@ -121,6 +153,31 @@ async function scanFolderRecursive(drive, folderId, pathParts = [], accumulator 
       modifiedTime: child.modifiedTime || null,
       webViewLink: child.webViewLink || null,
       size: child.size ? Number(child.size) : null,
+      pathParts,
+    });
+  }
+
+  return accumulator;
+}
+
+async function scanLocalFolderRecursive(folderPath, pathParts = [], accumulator = []) {
+  const entries = await fs.readdir(folderPath, { withFileTypes: true });
+
+  for (const entry of entries) {
+    const entryPath = path.join(folderPath, entry.name);
+    if (entry.isDirectory()) {
+      await scanLocalFolderRecursive(entryPath, [...pathParts, entry.name], accumulator);
+      continue;
+    }
+
+    accumulator.push({
+      id: pathToFileURL(entryPath).href,
+      name: entry.name,
+      mimeType: inferMimeType(entry.name),
+      parents: [],
+      modifiedTime: null,
+      webViewLink: null,
+      size: Number((await fs.stat(entryPath)).size),
       pathParts,
     });
   }
@@ -184,24 +241,56 @@ function normalizePublishedManifest(manifest) {
 }
 
 async function runScan(options) {
+  const sourcePath = options.sourcePath ? path.resolve(options.sourcePath) : '';
   const folderId = parseDriveFolderId(options.folder);
-  if (!folderId) {
-    throw new Error('A Google Drive folder id or URL is required.');
+
+  let files = [];
+  let reportFolderId = folderId;
+
+  if (sourcePath) {
+    files = await scanLocalFolderRecursive(sourcePath);
+    reportFolderId = sourcePath;
+  } else {
+    if (!folderId) {
+      throw new Error('A Google Drive folder id or URL is required.');
+    }
+
+    const drive = createDriveClient();
+    files = await scanFolderRecursive(drive, folderId);
   }
 
-  const drive = createDriveClient();
-  const files = await scanFolderRecursive(drive, folderId);
-  const report = buildScanReport(new Date().toISOString(), folderId, files);
+  const report = buildScanReport(new Date().toISOString(), reportFolderId, files);
 
   await ensureArtifactsDir();
   await fs.writeFile(options.out, JSON.stringify(report, null, 2), 'utf-8');
   console.log(JSON.stringify({
     ok: true,
     mode: 'scan',
-    folderId,
+    folderId: reportFolderId,
+    sourcePath: sourcePath || null,
     out: options.out,
     totalClusters: report.totalClusters,
     totalImages: report.totalImages,
+    report,
+  }, null, 2));
+}
+
+async function runBuildManifest(options) {
+  if (!options.scanReport) {
+    throw new Error('--scan-report is required when building a manifest.');
+  }
+
+  const scanReport = JSON.parse(await fs.readFile(options.scanReport, 'utf-8'));
+  const manifest = buildManifestFromScanReport(scanReport);
+
+  await ensureArtifactsDir();
+  await fs.writeFile(options.out, JSON.stringify(manifest, null, 2), 'utf-8');
+  console.log(JSON.stringify({
+    ok: true,
+    mode: 'build-manifest',
+    scanReport: options.scanReport,
+    out: options.out,
+    totalProducts: manifest.products.length,
   }, null, 2));
 }
 
@@ -241,8 +330,8 @@ async function publishProducts(options) {
 
   const rawManifest = JSON.parse(await fs.readFile(options.manifest, 'utf-8'));
   const manifest = normalizePublishedManifest(rawManifest);
-  const odoo = createOdooClient();
-  const drive = options.folder ? createDriveClient() : null;
+  const odoo = options.dryRun ? null : createOdooClient();
+  const drive = options.folder && !options.sourcePath ? createDriveClient() : null;
 
   const summary = {
     mode: 'publish',
@@ -259,15 +348,22 @@ async function publishProducts(options) {
       continue;
     }
 
-    const existingId = await resolveExistingProductId(odoo, product.slug);
-    const categoryId = await resolveCategoryId(odoo, product.category);
+    const existingId = odoo ? await resolveExistingProductId(odoo, product.slug) : null;
+    const categoryId = odoo ? await resolveCategoryId(odoo, product.category) : null;
     const primary = product.files?.[0];
     const galleryFiles = (product.files || []).slice(1);
 
     let imageBuffer = null;
-    if (primary && drive) {
-      imageBuffer = await downloadDriveFile(drive, primary.id);
-      imageBuffer = await maybeEnhanceImage(imageBuffer, primary.name || `${product.slug}.jpg`, options.enhanceCommand);
+    if (primary) {
+      if (drive) {
+        imageBuffer = await downloadDriveFile(drive, primary.id);
+      } else if (primary.id && String(primary.id).startsWith('file://')) {
+        const fileUrl = new URL(primary.id);
+        imageBuffer = await fs.readFile(fileUrl);
+      }
+      if (imageBuffer) {
+        imageBuffer = await maybeEnhanceImage(imageBuffer, primary.name || `${product.slug}.jpg`, options.enhanceCommand);
+      }
     }
 
     const payload = buildProductPayload(
@@ -324,10 +420,18 @@ async function publishProducts(options) {
       });
     }
 
-    if (drive && galleryFiles.length > 0) {
+    if (galleryFiles.length > 0) {
       for (let index = 0; index < galleryFiles.length; index += 1) {
         const file = galleryFiles[index];
-        const galleryBuffer = await downloadDriveFile(drive, file.id);
+        let galleryBuffer = null;
+        if (drive) {
+          galleryBuffer = await downloadDriveFile(drive, file.id);
+        } else if (file.id && String(file.id).startsWith('file://')) {
+          galleryBuffer = await fs.readFile(new URL(file.id));
+        }
+        if (!galleryBuffer) {
+          continue;
+        }
         const enhancedGallery = await maybeEnhanceImage(
           galleryBuffer,
           file.name || `${product.slug}-gallery-${index + 1}.jpg`,
@@ -362,6 +466,11 @@ async function main() {
 
   if (options.mode === 'scan') {
     await runScan(options);
+    return;
+  }
+
+  if (options.mode === 'build-manifest') {
+    await runBuildManifest(options);
     return;
   }
 

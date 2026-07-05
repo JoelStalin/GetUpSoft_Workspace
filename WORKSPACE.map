@@ -1,5 +1,5 @@
 # 🗺️ TOTAL UNIVERSAL WORKSPACE MAP - GetUpSoft Ecosystem
-# Last Full Sync: 2026-07-02 08:43:56
+# Last Full Sync: 2026-07-05 18:04:44
 # MANDATORY FOR ALL AGENTS: Gemini, Claude, Codex, ChatGPT, Copilot, Cursor, OpenClaw, AutoGen, NemoClaw, Rowboat, Hermes, ORCA, mark-xxxix
 
 ## 📜 AGENT GPS RULE (MANDATORY)
@@ -343930,6 +343930,7 @@
     └── INTEGRATION-COMPLETE.md
     └── integrations_prod.json
     └── integrations_prod_utf8.json
+    └── live-home-after-fix.png
     └── MARKETING_STRATEGY_ES.md
     └── next.config.ts
     └── nginx_prod_local.conf
@@ -343971,6 +343972,14 @@
       ├── workflows/
         └── deploy-staging.yml
         └── deploy.yml
+    ├── artifacts/
+      └── gdrive-publish-2026-07-05T21-57-43-723Z.json
+      └── gdrive-publish-2026-07-05T21-58-56-322Z.json
+      └── gdrive-publish-2026-07-05T21-59-55-266Z.json
+      └── gdrive-publish-2026-07-05T22-03-12-025Z.json
+    ├── automation/
+      ├── n8n/
+        └── google-drive-product-publication.prompt.md
     ├── Galantesjewelry/
       └── .env
       └── next-env.d.ts
@@ -346915,6 +346924,7 @@
       ├── automation/
         ├── n8n/
           └── getupsoft-portals-regression-workflow.json
+          └── google-drive-product-publication-workflow.json
       ├── backups/
         ├── pre-qa-fix-2026-04-25_09-57/
           └── appointments.json
@@ -347148,6 +347158,7 @@
             └── cms_settings.py
             └── product_extension.py
             └── product_gallery.py
+            └── product_gallery_upload_wizard.py
             └── product_template.py
             └── res_partner.py
             └── sale_order.py
@@ -347157,6 +347168,7 @@
             └── ir.model.access.csv
           ├── views/
             └── account_move_views.xml
+            └── product_gallery_upload_wizard_views.xml
             └── product_gallery_views.xml
             └── product_template_views.xml
             └── res_partner_views.xml
@@ -347231,18 +347243,25 @@
           └── lighthouse-guardian-charm.png
           └── mariners-bond-band.png
           └── navigators-chrono-link.png
+          └── product-placeholder.svg
           └── sirens-pearl-necklace.png
           └── the-islamorada-solitaire.png
           └── tritons-trident-tie-bar.png
     ├── scratch/
       └── check_integrations.py
+      └── duplicate_demo_gallery.sh
       └── gen_cf_token.py
       └── gen_cf_token_alt.py
+      └── inspect_gallery_schema.sh
       └── inspect_integrations.py
+      └── inspect_product_images.sh
+      └── migrate_gallery_schema_and_seed_demo.sh
       └── patch_integrations.py
+      └── seed_demo_gallery_via_shell.sh
       └── sync_integrations.py
       └── sync_integrations_secure.js
       └── sync_integrations_v3.js
+      └── upgrade_galantes_jewelry.sh
     ├── scripts/
       └── backfill-managed-images-to-odoo.mjs
       └── bootstrap_remote.sh
@@ -347264,6 +347283,7 @@
       └── full-flow-test.sh
       └── functional_test.py
       └── gdrive-publish-products.mjs
+      └── gemini-nano-banana-enhance.mjs
       └── generate_product_svgs.py
       └── getupsoft_portals_scrapling_smoke.py
       └── harden-deploy.sh
@@ -347365,6 +347385,7 @@
             └── BrowserMetrics-spare.pma
             └── chrome_debug.log
             └── CrashpadMetrics-active.pma
+            └── DevToolsActivePort
             └── First Run
             └── first_party_sets.db
             └── first_party_sets.db-journal
@@ -347375,7 +347396,6 @@
             ├── ActorSafetyLists/
             ├── AmountExtractionHeuristicRegexes/
             ├── BrowserMetrics/
-              └── BrowserMetrics-6A4529F5-3D10.pma
             ├── CaptchaProviders/
             ├── CertificateRevocation/
             ├── CommerceHeuristics/
@@ -347418,6 +347438,7 @@
               └── f_000009
               └── f_00000a
               └── f_00000b
+              └── f_00000c
               └── index
             ├── HistorySearch/
             ├── hyphen-data/
@@ -347448,9 +347469,6 @@
                   ├── 025712FB4F05539A/
                     └── model-info.pb
                     └── model.tflite
-                  ├── 0349F29B9FC10406/
-                    └── model-info.pb
-                    └── model.tflite
               ├── 24/
                 ├── E6DC4029A1E4B4C1/
                   ├── 649899107DFDC4A9/
@@ -347460,7 +347478,7 @@
                     └── vocab_en-us.txt
               ├── 25/
                 ├── E6DC4029A1E4B4C1/
-                  ├── 5B43E7F06F1C5B9D/
+                  ├── D6671EF5040660A1/
                     └── model-info.pb
                     └── model.tflite
                     └── visual_model_desktop.tflite
@@ -347482,7 +347500,7 @@
                     └── model.tflite
               ├── 9/
                 ├── E6DC4029A1E4B4C1/
-                  ├── F0FBD566D870C6F4/
+                  ├── 28BD4499AE3F4DA2/
                     └── model-info.pb
                     └── model.tflite
             ├── OriginTrials/
@@ -347553,7 +347571,7 @@
                 └── LOG
                 └── LOG.old
               ├── blob_storage/
-                ├── 9a21e095-b629-4102-8427-184ede6c6e41/
+                ├── 9467b450-fb28-48c6-9374-79f59cdcf1b7/
               ├── BudgetDatabase/
                 └── LOCK
                 └── LOG
@@ -347583,8 +347601,22 @@
                   └── f_000015
                   └── f_000016
                   └── f_000017
-                  └── f_000018
                   └── f_000019
+                  └── f_00001b
+                  └── f_00001c
+                  └── f_00001d
+                  └── f_00001e
+                  └── f_00001f
+                  └── f_000022
+                  └── f_000023
+                  └── f_000026
+                  └── f_00002c
+                  └── f_00002d
+                  └── f_00002e
+                  └── f_00002f
+                  └── f_000030
+                  └── f_000032
+                  └── f_000036
                   └── index
                 ├── No_Vary_Search/
                   └── journal.baj
@@ -347599,12 +347631,17 @@
                 └── LOG.old
               ├── Code Cache/
                 ├── js/
+                  └── 000141a99dc855ae_0
                   └── 02407ec6bd54cb04_0
                   └── 03e47e89992fcefb_0
+                  └── 03feccd0c25b0c92_0
                   └── 0aff2beae2d887ee_0
                   └── 0e960419d6a92766_0
                   └── 0eb51235b634e0fd_0
                   └── 0efd0d0364a7859c_0
+                  └── 11bad1fee8a6197b_0
+                  └── 136cadb67cbab8a6_0
+                  └── 15beb3960b373db9_0
                   └── 163a6a37ef4c91a1_0
                   └── 18efac554a35ab75_0
                   └── 1bfe9288141787d8_0
@@ -347615,21 +347652,30 @@
                   └── 347967ba9ac837dd_0
                   └── 361433c4a7e3525c_0
                   └── 384f8ff92a4909b6_0
+                  └── 3966edd429bc977a_0
                   └── 39e6aad67e44f667_0
+                  └── 3a86fa6cdd40d2a0_0
                   └── 3b2c2106f4916004_0
+                  └── 3fdafe9c5f1062e3_0
                   └── 4257645c03a6bd00_0
                   └── 44e2deb62e20aac9_0
                   └── 499cb22a33dc1a31_0
+                  └── 49d6c29f9eef92e8_0
                   └── 49dbb0e1452f21bf_0
+                  └── 548a9558eb4605f1_0
+                  └── 5496a86d8e54fab9_0
                   └── 5efef84aea5dce62_0
                   └── 631192fa7f6d6148_0
                   └── 6367de01c0d5cccb_0
                   └── 6b14725e599b4bf6_0
+                  └── 6e86f9f3ecec221b_0
+                  └── 74c3128d6d34cbd7_0
                   └── 755d26796c364293_0
                   └── 7c88e4d387ca78e3_0
                   └── 7f990a3291001439_0
                   └── 80184b00b0765620_0
                   └── 83e0bd72ae171719_0
+                  └── 8fb597e3c1527cbc_0
                   └── 905708cfd767a63e_0
                   └── 9373d2f05ee16c84_0
                   └── 942db811036ed2a0_0
@@ -347646,21 +347692,26 @@
                   └── be059d04a5237d2b_0
                   └── c4cbbd0fa8bda19e_0
                   └── c5feac4e4312049f_0
+                  └── c83bb392a7bd5052_0
                   └── ca7f965960e469ad_0
                   └── cdd37c3bca521b9c_0
                   └── ce97994abc6d5427_0
                   └── d26bdc8393747a18_0
+                  └── d552a9e33c8bade8_0
                   └── d9fd4e45ef52ab3f_0
                   └── dd4b7d034a26d280_0
                   └── ded03ff3846ea9c2_0
                   └── e2b16ee3bc5fd432_0
+                  └── e386072017efa8bc_0
                   └── e3aa511bb11dc41a_0
                   └── eb92b7e122fc0ebe_0
                   └── f744d4da1f1de482_0
                   └── f9c0296ee35f4612_0
+                  └── fc28adbe91d741a3_0
                   └── index
                   ├── index-dir/
                     └── the-real-index
+                    └── the-real-index~RFc686950.TMP
                 ├── wasm/
                   └── index
                   ├── index-dir/
@@ -347959,6 +348010,7 @@
                   └── LOCK
                   └── LOG
                   └── LOG.old
+                  └── LOG.old~RFcdb4ca1.TMP
               ├── File System/
                 ├── 000/
                   ├── t/
@@ -347989,7 +348041,9 @@
                       └── LOG
                       └── MANIFEST-000001
                 ├── Origins/
+                  └── 000003.log
                   └── CURRENT
+                  └── LOCK
                   └── LOG
                   └── LOG.old
                   └── MANIFEST-000001
@@ -348143,9 +348197,14 @@
                   ├── 14/
                     ├── 00/
                       └── 4
+                  ├── 15/
+                    ├── 00/
+                      └── 4
                 ├── https_odoo.galantesjewelry.com_0.indexeddb.leveldb/
-                  └── 000055.ldb
+                  └── 000060.log
+                  └── 000062.ldb
                   └── CURRENT
+                  └── LOCK
                   └── LOG
                   └── LOG.old
                   └── MANIFEST-000001
@@ -348287,6 +348346,7 @@
                   └── LOG.old
                   └── MANIFEST-000001
               ├── Network/
+                └── c074271c-65fe-4599-8343-874af85d3f04.tmp
                 └── Cookies
                 └── Cookies-journal
                 └── Device Bound Sessions
@@ -350761,6 +350821,7 @@
                   └── 2b5ad0980c851728_0
                   └── 2b5ad0980c851728_1
                   └── 2cc80dabc69f58b6_0
+                  └── 2cc80dabc69f58b6_1
                   └── 2f2509aa003fcb06_0
                   └── 34009d0a2c0ff1ac_0
                   └── 34009d0a2c0ff1ac_1
@@ -350838,11 +350899,9 @@
                 └── LOG.old
                 └── MANIFEST-000001
               ├── Sessions/
-                └── Session_13427043200165277
-                └── Session_13427391280147530
-                └── Session_13427391499098742
-                └── Tabs_13427063921343022
-                └── Tabs_13427391225126054
+                └── Session_13427499052709803
+                └── Tabs_13427499053337775
+                └── Tabs_13427499817113275
               ├── Shared Dictionary/
                 └── db
                 └── db-journal
@@ -350855,7 +350914,8 @@
                     └── the-real-index
               ├── shared_proto_db/
                 └── 000010.ldb
-                └── 000012.log
+                └── 000013.log
+                └── 000014.ldb
                 └── CURRENT
                 └── LOCK
                 └── LOG
@@ -351207,6 +351267,50 @@
           ├── 2026-06-27_12-07-03_prod_appointments/
             └── report.md
             └── result.json
+          ├── 2026-07-02_14-26-54_manual_galantes_upload/
+            └── fixture-1.png
+            └── fixture-2.png
+          ├── 2026-07-02_14-27-44_manual_galantes_upload/
+            └── fixture-1.png
+            └── fixture-2.png
+          ├── 2026-07-02_14-29-30_login_inspect/
+            └── login.png
+          ├── 2026-07-02_14-30-21_manual_galantes_upload/
+            └── fixture-1.png
+            └── fixture-2.png
+          ├── 2026-07-02_14-31-36_login_postsubmit/
+            └── after_submit.png
+          ├── 2026-07-02_14-37-01_manual_galantes_upload/
+            └── 01_after_login.png
+            └── 02_product_form.png
+            └── fixture-1.png
+            └── fixture-2.png
+          ├── 2026-07-02_14-38-56_manual_galantes_upload/
+            └── 01_after_login.png
+            └── 02_product_form.png
+            └── 03_wizard_open.png
+            └── fixture-1.png
+            └── fixture-2.png
+          ├── 2026-07-02_14-41-22_manual_galantes_upload/
+            └── 01_product_form.png
+            └── 02_files_selected.png
+            └── 03_after_apply.png
+            └── fixture-1.png
+            └── fixture-2.png
+          ├── 2026-07-02_14-43-55_wizard_inspect/
+          ├── 2026-07-02_23-32-04_prod_appointments/
+            └── admin-integrations-test.json
+            └── admin-integrations.masked.json
+            └── report.md
+            └── result.json
+          ├── 2026-07-02_23-37-35_prod_appointments/
+            └── admin-integrations-test.json
+            └── admin-integrations.masked.json
+            └── report.md
+            └── result.json
+          ├── manual_gallery_upload_evidence/
+            └── gallery-a.png
+            └── gallery-b.png
           ├── prod-calendar-only-20260627-110743/
             └── result.json
           ├── prod-calendar-only-20260627-140817/
@@ -351255,6 +351359,8 @@
               └── appointments-route.test.ts
           ├── shop/
             └── product-page.test.tsx
+        ├── automation/
+          └── google-drive-product-publication-workflow.test.ts
         ├── components/
           └── AppointmentsPanel.test.tsx
           └── ContactForm.test.tsx
@@ -351275,6 +351381,7 @@
           └── google-login.test.ts
           └── google-oauth.test.ts
           └── integrations.test.ts
+          └── odoo-client.test.ts
           └── odoo-services.test.ts
           └── odoo-sync.test.ts
           └── product-image.test.ts
@@ -422492,6 +422599,12 @@
         ├── examples/
           └── insurance-broker-command.json
     ├── evidence/
+      ├── drive-fixture/
+        ├── necklace-set/
+          └── 20260701_121500.png
+        ├── ring-set/
+          └── 20260701_120000.png
+          └── 20260701_120615.png
       ├── hermes-integration/
       ├── pre-refactor/
         └── animations.json
@@ -426600,6 +426713,8 @@
         ├── ramos-asociados-seguros-test/
           └── index.html
           └── progress.json
+    ├── scripts/
+      └── noop-enhance.mjs
     ├── src/
       ├── agents/
         ├── mark-xxxix/
@@ -426731,6 +426846,7 @@
       └── selenium_orca_functional.py
       └── test_client_plugin.py
       └── test_config.py
+      └── test_drive_publication_workflow.py
       └── test_generators.py
       └── test_gstack_prompt_router.py
       └── test_gstack_registry.py
@@ -464760,6 +464876,8 @@
             └── mobile_view.png
             └── rd_home.png
   ├── web_qr_generetor/ [CORE]
+├── artifacts/
+  └── shipping-demo-gallery-before.png
 ├── legacy/
   ├── python-fastapi/
     ├── easycount-core/
