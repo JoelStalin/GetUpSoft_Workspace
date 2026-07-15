@@ -1,138 +1,257 @@
-name: Deploy to GCP Production
+name: Deploy Production
 
 on:
-  push:
-    branches: [ main ]
   workflow_dispatch:
     inputs:
       force_rebuild:
-        description: 'Force full rebuild even without code changes'
+        description: Force rebuild web and Odoo addon update
         type: boolean
         default: false
+      confirm_backup:
+        description: Type BACKUP_REQUIRED to confirm blocking predeploy backup
+        required: true
+        type: string
+
+permissions:
+  contents: read
+  deployments: write
+
+concurrency:
+  group: galantes-production
+  cancel-in-progress: false
 
 jobs:
   deploy:
+    if: ${{ github.ref == 'refs/heads/main' && inputs.confirm_backup == 'BACKUP_REQUIRED' }}
     runs-on: ubuntu-latest
-    environment: GCP Production
+    environment:
+      name: production
+      url: https://galantesjewelry.com
     steps:
-      - name: Checkout code
+      - name: Checkout
         uses: actions/checkout@v4
 
-      - name: SSH and Deploy to GCP
-        uses: appleboy/ssh-action@master
+      # ── FASE 1: PREFLIGHT + BACKUP BLOQUEANTE + ROTACIÓN ─────────────────────
+      - name: Pre-deploy backup + rotate old backups
+        uses: appleboy/ssh-action@v1.2.0
         env:
-          ADMIN_PASSWORD: ${{ secrets.ADMIN_PASSWORD }}
-          ADMIN_SECRET_KEY: ${{ secrets.ADMIN_SECRET_KEY }}
-          POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
-          ODOO_PASSWORD: ${{ secrets.ODOO_PASSWORD }}
-          ODOO_API_KEY: ${{ secrets.ODOO_API_KEY }}
-          STRIPE_SECRET_KEY: ${{ secrets.STRIPE_SECRET_KEY }}
+          TARGET_SHA: ${{ github.sha }}
         with:
           host: ${{ secrets.GCP_VM_IP }}
-          username: yoeli
+          username: ${{ secrets.GCP_SSH_USER }}
           key: ${{ secrets.GCP_SSH_PRIVATE_KEY }}
-          command_timeout: 30m
-          envs: ADMIN_PASSWORD,ADMIN_SECRET_KEY,POSTGRES_PASSWORD,ODOO_PASSWORD,ODOO_API_KEY,STRIPE_SECRET_KEY
+          command_timeout: 20m
+          envs: TARGET_SHA
           script: |
             set -Eeuo pipefail
 
-            # Ir al directorio raíz
-            cd ~/galantesjewelry || exit 1
+            APP_PATH="/home/yoeli/galantesjewelry"
+            BACKUP_ROOT="/home/yoeli/deploy-backups"
+            PRODUCTION_DB="galantes_prod"
+            KEEP_BACKUPS="5"
+            MIN_FREE_MB="8192"
 
-            docker_cmd() {
-              if docker ps >/dev/null 2>&1; then
-                docker "$@"
-              else
-                sudo -n docker "$@"
+            log() { printf '[galantes-backup] %s\n' "$*"; }
+            fail() { printf '[galantes-backup] FATAL: %s\n' "$*" >&2; exit 1; }
+
+            cd "$APP_PATH"
+
+            # ── Guardarraíl: DB correcta ──────────────────────────────────────
+            DB_VAL=$(awk -F= '$1=="ODOO_DB"{print $2}' .env.prod | tail -1)
+            [ "$DB_VAL" = "$PRODUCTION_DB" ] || fail "ODOO_DB is '$DB_VAL', expected '$PRODUCTION_DB'"
+            log "DB guard OK: $PRODUCTION_DB"
+
+            # ── Guardarraíl: espacio libre ────────────────────────────────────
+            FREE_MB=$(df -Pm / | awk 'NR==2{print $4}')
+            [ "${FREE_MB:-0}" -ge "$MIN_FREE_MB" ] || {
+              log "Low disk (${FREE_MB}MB) — cleaning Docker cache first..."
+              sudo docker builder prune -af --filter until=72h >/dev/null 2>&1 || true
+              sudo docker image prune -af --filter until=168h >/dev/null 2>&1 || true
+              FREE_MB=$(df -Pm / | awk 'NR==2{print $4}')
+              [ "${FREE_MB:-0}" -ge "$MIN_FREE_MB" ] || fail "Only ${FREE_MB}MB free after cleanup; require ${MIN_FREE_MB}MB"
+            }
+            log "Disk OK: ${FREE_MB}MB free"
+
+            # ── Guardarraíl: tunnel intacto ───────────────────────────────────
+            TUNNEL_STATUS=$(sudo docker inspect -f '{{.State.Status}}' galantes_tunnel_prod 2>/dev/null || echo missing)
+            [ "$TUNNEL_STATUS" = "running" ] || fail "Cloudflare tunnel not running: $TUNNEL_STATUS"
+            TUNNEL_ID_BEFORE=$(sudo docker inspect -f '{{.Id}}' galantes_tunnel_prod)
+            TUNNEL_STARTED_BEFORE=$(sudo docker inspect -f '{{.State.StartedAt}}' galantes_tunnel_prod)
+            log "Tunnel guard: ID=${TUNNEL_ID_BEFORE:0:12} Started=$TUNNEL_STARTED_BEFORE"
+
+            # ── Crear directorio de backup ────────────────────────────────────
+            TS=$(date -u +%Y%m%dT%H%M%SZ)
+            BACKUP_DIR="$BACKUP_ROOT/$TS-${TARGET_SHA:0:12}"
+            mkdir -p "$BACKUP_DIR"
+            chmod 700 "$BACKUP_DIR"
+            log "Backup dir: $BACKUP_DIR"
+
+            # ── Guardar archivos de configuración ─────────────────────────────
+            cp .env.prod "$BACKUP_DIR/.env.prod"
+            chmod 600 "$BACKUP_DIR/.env.prod"
+            cp docker-compose.production.yml "$BACKUP_DIR/docker-compose.production.yml"
+            git rev-parse HEAD > "$BACKUP_DIR/git-head-before.txt"
+            git status --short > "$BACKUP_DIR/git-status-before.txt" || true
+            sudo docker compose --env-file .env.prod -f docker-compose.production.yml ps \
+              > "$BACKUP_DIR/docker-ps-before.txt" 2>/dev/null || true
+
+            # ── Dump PostgreSQL (BLOQUEANTE) ──────────────────────────────────
+            log "Dumping database $PRODUCTION_DB..."
+            PG_PASS=$(awk -F= '$1=="POSTGRES_PASSWORD"{print $2}' .env.prod | tail -1)
+            [ -n "$PG_PASS" ] || fail "POSTGRES_PASSWORD missing in .env.prod"
+            sudo docker exec galantes_db sh -c \
+              "PGPASSWORD='$PG_PASS' pg_dump -U odoo -Fc '$PRODUCTION_DB'" \
+              > "$BACKUP_DIR/$PRODUCTION_DB.dump"
+            [ -s "$BACKUP_DIR/$PRODUCTION_DB.dump" ] || fail "Database dump is empty — aborting deploy"
+            DUMP_SIZE=$(wc -c < "$BACKUP_DIR/$PRODUCTION_DB.dump")
+            log "Dump OK: ${DUMP_SIZE} bytes"
+
+            # ── Backup app data ───────────────────────────────────────────────
+            if [ -d data ]; then
+              tar -czf "$BACKUP_DIR/app-data.tgz" data --warning=no-file-changed 2>/dev/null || true
+            fi
+
+            # ── Manifest ──────────────────────────────────────────────────────
+            cat > "$BACKUP_DIR/backup.json" <<MANIFEST
+            {
+              "createdAt": "$TS",
+              "targetSha": "$TARGET_SHA",
+              "gitShaBeforeDeploy": "$(git rev-parse HEAD)",
+              "database": "$PRODUCTION_DB",
+              "dumpBytes": $DUMP_SIZE,
+              "tunnelIdBefore": "${TUNNEL_ID_BEFORE:0:12}",
+              "tunnelStartedBefore": "$TUNNEL_STARTED_BEFORE"
+            }
+            MANIFEST
+            log "Manifest written"
+
+            # ── ROTACIÓN DE BACKUPS ───────────────────────────────────────────
+            log "Rotating old backups (keep=$KEEP_BACKUPS, newest always kept)..."
+            mapfile -t all_backups < <(
+              find "$BACKUP_ROOT" -mindepth 1 -maxdepth 1 -type d | sort -r
+            )
+            total="${#all_backups[@]}"
+            kept=0
+            deleted=0
+            for i in "${!all_backups[@]}"; do
+              dir="${all_backups[$i]}"
+              name="$(basename "$dir")"
+              # Siempre mantener el más reciente (el que acabamos de crear)
+              if [ "$i" -eq 0 ]; then
+                log "  KEEP (newest): $name"
+                (( kept++ )) || true
+                continue
               fi
-            }
+              # Mantener hasta KEEP_BACKUPS
+              if [ "$kept" -lt "$KEEP_BACKUPS" ]; then
+                log "  KEEP (slot $kept/$KEEP_BACKUPS): $name"
+                (( kept++ )) || true
+                continue
+              fi
+              # Verificar seguridad de ruta
+              real_dir="$(realpath "$dir")"
+              real_root="$(realpath "$BACKUP_ROOT")"
+              if [[ "$real_dir" != "$real_root"/* ]]; then
+                log "  SKIP (unsafe path): $real_dir"
+                continue
+              fi
+              log "  DELETE: $name"
+              rm -rf "$dir"
+              (( deleted++ )) || true
+            done
+            log "Rotation: kept=$kept deleted=$deleted (total was $total)"
 
-            compose() {
-              docker_cmd compose --env-file .env.prod -f docker-compose.production.yml "$@"
-            }
+            # ── Limpiar dumps huérfanos ───────────────────────────────────────
+            find "$APP_PATH/backups" -name '*.dump' -mtime +7 -delete 2>/dev/null || true
 
-            ensure_cloudflared() {
-              echo "Levantando cloudflared (blindado)..."
-              compose up -d --no-deps --force-recreate cloudflared
+            # ── Limpiar Docker cache para liberar espacio pre-build ───────────
+            sudo docker builder prune -af --filter until=72h >/dev/null 2>&1 || true
+            sudo docker image prune -af --filter until=168h >/dev/null 2>&1 || true
+
+            log "Disk after cleanup + backup:"
+            df -h /
+            log "Backup + rotate phase COMPLETE"
+
+      # ── FASE 2: DEPLOY ───────────────────────────────────────────────────────
+      - name: Deploy web to production
+        uses: appleboy/ssh-action@v1.2.0
+        env:
+          TARGET_SHA: ${{ github.sha }}
+          FORCE_REBUILD: ${{ inputs.force_rebuild }}
+        with:
+          host: ${{ secrets.GCP_VM_IP }}
+          username: ${{ secrets.GCP_SSH_USER }}
+          key: ${{ secrets.GCP_SSH_PRIVATE_KEY }}
+          command_timeout: 45m
+          envs: TARGET_SHA,FORCE_REBUILD
+          script: |
+            set -Eeuo pipefail
+
+            APP_PATH="/home/yoeli/galantesjewelry"
+            PRODUCTION_DB="galantes_prod"
+
+            log() { printf '[galantes-deploy] %s\n' "$*"; }
+            fail() { printf '[galantes-deploy] FATAL: %s\n' "$*" >&2; exit 1; }
+
+            cd "$APP_PATH"
+
+            # ── Guardarraíl: tunnel antes del deploy ──────────────────────────
+            TUNNEL_ID_BEFORE=$(sudo docker inspect -f '{{.Id}}' galantes_tunnel_prod)
+
+            # ── Checkout del SHA objetivo ─────────────────────────────────────
+            log "Fetching and checking out $TARGET_SHA"
+            git remote set-url origin https://github.com/JoelStalin/Galantesjewerly.git
+            git fetch origin main --tags --depth=10
+            git checkout --detach -f "$TARGET_SHA"
+            log "Checked out: $(git rev-parse HEAD)"
+
+            # ── Build de la imagen web ────────────────────────────────────────
+            BUILD_FLAGS=""
+            [ "$FORCE_REBUILD" = "true" ] && BUILD_FLAGS="--no-cache"
+            log "Building web image $BUILD_FLAGS..."
+            sudo docker compose --env-file .env.prod -f docker-compose.production.yml \
+              build $BUILD_FLAGS web 2>&1 | tail -20
+
+            # ── Deploy sin bajar otros servicios ─────────────────────────────
+            log "Starting updated web container..."
+            sudo docker compose --env-file .env.prod -f docker-compose.production.yml \
+              up -d --no-deps web
+
+            # ── Actualizar Odoo addon solo si cambió ──────────────────────────
+            if git diff --name-only HEAD@{1} HEAD 2>/dev/null | grep -qE '^(odoo|docker-compose.production.yml)'; then
+              log "Odoo changes detected — restarting odoo service..."
+              sudo docker compose --env-file .env.prod -f docker-compose.production.yml \
+                up -d --no-deps odoo
+            fi
+
+            # ── Health check post-deploy (con reintentos) ─────────────────────
+            log "Waiting for web to be healthy..."
+            for attempt in 1 2 3 4 5 6; do
               sleep 10
-              return 0
-            }
+              HEALTH=$(sudo docker exec galantes_web \
+                wget -qO- http://127.0.0.1:3000/api/health 2>/dev/null || echo "")
+              if echo "$HEALTH" | grep -q '"status":"ok"'; then
+                log "Health check OK (attempt $attempt): $HEALTH"
+                break
+              fi
+              log "  Attempt $attempt: not ready yet..."
+              if [ "$attempt" -eq 6 ]; then
+                fail "Health check failed after 6 attempts — manual rollback needed"
+              fi
+            done
 
-            # --- BLINDAJE DE VARIABLES (ATÓMICO) ---
-            TMP_ENV=".env.prod.tmp"
-            [ -f .env.prod ] && cp .env.prod "$TMP_ENV" || touch "$TMP_ENV"
-
-            update_env_safe() {
-              key="$1"; value="$2"
-              [ -z "$value" ] && return 0
-              # Eliminar si existe para evitar duplicados
-              sed -i "/^${key}=/d" "$TMP_ENV"
-              # Asegurar newline
-              [ -s "$TMP_ENV" ] && [ -z "$(tail -c1 "$TMP_ENV")" ] || echo "" >> "$TMP_ENV"
-              echo "${key}=${value}" >> "$TMP_ENV"
-            }
-
-            update_env_safe "ADMIN_PASSWORD" "$ADMIN_PASSWORD"
-            update_env_safe "ADMIN_SECRET_KEY" "$ADMIN_SECRET_KEY"
-            update_env_safe "POSTGRES_PASSWORD" "$POSTGRES_PASSWORD"
-            update_env_safe "POSTGRES_USER" "odoo"
-            update_env_safe "ODOO_DB" "galantes_db"
-            update_env_safe "ODOO_PASSWORD" "$ODOO_PASSWORD"
-            update_env_safe "ODOO_API_KEY" "$ODOO_API_KEY"
-            update_env_safe "STRIPE_SECRET_KEY" "$STRIPE_SECRET_KEY"
-            
-            # Reemplazo atómico para que Docker no lea un archivo a medias
-            mv "$TMP_ENV" .env.prod
-            chmod 600 .env.prod
-
-            # --- PERSISTENCIA Y REINICIO AUTOMÁTICO ---
-            echo "Asegurando Docker persistente..."
-            sudo systemctl enable docker || true
-
-            # --- TUNNEL PRIMERO Y SIEMPRE ---
-            ensure_cloudflared
-            
-            # 1. Backup de Seguridad (No bloqueante)
-            echo "Realizando backup de seguridad..."
-            TS=$(date +%Y%m%d_%H%M%S)
-            BK_DIR="backups/predeploy/${TS}"
-            mkdir -p "$BK_DIR"
-            cp .env.prod "$BK_DIR/"
-            
-            # Intento de backup de DB
-            DB_CONT=$(docker_cmd ps -q -f name=galantes_db)
-            if [ -n "$DB_CONT" ]; then
-              docker_cmd exec "$DB_CONT" sh -lc "PGPASSWORD=\"$POSTGRES_PASSWORD\" pg_dump -U odoo -d galantes_db --no-owner --no-privileges --clean --if-exists" > "$BK_DIR/galantes_db.sql" 2>/dev/null || echo "Aviso: Backup de DB falló"
+            # ── Guardarraíl: tunnel NO reiniciado ────────────────────────────
+            TUNNEL_ID_AFTER=$(sudo docker inspect -f '{{.Id}}' galantes_tunnel_prod)
+            TUNNEL_RESTARTS=$(sudo docker inspect -f '{{.RestartCount}}' galantes_tunnel_prod)
+            if [ "$TUNNEL_ID_BEFORE" != "$TUNNEL_ID_AFTER" ]; then
+              fail "FATAL_TUNNEL_GUARDRAIL: tunnel container ID changed during deploy!"
             fi
+            log "Tunnel guard OK: ID unchanged, restarts=$TUNNEL_RESTARTS"
 
-            # 2. Sincronizar código con Git
-            echo "Sincronizando cambios de Git..."
-            git fetch origin main
-            PREV_HEAD=$(git rev-parse HEAD)
-            git reset --hard origin/main
-            CHANGES=$(git diff --name-only "$PREV_HEAD" HEAD)
+            # ── Limpiar imágenes antiguas post-deploy ─────────────────────────
+            sudo docker image prune -af --filter until=1h >/dev/null 2>&1 || true
 
-            # 3. Sincronizar maestros de datos
-            [ -f cms_prod_local.json ] && cp -f cms_prod_local.json data/cms.json
-            [ -f integrations_prod.json ] && cp -f integrations_prod.json data/integrations.json
-
-            # 4. Desplegar Web si hay cambios
-            if echo "$CHANGES" | grep -qE "(app/|components/|lib/|src/|public/|package.json|Dockerfile|docker-compose|next.config)" || [ "${{ inputs.force_rebuild }}" = "true" ]; then
-              echo "Cambios detectados en la aplicación. Reconstruyendo..."
-              compose build web
-              compose up -d --no-deps web
-              ensure_cloudflared
-            fi
-
-            # 5. Desplegar Odoo si hay cambios
-            if echo "$CHANGES" | grep -qE "(odoo/|docker-compose)" || [ "${{ inputs.force_rebuild }}" = "true" ]; then
-              echo "Actualizando módulos de Odoo..."
-              compose exec -T odoo odoo -c /etc/odoo/odoo.conf -d galantes_db -u galantes_jewelry --stop-after-init || true
-              compose restart odoo
-              ensure_cloudflared
-            fi
-
-            # 6. Limpieza
-            docker_cmd image prune -f
-            ensure_cloudflared
-            echo "DESPLIEGUE FINALIZADO EXITOSAMENTE Y TUNNEL BLINDADO."
+            log "=== DEPLOY SUCCESS ==="
+            log "SHA deployed: $(git rev-parse HEAD)"
+            log "Disk after deploy:"
+            df -h /
