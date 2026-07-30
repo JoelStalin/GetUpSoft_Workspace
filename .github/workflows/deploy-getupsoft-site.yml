@@ -70,6 +70,7 @@ jobs:
           docker run -d \
             --name getupsoft-site-web-1 \
             --network bridge \
+            --add-host host.docker.internal:host-gateway \
             -p 127.0.0.1:3120:5173 \
             -e NODE_ENV=production \
             getupsoft-site:latest
