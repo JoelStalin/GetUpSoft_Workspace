@@ -1050,3 +1050,25 @@ Ademas, `graph-layout.mjs` era el unico modulo sin test. Ya lo tiene, y cubre el
 motivo reescribirlo: un ciclo no debe dejar nodos sin capa, y el grafo debe caber en pantalla.
 
 Regresion offline: **35 scripts, todos en verde**.
+
+### hermes-doctor: el ultimo modulo sin test, y un defecto que escondia
+
+`hermes-doctor.mjs` era el unico modulo sin cobertura propia, y precisamente donde introduje
+el bloqueo del event loop. Al escribirle el test aparecio otro defecto **de la propia
+correccion**: `HERMES_DOCTOR_TTL_MS=0` no desactivaba la cache.
+
+Dos causas encadenadas:
+
+1. `Number(process.env.HERMES_DOCTOR_TTL_MS || 60000)` — el `0` es falsy, asi que se
+   convertia en 60000 y la cache seguia activa.
+2. El valor se leia **una sola vez al cargar el modulo**, de modo que cambiarlo despues no
+   tenia efecto.
+
+Ahora el TTL se lee en cada llamada y se distingue el `0` explicito del valor ausente. Sin
+esto no habia forma de desactivar la cache, ni en pruebas ni en produccion.
+
+El test cubre ademas los tres transportes (`http`, `cli`, ninguno), que un CLI declarado pero
+inexistente no configura nada, y que **un CLI que falla no se reporta como configurado** —
+que fue el bug original: Hermes imprime su error y sale con codigo 0.
+
+Regresion offline: 36 scripts, todos en verde.

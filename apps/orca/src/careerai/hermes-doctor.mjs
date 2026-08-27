@@ -7,11 +7,21 @@ import { execFileSync } from 'node:child_process';
 // La comprobacion del CLI es sincrona y tarda ~2 s. Ejecutarla en cada peticion bloqueaba
 // el event loop del servidor local y dejaba el panel de estado cargando indefinidamente.
 // La version del CLI no cambia entre peticiones, asi que se cachea.
-const CACHE_TTL_MS = Number(process.env.HERMES_DOCTOR_TTL_MS || 60000);
 let cache = null;
 
+// El TTL se lee en cada llamada, no al cargar el modulo: leerlo una sola vez impedia
+// cambiarlo en pruebas. Y se distingue el 0 explicito del valor ausente, porque
+// `0 || 60000` daba 60000 y hacia imposible desactivar la cache.
+function cacheTtlMs() {
+  const raw = process.env.HERMES_DOCTOR_TTL_MS;
+  if (raw === undefined || raw === '') return 60000;
+  const parsed = Number(raw);
+  return Number.isFinite(parsed) && parsed >= 0 ? parsed : 60000;
+}
+
 export function hermesDoctor({ force = false } = {}) {
-  if (!force && cache && Date.now() - cache.at < CACHE_TTL_MS) return cache.value;
+  const ttl = cacheTtlMs();
+  if (!force && ttl > 0 && cache && Date.now() - cache.at < ttl) return cache.value;
   const value = probeHermes();
   cache = { at: Date.now(), value };
   return value;
