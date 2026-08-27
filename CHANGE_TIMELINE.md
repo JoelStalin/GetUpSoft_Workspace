@@ -949,3 +949,26 @@ calculada **en su zona horaria**, no en la del servidor) o `manual`. Y `shouldSe
 el canal, y entonces se pierde el aviso que si importaba.
 
 Grafo: **56 nodos y 92 edges**. Regresion offline: **32/32 en verde**.
+
+### profile-confirmation y priority-prompt: cierra el bloque de perfil
+
+El sistema **propone** lo que extrajo del CV; el cliente **confirma, corrige y ordena**. Nada
+arranca sin su confirmacion explicita, porque buscar con un perfil equivocado gasta su cuota y
+le llena la cola de vacantes que no quiere.
+
+Lo que el test protege:
+
+- El orden del CV es **solo una sugerencia**: alguien puede tener diez anos en una tecnologia
+  y querer buscar en otra.
+- El cliente puede **quitar** cualquier profesion y **anadir** una que el CV no dejaba ver.
+- Lo confirmado pero no ordenado **no se pierde**: va al final marcado como
+  `ranked_by_client: false` y se cuenta en `unranked_count`.
+- Ordenar algo que no se confirmo **falla explicitamente**: indica que cliente y sistema no
+  estan hablando de lo mismo.
+- No se puede saltar la confirmacion para ir directo al ranking.
+- `assertReadyToSearch` es la guarda de arranque: ningun nodo de busqueda corre sin perfil
+  confirmado, ordenado y con al menos una familia del catalogo asociada.
+
+Probado con un perfil de enfermeria, sin ninguna tecnologia cableada.
+
+Grafo: **58 nodos y 95 edges**. Regresion offline: **33/33 en verde**.

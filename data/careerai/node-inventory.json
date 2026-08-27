@@ -35,9 +35,9 @@
   },
   "totals": {
     "total": 95,
-    "listo": 56,
+    "listo": 58,
     "prototipo": 13,
-    "falta": 26
+    "falta": 24
   },
   "nodes": [
     {
@@ -268,8 +268,8 @@
     {
       "id": "priority-prompt",
       "type": "approval",
-      "status": "falta",
-      "owner": "claude",
+      "status": "listo",
+      "owner": "-",
       "purpose": "El cliente ordena sus profesiones por prioridad; nada se asume",
       "block": "B2",
       "block_title": "Perfil profesional del cliente"
@@ -277,8 +277,8 @@
     {
       "id": "profile-confirmation",
       "type": "approval",
-      "status": "falta",
-      "owner": "claude",
+      "status": "listo",
+      "owner": "-",
       "purpose": "El cliente valida o corrige lo extraido antes de buscar",
       "block": "B2",
       "block_title": "Perfil profesional del cliente"

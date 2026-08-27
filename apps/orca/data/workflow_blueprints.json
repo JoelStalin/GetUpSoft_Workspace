@@ -897,6 +897,16 @@
         "id": "report-scheduler",
         "type": "trigger",
         "label": "Cadencia del reporte elegida por el cliente"
+      },
+      {
+        "id": "profile-confirmation",
+        "type": "approval",
+        "label": "Confirmacion del perfil por el cliente"
+      },
+      {
+        "id": "priority-prompt",
+        "type": "approval",
+        "label": "El cliente ordena sus profesiones"
       }
     ],
     "edges": [
@@ -1267,6 +1277,18 @@
       {
         "from": "status-tracker",
         "to": "pdf-report-builder"
+      },
+      {
+        "from": "profession-extractor",
+        "to": "profile-confirmation"
+      },
+      {
+        "from": "profile-confirmation",
+        "to": "priority-prompt"
+      },
+      {
+        "from": "priority-prompt",
+        "to": "search-profile-builder"
       }
     ],
     "settings": {
