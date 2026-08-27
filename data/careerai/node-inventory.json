@@ -34,10 +34,10 @@
     }
   },
   "totals": {
-    "total": 87,
+    "total": 95,
     "listo": 17,
-    "prototipo": 23,
-    "falta": 47
+    "prototipo": 25,
+    "falta": 53
   },
   "nodes": [
     {
@@ -822,6 +822,78 @@
       "purpose": "Investiga y valida familias del catalogo con el consejo en vez de esperar a un humano",
       "block": "B2",
       "block_title": "Perfil profesional del cliente"
+    },
+    {
+      "id": "platform-registry",
+      "type": "worker",
+      "status": "falta",
+      "owner": "ambos",
+      "purpose": "Lista de plataformas donde buscar, configurable por cliente",
+      "block": "C",
+      "block_title": "Descubrimiento (fuentes genericas)"
+    },
+    {
+      "id": "new-position-trigger",
+      "type": "trigger",
+      "status": "prototipo",
+      "owner": "claude",
+      "purpose": "Dispara el analisis solo con posiciones nuevas; omite las ya vistas",
+      "block": "C",
+      "block_title": "Descubrimiento (fuentes genericas)"
+    },
+    {
+      "id": "apply-method-classifier",
+      "type": "decision",
+      "status": "prototipo",
+      "owner": "claude",
+      "purpose": "Decide la via: boton nativo, correo con adjuntos o formulario externo",
+      "block": "G",
+      "block_title": "Ejecucion en navegador y adaptadores de ATS"
+    },
+    {
+      "id": "email-apply-sender",
+      "type": "action",
+      "status": "falta",
+      "owner": "claude",
+      "purpose": "Envia el correo con CV y carta adjuntos, solo tras aprobacion",
+      "block": "G",
+      "block_title": "Ejecucion en navegador y adaptadores de ATS"
+    },
+    {
+      "id": "unsupported-collector",
+      "type": "worker",
+      "status": "falta",
+      "owner": "claude",
+      "purpose": "Agrupa las posiciones que no se pudieron completar y por que",
+      "block": "I",
+      "block_title": "Seguimiento posterior a la postulacion"
+    },
+    {
+      "id": "pdf-report-builder",
+      "type": "report",
+      "status": "falta",
+      "owner": "claude",
+      "purpose": "Genera el reporte PDF de resultados (rol systems_analysis)",
+      "block": "I",
+      "block_title": "Seguimiento posterior a la postulacion"
+    },
+    {
+      "id": "whatsapp-report-sender",
+      "type": "notification",
+      "status": "falta",
+      "owner": "ambos",
+      "purpose": "Envia el reporte PDF al cliente en el horario que el elija",
+      "block": "I",
+      "block_title": "Seguimiento posterior a la postulacion"
+    },
+    {
+      "id": "report-scheduler",
+      "type": "trigger",
+      "status": "falta",
+      "owner": "claude",
+      "purpose": "Cadencia del reporte configurable por el cliente (por hora o a su hora)",
+      "block": "I",
+      "block_title": "Seguimiento posterior a la postulacion"
     }
   ],
   "council_roles": {
@@ -831,5 +903,60 @@
     "reporting": "openai",
     "qa_testing": "gemini (testing y QA)",
     "research": "consejo con voto entre varios"
+  },
+  "apply_flow": {
+    "note": "El buscador recorre la lista de plataformas con los perfiles derivados del CV. Cada posicion NUEVA dispara el analizador, que decide la via de postulacion.",
+    "steps": [
+      "platform-registry",
+      "search-profile-builder",
+      "discovery",
+      "dedupe-canonical",
+      "new-position-trigger",
+      "apply-method-classifier"
+    ],
+    "methods": {
+      "easy_apply": {
+        "route": [
+          "session",
+          "submit-executor"
+        ],
+        "cost": "bajo"
+      },
+      "email_apply": {
+        "route": [
+          "cv-tailor",
+          "cover-letter-writer",
+          "approval",
+          "email-apply-sender"
+        ],
+        "cost": "medio"
+      },
+      "external_form": {
+        "route": [
+          "webscraping",
+          "bot-wall-detector",
+          "ats-router",
+          "external-form-fill",
+          "live-browser-monitor",
+          "approval",
+          "submit-executor"
+        ],
+        "cost": "alto"
+      },
+      "unsupported": {
+        "route": [
+          "unsupported-collector",
+          "pdf-report-builder",
+          "whatsapp-report-sender"
+        ],
+        "cost": "reporte al cliente"
+      }
+    },
+    "client_report": {
+      "channel": "whatsapp",
+      "format": "pdf",
+      "cadence": "configurable_por_cliente",
+      "default": "cada_hora"
+    }
   }
 }

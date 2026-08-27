@@ -501,3 +501,40 @@ artefacto es derivado y trazable al CV original por hash; el original nunca se m
 
 Inventario: 87 nodos — 17 listos, 23 con prototipo, 47 por construir.
 Regresion offline: **16/16 en verde**.
+
+### Flujo de postulacion por via, con disparador de posiciones nuevas
+
+Definido por el propietario y declarado en `apply_flow` dentro del inventario. El buscador
+recorre una **lista de plataformas** con los perfiles derivados del CV; cada posicion
+**nueva** dispara al analizador, que decide la via:
+
+| Via | Ruta | Coste |
+|---|---|---|
+| `easy_apply` | boton nativo de la plataforma | bajo |
+| `email_apply` | CV adaptado + carta + aprobacion + envio de correo | medio |
+| `external_form` | webscraping + antibot + adaptador de ATS + navegador visible + aprobacion | alto |
+| `unsupported` | recolector + reporte PDF + WhatsApp al cliente | reporte |
+
+`apps/orca/src/careerai/apply-method-classifier.mjs` implementa la decision. Criterios que
+el test protege:
+
+- **El correo exige una direccion real.** La frase "envie su CV" sin direccion NO es
+  postulacion por correo; sin destinatario no hay nada que enviar.
+- **Un ATS conocido se identifica** para elegir adaptador; un **dominio no reconocido pausa**
+  antes de tocarlo, como ya exige la politica de `unknown_domain`.
+- **Barreras reales** (cuenta previa obligatoria, presencial, clearance) marcan `unsupported`
+  con el motivo, y **van al reporte del cliente en vez de descartarse en silencio**.
+- **Sin senal no se adivina la via**: tambien se reporta.
+- **Solo las posiciones nuevas se analizan.** Reanalizar una oportunidad ya vista gasta
+  tokens y cuota del cliente sin aportar nada.
+
+Nodos anadidos para completar la cadena: `platform-registry`, `new-position-trigger`,
+`apply-method-classifier`, `email-apply-sender`, `unsupported-collector`,
+`pdf-report-builder`, `whatsapp-report-sender` y `report-scheduler` (cadencia configurable
+por el cliente, por hora por defecto).
+
+El reporte PDF corresponde al rol `systems_analysis` (ChatGPT), coherente con el reparto de
+roles del consejo.
+
+Inventario: **95 nodos** — 17 listos, 25 con prototipo, 53 por construir.
+Regresion offline: **17/17 en verde**.
