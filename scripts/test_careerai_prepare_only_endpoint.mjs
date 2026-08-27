@@ -5,14 +5,19 @@ const payload = await response.json();
 if (payload.mode !== 'prepare-only') throw new Error('Expected prepare-only mode');
 if (payload.submit_performed !== false) throw new Error('Prepare-only endpoint must never submit');
 if (payload.approval_required !== true) throw new Error('Prepare-only endpoint must require approval');
-const expectedGates = { indeed: 'prepare-only', linkedin: 'discovery-only', gmail: 'draft-only', google_drive: 'read-only', hermes: 'requires_configuration' };
+// Hermes admite dos transportes (API key o CLI local), asi que su gate depende del entorno.
+const expectedGates = { indeed: 'prepare-only', linkedin: 'discovery-only', gmail: 'draft-only', google_drive: 'read-only' };
 for (const [connector, status] of Object.entries(expectedGates)) {
   if (payload.connector_gates?.[connector] !== status) throw new Error(`Unexpected ${connector} gate`);
 }
+if (!['configured', 'requires_configuration'].includes(payload.connector_gates?.hermes)) throw new Error('Unexpected hermes gate');
 const connectorResponse = await fetch(`${baseUrl}/api/careerai/connectors`);
 if (!connectorResponse.ok) throw new Error(`Expected connector status endpoint to return 200, got ${connectorResponse.status}`);
 const connectorPayload = await connectorResponse.json();
-if (JSON.stringify(connectorPayload.connector_gates) !== JSON.stringify(expectedGates)) throw new Error('Connector status endpoint mismatch');
+for (const [connector, status] of Object.entries(expectedGates)) {
+  if (connectorPayload.connector_gates?.[connector] !== status) throw new Error('Connector status endpoint mismatch');
+}
+if (connectorPayload.connector_gates?.hermes !== payload.connector_gates?.hermes) throw new Error('Hermes gate inconsistent between endpoints');
 if (connectorPayload.linkedin?.mode !== 'discovery-only' || connectorPayload.linkedin?.capabilities?.prepareApplication !== false) {
   throw new Error('LinkedIn capability status endpoint mismatch');
 }

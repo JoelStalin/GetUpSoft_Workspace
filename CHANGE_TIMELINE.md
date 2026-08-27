@@ -15,6 +15,8 @@ cierre y la forma de revertir.
 |---|---|
 | `3ccfc5c7a7` | feat(careerai): seguimiento del run en ORCA + live browser y form fill externo |
 | `8ac3f15481` | test(careerai): evidencia Playwright del canvas con live browser |
+| `1f5b00f832` | docs: agregar CHANGE_TIMELINE con el checkpoint de cierre |
+| (este) | fix(careerai): doctor de Hermes reconoce el transporte CLI |
 
 **Qué cambió:**
 
@@ -32,6 +34,11 @@ cierre y la forma de revertir.
    glassdoor, workday, greenhouse, lever; pausa en login/consent/captcha/mfa/upload/submit)
    y `live-browser-monitor` (`read_only_until_approval: true`).
 
+5. **Falso negativo del doctor de Hermes.** Solo evaluaba `HERMES_API_KEY`, pero Hermes
+   está instalado como CLI local (`HERMES_CLI_PATH` → Hermes Agent v0.18.2). Nuevo
+   `apps/orca/src/careerai/hermes-doctor.mjs` reconoce transporte `http` o `cli`;
+   el gate pasa de PARTIAL a PASS.
+
 **Verificación:** 12/12 scripts CareerAI en verde.
 
 ```
@@ -45,10 +52,9 @@ Evidencia visual: `task-ledger/evidence/careerai/canvas-live-browser.png`.
 **Gates de seguridad intactos:** `submit_performed` siempre `false`, aprobación humana
 obligatoria por oportunidad, LinkedIn en `discovery-only`.
 
-**Bloqueado por terceros (no por código):**
-- `HERMES_API_KEY` no existe en ningún `.env` del workspace → el doctor de Hermes
-  seguirá en `requires_configuration`.
-- Envío real de WhatsApp requiere proveedor oficial; el simulador queda en `draft-only`.
+**Bloqueado por decisión del propietario (no por código):**
+- Envío real de WhatsApp: las credenciales de Meta ya existen en `.env.local`; el canal
+  se mantiene en `draft-only` a propósito. Habilitarlo es una decisión explícita.
 
 **Cómo revertir:**
 

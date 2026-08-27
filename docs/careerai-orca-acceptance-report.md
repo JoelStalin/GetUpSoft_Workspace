@@ -33,7 +33,7 @@ Se validó el workflow `careerai-indeed-agent` en el editor local de ORCA, usand
 | Prueba Hermes/gstack/ORCA | PASS | `1 passed` |
 | Regresión integrada de artefactos | PASS | Sintaxis + registro + contratos + fixtures + notificación + LinkedIn + endpoint; todo verde |
 | Sintaxis del servidor | PASS | `node --check scripts/serve-orca-local.mjs` |
-| Diagnóstico Hermes | PARTIAL | HTTP 200; estado `requires_configuration` sin `HERMES_API_KEY` |
+| Diagnóstico Hermes | PASS | `status: configured`, `transport: cli`, Hermes Agent v0.18.2 vía `HERMES_CLI_PATH` |
 | Seguimiento del run desde ORCA | PASS | `POST/GET /api/careerai/runs`, `GET /api/careerai/runs/:id`, SSE `/stream`; persistencia en `data/careerai/runs.jsonl` |
 | Live browser de monitoreo | PASS | Nodo `live-browser-monitor` (`type: live_browser`) + `GET /api/careerai/live-browser`; `read_only_until_approval: true` |
 | Llenado de formularios externos | PASS | Nodo `external-form-fill` en modo `prepare_only` para indeed/linkedin/glassdoor/workday/greenhouse/lever; pausa en login/consent/captcha/mfa/upload/submit |
@@ -67,10 +67,11 @@ Correcciones aplicadas en esta revisión:
 3. **Seguimiento desde ORCA.** Nuevo `apps/orca/src/careerai/runs.mjs` con registro persistente de ejecuciones y estado por nodo, expuesto vía API + SSE para que el canvas siga el run en vivo.
 4. **Live browser + formularios externos.** El blueprint pasa de 15 a 17 nodos (22 edges) con `external-form-fill` y `live-browser-monitor`.
 
+5. **Diagnóstico de Hermes corregido (falso negativo).** El doctor solo miraba `HERMES_API_KEY`, pero Hermes está instalado como CLI local (`HERMES_CLI_PATH` → Hermes Agent v0.18.2, responde a `--version`). Nuevo `apps/orca/src/careerai/hermes-doctor.mjs` reconoce ambos transportes y reporta `transport: http|cli`. El gate pasa de PARTIAL a PASS.
+
 Pendientes que siguen bloqueados por terceros (no por código):
 
-- `HERMES_API_KEY` no existe en ningún `.env` del workspace — el doctor seguirá en `requires_configuration` hasta que se provisione por el mecanismo oficial.
-- Envío real de WhatsApp requiere proveedor oficial; el simulador `draft-only` es el comportamiento correcto mientras tanto.
+- Envío real de WhatsApp: existen `WHATSAPP_ACCESS_TOKEN`, `WHATSAPP_PHONE_NUMBER_ID` y `WHATSAPP_BUSINESS_ACCOUNT_ID` en `.env.local`, por lo que el proveedor oficial parece provisionado. Aun así el canal se mantiene deliberadamente en `draft-only`: habilitar envío real es una decisión explícita del propietario, no un cambio de código pendiente.
 
 ## Próxima acción segura
 

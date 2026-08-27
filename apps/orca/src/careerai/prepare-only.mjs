@@ -1,4 +1,5 @@
 import fs from 'node:fs';
+import { hermesDoctor } from './hermes-doctor.mjs';
 
 const fixturesPath = new URL('../../../../data/careerai/fixtures.json', import.meta.url);
 
@@ -8,7 +9,7 @@ export function connectorGates() {
     linkedin: 'discovery-only',
     gmail: 'draft-only',
     google_drive: 'read-only',
-    hermes: process.env.HERMES_API_KEY ? 'configured' : 'requires_configuration',
+    hermes: hermesDoctor().status,
   };
 }
 

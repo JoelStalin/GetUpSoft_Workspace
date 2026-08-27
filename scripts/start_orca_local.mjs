@@ -7,6 +7,7 @@ import { prepareOnly, connectorGates } from '../apps/orca/src/careerai/prepare-o
 import { indeedStatus } from '../apps/orca/src/careerai/indeed-provider.mjs';
 import { linkedinStatus } from '../apps/orca/src/careerai/linkedin-provider.mjs';
 import { startRun, listRuns, getRun, liveBrowserSession } from '../apps/orca/src/careerai/runs.mjs';
+import { hermesDoctor } from '../apps/orca/src/careerai/hermes-doctor.mjs';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const dist = path.join(root, 'apps', 'orca', 'workflow-editor', 'dist');
@@ -82,7 +83,7 @@ const ui = http.createServer((req, res) => {
   if (apiPath === '/api/health') return json(res, { ok: true, service: 'orca-local' });
   if (apiPath === '/api/stats') return json(res, { ok: true, workflows: 1, nodes: 15, edges: 16 });
   if (apiPath === '/api/pipeline/stats') return json(res, { ok: true, status: 'ready', active: 0, completed: 0, failed: 0 });
-  if (apiPath === '/api/hermes/doctor') return json(res, { ok: true, status: process.env.HERMES_API_KEY ? 'configured' : 'requires_configuration' });
+  if (apiPath === '/api/hermes/doctor') return json(res, hermesDoctor());
   if (apiPath === '/api/hermes/memory' || apiPath === '/api/hermes/audit' || apiPath === '/api/orca/evidence') return json(res, { ok: true, data: [] });
   if (apiPath === '/api/prompts/index') return json(res, { ok: true, items: [] });
   if (apiPath === '/api/n8n/node-types') return json(res, { ok: true, data: [] });
