@@ -839,3 +839,18 @@ del cliente (`profile-confirmation`), no se fingio aqui.
 
 Checklist entregado al propietario, con lo que depende de el (login manual, confirmar
 catalogo, decidir modo de envio final) separado de lo que se puede avanzar sin el.
+
+### Bug real encontrado antes de pedirle el login al propietario
+
+`scripts/careerai_login_handoff.mjs` (el script pensado para que el cliente haga login manual)
+guardaba la sesion en `apps/orca/chrome_profile/careerai`, pero `careerai_session_vault.mjs` y
+`careerai_harvest.mjs` (los que de verdad usan la sesion para discovery) leen de
+`apps/orca/chrome_profile/careerai-migrated` — **un perfil de Chrome distinto**. Un login hecho
+con el script original nunca habria sido visto por el resto del pipeline; coincide con el
+`logged_in: false` observado. Corregido para usar el mismo perfil (con el mismo override
+`CAREERAI_PROFILE_DIR` que ya usan los otros dos scripts).
+
+Alternativa mas rapida disponible y sin tocar codigo: `careerai_apply_with_chrome_profile.mjs`
+usa el perfil REAL de Chrome del usuario (con Chrome cerrado) — si el propietario ya tiene
+sesion iniciada en Indeed/LinkedIn en su navegador de siempre, esto evita el login manual por
+completo.

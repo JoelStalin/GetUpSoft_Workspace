@@ -5,7 +5,10 @@ import path from 'node:path';
 import { chromium } from '../apps/orca/workflow-editor/node_modules/playwright/index.mjs';
 
 const OUT = 'task-ledger/evidence/careerai/live-test';
-const profileDir = path.resolve('apps/orca/chrome_profile/careerai');
+// Mismo perfil que leen careerai_session_vault.mjs y careerai_harvest.mjs (chrome_profile/
+// careerai-migrated). Antes apuntaba a chrome_profile/careerai, un perfil distinto: un login
+// hecho con este script no lo habria visto el resto del pipeline.
+const profileDir = path.resolve(process.env.CAREERAI_PROFILE_DIR || 'apps/orca/chrome_profile/careerai-migrated');
 fs.mkdirSync(profileDir, { recursive: true });
 
 const platforms = [
