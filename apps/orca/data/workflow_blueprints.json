@@ -877,6 +877,16 @@
         "id": "priority-ranker",
         "type": "decision",
         "label": "Orden segun el ranking del cliente"
+      },
+      {
+        "id": "rss-feed-ingest",
+        "type": "worker",
+        "label": "Ingesta de feeds RSS/Atom"
+      },
+      {
+        "id": "email-alert-ingest",
+        "type": "worker",
+        "label": "Ingesta de alertas de empleo por correo"
       }
     ],
     "edges": [
@@ -1211,6 +1221,22 @@
       {
         "from": "audit-append",
         "to": "evidence-log"
+      },
+      {
+        "from": "search-profile-builder",
+        "to": "rss-feed-ingest"
+      },
+      {
+        "from": "search-profile-builder",
+        "to": "email-alert-ingest"
+      },
+      {
+        "from": "rss-feed-ingest",
+        "to": "dedupe-canonical"
+      },
+      {
+        "from": "email-alert-ingest",
+        "to": "dedupe-canonical"
       }
     ],
     "settings": {

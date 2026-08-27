@@ -900,3 +900,28 @@ Lo que queda fuera del ranking **no se descarta**, va al final y se cuenta en
 `outside_client_ranking`.
 
 Grafo: **52 nodos y 83 edges**. Regresion offline: **30/30 en verde**.
+
+### rss-feed-ingest y email-alert-ingest: las fuentes que no disparan anti-bot
+
+Despues del muro de Cloudflare que freno el scraping en Indeed y WeWorkRemotely, estas dos
+fuentes pasan a ser las mas fiables: un feed RSS es un documento publico pensado para que lo
+lean maquinas, y una alerta de empleo **ya llego al correo del cliente**, asi que leerla no
+toca el portal. Ademas suelen llegar antes de que la vacante circule.
+
+El parseo es propio: meter un parser XML completo para leer cuatro etiquetas anadiria una
+dependencia que hay que mantener y auditar. Soporta RSS (`<item>`, `<link>` como texto) y
+Atom (`<entry>`, `<link href>`), decodifica entidades y CDATA, limpia el HTML de las
+descripciones y normaliza fechas a ISO.
+
+Decisiones que el test protege:
+
+- **El remitente debe estar en la allowlist.** Cualquiera puede enviar un correo que parezca
+  una alerta de empleo; seguir sus enlaces a ciegas es exactamente como funciona el phishing.
+- **Los enlaces envueltos en rastreadores se desenvuelven** (`?u=https%3A%2F%2F...`), porque
+  si no, la URL canonica seria la del rastreador y la deduplicacion fallaria.
+- **Un feed sin entradas se declara** (`no_entries`) en vez de devolver una lista vacia: puede
+  ser un error del portal disfrazado de HTTP 200, y ese fue justo el fallo que ya cometi una
+  vez en el harvest.
+- Lo descartado por falta de URL **se cuenta** en `skipped_without_url`.
+
+Grafo: **54 nodos y 87 edges**. Regresion offline: **31/31 en verde**.

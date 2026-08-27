@@ -35,9 +35,9 @@
   },
   "totals": {
     "total": 95,
-    "listo": 52,
+    "listo": 54,
     "prototipo": 13,
-    "falta": 30
+    "falta": 28
   },
   "nodes": [
     {
@@ -340,8 +340,8 @@
     {
       "id": "rss-feed-ingest",
       "type": "worker",
-      "status": "falta",
-      "owner": "claude",
+      "status": "listo",
+      "owner": "-",
       "purpose": "Feeds RSS/Atom de boards de nicho",
       "block": "C",
       "block_title": "Descubrimiento (fuentes genericas)"
@@ -349,8 +349,8 @@
     {
       "id": "email-alert-ingest",
       "type": "worker",
-      "status": "falta",
-      "owner": "claude",
+      "status": "listo",
+      "owner": "-",
       "purpose": "Ingesta alertas de empleo desde Gmail",
       "block": "C",
       "block_title": "Descubrimiento (fuentes genericas)"
