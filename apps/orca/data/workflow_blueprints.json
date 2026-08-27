@@ -847,6 +847,21 @@
         "id": "queue-dispatcher",
         "type": "worker",
         "label": "Serializa corridas por tenant"
+      },
+      {
+        "id": "email-apply-sender",
+        "type": "action",
+        "label": "Envio por correo con adjuntos"
+      },
+      {
+        "id": "submit-executor",
+        "type": "action",
+        "label": "Ejecutor de envio de formulario"
+      },
+      {
+        "id": "confirmation-capture",
+        "type": "worker",
+        "label": "Captura de la prueba de postulacion"
       }
     ],
     "edges": [
@@ -1129,6 +1144,34 @@
       {
         "from": "lever-adapter",
         "to": "external-form-fill"
+      },
+      {
+        "from": "apply-method-classifier",
+        "to": "email-apply-sender"
+      },
+      {
+        "from": "approval-expiry-watchdog",
+        "to": "email-apply-sender"
+      },
+      {
+        "from": "external-form-fill",
+        "to": "submit-executor"
+      },
+      {
+        "from": "approval-expiry-watchdog",
+        "to": "submit-executor"
+      },
+      {
+        "from": "submit-executor",
+        "to": "confirmation-capture"
+      },
+      {
+        "from": "email-apply-sender",
+        "to": "confirmation-capture"
+      },
+      {
+        "from": "confirmation-capture",
+        "to": "evidence-log"
       }
     ],
     "settings": {

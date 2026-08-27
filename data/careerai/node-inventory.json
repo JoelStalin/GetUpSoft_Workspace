@@ -35,9 +35,9 @@
   },
   "totals": {
     "total": 95,
-    "listo": 46,
+    "listo": 49,
     "prototipo": 13,
-    "falta": 36
+    "falta": 33
   },
   "nodes": [
     {
@@ -682,8 +682,8 @@
     {
       "id": "submit-executor",
       "type": "action",
-      "status": "falta",
-      "owner": "claude",
+      "status": "listo",
+      "owner": "-",
       "purpose": "Envio generico con verificacion de idempotencia",
       "block": "G",
       "block_title": "Ejecucion en navegador y adaptadores de ATS"
@@ -691,8 +691,8 @@
     {
       "id": "confirmation-capture",
       "type": "worker",
-      "status": "falta",
-      "owner": "claude",
+      "status": "listo",
+      "owner": "-",
       "purpose": "Captura prueba de que la postulacion existio",
       "block": "G",
       "block_title": "Ejecucion en navegador y adaptadores de ATS"
@@ -853,8 +853,8 @@
     {
       "id": "email-apply-sender",
       "type": "action",
-      "status": "falta",
-      "owner": "claude",
+      "status": "listo",
+      "owner": "-",
       "purpose": "Envia el correo con CV y carta adjuntos, solo tras aprobacion",
       "block": "G",
       "block_title": "Ejecucion en navegador y adaptadores de ATS"

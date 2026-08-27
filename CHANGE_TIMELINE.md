@@ -854,3 +854,29 @@ Alternativa mas rapida disponible y sin tocar codigo: `careerai_apply_with_chrom
 usa el perfil REAL de Chrome del usuario (con Chrome cerrado) — si el propietario ya tiene
 sesion iniciada en Indeed/LinkedIn en su navegador de siempre, esto evita el login manual por
 completo.
+
+### email-apply-sender y submit-executor: las dos acciones irreversibles
+
+`apps/orca/src/careerai/senders.mjs`. Son los unicos dos puntos del workflow que actuan sobre
+el mundo exterior. Todo lo demas se puede repetir; un correo enviado y un formulario enviado
+no se pueden retirar. Por eso comparten la misma cadena de guardas, y basta que una falle
+para que no se ejecute nada:
+
+1. aprobacion valida, vigente y **para esa oportunidad**;
+2. el contenido no cambio despues de aprobarse (hash del payload);
+3. destinatario dentro del dominio permitido — un correo a la direccion equivocada expone
+   datos personales del cliente;
+4. sin muro anti-bot activo y con sesion viva;
+5. sin campos obligatorios pendientes: un ATS puede aceptar un formulario incompleto y quemar
+   la candidatura;
+6. idempotencia por canal y contenido: no se postula dos veces a lo mismo.
+
+`recordDelivery` distingue `confirmed` de `sent_without_confirmation`. **Una postulacion sin
+prueba es una promesa**, y el reporte al cliente no debe presentarlas como equivalentes.
+
+Grafo: **49 nodos y 77 edges**. Inventario: 95 nodos — 49 listos, 13 con prototipo, 33 por
+construir. Regresion offline: **29/29 en verde**.
+
+Nota: esta tanda se apoya en tres commits de otra sesion en la misma rama, uno de los cuales
+corrige un defecto de mi codigo (`login_handoff.mjs` guardaba la sesion en
+`chrome_profile/careerai` mientras el harvest leia `chrome_profile/careerai-migrated`).
