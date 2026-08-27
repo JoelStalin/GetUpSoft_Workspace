@@ -211,3 +211,22 @@ selectores genéricos capturaban secciones de categoría, no ofertas).
 El obstáculo real para "el bot aplica solo" no es el código del agente: es que los
 portales detectan y retan la automatización. El diseño ya lo contempla — navegador
 visible + takeover humano en `login` y `captcha` — y esa es la vía sostenible.
+
+### Cobertura de regresión para los arreglos anteriores
+
+Los tres defectos de la corrida en vivo no tenían test que los protegiera. Se extrajo
+la lógica pura a `apps/orca/src/careerai/bot-wall.mjs` (`isBotWall`, `sanitizeOcrPayload`,
+`parseOcrOutput`) y `careerai_harvest.mjs` la consume, de modo que test y runtime
+comparten una sola fuente.
+
+`scripts/test_careerai_bot_wall.mjs` cubre, con los textos OCR reales capturados:
+
+- detecta los muros de Indeed y de WeWorkRemotely;
+- **rechaza falsos positivos**: un listado real y un pie de página que menciona
+  Cloudflare no son muros (la regex anterior marcaba cualquier "cloudflare");
+- reproduce el fallo original de `JSON.parse` con el BEL 0x07 y verifica que el saneado
+  lo resuelve conservando el texto.
+
+Añadido a `npm run careerai:regression` — ahora **9/9 scripts offline en verde**.
+El helper OCR además registra `step: ocr_failed` en lugar de devolver un objeto vacío
+en silencio.

@@ -5,6 +5,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { execFileSync } from 'node:child_process';
 import { chromium } from '../apps/orca/workflow-editor/node_modules/playwright/index.mjs';
+import { isBotWall, parseOcrOutput } from '../apps/orca/src/careerai/bot-wall.mjs';
 
 const OUT = 'task-ledger/evidence/careerai/live-test';
 const STORE = 'data/careerai/harvest.jsonl';
@@ -27,7 +28,6 @@ const SOURCES = {
 };
 // Firmas de muro anti-bot: si aparecen, el workflow debe pausar y escalar, nunca
 // devolver "0 ofertas" en silencio como si la busqueda no tuviera resultados.
-const BOT_WALL_RE = /additional verification required|verify you are human|unusual traffic|are you a robot|cloudflare|ray id|checking your browser/i;
 const SCROLLS = Number(process.env.CAREERAI_SCROLLS || 6);
 const EMAIL_RE = /[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}/gi;
 
@@ -64,7 +64,7 @@ async function pageText() {
   return page.evaluate(() => document.body.innerText).catch(() => '');
 }
 
-if (BOT_WALL_RE.test(await pageText())) {
+if (isBotWall(await pageText())) {
   const wallShot = `${OUT}/harvest-bot-wall.png`;
   await page.screenshot({ path: wallShot }).catch(() => {});
   await new Promise((r) => setTimeout(r, 800)); // deja que el archivo se cierre antes del OCR
@@ -80,7 +80,7 @@ if (BOT_WALL_RE.test(await pageText())) {
   let cleared = false;
   while (Date.now() < wallDeadline) {
     await new Promise((r) => setTimeout(r, 10000));
-    if (!BOT_WALL_RE.test(await pageText())) { cleared = true; break; }
+    if (!isBotWall(await pageText())) { cleared = true; break; }
   }
 
   if (!cleared) {
