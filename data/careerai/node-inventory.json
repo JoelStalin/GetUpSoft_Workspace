@@ -36,8 +36,8 @@
   "totals": {
     "total": 87,
     "listo": 17,
-    "prototipo": 20,
-    "falta": 50
+    "prototipo": 23,
+    "falta": 47
   },
   "nodes": [
     {
@@ -547,8 +547,8 @@
     {
       "id": "cv-tailor",
       "type": "intelligence",
-      "status": "falta",
-      "owner": "ambos",
+      "status": "prototipo",
+      "owner": "claude",
       "purpose": "CV adaptado por oportunidad con keywords del ATS",
       "block": "F",
       "block_title": "Generacion de artefactos de postulacion"
@@ -556,7 +556,7 @@
     {
       "id": "cover-letter-writer",
       "type": "intelligence",
-      "status": "falta",
+      "status": "prototipo",
       "owner": "claude",
       "purpose": "Carta por oportunidad, draft-only",
       "block": "F",
@@ -565,8 +565,8 @@
     {
       "id": "screening-answers",
       "type": "intelligence",
-      "status": "falta",
-      "owner": "ambos",
+      "status": "prototipo",
+      "owner": "claude",
       "purpose": "Responde filtros del ATS sin inventar datos",
       "block": "F",
       "block_title": "Generacion de artefactos de postulacion"

@@ -464,3 +464,40 @@ del sistema.
 
 Inventario: **87 nodos** — 17 listos, 20 con prototipo, 50 por construir.
 Regresion offline: **15/15 en verde**.
+
+### Autocorreccion verificada contra proveedores reales
+
+Ejecutado `careerai_research_catalog.mjs iseries-core` con los tres proveedores. Diagnostico
+que devolvio el consejo:
+
+| Proveedor | Resultado | Comportamiento |
+|---|---|---|
+| Hermes | HTTP 404 (su backend Gemini) | **1 intento** — definitivo, no se reintenta |
+| Gemini | HTTP 503 tras **3 intentos** | transitorio, reintento con espera exponencial |
+| OpenAI | HTTP 429 tras **3 intentos** | cuota agotada |
+
+El sistema hizo exactamente lo correcto: reintento los transitorios, no malgasto llamadas en
+el definitivo y escalo con un diagnostico preciso por proveedor. La familia sigue sin validar
+por indisponibilidad real de los modelos, no por un fallo del nodo. **Pendiente del
+propietario:** configurar `hermes model` con modelos gratuitos para que asuma su rol de carga
+pesada; elegir proveedores de su cuenta no me corresponde.
+
+### Nodos cv-tailor, cover-letter-writer y screening-answers
+
+`apps/orca/src/careerai/application-tailor.mjs`. Para **cada oportunidad** se produce un CV
+adaptado, una carta que nombra empresa y puesto, y las respuestas del formulario. Dos reglas
+gobiernan el modulo y el test las protege:
+
+1. **Nunca se inventa un hecho que el CV no respalde.** El prompt lo prohibe de forma
+   explicita, y el resultado incluye `gaps` (lo que la oferta pide y el CV no sostiene) y
+   `unsupported_claims_avoided`. Las carencias se muestran al cliente en vez de disimularse.
+2. **Un dato factual sin respaldo no se contesta.** `answerScreeningQuestions` deja la
+   autorizacion de trabajo o la expectativa salarial en `human_review_required` antes que
+   rellenarlas. El test verifica ese caso concreto.
+
+Ademas: sin adaptacion del consejo **no se postula con el CV generico**, se escala — mandar
+un CV sin adaptar a un ATS que filtra por palabras clave es gastar la oportunidad. Cada
+artefacto es derivado y trazable al CV original por hash; el original nunca se modifica.
+
+Inventario: 87 nodos — 17 listos, 23 con prototipo, 47 por construir.
+Regresion offline: **16/16 en verde**.
