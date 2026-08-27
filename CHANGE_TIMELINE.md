@@ -587,3 +587,26 @@ corridas, estado de Hermes y conectores.
 **URL del editor:** `http://127.0.0.1:4173/?workflow=careerai-indeed-agent` (`npm run orca:start`).
 
 Regresion: 18/18 offline y 3/3 de la suite live en verde.
+
+### El grafo pasa de 17 a 32 nodos
+
+Los modulos construidos existian como codigo probado pero no estaban en el blueprint, asi
+que el editor mostraba una arquitectura desactualizada. Se promueven al grafo los **15 nodos
+que tienen modulo implementado y test propio**, con las **21 aristas** que reflejan el flujo
+real:
+
+`career-command -> cv-ingest -> profession-extractor -> search-profile-builder -> discovery
+-> dedupe-canonical -> stack-classifier -> new-position-trigger -> apply-method-classifier`
+
+y la rama de artefactos `consensus-score -> cv-tailor -> cover-letter-writer ->
+screening-answers -> application-draft`, mas `unsupported-collector -> pdf-report-builder ->
+evidence-log` para lo que no se puede completar.
+
+**Criterio de promocion:** solo entra al grafo lo que tiene implementacion y test. Declarar
+en el blueprint algo sin implementar convertiria el editor en una lista de deseos, que es
+justo lo que el validador de inventario existe para impedir.
+
+Verificado en el canvas: **32 nodos y 43 edges renderizados, sin errores de pagina**.
+
+Inventario: 95 nodos — 32 listos, 13 con prototipo, 50 por construir.
+Regresion: 18/18 offline y 3/3 live en verde.

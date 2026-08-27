@@ -35,8 +35,8 @@
   },
   "totals": {
     "total": 95,
-    "listo": 17,
-    "prototipo": 28,
+    "listo": 32,
+    "prototipo": 13,
     "falta": 50
   },
   "nodes": [
@@ -241,8 +241,8 @@
     {
       "id": "cv-ingest",
       "type": "worker",
-      "status": "prototipo",
-      "owner": "claude",
+      "status": "listo",
+      "owner": "-",
       "purpose": "Extrae texto del CV (PDF ASCII85+Flate y texto plano) y lo referencia por hash",
       "block": "B2",
       "block_title": "Perfil profesional del cliente"
@@ -250,8 +250,8 @@
     {
       "id": "profession-extractor",
       "type": "intelligence",
-      "status": "prototipo",
-      "owner": "claude",
+      "status": "listo",
+      "owner": "-",
       "purpose": "Deduce las profesiones del CV via consejo, con barrido del catalogo como respaldo",
       "block": "B2",
       "block_title": "Perfil profesional del cliente"
@@ -286,8 +286,8 @@
     {
       "id": "search-profile-builder",
       "type": "transform",
-      "status": "prototipo",
-      "owner": "claude",
+      "status": "listo",
+      "owner": "-",
       "purpose": "Genera consultas desde el ranking del cliente; implementado y probado",
       "block": "C",
       "block_title": "Descubrimiento (fuentes genericas)"
@@ -367,8 +367,8 @@
     {
       "id": "bot-wall-detector",
       "type": "decision",
-      "status": "prototipo",
-      "owner": "claude",
+      "status": "listo",
+      "owner": "-",
       "purpose": "Detecta challenge y cede control al humano",
       "block": "C",
       "block_title": "Descubrimiento (fuentes genericas)"
@@ -403,8 +403,8 @@
     {
       "id": "dedupe-canonical",
       "type": "transform",
-      "status": "prototipo",
-      "owner": "claude",
+      "status": "listo",
+      "owner": "-",
       "purpose": "Deduplica por URL canonica e identidad empresa+puesto; implementado y probado",
       "block": "D",
       "block_title": "Normalizacion y calidad del dato"
@@ -412,8 +412,8 @@
     {
       "id": "stack-classifier",
       "type": "transform",
-      "status": "prototipo",
-      "owner": "claude",
+      "status": "listo",
+      "owner": "-",
       "purpose": "Clasifica la oferta contra el catalogo del cliente; implementado y probado",
       "block": "D",
       "block_title": "Normalizacion y calidad del dato"
@@ -547,8 +547,8 @@
     {
       "id": "cv-tailor",
       "type": "intelligence",
-      "status": "prototipo",
-      "owner": "claude",
+      "status": "listo",
+      "owner": "-",
       "purpose": "CV adaptado por oportunidad con keywords del ATS",
       "block": "F",
       "block_title": "Generacion de artefactos de postulacion"
@@ -556,8 +556,8 @@
     {
       "id": "cover-letter-writer",
       "type": "intelligence",
-      "status": "prototipo",
-      "owner": "claude",
+      "status": "listo",
+      "owner": "-",
       "purpose": "Carta por oportunidad, draft-only",
       "block": "F",
       "block_title": "Generacion de artefactos de postulacion"
@@ -565,8 +565,8 @@
     {
       "id": "screening-answers",
       "type": "intelligence",
-      "status": "prototipo",
-      "owner": "claude",
+      "status": "listo",
+      "owner": "-",
       "purpose": "Responde filtros del ATS sin inventar datos",
       "block": "F",
       "block_title": "Generacion de artefactos de postulacion"
@@ -808,8 +808,8 @@
     {
       "id": "llm-council",
       "type": "intelligence",
-      "status": "prototipo",
-      "owner": "claude",
+      "status": "listo",
+      "owner": "-",
       "purpose": "Cerebro compartido: enruta por rol con respaldo y reintento ante fallos transitorios",
       "block": "E",
       "block_title": "Analisis y consejo de modelos"
@@ -817,8 +817,8 @@
     {
       "id": "catalog-researcher",
       "type": "intelligence",
-      "status": "prototipo",
-      "owner": "claude",
+      "status": "listo",
+      "owner": "-",
       "purpose": "Investiga y valida familias del catalogo con el consejo en vez de esperar a un humano",
       "block": "B2",
       "block_title": "Perfil profesional del cliente"
@@ -835,8 +835,8 @@
     {
       "id": "new-position-trigger",
       "type": "trigger",
-      "status": "prototipo",
-      "owner": "claude",
+      "status": "listo",
+      "owner": "-",
       "purpose": "Dispara el analisis solo con posiciones nuevas; omite las ya vistas",
       "block": "C",
       "block_title": "Descubrimiento (fuentes genericas)"
@@ -844,8 +844,8 @@
     {
       "id": "apply-method-classifier",
       "type": "decision",
-      "status": "prototipo",
-      "owner": "claude",
+      "status": "listo",
+      "owner": "-",
       "purpose": "Decide la via: boton nativo, correo con adjuntos o formulario externo",
       "block": "G",
       "block_title": "Ejecucion en navegador y adaptadores de ATS"
@@ -862,8 +862,8 @@
     {
       "id": "unsupported-collector",
       "type": "worker",
-      "status": "prototipo",
-      "owner": "claude",
+      "status": "listo",
+      "owner": "-",
       "purpose": "Agrupa las posiciones que no se pudieron completar y por que",
       "block": "I",
       "block_title": "Seguimiento posterior a la postulacion"
@@ -871,8 +871,8 @@
     {
       "id": "pdf-report-builder",
       "type": "report",
-      "status": "prototipo",
-      "owner": "claude",
+      "status": "listo",
+      "owner": "-",
       "purpose": "Genera el reporte PDF de resultados (rol systems_analysis)",
       "block": "I",
       "block_title": "Seguimiento posterior a la postulacion"

@@ -702,6 +702,81 @@
         "id": "blocked-escalation",
         "type": "approval",
         "label": "Login/CAPTCHA/MFA escalation"
+      },
+      {
+        "id": "cv-ingest",
+        "type": "worker",
+        "label": "Ingesta y versionado del CV del cliente"
+      },
+      {
+        "id": "profession-extractor",
+        "type": "intelligence",
+        "label": "Profesiones extraidas del CV"
+      },
+      {
+        "id": "search-profile-builder",
+        "type": "transform",
+        "label": "Consultas desde el ranking del cliente"
+      },
+      {
+        "id": "dedupe-canonical",
+        "type": "transform",
+        "label": "Deduplicacion por URL e identidad"
+      },
+      {
+        "id": "stack-classifier",
+        "type": "transform",
+        "label": "Clasificacion contra el catalogo del cliente"
+      },
+      {
+        "id": "new-position-trigger",
+        "type": "trigger",
+        "label": "Dispara analisis solo con posiciones nuevas"
+      },
+      {
+        "id": "apply-method-classifier",
+        "type": "decision",
+        "label": "Decide la via de postulacion"
+      },
+      {
+        "id": "cv-tailor",
+        "type": "intelligence",
+        "label": "CV adaptado por oportunidad"
+      },
+      {
+        "id": "cover-letter-writer",
+        "type": "intelligence",
+        "label": "Carta por oportunidad"
+      },
+      {
+        "id": "screening-answers",
+        "type": "intelligence",
+        "label": "Respuestas del formulario sin inventar datos"
+      },
+      {
+        "id": "llm-council",
+        "type": "intelligence",
+        "label": "Consejo de modelos por rol con respaldo"
+      },
+      {
+        "id": "catalog-researcher",
+        "type": "intelligence",
+        "label": "Investiga familias del catalogo"
+      },
+      {
+        "id": "bot-wall-detector",
+        "type": "decision",
+        "label": "Detecta muro anti-bot y cede control"
+      },
+      {
+        "id": "unsupported-collector",
+        "type": "worker",
+        "label": "Agrupa lo que no se pudo completar"
+      },
+      {
+        "id": "pdf-report-builder",
+        "type": "report",
+        "label": "Reporte PDF de resultados"
       }
     ],
     "edges": [
@@ -792,6 +867,90 @@
       {
         "from": "live-browser-monitor",
         "to": "evidence-log"
+      },
+      {
+        "from": "career-command",
+        "to": "cv-ingest"
+      },
+      {
+        "from": "cv-ingest",
+        "to": "profession-extractor"
+      },
+      {
+        "from": "profession-extractor",
+        "to": "search-profile-builder"
+      },
+      {
+        "from": "search-profile-builder",
+        "to": "indeed-discovery"
+      },
+      {
+        "from": "indeed-discovery",
+        "to": "dedupe-canonical"
+      },
+      {
+        "from": "dedupe-canonical",
+        "to": "stack-classifier"
+      },
+      {
+        "from": "stack-classifier",
+        "to": "new-position-trigger"
+      },
+      {
+        "from": "new-position-trigger",
+        "to": "apply-method-classifier"
+      },
+      {
+        "from": "apply-method-classifier",
+        "to": "normalize-opportunity"
+      },
+      {
+        "from": "apply-method-classifier",
+        "to": "unsupported-collector"
+      },
+      {
+        "from": "hermes-analysis",
+        "to": "llm-council"
+      },
+      {
+        "from": "llm-council",
+        "to": "catalog-researcher"
+      },
+      {
+        "from": "catalog-researcher",
+        "to": "search-profile-builder"
+      },
+      {
+        "from": "consensus-score",
+        "to": "cv-tailor"
+      },
+      {
+        "from": "cv-tailor",
+        "to": "cover-letter-writer"
+      },
+      {
+        "from": "cover-letter-writer",
+        "to": "screening-answers"
+      },
+      {
+        "from": "screening-answers",
+        "to": "application-draft"
+      },
+      {
+        "from": "indeed-discovery",
+        "to": "bot-wall-detector"
+      },
+      {
+        "from": "bot-wall-detector",
+        "to": "blocked-escalation"
+      },
+      {
+        "from": "unsupported-collector",
+        "to": "pdf-report-builder"
+      },
+      {
+        "from": "pdf-report-builder",
+        "to": "evidence-log"
       }
     ],
     "settings": {
@@ -821,6 +980,6 @@
       "run_tracking_store": "data/careerai/runs.jsonl"
     },
     "created_at": "2026-07-31T00:00:00.000Z",
-    "updated_at": "2026-08-26T23:57:54.484Z"
+    "updated_at": "2026-08-27T00:00:00.000Z"
   }
 ]
