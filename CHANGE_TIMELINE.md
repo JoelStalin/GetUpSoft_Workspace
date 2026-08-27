@@ -112,3 +112,44 @@ multi-agente. En `context/prompts/system_prompt.md` es un defecto: ese archivo e
 system prompt del **chatbot de tienda de Galantes Jewelry**, y el bloque le inserta
 `agent_id`, rutas locales de Windows y nombres de agentes internos en instrucciones de
 cara al cliente. Se dejó sin tocar por pertenecer a otra sesión.
+
+---
+
+## 2026-08-26 — Pruebas reales en navegador visible (CareerAI)
+
+Ejecutadas contra los portales en vivo, con navegador headed:
+
+| Portal | Resultado |
+|---|---|
+| Indeed | HTTP 200, 50 ofertas reales renderizadas |
+| LinkedIn Jobs | HTTP 200, 1.000+ ofertas visibles sin sesión |
+| WeWorkRemotely | 5 ofertas reales; al seguir "Apply" redirigió a su propio login ("Sign in to verify your eligibility for this geolocked position") |
+
+Todas las corridas terminaron en `stopped_at: human_approval_required` con
+`submit_performed: false`. El agente no escribió credenciales en ningún momento.
+
+**Scripts añadidos:** `careerai_live_browser_probe.mjs`, `careerai_live_apply_probe.mjs`,
+`careerai_login_handoff.mjs`, `careerai_apply_with_chrome_profile.mjs`,
+`careerai_session_vault.mjs`, `careerai_harvest.mjs`, `careerai_ocr.ps1`,
+`careerai_profile_migrate.ps1`.
+
+### Hallazgo: la migración del perfil de Chrome no traslada sesiones
+
+`careerai_profile_migrate.ps1` copia el perfil `Default` (cookies incluidas, 2,4 MB)
+sin cerrar Chrome, pero **las sesiones no sobreviven**: Chrome 127+ cifra las cookies
+con App-Bound Encryption atada a la instalación original. Comprobado: LinkedIn e Indeed
+redirigen a login sobre el perfil copiado.
+
+La ruta que sí funciona es el perfil persistente con login manual una sola vez
+(`careerai_session_vault.mjs`): el usuario inicia sesión, el perfil la conserva y las
+corridas siguientes ya no la piden.
+
+### OCR nativo disponible
+
+`Windows.Media.Ocr` (en-US) funciona sin dependencias externas.
+`careerai_ocr.ps1` extrajo correctamente el texto de una captura real de Indeed,
+y `careerai_harvest.mjs` lo usa como verificación visual del scroll.
+
+**Siguiente tarea:** con la sesión guardada, ejecutar
+`node scripts/careerai_harvest.mjs` (scroll + OCR + captura de correos) y después
+`node scripts/careerai_apply_with_chrome_profile.mjs` para el llenado prepare-only.

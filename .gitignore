@@ -9,3 +9,5 @@ data/orca/interactive-chrome-profile/
 
 # CareerAI run tracking (evidencia local, no versionada)
 data/careerai/runs.jsonl
+apps/orca/chrome_profile/
+data/careerai/harvest.jsonl
