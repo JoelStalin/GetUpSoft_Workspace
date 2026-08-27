@@ -35,9 +35,9 @@
   },
   "totals": {
     "total": 95,
-    "listo": 49,
+    "listo": 52,
     "prototipo": 13,
-    "falta": 33
+    "falta": 30
   },
   "nodes": [
     {
@@ -457,8 +457,8 @@
     {
       "id": "opportunity-upsert",
       "type": "worker",
-      "status": "falta",
-      "owner": "claude",
+      "status": "listo",
+      "owner": "-",
       "purpose": "Persistencia idempotente multi-tenant",
       "block": "D",
       "block_title": "Normalizacion y calidad del dato"
@@ -511,8 +511,8 @@
     {
       "id": "priority-ranker",
       "type": "decision",
-      "status": "falta",
-      "owner": "claude",
+      "status": "listo",
+      "owner": "-",
       "purpose": "Ordena la cola segun el ranking que eligio el cliente",
       "block": "E",
       "block_title": "Analisis, consenso y priorizacion"
@@ -763,8 +763,8 @@
     {
       "id": "audit-append",
       "type": "worker",
-      "status": "falta",
-      "owner": "claude",
+      "status": "listo",
+      "owner": "-",
       "purpose": "Bitacora append-only por tenant",
       "block": "H",
       "block_title": "Aprobacion, notificacion y evidencia"

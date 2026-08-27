@@ -880,3 +880,23 @@ construir. Regresion offline: **29/29 en verde**.
 Nota: esta tanda se apoya en tres commits de otra sesion en la misma rama, uno de los cuales
 corrige un defecto de mi codigo (`login_handoff.mjs` guardaba la sesion en
 `chrome_profile/careerai` mientras el harvest leia `chrome_profile/careerai-migrated`).
+
+### store.mjs: persistencia, bitacora y orden de la cola
+
+`opportunity-upsert` es idempotente por `(tenant, canonical_url)`: volver a ver la misma
+vacante actualiza lo que se sabe de ella en vez de crear un duplicado que luego generaria una
+segunda postulacion. Y **el estado no retrocede**: una vacante ya postulada no vuelve a
+"descubierta" porque el buscador la reencuentre.
+
+`audit-append` hace cumplir de verdad el `secret_fields_forbidden` del contrato, que hasta
+ahora solo estaba declarado. `stripSecrets` redacta tokens, cookies, contrasenas y cabeceras
+de autorizacion **en profundidad**, tambien dentro de arrays y objetos anidados. La lectura
+filtra por tenant: un cliente nunca ve la bitacora de otro.
+
+`priority-ranker` ordena por el ranking que eligio **el cliente**; el score y la frescura solo
+desempatan dentro de una misma familia. El test verifica el caso que importa: una vacante con
+peor score gana a otra con mejor score si pertenece a la familia que el cliente puso primero.
+Lo que queda fuera del ranking **no se descarta**, va al final y se cuenta en
+`outside_client_ranking`.
+
+Grafo: **52 nodos y 83 edges**. Regresion offline: **30/30 en verde**.

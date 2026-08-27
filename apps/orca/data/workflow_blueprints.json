@@ -862,6 +862,21 @@
         "id": "confirmation-capture",
         "type": "worker",
         "label": "Captura de la prueba de postulacion"
+      },
+      {
+        "id": "opportunity-upsert",
+        "type": "worker",
+        "label": "Persistencia idempotente por tenant"
+      },
+      {
+        "id": "audit-append",
+        "type": "worker",
+        "label": "Bitacora append-only sin secretos"
+      },
+      {
+        "id": "priority-ranker",
+        "type": "decision",
+        "label": "Orden segun el ranking del cliente"
       }
     ],
     "edges": [
@@ -1171,6 +1186,30 @@
       },
       {
         "from": "confirmation-capture",
+        "to": "evidence-log"
+      },
+      {
+        "from": "remote-verifier",
+        "to": "opportunity-upsert"
+      },
+      {
+        "from": "opportunity-upsert",
+        "to": "priority-ranker"
+      },
+      {
+        "from": "priority-ranker",
+        "to": "new-position-trigger"
+      },
+      {
+        "from": "submit-executor",
+        "to": "audit-append"
+      },
+      {
+        "from": "email-apply-sender",
+        "to": "audit-append"
+      },
+      {
+        "from": "audit-append",
         "to": "evidence-log"
       }
     ],
