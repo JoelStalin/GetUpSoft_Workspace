@@ -35,9 +35,9 @@
   },
   "totals": {
     "total": 95,
-    "listo": 41,
+    "listo": 42,
     "prototipo": 13,
-    "falta": 41
+    "falta": 40
   },
   "nodes": [
     {
@@ -115,8 +115,8 @@
     {
       "id": "rate-limiter",
       "type": "decision",
-      "status": "falta",
-      "owner": "claude",
+      "status": "listo",
+      "owner": "-",
       "purpose": "Espaciado humano por portal, defensa anti-bloqueo",
       "block": "A",
       "block_title": "Tenancy, suscripcion y cuotas"

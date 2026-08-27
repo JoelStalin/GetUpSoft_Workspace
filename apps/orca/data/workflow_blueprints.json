@@ -822,6 +822,11 @@
         "id": "project-run-binding",
         "type": "worker",
         "label": "Asocia el run al proyecto ORCA del cliente"
+      },
+      {
+        "id": "rate-limiter",
+        "type": "decision",
+        "label": "Espaciado humano por portal, defensa anti-bloqueo"
       }
     ],
     "edges": [
@@ -939,6 +944,14 @@
       },
       {
         "from": "connection-strategy-router",
+        "to": "indeed-discovery"
+      },
+      {
+        "from": "connection-strategy-router",
+        "to": "rate-limiter"
+      },
+      {
+        "from": "rate-limiter",
         "to": "indeed-discovery"
       },
       {

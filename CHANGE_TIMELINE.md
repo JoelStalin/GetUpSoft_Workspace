@@ -714,3 +714,20 @@ Reglas duras:
 
 Grafo: **41 nodos y 61 edges**. Inventario: 95 nodos — 41 listos, 13 con prototipo, 41 por
 construir. Regresion offline: **23/23 en verde**.
+
+### rate-limiter
+
+`apps/orca/src/careerai/rate-limiter.mjs`. Decide si una accion sobre un portal puede
+ejecutarse ahora o debe esperar, para imitar espaciado humano y no gatillar defensas anti-bot.
+Logica pura: no duerme, no reintenta, solo calcula con `now`/`lastActionAt` inyectados (mismo
+patron que `checkApproval`/`sweepExpired` en guards.mjs).
+
+Intervalo minimo por portal (Indeed 45s, LinkedIn 90s, Glassdoor/Workday 60s, Greenhouse/Lever
+20s — los portales con deteccion anti-bot mas agresiva piden mas espacio). **Portal no
+declarado en la tabla: se usa el intervalo mas conservador conocido, no uno optimista** — es
+la unica decision que nunca hace daño por exceso de cautela. Reloj inconsistente (ultima
+accion registrada en el futuro respecto a "now") bloquea en vez de calcular una espera
+negativa.
+
+Grafo: **42 nodos y 63 edges**. Inventario: 95 nodos — 42 listos, 13 con prototipo, 40 por
+construir. Regresion offline: **24/24 en verde**.

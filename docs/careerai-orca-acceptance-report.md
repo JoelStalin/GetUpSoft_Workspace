@@ -87,6 +87,12 @@ Regresión completa ejecutada: **22/22 scripts en verde** (`npm run careerai:reg
 
 Nuevo módulo: `apps/orca/src/careerai/tenant-resolver.mjs` (`tenant-resolver`). Resuelve `tenant_id` con precedencia `request > session > default`; sin fuente confiable pausa en vez de inventar un tenant. Valida forma (rechaza espacios, mayúsculas y `..` de path traversal, ya que `tenant_id` termina en rutas de archivo y claves de vault) y bloquea reasignar el tenant de un run ya vinculado. Grafo: 40 nodos, 60 edges. Inventario: 40 listos, 13 con prototipo, 42 por construir.
 
+## Cierre 2026-08-27 (cont. 3)
+
+Regresión completa ejecutada: **24/24 scripts en verde** (`npm run careerai:regression`).
+
+Nuevos módulos: `project-run-binding` (verifica que el run y el proyecto ORCA pertenezcan al mismo tenant antes de asociarlos) y `rate-limiter` (espaciado mínimo por portal — Indeed 45s, LinkedIn 90s, Glassdoor/Workday 60s, Greenhouse/Lever 20s; portal desconocido usa el intervalo más conservador). Grafo: 42 nodos, 63 edges. Inventario: 42 listos, 13 con prototipo, 40 por construir.
+
 ## Próxima acción segura
 
 Configurar Hermes mediante el mecanismo oficial de entorno/conector y repetir el doctor check. Después, ejecutar una oportunidad fixture en `prepare-only`; cualquier envío real requiere confirmación explícita en la solicitud concreta.
