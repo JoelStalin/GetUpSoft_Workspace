@@ -40,7 +40,7 @@
     "docker:down": "docker compose down",
     "careerai:prepare-only": "node scripts/run_careerai_prepare_only.mjs",
     "careerai:regression": "node scripts/validate_careerai_contracts.mjs && node scripts/validate_careerai_fixtures.mjs && node scripts/validate_careerai_application_assets.mjs && node scripts/run_careerai_prepare_only.mjs && node scripts/run_careerai_notification_draft.mjs && node scripts/test_careerai_notification_draft.mjs && node scripts/test_indeed_provider_gate.mjs && node scripts/test_linkedin_provider_gate.mjs",
-    "careerai:regression:live": "node scripts/test_careerai_prepare_only_endpoint.mjs && node scripts/test_careerai_run_tracking.mjs"
+    "careerai:regression:live": "node scripts/test_careerai_prepare_only_endpoint.mjs && node scripts/test_careerai_run_tracking.mjs && node scripts/test_careerai_canvas_live_browser.mjs"
   },
   "dependencies": {
     "@sendgrid/mail": "^8.1.6",
