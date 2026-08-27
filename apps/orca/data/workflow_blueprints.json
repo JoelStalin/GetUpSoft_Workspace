@@ -814,6 +814,11 @@
         "label": "Registro de conectores MCP disponibles"
       },
       {
+        "id": "scraping-session-guard",
+        "type": "decision",
+        "label": "Verifica que la sesion sigue viva antes de scraping"
+      },
+      {
         "id": "tenant-resolver",
         "type": "transform",
         "label": "Resuelve tenant_id y lo propaga al run"
@@ -954,6 +959,14 @@
       {
         "from": "connection-strategy-router",
         "to": "mcp-connector-registry"
+      },
+      {
+        "from": "connection-strategy-router",
+        "to": "scraping-session-guard"
+      },
+      {
+        "from": "scraping-session-guard",
+        "to": "rate-limiter"
       },
       {
         "from": "connection-strategy-router",

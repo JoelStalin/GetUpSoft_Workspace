@@ -751,3 +751,24 @@ como maximo una corrida dispatchable por tenant por pasada.
 
 Grafo: **43 nodos y 65 edges**. Inventario: 95 nodos — 43 listos, 13 con prototipo, 39 por
 construir. Regresion offline: **25/25 en verde**.
+
+### scraping-session-guard
+
+`apps/orca/src/careerai/scraping-session-guard.mjs`. Verifica que la sesion persistida (login
+manual del cliente en live browser) sigue viva ANTES de cada accion de scraping. Logica pura:
+no abre navegador, no refresca nada.
+
+**Por que importa:** scrapear con sesion caducada dispara el login del portal, que interrumpe
+la corrida o se lee como actividad sospechosa. Y reusar la sesion de un tenant para las
+acciones de otro es la misma fuga que evitan tenant-resolver y project-run-binding — se
+verifica tambien aqui, en el ultimo punto antes de tocar el portal: **sesion de otro tenant o
+de otro portal nunca se considera viva**, sin excepcion.
+
+Con `expires_at` declarado por el portal, esa fecha manda. Sin ella, se estima frescura por
+`captured_at` + una ventana de 12h: pasada esa ventana el estado es `stale` (no "caducada" de
+forma dura, sino "revisar antes de confiar"). Sin ninguna fecha de referencia, `unknown_age`
+— no se asume que una sesion sin metadata es valida. Reloj inconsistente (captured_at en el
+futuro) falla explicitamente.
+
+Grafo: **44 nodos y 67 edges**. Inventario: 95 nodos — 44 listos, 13 con prototipo, 38 por
+construir. Regresion offline: **26/26 en verde**.

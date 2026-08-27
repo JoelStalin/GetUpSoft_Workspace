@@ -35,9 +35,9 @@
   },
   "totals": {
     "total": 95,
-    "listo": 43,
+    "listo": 44,
     "prototipo": 13,
-    "falta": 39
+    "falta": 38
   },
   "nodes": [
     {
@@ -187,8 +187,8 @@
     {
       "id": "scraping-session-guard",
       "type": "decision",
-      "status": "falta",
-      "owner": "claude",
+      "status": "listo",
+      "owner": "-",
       "purpose": "Verifica que la sesion sigue viva antes de cada accion de scraping",
       "block": "B",
       "block_title": "Conexiones del cliente"

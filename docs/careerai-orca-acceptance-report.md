@@ -99,6 +99,12 @@ Regresión completa ejecutada: **25/25 scripts en verde** (`npm run careerai:reg
 
 Nuevo módulo: `queue-dispatcher` (serializa corridas por tenant; distintos tenants corren en paralelo entre sí, pero un mismo tenant nunca tiene dos corridas activas a la vez — evita corrupción de sesión de navegador compartida). Grafo: 43 nodos, 65 edges. Inventario: 43 listos, 13 con prototipo, 39 por construir.
 
+## Cierre 2026-08-27 (cont. 5)
+
+Regresión completa ejecutada: **26/26 scripts en verde** (`npm run careerai:regression`).
+
+Nuevo módulo: `scraping-session-guard` (verifica que la sesión persistida sigue viva antes de cada acción de scraping; rechaza sesión de otro tenant u otro portal sin excepción; `expires_at` manda si existe, si no se estima frescura por `captured_at` + ventana de 12h). Grafo: 44 nodos, 67 edges. Inventario: 44 listos, 13 con prototipo, 38 por construir.
+
 ## Próxima acción segura
 
 Configurar Hermes mediante el mecanismo oficial de entorno/conector y repetir el doctor check. Después, ejecutar una oportunidad fixture en `prepare-only`; cualquier envío real requiere confirmación explícita en la solicitud concreta.
