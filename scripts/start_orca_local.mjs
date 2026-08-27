@@ -8,6 +8,7 @@ import { indeedStatus } from '../apps/orca/src/careerai/indeed-provider.mjs';
 import { linkedinStatus } from '../apps/orca/src/careerai/linkedin-provider.mjs';
 import { startRun, listRuns, getRun, liveBrowserSession } from '../apps/orca/src/careerai/runs.mjs';
 import { hermesDoctor } from '../apps/orca/src/careerai/hermes-doctor.mjs';
+import { layoutGraph } from '../apps/orca/src/careerai/graph-layout.mjs';
 
 // Registro de proyectos por cliente. La URL de monitoreo apuntaba a un puerto 5174 donde
 // nunca hubo nada escuchando: el script generaba el enlace pero ningun servidor lo servia.
@@ -52,6 +53,18 @@ function updateLocalEnv(updates) {
   fs.renameSync(temporaryPath, envPath);
 }
 const ui = http.createServer((req, res) => {
+  // Una excepcion en cualquier ruta tumbaba el proceso entero: bastaba una peticion mal
+  // formada para dejar ORCA fuera de linea. Ahora el fallo se acota a esa peticion.
+  try {
+    return handleRequest(req, res);
+  } catch (error) {
+    console.error(JSON.stringify({ level: 'error', path: (req.url || '').split('?')[0], error: String(error.message || error) }));
+    if (!res.headersSent) res.writeHead(500, { 'content-type': 'application/json; charset=utf-8' });
+    return res.end(JSON.stringify({ ok: false, error: 'internal_error' }));
+  }
+});
+
+function handleRequest(req, res) {
   const apiPath = (req.url || '').split('?')[0];
   if (apiPath === '/oauth') {
     res.writeHead(200, { 'content-type': 'text/html; charset=utf-8' });
@@ -123,13 +136,13 @@ const ui = http.createServer((req, res) => {
   if (apiPath === '/api/prompts/index') return json(res, { ok: true, items: [] });
   if (apiPath === '/api/n8n/node-types') return json(res, { ok: true, data: [] });
   if (apiPath === '/api/n8n/workflows') {
-    // React Flow espera position como objeto {x, y}; el array estilo n8n dejaba todos los
-    // nodos apilados en el origen y el canvas parecia vacio. Se emiten ambos formatos y se
-    // reparten en rejilla para que quepan en pantalla.
-    const COLUMNAS = 5;
-    const nodes = (careerBlueprint?.nodes || []).map((node, index) => {
-      const x = (index % COLUMNAS) * 260 + 60;
-      const y = Math.floor(index / COLUMNAS) * 170 + 80;
+    // React Flow espera position como objeto {x, y}; el array estilo n8n dejaba los nodos
+    // apilados en el origen. La rejilla que lo sustituyo ordenaba por declaracion, asi que
+    // las conexiones cruzaban el canvas en todas direcciones. Ahora se disponen por capas
+    // topologicas y el grafo se lee de izquierda a derecha siguiendo el flujo real.
+    const layout = layoutGraph(careerBlueprint?.nodes || [], careerBlueprint?.edges || []);
+    const nodes = (careerBlueprint?.nodes || []).map((node) => {
+      const { x, y } = layout.positions.get(node.id) || { x: 60, y: 60 };
       return { id: node.id, name: node.label, type: node.type,
         position: { x, y }, positionArray: [x, y], x, y,
         parameters: { label: node.label }, data: { ...node, label: node.label } };
@@ -146,7 +159,7 @@ const ui = http.createServer((req, res) => {
     const edges = (careerBlueprint?.edges || []).map((edge) => ({
       id: `${edge.from}->${edge.to}`, source: edge.from, target: edge.to, type: 'smoothstep', animated: false,
     }));
-    return json(res, { ok: true, data: [{ id: careerBlueprint.id, name: careerBlueprint.name, active: false, nodes, connections, edges, links: edges, settings: careerBlueprint.settings, orca_meta: { source: 'careerai-blueprint' } }] });
+    return json(res, { ok: true, data: [{ id: careerBlueprint.id, name: careerBlueprint.name, active: false, nodes, connections, edges, links: edges, settings: careerBlueprint.settings, orca_meta: { source: 'careerai-blueprint', layout: { layers: layout.layer_count, columns: layout.columns, rows: layout.rows, back_edges: layout.back_edges.length } } }] });
   }
   if (apiPath.startsWith('/api/n8n/workflows/') && apiPath.endsWith('/run') && req.method === 'POST') {
     const runNodes = (careerBlueprint?.nodes || []).map((node, index) => ({ nodeId: node.id, status: node.type === 'action' ? 'blocked_approval_required' : 'completed', sequence: index + 1 }));
@@ -271,8 +284,18 @@ data: ${JSON.stringify(run.live_browser)}
   if (!target.startsWith(path.resolve(dist))) { res.writeHead(403); return res.end('Forbidden'); }
   const file = fs.existsSync(target) && fs.statSync(target).isFile() ? target : path.join(dist, 'index.html');
   res.writeHead(200, { 'content-type': mime[path.extname(file)] || 'application/octet-stream' });
-  fs.createReadStream(file).pipe(res);
-});
+  return fs.createReadStream(file).pipe(res);
+}
+
+// Un fallo asincrono no capturado tampoco debe tumbar el servidor.
+process.on('uncaughtException', (error) => console.error(JSON.stringify({ level: 'fatal_caught', error: String(error.message || error) })));
+process.on('unhandledRejection', (error) => console.error(JSON.stringify({ level: 'rejection_caught', error: String(error) })));
+
+// La comprobacion de Hermes tarda ~2,4 s la primera vez. Si la paga la primera peticion, el
+// panel de estado del editor se cancela antes de recibir respuesta y se queda en "Loading".
+// Se precalienta al arrancar, cuando nadie esta esperando.
+hermesDoctor();
+
 ui.listen(port, '127.0.0.1', () => console.log(JSON.stringify({ ok: true, orca_ui: `http://127.0.0.1:${port}/?workflow=careerai-indeed-agent`, oauth: `http://127.0.0.1:${process.env.ORCA_OAUTH_PORT || 8788}/health` })));
 function stop() { ui.close(); oauth.kill('SIGTERM'); }
 process.on('SIGINT', stop); process.on('SIGTERM', stop);

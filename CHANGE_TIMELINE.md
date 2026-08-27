@@ -997,3 +997,30 @@ en datos reales.
 **Pendiente que conviene no confundir:** el frontend del CLIENTE (bloque J: onboarding,
 conexiones, bandeja de oportunidades, aprobaciones, facturacion) **no existe**. Lo que hay es
 el editor de workflows, que es herramienta interna.
+
+### Layout del grafo y robustez del servidor
+
+El propietario señalo que la UI no se veia bien. Tres hallazgos:
+
+**1. El grafo era un plato de espagueti, y era culpa mia.** Cuando arregle el apilamiento de
+nodos los coloque en rejilla por orden de declaracion, asi que las 95 conexiones cruzaban el
+canvas en todas direcciones. Primer intento de arreglo: capas topologicas puras. Resultado
+**peor**: 33 columnas, ~10.000 px de ancho, y al encuadrar el grafo los nodos quedaban
+reducidos a lineas. Solucion final en `graph-layout.mjs`: se conserva el **orden topologico**
+(que es lo que hace legible el flujo) pero se **envuelve en filas de 6 columnas**, asi que
+cabe en pantalla con los nodos legibles. Verificado: 58 nodos de 102x61 px al encuadrar.
+
+**2. El grafo tiene ciclos de verdad.** Kahn puro dejaba 43 nodos sin capa amontonados en la
+columna 0, porque hay realimentaciones legitimas (reintentos, escalados que vuelven atras, el
+investigador que realimenta al constructor de busquedas). El recorrido en profundidad ignora
+las aristas que vuelven a un ancestro y las reporta: **12 aristas de ciclo** de 95.
+
+**3. Una excepcion en cualquier ruta tumbaba el servidor entero.** Basto una referencia a un
+campo que renombre para dejar ORCA fuera de linea por completo. Esto explica muy bien que el
+propietario a veces no lo viera arriba. Ahora cada peticion esta acotada en su propio
+try/catch y hay guardas de `uncaughtException` y `unhandledRejection`. Comprobado: una ruta
+que antes mataba el proceso devuelve 404 y el servidor sigue respondiendo.
+
+**4. Arranque en frio del panel de estado.** La comprobacion de Hermes tarda ~2,4 s la primera
+vez; si la pagaba la primera peticion, el efecto del panel se cancelaba y se quedaba en
+"Loading live data". Ahora se precalienta al arrancar, cuando nadie espera.
