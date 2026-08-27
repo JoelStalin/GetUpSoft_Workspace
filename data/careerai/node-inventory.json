@@ -1,0 +1,657 @@
+{
+  "schema_version": "careerai.node-inventory.v1",
+  "workflow_id": "careerai-indeed-agent",
+  "search_priority": [
+    "iseries-core",
+    "iseries-modernization",
+    "odoo-python",
+    "fullstack-otros"
+  ],
+  "totals": {
+    "total": 71,
+    "listo": 17,
+    "prototipo": 10,
+    "falta": 44
+  },
+  "nodes": [
+    {
+      "id": "career-command",
+      "type": "trigger",
+      "status": "listo",
+      "owner": "-",
+      "purpose": "Disparo manual del workflow",
+      "block": "A",
+      "block_title": "Tenancy, suscripcion y cuotas"
+    },
+    {
+      "id": "tenant-resolver",
+      "type": "transform",
+      "status": "falta",
+      "owner": "claude",
+      "purpose": "Resuelve tenant_id y lo propaga al run",
+      "block": "A",
+      "block_title": "Tenancy, suscripcion y cuotas"
+    },
+    {
+      "id": "subscription-gate",
+      "type": "decision",
+      "status": "falta",
+      "owner": "joel",
+      "purpose": "Verifica plan activo antes de gastar recursos",
+      "block": "A",
+      "block_title": "Tenancy, suscripcion y cuotas"
+    },
+    {
+      "id": "quota-meter",
+      "type": "worker",
+      "status": "falta",
+      "owner": "joel",
+      "purpose": "Cuenta postulaciones, analisis y minutos de navegador",
+      "block": "A",
+      "block_title": "Tenancy, suscripcion y cuotas"
+    },
+    {
+      "id": "run-scheduler",
+      "type": "trigger",
+      "status": "falta",
+      "owner": "claude",
+      "purpose": "Disparo programado por tenant",
+      "block": "A",
+      "block_title": "Tenancy, suscripcion y cuotas"
+    },
+    {
+      "id": "queue-dispatcher",
+      "type": "worker",
+      "status": "falta",
+      "owner": "claude",
+      "purpose": "Serializa corridas por tenant",
+      "block": "A",
+      "block_title": "Tenancy, suscripcion y cuotas"
+    },
+    {
+      "id": "rate-limiter",
+      "type": "decision",
+      "status": "falta",
+      "owner": "claude",
+      "purpose": "Espaciado humano por portal, defensa anti-bloqueo",
+      "block": "A",
+      "block_title": "Tenancy, suscripcion y cuotas"
+    },
+    {
+      "id": "connection-registry",
+      "type": "worker",
+      "status": "falta",
+      "owner": "joel",
+      "purpose": "Catalogo de conexiones por cliente y alcance",
+      "block": "B",
+      "block_title": "Conexiones del cliente"
+    },
+    {
+      "id": "oauth-pkce-flow",
+      "type": "action",
+      "status": "prototipo",
+      "owner": "claude",
+      "purpose": "Autorizacion visible PKCE con vault cifrado",
+      "block": "B",
+      "block_title": "Conexiones del cliente"
+    },
+    {
+      "id": "browser-session-vault",
+      "type": "worker",
+      "status": "prototipo",
+      "owner": "claude",
+      "purpose": "Perfil de navegador persistente por cliente",
+      "block": "B",
+      "block_title": "Conexiones del cliente"
+    },
+    {
+      "id": "connection-health-check",
+      "type": "worker",
+      "status": "falta",
+      "owner": "claude",
+      "purpose": "Detecta sesion caducada antes de la corrida",
+      "block": "B",
+      "block_title": "Conexiones del cliente"
+    },
+    {
+      "id": "credential-rotation",
+      "type": "worker",
+      "status": "falta",
+      "owner": "claude",
+      "purpose": "Refresco de tokens y re-autorizacion",
+      "block": "B",
+      "block_title": "Conexiones del cliente"
+    },
+    {
+      "id": "connection-revoke",
+      "type": "action",
+      "status": "falta",
+      "owner": "joel",
+      "purpose": "Desconectar y borrar credenciales a peticion",
+      "block": "B",
+      "block_title": "Conexiones del cliente"
+    },
+    {
+      "id": "search-profile-builder",
+      "type": "transform",
+      "status": "falta",
+      "owner": "joel",
+      "purpose": "Perfiles priorizados con sinonimos del nicho iSeries",
+      "block": "C",
+      "block_title": "Descubrimiento (prioridad RPGLE/AS400/iSeries)"
+    },
+    {
+      "id": "indeed-discovery",
+      "type": "worker",
+      "status": "listo",
+      "owner": "-",
+      "purpose": "Discovery en Indeed",
+      "block": "C",
+      "block_title": "Descubrimiento (prioridad RPGLE/AS400/iSeries)"
+    },
+    {
+      "id": "dice-discovery",
+      "type": "worker",
+      "status": "falta",
+      "owner": "joel",
+      "purpose": "Dice concentra la demanda real de AS400/RPGLE",
+      "block": "C",
+      "block_title": "Descubrimiento (prioridad RPGLE/AS400/iSeries)"
+    },
+    {
+      "id": "linkedin-discovery",
+      "type": "worker",
+      "status": "falta",
+      "owner": "claude",
+      "purpose": "Discovery-only; Jobs/Apply bloqueado por gate",
+      "block": "C",
+      "block_title": "Descubrimiento (prioridad RPGLE/AS400/iSeries)"
+    },
+    {
+      "id": "wwr-discovery",
+      "type": "worker",
+      "status": "prototipo",
+      "owner": "claude",
+      "purpose": "WeWorkRemotely con extraccion por anclas",
+      "block": "C",
+      "block_title": "Descubrimiento (prioridad RPGLE/AS400/iSeries)"
+    },
+    {
+      "id": "staffing-agency-discovery",
+      "type": "worker",
+      "status": "falta",
+      "owner": "joel",
+      "purpose": "Portales de agencias que colocan iSeries",
+      "block": "C",
+      "block_title": "Descubrimiento (prioridad RPGLE/AS400/iSeries)"
+    },
+    {
+      "id": "rss-feed-ingest",
+      "type": "worker",
+      "status": "falta",
+      "owner": "claude",
+      "purpose": "Feeds RSS/Atom de boards de nicho",
+      "block": "C",
+      "block_title": "Descubrimiento (prioridad RPGLE/AS400/iSeries)"
+    },
+    {
+      "id": "email-alert-ingest",
+      "type": "worker",
+      "status": "falta",
+      "owner": "claude",
+      "purpose": "Ingesta alertas de empleo desde Gmail",
+      "block": "C",
+      "block_title": "Descubrimiento (prioridad RPGLE/AS400/iSeries)"
+    },
+    {
+      "id": "scroll-paginator",
+      "type": "worker",
+      "status": "prototipo",
+      "owner": "claude",
+      "purpose": "Recorre el listado acumulando ofertas unicas",
+      "block": "C",
+      "block_title": "Descubrimiento (prioridad RPGLE/AS400/iSeries)"
+    },
+    {
+      "id": "bot-wall-detector",
+      "type": "decision",
+      "status": "prototipo",
+      "owner": "claude",
+      "purpose": "Detecta challenge y cede control al humano",
+      "block": "C",
+      "block_title": "Descubrimiento (prioridad RPGLE/AS400/iSeries)"
+    },
+    {
+      "id": "ocr-visual-verifier",
+      "type": "worker",
+      "status": "prototipo",
+      "owner": "claude",
+      "purpose": "OCR nativo Windows, verifica lo que se ve",
+      "block": "C",
+      "block_title": "Descubrimiento (prioridad RPGLE/AS400/iSeries)"
+    },
+    {
+      "id": "proxy-rotator",
+      "type": "worker",
+      "status": "falta",
+      "owner": "joel",
+      "purpose": "Salida de red por tenant; decision de costo y ToS",
+      "block": "C",
+      "block_title": "Descubrimiento (prioridad RPGLE/AS400/iSeries)"
+    },
+    {
+      "id": "normalize-opportunity",
+      "type": "transform",
+      "status": "listo",
+      "owner": "-",
+      "purpose": "Lleva cualquier fuente al contrato Opportunity",
+      "block": "D",
+      "block_title": "Normalizacion y calidad del dato"
+    },
+    {
+      "id": "dedupe-canonical",
+      "type": "transform",
+      "status": "falta",
+      "owner": "claude",
+      "purpose": "Evita postular tres veces a la misma vacante",
+      "block": "D",
+      "block_title": "Normalizacion y calidad del dato"
+    },
+    {
+      "id": "tech-stack-classifier",
+      "type": "transform",
+      "status": "falta",
+      "owner": "joel",
+      "purpose": "Clasifica stack real y asigna perfil",
+      "block": "D",
+      "block_title": "Normalizacion y calidad del dato"
+    },
+    {
+      "id": "remote-verifier",
+      "type": "decision",
+      "status": "falta",
+      "owner": "claude",
+      "purpose": "Remoto real vs hibrido encubierto",
+      "block": "D",
+      "block_title": "Normalizacion y calidad del dato"
+    },
+    {
+      "id": "geo-eligibility-filter",
+      "type": "decision",
+      "status": "falta",
+      "owner": "joel",
+      "purpose": "Descarta lo que exige visa o residencia",
+      "block": "D",
+      "block_title": "Normalizacion y calidad del dato"
+    },
+    {
+      "id": "comp-parser",
+      "type": "transform",
+      "status": "falta",
+      "owner": "joel",
+      "purpose": "Normaliza salario, tarifa, W2 vs C2C",
+      "block": "D",
+      "block_title": "Normalizacion y calidad del dato"
+    },
+    {
+      "id": "recruiter-contact-extractor",
+      "type": "worker",
+      "status": "prototipo",
+      "owner": "claude",
+      "purpose": "Extrae correos de contacto de la descripcion",
+      "block": "D",
+      "block_title": "Normalizacion y calidad del dato"
+    },
+    {
+      "id": "opportunity-upsert",
+      "type": "worker",
+      "status": "falta",
+      "owner": "claude",
+      "purpose": "Persistencia idempotente multi-tenant",
+      "block": "D",
+      "block_title": "Normalizacion y calidad del dato"
+    },
+    {
+      "id": "hermes-analysis",
+      "type": "intelligence",
+      "status": "listo",
+      "owner": "-",
+      "purpose": "Primer analista, transporte CLI local",
+      "block": "E",
+      "block_title": "Analisis, consenso y priorizacion"
+    },
+    {
+      "id": "gemini-analysis",
+      "type": "intelligence",
+      "status": "listo",
+      "owner": "-",
+      "purpose": "Segundo analista independiente",
+      "block": "E",
+      "block_title": "Analisis, consenso y priorizacion"
+    },
+    {
+      "id": "chatgpt-verification",
+      "type": "intelligence",
+      "status": "listo",
+      "owner": "-",
+      "purpose": "Verificador del contrato AnalysisResult",
+      "block": "E",
+      "block_title": "Analisis, consenso y priorizacion"
+    },
+    {
+      "id": "consensus-score",
+      "type": "decision",
+      "status": "listo",
+      "owner": "-",
+      "purpose": "Consenso y match score",
+      "block": "E",
+      "block_title": "Analisis, consenso y priorizacion"
+    },
+    {
+      "id": "cv-gap-analyzer",
+      "type": "intelligence",
+      "status": "falta",
+      "owner": "claude",
+      "purpose": "Que pide la oferta que el CV no muestra",
+      "block": "E",
+      "block_title": "Analisis, consenso y priorizacion"
+    },
+    {
+      "id": "priority-ranker",
+      "type": "decision",
+      "status": "falta",
+      "owner": "joel",
+      "purpose": "Ordena la cola por perfil y frescura",
+      "block": "E",
+      "block_title": "Analisis, consenso y priorizacion"
+    },
+    {
+      "id": "ghost-job-detector",
+      "type": "decision",
+      "status": "falta",
+      "owner": "joel",
+      "purpose": "Descarta publicaciones perpetuas",
+      "block": "E",
+      "block_title": "Analisis, consenso y priorizacion"
+    },
+    {
+      "id": "asset-hash-registry",
+      "type": "worker",
+      "status": "prototipo",
+      "owner": "claude",
+      "purpose": "CV original inmutable por SHA-256; vive en el contrato, aun no es nodo",
+      "block": "F",
+      "block_title": "Generacion de artefactos de postulacion"
+    },
+    {
+      "id": "application-draft",
+      "type": "worker",
+      "status": "listo",
+      "owner": "-",
+      "purpose": "Prepara el borrador de la postulacion",
+      "block": "F",
+      "block_title": "Generacion de artefactos de postulacion"
+    },
+    {
+      "id": "cv-tailor",
+      "type": "intelligence",
+      "status": "falta",
+      "owner": "ambos",
+      "purpose": "CV adaptado por oportunidad con keywords del ATS",
+      "block": "F",
+      "block_title": "Generacion de artefactos de postulacion"
+    },
+    {
+      "id": "cover-letter-writer",
+      "type": "intelligence",
+      "status": "falta",
+      "owner": "claude",
+      "purpose": "Carta por oportunidad, draft-only",
+      "block": "F",
+      "block_title": "Generacion de artefactos de postulacion"
+    },
+    {
+      "id": "screening-answers",
+      "type": "intelligence",
+      "status": "falta",
+      "owner": "ambos",
+      "purpose": "Responde filtros del ATS sin inventar datos",
+      "block": "F",
+      "block_title": "Generacion de artefactos de postulacion"
+    },
+    {
+      "id": "asset-human-review",
+      "type": "approval",
+      "status": "falta",
+      "owner": "claude",
+      "purpose": "Revision humana antes de tocar el formulario",
+      "block": "F",
+      "block_title": "Generacion de artefactos de postulacion"
+    },
+    {
+      "id": "linkedin-gate",
+      "type": "approval",
+      "status": "listo",
+      "owner": "-",
+      "purpose": "Gate de autorizacion LinkedIn/API",
+      "block": "G",
+      "block_title": "Ejecucion en navegador y adaptadores de ATS"
+    },
+    {
+      "id": "ats-router",
+      "type": "decision",
+      "status": "falta",
+      "owner": "claude",
+      "purpose": "Enruta al adaptador; pausa en dominio desconocido",
+      "block": "G",
+      "block_title": "Ejecucion en navegador y adaptadores de ATS"
+    },
+    {
+      "id": "workday-adapter",
+      "type": "worker",
+      "status": "falta",
+      "owner": "joel",
+      "purpose": "ATS multi-paso con cuenta obligatoria",
+      "block": "G",
+      "block_title": "Ejecucion en navegador y adaptadores de ATS"
+    },
+    {
+      "id": "greenhouse-adapter",
+      "type": "worker",
+      "status": "falta",
+      "owner": "claude",
+      "purpose": "Formulario de una sola pagina",
+      "block": "G",
+      "block_title": "Ejecucion en navegador y adaptadores de ATS"
+    },
+    {
+      "id": "lever-adapter",
+      "type": "worker",
+      "status": "falta",
+      "owner": "claude",
+      "purpose": "Preguntas personalizadas por vacante",
+      "block": "G",
+      "block_title": "Ejecucion en navegador y adaptadores de ATS"
+    },
+    {
+      "id": "taleo-icims-adapter",
+      "type": "worker",
+      "status": "falta",
+      "owner": "joel",
+      "purpose": "ATS heredados de banca y seguros",
+      "block": "G",
+      "block_title": "Ejecucion en navegador y adaptadores de ATS"
+    },
+    {
+      "id": "external-form-fill",
+      "type": "worker",
+      "status": "listo",
+      "owner": "-",
+      "purpose": "Llenado prepare-only multi-proveedor",
+      "block": "G",
+      "block_title": "Ejecucion en navegador y adaptadores de ATS"
+    },
+    {
+      "id": "file-upload-handler",
+      "type": "worker",
+      "status": "falta",
+      "owner": "claude",
+      "purpose": "Sube el CV adaptado; gate propio",
+      "block": "G",
+      "block_title": "Ejecucion en navegador y adaptadores de ATS"
+    },
+    {
+      "id": "live-browser-monitor",
+      "type": "live_browser",
+      "status": "listo",
+      "owner": "-",
+      "purpose": "Sesion visible con takeover",
+      "block": "G",
+      "block_title": "Ejecucion en navegador y adaptadores de ATS"
+    },
+    {
+      "id": "human-takeover",
+      "type": "approval",
+      "status": "prototipo",
+      "owner": "claude",
+      "purpose": "Cede el teclado ante login o captcha",
+      "block": "G",
+      "block_title": "Ejecucion en navegador y adaptadores de ATS"
+    },
+    {
+      "id": "indeed-apply",
+      "type": "action",
+      "status": "listo",
+      "owner": "-",
+      "purpose": "Envio solo con aprobacion por opportunity_id",
+      "block": "G",
+      "block_title": "Ejecucion en navegador y adaptadores de ATS"
+    },
+    {
+      "id": "submit-executor",
+      "type": "action",
+      "status": "falta",
+      "owner": "claude",
+      "purpose": "Envio generico con verificacion de idempotencia",
+      "block": "G",
+      "block_title": "Ejecucion en navegador y adaptadores de ATS"
+    },
+    {
+      "id": "confirmation-capture",
+      "type": "worker",
+      "status": "falta",
+      "owner": "claude",
+      "purpose": "Captura prueba de que la postulacion existio",
+      "block": "G",
+      "block_title": "Ejecucion en navegador y adaptadores de ATS"
+    },
+    {
+      "id": "human-approval",
+      "type": "approval",
+      "status": "listo",
+      "owner": "-",
+      "purpose": "Aprobacion especifica por oportunidad",
+      "block": "H",
+      "block_title": "Aprobacion, notificacion y evidencia"
+    },
+    {
+      "id": "approval-expiry-watchdog",
+      "type": "decision",
+      "status": "falta",
+      "owner": "claude",
+      "purpose": "Invalida aprobaciones vencidas",
+      "block": "H",
+      "block_title": "Aprobacion, notificacion y evidencia"
+    },
+    {
+      "id": "gmail-notification",
+      "type": "notification",
+      "status": "listo",
+      "owner": "-",
+      "purpose": "Aviso de aprobacion por correo",
+      "block": "H",
+      "block_title": "Aprobacion, notificacion y evidencia"
+    },
+    {
+      "id": "whatsapp-summary",
+      "type": "notification",
+      "status": "prototipo",
+      "owner": "claude",
+      "purpose": "Resumen con allowlist e idempotencia; simulador draft-only, aun no es nodo",
+      "block": "H",
+      "block_title": "Aprobacion, notificacion y evidencia"
+    },
+    {
+      "id": "evidence-log",
+      "type": "report",
+      "status": "listo",
+      "owner": "-",
+      "purpose": "Evidencia por postulacion",
+      "block": "H",
+      "block_title": "Aprobacion, notificacion y evidencia"
+    },
+    {
+      "id": "autocorrection",
+      "type": "recovery",
+      "status": "listo",
+      "owner": "-",
+      "purpose": "Reintento con checkpoint",
+      "block": "H",
+      "block_title": "Aprobacion, notificacion y evidencia"
+    },
+    {
+      "id": "blocked-escalation",
+      "type": "approval",
+      "status": "listo",
+      "owner": "-",
+      "purpose": "Escalamiento por login/captcha/MFA",
+      "block": "H",
+      "block_title": "Aprobacion, notificacion y evidencia"
+    },
+    {
+      "id": "audit-append",
+      "type": "worker",
+      "status": "falta",
+      "owner": "claude",
+      "purpose": "Bitacora append-only por tenant",
+      "block": "H",
+      "block_title": "Aprobacion, notificacion y evidencia"
+    },
+    {
+      "id": "status-tracker",
+      "type": "worker",
+      "status": "falta",
+      "owner": "claude",
+      "purpose": "Clasifica respuestas del correo",
+      "block": "I",
+      "block_title": "Seguimiento posterior a la postulacion"
+    },
+    {
+      "id": "interview-scheduler",
+      "type": "action",
+      "status": "falta",
+      "owner": "claude",
+      "purpose": "Agenda en Calendar con aprobacion",
+      "block": "I",
+      "block_title": "Seguimiento posterior a la postulacion"
+    },
+    {
+      "id": "followup-writer",
+      "type": "intelligence",
+      "status": "falta",
+      "owner": "joel",
+      "purpose": "Seguimiento a los 7 dias sin respuesta",
+      "block": "I",
+      "block_title": "Seguimiento posterior a la postulacion"
+    },
+    {
+      "id": "funnel-metrics",
+      "type": "report",
+      "status": "falta",
+      "owner": "joel",
+      "purpose": "Embudo por perfil de busqueda",
+      "block": "I",
+      "block_title": "Seguimiento posterior a la postulacion"
+    }
+  ]
+}

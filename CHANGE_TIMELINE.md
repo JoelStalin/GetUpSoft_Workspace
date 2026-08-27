@@ -275,3 +275,37 @@ pertenecen a otra tarea en curso. Queda registrado el defecto: en
 `context/prompts/system_prompt.md` ese bloque contamina el system prompt del chatbot de
 tienda de Galantes Jewelry con `agent_id`, rutas locales de Windows y nombres de agentes
 internos, en instrucciones de cara al cliente.
+
+---
+
+## 2026-08-27 — Inventario de nodos verificable
+
+El plan completo del workflow existía solo como documento. Se llevó a
+`data/careerai/node-inventory.json` (**71 nodos**: 17 listos, 10 con prototipo,
+44 por construir) con `id`, tipo, estado, responsable propuesto y propósito,
+agrupados en 9 bloques y con `search_priority` explícita: iSeries primero,
+después Odoo/Python, después el resto del CV.
+
+`scripts/validate_careerai_node_inventory.mjs` lo cruza contra el blueprint real y
+falla si divergen. En su primera corrida detectó **4 imprecisiones del propio
+inventario**:
+
+- `asset-hash-registry` y `whatsapp-summary` estaban marcados como listos, pero viven
+  en el contrato y en un script — no son nodos del grafo. Corregidos a `prototipo`.
+- `application-draft` y `linkedin-gate` existen en el blueprint y faltaban por completo
+  en el inventario.
+
+Ese es justamente el punto: sin validación, un inventario se degrada en lista de deseos.
+Ahora los 17 nodos "listo" coinciden exactamente con los 17 del blueprint.
+
+Añadido a `npm run careerai:regression` — **10/10 scripts offline en verde**.
+Consulta rápida: `npm run careerai:inventory`.
+
+**Reparto propuesto:** 17 pendientes para Joel (criterio de dominio: sinónimos del nicho
+iSeries, agencias de staffing, W2 vs C2C, publicaciones fantasma, ATS heredados),
+35 para Claude (plomería, contratos, adaptadores), 2 compartidos (`cv-tailor`,
+`screening-answers`).
+
+**Decisiones abiertas:** si se construye `proxy-rotator` (reduce bloqueos, sube costo y
+roza los ToS de los portales) y si `dice-discovery` va primero, que es la recomendación
+por concentrar la demanda real de AS400.
