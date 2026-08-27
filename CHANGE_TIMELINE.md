@@ -230,3 +230,48 @@ comparten una sola fuente.
 Añadido a `npm run careerai:regression` — ahora **9/9 scripts offline en verde**.
 El helper OCR además registra `step: ocr_failed` en lugar de devolver un objeto vacío
 en silencio.
+
+---
+
+## 2026-08-27 — Cierre de sesión: estado final
+
+**Rama:** `careerai/live-browser-run-tracking` — 13 commits, todos en `origin`.
+
+**Regresión:** 9/9 scripts offline en verde (`npm run careerai:regression`).
+La suite live (`careerai:regression:live`) requiere `npm run orca:start` en paralelo.
+
+### Defectos reales encontrados y corregidos en esta sesión
+
+1. Rutas `/api/careerai/prepare-only` y `/api/careerai/connectors` desaparecidas al
+   renombrar el servidor local; el fallback del SPA las servía como HTML con HTTP 200.
+2. Doctor de Hermes con falso negativo: solo miraba `HERMES_API_KEY` e ignoraba el CLI
+   local instalado (Hermes Agent v0.18.2).
+3. La sonda de sesión re-navegaba la pestaña del usuario cada 10 s, borrando lo que
+   estuviera escribiendo — hacía el login imposible de completar.
+4. El harvest devolvía `unique_jobs: 0` en silencio ante un muro anti-bot.
+5. El muro anti-bot abortaba el flujo en vez de ceder el control al humano.
+6. El texto del OCR traía caracteres de control (BEL 0x07) que invalidaban el JSON.
+7. La regex de detección marcaba cualquier "cloudflare", incluido un pie de página
+   legítimo — falso positivo que habría abortado búsquedas válidas.
+
+### Pendientes que requieren al usuario (no son deuda técnica)
+
+- **Login en los portales.** `CAREERAI_LOGIN_WAIT_MINUTES=15 node scripts/careerai_session_vault.mjs`
+  con el usuario frente al equipo. La sesión queda guardada en el perfil persistente.
+- **Challenge de Cloudflare.** Cuando aparezca, el agente pausa y espera
+  (`CAREERAI_WALL_WAIT_MINUTES`, por defecto 3) a que el humano lo resuelva.
+- **Base del PR.** Sin decidir: `main` y la base de esta rama son dos repositorios
+  distintos conviviendo en el mismo directorio (ver sección del 2026-08-26).
+- **CV en Google Drive.** No existe: el CV original se referencia por hash desde
+  `C:/Users/yoeli/Downloads/` con `content_copied_to_repo: false`, y el conector de
+  Drive está limitado a lectura. Subirlo requeriría decisión explícita del usuario
+  sobre carpeta y permisos de compartición.
+
+### Cambios locales de otra sesión, deliberadamente sin tocar
+
+`AGENTS.md`, `context/prompts/system_prompt.md` y `docs/agent-state.md` tienen el bloque
+`shared-agent-memory-rule` inyectado automáticamente. **No se revierten** porque
+pertenecen a otra tarea en curso. Queda registrado el defecto: en
+`context/prompts/system_prompt.md` ese bloque contamina el system prompt del chatbot de
+tienda de Galantes Jewelry con `agent_id`, rutas locales de Windows y nombres de agentes
+internos, en instrucciones de cara al cliente.

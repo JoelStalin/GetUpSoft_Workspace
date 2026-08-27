@@ -6,11 +6,11 @@
   "gate": "captcha",
   "escalate_to": "blocked-escalation",
   "human_takeover_offered": true,
-  "human_takeover_minutes": 1,
+  "human_takeover_minutes": 0,
   "evidence": {
     "screenshot": "task-ledger/evidence/careerai/live-test/harvest-bot-wall.png",
-    "ocr_text": "weworkremotely.com Performing security verification This website uses a security service to protect against malicious bots. This page is displayed while the website verifies you are not Verifying... CLO\"DFLARE Ray ID: a3175226dc8bc73d"
+    "ocr_text": "weworkremotely.com Performing security verification This website uses a security service to protect against malicious bots. This page is displayed while the website verifies you are not Verifying... CLO\"DFLARE Ray ID: a3175d179de8bcfd"
   },
   "submit_performed": false,
-  "detected_at": "2026-08-27T01:33:22.147Z"
+  "detected_at": "2026-08-27T01:39:50.667Z"
 }
