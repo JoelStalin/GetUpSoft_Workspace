@@ -34,10 +34,10 @@
     }
   },
   "totals": {
-    "total": 85,
+    "total": 87,
     "listo": 17,
-    "prototipo": 16,
-    "falta": 52
+    "prototipo": 20,
+    "falta": 50
   },
   "nodes": [
     {
@@ -241,18 +241,18 @@
     {
       "id": "cv-ingest",
       "type": "worker",
-      "status": "falta",
+      "status": "prototipo",
       "owner": "claude",
-      "purpose": "Recibe y versiona los CV que sube el cliente",
+      "purpose": "Extrae texto del CV (PDF ASCII85+Flate y texto plano) y lo referencia por hash",
       "block": "B2",
       "block_title": "Perfil profesional del cliente"
     },
     {
       "id": "profession-extractor",
       "type": "intelligence",
-      "status": "falta",
+      "status": "prototipo",
       "owner": "claude",
-      "purpose": "Extrae profesiones, stacks y anos de experiencia del CV",
+      "purpose": "Deduce las profesiones del CV via consejo, con barrido del catalogo como respaldo",
       "block": "B2",
       "block_title": "Perfil profesional del cliente"
     },
@@ -804,6 +804,32 @@
       "purpose": "Embudo por perfil de busqueda",
       "block": "I",
       "block_title": "Seguimiento posterior a la postulacion"
+    },
+    {
+      "id": "llm-council",
+      "type": "intelligence",
+      "status": "prototipo",
+      "owner": "claude",
+      "purpose": "Cerebro compartido: enruta por rol con respaldo y reintento ante fallos transitorios",
+      "block": "E",
+      "block_title": "Analisis y consejo de modelos"
+    },
+    {
+      "id": "catalog-researcher",
+      "type": "intelligence",
+      "status": "prototipo",
+      "owner": "claude",
+      "purpose": "Investiga y valida familias del catalogo con el consejo en vez de esperar a un humano",
+      "block": "B2",
+      "block_title": "Perfil profesional del cliente"
     }
-  ]
+  ],
+  "council_roles": {
+    "heavy_lifting": "hermes (modelos gratuitos, mayor consumo de tokens)",
+    "code_review": "claude (revision de codigo y cumplimiento)",
+    "systems_analysis": "openai (analisis de sistema, documentacion y reportes PDF/Excel)",
+    "reporting": "openai",
+    "qa_testing": "gemini (testing y QA)",
+    "research": "consejo con voto entre varios"
+  }
 }

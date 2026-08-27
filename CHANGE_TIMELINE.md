@@ -415,3 +415,52 @@ Decisiones de diseno que el test protege:
   dejarla fuera.
 
 Regresion offline: **13/13 en verde**.
+
+---
+
+## 2026-08-27 (cont.) — El consejo de modelos como cerebro de los nodos
+
+### Reparto de roles
+
+- **Hermes** (modelos gratuitos): tareas de mayor consumo de tokens — `heavy_lifting`.
+- **Claude**: revision de codigo y cumplimiento — `code_review`.
+- **ChatGPT**: analisis de sistema, documentacion y reportes PDF/Excel — `systems_analysis`, `reporting`.
+- **Gemini**: testing y QA — `qa_testing`.
+- **research**: unico rol que se vota entre varios proveedores.
+
+`askRole()` prueba el titular y baja a la cadena de respaldo solo si falla, en vez de
+consultar a todos y gastar el triple.
+
+### Cuatro defectos reales encontrados al conectar los proveedores de verdad
+
+1. **`gemini-2.0-flash` no existe** — de ahi el HTTP 404. El modelo por defecto pasa a
+   `gemini-flash-latest`, configurable por `GEMINI_MODEL`.
+2. **Los fallos transitorios se trataban como definitivos.** Un HTTP 503 por sobrecarga
+   escalaba a un humano. Ahora hay reintento con espera exponencial para 408/429/5xx, y los
+   definitivos (401, 404) no se reintentan: gastar tres llamadas en un 401 no arregla nada.
+3. **El CLI de Hermes imprime sus errores por stdout y sale con codigo 0.** El consejo
+   tomaba el mensaje de error como respuesta valida y, peor, daba la cadena por satisfecha y
+   nunca probaba el respaldo. Con la deteccion añadida, Hermes falla, Gemini toma el relevo
+   y el analisis se completa.
+4. **`profession-extractor` daba el barrido por analisis completo.** Ahora declara
+   `council_status` y marca esas profesiones con confianza baja.
+
+### Perfil profesional desde el CV real
+
+`cv-ingest.mjs` extrae texto de PDF sin dependencias externas — el CV es un documento
+personal y no debe salir de la maquina para leerse — incluida la cadena ASCII85 + Flate de
+ReportLab. `profession-extractor.mjs` deduce las profesiones **del documento**, con barrido
+del catalogo como respaldo para que un proveedor caido no deje al cliente sin perfil.
+
+Probado contra el CV real del propietario: 5.393 caracteres, hash `d5401d7a7bbc91af`
+coincidente con el registrado en `application-assets.json`, y Gemini devolvio profesiones
+con evidencia citada del propio CV, años y seniority.
+
+**Genericidad probada, no afirmada:** el test alimenta un CV de enfermeria de cuidados
+intensivos con un catalogo que no contiene esa profesion, y verifica que el extractor la
+devuelve igualmente y que `family_id` queda en `null` sin forzar una familia. Los fixtures
+del test del consejo se neutralizaron a cadenas genericas para que no parezcan vocabulario
+del sistema.
+
+Inventario: **87 nodos** — 17 listos, 20 con prototipo, 50 por construir.
+Regresion offline: **15/15 en verde**.
