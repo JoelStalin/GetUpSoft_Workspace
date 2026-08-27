@@ -22,11 +22,13 @@ const context = await chromium.launchPersistentContext(PROFILE_DIR, {
 });
 const page = context.pages()[0] || await context.newPage();
 
-async function probe(platform) {
-  await page.goto(platform.check, { waitUntil: 'domcontentloaded', timeout: 45000 }).catch(() => {});
-  await page.waitForTimeout(4000);
-  const text = await page.evaluate(() => document.body.innerText).catch(() => '');
-  return { logged_in: platform.loggedIn(page.url(), text), url: page.url() };
+// La sonda corre SIEMPRE en una pestana aparte: si usara la pestana del usuario le
+// borraria lo que esta escribiendo cada vez que revisa el estado de la sesion.
+async function probe(platform, target = page) {
+  await target.goto(platform.check, { waitUntil: 'domcontentloaded', timeout: 45000 }).catch(() => {});
+  await target.waitForTimeout(4000);
+  const text = await target.evaluate(() => document.body.innerText).catch(() => '');
+  return { logged_in: platform.loggedIn(target.url(), text), url: target.url() };
 }
 
 const state = {};
@@ -42,21 +44,33 @@ for (const platform of PLATFORMS) {
 if (pending.length) {
   console.log(JSON.stringify({ step: 'login_required', platforms: pending.map((p) => p.id),
     instruction: 'Inicia sesion en la ventana abierta. Se guardara en el perfil para las proximas corridas.' }));
+  // Cada plataforma pendiente recibe su propia pestana, que queda intacta para el
+  // usuario. Una pestana oculta aparte se encarga de comprobar el estado.
+  const tabs = [];
   for (const platform of pending) {
-    await page.goto(platform.login, { waitUntil: 'domcontentloaded' }).catch(() => {});
-    const deadline = Date.now() + WAIT_MINUTES * 60 * 1000;
-    while (Date.now() < deadline) {
-      await new Promise((r) => setTimeout(r, 10000));
-      const result = await probe(platform);
+    const tab = tabs.length === 0 ? page : await context.newPage();
+    await tab.goto(platform.login, { waitUntil: 'domcontentloaded' }).catch(() => {});
+    tabs.push({ platform, tab });
+  }
+  const monitor = await context.newPage();
+  const deadline = Date.now() + WAIT_MINUTES * 60 * 1000;
+  const done = new Set();
+  while (Date.now() < deadline && done.size < pending.length) {
+    await new Promise((r) => setTimeout(r, 15000));
+    for (const { platform } of tabs) {
+      if (done.has(platform.id)) continue;
+      const result = await probe(platform, monitor);
       if (result.logged_in) {
+        done.add(platform.id);
         state[platform.id] = { ...result, logged_in_via: 'user_handoff' };
-        await page.screenshot({ path: `${OUT}/vault-${platform.id}.png` }).catch(() => {});
+        await monitor.screenshot({ path: `${OUT}/vault-${platform.id}.png` }).catch(() => {});
         console.log(JSON.stringify({ step: 'session_saved', platform: platform.id }));
-        break;
       }
-      await page.goto(platform.login, { waitUntil: 'domcontentloaded' }).catch(() => {});
     }
   }
+  await monitor.close().catch(() => {});
+  const missing = pending.filter((p) => !done.has(p.id)).map((p) => p.id);
+  if (missing.length) console.log(JSON.stringify({ step: 'login_timeout', missing, hint: `Vuelve a ejecutar con CAREERAI_LOGIN_WAIT_MINUTES mayor que ${WAIT_MINUTES}` }));
 }
 
 const report = { ok: true, profile_dir: PROFILE_DIR, sessions: state,
