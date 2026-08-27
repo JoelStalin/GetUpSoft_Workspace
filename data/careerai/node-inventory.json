@@ -36,8 +36,8 @@
   "totals": {
     "total": 95,
     "listo": 17,
-    "prototipo": 25,
-    "falta": 53
+    "prototipo": 28,
+    "falta": 50
   },
   "nodes": [
     {
@@ -862,7 +862,7 @@
     {
       "id": "unsupported-collector",
       "type": "worker",
-      "status": "falta",
+      "status": "prototipo",
       "owner": "claude",
       "purpose": "Agrupa las posiciones que no se pudieron completar y por que",
       "block": "I",
@@ -871,7 +871,7 @@
     {
       "id": "pdf-report-builder",
       "type": "report",
-      "status": "falta",
+      "status": "prototipo",
       "owner": "claude",
       "purpose": "Genera el reporte PDF de resultados (rol systems_analysis)",
       "block": "I",
@@ -880,9 +880,9 @@
     {
       "id": "whatsapp-report-sender",
       "type": "notification",
-      "status": "falta",
+      "status": "prototipo",
       "owner": "ambos",
-      "purpose": "Envia el reporte PDF al cliente en el horario que el elija",
+      "purpose": "Prepara la entrega del PDF con allowlist e idempotencia; el envio real exige proveedor y aprobacion",
       "block": "I",
       "block_title": "Seguimiento posterior a la postulacion"
     },

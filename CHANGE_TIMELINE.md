@@ -538,3 +538,24 @@ roles del consejo.
 
 Inventario: **95 nodos** — 17 listos, 25 con prototipo, 53 por construir.
 Regresion offline: **17/17 en verde**.
+
+### Reporte al cliente: PDF sin dependencias
+
+`apps/orca/src/careerai/client-report.mjs` implementa `unsupported-collector`,
+`pdf-report-builder` y la preparacion del envio por WhatsApp.
+
+El PDF se genera a mano, sin librerias de terceros: el reporte contiene el historial laboral
+del cliente y no tiene por que pasar por una dependencia externa para existir.
+
+El test no se conforma con la cabecera `%PDF`: **vuelve a leer el PDF generado** con
+`extractPdfText` y comprueba que el titulo, las posiciones sin completar y la referencia de
+confirmacion esten realmente ahi. Verifica ademas que:
+
+- el motivo se muestra en lenguaje del cliente (`Requiere crear una cuenta en el portal`),
+  conservando el codigo interno para trazabilidad;
+- un destinatario fuera de la allowlist **no recibe nada**;
+- la clave de idempotencia es estable, de modo que reenviar el mismo reporte no genera un
+  segundo mensaje, y un reporte distinto si produce otra clave;
+- un periodo sin pendientes lo dice explicitamente en vez de dejar la seccion vacia.
+
+Regresion offline: **18/18 en verde**.
