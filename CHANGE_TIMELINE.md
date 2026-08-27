@@ -972,3 +972,28 @@ Lo que el test protege:
 Probado con un perfil de enfermeria, sin ninguna tecnologia cableada.
 
 Grafo: **58 nodos y 95 edges**. Regresion offline: **33/33 en verde**.
+
+### La URL de proyecto del cliente ya sirve algo
+
+El propietario reporto que no veia ORCA en linea. El servidor estaba corriendo y respondia
+200 en el 4173; lo que no funcionaba era **la URL de su proyecto**: el generador emitia
+enlaces a `http://localhost:5174`, **donde nunca hubo nada escuchando**. El nodo
+`project-run-binding` figuraba como listo en el inventario y tenia modulo y test, pero nadie
+servia esa ruta. Una discrepancia real entre lo declarado y lo que funciona.
+
+Corregido:
+
+- El mismo servidor sirve `/project/<slug>/<id>` (404 explicito si el proyecto no existe, en
+  vez de una pagina en blanco).
+- Nuevos endpoints `GET /api/orca/projects` (filtrable por `owner`, para que un cliente no vea
+  los proyectos de otro) y `GET /api/orca/projects/<id>` con su workflow y sus corridas.
+- `create_orca_project_link.mjs` genera la URL apuntando al servidor que de verdad la sirve.
+- `test_careerai_project_routes.mjs` impide que vuelva a pasar: verifica que la URL de
+  monitoreo apunte al puerto que responde y que la pagina sirva el editor.
+
+Verificado en navegador: la ruta del proyecto renderiza los 58 nodos con el panel de estado
+en datos reales.
+
+**Pendiente que conviene no confundir:** el frontend del CLIENTE (bloque J: onboarding,
+conexiones, bandeja de oportunidades, aprobaciones, facturacion) **no existe**. Lo que hay es
+el editor de workflows, que es herramienta interna.

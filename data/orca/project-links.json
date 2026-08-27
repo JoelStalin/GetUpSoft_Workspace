@@ -1,0 +1,18 @@
+[
+  {
+    "owner": "usuario-demo",
+    "project_name": "CareerAI",
+    "slug": "careerai",
+    "project_id": "800582d4d485ccf7af81af53",
+    "url": "http://localhost:5174/project/careerai/800582d4d485ccf7af81af53",
+    "created_at": "2026-08-05T22:30:32.108Z"
+  },
+  {
+    "owner": "yoeli",
+    "project_name": "CareerAI",
+    "slug": "careerai",
+    "project_id": "df8b65880f7b467ae2fc3d72",
+    "url": "http://127.0.0.1:4173/project/careerai/df8b65880f7b467ae2fc3d72",
+    "created_at": "2026-08-27T21:56:57.674Z"
+  }
+]

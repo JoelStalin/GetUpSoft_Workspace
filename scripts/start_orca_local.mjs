@@ -9,6 +9,15 @@ import { linkedinStatus } from '../apps/orca/src/careerai/linkedin-provider.mjs'
 import { startRun, listRuns, getRun, liveBrowserSession } from '../apps/orca/src/careerai/runs.mjs';
 import { hermesDoctor } from '../apps/orca/src/careerai/hermes-doctor.mjs';
 
+// Registro de proyectos por cliente. La URL de monitoreo apuntaba a un puerto 5174 donde
+// nunca hubo nada escuchando: el script generaba el enlace pero ningun servidor lo servia.
+function loadProjectLinks() {
+  // Se resuelve al llamar, no al cargar el modulo: `root` se define mas abajo.
+  const file = path.resolve('data/orca/project-links.json');
+  if (!fs.existsSync(file)) return [];
+  try { return JSON.parse(fs.readFileSync(file, 'utf8')); } catch { return []; }
+}
+
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const dist = path.join(root, 'apps', 'orca', 'workflow-editor', 'dist');
 const blueprintPath = path.join(root, 'apps', 'orca', 'data', 'workflow_blueprints.json');
@@ -195,6 +204,38 @@ data: ${JSON.stringify(run.live_browser)}
       return res.end(JSON.stringify({ ok: false, error: error.code || 'live_browser_failed' }));
     }
   }
+  if (apiPath === '/api/orca/projects') {
+    const owner = new URL(req.url || '/', `http://127.0.0.1:${port}`).searchParams.get('owner');
+    const links = loadProjectLinks();
+    const visible = owner ? links.filter((item) => item.owner?.toLowerCase() === owner.toLowerCase()) : links;
+    return json(res, {
+      ok: true,
+      total: visible.length,
+      projects: visible.map((item) => ({
+        ...item,
+        // La URL util es la que este servidor sirve de verdad, no la que quedo registrada.
+        monitoring_url: `http://127.0.0.1:${port}/project/${item.slug}/${item.project_id}`,
+        registered_url: item.url,
+      })),
+    });
+  }
+  if (apiPath.startsWith('/api/orca/projects/')) {
+    const projectId = apiPath.replace('/api/orca/projects/', '').split('/')[0];
+    const project = loadProjectLinks().find((item) => item.project_id === projectId);
+    if (!project) {
+      res.writeHead(404, { 'content-type': 'application/json; charset=utf-8' });
+      return res.end(JSON.stringify({ ok: false, error: 'unknown_project', project_id: projectId }));
+    }
+    // Un proyecto solo ve sus propias corridas.
+    const projectRuns = listRuns().filter((run) => !run.project_id || run.project_id === projectId);
+    return json(res, {
+      ok: true,
+      project: { ...project, monitoring_url: `http://127.0.0.1:${port}/project/${project.slug}/${project.project_id}` },
+      workflow: careerBlueprint ? { id: careerBlueprint.id, name: careerBlueprint.name, nodes: careerBlueprint.nodes.length, edges: careerBlueprint.edges.length } : null,
+      runs: projectRuns.slice(0, 10),
+      hermes: hermesDoctor().status,
+    });
+  }
   if (apiPath === '/api/careerai/connectors') {
     return json(res, { ok: true, connector_gates: connectorGates(), indeed: indeedStatus(), linkedin: linkedinStatus() });
   }
@@ -211,6 +252,18 @@ data: ${JSON.stringify(run.live_browser)}
   if (apiPath.startsWith('/api/')) {
     res.writeHead(404, { 'content-type': 'application/json; charset=utf-8' });
     return res.end(JSON.stringify({ ok: false, error: 'unknown_endpoint', path: apiPath }));
+  }
+  // /project/<slug>/<id> sirve el mismo editor, con el proyecto preseleccionado.
+  const projectMatch = (req.url || '').match(/^\/project\/([^/?]+)\/([^/?]+)/);
+  if (projectMatch) {
+    const project = loadProjectLinks().find((item) => item.project_id === projectMatch[2]);
+    if (!project) {
+      res.writeHead(404, { 'content-type': 'text/html; charset=utf-8' });
+      return res.end('<h1>Proyecto no encontrado</h1><p>Genera uno con <code>npm run orca:project-link -- &lt;usuario&gt; &lt;nombre&gt;</code>.</p>');
+    }
+    const file = path.join(dist, 'index.html');
+    res.writeHead(200, { 'content-type': 'text/html; charset=utf-8' });
+    return fs.createReadStream(file).pipe(res);
   }
   const requested = decodeURIComponent((req.url || '/').split('?')[0]);
   const relative = requested === '/' ? '/index.html' : requested;
