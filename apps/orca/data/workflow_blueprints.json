@@ -817,6 +817,11 @@
         "id": "tenant-resolver",
         "type": "transform",
         "label": "Resuelve tenant_id y lo propaga al run"
+      },
+      {
+        "id": "project-run-binding",
+        "type": "worker",
+        "label": "Asocia el run al proyecto ORCA del cliente"
       }
     ],
     "edges": [
@@ -923,6 +928,10 @@
       {
         "from": "tenant-resolver",
         "to": "cv-ingest"
+      },
+      {
+        "from": "tenant-resolver",
+        "to": "project-run-binding"
       },
       {
         "from": "connection-strategy-router",

@@ -35,9 +35,9 @@
   },
   "totals": {
     "total": 95,
-    "listo": 40,
+    "listo": 41,
     "prototipo": 13,
-    "falta": 42
+    "falta": 41
   },
   "nodes": [
     {
@@ -61,8 +61,8 @@
     {
       "id": "project-run-binding",
       "type": "worker",
-      "status": "falta",
-      "owner": "claude",
+      "status": "listo",
+      "owner": "-",
       "purpose": "Asocia cada run al proyecto del cliente para que lo vea en su panel",
       "block": "A",
       "block_title": "Tenancy, suscripcion y cuotas"

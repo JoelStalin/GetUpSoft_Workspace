@@ -696,3 +696,21 @@ Reglas duras:
 
 Grafo: **40 nodos y 60 edges**. Inventario: 95 nodos — 40 listos, 13 con prototipo, 42 por
 construir. Regresion offline: **22/22 en verde**.
+
+### project-run-binding
+
+`apps/orca/src/careerai/project-run-binding.mjs`. Asocia un run al proyecto ORCA del cliente
+(el que crea `orca-project-provisioner`, aun en prototipo) para que aparezca en su panel.
+Misma familia de riesgo que tenant-resolver, en el borde proyecto↔run: un proyecto pertenece a
+un tenant especifico, y asociar el run de un cliente al proyecto de otro los mezclaria en el
+mismo panel de monitoreo.
+
+Reglas duras:
+- Exige que el run ya traiga `tenant_id` resuelto (por `tenant-resolver`) antes de asociarse;
+  sin eso no hay forma de verificar propiedad, asi que se rechaza en vez de asumir.
+- Si `run.tenant_id !== project.tenant_id`, la asociacion se rechaza explicando ambos tenants.
+- Un run ya asociado a otro proyecto no se reasigna en silencio; re-asociar al mismo proyecto
+  es idempotente.
+
+Grafo: **41 nodos y 61 edges**. Inventario: 95 nodos — 41 listos, 13 con prototipo, 41 por
+construir. Regresion offline: **23/23 en verde**.

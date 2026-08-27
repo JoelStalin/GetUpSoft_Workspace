@@ -81,6 +81,12 @@ Nuevo módulo: `apps/orca/src/careerai/connection-strategy.mjs` (`connection-str
 
 Se evaluó tomar `workday-adapter` (siguiente ATS que `ats-router` ya señala como pendiente), pero su entrada en el inventario tiene `owner: joel` porque Workday exige creación de cuenta obligatoria — fuera del alcance de este agente sin decisión explícita del propietario.
 
+## Cierre 2026-08-27 (cont. 2)
+
+Regresión completa ejecutada: **22/22 scripts en verde** (`npm run careerai:regression`).
+
+Nuevo módulo: `apps/orca/src/careerai/tenant-resolver.mjs` (`tenant-resolver`). Resuelve `tenant_id` con precedencia `request > session > default`; sin fuente confiable pausa en vez de inventar un tenant. Valida forma (rechaza espacios, mayúsculas y `..` de path traversal, ya que `tenant_id` termina en rutas de archivo y claves de vault) y bloquea reasignar el tenant de un run ya vinculado. Grafo: 40 nodos, 60 edges. Inventario: 40 listos, 13 con prototipo, 42 por construir.
+
 ## Próxima acción segura
 
 Configurar Hermes mediante el mecanismo oficial de entorno/conector y repetir el doctor check. Después, ejecutar una oportunidad fixture en `prepare-only`; cualquier envío real requiere confirmación explícita en la solicitud concreta.
