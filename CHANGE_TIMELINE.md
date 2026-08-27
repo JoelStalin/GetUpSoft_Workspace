@@ -678,3 +678,21 @@ implementar) desde el commit `54dc020a66`.
 
 Grafo: **39 nodos y 58 edges**. Inventario: 95 nodos — 39 listos, 13 con prototipo, 43 por
 construir. Regresion offline: **21/21 en verde**.
+
+### tenant-resolver
+
+`apps/orca/src/careerai/tenant-resolver.mjs`. Resuelve `tenant_id` con precedencia estricta
+**request → session → default** y lo propaga al run. Por que importa: `tenant_id` decide de
+que cliente son los CVs, credenciales y oportunidades que se leen y escriben — resolverlo mal
+no es un bug cosmetico, es fuga de datos entre clientes.
+
+Reglas duras:
+- Sin ninguna fuente confiable, **pausa** en vez de inventar un tenant por defecto.
+- Una fuente con forma invalida (espacios, mayusculas, `..` de path traversal — el tenant_id
+  termina en rutas de archivo y claves de vault) **pausa en esa fuente**, no salta en silencio
+  a la siguiente fuente disponible.
+- `bindTenantToRun` es puro (no muta el run recibido) y **rechaza reasignar** el tenant de un
+  run que ya pertenece a otro tenant; vincular el mismo tenant otra vez es idempotente.
+
+Grafo: **40 nodos y 60 edges**. Inventario: 95 nodos — 40 listos, 13 con prototipo, 42 por
+construir. Regresion offline: **22/22 en verde**.

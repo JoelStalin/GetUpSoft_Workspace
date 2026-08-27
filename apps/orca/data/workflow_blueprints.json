@@ -812,6 +812,11 @@
         "id": "mcp-connector-registry",
         "type": "worker",
         "label": "Registro de conectores MCP disponibles"
+      },
+      {
+        "id": "tenant-resolver",
+        "type": "transform",
+        "label": "Resuelve tenant_id y lo propaga al run"
       }
     ],
     "edges": [
@@ -910,6 +915,14 @@
       {
         "from": "career-command",
         "to": "connection-strategy-router"
+      },
+      {
+        "from": "career-command",
+        "to": "tenant-resolver"
+      },
+      {
+        "from": "tenant-resolver",
+        "to": "cv-ingest"
       },
       {
         "from": "connection-strategy-router",
