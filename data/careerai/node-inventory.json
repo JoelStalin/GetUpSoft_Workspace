@@ -35,9 +35,9 @@
   },
   "totals": {
     "total": 95,
-    "listo": 54,
+    "listo": 56,
     "prototipo": 13,
-    "falta": 28
+    "falta": 26
   },
   "nodes": [
     {
@@ -772,8 +772,8 @@
     {
       "id": "status-tracker",
       "type": "worker",
-      "status": "falta",
-      "owner": "claude",
+      "status": "listo",
+      "owner": "-",
       "purpose": "Clasifica respuestas del correo",
       "block": "I",
       "block_title": "Seguimiento posterior a la postulacion"
@@ -889,8 +889,8 @@
     {
       "id": "report-scheduler",
       "type": "trigger",
-      "status": "falta",
-      "owner": "claude",
+      "status": "listo",
+      "owner": "-",
       "purpose": "Cadencia del reporte configurable por el cliente (por hora o a su hora)",
       "block": "I",
       "block_title": "Seguimiento posterior a la postulacion"

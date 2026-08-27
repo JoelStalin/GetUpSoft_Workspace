@@ -925,3 +925,27 @@ Decisiones que el test protege:
 - Lo descartado por falta de URL **se cuenta** en `skipped_without_url`.
 
 Grafo: **54 nodos y 87 edges**. Regresion offline: **31/31 en verde**.
+
+### status-tracker y report-scheduler: el seguimiento
+
+Postular es la parte facil; dar seguimiento es lo que cansa, y es lo que hace que alguien
+pague una suscripcion todos los meses.
+
+`status-tracker` clasifica las respuestas en `rejected`, `interview_invite`,
+`info_requested`, `acknowledged` o `unknown`. Detalles que el test protege:
+
+- **El orden de los clasificadores importa.** Un rechazo que cita la palabra *interview* del
+  hilo anterior ("thank you for attending the interview... unfortunately") debe clasificarse
+  como rechazo, no como invitacion. Al reves, el cliente esperaria una llamada que nunca llega.
+- **Sin senal clara se queda en `unknown` y lo revisa el cliente.** No se inventa un estado.
+- **Lo que no se puede vincular a una postulacion se muestra**, no se descarta: una de esas
+  respuestas huerfanas puede ser una invitacion a entrevista.
+- Una invitacion o una peticion de informacion **siempre** requieren al cliente: son una cita
+  en su agenda y una decision suya.
+
+`report-scheduler` admite cadencia `hourly`, `daily` (a la hora que elija el cliente,
+calculada **en su zona horaria**, no en la del servidor) o `manual`. Y `shouldSendReport`
+**no envia un reporte vacio**: molestar cada hora sin novedades hace que el cliente silencie
+el canal, y entonces se pierde el aviso que si importaba.
+
+Grafo: **56 nodos y 92 edges**. Regresion offline: **32/32 en verde**.

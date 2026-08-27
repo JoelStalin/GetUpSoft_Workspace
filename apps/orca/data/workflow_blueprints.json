@@ -887,6 +887,16 @@
         "id": "email-alert-ingest",
         "type": "worker",
         "label": "Ingesta de alertas de empleo por correo"
+      },
+      {
+        "id": "status-tracker",
+        "type": "worker",
+        "label": "Clasificacion de respuestas del correo"
+      },
+      {
+        "id": "report-scheduler",
+        "type": "trigger",
+        "label": "Cadencia del reporte elegida por el cliente"
       }
     ],
     "edges": [
@@ -1237,6 +1247,26 @@
       {
         "from": "email-alert-ingest",
         "to": "dedupe-canonical"
+      },
+      {
+        "from": "confirmation-capture",
+        "to": "status-tracker"
+      },
+      {
+        "from": "status-tracker",
+        "to": "human-approval"
+      },
+      {
+        "from": "status-tracker",
+        "to": "audit-append"
+      },
+      {
+        "from": "report-scheduler",
+        "to": "pdf-report-builder"
+      },
+      {
+        "from": "status-tracker",
+        "to": "pdf-report-builder"
       }
     ],
     "settings": {
