@@ -35,9 +35,9 @@
   },
   "totals": {
     "total": 95,
-    "listo": 32,
+    "listo": 34,
     "prototipo": 13,
-    "falta": 50
+    "falta": 48
   },
   "nodes": [
     {
@@ -421,8 +421,8 @@
     {
       "id": "remote-verifier",
       "type": "decision",
-      "status": "falta",
-      "owner": "claude",
+      "status": "listo",
+      "owner": "-",
       "purpose": "Remoto real vs hibrido encubierto",
       "block": "D",
       "block_title": "Normalizacion y calidad del dato"
@@ -709,8 +709,8 @@
     {
       "id": "approval-expiry-watchdog",
       "type": "decision",
-      "status": "falta",
-      "owner": "claude",
+      "status": "listo",
+      "owner": "-",
       "purpose": "Invalida aprobaciones vencidas",
       "block": "H",
       "block_title": "Aprobacion, notificacion y evidencia"

@@ -610,3 +610,24 @@ Verificado en el canvas: **32 nodos y 43 edges renderizados, sin errores de pagi
 
 Inventario: 95 nodos — 32 listos, 13 con prototipo, 50 por construir.
 Regresion: 18/18 offline y 3/3 live en verde.
+
+### Guardas: remote-verifier y approval-expiry-watchdog
+
+`apps/orca/src/careerai/guards.mjs`. Dos nodos que evitan errores caros para el cliente.
+
+**remote-verifier.** Detecta el "remoto" que no lo es: *2 days per week in the office*,
+hibrido, presencia trimestral, reubicacion obligatoria. Postular a una vacante anunciada como
+remota que exige presencia mensual hace perder el tiempo del cliente y quema la candidatura.
+Tambien detecta restricciones geograficas (`us_only`, `no_sponsorship`, `clearance`), pero
+**solo opina sobre elegibilidad si sabe donde esta el candidato**: inventar una restriccion
+que no aplica descartaria vacantes validas. Y reporta en vez de descartar: la decision final
+es del cliente.
+
+**approval-expiry-watchdog.** El contrato `ApprovalRequest` exigia `expires_at` y
+`payload_hash` desde el principio, pero nadie los vigilaba. Ahora se rechaza una aprobacion
+que este vencida, sea de otra oportunidad, venga de un actor distinto, no tenga fecha de
+expiracion, o **cuyo contenido haya cambiado despues de aprobarse** — si el CV cambio tras la
+aprobacion, lo aprobado ya no es lo que se enviaria.
+
+Grafo: **34 nodos y 49 edges**. Inventario: 95 nodos — 34 listos, 13 con prototipo, 48 por
+construir. Regresion offline: **19/19 en verde**.

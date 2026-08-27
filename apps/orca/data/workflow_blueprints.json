@@ -777,6 +777,16 @@
         "id": "pdf-report-builder",
         "type": "report",
         "label": "Reporte PDF de resultados"
+      },
+      {
+        "id": "remote-verifier",
+        "type": "decision",
+        "label": "Verificacion de remoto real"
+      },
+      {
+        "id": "approval-expiry-watchdog",
+        "type": "decision",
+        "label": "Vigilancia de aprobaciones vencidas"
       }
     ],
     "edges": [
@@ -951,6 +961,30 @@
       {
         "from": "pdf-report-builder",
         "to": "evidence-log"
+      },
+      {
+        "from": "stack-classifier",
+        "to": "remote-verifier"
+      },
+      {
+        "from": "remote-verifier",
+        "to": "new-position-trigger"
+      },
+      {
+        "from": "remote-verifier",
+        "to": "unsupported-collector"
+      },
+      {
+        "from": "human-approval",
+        "to": "approval-expiry-watchdog"
+      },
+      {
+        "from": "approval-expiry-watchdog",
+        "to": "indeed-apply"
+      },
+      {
+        "from": "approval-expiry-watchdog",
+        "to": "blocked-escalation"
       }
     ],
     "settings": {
