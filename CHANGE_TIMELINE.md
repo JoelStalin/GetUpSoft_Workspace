@@ -559,3 +559,31 @@ confirmacion esten realmente ahi. Verifica ademas que:
 - un periodo sin pendientes lo dice explicitamente en vez de dejar la seccion vacia.
 
 Regresion offline: **18/18 en verde**.
+
+### Tres bugs del workflow editor, encontrados al abrirlo de verdad
+
+El propietario pidio ver el editor. Al abrirlo aparecieron tres defectos reales, los tres
+diagnosticados leyendo el bundle compilado (`dist/assets/index-*.js`), porque el codigo
+fuente del editor no esta en esta copia del repositorio.
+
+1. **Los 17 nodos se renderizaban apilados en el origen** y el canvas parecia vacio. La API
+   emitia `position` como array `[x, y]` al estilo n8n, pero el canvas es React Flow y espera
+   `{x, y}`. Ahora se emiten ambos formatos y se reparten en rejilla de 5 columnas.
+   Verificado en el DOM: transforms reales, no amontonados.
+
+2. **Ninguna conexion se dibujaba.** El convertidor del editor es
+   `JK(t)` y lee `i.node_id || i` de cada conexion; el servidor enviaba `{ node: ... }`, asi
+   que el destino quedaba en `[object Object]`. Enviando `node_id` se dibujan los **22 edges**.
+
+3. **El panel "Live ORCA system status" se quedaba en "Loading live data..." con `{}`.**
+   Causa raiz: `hermesDoctor()` ejecuta el CLI de Hermes con `execFileSync` **en cada
+   peticion**, bloqueando el event loop del servidor. `/api/stats` tardaba **6 segundos** y el
+   efecto del panel se cancelaba antes de resolver. Ese bug lo introduje yo al hacer el doctor
+   consciente del CLI. Con cache de 60 s: **6 s -> 24 ms**, y el panel ya muestra los datos.
+
+Ademas se enriquecieron `/api/stats` y `/api/pipeline/stats` con estado real: nodos, edges,
+corridas, estado de Hermes y conectores.
+
+**URL del editor:** `http://127.0.0.1:4173/?workflow=careerai-indeed-agent` (`npm run orca:start`).
+
+Regresion: 18/18 offline y 3/3 de la suite live en verde.

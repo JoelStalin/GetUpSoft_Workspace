@@ -81,17 +81,63 @@ const ui = http.createServer((req, res) => {
     });
   }
   if (apiPath === '/api/health') return json(res, { ok: true, service: 'orca-local' });
-  if (apiPath === '/api/stats') return json(res, { ok: true, workflows: 1, nodes: 15, edges: 16 });
-  if (apiPath === '/api/pipeline/stats') return json(res, { ok: true, status: 'ready', active: 0, completed: 0, failed: 0 });
+  if (apiPath === '/api/stats') {
+    return json(res, {
+      ok: true,
+      status: 'online',
+      service: 'orca-local',
+      workflows: 1,
+      nodes: (careerBlueprint?.nodes || []).length,
+      edges: (careerBlueprint?.edges || []).length,
+      runs: listRuns().length,
+      hermes: hermesDoctor().status,
+      connectors: connectorGates(),
+      uptime_seconds: Math.floor(process.uptime()),
+      updated_at: new Date().toISOString(),
+    });
+  }
+  if (apiPath === '/api/pipeline/stats') {
+    const runs = listRuns();
+    return json(res, {
+      ok: true,
+      status: runs.length ? 'running' : 'ready',
+      active: runs.filter((run) => run.status === 'running').length,
+      completed: runs.filter((run) => run.status === 'completed').length,
+      failed: runs.filter((run) => run.status === 'failed').length,
+      total: runs.length,
+      last_run: runs[0] ? { run_id: runs[0].run_id, status: runs[0].status, started_at: runs[0].started_at } : null,
+      updated_at: new Date().toISOString(),
+    });
+  }
   if (apiPath === '/api/hermes/doctor') return json(res, hermesDoctor());
   if (apiPath === '/api/hermes/memory' || apiPath === '/api/hermes/audit' || apiPath === '/api/orca/evidence') return json(res, { ok: true, data: [] });
   if (apiPath === '/api/prompts/index') return json(res, { ok: true, items: [] });
   if (apiPath === '/api/n8n/node-types') return json(res, { ok: true, data: [] });
   if (apiPath === '/api/n8n/workflows') {
-    const nodes = (careerBlueprint?.nodes || []).map((node, index) => ({ id: node.id, name: node.label, type: node.type, position: [index * 220, 120], parameters: { label: node.label }, data: node }));
+    // React Flow espera position como objeto {x, y}; el array estilo n8n dejaba todos los
+    // nodos apilados en el origen y el canvas parecia vacio. Se emiten ambos formatos y se
+    // reparten en rejilla para que quepan en pantalla.
+    const COLUMNAS = 5;
+    const nodes = (careerBlueprint?.nodes || []).map((node, index) => {
+      const x = (index % COLUMNAS) * 260 + 60;
+      const y = Math.floor(index / COLUMNAS) * 170 + 80;
+      return { id: node.id, name: node.label, type: node.type,
+        position: { x, y }, positionArray: [x, y], x, y,
+        parameters: { label: node.label }, data: { ...node, label: node.label } };
+    });
     const connections = {};
-    for (const edge of careerBlueprint?.edges || []) (connections[edge.from] ||= []).push({ node: edge.to, type: 'main', index: 0 });
-    return json(res, { ok: true, data: [{ id: careerBlueprint.id, name: careerBlueprint.name, active: false, nodes, connections, settings: careerBlueprint.settings, orca_meta: { source: 'careerai-blueprint' } }] });
+    // El convertidor del editor lee `node_id` de cada conexion (cae a la cadena suelta si
+    // no existe). Enviando solo `node` al estilo n8n, el destino quedaba en [object Object]
+    // y no se dibujaba ninguna linea.
+    for (const edge of careerBlueprint?.edges || []) {
+      (connections[edge.from] ||= []).push({ node_id: edge.to, node: edge.to, type: 'main', index: 0 });
+    }
+    // React Flow dibuja a partir de `edges`; con solo `connections` (formato n8n) el canvas
+    // mostraba los nodos sueltos, sin ninguna linea entre ellos.
+    const edges = (careerBlueprint?.edges || []).map((edge) => ({
+      id: `${edge.from}->${edge.to}`, source: edge.from, target: edge.to, type: 'smoothstep', animated: false,
+    }));
+    return json(res, { ok: true, data: [{ id: careerBlueprint.id, name: careerBlueprint.name, active: false, nodes, connections, edges, links: edges, settings: careerBlueprint.settings, orca_meta: { source: 'careerai-blueprint' } }] });
   }
   if (apiPath.startsWith('/api/n8n/workflows/') && apiPath.endsWith('/run') && req.method === 'POST') {
     const runNodes = (careerBlueprint?.nodes || []).map((node, index) => ({ nodeId: node.id, status: node.type === 'action' ? 'blocked_approval_required' : 'completed', sequence: index + 1 }));

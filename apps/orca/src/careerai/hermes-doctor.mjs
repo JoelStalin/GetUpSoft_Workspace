@@ -4,7 +4,20 @@ import { execFileSync } from 'node:child_process';
 // Hermes se puede alcanzar por dos transportes: HTTP (HERMES_API_KEY) o CLI local
 // (HERMES_CLI_PATH). El doctor original solo miraba la API key y reportaba
 // `requires_configuration` aunque el CLI estuviera instalado y respondiendo.
-export function hermesDoctor() {
+// La comprobacion del CLI es sincrona y tarda ~2 s. Ejecutarla en cada peticion bloqueaba
+// el event loop del servidor local y dejaba el panel de estado cargando indefinidamente.
+// La version del CLI no cambia entre peticiones, asi que se cachea.
+const CACHE_TTL_MS = Number(process.env.HERMES_DOCTOR_TTL_MS || 60000);
+let cache = null;
+
+export function hermesDoctor({ force = false } = {}) {
+  if (!force && cache && Date.now() - cache.at < CACHE_TTL_MS) return cache.value;
+  const value = probeHermes();
+  cache = { at: Date.now(), value };
+  return value;
+}
+
+function probeHermes() {
   if (process.env.HERMES_API_KEY) {
     return { ok: true, status: 'configured', transport: 'http' };
   }
