@@ -1,17 +1,30 @@
 {
   "schema_version": "careerai.node-inventory.v1",
   "workflow_id": "careerai-indeed-agent",
-  "search_priority": [
-    "iseries-core",
-    "iseries-modernization",
-    "odoo-python",
-    "fullstack-otros"
-  ],
+  "search_priority_model": {
+    "source": "derived_per_tenant",
+    "pipeline": [
+      "cv-ingest",
+      "profession-extractor",
+      "profession-catalog",
+      "priority-prompt",
+      "search-profile-builder"
+    ],
+    "note": "Las profesiones salen del CV del cliente y el orden lo elige el cliente. Ningun stack esta cableado en el sistema.",
+    "example_tenant": {
+      "tenant": "joel",
+      "ranked_by_client": [
+        "rpgle-as400-iseries",
+        "odoo-python",
+        "fullstack-web"
+      ]
+    }
+  },
   "totals": {
-    "total": 71,
+    "total": 81,
     "listo": 17,
-    "prototipo": 10,
-    "falta": 44
+    "prototipo": 12,
+    "falta": 52
   },
   "nodes": [
     {
@@ -20,6 +33,24 @@
       "status": "listo",
       "owner": "-",
       "purpose": "Disparo manual del workflow",
+      "block": "A",
+      "block_title": "Tenancy, suscripcion y cuotas"
+    },
+    {
+      "id": "orca-project-provisioner",
+      "type": "worker",
+      "status": "prototipo",
+      "owner": "claude",
+      "purpose": "Crea el proyecto ORCA del cliente con su URL de monitoreo",
+      "block": "A",
+      "block_title": "Tenancy, suscripcion y cuotas"
+    },
+    {
+      "id": "project-run-binding",
+      "type": "worker",
+      "status": "falta",
+      "owner": "claude",
+      "purpose": "Asocia cada run al proyecto del cliente para que lo vea en su panel",
       "block": "A",
       "block_title": "Tenancy, suscripcion y cuotas"
     },
@@ -78,6 +109,33 @@
       "block_title": "Tenancy, suscripcion y cuotas"
     },
     {
+      "id": "payment-collector",
+      "type": "action",
+      "status": "falta",
+      "owner": "joel",
+      "purpose": "Cobro de la suscripcion del cliente",
+      "block": "A",
+      "block_title": "Tenancy, suscripcion y cuotas"
+    },
+    {
+      "id": "easycount-invoice",
+      "type": "action",
+      "status": "falta",
+      "owner": "ambos",
+      "purpose": "Emite la factura del cliente en EasyCount tras cada cobro",
+      "block": "A",
+      "block_title": "Tenancy, suscripcion y cuotas"
+    },
+    {
+      "id": "invoice-reconciler",
+      "type": "worker",
+      "status": "falta",
+      "owner": "joel",
+      "purpose": "Concilia cobro y factura emitida; reintenta si EasyCount falla",
+      "block": "A",
+      "block_title": "Tenancy, suscripcion y cuotas"
+    },
+    {
       "id": "connection-registry",
       "type": "worker",
       "status": "falta",
@@ -132,13 +190,58 @@
       "block_title": "Conexiones del cliente"
     },
     {
+      "id": "cv-ingest",
+      "type": "worker",
+      "status": "falta",
+      "owner": "claude",
+      "purpose": "Recibe y versiona los CV que sube el cliente",
+      "block": "B2",
+      "block_title": "Perfil profesional del cliente"
+    },
+    {
+      "id": "profession-extractor",
+      "type": "intelligence",
+      "status": "falta",
+      "owner": "claude",
+      "purpose": "Extrae profesiones, stacks y anos de experiencia del CV",
+      "block": "B2",
+      "block_title": "Perfil profesional del cliente"
+    },
+    {
+      "id": "profession-catalog",
+      "type": "transform",
+      "status": "falta",
+      "owner": "ambos",
+      "purpose": "Taxonomia generica de profesiones con sinonimos por oficio",
+      "block": "B2",
+      "block_title": "Perfil profesional del cliente"
+    },
+    {
+      "id": "priority-prompt",
+      "type": "approval",
+      "status": "falta",
+      "owner": "claude",
+      "purpose": "El cliente ordena sus profesiones por prioridad; nada se asume",
+      "block": "B2",
+      "block_title": "Perfil profesional del cliente"
+    },
+    {
+      "id": "profile-confirmation",
+      "type": "approval",
+      "status": "falta",
+      "owner": "claude",
+      "purpose": "El cliente valida o corrige lo extraido antes de buscar",
+      "block": "B2",
+      "block_title": "Perfil profesional del cliente"
+    },
+    {
       "id": "search-profile-builder",
       "type": "transform",
       "status": "falta",
-      "owner": "joel",
-      "purpose": "Perfiles priorizados con sinonimos del nicho iSeries",
+      "owner": "claude",
+      "purpose": "Genera terminos de busqueda desde las profesiones priorizadas por el cliente",
       "block": "C",
-      "block_title": "Descubrimiento (prioridad RPGLE/AS400/iSeries)"
+      "block_title": "Descubrimiento (fuentes genericas)"
     },
     {
       "id": "indeed-discovery",
@@ -147,16 +250,16 @@
       "owner": "-",
       "purpose": "Discovery en Indeed",
       "block": "C",
-      "block_title": "Descubrimiento (prioridad RPGLE/AS400/iSeries)"
+      "block_title": "Descubrimiento (fuentes genericas)"
     },
     {
       "id": "dice-discovery",
       "type": "worker",
       "status": "falta",
-      "owner": "joel",
-      "purpose": "Dice concentra la demanda real de AS400/RPGLE",
+      "owner": "claude",
+      "purpose": "Adaptador de Dice; fuerte en perfiles tecnicos y de contrato",
       "block": "C",
-      "block_title": "Descubrimiento (prioridad RPGLE/AS400/iSeries)"
+      "block_title": "Descubrimiento (fuentes genericas)"
     },
     {
       "id": "linkedin-discovery",
@@ -165,7 +268,7 @@
       "owner": "claude",
       "purpose": "Discovery-only; Jobs/Apply bloqueado por gate",
       "block": "C",
-      "block_title": "Descubrimiento (prioridad RPGLE/AS400/iSeries)"
+      "block_title": "Descubrimiento (fuentes genericas)"
     },
     {
       "id": "wwr-discovery",
@@ -174,16 +277,16 @@
       "owner": "claude",
       "purpose": "WeWorkRemotely con extraccion por anclas",
       "block": "C",
-      "block_title": "Descubrimiento (prioridad RPGLE/AS400/iSeries)"
+      "block_title": "Descubrimiento (fuentes genericas)"
     },
     {
       "id": "staffing-agency-discovery",
       "type": "worker",
       "status": "falta",
-      "owner": "joel",
-      "purpose": "Portales de agencias que colocan iSeries",
+      "owner": "claude",
+      "purpose": "Portales de agencias; se configuran por profesion del cliente",
       "block": "C",
-      "block_title": "Descubrimiento (prioridad RPGLE/AS400/iSeries)"
+      "block_title": "Descubrimiento (fuentes genericas)"
     },
     {
       "id": "rss-feed-ingest",
@@ -192,7 +295,7 @@
       "owner": "claude",
       "purpose": "Feeds RSS/Atom de boards de nicho",
       "block": "C",
-      "block_title": "Descubrimiento (prioridad RPGLE/AS400/iSeries)"
+      "block_title": "Descubrimiento (fuentes genericas)"
     },
     {
       "id": "email-alert-ingest",
@@ -201,7 +304,7 @@
       "owner": "claude",
       "purpose": "Ingesta alertas de empleo desde Gmail",
       "block": "C",
-      "block_title": "Descubrimiento (prioridad RPGLE/AS400/iSeries)"
+      "block_title": "Descubrimiento (fuentes genericas)"
     },
     {
       "id": "scroll-paginator",
@@ -210,7 +313,7 @@
       "owner": "claude",
       "purpose": "Recorre el listado acumulando ofertas unicas",
       "block": "C",
-      "block_title": "Descubrimiento (prioridad RPGLE/AS400/iSeries)"
+      "block_title": "Descubrimiento (fuentes genericas)"
     },
     {
       "id": "bot-wall-detector",
@@ -219,7 +322,7 @@
       "owner": "claude",
       "purpose": "Detecta challenge y cede control al humano",
       "block": "C",
-      "block_title": "Descubrimiento (prioridad RPGLE/AS400/iSeries)"
+      "block_title": "Descubrimiento (fuentes genericas)"
     },
     {
       "id": "ocr-visual-verifier",
@@ -228,7 +331,7 @@
       "owner": "claude",
       "purpose": "OCR nativo Windows, verifica lo que se ve",
       "block": "C",
-      "block_title": "Descubrimiento (prioridad RPGLE/AS400/iSeries)"
+      "block_title": "Descubrimiento (fuentes genericas)"
     },
     {
       "id": "proxy-rotator",
@@ -237,7 +340,7 @@
       "owner": "joel",
       "purpose": "Salida de red por tenant; decision de costo y ToS",
       "block": "C",
-      "block_title": "Descubrimiento (prioridad RPGLE/AS400/iSeries)"
+      "block_title": "Descubrimiento (fuentes genericas)"
     },
     {
       "id": "normalize-opportunity",
@@ -251,18 +354,18 @@
     {
       "id": "dedupe-canonical",
       "type": "transform",
-      "status": "falta",
+      "status": "prototipo",
       "owner": "claude",
-      "purpose": "Evita postular tres veces a la misma vacante",
+      "purpose": "Deduplica por URL canonica e identidad empresa+puesto; implementado y probado",
       "block": "D",
       "block_title": "Normalizacion y calidad del dato"
     },
     {
-      "id": "tech-stack-classifier",
+      "id": "stack-classifier",
       "type": "transform",
       "status": "falta",
-      "owner": "joel",
-      "purpose": "Clasifica stack real y asigna perfil",
+      "owner": "claude",
+      "purpose": "Clasifica la oferta contra el catalogo de profesiones del cliente",
       "block": "D",
       "block_title": "Normalizacion y calidad del dato"
     },
@@ -360,8 +463,8 @@
       "id": "priority-ranker",
       "type": "decision",
       "status": "falta",
-      "owner": "joel",
-      "purpose": "Ordena la cola por perfil y frescura",
+      "owner": "claude",
+      "purpose": "Ordena la cola segun el ranking que eligio el cliente",
       "block": "E",
       "block_title": "Analisis, consenso y priorizacion"
     },

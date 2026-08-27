@@ -309,3 +309,46 @@ iSeries, agencias de staffing, W2 vs C2C, publicaciones fantasma, ATS heredados)
 **Decisiones abiertas:** si se construye `proxy-rotator` (reduce bloqueos, sube costo y
 roza los ToS de los portales) y si `dice-discovery` va primero, que es la recomendación
 por concentrar la demanda real de AS400.
+
+---
+
+## 2026-08-27 (cont.) — Correcciones de alcance del cliente y primer nodo nuevo
+
+### El perfil profesional deja de estar cableado
+
+Corrección del propietario: **RPGLE/AS400 no puede ser fijo en el sistema**. Es el caso de
+un cliente, no la definición del producto. El inventario pasa de una
+`search_priority` cableada a un `search_priority_model` derivado por tenant:
+
+`cv-ingest → profession-extractor → profession-catalog → priority-prompt → search-profile-builder`
+
+El cliente sube su CV, el sistema extrae sus profesiones y **le pregunta cuáles quiere
+priorizar**; nada se asume. El caso de Joel (iSeries → Odoo/Python → fullstack) queda como
+`example_tenant`, no como configuración del sistema. Los adaptadores de fuente
+(`dice-discovery`, `staffing-agency-discovery`) se redefinen como genéricos y se configuran
+por profesión, y `tech-stack-classifier` pasa a `stack-classifier`, que clasifica contra el
+catálogo del cliente en vez de contra una lista fija.
+
+### Proyecto ORCA por cliente
+
+Cada cliente necesita su proyecto en ORCA, asociado a su usuario, donde ve el workflow
+corriendo. Ya existe la base: `scripts/create_orca_project_link.mjs` genera proyecto y URL
+de monitoreo por owner. Nuevos nodos: `orca-project-provisioner` (prototipo) y
+`project-run-binding`.
+
+### Facturación en EasyCount
+
+Las facturas de los clientes se emiten en **EasyCount**. Nodos añadidos:
+`payment-collector` (cobro), `easycount-invoice` (emisión tras cada cobro) e
+`invoice-reconciler` (concilia cobro y factura, con reintento si EasyCount falla).
+
+### Primer nodo nuevo implementado: dedupe-canonical
+
+`apps/orca/src/careerai/dedupe.mjs` + `scripts/test_careerai_dedupe.mjs`. Deduplica por dos
+vías: URL canónica (limpia `utm_*`, `vjk`, `jk`, `gclid`, ordena parámetros, normaliza host)
+e identidad `empresa + puesto + ubicación` con el ruido habitual del sector filtrado
+(`URGENT`, `Remote`, `W2`, `C2C`). Cuando hay duplicado sobrevive la fuente más cercana al
+empleador y, a igualdad, la ficha más completa.
+
+Inventario: **81 nodos** — 17 listos, 12 con prototipo, 52 por construir.
+Regresión offline: **11/11 en verde**.
