@@ -35,9 +35,9 @@
   },
   "totals": {
     "total": 95,
-    "listo": 42,
+    "listo": 43,
     "prototipo": 13,
-    "falta": 40
+    "falta": 39
   },
   "nodes": [
     {
@@ -106,8 +106,8 @@
     {
       "id": "queue-dispatcher",
       "type": "worker",
-      "status": "falta",
-      "owner": "claude",
+      "status": "listo",
+      "owner": "-",
       "purpose": "Serializa corridas por tenant",
       "block": "A",
       "block_title": "Tenancy, suscripcion y cuotas"

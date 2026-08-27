@@ -93,6 +93,12 @@ Regresión completa ejecutada: **24/24 scripts en verde** (`npm run careerai:reg
 
 Nuevos módulos: `project-run-binding` (verifica que el run y el proyecto ORCA pertenezcan al mismo tenant antes de asociarlos) y `rate-limiter` (espaciado mínimo por portal — Indeed 45s, LinkedIn 90s, Glassdoor/Workday 60s, Greenhouse/Lever 20s; portal desconocido usa el intervalo más conservador). Grafo: 42 nodos, 63 edges. Inventario: 42 listos, 13 con prototipo, 40 por construir.
 
+## Cierre 2026-08-27 (cont. 4)
+
+Regresión completa ejecutada: **25/25 scripts en verde** (`npm run careerai:regression`).
+
+Nuevo módulo: `queue-dispatcher` (serializa corridas por tenant; distintos tenants corren en paralelo entre sí, pero un mismo tenant nunca tiene dos corridas activas a la vez — evita corrupción de sesión de navegador compartida). Grafo: 43 nodos, 65 edges. Inventario: 43 listos, 13 con prototipo, 39 por construir.
+
 ## Próxima acción segura
 
 Configurar Hermes mediante el mecanismo oficial de entorno/conector y repetir el doctor check. Después, ejecutar una oportunidad fixture en `prepare-only`; cualquier envío real requiere confirmación explícita en la solicitud concreta.

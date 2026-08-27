@@ -731,3 +731,23 @@ negativa.
 
 Grafo: **42 nodos y 63 edges**. Inventario: 95 nodos — 42 listos, 13 con prototipo, 40 por
 construir. Regresion offline: **24/24 en verde**.
+
+### queue-dispatcher
+
+`apps/orca/src/careerai/queue-dispatcher.mjs`. Serializa corridas por tenant: decide si una
+corrida nueva puede arrancar ya o debe esperar en cola porque el mismo cliente ya tiene una
+corrida activa. Logica pura: no arranca ni escribe nada, solo decide con la lista de runs que
+se le pasa (mismo patron que project-run-binding).
+
+**Por que serializar por tenant:** dos corridas simultaneas del mismo cliente competirian por
+el mismo perfil de navegador, la misma sesion persistida y las mismas cookies — el resultado
+no es paralelismo, es corrupcion de sesion o postulaciones duplicadas. Tenants distintos si
+corren en paralelo entre si; no hay motivo de seguridad para bloquearlos.
+
+Estados intermedios (`running`, `streaming`, `queued`, `pending`, `blocked_approval_required`,
+`blocked_needs_permission`) siguen ocupando el turno del tenant; solo `completed`, `failed` y
+`cancelled` lo liberan. `buildDispatchPlan` arma el orden de despacho de un lote respetando
+como maximo una corrida dispatchable por tenant por pasada.
+
+Grafo: **43 nodos y 65 edges**. Inventario: 95 nodos — 43 listos, 13 con prototipo, 39 por
+construir. Regresion offline: **25/25 en verde**.

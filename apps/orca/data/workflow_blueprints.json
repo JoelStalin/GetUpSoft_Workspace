@@ -827,6 +827,11 @@
         "id": "rate-limiter",
         "type": "decision",
         "label": "Espaciado humano por portal, defensa anti-bloqueo"
+      },
+      {
+        "id": "queue-dispatcher",
+        "type": "worker",
+        "label": "Serializa corridas por tenant"
       }
     ],
     "edges": [
@@ -936,6 +941,14 @@
       },
       {
         "from": "tenant-resolver",
+        "to": "project-run-binding"
+      },
+      {
+        "from": "tenant-resolver",
+        "to": "queue-dispatcher"
+      },
+      {
+        "from": "queue-dispatcher",
         "to": "project-run-binding"
       },
       {
