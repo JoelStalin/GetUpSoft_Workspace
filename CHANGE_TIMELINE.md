@@ -172,3 +172,42 @@ El flujo quedó a medio camino **a propósito**, en el gate `login`:
 Nota: ambos scripts abren el mismo perfil de Chrome, así que **no pueden ejecutarse en
 paralelo** con la bóveda de sesiones (el perfil queda bloqueado). Hay que cerrar la
 ventana de login antes de lanzar el harvest.
+
+---
+
+## 2026-08-26 (cont.) — Harvest real: los portales están retando al bot
+
+Ejecutado `careerai_harvest.mjs` contra los portales en vivo con el perfil persistente.
+Resultado honesto: **ambos portales sirven un challenge de Cloudflare al navegador
+automatizado**, verificado por OCR sobre la captura real:
+
+| Portal | Texto leído por OCR |
+|---|---|
+| Indeed | "Additional Verification Required … Verifying… CLOUDFLARE … Ray ID a3174a01cafcc82c" |
+| WeWorkRemotely | "Performing security verification. This website uses a security service to protect against malicious bots." |
+
+Nota: una corrida anterior con Chromium limpio (sin perfil) sí pasó. El challenge
+aparece con `channel: 'chrome'` + perfil persistente y/o tras varios accesos seguidos.
+
+### Tres defectos corregidos a raíz de esta corrida
+
+1. **El harvest devolvía `unique_jobs: 0` en silencio** ante un muro anti-bot, como si
+   la búsqueda no tuviera resultados. Ahora detecta la firma del challenge y activa el
+   gate `captcha`.
+2. **El muro abortaba el flujo.** Ahora **pausa y cede el control al humano**
+   (`action: human_takeover`): el navegador es visible, el usuario resuelve la
+   verificación y el agente continúa solo. Escala a `blocked-escalation` únicamente si
+   expira el plazo (`CAREERAI_WALL_WAIT_MINUTES`, por defecto 3).
+3. **El OCR rompía el JSON.** El texto reconocido traía caracteres de control (BEL 0x07
+   al leer el logo de Cloudflare) que invalidaban el parseo, dejando `ocr_text` vacío en
+   la evidencia. Se sanean en Node antes de parsear.
+
+Además, `careerai_harvest.mjs` admite ahora `CAREERAI_SOURCE=indeed|weworkremotely`, con
+extracción por anclas para WWR (sus tarjetas no tienen estructura estable y los
+selectores genéricos capturaban secciones de categoría, no ofertas).
+
+### Implicación de fondo
+
+El obstáculo real para "el bot aplica solo" no es el código del agente: es que los
+portales detectan y retan la automatización. El diseño ya lo contempla — navegador
+visible + takeover humano en `login` y `captcha` — y esa es la vía sostenible.

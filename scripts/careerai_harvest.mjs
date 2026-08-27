@@ -10,6 +10,24 @@ const OUT = 'task-ledger/evidence/careerai/live-test';
 const STORE = 'data/careerai/harvest.jsonl';
 const PROFILE_DIR = path.resolve(process.env.CAREERAI_PROFILE_DIR || 'apps/orca/chrome_profile/careerai-migrated');
 const QUERY = process.env.CAREERAI_QUERY || 'software engineer';
+const SOURCE = process.env.CAREERAI_SOURCE || 'indeed';
+const SOURCES = {
+  indeed: {
+    url: (q) => `https://www.indeed.com/jobs?q=${encodeURIComponent(q)}&l=Remote`,
+    cardSelector: '.job_seen_beacon, [data-testid="slider_item"]',
+  },
+  weworkremotely: {
+    url: (q) => `https://weworkremotely.com/remote-jobs/search?term=${encodeURIComponent(q)}`,
+    // WWR no tiene tarjetas con estructura estable: las ofertas reales son los enlaces
+    // /remote-jobs/<slug>. Los selectores de tarjeta capturan secciones de categoria.
+    anchorSelector: 'a[href*="/remote-jobs/"]',
+    anchorExclude: /find-your-plan|\/search|categories|companies|100-percent|region|top-/i,
+    anchorSlug: /\/remote-jobs\/[a-z0-9-]{12,}$/i,
+  },
+};
+// Firmas de muro anti-bot: si aparecen, el workflow debe pausar y escalar, nunca
+// devolver "0 ofertas" en silencio como si la busqueda no tuviera resultados.
+const BOT_WALL_RE = /additional verification required|verify you are human|unusual traffic|are you a robot|cloudflare|ray id|checking your browser/i;
 const SCROLLS = Number(process.env.CAREERAI_SCROLLS || 6);
 const EMAIL_RE = /[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}/gi;
 
@@ -32,12 +50,74 @@ const context = await chromium.launchPersistentContext(PROFILE_DIR, {
 const page = context.pages()[0] || await context.newPage();
 
 // 1. Discovery con scroll: se recorre el listado hasta agotar SCROLLS.
-await page.goto(`https://www.indeed.com/jobs?q=${encodeURIComponent(QUERY)}&l=Remote`, { waitUntil: 'domcontentloaded', timeout: 60000 });
+const source = SOURCES[SOURCE];
+if (!source) throw new Error(`Fuente desconocida: ${SOURCE}`);
+await page.goto(source.url(QUERY), { waitUntil: 'domcontentloaded', timeout: 60000 });
 await page.waitForTimeout(4000);
+
+// Gate `captcha`: el muro anti-bot NO aborta el flujo. El navegador es visible, asi
+// que se pausa y se cede el control al humano para que resuelva el desafio; si no se
+// resuelve dentro del plazo, entonces si se escala.
+const WALL_WAIT_MINUTES = Number(process.env.CAREERAI_WALL_WAIT_MINUTES || 3);
+
+async function pageText() {
+  return page.evaluate(() => document.body.innerText).catch(() => '');
+}
+
+if (BOT_WALL_RE.test(await pageText())) {
+  const wallShot = `${OUT}/harvest-bot-wall.png`;
+  await page.screenshot({ path: wallShot }).catch(() => {});
+  await new Promise((r) => setTimeout(r, 800)); // deja que el archivo se cierre antes del OCR
+  const wallOcr = ocr(wallShot);
+  console.log(JSON.stringify({
+    step: 'bot_wall_detected', source: SOURCE, gate: 'captcha',
+    action: 'human_takeover', wait_minutes: WALL_WAIT_MINUTES,
+    instruction: 'Resuelve la verificacion en la ventana abierta. El agente espera.',
+    ocr_text: (wallOcr.text || '').slice(0, 200),
+  }));
+
+  const wallDeadline = Date.now() + WALL_WAIT_MINUTES * 60 * 1000;
+  let cleared = false;
+  while (Date.now() < wallDeadline) {
+    await new Promise((r) => setTimeout(r, 10000));
+    if (!BOT_WALL_RE.test(await pageText())) { cleared = true; break; }
+  }
+
+  if (!cleared) {
+    const blocked = {
+      ok: false, status: 'blocked_bot_wall', source: SOURCE, url: page.url(),
+      gate: 'captcha', escalate_to: 'blocked-escalation',
+      human_takeover_offered: true, human_takeover_minutes: WALL_WAIT_MINUTES,
+      evidence: { screenshot: wallShot, ocr_text: (wallOcr.text || '').slice(0, 300) },
+      submit_performed: false, detected_at: new Date().toISOString(),
+    };
+    fs.appendFileSync(STORE, `${JSON.stringify(blocked)}
+`);
+    fs.writeFileSync(`${OUT}/harvest.json`, JSON.stringify(blocked, null, 2));
+    console.log(JSON.stringify(blocked));
+    await context.close();
+    process.exit(0);
+  }
+  console.log(JSON.stringify({ step: 'bot_wall_cleared', source: SOURCE, by: 'human_takeover' }));
+  await page.waitForTimeout(3000);
+}
 
 const seen = new Map();
 for (let i = 0; i < SCROLLS; i += 1) {
-  const batch = await page.evaluate(() => Array.from(document.querySelectorAll('.job_seen_beacon, [data-testid="slider_item"]'))
+  const batch = source.anchorSelector
+    ? await page.evaluate((cfg) => Array.from(document.querySelectorAll(cfg.selector))
+        .map((a) => ({
+          title: a.innerText.trim().split(String.fromCharCode(10)).filter(Boolean)[0] || null,
+          company: null,
+          location: null,
+          url: a.href.split('?')[0],
+          snippet: a.innerText.trim().slice(0, 400),
+        }))
+        .filter((job) => job.title
+          && !new RegExp(cfg.exclude, 'i').test(job.url)
+          && new RegExp(cfg.slug, 'i').test(job.url)),
+      { selector: source.anchorSelector, exclude: source.anchorExclude.source, slug: source.anchorSlug.source })
+    : await page.evaluate((selector) => Array.from(document.querySelectorAll(selector))
     .map((card) => {
       const link = card.querySelector('a[href*="/rc/clk"], a[href*="/viewjob"], h2 a');
       return {
@@ -48,7 +128,7 @@ for (let i = 0; i < SCROLLS; i += 1) {
         snippet: card.innerText.trim().slice(0, 400),
       };
     })
-    .filter((job) => job.title));
+    .filter((job) => job.title), source.cardSelector);
   for (const job of batch) if (job.url && !seen.has(job.url)) seen.set(job.url, job);
   await page.mouse.wheel(0, 2200);
   await page.waitForTimeout(2500);
@@ -79,7 +159,7 @@ for (const job of jobs) {
 }
 
 const report = {
-  ok: true, query: QUERY, scrolls: SCROLLS,
+  ok: true, source: SOURCE, query: QUERY, scrolls: SCROLLS,
   unique_jobs: seen.size, detailed: jobs.length,
   emails_found: jobs.reduce((total, job) => total + (job.emails?.length || 0), 0),
   ocr: { ok: ocrResult.ok, lines: ocrResult.lines ?? 0 },

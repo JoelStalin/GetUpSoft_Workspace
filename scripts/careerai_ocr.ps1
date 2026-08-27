@@ -30,10 +30,14 @@ $engine = [Windows.Media.Ocr.OcrEngine]::TryCreateFromUserProfileLanguages()
 if (-not $engine) { throw 'No hay engine OCR para los idiomas del perfil' }
 $result = Await ($engine.RecognizeAsync($bitmap)) ([Windows.Media.Ocr.OcrResult])
 
+# El texto reconocido puede traer caracteres de control que rompen el JSON de salida,
+# asi que se normalizan a espacios antes de serializar.
+$clean = ($result.Text -replace '[\p{C}]', ' ') -replace '\s{2,}', ' '
+
 [pscustomobject]@{
   ok       = $true
   image    = $full
   language = $engine.RecognizerLanguage.LanguageTag
   lines    = @($result.Lines).Count
-  text     = $result.Text
+  text     = $clean.Trim()
 } | ConvertTo-Json -Compress -Depth 3
