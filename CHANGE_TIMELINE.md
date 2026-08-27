@@ -655,3 +655,26 @@ reconocido cuyo adaptador todavia no existe** (Workday, Taleo, iCIMS): declarar 
 inexistente enviaria el formulario a un adaptador vacio.
 
 Grafo: **37 nodos y 55 edges**. Regresion offline: **20/20 en verde**.
+
+### connection-strategy-router y mcp-connector-registry
+
+`apps/orca/src/careerai/connection-strategy.mjs`. Decide, por plataforma, el NIVEL de
+conexion en cascada estricta: **mcp** (si ya existe un conector MCP conectado a esta sesion,
+se usa) → **oauth2** (PKCE, vault cifrado por tenant) → **live_browser_manual** (login manual
+del cliente una vez, sesion/cookies persistidas para scraping despues). Una plataforma no
+declarada en ningun registro pausa en vez de asumir un nivel.
+
+Es el mismo patron que ats-router: logica pura, sin conectarse a nada, probada sin abrir
+Chrome. El registro MCP devuelve copias defensivas para que nadie mute el original desde
+afuera.
+
+**Nota sobre alcance:** el propio ats-router ya señala a Workday/Taleo/iCIMS como el siguiente
+adaptador natural, pero su nodo en el inventario (`workday-adapter`) tiene `owner: joel` y
+`purpose: "ATS multi-paso con cuenta obligatoria"` — a diferencia de Greenhouse/Lever, Workday
+exige crear una cuenta para postular, y crear cuentas esta fuera de lo que este agente hace
+sin decision explicita del propietario. Se tomo en su lugar `connection-strategy-router` y
+`mcp-connector-registry`, ambos con `owner: claude` en el inventario y ya declarados (sin
+implementar) desde el commit `54dc020a66`.
+
+Grafo: **39 nodos y 58 edges**. Inventario: 95 nodos — 39 listos, 13 con prototipo, 43 por
+construir. Regresion offline: **21/21 en verde**.

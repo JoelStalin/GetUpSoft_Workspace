@@ -73,6 +73,14 @@ Pendientes que siguen bloqueados por terceros (no por código):
 
 - Envío real de WhatsApp: existen `WHATSAPP_ACCESS_TOKEN`, `WHATSAPP_PHONE_NUMBER_ID` y `WHATSAPP_BUSINESS_ACCOUNT_ID` en `.env.local`, por lo que el proveedor oficial parece provisionado. Aun así el canal se mantiene deliberadamente en `draft-only`: habilitar envío real es una decisión explícita del propietario, no un cambio de código pendiente.
 
+## Cierre 2026-08-27 (cont.)
+
+Regresión completa ejecutada: **21/21 scripts en verde** (`npm run careerai:regression`).
+
+Nuevo módulo: `apps/orca/src/careerai/connection-strategy.mjs` (`connection-strategy-router` + `mcp-connector-registry`). Decide en cascada estricta el nivel de conexión por plataforma (`mcp` → `oauth2` → `live_browser_manual`), pausando ante plataformas no declaradas en ningún registro. Grafo: 39 nodos, 58 edges. Inventario: 39 listos, 13 con prototipo, 43 por construir.
+
+Se evaluó tomar `workday-adapter` (siguiente ATS que `ats-router` ya señala como pendiente), pero su entrada en el inventario tiene `owner: joel` porque Workday exige creación de cuenta obligatoria — fuera del alcance de este agente sin decisión explícita del propietario.
+
 ## Próxima acción segura
 
 Configurar Hermes mediante el mecanismo oficial de entorno/conector y repetir el doctor check. Después, ejecutar una oportunidad fixture en `prepare-only`; cualquier envío real requiere confirmación explícita en la solicitud concreta.

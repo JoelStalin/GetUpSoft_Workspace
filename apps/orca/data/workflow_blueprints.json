@@ -802,6 +802,16 @@
         "id": "lever-adapter",
         "type": "worker",
         "label": "Adaptador Lever"
+      },
+      {
+        "id": "connection-strategy-router",
+        "type": "decision",
+        "label": "Estrategia de conexion (MCP, OAuth2, live browser)"
+      },
+      {
+        "id": "mcp-connector-registry",
+        "type": "worker",
+        "label": "Registro de conectores MCP disponibles"
       }
     ],
     "edges": [
@@ -896,6 +906,18 @@
       {
         "from": "career-command",
         "to": "cv-ingest"
+      },
+      {
+        "from": "career-command",
+        "to": "connection-strategy-router"
+      },
+      {
+        "from": "connection-strategy-router",
+        "to": "mcp-connector-registry"
+      },
+      {
+        "from": "connection-strategy-router",
+        "to": "indeed-discovery"
       },
       {
         "from": "cv-ingest",

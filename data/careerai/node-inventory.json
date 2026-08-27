@@ -35,9 +35,9 @@
   },
   "totals": {
     "total": 95,
-    "listo": 37,
+    "listo": 39,
     "prototipo": 13,
-    "falta": 45
+    "falta": 43
   },
   "nodes": [
     {
@@ -160,8 +160,8 @@
     {
       "id": "connection-strategy-router",
       "type": "decision",
-      "status": "falta",
-      "owner": "claude",
+      "status": "listo",
+      "owner": "-",
       "purpose": "Elige el nivel por plataforma: mcp, oauth2 o login manual en live browser",
       "block": "B",
       "block_title": "Conexiones del cliente"
@@ -169,8 +169,8 @@
     {
       "id": "mcp-connector-registry",
       "type": "worker",
-      "status": "falta",
-      "owner": "claude",
+      "status": "listo",
+      "owner": "-",
       "purpose": "Conectores MCP disponibles por plataforma; nivel preferido",
       "block": "B",
       "block_title": "Conexiones del cliente"
