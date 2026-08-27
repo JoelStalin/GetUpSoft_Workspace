@@ -1,6 +1,19 @@
 {
   "schema_version": "careerai.node-inventory.v1",
   "workflow_id": "careerai-indeed-agent",
+  "connection_strategy": {
+    "order": [
+      "mcp",
+      "oauth2",
+      "live_browser_manual"
+    ],
+    "tiers": {
+      "mcp": "Preferido. Conector MCP oficial cuando la plataforma lo ofrece.",
+      "oauth2": "Pantalla OAuth2 con PKCE y vault cifrado por tenant.",
+      "live_browser_manual": "Para plataformas sin OAuth2 utilizable: el usuario inicia sesion en un live browser, se persiste la sesion y las cookies, y a partir de ahi se opera por scraping."
+    },
+    "note": "El agente nunca escribe credenciales. En el nivel manual solo observa hasta que la sesion queda activa."
+  },
   "search_priority_model": {
     "source": "derived_per_tenant",
     "pipeline": [
@@ -21,10 +34,10 @@
     }
   },
   "totals": {
-    "total": 81,
+    "total": 85,
     "listo": 17,
-    "prototipo": 12,
-    "falta": 52
+    "prototipo": 13,
+    "falta": 55
   },
   "nodes": [
     {
@@ -145,11 +158,47 @@
       "block_title": "Conexiones del cliente"
     },
     {
+      "id": "connection-strategy-router",
+      "type": "decision",
+      "status": "falta",
+      "owner": "claude",
+      "purpose": "Elige el nivel por plataforma: mcp, oauth2 o login manual en live browser",
+      "block": "B",
+      "block_title": "Conexiones del cliente"
+    },
+    {
+      "id": "mcp-connector-registry",
+      "type": "worker",
+      "status": "falta",
+      "owner": "claude",
+      "purpose": "Conectores MCP disponibles por plataforma; nivel preferido",
+      "block": "B",
+      "block_title": "Conexiones del cliente"
+    },
+    {
+      "id": "cookie-jar-persistence",
+      "type": "worker",
+      "status": "prototipo",
+      "owner": "claude",
+      "purpose": "Persiste sesion y cookies del login manual para operar despues por scraping",
+      "block": "B",
+      "block_title": "Conexiones del cliente"
+    },
+    {
+      "id": "scraping-session-guard",
+      "type": "decision",
+      "status": "falta",
+      "owner": "claude",
+      "purpose": "Verifica que la sesion sigue viva antes de cada accion de scraping",
+      "block": "B",
+      "block_title": "Conexiones del cliente"
+    },
+    {
       "id": "oauth-pkce-flow",
       "type": "action",
       "status": "prototipo",
       "owner": "claude",
-      "purpose": "Autorizacion visible PKCE con vault cifrado",
+      "purpose": "Nivel 2: pantalla OAuth2 con PKCE y vault cifrado por tenant",
       "block": "B",
       "block_title": "Conexiones del cliente"
     },
@@ -158,7 +207,7 @@
       "type": "worker",
       "status": "prototipo",
       "owner": "claude",
-      "purpose": "Perfil de navegador persistente por cliente",
+      "purpose": "Nivel 3: login manual del usuario en live browser; el perfil conserva la sesion",
       "block": "B",
       "block_title": "Conexiones del cliente"
     },

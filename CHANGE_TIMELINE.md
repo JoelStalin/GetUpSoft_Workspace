@@ -352,3 +352,22 @@ empleador y, a igualdad, la ficha más completa.
 
 Inventario: **81 nodos** — 17 listos, 12 con prototipo, 52 por construir.
 Regresión offline: **11/11 en verde**.
+
+### Estrategia de conexion en cascada
+
+Definida por el propietario y ahora declarada en `connection_strategy` dentro del
+inventario, con este orden estricto:
+
+1. **MCP** — conector oficial cuando la plataforma lo ofrece. El mas estable: sin scraping
+   y sin romperse cuando cambia el DOM.
+2. **OAuth2** — pantalla con PKCE y vault cifrado por tenant.
+3. **Login manual en live browser** — para plataformas sin OAuth2 utilizable. El usuario
+   inicia sesion, se persisten sesion y cookies, y a partir de ahi se opera por scraping.
+
+Se baja de nivel solo cuando el anterior no es viable, nunca por comodidad. El agente nunca
+escribe credenciales: en el nivel manual solo observa hasta que la sesion queda activa.
+
+Nodos anadidos: `connection-strategy-router`, `mcp-connector-registry`,
+`cookie-jar-persistence` (prototipo) y `scraping-session-guard`.
+
+Inventario: **85 nodos** — 17 listos, 13 con prototipo, 55 por construir.
