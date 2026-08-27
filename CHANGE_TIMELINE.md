@@ -153,3 +153,22 @@ y `careerai_harvest.mjs` lo usa como verificación visual del scroll.
 **Siguiente tarea:** con la sesión guardada, ejecutar
 `node scripts/careerai_harvest.mjs` (scroll + OCR + captura de correos) y después
 `node scripts/careerai_apply_with_chrome_profile.mjs` para el llenado prepare-only.
+
+### Estado al cierre de la sesión: esperando acción del usuario
+
+El flujo quedó a medio camino **a propósito**, en el gate `login`:
+
+1. `careerai_session_vault.mjs` está corriendo con una ventana de Chrome abierta en la
+   pantalla de login de LinkedIn (y después Indeed). **El usuario debe iniciar sesión
+   manualmente**; el agente no escribe credenciales. La sesión queda guardada en
+   `apps/orca/chrome_profile/careerai-migrated` (directorio ignorado por git).
+2. Con la sesión guardada, la secuencia pendiente es:
+   - `node scripts/careerai_harvest.mjs` — scroll del listado, OCR de verificación y
+     captura de correos de contacto.
+   - `node scripts/careerai_apply_with_chrome_profile.mjs` — abre Easy Apply y enumera
+     los campos del formulario cargado, deteniéndose antes de enviar.
+3. El clic de envío sigue requiriendo aprobación explícita por oportunidad.
+
+Nota: ambos scripts abren el mismo perfil de Chrome, así que **no pueden ejecutarse en
+paralelo** con la bóveda de sesiones (el perfil queda bloqueado). Hay que cerrar la
+ventana de login antes de lanzar el harvest.
