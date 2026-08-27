@@ -36,8 +36,8 @@
   "totals": {
     "total": 85,
     "listo": 17,
-    "prototipo": 15,
-    "falta": 53
+    "prototipo": 16,
+    "falta": 52
   },
   "nodes": [
     {
@@ -412,9 +412,9 @@
     {
       "id": "stack-classifier",
       "type": "transform",
-      "status": "falta",
+      "status": "prototipo",
       "owner": "claude",
-      "purpose": "Clasifica la oferta contra el catalogo de profesiones del cliente",
+      "purpose": "Clasifica la oferta contra el catalogo del cliente; implementado y probado",
       "block": "D",
       "block_title": "Normalizacion y calidad del dato"
     },

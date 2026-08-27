@@ -394,3 +394,24 @@ una semilla mientras alguien del oficio la revisa.
 
 Inventario: 85 nodos — 17 listos, 15 con prototipo, 53 por construir.
 Regresion offline: **12/12 en verde**.
+
+### Nodo stack-classifier
+
+`apps/orca/src/careerai/stack-classifier.mjs` + su test. Clasifica cada oferta contra el
+catalogo **del cliente**, no contra una lista fija, y el ranking del cliente acota contra que
+familias se compara.
+
+Decisiones de diseno que el test protege:
+
+- **El titulo pesa el triple que la descripcion.** Una vacante se define por el puesto, no
+  por la lista de tecnologias que la empresa usa en algun lugar de la casa. Es lo que evita
+  que un puesto de Java que menciona AS/400 de pasada entre a la cola como si fuera iSeries.
+- **Limites de palabra en cada termino.** Sin ellos, `CL` coincide dentro de `CLIENT` y
+  `RPG` dentro de cualquier cosa. El test cubre ese caso exacto.
+- **Un termino negativo descarta la familia entera**, y se reporta cual y por que. Un puesto
+  de *tabletop role playing game* no es RPGLE.
+- **Sin senal suficiente devuelve `unclassified`** en vez de forzar la familia mas parecida.
+  Una vacante mal clasificada cuesta una postulacion desperdiciada, que es mas caro que
+  dejarla fuera.
+
+Regresion offline: **13/13 en verde**.
