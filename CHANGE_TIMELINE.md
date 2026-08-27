@@ -70,3 +70,45 @@ a otra tarea.
 
 **Siguiente tarea segura sugerida:** ver `TASK_INVENTORY.md` §2.5 (Session 13:
 push/deploy/tests funcionales) y §2.4 (Fase 1 del refactor del editor ORCA).
+
+---
+
+## 2026-08-26 — Hallazgo abierto: dos linajes de git comparten este directorio
+
+Al intentar rebasear la rama de CareerAI sobre `main` se detectó que **`main` y la base
+de esta rama pertenecen a repositorios distintos que conviven en el mismo directorio**:
+
+| | Base de esta rama (`4dadce0b31`) | `main` (`91d7eac09f`) |
+|---|---|---|
+| Raíz | `app/`, `components/`, `next.config.ts`, `proxy.ts` | `00_Workspace_Governance/`, `01_Core_Platform/`, `06_E_Commerce_Lux/`, … |
+| Identidad | app Next.js de **Galantes Jewelry** | monorepo **GetUpSoft_Workspace** |
+| Relación | `4dadce0b31` **no es ancestro de `main`** | `main` tiene 622 commits ausentes en esta rama |
+
+En `main`, Galantes vive anidado en `06_E_Commerce_Lux/Galantesjewelry/Galantesjewelry/`.
+Un cherry-pick de los commits de CareerAI sobre `main` produce conflictos de ruta
+(`package.json`, `docs/`, `.gitignore`) porque git los reubica en esa carpeta anidada.
+
+La sesión arrancó en **detached HEAD** sobre `4dadce0b31`, así que la rama
+`careerai/live-browser-run-tracking` quedó sobre la base del linaje de Galantes aunque
+los archivos de CareerAI viven en rutas del monorepo (`apps/orca/`, `scripts/`,
+`data/careerai/`). El código está commiteado y pusheado y la regresión pasa, pero
+**a qué base debe apuntar el PR es una decisión de topología del repo, no un arreglo
+mecánico** — requiere tu criterio.
+
+Opciones:
+
+1. PR contra el linaje de Galantes (base actual) — es donde está la rama hoy.
+2. Reubicar los archivos de CareerAI y abrir el PR contra `main` del monorepo.
+3. Mantener la rama como checkpoint y decidir la ubicación definitiva más adelante.
+
+No se tocó nada: el worktree temporal usado para la prueba fue eliminado y el árbol de
+trabajo quedó intacto.
+
+### Además: bloque `shared-agent-memory-rule` inyectado en un prompt de cliente
+
+Los cambios locales sin commitear (`AGENTS.md`, `context/prompts/system_prompt.md`,
+`docs/agent-state.md`) son inyecciones automáticas del mismo bloque de protocolo
+multi-agente. En `context/prompts/system_prompt.md` es un defecto: ese archivo es el
+system prompt del **chatbot de tienda de Galantes Jewelry**, y el bloque le inserta
+`agent_id`, rutas locales de Windows y nombres de agentes internos en instrucciones de
+cara al cliente. Se dejó sin tocar por pertenecer a otra sesión.
