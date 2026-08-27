@@ -787,6 +787,21 @@
         "id": "approval-expiry-watchdog",
         "type": "decision",
         "label": "Vigilancia de aprobaciones vencidas"
+      },
+      {
+        "id": "ats-router",
+        "type": "decision",
+        "label": "Enrutado al adaptador de ATS"
+      },
+      {
+        "id": "greenhouse-adapter",
+        "type": "worker",
+        "label": "Adaptador Greenhouse"
+      },
+      {
+        "id": "lever-adapter",
+        "type": "worker",
+        "label": "Adaptador Lever"
       }
     ],
     "edges": [
@@ -985,6 +1000,30 @@
       {
         "from": "approval-expiry-watchdog",
         "to": "blocked-escalation"
+      },
+      {
+        "from": "apply-method-classifier",
+        "to": "ats-router"
+      },
+      {
+        "from": "ats-router",
+        "to": "greenhouse-adapter"
+      },
+      {
+        "from": "ats-router",
+        "to": "lever-adapter"
+      },
+      {
+        "from": "ats-router",
+        "to": "blocked-escalation"
+      },
+      {
+        "from": "greenhouse-adapter",
+        "to": "external-form-fill"
+      },
+      {
+        "from": "lever-adapter",
+        "to": "external-form-fill"
       }
     ],
     "settings": {

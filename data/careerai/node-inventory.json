@@ -35,9 +35,9 @@
   },
   "totals": {
     "total": 95,
-    "listo": 34,
+    "listo": 37,
     "prototipo": 13,
-    "falta": 48
+    "falta": 45
   },
   "nodes": [
     {
@@ -592,8 +592,8 @@
     {
       "id": "ats-router",
       "type": "decision",
-      "status": "falta",
-      "owner": "claude",
+      "status": "listo",
+      "owner": "-",
       "purpose": "Enruta al adaptador; pausa en dominio desconocido",
       "block": "G",
       "block_title": "Ejecucion en navegador y adaptadores de ATS"
@@ -610,8 +610,8 @@
     {
       "id": "greenhouse-adapter",
       "type": "worker",
-      "status": "falta",
-      "owner": "claude",
+      "status": "listo",
+      "owner": "-",
       "purpose": "Formulario de una sola pagina",
       "block": "G",
       "block_title": "Ejecucion en navegador y adaptadores de ATS"
@@ -619,8 +619,8 @@
     {
       "id": "lever-adapter",
       "type": "worker",
-      "status": "falta",
-      "owner": "claude",
+      "status": "listo",
+      "owner": "-",
       "purpose": "Preguntas personalizadas por vacante",
       "block": "G",
       "block_title": "Ejecucion en navegador y adaptadores de ATS"

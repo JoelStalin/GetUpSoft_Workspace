@@ -631,3 +631,27 @@ aprobacion, lo aprobado ya no es lo que se enviaria.
 
 Grafo: **34 nodos y 49 edges**. Inventario: 95 nodos — 34 listos, 13 con prototipo, 48 por
 construir. Regresion offline: **19/19 en verde**.
+
+### ats-router y adaptadores de Greenhouse y Lever
+
+`apps/orca/src/careerai/ats-adapters.mjs`. La capa de mapeo es **pura a proposito**: recibe
+la descripcion de los campos y devuelve un PLAN de llenado sin tocar el navegador, asi que se
+prueba sin abrir Chrome y sin postular a nada.
+
+**Regla que gobierna el modulo:** un campo que no se sabe rellenar con certeza no se rellena.
+Un formulario enviado con un dato inventado no se puede deshacer.
+
+Campos que **nunca** se autorrellenan aunque haya dato disponible:
+
+| Campo | Motivo |
+|---|---|
+| Autorizacion de trabajo, visa, antecedentes | declaracion legal |
+| Expectativa salarial, fecha de inicio | decision del candidato |
+| Genero, etnia, discapacidad, veterania | dato sensible protegido |
+
+Si un campo **obligatorio** queda sin resolver, `can_submit_without_human` es `false` y el
+plan nombra cual bloquea. El router pausa ante dominio desconocido y tambien ante un **ATS
+reconocido cuyo adaptador todavia no existe** (Workday, Taleo, iCIMS): declarar soporte
+inexistente enviaria el formulario a un adaptador vacio.
+
+Grafo: **37 nodos y 55 edges**. Regresion offline: **20/20 en verde**.
