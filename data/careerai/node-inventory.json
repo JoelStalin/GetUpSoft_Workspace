@@ -36,8 +36,8 @@
   "totals": {
     "total": 85,
     "listo": 17,
-    "prototipo": 13,
-    "falta": 55
+    "prototipo": 15,
+    "falta": 53
   },
   "nodes": [
     {
@@ -259,9 +259,9 @@
     {
       "id": "profession-catalog",
       "type": "transform",
-      "status": "falta",
+      "status": "prototipo",
       "owner": "ambos",
-      "purpose": "Taxonomia generica de profesiones con sinonimos por oficio",
+      "purpose": "Taxonomia generica con 3 familias sembradas; faltan validar por alguien del oficio",
       "block": "B2",
       "block_title": "Perfil profesional del cliente"
     },
@@ -286,9 +286,9 @@
     {
       "id": "search-profile-builder",
       "type": "transform",
-      "status": "falta",
+      "status": "prototipo",
       "owner": "claude",
-      "purpose": "Genera terminos de busqueda desde las profesiones priorizadas por el cliente",
+      "purpose": "Genera consultas desde el ranking del cliente; implementado y probado",
       "block": "C",
       "block_title": "Descubrimiento (fuentes genericas)"
     },

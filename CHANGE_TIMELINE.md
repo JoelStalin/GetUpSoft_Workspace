@@ -371,3 +371,26 @@ Nodos anadidos: `connection-strategy-router`, `mcp-connector-registry`,
 `cookie-jar-persistence` (prototipo) y `scraping-session-guard`.
 
 Inventario: **85 nodos** — 17 listos, 13 con prototipo, 55 por construir.
+
+### Catalogo de profesiones y constructor de busquedas
+
+Implementados los dos nodos que hacen generico el arranque:
+
+- `data/careerai/profession-catalog.json` — taxonomia con 3 familias sembradas
+  (IBM i/AS-400, Odoo/Python, full-stack web), cada una con terminos, adyacentes,
+  **terminos negativos** y terminos de seniority. Todas marcadas `validated: false`:
+  son semillas de arranque, no verdad de produccion.
+- `apps/orca/src/careerai/search-profile.mjs` — convierte el ranking que eligio el cliente
+  en consultas concretas, expandiendo sinonimos desde el catalogo.
+
+El test verifica lo que importa del diseno: **el sistema no tiene profesiones favoritas**.
+Dos clientes con el mismo catalogo y distinto orden obtienen perfiles distintos. Tambien
+comprueba el filtro negativo (un puesto de *role playing game* no es RPGLE) y que los
+errores sean explicitos: `NO_RANKED_PROFESSIONS` si el cliente no priorizo nada,
+`UNKNOWN_PROFESSION` si pide algo fuera del catalogo.
+
+Las familias sin validar se **reportan, no se bloquean**: un cliente puede querer buscar con
+una semilla mientras alguien del oficio la revisa.
+
+Inventario: 85 nodos — 17 listos, 15 con prototipo, 53 por construir.
+Regresion offline: **12/12 en verde**.

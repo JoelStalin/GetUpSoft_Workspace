@@ -1,0 +1,44 @@
+{
+  "schema_version": "careerai.profession-catalog.v1",
+  "note": "Taxonomia generica de profesiones. Ninguna familia esta privilegiada por el sistema: el orden lo elige cada cliente en priority-prompt. Las familias sembradas aqui son semillas de arranque y deben validarse con alguien del oficio antes de usarse en produccion.",
+  "families": [
+    {
+      "id": "iseries-core",
+      "label": "Desarrollo IBM i / AS-400",
+      "seeded_by": "joel",
+      "validated": false,
+      "terms": [
+        "RPGLE", "RPG IV", "ILE RPG", "RPG Free", "RPG/400",
+        "AS/400", "AS400", "iSeries", "IBM i", "System i",
+        "CL", "CLLE", "DB2/400", "DDS", "SEU", "RDi", "PDM"
+      ],
+      "adjacent": ["Synon", "CA 2E", "JDE World", "MAPICS", "BPCS", "Infor XA"],
+      "negative": ["RPG maker", "role playing game", "tabletop"],
+      "seniority_terms": ["Developer", "Programmer", "Analyst", "Engineer", "Consultant"]
+    },
+    {
+      "id": "odoo-python",
+      "label": "Odoo / Python",
+      "seeded_by": "claude",
+      "validated": false,
+      "terms": ["Odoo", "OpenERP", "Python", "PostgreSQL", "XML-RPC", "QWeb", "OWL"],
+      "adjacent": ["ERP", "Django", "FastAPI", "Celery"],
+      "negative": ["Odoo sales representative"],
+      "seniority_terms": ["Developer", "Engineer", "Consultant", "Implementer"]
+    },
+    {
+      "id": "fullstack-web",
+      "label": "Desarrollo web full-stack",
+      "seeded_by": "claude",
+      "validated": false,
+      "terms": ["JavaScript", "TypeScript", "React", "Node.js", "Next.js", "NestJS"],
+      "adjacent": ["GraphQL", "REST API", "Tailwind", "Vue"],
+      "negative": ["React Native only"],
+      "seniority_terms": ["Developer", "Engineer", "Frontend", "Backend", "Full Stack"]
+    }
+  ],
+  "modifiers": {
+    "remote": ["Remote", "Work from home", "Telecommute", "Anywhere", "Distributed"],
+    "contract": ["Contract", "C2C", "Corp to Corp", "W2", "1099", "Freelance"]
+  }
+}
