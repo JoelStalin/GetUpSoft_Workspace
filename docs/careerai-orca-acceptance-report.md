@@ -111,6 +111,12 @@ Regresión completa ejecutada: **27/27 scripts en verde** (`npm run careerai:reg
 
 Nuevo módulo: `connection-health-check` (evalúa MCP/OAuth2/live-browser antes de arrancar toda la corrida, reutilizando `checkSessionAlive` de `scraping-session-guard` para no duplicar la regla de tenant/portal cruzado). Grafo: 45 nodos, 69 edges. Inventario: 45 listos, 13 con prototipo, 37 por construir.
 
+## Cierre 2026-08-27 (cont. 7)
+
+Regresión completa ejecutada: **28/28 scripts en verde** (`npm run careerai:regression`).
+
+Nuevo módulo: `credential-rotation` (plan de refresco/re-autorización de tokens OAuth2, sin ejecutar la llamada real; sin `expires_at` declarado marca `needs_review` en vez de inventar vencimiento). Grafo: 46 nodos, 70 edges. Inventario: 46 listos, 13 con prototipo, 36 por construir.
+
 ## Próxima acción segura
 
 Configurar Hermes mediante el mecanismo oficial de entorno/conector y repetir el doctor check. Después, ejecutar una oportunidad fixture en `prepare-only`; cualquier envío real requiere confirmación explícita en la solicitud concreta.

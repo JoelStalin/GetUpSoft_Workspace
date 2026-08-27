@@ -35,9 +35,9 @@
   },
   "totals": {
     "total": 95,
-    "listo": 45,
+    "listo": 46,
     "prototipo": 13,
-    "falta": 37
+    "falta": 36
   },
   "nodes": [
     {
@@ -223,8 +223,8 @@
     {
       "id": "credential-rotation",
       "type": "worker",
-      "status": "falta",
-      "owner": "claude",
+      "status": "listo",
+      "owner": "-",
       "purpose": "Refresco de tokens y re-autorizacion",
       "block": "B",
       "block_title": "Conexiones del cliente"

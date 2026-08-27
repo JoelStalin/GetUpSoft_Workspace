@@ -824,6 +824,11 @@
         "label": "Detecta sesion caducada antes de la corrida"
       },
       {
+        "id": "credential-rotation",
+        "type": "worker",
+        "label": "Refresco de tokens y re-autorizacion"
+      },
+      {
         "id": "tenant-resolver",
         "type": "transform",
         "label": "Resuelve tenant_id y lo propaga al run"
@@ -976,6 +981,10 @@
       {
         "from": "connection-health-check",
         "to": "queue-dispatcher"
+      },
+      {
+        "from": "connection-health-check",
+        "to": "credential-rotation"
       },
       {
         "from": "scraping-session-guard",

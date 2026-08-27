@@ -792,3 +792,20 @@ reconocido nunca se asume sano.
 
 Grafo: **45 nodos y 69 edges**. Inventario: 95 nodos — 45 listos, 13 con prototipo, 37 por
 construir. Regresion offline: **27/27 en verde**.
+
+### credential-rotation
+
+`apps/orca/src/careerai/credential-rotation.mjs`. Decide que hacer con un token OAuth2 antes
+de que caduque: nada, refrescarlo (si hay `refresh_token`), o re-autorizar desde cero (si no
+lo hay). Logica pura: devuelve un PLAN, igual que ats-adapters — no llama al proveedor OAuth
+ni escribe el token nuevo en ningun vault. Ejecutar el refresco real queda para otro paso que
+consuma este plan.
+
+Se adelanta 5 minutos al vencimiento por defecto (configurable) para no interrumpir una accion
+a mitad de camino. Sin `expires_at` declarado por el proveedor, no se inventa una fecha de
+vencimiento — se marca `needs_review: true` en vez de asumir vigencia o caducidad. Un token ya
+vencido con `refresh_token` disponible se refresca (no se re-autoriza de mas); sin
+`refresh_token` siempre requiere al cliente.
+
+Grafo: **46 nodos y 70 edges**. Inventario: 95 nodos — 46 listos, 13 con prototipo, 36 por
+construir. Regresion offline: **28/28 en verde**.
