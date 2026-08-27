@@ -819,6 +819,11 @@
         "label": "Verifica que la sesion sigue viva antes de scraping"
       },
       {
+        "id": "connection-health-check",
+        "type": "worker",
+        "label": "Detecta sesion caducada antes de la corrida"
+      },
+      {
         "id": "tenant-resolver",
         "type": "transform",
         "label": "Resuelve tenant_id y lo propaga al run"
@@ -963,6 +968,14 @@
       {
         "from": "connection-strategy-router",
         "to": "scraping-session-guard"
+      },
+      {
+        "from": "connection-strategy-router",
+        "to": "connection-health-check"
+      },
+      {
+        "from": "connection-health-check",
+        "to": "queue-dispatcher"
       },
       {
         "from": "scraping-session-guard",

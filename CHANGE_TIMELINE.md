@@ -772,3 +772,23 @@ futuro) falla explicitamente.
 
 Grafo: **44 nodos y 67 edges**. Inventario: 95 nodos — 44 listos, 13 con prototipo, 38 por
 construir. Regresion offline: **26/26 en verde**.
+
+### connection-health-check
+
+`apps/orca/src/careerai/connection-health-check.mjs`. Evalua, ANTES de arrancar la corrida
+completa, si todas las conexiones necesarias (MCP, OAuth2, live-browser) estan sanas. Logica
+pura: agrega el estado que se le pasa, no conecta ni refresca nada.
+
+Diferencia con scraping-session-guard: ese verifica la sesion justo antes de CADA accion de
+scraping durante la corrida; este evalua TODAS las conexiones de una vez al principio, para
+no arrancar discovery + analisis + preparacion (varios minutos de trabajo) si ya se sabe que
+una conexion va a fallar a mitad de camino.
+
+**Reutiliza `checkSessionAlive` de scraping-session-guard** para el nivel `live_browser_manual`
+en vez de reimplementar la logica de sesion: la verificacion de tenant/portal cruzado se
+hereda automaticamente, sin duplicar la regla en dos sitios que podrian divergir. Nivel MCP
+sano si `mcp_available`; nivel OAuth2 sano con token presente y no vencido; un nivel no
+reconocido nunca se asume sano.
+
+Grafo: **45 nodos y 69 edges**. Inventario: 95 nodos — 45 listos, 13 con prototipo, 37 por
+construir. Regresion offline: **27/27 en verde**.

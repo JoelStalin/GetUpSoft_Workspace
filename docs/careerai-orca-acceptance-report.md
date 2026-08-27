@@ -105,6 +105,12 @@ Regresión completa ejecutada: **26/26 scripts en verde** (`npm run careerai:reg
 
 Nuevo módulo: `scraping-session-guard` (verifica que la sesión persistida sigue viva antes de cada acción de scraping; rechaza sesión de otro tenant u otro portal sin excepción; `expires_at` manda si existe, si no se estima frescura por `captured_at` + ventana de 12h). Grafo: 44 nodos, 67 edges. Inventario: 44 listos, 13 con prototipo, 38 por construir.
 
+## Cierre 2026-08-27 (cont. 6)
+
+Regresión completa ejecutada: **27/27 scripts en verde** (`npm run careerai:regression`).
+
+Nuevo módulo: `connection-health-check` (evalúa MCP/OAuth2/live-browser antes de arrancar toda la corrida, reutilizando `checkSessionAlive` de `scraping-session-guard` para no duplicar la regla de tenant/portal cruzado). Grafo: 45 nodos, 69 edges. Inventario: 45 listos, 13 con prototipo, 37 por construir.
+
 ## Próxima acción segura
 
 Configurar Hermes mediante el mecanismo oficial de entorno/conector y repetir el doctor check. Después, ejecutar una oportunidad fixture en `prepare-only`; cualquier envío real requiere confirmación explícita en la solicitud concreta.
