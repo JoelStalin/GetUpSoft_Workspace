@@ -9,6 +9,7 @@ import { linkedinStatus } from '../apps/orca/src/careerai/linkedin-provider.mjs'
 import { startRun, listRuns, getRun, liveBrowserSession } from '../apps/orca/src/careerai/runs.mjs';
 import { hermesDoctor } from '../apps/orca/src/careerai/hermes-doctor.mjs';
 import { layoutGraph } from '../apps/orca/src/careerai/graph-layout.mjs';
+import { runPipeline } from '../apps/orca/src/careerai/pipeline.mjs';
 
 // Registro de proyectos por cliente. La URL de monitoreo apuntaba a un puerto 5174 donde
 // nunca hubo nada escuchando: el script generaba el enlace pero ningun servidor lo servia.
@@ -216,6 +217,33 @@ data: ${JSON.stringify(run.live_browser)}
       res.writeHead(400, { 'content-type': 'application/json; charset=utf-8' });
       return res.end(JSON.stringify({ ok: false, error: error.code || 'live_browser_failed' }));
     }
+  }
+  if (apiPath === '/api/careerai/pipeline' && req.method === 'POST') {
+    let body = '';
+    req.on('data', (chunk) => { body += chunk; });
+    return req.on('end', async () => {
+      let payload = {};
+      try { payload = body ? JSON.parse(body) : {}; } catch { payload = {}; }
+      try {
+        const fixtures = JSON.parse(fs.readFileSync(path.resolve('data/careerai/fixtures.json'), 'utf8'));
+        // Sin oportunidades en la peticion se usan las fixtures: el pipeline se puede ver
+        // funcionar sin tocar ningun portal.
+        const opportunities = payload.opportunities || fixtures.fixtures
+          .filter((item) => item.opportunity)
+          .map((item) => ({ ...item.opportunity, description: item.opportunity.description || item.opportunity.title || '' }));
+        const result = await runPipeline({
+          tenantId: payload.tenant_id || 'demo',
+          rankedFamilies: payload.ranked_families || ['iseries-core', 'odoo-python'],
+          opportunities,
+          seenIds: new Set(payload.seen_ids || []),
+          candidateCountry: payload.candidate_country || null,
+        });
+        return json(res, result);
+      } catch (error) {
+        res.writeHead(error.code === 'MISSING_TENANT' ? 400 : 500, { 'content-type': 'application/json; charset=utf-8' });
+        return res.end(JSON.stringify({ ok: false, error: error.code || 'pipeline_failed', message: String(error.message || error) }));
+      }
+    });
   }
   if (apiPath === '/api/orca/projects') {
     const owner = new URL(req.url || '/', `http://127.0.0.1:${port}`).searchParams.get('owner');

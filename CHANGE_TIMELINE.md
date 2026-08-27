@@ -1024,3 +1024,29 @@ que antes mataba el proceso devuelve 404 y el servidor sigue respondiendo.
 **4. Arranque en frio del panel de estado.** La comprobacion de Hermes tarda ~2,4 s la primera
 vez; si la pagaba la primera peticion, el efecto del panel se cancelaba y se quedaba en
 "Loading live data". Ahora se precalienta al arrancar, cuando nadie espera.
+
+### El pipeline se ejecuta, no solo se declara
+
+Hasta ahora los modulos estaban probados en aislamiento y declarados en el blueprint, pero
+**nada los encadenaba**: el canvas mostraba la arquitectura, no una ejecucion. `pipeline.mjs`
+encadena ocho nodos reales y `POST /api/careerai/pipeline` lo expone.
+
+Ejecutado contra las fixtures del repositorio, devuelve el estado de cada paso:
+
+```
+dedupe-canonical -> stack-classifier -> remote-verifier -> opportunity-upsert
+-> priority-ranker -> new-position-trigger -> apply-method-classifier -> unsupported-collector
+```
+
+El test cubre lo que importa del encadenado, no solo que corra: la deduplicacion funde el
+duplicado por parametro de seguimiento, la oportunidad ajena al catalogo del cliente no pasa a
+clasificada, el falso remoto (*2 days per week in the office*) no cuenta como remoto
+verificado, manda el ranking del cliente, y lo ya visto no se reanaliza. La guarda de arranque
+sigue activa: sin perfil confirmado y ordenado, el pipeline se bloquea en `profile`.
+
+Ningun paso envia nada: `submit_performed: false` de principio a fin.
+
+Ademas, `graph-layout.mjs` era el unico modulo sin test. Ya lo tiene, y cubre el caso que
+motivo reescribirlo: un ciclo no debe dejar nodos sin capa, y el grafo debe caber en pantalla.
+
+Regresion offline: **35 scripts, todos en verde**.
