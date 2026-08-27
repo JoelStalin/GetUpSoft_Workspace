@@ -10,9 +10,9 @@
       "terms": [
         "RPGLE", "RPG IV", "ILE RPG", "RPG Free", "RPG/400",
         "AS/400", "AS400", "iSeries", "IBM i", "System i",
-        "CL", "CLLE", "DB2/400", "DDS", "SEU", "RDi", "PDM"
+        "CL", "CLLE", "DB2/400", "DDS", "SEU", "RDi", "PDM", "COBOL"
       ],
-      "adjacent": ["Synon", "CA 2E", "JDE World", "MAPICS", "BPCS", "Infor XA"],
+      "adjacent": ["Synon", "CA 2E", "JDE World", "MAPICS", "BPCS", "Infor XA", "IBM WebSphere MQ", "MQ Series"],
       "negative": ["RPG maker", "role playing game", "tabletop"],
       "seniority_terms": ["Developer", "Programmer", "Analyst", "Engineer", "Consultant"]
     },
@@ -31,10 +31,22 @@
       "label": "Desarrollo web full-stack",
       "seeded_by": "claude",
       "validated": false,
-      "terms": ["JavaScript", "TypeScript", "React", "Node.js", "Next.js", "NestJS"],
-      "adjacent": ["GraphQL", "REST API", "Tailwind", "Vue"],
+      "review_note": "Corregido 2026-08-27 contra el CV real: la version anterior (React/Next.js/NestJS/TypeScript) no aparece en ningun lado del CV de Joel. Reemplazado por el stack que si aparece: .NET/C#, PHP, Java, Angular.js, Node.js, React.js, Flutter. Pendiente confirmacion explicita de Joel (profile-confirmation), no auto-validado.",
+      "terms": ["ASP.NET", ".NET", "C#", "PHP", "Java", "Angular.js", "Angular", "Node.js", "React.js", "Flutter", "Ionic"],
+      "adjacent": ["REST API", "SOAP", "Loopback", "MongoDB", "Microsoft SQL Server"],
       "negative": ["React Native only"],
       "seniority_terms": ["Developer", "Engineer", "Frontend", "Backend", "Full Stack"]
+    },
+    {
+      "id": "banking-core-systems",
+      "label": "Modernizacion de sistemas bancarios / core banking",
+      "seeded_by": "claude",
+      "validated": false,
+      "review_note": "Familia nueva, ausente del catalogo original. Es la especialidad mas fuerte y senior del CV (8+ anos, 5 bancos/procesadoras distintas), y no tenia ninguna familia de busqueda propia. Pendiente confirmacion de Joel.",
+      "terms": ["core banking", "card services", "tarjetas", "ACH", "RTGS", "loan origination", "originacion de prestamos", "Temenos T24", "banking modernization", "regulatory reporting", "reportes regulatorios"],
+      "adjacent": ["microservices", "middleware", "message queue", "data migration", "conciliacion de datos"],
+      "negative": ["bank teller", "cajero bancario", "personal banker"],
+      "seniority_terms": ["Senior", "Lead", "Analyst Programmer", "Consultant", "Co-Lead"]
     }
   ],
   "modifiers": {

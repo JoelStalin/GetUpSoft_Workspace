@@ -809,3 +809,33 @@ vencido con `refresh_token` disponible se refresca (no se re-autoriza de mas); s
 
 Grafo: **46 nodos y 70 edges**. Inventario: 95 nodos — 46 listos, 13 con prototipo, 36 por
 construir. Regresion offline: **28/28 en verde**.
+
+### Pivote: foco en operar esta semana, no en mas nodos
+
+El propietario pidio parar de abrir frentes nuevos de codigo y priorizar que CareerAI opere de
+verdad esta semana. Se levanto el estado real (no de fixtures):
+
+- **CV real verificado** (`Joel_Stalin_Martinez_CV_ES_2026.pdf`, hash confirmado, existe en
+  disco) y claves reales cargadas (Hermes CLI, Gemini, ChatGPT, WhatsApp).
+- **Bloqueante critico:** `session-vault.json` de la prueba del 26-ago muestra `logged_in:
+  false` para Indeed y LinkedIn — nadie completo el login manual en el navegador persistido
+  del agente. Sin eso no hay discovery real en Indeed (el portal principal del workflow).
+- `opportunities.json` solo tiene datos sinteticos de test; cero oportunidades reales del
+  tenant `joel` descubiertas todavia.
+- **Los nodos construidos en esta sesion (tenant-resolver, rate-limiter, queue-dispatcher,
+  scraping-session-guard, connection-health-check, credential-rotation, connection-strategy)
+  estan probados en aislamiento pero NO estan cableados a `prepare-only.mjs`/`runs.mjs`, que
+  es el camino de ejecucion real.** Utiles para cuando el sistema crezca a multi-tenant, pero
+  no son lo que bloquea operar esta semana.
+
+**Correccion de contenido:** `data/careerai/profession-catalog.json` tenia la familia
+`fullstack-web` sembrada por Claude sin ver el CV real — apuntaba a React/Next.js/NestJS/
+TypeScript, ninguno de los cuales aparece en el CV. Corregida al stack real (.NET/C#, PHP,
+Java, Angular.js, Node.js, React.js, Flutter). Se agrego una familia nueva,
+`banking-core-systems`, ausente del catalogo original pese a ser la especialidad mas fuerte y
+senior del CV (8+ anos, core bancario/tarjetas/ACH/RTGS en 5 empleadores). Ambos cambios
+quedan `validated: false` con `review_note` explicando el motivo — la confirmacion final es
+del cliente (`profile-confirmation`), no se fingio aqui.
+
+Checklist entregado al propietario, con lo que depende de el (login manual, confirmar
+catalogo, decidir modo de envio final) separado de lo que se puede avanzar sin el.
