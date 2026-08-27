@@ -1,0 +1,11 @@
+.env.local
+data/orca/oauth-vault.enc.json
+data/orca/oauth-events.jsonl
+data/orca/whatsapp-events.jsonl
+data/orca/whatsapp-hermes-queue.jsonl
+data/orca/whatsapp-hermes-state.json
+data/orca/selenium-chrome-profile/
+data/orca/interactive-chrome-profile/
+
+# CareerAI run tracking (evidencia local, no versionada)
+data/careerai/runs.jsonl

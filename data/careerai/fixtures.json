@@ -1,0 +1,54 @@
+{
+  "schema_version": "careerai.v1",
+  "fixtures": [
+    {
+      "id": "indeed-remote-valid",
+      "opportunity": {"opportunity_id":"indeed-remote-001","tenant_id":"fixture-tenant","source":"indeed","canonical_url":"https://example.invalid/jobs/remote-001","title":"Python Automation Engineer","company":"Example Labs","location":"Remote","remote_verified":true,"description":"Python, APIs, workflow automation","published_at":"2026-07-31T00:00:00Z","match_score":91,"claims":["remote","python"],"status":"discovered"},
+      "expected_status": "ready_for_review"
+    },
+    {
+      "id": "indeed-remote-unknown",
+      "opportunity": {"opportunity_id":"indeed-unknown-001","tenant_id":"fixture-tenant","source":"indeed","canonical_url":"https://example.invalid/jobs/unknown-001","title":"Automation Engineer","company":"Example Labs","location":"Flexible","remote_verified":false,"description":"Work arrangement not stated","published_at":"2026-07-31T00:00:00Z","match_score":72,"claims":[],"status":"discovered"},
+      "expected_status": "needs_review"
+    },
+    {
+      "id": "provider-consensus",
+      "analyses": [{"provider":"gemini","recommendation":"advance","confidence":0.92},{"provider":"openai","recommendation":"advance","confidence":0.90},{"provider":"hermes","recommendation":"advance","confidence":0.88}],
+      "expected_status": "ready_for_approval"
+    },
+    {
+      "id": "provider-disagreement",
+      "analyses": [{"provider":"gemini","recommendation":"advance","confidence":0.92},{"provider":"openai","recommendation":"reject","confidence":0.84},{"provider":"hermes","recommendation":"review","confidence":0.70}],
+      "expected_status": "consensus_blocked"
+    },
+    {
+      "id": "approval-expired-or-duplicate",
+      "approval": {"approval_id":"approval-001","opportunity_id":"indeed-remote-001","action":"apply","payload_hash":"sha256:fixture","expires_at":"2026-07-30T00:00:00Z","allowed_actor":"owner","status":"expired","idempotency_key":"apply:indeed-remote-001"},
+      "expected_status": "submit_blocked"
+    },
+    {
+      "id": "login-captcha-mfa",
+      "error": {"kind":"captcha","provider":"indeed","recoverable":false,"requires_user":true},
+      "expected_status": "needs_user_login"
+    },
+    {
+      "id": "idempotent-retry",
+      "notifications": [{"channel":"gmail","idempotency_key":"approval:indeed-remote-001","delivery_status":"sent"},{"channel":"gmail","idempotency_key":"approval:indeed-remote-001","delivery_status":"duplicate_suppressed"}],
+      "expected_status": "duplicate_suppressed"
+    },
+    {
+      "id": "process-restart-resume",
+      "restart": {
+        "run_id": "run-restart-001",
+        "workflow_version": "careerai.v1",
+        "active_node": "human-approval",
+        "checkpoint": "approval-created",
+        "attempt": 1,
+        "memory_refs": ["hot:careerai:run-restart-001", "warm:careerai:rules"],
+        "ledger_status": "in_progress",
+        "evidence_refs": ["evidence://careerai/run-restart-001/checkpoint-001"]
+      },
+      "expected_status": "resumed_from_checkpoint"
+    }
+  ]
+}

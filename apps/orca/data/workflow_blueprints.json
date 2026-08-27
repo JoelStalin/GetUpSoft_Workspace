@@ -1,0 +1,826 @@
+[
+  {
+    "id": "c2b62027-4340-4ad1-94a3-cc75ad4cb878",
+    "user_id": "yoeli",
+    "name": "Landing Page - Corredor de Seguros",
+    "objective": "Crear una landing page profesional para un corredor de seguros independiente que necesita captar leads, explicar coberturas y transmitir confianza.",
+    "status": "ready_to_run",
+    "nodes": [
+      {
+        "id": "intake",
+        "type": "trigger",
+        "label": "Comando Orca"
+      },
+      {
+        "id": "brief",
+        "type": "research",
+        "label": "Brief de seguros"
+      },
+      {
+        "id": "ux",
+        "type": "design",
+        "label": "Landing UX"
+      },
+      {
+        "id": "copy",
+        "type": "content",
+        "label": "Copy B2B/B2C"
+      },
+      {
+        "id": "build",
+        "type": "frontend",
+        "label": "Generar HTML"
+      },
+      {
+        "id": "qa",
+        "type": "test",
+        "label": "Functional QA"
+      }
+    ],
+    "edges": [
+      {
+        "from": "intake",
+        "to": "brief"
+      },
+      {
+        "from": "brief",
+        "to": "ux"
+      },
+      {
+        "from": "ux",
+        "to": "copy"
+      },
+      {
+        "from": "copy",
+        "to": "build"
+      },
+      {
+        "from": "build",
+        "to": "qa"
+      }
+    ],
+    "settings": {
+      "workflow_kind": "professional_page_design",
+      "project": "Ramos & Asociados Seguros",
+      "slug": "ramos-asociados-seguros",
+      "industry": "insurance_broker",
+      "audience": "familias, profesionales independientes y pequenas empresas",
+      "city": "Santo Domingo",
+      "phone": "+1 (809) 555-0145",
+      "email": "asesoria@ramosseguros.local",
+      "primary_cta": "Solicitar evaluacion",
+      "secondary_cta": "Ver coberturas",
+      "animation_stack": [
+        "css",
+        "reduced-motion-safe"
+      ],
+      "output": "outputs/design-pages/ramos-asociados-seguros/index.html"
+    },
+    "created_at": "2026-05-19T13:03:55.177408+00:00",
+    "updated_at": "2026-05-19T13:03:55.177408+00:00"
+  },
+  {
+    "id": "860a9e0f-4787-4e12-8c7a-876787237cf7",
+    "user_id": "yoeli",
+    "name": "Landing Page - Corredor de Seguros",
+    "objective": "Crear una landing page profesional para un corredor de seguros independiente que necesita captar leads, explicar coberturas y transmitir confianza.",
+    "status": "ready_to_run",
+    "nodes": [
+      {
+        "id": "intake",
+        "type": "trigger",
+        "label": "Comando Orca"
+      },
+      {
+        "id": "research-worker",
+        "type": "research",
+        "label": "Worker: Research"
+      },
+      {
+        "id": "architecture-worker",
+        "type": "architecture",
+        "label": "Worker: Architecture"
+      },
+      {
+        "id": "design-worker",
+        "type": "design",
+        "label": "Worker: Design"
+      },
+      {
+        "id": "backend-worker",
+        "type": "backend",
+        "label": "Worker: Back-end"
+      },
+      {
+        "id": "frontend-worker",
+        "type": "frontend",
+        "label": "Worker: Front-end"
+      },
+      {
+        "id": "testing-worker",
+        "type": "test",
+        "label": "Worker: Testing"
+      },
+      {
+        "id": "memory-worker",
+        "type": "memory",
+        "label": "Worker: Memory"
+      },
+      {
+        "id": "copy",
+        "type": "content",
+        "label": "Copy B2B/B2C"
+      },
+      {
+        "id": "build",
+        "type": "frontend",
+        "label": "Generar HTML"
+      },
+      {
+        "id": "qa",
+        "type": "test",
+        "label": "Functional QA"
+      }
+    ],
+    "edges": [
+      {
+        "from": "intake",
+        "to": "research-worker"
+      },
+      {
+        "from": "research-worker",
+        "to": "architecture-worker"
+      },
+      {
+        "from": "architecture-worker",
+        "to": "design-worker"
+      },
+      {
+        "from": "design-worker",
+        "to": "backend-worker"
+      },
+      {
+        "from": "design-worker",
+        "to": "frontend-worker"
+      },
+      {
+        "from": "frontend-worker",
+        "to": "testing-worker"
+      },
+      {
+        "from": "testing-worker",
+        "to": "memory-worker"
+      },
+      {
+        "from": "memory-worker",
+        "to": "copy"
+      },
+      {
+        "from": "copy",
+        "to": "build"
+      },
+      {
+        "from": "build",
+        "to": "qa"
+      }
+    ],
+    "settings": {
+      "workflow_kind": "professional_page_design",
+      "project": "Ramos & Asociados Seguros",
+      "slug": "ramos-asociados-seguros",
+      "industry": "insurance_broker",
+      "audience": "familias, profesionales independientes y pequenas empresas",
+      "city": "Santo Domingo",
+      "phone": "+1 (809) 555-0145",
+      "email": "asesoria@ramosseguros.local",
+      "primary_cta": "Solicitar evaluacion",
+      "secondary_cta": "Ver coberturas",
+      "project_progress_percent": 100,
+      "project_progress_memory": "outputs/design-pages/ramos-asociados-seguros/progress.json",
+      "animation_stack": [
+        "css",
+        "reduced-motion-safe"
+      ],
+      "output": "outputs/design-pages/ramos-asociados-seguros/index.html"
+    },
+    "created_at": "2026-05-19T13:26:40.782374+00:00",
+    "updated_at": "2026-05-19T13:26:40.782374+00:00"
+  },
+  {
+    "id": "4fef708e-2c23-4588-80ac-7c0287c62c98",
+    "user_id": "yoeli",
+    "name": "Tinder Automation Service",
+    "objective": "Automatizar el bot de Tinder para swiping inteligente y gestion de matches mediante ORCA.",
+    "status": "ready_to_run",
+    "nodes": [
+      {
+        "id": "trigger",
+        "type": "trigger",
+        "label": "Servicio Tinder"
+      },
+      {
+        "id": "swipe",
+        "type": "action",
+        "label": "Auto-Swiping"
+      },
+      {
+        "id": "match",
+        "type": "intelligence",
+        "label": "Smart Filter"
+      }
+    ],
+    "edges": [
+      {
+        "from": "trigger",
+        "to": "swipe"
+      },
+      {
+        "from": "swipe",
+        "to": "match"
+      }
+    ],
+    "settings": {
+      "workflow_kind": "tinder_automation",
+      "interval_poll": 30,
+      "like_ratio": 0.75,
+      "headless": false
+    },
+    "created_at": "2026-05-23T20:48:21.585408+00:00",
+    "updated_at": "2026-05-23T20:48:21.585408+00:00"
+  },
+  {
+    "id": "galantes-inventory-agent",
+    "user_id": "yoeli",
+    "name": "Galantes Inventory Publishing Agent",
+    "objective": "Orquestar en vivo la ingesta local de Drive, clasificación, galerías, edición, descripciones, revisión, autocorrección, publicación protegida y QA.",
+    "status": "ready_to_run",
+    "nodes": [
+      {
+        "id": "inventory-command",
+        "type": "trigger",
+        "label": "Inventory command",
+        "trigger": {
+          "kind": "manual",
+          "enabled": true
+        }
+      },
+      {
+        "id": "drive-product-change",
+        "type": "trigger",
+        "label": "Drive product change",
+        "trigger": {
+          "kind": "drive_file_change",
+          "enabled": true,
+          "pollMinutes": 1
+        }
+      },
+      {
+        "id": "review-queue-created",
+        "type": "trigger",
+        "label": "Review queue created",
+        "trigger": {
+          "kind": "review_queue_created",
+          "enabled": true
+        }
+      },
+      {
+        "id": "hermes-review",
+        "type": "trigger",
+        "label": "Hermes review",
+        "trigger": {
+          "kind": "provider_review",
+          "provider": "hermes",
+          "enabled": true
+        }
+      },
+      {
+        "id": "gemini-escalation",
+        "type": "trigger",
+        "label": "Gemini escalation",
+        "trigger": {
+          "kind": "provider_escalation",
+          "provider": "gemini",
+          "enabled": true
+        }
+      },
+      {
+        "id": "chatgpt-final-check",
+        "type": "trigger",
+        "label": "ChatGPT final verification",
+        "trigger": {
+          "kind": "provider_verification",
+          "provider": "openai",
+          "enabled": true
+        }
+      },
+      {
+        "id": "orca-decision",
+        "type": "trigger",
+        "label": "Orca decision",
+        "trigger": {
+          "kind": "ui_decision",
+          "enabled": true
+        }
+      },
+      {
+        "id": "inventory-error",
+        "type": "trigger",
+        "label": "Inventory node error",
+        "trigger": {
+          "kind": "node_error",
+          "enabled": true
+        }
+      },
+      {
+        "id": "local-intake",
+        "type": "worker",
+        "label": "Local Drive intake"
+      },
+      {
+        "id": "product-clustering",
+        "type": "worker",
+        "label": "Product and gallery clustering"
+      },
+      {
+        "id": "gemini-review",
+        "type": "decision",
+        "label": "Gemini visual review"
+      },
+      {
+        "id": "image-enhancement",
+        "type": "worker",
+        "label": "Gemini image enhancement"
+      },
+      {
+        "id": "description-generation",
+        "type": "worker",
+        "label": "Product descriptions"
+      },
+      {
+        "id": "human-review",
+        "type": "approval",
+        "label": "Human review"
+      },
+      {
+        "id": "autocorrection",
+        "type": "recovery",
+        "label": "Autocorrection loop"
+      },
+      {
+        "id": "odoo-dry-run",
+        "type": "validation",
+        "label": "Odoo dry-run"
+      },
+      {
+        "id": "production-gate",
+        "type": "approval",
+        "label": "Protected production gate"
+      },
+      {
+        "id": "selenium-qa",
+        "type": "test",
+        "label": "Selenium Profile 9 QA"
+      },
+      {
+        "id": "evidence",
+        "type": "report",
+        "label": "Live evidence"
+      }
+    ],
+    "edges": [
+      {
+        "from": "inventory-command",
+        "to": "local-intake"
+      },
+      {
+        "from": "drive-product-change",
+        "to": "local-intake"
+      },
+      {
+        "from": "review-queue-created",
+        "to": "hermes-review"
+      },
+      {
+        "from": "hermes-review",
+        "to": "gemini-escalation"
+      },
+      {
+        "from": "gemini-escalation",
+        "to": "chatgpt-final-check"
+      },
+      {
+        "from": "orca-decision",
+        "to": "human-review"
+      },
+      {
+        "from": "inventory-error",
+        "to": "evidence"
+      },
+      {
+        "from": "local-intake",
+        "to": "product-clustering"
+      },
+      {
+        "from": "product-clustering",
+        "to": "gemini-review"
+      },
+      {
+        "from": "gemini-review",
+        "to": "image-enhancement"
+      },
+      {
+        "from": "image-enhancement",
+        "to": "description-generation"
+      },
+      {
+        "from": "description-generation",
+        "to": "human-review"
+      },
+      {
+        "from": "human-review",
+        "to": "autocorrection"
+      },
+      {
+        "from": "autocorrection",
+        "to": "odoo-dry-run"
+      },
+      {
+        "from": "odoo-dry-run",
+        "to": "production-gate"
+      },
+      {
+        "from": "production-gate",
+        "to": "selenium-qa"
+      },
+      {
+        "from": "selenium-qa",
+        "to": "evidence"
+      }
+    ],
+    "settings": {
+      "workflow_kind": "galantes_inventory_agent",
+      "live_status_file": "data/inventory-agent/manifests/live-status.json",
+      "worker_root": "C:/Users/yoeli/Documents/GetUpSoft_Workspace/06_E_Commerce_Lux/Galantesjewelry",
+      "error_registry": "docs/inventory-agent-error-use-cases.md",
+      "selenium_profile": "Profile 9"
+    },
+    "created_at": "2026-07-21T21:10:00.000Z",
+    "updated_at": "2026-07-21T21:10:00.000Z"
+  },
+  {
+    "id": "galantes-odoo-invoice-chat",
+    "user_id": "galantesjewelry-ceo",
+    "name": "Galantes Jewelry - Facturación Odoo desde Chat",
+    "objective": "Crear facturas de cliente en Odoo desde una conversación de Orca, con validación, vista previa y aprobación humana antes de confirmar.",
+    "status": "ready_to_run",
+    "nodes": [
+      {
+        "id": "chat-trigger",
+        "type": "trigger",
+        "label": "Orca Chat: solicitud de factura"
+      },
+      {
+        "id": "extract-invoice",
+        "type": "intelligence",
+        "label": "Extraer cliente, líneas, impuestos y moneda"
+      },
+      {
+        "id": "validate-input",
+        "type": "validation",
+        "label": "Validar datos y duplicados"
+      },
+      {
+        "id": "odoo-preview",
+        "type": "action",
+        "label": "Odoo: crear borrador de factura"
+      },
+      {
+        "id": "human-approval",
+        "type": "approval",
+        "label": "Aprobación humana en Orca"
+      },
+      {
+        "id": "odoo-confirm",
+        "type": "action",
+        "label": "Odoo: confirmar factura"
+      },
+      {
+        "id": "chat-result",
+        "type": "report",
+        "label": "Responder número y estado en Orca"
+      },
+      {
+        "id": "error-recovery",
+        "type": "recovery",
+        "label": "Registrar error y reintentar sin duplicar"
+      }
+    ],
+    "edges": [
+      {
+        "from": "chat-trigger",
+        "to": "extract-invoice"
+      },
+      {
+        "from": "extract-invoice",
+        "to": "validate-input"
+      },
+      {
+        "from": "validate-input",
+        "to": "odoo-preview"
+      },
+      {
+        "from": "odoo-preview",
+        "to": "human-approval"
+      },
+      {
+        "from": "human-approval",
+        "to": "odoo-confirm"
+      },
+      {
+        "from": "odoo-confirm",
+        "to": "chat-result"
+      },
+      {
+        "from": "validate-input",
+        "to": "error-recovery"
+      },
+      {
+        "from": "odoo-preview",
+        "to": "error-recovery"
+      },
+      {
+        "from": "odoo-confirm",
+        "to": "error-recovery"
+      }
+    ],
+    "settings": {
+      "workflow_kind": "orca_chat_to_odoo_customer_invoice",
+      "company": "Galantes Jewelry",
+      "project": "galantesjewelry",
+      "odoo_api": "json-2",
+      "odoo_model": "account.move",
+      "move_type": "out_invoice",
+      "initial_state": "draft",
+      "approval_required": true,
+      "idempotency_required": true,
+      "never_auto_post": true,
+      "currency_source": "chat_or_company_default",
+      "tax_source": "chat_or_odoo_default",
+      "credential_source": "process.env",
+      "error_registry": "data/orca/error-cases/galantes-odoo-invoice.json"
+    },
+    "created_at": "2026-07-21T21:35:00.000Z",
+    "updated_at": "2026-07-21T21:35:00.000Z"
+  },
+  {
+    "id": "careerai-indeed-agent",
+    "user_id": "yoeli",
+    "name": "CareerAI Indeed Application Agent",
+    "objective": "Descubrir oportunidades en Indeed, analizarlas con Hermes/Gemini/ChatGPT, preparar una solicitud y detenerse para aprobación humana antes de cualquier envío.",
+    "status": "ready_to_run",
+    "nodes": [
+      {
+        "id": "career-command",
+        "type": "trigger",
+        "label": "CareerAI command",
+        "trigger": {
+          "kind": "manual",
+          "enabled": true
+        }
+      },
+      {
+        "id": "indeed-discovery",
+        "type": "worker",
+        "label": "Indeed job discovery"
+      },
+      {
+        "id": "normalize-opportunity",
+        "type": "transform",
+        "label": "Normalize opportunity"
+      },
+      {
+        "id": "hermes-analysis",
+        "type": "intelligence",
+        "label": "Hermes analysis"
+      },
+      {
+        "id": "gemini-analysis",
+        "type": "intelligence",
+        "label": "Gemini analysis"
+      },
+      {
+        "id": "chatgpt-verification",
+        "type": "intelligence",
+        "label": "ChatGPT verification"
+      },
+      {
+        "id": "consensus-score",
+        "type": "decision",
+        "label": "Consensus and match score"
+      },
+      {
+        "id": "application-draft",
+        "type": "worker",
+        "label": "Prepare application draft"
+      },
+      {
+        "id": "external-form-fill",
+        "type": "worker",
+        "label": "External job form fill (prepare-only)",
+        "providers": [
+          "indeed",
+          "linkedin",
+          "glassdoor",
+          "workday",
+          "greenhouse",
+          "lever"
+        ],
+        "fill_mode": "prepare_only",
+        "submit_performed": false,
+        "requires_user_session": true,
+        "pause_on": [
+          "login",
+          "consent",
+          "captcha",
+          "mfa",
+          "file_upload",
+          "submit",
+          "unknown_domain"
+        ]
+      },
+      {
+        "id": "live-browser-monitor",
+        "type": "live_browser",
+        "label": "Live browser monitor",
+        "render_mode": "live_session",
+        "attach_to": [
+          "external-form-fill",
+          "indeed-apply",
+          "blocked-escalation"
+        ],
+        "session_endpoint": "/api/careerai/live-browser",
+        "run_endpoint": "/api/careerai/runs",
+        "controls": [
+          "pause",
+          "resume",
+          "takeover",
+          "screenshot"
+        ],
+        "read_only_until_approval": true
+      },
+      {
+        "id": "human-approval",
+        "type": "approval",
+        "label": "Human approval in Orca"
+      },
+      {
+        "id": "gmail-notification",
+        "type": "notification",
+        "label": "Gmail approval notification"
+      },
+      {
+        "id": "linkedin-gate",
+        "type": "approval",
+        "label": "LinkedIn/API authorization gate"
+      },
+      {
+        "id": "indeed-apply",
+        "type": "action",
+        "label": "Indeed apply (approved only)"
+      },
+      {
+        "id": "evidence-log",
+        "type": "report",
+        "label": "Application evidence"
+      },
+      {
+        "id": "autocorrection",
+        "type": "recovery",
+        "label": "Autocorrection and retry"
+      },
+      {
+        "id": "blocked-escalation",
+        "type": "approval",
+        "label": "Login/CAPTCHA/MFA escalation"
+      }
+    ],
+    "edges": [
+      {
+        "from": "career-command",
+        "to": "indeed-discovery"
+      },
+      {
+        "from": "indeed-discovery",
+        "to": "normalize-opportunity"
+      },
+      {
+        "from": "normalize-opportunity",
+        "to": "hermes-analysis"
+      },
+      {
+        "from": "hermes-analysis",
+        "to": "gemini-analysis"
+      },
+      {
+        "from": "gemini-analysis",
+        "to": "chatgpt-verification"
+      },
+      {
+        "from": "chatgpt-verification",
+        "to": "consensus-score"
+      },
+      {
+        "from": "consensus-score",
+        "to": "application-draft"
+      },
+      {
+        "from": "application-draft",
+        "to": "human-approval"
+      },
+      {
+        "from": "human-approval",
+        "to": "gmail-notification"
+      },
+      {
+        "from": "human-approval",
+        "to": "linkedin-gate"
+      },
+      {
+        "from": "linkedin-gate",
+        "to": "indeed-apply"
+      },
+      {
+        "from": "indeed-apply",
+        "to": "evidence-log"
+      },
+      {
+        "from": "indeed-apply",
+        "to": "autocorrection"
+      },
+      {
+        "from": "autocorrection",
+        "to": "evidence-log"
+      },
+      {
+        "from": "indeed-discovery",
+        "to": "blocked-escalation"
+      },
+      {
+        "from": "linkedin-gate",
+        "to": "blocked-escalation"
+      },
+      {
+        "from": "application-draft",
+        "to": "external-form-fill"
+      },
+      {
+        "from": "external-form-fill",
+        "to": "live-browser-monitor"
+      },
+      {
+        "from": "live-browser-monitor",
+        "to": "human-approval"
+      },
+      {
+        "from": "live-browser-monitor",
+        "to": "blocked-escalation"
+      },
+      {
+        "from": "indeed-apply",
+        "to": "live-browser-monitor"
+      },
+      {
+        "from": "live-browser-monitor",
+        "to": "evidence-log"
+      }
+    ],
+    "settings": {
+      "workflow_kind": "careerai_indeed_application",
+      "tenant_id_source": "request",
+      "provider_order": [
+        "hermes",
+        "gemini",
+        "openai"
+      ],
+      "source": "indeed",
+      "approval_required_before_apply": true,
+      "notification_channel": "gmail_draft_or_approved_send",
+      "linkedin_mode": "official_api_or_user_login_only",
+      "captcha_mfa_mode": "pause_and_escalate",
+      "idempotency_required": true,
+      "credential_source": "process.env",
+      "oauth_mode": "onscreen_pkce",
+      "oauth_vault": "encrypted:user_id/project_id/provider",
+      "browser_validation": "chrome-live-mcp",
+      "oauth_resume": true,
+      "oauth_reauth_on_expiry": true,
+      "audit_path": "data/careerai/audit.jsonl",
+      "opportunity_store": "data/careerai/opportunities.json",
+      "live_browser_monitoring": "enabled",
+      "external_form_fill": "prepare_only_multi_provider",
+      "run_tracking_store": "data/careerai/runs.jsonl"
+    },
+    "created_at": "2026-07-31T00:00:00.000Z",
+    "updated_at": "2026-08-26T23:57:54.484Z"
+  }
+]

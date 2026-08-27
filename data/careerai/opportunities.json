@@ -1,0 +1,54 @@
+{
+  "api-tenant": [
+    {
+      "opportunity_id": "api-job-1",
+      "tenant_id": "api-tenant",
+      "title": "Python Engineer",
+      "company": "Acme",
+      "url": "https://example.invalid",
+      "description": "Python Docker",
+      "status": "ready_for_review",
+      "match_score": 50,
+      "keywords": [
+        "python"
+      ],
+      "claims": [],
+      "requires_human_approval": true,
+      "metadata": {}
+    }
+  ],
+  "audit-tenant": [
+    {
+      "opportunity_id": "audit-job",
+      "tenant_id": "audit-tenant",
+      "title": "Engineer",
+      "company": "Acme",
+      "url": "https://example.invalid",
+      "description": "Python",
+      "status": "ready_for_review",
+      "match_score": 100,
+      "keywords": [
+        "python"
+      ],
+      "claims": [],
+      "requires_human_approval": true,
+      "metadata": {}
+    }
+  ],
+  "t-api": [
+    {
+      "opportunity_id": "de2d3cdee2550acc295c",
+      "tenant_id": "t-api",
+      "title": "Engineer",
+      "company": "Acme",
+      "url": "https://example.invalid/job",
+      "description": "Python",
+      "status": "discovered",
+      "match_score": null,
+      "keywords": [],
+      "claims": [],
+      "requires_human_approval": true,
+      "metadata": {}
+    }
+  ]
+}

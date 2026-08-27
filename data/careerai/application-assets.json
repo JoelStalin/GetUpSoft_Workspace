@@ -1,0 +1,38 @@
+{
+  "schema_version": "careerai.application-assets.v1",
+  "source_documents": [
+    {
+      "asset_id": "cv-original-es-2026",
+      "kind": "original_cv",
+      "path": "C:/Users/yoeli/Downloads/Joel_Stalin_Martinez_CV_ES_2026.pdf",
+      "sha256": "D5401D7A7BBC91AF21F54A0DEE35990F6DAACE6785707F6B8EB57DB95A72CD1B",
+      "immutable_source": true,
+      "content_copied_to_repo": false
+    }
+  ],
+  "derived_assets": {
+    "cv_customized": {"source": "cv-original-es-2026", "per_opportunity": true, "status": "draft_only"},
+    "cover_letter": {"source": "cv-original-es-2026", "per_opportunity": true, "status": "email_draft_only"},
+    "answers": {"source": "cv-original-es-2026", "per_opportunity": true, "status": "human_review_required"}
+  },
+  "external_application_policy": {
+    "allowed_redirect_targets": ["official_ats_or_employer_domain_after_user_confirmation"],
+    "pause_on": ["login", "consent", "captcha", "mfa", "unknown_domain", "file_upload", "submit"],
+    "submit_requires": ["opportunity_specific_approval", "human_review_of_cv", "human_review_of_cover_letter", "visible_form_checkpoint"],
+    "email_mode": "approved_send_after_explicit_approval",
+    "email_send_policy": {
+      "recipient_allowlist_required": true,
+      "opportunity_specific_approval_required": true,
+      "record_message_id": true,
+      "never_send_to_unverified_recipient": true
+    },
+    "whatsapp_notification": {
+      "mode": "sent_summary_only",
+      "include": ["recipient", "subject", "message_id", "opportunity_id", "sent_at"],
+      "exclude": ["access_token", "cookie", "full_cv", "full_email_body"],
+      "provider": "official_whatsapp_business_or_bsp",
+      "approval_required": true
+    },
+    "secrets_in_source_manifest": false
+  }
+}
