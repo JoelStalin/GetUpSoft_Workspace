@@ -17,8 +17,24 @@ function loadLocalEnv() {
 }
 loadLocalEnv();
 
-const recipient = process.argv[2];
-if (!recipient) throw new Error('Uso: node scripts/test_careerai_whatsapp_cloud_api_live.mjs <numero_E164_sin_mas>');
+// Numero de prueba configurable (nunca hardcodeado): WHATSAPP_TEST_NUMBER en .env.local o
+// primer argumento del CLI. Normaliza a E.164 asumiendo NANP (+1) si llega sin prefijo de
+// pais y con 10 digitos — el numero de prueba acordado (8492600983, Rep. Dominicana) entra
+// asi sin que haga falta escribir el "+1" en cada invocacion.
+function normalizeTestNumber(raw) {
+  if (!raw) return null;
+  const digits = String(raw).replace(/[^\d+]/g, '');
+  if (digits.startsWith('+')) return digits;
+  if (digits.length === 10) return `+1${digits}`;
+  return `+${digits}`;
+}
+
+const recipientE164 = normalizeTestNumber(process.argv[2] || process.env.WHATSAPP_TEST_NUMBER);
+if (!recipientE164) throw new Error('Uso: node scripts/test_careerai_whatsapp_cloud_api_live.mjs [numero] (o define WHATSAPP_TEST_NUMBER en .env.local)');
+// La Cloud API de Meta espera el campo "to" SIN el "+" inicial (solo digitos con codigo de
+// pais). Se guarda el E.164 completo para logging/trazabilidad y se pasa sin "+" a la API.
+const recipient = recipientE164.replace(/^\+/, '');
+console.log(JSON.stringify({ step: 'recipient_normalized', e164: recipientE164, sent_as: recipient }));
 
 const status = await cloudApiStatus();
 console.log(JSON.stringify({ step: 'status', ...status }));

@@ -18,16 +18,13 @@ const OUT = 'task-ledger/evidence/careerai/live-test';
 // dos rutas de perfil distintas para WhatsApp (el bug que si hubo entre
 // careerai_login_handoff.mjs y careerai_session_vault.mjs para LinkedIn/Indeed).
 const profileDir = path.resolve(process.env.WHATSAPP_WEB_PROFILE_DIR || 'apps/orca/chrome_profile/whatsapp-web');
-const minutesPerAttempt = Number(process.env.WHATSAPP_LOGIN_TIMEOUT_MINUTES || 12);
-const maxAttempts = Number(process.env.WHATSAPP_LOGIN_MAX_ATTEMPTS || 3);
 fs.mkdirSync(profileDir, { recursive: true });
 fs.mkdirSync(OUT, { recursive: true });
 
 // Diagnosticado 2026-08-28 (scripts/diagnose_whatsapp_web_qr.mjs, con screenshot y logs de
 // consola/red reales, no adivinado): el Chromium empaquetado de Playwright, con viewport
 // null y sin fijar UA, se quedaba atascado en la pantalla de carga — el QR nunca renderizaba.
-// Causa mas probable: deteccion de automatizacion (navigator.webdriver) + UA por defecto de
-// Chromium que WhatsApp Web no reconoce del todo. Fix confirmado con capturas reales:
+// Fix confirmado con capturas reales:
 //   - channel: 'chrome' -> usa el Chrome real instalado, no el binario de test de Playwright
 //   - UA de Chrome actual fijado explicitamente
 //   - viewport >= 1366x900 (WhatsApp Web esconde el QR bajo cierto ancho)
@@ -49,59 +46,56 @@ function writeStatus(record) {
   console.log(JSON.stringify(record));
 }
 
+// La ventana NO se cierra por timeout. WhatsApp Web regenera el QR solo cada ~20-30s sin
+// necesidad de recargar la pagina — el navegador se queda abierto indefinidamente, sondeando
+// cada 3s, hasta que la sesion quede activa o el proceso se mate externamente (Ctrl+C /
+// TaskStop). No hay deadline, no hay maxAttempts, no hay browser.close() en ningun camino
+// de espera o expiracion: closing solo ocurre una vez, al final, tras logged_in:true.
+await page.goto('https://web.whatsapp.com/', { waitUntil: 'domcontentloaded' }).catch(() => {});
+await page.bringToFront().catch(() => {});
+
+writeStatus({
+  step: 'whatsapp_login_handoff',
+  status: 'waiting_for_user',
+  instruction: 'Escanea el codigo QR con WhatsApp en tu telefono (usa un numero SECUNDARIO, no tu numero personal). El agente NO escribe credenciales. Esta ventana no se cierra sola: queda abierta hasta que se detecte la sesion.',
+  profile_dir: profileDir,
+});
+
 let loggedIn = false;
-let attempt = 0;
-
-while (!loggedIn && attempt < maxAttempts) {
-  attempt += 1;
-  await page.goto('https://web.whatsapp.com/', { waitUntil: 'domcontentloaded' }).catch(() => {});
-  // Trae la pestana y la ventana al frente: sin esto el QR puede quedar detras de otras
-  // ventanas del escritorio y el usuario no lo ve.
-  await page.bringToFront().catch(() => {});
-
-  writeStatus({
-    step: 'whatsapp_login_handoff',
-    status: 'waiting_for_user',
-    attempt,
-    max_attempts: maxAttempts,
-    timeout_minutes: minutesPerAttempt,
-    instruction: 'Escanea el codigo QR con WhatsApp en tu telefono (usa un numero SECUNDARIO, no tu numero personal). El agente NO escribe credenciales.',
-    profile_dir: profileDir,
-  });
-
-  const deadline = Date.now() + minutesPerAttempt * 60 * 1000;
-  while (Date.now() < deadline && !loggedIn) {
-    await new Promise((r) => setTimeout(r, 3000));
-    try {
-      const qrVisible = await page.locator('canvas[aria-label*="Scan"], canvas[aria-label*="scan"], div[data-testid="qrcode"]').first().isVisible().catch(() => false);
-      const chatListVisible = await page.locator('div[aria-label="Chat list"], div[data-testid="chat-list"]').first().isVisible().catch(() => false);
-      if (chatListVisible && !qrVisible) {
-        loggedIn = true;
-        await page.screenshot({ path: `${OUT}/whatsapp-web-session.png` }).catch(() => {});
-        writeStatus({
-          step: 'session_detected', platform: 'whatsapp_web', attempt,
-          detected_at: new Date().toISOString(), profile_dir: profileDir,
-        });
-      }
-    } catch { /* la pagina puede estar navegando */ }
-  }
-
-  if (!loggedIn) {
-    writeStatus({
-      step: 'whatsapp_login_handoff_attempt_expired',
-      status: 'expired', attempt, max_attempts: maxAttempts,
-      will_retry: attempt < maxAttempts,
-      profile_dir: profileDir,
-    });
-  }
+let pollCount = 0;
+while (!loggedIn) {
+  await new Promise((r) => setTimeout(r, 3000));
+  pollCount += 1;
+  try {
+    const chatListVisible = await page.locator('div[aria-label="Chat list"], div[data-testid="chat-list"]').first().isVisible().catch(() => false);
+    const qrVisible = await page.locator('canvas[aria-label*="Scan"], canvas[aria-label*="scan"], div[data-testid="qrcode"]').first().isVisible().catch(() => false);
+    if (chatListVisible && !qrVisible) {
+      loggedIn = true;
+      await page.screenshot({ path: `${OUT}/whatsapp-web-session.png` }).catch(() => {});
+      writeStatus({
+        step: 'session_detected', platform: 'whatsapp_web',
+        detected_at: new Date().toISOString(), profile_dir: profileDir,
+      });
+      break;
+    }
+    // Cada ~60s (20 sondeos de 3s), un latido para que se vea que el proceso sigue vivo y
+    // esperando, sin ruido excesivo en el log.
+    if (pollCount % 20 === 0) {
+      writeStatus({
+        step: 'whatsapp_login_handoff', status: 'still_waiting_for_user',
+        polls: pollCount, minutes_elapsed: Math.round((pollCount * 3) / 60),
+        instruction: 'Sigue esperando el escaneo del QR. La ventana no se va a cerrar sola.',
+        profile_dir: profileDir,
+      });
+    }
+  } catch { /* la pagina puede estar navegando o refrescando el QR; se reintenta solo */ }
 }
 
 const result = {
   ok: true,
   step: 'whatsapp_login_handoff_complete',
-  logged_in: loggedIn,
-  attempts_used: attempt,
-  detected_at: loggedIn ? new Date().toISOString() : null,
+  logged_in: true,
+  detected_at: new Date().toISOString(),
   profile_dir: profileDir,
   credentials_written_by_agent: false,
   submit_performed: false,

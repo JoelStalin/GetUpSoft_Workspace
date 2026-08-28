@@ -1408,3 +1408,35 @@ explicito) para repetir la verificacion de envio de forma inequivoca.
 Artefactos: `task-ledger/evidence/careerai/live-test/whatsapp-web-diagnose.png` (QR
 funcionando), `whatsapp-web-session.png` (login exitoso), `whatsapp-web-sent.png` y
 `whatsapp-web-verify2.png` (verificacion ambigua del envio).
+
+### 2026-08-28 (cont. 5) — Confirmacion definitiva: ambos proveedores funcionando end-to-end
+
+Con el numero de prueba confirmado por el propietario (`8492600983`, Rep. Dominicana, NANP
++1), normalizado y configurable via `WHATSAPP_TEST_NUMBER` (nunca hardcodeado):
+
+**Login handoff reescrito segun instruccion explicita:** sin deadline, sin `maxAttempts`, sin
+`context.close()` en ningun camino de expiracion — la ventana queda abierta indefinidamente
+sondeando cada 3s hasta `logged_in: true` o que el usuario mate el proceso. Late cada ~60s
+para confirmar que sigue vivo.
+
+**Cloud API — CONFIRMADO con mensaje real entregado:**
+- Texto libre: `message_id` real devuelto (`wamid.HBgLM...`), dentro de la ventana de
+  servicio.
+- Plantilla: **bloqueada por Meta, no por codigo.** Error `131037`: el numero de prueba
+  (`+1 555-963-8117`) no tiene el Display Name aprobado. Fix: Meta Business Suite -> Profiles
+  -> Edit Display Name -> proponer un nombre que represente el negocio -> esperar aprobacion
+  (minutos a dias). Documentado para que el propietario lo resuelva si quiere usar plantillas
+  con este numero de prueba.
+
+**WhatsApp Web — CONFIRMADO con verificacion real en el DOM, no solo el valor de retorno:**
+`test_careerai_whatsapp_web_live.mjs` reescrito para incluir un marcador unico
+(`CareerAI-test-<timestamp>`) en el texto y, despues de enviar, leer el DOM del chat buscando
+ese marcador en la ultima burbuja saliente. Resultado: `confirmed_in_dom: true`, texto
+coincide exactamente, captura visual con el mensaje en verde y doble check de entregado
+(`whatsapp-web-sent.png`). Resuelve la ambiguedad de la verificacion anterior (que uso el
+mismo numero por accidente y no se pudo confirmar sin ambiguedad).
+
+**Estado final: ambos proveedores (`WhatsAppCloudApiProvider`, `WhatsAppWebProvider`)
+verificados de punta a punta con mensajes reales entregados y confirmados.** Pendiente
+unicamente: aprobar el Display Name en Meta si se quiere usar plantillas de Cloud API con el
+numero de prueba actual.
