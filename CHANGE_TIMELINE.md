@@ -1072,3 +1072,42 @@ inexistente no configura nada, y que **un CLI que falla no se reporta como confi
 que fue el bug original: Hermes imprime su error y sale con codigo 0.
 
 Regresion offline: 36 scripts, todos en verde.
+
+---
+
+## 2026-08-28 — Prioridad NVIDIA/gratis en el consejo de LLM (Claude Code)
+
+**Rama:** `careerai/live-browser-run-tracking`
+
+**Contexto:** `TASK-ORCA-N8N-PARITY-RUNTIME-20260828` (n8n/Orca) quedo detenida en
+`codex-orca-restore-20260827` por `usage_limit_exceeded`. El usuario pidio, mientras esa
+tarea se retoma con Codex, que el consejo de proveedores de `careerai` priorice NVIDIA y
+modelos gratuitos, delegando a Gemini/ChatGPT antes de tocar un proveedor de pago.
+
+**Que cambio:**
+
+1. `apps/orca/src/careerai/llm-council.mjs` — los roles `code_review`, `systems_analysis`,
+   `reporting` y `qa_testing` ahora empiezan en `nvidia` -> `hermes` (gratis) y solo delegan
+   a `gemini`/`openai` despues; `claude` queda como ultimo respaldo en vez de titular.
+   `heavy_lifting` y `research` ya empezaban en NVIDIA/Hermes y no se tocaron.
+2. `scripts/test_careerai_model_delegation.mjs` actualizado para reflejar el nuevo orden
+   (`code_review`/`qa_testing` primary = `nvidia`, con `claude`/`gemini` como fallback).
+
+**Que NO se toco:** el resto de archivos con cambios locales sin commitear
+(`graph-layout.mjs`, `runs.mjs`, `workflow_blueprints.json`, `node-inventory.json`,
+`start_orca_local.mjs`, etc.) pertenecen al trabajo en curso de
+`codex-orca-restore-20260827` sobre paridad n8n; no se entendieron ni verificaron en esta
+sesion, asi que quedan fuera de este commit a proposito.
+
+**Regresion offline (`scripts/test_careerai_*.mjs`, 41 scripts):** 38 en verde. Los 3 que
+fallan son preexistentes y no relacionados con este cambio:
+- `test_careerai_nvidia_live.mjs` / `test_careerai_gemini_live.mjs`: pegan a la API real y
+  dependen de credenciales/cuota vigentes (NVIDIA responde HTTP 400 en este entorno ahora
+  mismo).
+- `test_careerai_canvas_live_browser.mjs`: falla al escribir
+  `task-ledger/evidence/careerai/canvas-live-browser.png` — el archivo esta bloqueado por
+  otro proceso (coincide con el PNG que ya aparecia modificado sin commitear).
+
+**Commit de cierre:** ver `git log -1` inmediatamente despues de esta entrada.
+**Para revertir:** `git revert <hash>` solo afecta a `llm-council.mjs` y al test de
+delegacion; no toca el resto del arbol de trabajo.

@@ -6,7 +6,15 @@ import path from 'node:path';
 import { execFileSync } from 'node:child_process';
 
 const DEFAULT_TIMEOUT = Number(process.env.CAREERAI_LLM_TIMEOUT_MS || 120000);
-const MAX_ATTEMPTS = Number(process.env.CAREERAI_LLM_RETRIES || 3);
+const MAX_ATTEMPTS = Number(process.env.CAREERAI_LLM_RETRIES || 1);
+
+function providerTimeoutMs(provider) {
+  const specific = Number(process.env[`CAREERAI_${provider.toUpperCase()}_TIMEOUT_MS`]);
+  if (Number.isFinite(specific) && specific > 0) return specific;
+  if (provider === 'hermes') return Math.min(DEFAULT_TIMEOUT, 15000);
+  if (provider === 'claude') return Math.min(DEFAULT_TIMEOUT, 90000);
+  return Math.min(DEFAULT_TIMEOUT, 60000);
+}
 
 // Codigos que significan "vuelve a intentarlo", no "esto no va a funcionar".
 // Tratarlos como definitivos hacia que el nodo escalara a un humano por una
@@ -25,25 +33,29 @@ const wait = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 // Reparto de roles del consejo. No todos los proveedores hacen lo mismo: cada uno tiene
 // una funcion y una cadena de respaldo para cuando el titular no responde.
 export const ROLES = {
-  // Hermes usa modelos gratuitos, asi que carga con las tareas de mayor consumo de tokens.
-  heavy_lifting: { primary: 'hermes', fallback: ['gemini', 'openai'] },
-  // Claude revisa codigo y cumplimiento.
-  code_review: { primary: 'claude', fallback: ['openai'] },
-  // ChatGPT hace analisis de sistema, documentacion y reportes (PDF, Excel).
-  systems_analysis: { primary: 'openai', fallback: ['claude'] },
-  reporting: { primary: 'openai', fallback: ['claude'] },
-  // Gemini se encarga de testing y QA.
-  qa_testing: { primary: 'gemini', fallback: ['hermes'] },
+  // NVIDIA NIM absorbe primero el trabajo pesado cuando existe un endpoint económico;
+  // Hermes queda como respaldo local/gratuito antes de gastar llamadas comerciales.
+  heavy_lifting: { primary: 'nvidia', fallback: ['hermes', 'gemini', 'openai'] },
+  // NVIDIA/Hermes (gratis) primero; Claude solo entra si nadie mas responde,
+  // porque revisar codigo con el proveedor comercial es el ultimo recurso, no el primero.
+  code_review: { primary: 'nvidia', fallback: ['hermes', 'gemini', 'openai', 'claude'] },
+  // NVIDIA/Hermes primero; ChatGPT/Gemini delegan el analisis de sistema y reportes
+  // antes de tocar un proveedor de pago mas caro.
+  systems_analysis: { primary: 'nvidia', fallback: ['hermes', 'openai', 'gemini', 'claude'] },
+  reporting: { primary: 'nvidia', fallback: ['hermes', 'openai', 'gemini', 'claude'] },
+  // Gemini/ChatGPT se encargan de testing y QA una vez agotado lo gratuito.
+  qa_testing: { primary: 'nvidia', fallback: ['hermes', 'gemini', 'openai'] },
   // La investigacion es la unica tarea que se vota entre varios.
-  research: { primary: 'hermes', fallback: ['gemini', 'openai'], council: true },
+  research: { primary: 'hermes', fallback: ['nvidia', 'gemini', 'openai'], council: true },
 };
 
 // Los proveedores se declaran con su fuente de credencial, nunca con la credencial dentro.
 export const PROVIDERS = {
+  nvidia: { transport: 'http', env: 'NVIDIA_NIM_BASE_URL' },
   hermes: { transport: 'cli', env: 'HERMES_CLI_PATH' },
   gemini: { transport: 'http', env: 'GEMINI_API_KEY' },
   openai: { transport: 'http', env: 'CHATGPT_API_KEY' },
-  claude: { transport: 'http', env: 'ANTHROPIC_API_KEY' },
+  claude: { transport: 'hybrid', env: ['ANTHROPIC_API_KEY', 'CLAUDE_CLI_PATH'] },
 };
 
 export function loadLocalEnv(root = process.cwd()) {
@@ -60,11 +72,37 @@ export function loadLocalEnv(root = process.cwd()) {
 export function availableProviders() {
   return Object.entries(PROVIDERS)
     .filter(([, config]) => {
-      const value = process.env[config.env];
-      if (!value) return false;
-      return config.transport === 'cli' ? fs.existsSync(value) : true;
+      const envNames = Array.isArray(config.env) ? config.env : [config.env];
+      const values = envNames.map((name) => ({ name, value: process.env[name] })).filter((item) => item.value);
+      if (!values.length) return false;
+      if (config.transport === 'cli') return values.some((item) => fs.existsSync(item.value));
+      if (config.transport === 'hybrid') {
+        return values.some((item) => item.name.endsWith('_API_KEY') || fs.existsSync(item.value));
+      }
+      return true;
     })
     .map(([name]) => name);
+}
+
+export function delegationSnapshot() {
+  const available = availableProviders();
+  return {
+    ok: true,
+    available,
+    unavailable: Object.keys(PROVIDERS).filter((name) => !available.includes(name)),
+    token_policy: {
+      strategy: 'primary_then_fallback',
+      max_attempts_per_provider: MAX_ATTEMPTS,
+      council_only_for: Object.entries(ROLES).filter(([, spec]) => spec.council).map(([role]) => role),
+    },
+    roles: Object.fromEntries(Object.entries(ROLES).map(([role, spec]) => [role, {
+      primary: spec.primary,
+      fallback: spec.fallback,
+      council: Boolean(spec.council),
+      configured_chain: [spec.primary, ...spec.fallback].filter((name) => available.includes(name)),
+    }])),
+    transports: Object.fromEntries(Object.entries(PROVIDERS).map(([name, config]) => [name, config.transport])),
+  };
 }
 
 // El CLI de Hermes imprime sus errores por stdout y termina con codigo 0. Sin esta
@@ -74,15 +112,45 @@ const HERMES_ERROR_RE = /^(API call failed|Error:|Traceback|No API key|Authentic
 
 function askHermes(prompt) {
   const cli = process.env.HERMES_CLI_PATH;
-  const raw = execFileSync(cli, ['-z', prompt], { encoding: 'utf8', timeout: DEFAULT_TIMEOUT }).trim();
+  const raw = execFileSync(cli, ['-z', prompt], { encoding: 'utf8', timeout: providerTimeoutMs('hermes') }).trim();
   const failure = raw.match(HERMES_ERROR_RE);
   if (failure) throw new Error(raw.split('\n')[0].slice(0, 160));
   if (!raw) throw new Error('respuesta vacia');
   return raw;
 }
 
+function askClaudeCli(prompt) {
+  const cli = process.env.CLAUDE_CLI_PATH;
+  const raw = execFileSync(cli, [
+    '-p', prompt,
+    '--output-format', 'text',
+    '--max-turns', '1',
+    '--setting-sources', 'project',
+    '--permission-mode', 'plan',
+  ], {
+    encoding: 'utf8',
+    timeout: providerTimeoutMs('claude'),
+    windowsHide: true,
+  }).trim();
+  if (!raw) throw new Error('respuesta vacia');
+  return raw;
+}
+
 async function askHttp(provider, prompt) {
   const endpoints = {
+    nvidia: {
+      url: () => `${process.env.NVIDIA_NIM_BASE_URL.replace(/\/$/, '')}/v1/chat/completions`,
+      headers: () => ({
+        'content-type': 'application/json',
+        ...(process.env.NVIDIA_API_KEY ? { authorization: `Bearer ${process.env.NVIDIA_API_KEY}` } : {}),
+      }),
+      body: () => JSON.stringify({
+        model: process.env.NVIDIA_MODEL || 'nvidia/nemotron-3.5-lightning-30b-a3b',
+        messages: [{ role: 'user', content: prompt }],
+        max_tokens: Number(process.env.NVIDIA_MAX_TOKENS || 2048),
+      }),
+      extract: (data) => data?.choices?.[0]?.message?.content,
+    },
     gemini: {
       url: () => `https://generativelanguage.googleapis.com/v1beta/models/${process.env.GEMINI_MODEL || 'gemini-flash-latest'}:generateContent?key=${process.env.GEMINI_API_KEY}`,
       headers: () => ({ 'content-type': 'application/json' }),
@@ -104,7 +172,14 @@ async function askHttp(provider, prompt) {
   };
 
   const spec = endpoints[provider];
-  const response = await fetch(spec.url(), { method: 'POST', headers: spec.headers(), body: spec.body() });
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), providerTimeoutMs(provider));
+  let response;
+  try {
+    response = await fetch(spec.url(), { method: 'POST', headers: spec.headers(), body: spec.body(), signal: controller.signal });
+  } finally {
+    clearTimeout(timer);
+  }
   if (!response.ok) throw new Error(`HTTP ${response.status}`);
   const text = spec.extract(await response.json());
   if (!text) throw new Error('respuesta vacia');
@@ -121,7 +196,11 @@ export async function askCouncil(prompt, { providers = availableProviders() } = 
     for (let attempt = 1; attempt <= MAX_ATTEMPTS; attempt += 1) {
       attempts = attempt;
       try {
-        const text = provider === 'hermes' ? askHermes(prompt) : await askHttp(provider, prompt);
+        const text = provider === 'hermes'
+          ? askHermes(prompt)
+          : provider === 'claude' && !process.env.ANTHROPIC_API_KEY
+            ? askClaudeCli(prompt)
+            : await askHttp(provider, prompt);
         answers.push({ provider, text, attempts });
         lastError = null;
         break;
