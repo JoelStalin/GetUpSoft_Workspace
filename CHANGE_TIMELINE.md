@@ -1356,3 +1356,19 @@ sigue ahí).
 Checkpoint: si algo falla a partir de aquí, revertir a `3cde1d43bb` (`git reset --hard
 3cde1d43bb`) descarta únicamente estos cambios de WhatsApp; no toca nada del otro agente en
 paralelo porque esos cambios siguen sin commitear en el working tree, no en el historial.
+
+### 2026-08-28 (cont. 3) — WhatsApp Web: dos intentos de login expirados
+
+Se lanzó `careerai_whatsapp_login_handoff.mjs` dos veces (ventanas de Chrome visibles con QR).
+Ambos intentos expiraron a los 5 minutos sin escaneo (`logged_in: false` las dos veces) — no
+hubo señal de que el usuario estuviera disponible para escanear en ese momento. No se
+relanzó una tercera vez sin confirmación explícita del usuario, para no abrir ventanas de
+navegador sin que nadie las vaya a usar.
+
+**Estado: bloqueado esperando al usuario.** Cuando esté listo para escanear el QR con WhatsApp
+(recomendado: número secundario/eSIM), pedir que se relance:
+`node scripts/careerai_whatsapp_login_handoff.mjs`. El perfil persistente
+(`apps/orca/chrome_profile/whatsapp-web`) sigue intacto entre intentos — no se pierde nada
+por los intentos expirados.
+
+Cloud API sigue confirmada y operativa (commit `3cde1d43bb`), sin bloqueo.
