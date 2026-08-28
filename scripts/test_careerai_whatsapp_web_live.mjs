@@ -4,9 +4,8 @@
 // despues de enviar (no solo confiando en el valor de retorno) para evitar falsos positivos
 // como el que se vio antes con un numero de prueba ambiguo.
 import fs from 'node:fs';
-import path from 'node:path';
-import { chromium } from '../apps/orca/workflow-editor/node_modules/playwright/index.mjs';
 import { prepareWebMessage, sendWebMessage, sessionStatus } from '../apps/orca/src/careerai/whatsapp-web-provider.mjs';
+import { connectForSending } from '../apps/orca/src/careerai/whatsapp-web-browser.mjs';
 
 function loadLocalEnv() {
   if (!fs.existsSync('.env.local')) return;
@@ -36,19 +35,11 @@ const recipient = normalizeTestNumber(process.argv[2] || process.env.WHATSAPP_TE
 if (!recipient) throw new Error('Uso: node scripts/test_careerai_whatsapp_web_live.mjs [numero] (o define WHATSAPP_TEST_NUMBER en .env.local)');
 console.log(JSON.stringify({ step: 'recipient_normalized', recipient }));
 
-const profileDir = path.resolve(process.env.WHATSAPP_WEB_PROFILE_DIR || 'apps/orca/chrome_profile/whatsapp-web');
-
-const context = await chromium.launchPersistentContext(profileDir, {
-  channel: 'chrome',
-  headless: false,
-  viewport: { width: 1366, height: 900 },
-  userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 Safari/537.36',
-  args: ['--start-maximized', '--disable-blink-features=AutomationControlled'],
-});
-await context.addInitScript(() => {
-  Object.defineProperty(navigator, 'webdriver', { get: () => undefined });
-});
-const page = context.pages().length ? context.pages()[0] : await context.newPage();
+// Modo ENVIO por defecto: headless, sin ventana. Pasa --visible o WHATSAPP_WEB_FORCE_VISIBLE=1
+// para depurar con ventana visible.
+const forceVisible = process.argv.includes('--visible');
+const { context, page } = await connectForSending({ forceVisible });
+console.log(JSON.stringify({ step: 'browser_connected', headless: !forceVisible && process.env.WHATSAPP_WEB_FORCE_VISIBLE !== '1' }));
 await page.goto('https://web.whatsapp.com/', { waitUntil: 'domcontentloaded' });
 await page.waitForTimeout(3000);
 

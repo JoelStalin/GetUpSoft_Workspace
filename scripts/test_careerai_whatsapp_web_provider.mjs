@@ -46,11 +46,20 @@ if (sinPagina.ok !== false) throw new Error('Sin una pagina de WhatsApp Web acti
 
 // --- envio real con pagina simulada: escribe y envia, con espera humana antes -----
 const acciones = [];
+const locatorSimulado = (selector) => ({
+  first: () => locatorSimulado(selector),
+  waitFor: async () => { acciones.push(['locator.waitFor', selector]); },
+  click: async () => { acciones.push(['locator.click', selector]); },
+  type: async (text) => { acciones.push(['locator.type', selector, text]); },
+  press: async (key) => { acciones.push(['locator.press', selector, key]); },
+});
 const paginaSimulada = {
   goto: async (url) => { acciones.push(['goto', url]); },
+  waitForTimeout: async () => {},
   waitForSelector: async (sel) => { acciones.push(['waitForSelector', sel]); },
   click: async (sel) => { acciones.push(['click', sel]); },
   type: async (sel, text) => { acciones.push(['type', sel, text]); },
+  locator: (sel) => locatorSimulado(sel),
   keyboard: { press: async (key) => { acciones.push(['press', key]); } },
 };
 

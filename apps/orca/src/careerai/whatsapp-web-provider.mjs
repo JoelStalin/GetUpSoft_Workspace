@@ -97,11 +97,21 @@ export async function sendWebMessage(prepared, { confirm = false, page = null, j
     // driver la soporta (best-effort, no rompe si no existe en el mock de test).
     await wait(typeof jitterMs === 'function' ? jitterMs() : jitterMs);
 
-    await page.goto(`https://web.whatsapp.com/send?phone=${encodeURIComponent(prepared.recipient_phone)}`, { waitUntil: 'domcontentloaded' }).catch(() => {});
-    const inputSelector = 'div[contenteditable="true"][data-tab="10"]';
-    await page.waitForSelector(inputSelector, { timeout: 30000 });
-    await page.click(inputSelector);
-    await page.type(inputSelector, prepared.text, { delay: 30 });
+    // Diagnosticado 2026-08-28, varias pasadas con screenshot y DOM reales (no adivinado):
+    // - headless:true puro nunca termina de montar la app (se queda en el splash
+    //   indefinidamente). Fix en whatsapp-web-browser.mjs: ventana headed fuera de pantalla.
+    // - Con la ventana fuera de pantalla, la busqueda + clic/teclado en el resultado de la
+    //   lista virtualizada resulto inestable (a veces no abre el chat). El deep-link
+    //   send?phone=<numero> SI es fiable — es el mismo mecanismo que ya se verifico
+    //   end-to-end en modo visible (confirmed_in_dom:true) — asi que se usa aqui tambien,
+    //   ahora que la carga fuera de pantalla ya no se queda atascada.
+    const target = prepared.recipient_phone.replace(/[^\d]/g, '');
+    await page.goto(`https://web.whatsapp.com/send?phone=${target}`, { waitUntil: 'domcontentloaded' }).catch(() => {});
+
+    const composerSelector = '#main div[contenteditable="true"][data-tab="10"]';
+    await page.waitForSelector(composerSelector, { timeout: 45000 });
+    await page.click(composerSelector);
+    await page.type(composerSelector, prepared.text, { delay: 30 });
     await page.keyboard.press('Enter');
 
     return {

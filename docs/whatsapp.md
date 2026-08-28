@@ -196,3 +196,19 @@ personal.
    riesgo (número de prueba de Meta).
 3. `web` queda pendiente de que el usuario escanee el QR (ver sección 6).
 4. Ejecutar la regresión: `node scripts/test_careerai_whatsapp_provider.mjs && node scripts/test_careerai_whatsapp_web_provider.mjs && node scripts/test_careerai_whatsapp_cloud_api.mjs`.
+
+## 7. Modo LOGIN vs modo ENVÍO (headless real, verificado)
+
+Separación explícita en `apps/orca/src/careerai/whatsapp-web-browser.mjs`:
+
+- `connectForLogin()` — siempre ventana visible en pantalla. Solo para escanear el QR una vez.
+- `connectForSending()` — sin ventana visible para el usuario por defecto. `WHATSAPP_WEB_FORCE_VISIBLE=1` fuerza ventana visible para depurar.
+
+**`headless: true` puro NO funciona:** confirmado con instrumentación real (screenshot + sondeo de `document.visibilityState`/`hidden` durante 20s) — la app se queda atascada indefinidamente en el splash de carga. No es un problema de la API de visibilidad (ambas reportaban "visible"); WhatsApp Web detecta el modo headless real de Chrome por otra vía y no termina de montar.
+
+**Lo que sí funciona:** ventana headed (`headless: false`) posicionada fuera de pantalla (`--window-position=-32000,-32000`). Chrome renderiza todo como una ventana real y visible — porque lo es, solo que no aparece donde el usuario pueda verla — sin el fingerprint de headless. Tarda más en cargar que en modo visible on-screen (~8-20s vs. casi instantáneo).
+
+**Envío confirmado de punta a punta en este modo** (sin ventana visible para el usuario, con verificación real en el DOM, no solo el valor de retorno): el deep-link `send?phone=<numero>` es el mecanismo fiable para abrir el chat — buscar+clic o navegación por teclado en la lista de resultados resultó inestable con la ventana fuera de pantalla (lista virtualizada, coordenadas de clic poco fiables). El selector del compositor real es `#main div[contenteditable="true"][data-tab="10"]`; la caja de búsqueda del sidebar es un `<input aria-label="Search or start a new chat">`, no un div contenteditable como se asumió inicialmente.
+
+Scripts de diagnóstico usados (quedan en el repo para depuración futura):
+`diagnose_whatsapp_web_headless.mjs`, `diagnose_whatsapp_web_search.mjs`, `diagnose_whatsapp_web_composer.mjs`.
