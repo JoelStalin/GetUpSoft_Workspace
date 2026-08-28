@@ -159,11 +159,40 @@ inversa (si es que se hace).
    dólares/euros, algunas 100% digitales sin ir a una tienda) dedicada solo a este bot. Si
    se banea, se pierde una SIM de bajo costo, no tu número.
 
-## 6. Próxima acción segura
+## 6. Resultado de la prueba real (2026-08-28)
+
+**No hay ningún MCP de Meta/WhatsApp conectado en este entorno** (se verificó buscando en
+las herramientas disponibles y en `.mcp.json` del repo — solo Gmail, Sheets, Chrome DevTools
+y Jupyter). Se confirma Graph API directa, que ya era el diseño.
+
+**Cloud API — probada de verdad, funciona:**
+
+1. `node scripts/send_whatsapp_test.mjs <numero>` — plantilla `3p_direct_integration_test_template`
+   enviada al número de prueba de Joel, entregada (`status: accepted`).
+2. Al probar `whatsapp-cloud-api.mjs` a través de la interfaz común
+   (`scripts/test_careerai_whatsapp_cloud_api_live.mjs`), se encontró un bug real: esta WABA
+   exige `appsecret_proof` (HMAC del token con `META_CLIENT_SECRET`) en cada llamada — el
+   módulo no lo mandaba y la API devolvía `HTTP 400: appsecret_proof is required`. Corregido
+   (mismo cálculo que ya usaban `debug_whatsapp_token.mjs`/`send_whatsapp_test.mjs`).
+3. Tras el fix: `cloudApiStatus` y el envío de texto libre funcionan de punta a punta
+   (mensaje real entregado, `message_id` devuelto). La ventana de servicio de 24h estaba
+   abierta en el momento de la prueba.
+4. Se añadió `sendCloudApiTemplate` (plantilla, no solo texto libre): es el único camino que
+   funciona **fuera** de la ventana de servicio — el caso normal de CareerAI, que notifica
+   sin que el cliente haya escrito primero.
+
+**WhatsApp Web — requiere tu intervención (bloqueo real, no de código):**
+
+`scripts/careerai_whatsapp_login_handoff.mjs` abre el navegador visible y espera el escaneo
+del QR. Esto **no lo puede hacer el agente** — necesita tu teléfono. Ver el aviso en el chat
+para el paso exacto y la recomendación de usar un número secundario/eSIM, no tu número
+personal.
+
+## 7. Próxima acción segura
 
 1. Configurar `WHATSAPP_PROVIDER=web` o `cloud` explícitamente en `.env.local` (no hay
    default).
-2. Si `web`: conseguir una eSIM/SIM secundaria antes de correr
-   `scripts/careerai_whatsapp_login_handoff.mjs`.
-3. Si `cloud`: probar hoy mismo con el número de prueba ya provisionado, sin coste ni riesgo.
+2. `cloud` ya está probado y funcionando hoy mismo, sin coste (ventana de servicio) y sin
+   riesgo (número de prueba de Meta).
+3. `web` queda pendiente de que el usuario escanee el QR (ver sección 6).
 4. Ejecutar la regresión: `node scripts/test_careerai_whatsapp_provider.mjs && node scripts/test_careerai_whatsapp_web_provider.mjs && node scripts/test_careerai_whatsapp_cloud_api.mjs`.

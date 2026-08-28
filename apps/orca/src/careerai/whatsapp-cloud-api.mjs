@@ -30,6 +30,20 @@ function payloadHashOf(payload) {
   return crypto.createHash('sha256').update(JSON.stringify(payload)).digest('hex');
 }
 
+// Esta WABA exige appsecret_proof (HMAC-SHA256 del access token con el app secret) en cada
+// llamada — sin el, la Graph API rechaza con "appsecret_proof is required but not provided."
+// Mismo calculo que ya usaban scripts/debug_whatsapp_token.mjs y send_whatsapp_test.mjs.
+function appsecretProof(accessToken, appSecret) {
+  if (!appSecret) return null;
+  return crypto.createHmac('sha256', appSecret).update(accessToken).digest('hex');
+}
+
+function withProof(url, accessToken, appSecret) {
+  const proof = appsecretProof(accessToken, appSecret);
+  if (proof) url.searchParams.set('appsecret_proof', proof);
+  return url;
+}
+
 function guardResult(stage, reason, extra = {}) {
   return { ok: false, status: 'blocked', blocked_at: stage, reason, send_performed: false, ...extra };
 }
@@ -92,13 +106,18 @@ export function prepareCloudApiMessage({
 export async function cloudApiStatus({
   accessToken = process.env.WHATSAPP_ACCESS_TOKEN,
   phoneNumberId = process.env.WHATSAPP_PHONE_NUMBER_ID,
+  appSecret = process.env.META_CLIENT_SECRET,
   fetchImpl = fetch,
 } = {}) {
   if (!accessToken || !phoneNumberId) {
     return { ok: false, configured: false, reason: 'faltan WHATSAPP_ACCESS_TOKEN o WHATSAPP_PHONE_NUMBER_ID' };
   }
   try {
-    const url = `https://graph.facebook.com/${GRAPH_API_VERSION}/${phoneNumberId}?fields=display_phone_number,verified_name,code_verification_status,is_official_business_account`;
+    const url = withProof(
+      new URL(`https://graph.facebook.com/${GRAPH_API_VERSION}/${phoneNumberId}`),
+      accessToken, appSecret,
+    );
+    url.searchParams.set('fields', 'display_phone_number,verified_name,code_verification_status,is_official_business_account');
     const response = await fetchImpl(url, { headers: { Authorization: `Bearer ${accessToken}` } });
     if (!response.ok) return { ok: false, configured: true, reason: `HTTP ${response.status}` };
     const data = await response.json();
@@ -124,6 +143,7 @@ export async function sendCloudApiMessage(prepared, {
   confirm = false,
   accessToken = process.env.WHATSAPP_ACCESS_TOKEN,
   phoneNumberId = process.env.WHATSAPP_PHONE_NUMBER_ID,
+  appSecret = process.env.META_CLIENT_SECRET,
   fetchImpl = fetch,
 } = {}) {
   if (!prepared?.ok || prepared.status !== 'ready_to_send') {
@@ -138,7 +158,10 @@ export async function sendCloudApiMessage(prepared, {
     return { ok: false, send_performed: false, reason: 'sin WHATSAPP_ACCESS_TOKEN o WHATSAPP_PHONE_NUMBER_ID configurados' };
   }
 
-  const url = `https://graph.facebook.com/${GRAPH_API_VERSION}/${phoneNumberId}/messages`;
+  const url = withProof(
+    new URL(`https://graph.facebook.com/${GRAPH_API_VERSION}/${phoneNumberId}/messages`),
+    accessToken, appSecret,
+  );
   try {
     const response = await fetchImpl(url, {
       method: 'POST',
@@ -153,7 +176,7 @@ export async function sendCloudApiMessage(prepared, {
     });
     const data = await response.json().catch(() => ({}));
     if (!response.ok) {
-      return { ok: false, send_performed: false, reason: data?.error?.message || `HTTP ${response.status}`, raw: data };
+      return { ok: false, send_performed: false, reason: data?.error?.message || `HTTP ${response.status}`, error_code: data?.error?.code ?? null, raw: data };
     }
     return {
       ok: true,
@@ -161,6 +184,68 @@ export async function sendCloudApiMessage(prepared, {
       opportunity_id: prepared.opportunity_id,
       idempotency_key: prepared.idempotency_key,
       approval_id: prepared.approval_id,
+      message_id: data?.messages?.[0]?.id || null,
+      raw: data,
+    };
+  } catch (error) {
+    return { ok: false, send_performed: false, reason: String(error?.message || error) };
+  }
+}
+
+// --- envio de PLANTILLA: unico camino que funciona FUERA de la ventana de servicio -----
+// El texto libre (sendCloudApiMessage) solo funciona si el destinatario escribio primero en
+// las ultimas 24h. Para notificaciones que el agente inicia (el caso normal de CareerAI),
+// hace falta una plantilla aprobada por Meta. Mismo patron de guardas que el envio de texto.
+export async function sendCloudApiTemplate(prepared, {
+  templateName,
+  languageCode = 'en_US',
+  components = [],
+  confirm = false,
+  accessToken = process.env.WHATSAPP_ACCESS_TOKEN,
+  phoneNumberId = process.env.WHATSAPP_PHONE_NUMBER_ID,
+  appSecret = process.env.META_CLIENT_SECRET,
+  fetchImpl = fetch,
+} = {}) {
+  if (!prepared?.ok || prepared.status !== 'ready_to_send') {
+    return { ok: false, send_performed: false, reason: 'nada preparado y listo para enviar', prepared };
+  }
+  if (!templateName) {
+    return { ok: false, send_performed: false, reason: 'falta templateName; sin plantilla no se puede enviar fuera de la ventana de servicio' };
+  }
+  if (confirm !== true) {
+    return { ok: false, send_performed: false, reason: 'falta confirmacion explicita (confirm: true) para el envio real' };
+  }
+  if (!accessToken || !phoneNumberId) {
+    return { ok: false, send_performed: false, reason: 'sin WHATSAPP_ACCESS_TOKEN o WHATSAPP_PHONE_NUMBER_ID configurados' };
+  }
+
+  const url = withProof(
+    new URL(`https://graph.facebook.com/${GRAPH_API_VERSION}/${phoneNumberId}/messages`),
+    accessToken, appSecret,
+  );
+  try {
+    const response = await fetchImpl(url, {
+      method: 'POST',
+      headers: { Authorization: `Bearer ${accessToken}`, 'content-type': 'application/json' },
+      body: JSON.stringify({
+        messaging_product: 'whatsapp',
+        recipient_type: 'individual',
+        to: prepared.recipient_phone,
+        type: 'template',
+        template: { name: templateName, language: { code: languageCode }, ...(components.length ? { components } : {}) },
+      }),
+    });
+    const data = await response.json().catch(() => ({}));
+    if (!response.ok) {
+      return { ok: false, send_performed: false, reason: data?.error?.message || `HTTP ${response.status}`, error_code: data?.error?.code ?? null, raw: data };
+    }
+    return {
+      ok: true,
+      send_performed: true,
+      opportunity_id: prepared.opportunity_id,
+      idempotency_key: prepared.idempotency_key,
+      approval_id: prepared.approval_id,
+      template: templateName,
       message_id: data?.messages?.[0]?.id || null,
       raw: data,
     };

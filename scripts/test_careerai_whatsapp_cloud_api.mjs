@@ -1,4 +1,4 @@
-import { prepareCloudApiMessage, sendCloudApiMessage, cloudApiStatus, idempotencyKey } from '../apps/orca/src/careerai/whatsapp-cloud-api.mjs';
+import { prepareCloudApiMessage, sendCloudApiMessage, sendCloudApiTemplate, cloudApiStatus, idempotencyKey } from '../apps/orca/src/careerai/whatsapp-cloud-api.mjs';
 
 const now = new Date('2026-08-28T12:00:00Z');
 const approval = {
@@ -71,6 +71,53 @@ if (calledBody.recipient_type !== 'individual') {
   throw new Error('Deliberadamente sin soporte de grupo: recipient_type siempre individual (ver nota OBA en el modulo)');
 }
 if (calledBody.messaging_product !== 'whatsapp') throw new Error('El payload debe seguir el contrato de la Cloud API');
+
+// --- appsecret_proof: se agrega a la URL cuando hay appSecret configurado --------
+let calledStatusUrl = null;
+await (async () => {
+  const fetchMock = async (url) => { calledStatusUrl = url.toString(); return { ok: true, json: async () => ({}) }; };
+  await cloudApiStatus({ accessToken: 'tok', phoneNumberId: '123', appSecret: 'secreto', fetchImpl: fetchMock });
+})();
+if (!/appsecret_proof=/.test(calledStatusUrl)) {
+  throw new Error('Con appSecret configurado, la URL debe incluir appsecret_proof (esta WABA lo exige)');
+}
+
+let calledStatusUrlSinSecret = null;
+await (async () => {
+  const fetchMock = async (url) => { calledStatusUrlSinSecret = url.toString(); return { ok: true, json: async () => ({}) }; };
+  await cloudApiStatus({ accessToken: 'tok', phoneNumberId: '123', appSecret: '', fetchImpl: fetchMock });
+})();
+if (/appsecret_proof=/.test(calledStatusUrlSinSecret)) {
+  throw new Error('Sin appSecret configurado, no debe inventarse un appsecret_proof invalido');
+}
+
+// --- sendCloudApiTemplate: unico camino que funciona fuera de la ventana de servicio --
+let calledTemplateUrl = null;
+let calledTemplateBody = null;
+const fetchMockTemplate = async (url, opts) => {
+  calledTemplateUrl = url.toString();
+  calledTemplateBody = JSON.parse(opts.body);
+  return { ok: true, json: async () => ({ messages: [{ id: 'wamid.TEMPLATE123' }] }) };
+};
+const preparedParaTemplate = prepareCloudApiMessage({
+  opportunity: { opportunity_id: 'opp-2' },
+  approval: { ...approval, opportunity_id: 'opp-2' },
+  recipientPhone: '+1 809 555 0100', text: '[plantilla]', now,
+});
+const enviadoTemplate = await sendCloudApiTemplate(preparedParaTemplate, {
+  templateName: 'careerai_status_update', languageCode: 'es_MX', confirm: true,
+  accessToken: 'tok', phoneNumberId: '123', appSecret: 'secreto', fetchImpl: fetchMockTemplate,
+});
+if (enviadoTemplate.ok !== true || enviadoTemplate.template !== 'careerai_status_update') {
+  throw new Error('Con confirm:true, templateName y credenciales, debe enviar la plantilla');
+}
+if (calledTemplateBody.type !== 'template' || calledTemplateBody.template.name !== 'careerai_status_update') {
+  throw new Error('El payload debe declarar type:template con el nombre correcto');
+}
+if (!/appsecret_proof=/.test(calledTemplateUrl)) throw new Error('El envio de plantilla tambien debe incluir appsecret_proof');
+
+const sinTemplateName = await sendCloudApiTemplate(preparedParaTemplate, { confirm: true, accessToken: 'tok', phoneNumberId: '123' });
+if (sinTemplateName.ok !== false) throw new Error('Sin templateName, no se puede enviar fuera de la ventana de servicio');
 
 // --- estado de configuracion: distingue numero de prueba de numero real ----------
 const statusPrueba = await cloudApiStatus({
