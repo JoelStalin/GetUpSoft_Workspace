@@ -1440,3 +1440,52 @@ mismo numero por accidente y no se pudo confirmar sin ambiguedad).
 verificados de punta a punta con mensajes reales entregados y confirmados.** Pendiente
 unicamente: aprobar el Display Name en Meta si se quiere usar plantillas de Cloud API con el
 numero de prueba actual.
+
+### 2026-08-28 (cont. 6) — Prueba end-to-end LinkedIn: bloqueos reales, no simulados
+
+Se pidio una prueba real: 5 postulaciones AS400 en LinkedIn + 5 correos por OCR de posts con
+imagen + aprobacion por WhatsApp. Se investigo cada pieza en vez de fabricar resultados.
+
+**LinkedIn: sin sesion activa (verificado en vivo, no con el archivo de estado desactualizado).**
+Se lanzo `careerai_login_handoff.mjs` (con el mismo fix de Chrome real/UA/viewport/anti-deteccion
+que WhatsApp Web, mas espera indefinida sin cierre por timeout). Encontrado y resuelto en el
+camino: un Chrome zombie de una verificacion anterior tenia el perfil `careerai-migrated`
+bloqueado (`lockfile` en uso) — identificado con `Get-CimInstance` por linea de comando exacta
+y cerrado (no un `pkill` ciego a todo Chrome, que habria cerrado la navegacion real del
+usuario).
+
+**Correccion del usuario: perfil de Chrome equivocado.** El pipeline debia usar el perfil
+`Default` real del usuario (`careerai_apply_with_chrome_profile.mjs`, ya existente, revisado
+antes de escribir nada nuevo), no un perfil dedicado del agente — asi es como Codex lo hace y
+por eso a Codex si le funciona. **Bloqueante real encontrado: 15 procesos de Chrome normales
+del usuario estaban corriendo**, bloqueando el perfil Default. No se cerraron (podrian tener
+pestañas sin guardar) — se le pidio al usuario que cierre Chrome el mismo.
+
+**OCR: limitacion honesta señalada antes de prometer algo que no se puede cumplir.** El motor
+OCR del proyecto (`careerai_ocr.ps1`, Windows.Media.Ocr nativo) no expone confianza por
+palabra — a diferencia de lo que se pedia ("marcar emails de baja confianza"). Se documento la
+limitacion en vez de fabricar un numero de confianza falso.
+
+**Hallazgo sobre el perfil del usuario:** `data/careerai/application-assets.json` SI apunta al
+CV real de Joel (ruta, hash verificado), pero solo `validate_careerai_application_assets.mjs`
+lo lee — ningun script del pipeline real conecta ese CV a `application-tailor.mjs` para una
+oportunidad real todavia. Los modulos (`buildTailorPrompt`, etc.) son puros y reciben
+`cvText` inyectado; falta el script que extraiga el texto del CV real y lo pase de verdad.
+Reportado, no resuelto en este pase (requiere primero resolver el bloqueo de LinkedIn).
+
+**WhatsApp Web headless/off-screen (pieza aparte, resuelta de verdad):** ver commit
+`dbafcbe987` — `headless:true` puro no carga la app (confirmado con instrumentacion real, no
+solo el bug del QR); ventana headed fuera de pantalla si funciona; deep-link `send?phone=` es
+el mecanismo fiable para abrir el chat (busqueda+clic resulto inestable con la ventana fuera
+de pantalla). Confirmado con verificacion real en el DOM.
+
+**Portal `careerai.getupsoft.com`: diseño entregado en `docs/portal.md`, sin construir nada.**
+DNS de `getupsoft.com` ya existe en Cloudflare (sin trabajo extra); LinkedIn/Indeed/WhatsApp
+Web se documentan explicitamente como "sesion de navegador", no OAuth. Decision pendiente y
+bloqueante señalada: arquitectura de sesiones (agente local vs. todo en servidor) — no se
+construye nada hasta que el propietario decida ese punto.
+
+**Estado real al cierre de este pase: 0 de las 10 candidaturas pedidas se generaron**, porque
+el primer paso (sesion de LinkedIn en el perfil correcto) sigue bloqueado esperando que el
+usuario cierre Chrome. No se simulo ni se fabrico ninguna candidatura para poder reportar
+"10 listas".

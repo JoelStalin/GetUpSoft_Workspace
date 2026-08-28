@@ -16,10 +16,19 @@ const platforms = [
   { id: 'indeed', login: 'https://secure.indeed.com/account/login', check: 'https://myjobs.indeed.com/saved', signal: (url, text) => !/\/account\/login/.test(url) && /Saved|Guardados|My jobs/i.test(text) },
 ];
 
+// Mismo fix que se aplico a WhatsApp Web (2026-08-28, diagnosticado con
+// scripts/diagnose_whatsapp_web_qr.mjs): Chrome real + UA fijo + viewport grande +
+// anti-deteccion, en vez del Chromium empaquetado de Playwright con viewport null. LinkedIn
+// tambien es agresivo detectando automatizacion en su pantalla de login.
 const context = await chromium.launchPersistentContext(profileDir, {
+  channel: 'chrome',
   headless: false,
-  viewport: null,
-  args: ['--start-maximized'],
+  viewport: { width: 1366, height: 900 },
+  userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 Safari/537.36',
+  args: ['--start-maximized', '--disable-blink-features=AutomationControlled'],
+});
+await context.addInitScript(() => {
+  Object.defineProperty(navigator, 'webdriver', { get: () => undefined });
 });
 
 const pages = [];
@@ -28,14 +37,18 @@ for (const platform of platforms) {
   await page.goto(platform.login, { waitUntil: 'domcontentloaded' }).catch(() => {});
   pages.push({ platform, page });
 }
+await pages[0]?.page.bringToFront().catch(() => {});
 
-console.log(JSON.stringify({ step: 'login_handoff', status: 'waiting_for_user', platforms: platforms.map((p) => p.id), instruction: 'Inicia sesion manualmente en las pestanas abiertas. El agente NO escribe credenciales.' }));
+console.log(JSON.stringify({ step: 'login_handoff', status: 'waiting_for_user', platforms: platforms.map((p) => p.id), instruction: 'Inicia sesion manualmente en las pestanas abiertas. El agente NO escribe credenciales. Esta ventana no se cierra sola: queda abierta hasta que ambas sesiones queden activas.' }));
 
-// Espera hasta 8 minutos a que el usuario inicie sesion, revisando cada 15 s.
-const deadline = Date.now() + 8 * 60 * 1000;
+// La ventana NO se cierra por timeout (mismo criterio que WhatsApp Web): sondea
+// indefinidamente cada 15s hasta que las dos plataformas queden logueadas, o hasta que el
+// proceso se mate externamente. Sin deadline, sin browser.close() en ningun camino de espera.
 const state = {};
-while (Date.now() < deadline && Object.keys(state).length < platforms.length) {
+let pollCount = 0;
+while (Object.keys(state).length < platforms.length) {
   await new Promise((r) => setTimeout(r, 15000));
+  pollCount += 1;
   for (const { platform, page } of pages) {
     if (state[platform.id]) continue;
     try {
@@ -47,6 +60,13 @@ while (Date.now() < deadline && Object.keys(state).length < platforms.length) {
         console.log(JSON.stringify({ step: 'session_detected', platform: platform.id }));
       }
     } catch { /* pestana navegando */ }
+  }
+  if (pollCount % 4 === 0 && Object.keys(state).length < platforms.length) {
+    console.log(JSON.stringify({
+      step: 'login_handoff', status: 'still_waiting_for_user',
+      pending: platforms.map((p) => p.id).filter((id) => !state[id]),
+      minutes_elapsed: Math.round((pollCount * 15) / 60),
+    }));
   }
 }
 
