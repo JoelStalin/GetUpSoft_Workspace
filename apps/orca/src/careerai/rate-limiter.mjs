@@ -12,6 +12,10 @@ const PORTAL_MIN_INTERVAL_MS = {
   greenhouse: 20_000,
   lever: 20_000,
   workday: 60_000,
+  // whatsapp_web reutiliza el mismo mecanismo de espaciado que los portales de discovery:
+  // WhatsApp Web via automatizacion no oficial arriesga el numero si se envian rafagas.
+  // Ver docs/whatsapp.md para el detalle del riesgo de baneo.
+  whatsapp_web: 15_000,
 };
 
 // Portal no declarado: no se inventa un numero optimista. Se aplica el intervalo mas

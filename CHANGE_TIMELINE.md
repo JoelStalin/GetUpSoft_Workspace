@@ -1268,3 +1268,52 @@ en verde).
 recomendado vs. Evolution API/Baileys ya cableado) y si se acepta el vencimiento del token
 temporal (2026-10-05) migrando a un token de System User permanente (gratis, requiere
 configurarlo una vez en Meta Business Manager).
+
+### 2026-08-28 (cont.) — Decisión del propietario: WhatsApp Web (gratis) + Cloud API como opción de pago
+
+El propietario decidió: WhatsApp Web automatizado (Playwright, gratis, riesgo asumido) como
+proveedor principal, con la Cloud API oficial dejada lista como alternativa activable por
+config. No usar MCP de navegador para esto: los `mcp__Claude_Browser__*` son de la sesión de
+chat, no algo que el proceso Node de CareerAI pueda invocar de forma desatendida — se
+confirma Playwright directo, mismo patrón que el login de LinkedIn/Indeed.
+
+**Arquitectura de dos proveedores**, seleccionable por `WHATSAPP_PROVIDER=web|cloud` (sin
+default implícito):
+
+- `apps/orca/src/careerai/whatsapp-provider.mjs` — interfaz común + guardas anti-baneo:
+  `checkOptIn` (nunca se escribe sin opt-in confirmado), `checkDailyLimit` (40/dia por
+  defecto), `buildSendPlan` (combina ambas + espaciado, reutilizando `checkRateLimit` de
+  `rate-limiter.mjs` — se le agregó la entrada `whatsapp_web: 15_000ms`).
+- `apps/orca/src/careerai/whatsapp-web-provider.mjs` — `prepareWebMessage`/`sendWebMessage`,
+  mismo patrón guard que el resto (aprobación, `confirm: true` explícito). El envío inyecta
+  la `page` de Playwright (duck typing) para poder probarse sin abrir navegador real. Espera
+  humana con jitter aleatorio antes de cada envío, nunca ráfagas.
+- `scripts/careerai_whatsapp_login_handoff.mjs` — mismo patrón que
+  `careerai_login_handoff.mjs`: perfil de Chromium persistente **separado**
+  (`chrome_profile/whatsapp-web`), el usuario escanea el QR una vez, sesión detectada
+  automáticamente (lista de chats visible sin canvas de QR).
+- `apps/orca/src/careerai/whatsapp-cloud-api.mjs` (del commit anterior) queda como el
+  proveedor `cloud`, ya funcional, no un esqueleto — falta soporte de plantillas para
+  producción con volumen real fuera de la ventana de 24h.
+- Grupos evaluados y descartados por ahora: WhatsApp Web sí los soporta técnicamente, pero
+  automatizar creación/gestión de grupos añade superficie de detección sin beneficio real
+  sobre 1-a-1 (mensaje al cliente + notificación aparte al admin logra lo mismo).
+
+**Documentación completa en `docs/whatsapp.md`:** pricing verificado agosto 2026 por
+categoría (utilidad/autenticación/marketing/servicio) con estimados de costo mensual para
+100/1,000/10,000 notificaciones, y la respuesta directa a la pregunta del número principal:
+con WhatsApp Web se arriesga el WhatsApp personal si hay baneo (recomendación: eSIM/SIM
+secundaria barata); con la Cloud API, registrar un número lo saca de forma efectivamente
+irreversible de la app normal de WhatsApp (confirmado con fuentes externas) — para probar
+sin riesgo, usar el número de prueba gratis que Meta ya asignó (visible en `.env.local`,
+sirve hasta para 5 destinatarios pre-verificados).
+
+Tests: `test_careerai_whatsapp_provider.mjs`, `test_careerai_whatsapp_web_provider.mjs`
+(ambos en verde, además de `test_careerai_rate_limiter.mjs` y `test_careerai_whatsapp_cloud_api.mjs`
+re-verificados). No se corrió `npm run careerai:regression` completo esta vez: `package.json`
+tiene cambios sin commitear de otro agente trabajando en paralelo en este repo
+(`codex-orca-restore-20260827`); se corrieron los tests nuevos directo con `node` en vez de
+tocar ese archivo.
+
+Grafo (sin cambios de esta tarea; el salto a 62 nodos/105 edges es del otro agente en
+paralelo, no de esta sesión): 62 nodos, 105 edges.
