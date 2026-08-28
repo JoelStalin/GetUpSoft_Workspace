@@ -1223,3 +1223,48 @@ activo revertirlo rompe nada en ejecucion).
 `.env.orca.local`, levantar `evolution-api` con el profile `whatsapp`, vincular una instancia
 por QR, y solo entonces preparar el primer mensaje real de prueba — con aprobacion y
 `confirm: true` explicitos del usuario para ese envio puntual.
+
+### 2026-08-28 — WhatsApp: investigacion de opciones y conector Cloud API oficial
+
+El propietario pidio conectar WhatsApp gratis evitando el riesgo de baneo de Meta, y
+proponia la idea de un grupo con el (usuario nuevo) + Joel para las notificaciones.
+Investigacion con datos actuales (no supuestos, agosto 2026) antes de escribir codigo:
+
+**Grupos por API: descartado, con evidencia oficial.** Existe una Groups API real en la
+WhatsApp Business Platform, pero exige "Official Business Account" (OBA), que requiere
+notabilidad de marca (cobertura de prensa, ser una marca ya buscada) — inalcanzable para
+este agente. Aun calificando: maximo 8 participantes, y se unen por link de invitacion, no
+automatico. Se verifico directo en developers.facebook.com, no en blogs de SEO.
+
+**Estado real de las credenciales ya en `.env.local`:** se corrio `scripts/debug_whatsapp_token.mjs`
+(ya existia, solo lectura). Token valido pero temporal (expira 2026-10-05), numero de telefono
+con prefijo 555 (numero de PRUEBA que Meta asigna en el Quick Start, `is_official_business_account: false`),
+plantilla auto-generada de test. Sirve para probar, no para produccion real.
+
+**Pricing verificado (cambia seguido, se confirmo con busqueda actual):** conversaciones de
+servicio (iniciadas por el destinatario, ventana de 24h) son gratis e ilimitadas hoy. Ese
+beneficio termina el 2026-10-01 (~5 semanas): desde esa fecha las respuestas dentro de la
+ventana empiezan a cobrarse (tarifas bajas). No afecta arrancar esta semana.
+
+**Contradiccion encontrada con la decision previa de esta misma sesion de trabajo:** la
+entrada anterior de este archivo documenta la eleccion de Evolution API/Baileys (no oficial)
+como camino "gratis". Investigacion 2026 sobre deteccion de automatizacion muestra baneo tipico
+en 2-8 semanas sin patron predecible y sin aviso — riesgo real si se vincula el numero de Joel.
+Con las credenciales OFICIALES ya provisionadas y sin costo real para el volumen de este
+agente, **se recomienda la Cloud API oficial de Meta en vez de Baileys**, no como sustituto de
+`whatsapp.mjs` (se deja intacto) sino como alternativa preferida.
+
+**Implementado (inerte, detras de flag, sin activar nada por defecto):**
+`apps/orca/src/careerai/whatsapp-cloud-api.mjs` — mismo patron de guardas que `senders.mjs`/
+`whatsapp.mjs` (aprobacion vigente por oportunidad, allowlist de numeros, idempotencia,
+`confirm: true` explicito para el envio real). `recipient_type` siempre `individual`: sin
+soporte de grupo por diseno (ver motivo OBA arriba). Como equivalente al grupo propuesto: se
+prepara un mensaje 1-a-1 al cliente y otro aparte al admin (mismo destinatario final —"los dos
+enterados"— sin depender de una funcion inalcanzable). Test: `test_careerai_whatsapp_cloud_api.mjs`,
+28/28 -> 29/29 en la cadena de regresion (mas los agregados de otra sesion en paralelo, 40+/40+
+en verde).
+
+**Pendiente de decision del propietario:** cuál transporte usar por defecto (Cloud API oficial
+recomendado vs. Evolution API/Baileys ya cableado) y si se acepta el vencimiento del token
+temporal (2026-10-05) migrando a un token de System User permanente (gratis, requiere
+configurarlo una vez en Meta Business Manager).
