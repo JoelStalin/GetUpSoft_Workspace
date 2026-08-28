@@ -1372,3 +1372,39 @@ navegador sin que nadie las vaya a usar.
 por los intentos expirados.
 
 Cloud API sigue confirmada y operativa (commit `3cde1d43bb`), sin bloqueo.
+
+### 2026-08-28 (cont. 4) — QR arreglado, login exitoso, pero verificacion de envio ambigua
+
+**Bug del QR atascado: diagnosticado y corregido de verdad** (ver commit `05ed05f3b2`):
+Chromium empaquetado de Playwright + viewport null + sin UA fijo se quedaba en el splash de
+carga. Con `channel: 'chrome'` (Chrome real instalado), UA fijo, viewport 1366x900 y
+`navigator.webdriver` sobreescrito, el QR renderizo correctamente — confirmado con
+screenshots reales contra el perfil de diagnostico Y contra el perfil de produccion.
+
+**Login real exitoso en el primer intento** con el fix aplicado: `logged_in: true`,
+`attempt: 1`, sesion detectada y persistida en `apps/orca/chrome_profile/whatsapp-web` (mismo
+directorio que lee `whatsapp-web-provider.mjs`, sin bug de perfiles cruzados).
+
+**Aviso entregado al usuario:** la lista de chats visible en el screenshot muestra historial
+establecido (contactos guardados, chat oficial de WhatsApp con actividad), no un numero
+claramente nuevo/secundario. Se le señalo explicitamente el riesgo de baneo si es su numero
+personal.
+
+**Verificacion de envio: resultado ambiguo, no se sigue adivinando con mas mensajes reales.**
+`test_careerai_whatsapp_web_live.mjs` reporto `send_performed: true` sin error al enviar a
+`+18492600983` (el numero del CV del usuario, ya usado como destinatario en las pruebas de
+Cloud API). Al reabrir el chat para confirmar visualmente, el hilo con ese numero aparece
+etiquetado `Business Account` con el banner de Cloud API ("This business is now using a
+secure service from Meta"), y el mensaje de prueba de WhatsApp Web no aparece claramente en
+el. Hipotesis mas probable: el numero de prueba usado coincide con (o esta muy relacionado
+con) el numero logueado en esta sesion de WhatsApp Web, lo que hace que `send?phone=` no
+abra una conversacion normal. No se investigo mas a fondo enviando mensajes adicionales a
+numeros reales para no arriesgar escribirle a un contacto equivocado.
+
+**Pendiente de aclaracion del usuario:** confirmar (a) que numero quedo vinculado a esta
+sesion de WhatsApp Web, y (b) un numero de prueba DISTINTO al vinculado (con opt-in
+explicito) para repetir la verificacion de envio de forma inequivoca.
+
+Artefactos: `task-ledger/evidence/careerai/live-test/whatsapp-web-diagnose.png` (QR
+funcionando), `whatsapp-web-session.png` (login exitoso), `whatsapp-web-sent.png` y
+`whatsapp-web-verify2.png` (verificacion ambigua del envio).
