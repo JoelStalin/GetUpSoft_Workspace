@@ -1317,3 +1317,42 @@ tocar ese archivo.
 
 Grafo (sin cambios de esta tarea; el salto a 62 nodos/105 edges es del otro agente en
 paralelo, no de esta sesión): 62 nodos, 105 edges.
+
+### 2026-08-28 (cont. 2) — Pruebas reales ejecutadas: Cloud API confirmada, WhatsApp Web esperando QR
+
+Con luz verde del propietario ("prepara ambas pruebas ya"), se ejecutaron pruebas REALES (no
+mock) contra la API de Meta de verdad, no solo tests unitarios.
+
+**Cloud API — funcionando de punta a punta, bug real encontrado y corregido en el camino:**
+
+- Se confirmó primero (via `.mcp.json` del repo y las herramientas disponibles en esta
+  sesión) que **no hay ningún MCP de Meta/WhatsApp conectado**; se mantiene Graph API
+  directa, que ya era el diseño correcto.
+- `node scripts/send_whatsapp_test.mjs <numero>` (script previo, sin tocar) confirmó que la
+  plantilla `3p_direct_integration_test_template` se entrega de verdad.
+- Al probar el módulo propio (`whatsapp-cloud-api.mjs`) a través de la interfaz común, la
+  Graph API devolvió `HTTP 400: appsecret_proof is required but not provided` — esta WABA
+  exige ese HMAC en cada llamada y el módulo no lo mandaba. Corregido (mismo cálculo que ya
+  usaban `debug_whatsapp_token.mjs`/`send_whatsapp_test.mjs`).
+- Tras el fix: `cloudApiStatus`, envío de texto libre (dentro de ventana de servicio) y envío
+  de plantilla (nueva función `sendCloudApiTemplate`, el único camino que funciona **fuera**
+  de la ventana — el caso normal de las notificaciones de CareerAI) — los tres confirmados
+  con mensajes reales entregados y `message_id` devuelto.
+- Nuevo script `scripts/test_careerai_whatsapp_cloud_api_live.mjs`: prueba real (no mock)
+  reutilizable para el número de prueba. Cobertura mockeada del fix añadida a
+  `test_careerai_whatsapp_cloud_api.mjs`.
+- Commit: `3cde1d43bb`.
+
+**WhatsApp Web — bloqueo real, no de código, esperando al propietario:**
+
+Se lanzó `node scripts/careerai_whatsapp_login_handoff.mjs` en segundo plano: abrió un
+Chromium visible con el QR de `web.whatsapp.com`. Escanear el QR requiere el teléfono del
+propietario — no es algo que el agente pueda resolver. Se le indicó el paso exacto (WhatsApp
+→ Dispositivos vinculados → Vincular un dispositivo) y se reiteró la recomendación de usar un
+número secundario/eSIM, no el número personal. Ventana de espera: 5 minutos desde el
+lanzamiento; si expira sin escaneo, se puede relanzar sin perder nada (el perfil persistente
+sigue ahí).
+
+Checkpoint: si algo falla a partir de aquí, revertir a `3cde1d43bb` (`git reset --hard
+3cde1d43bb`) descarta únicamente estos cambios de WhatsApp; no toca nada del otro agente en
+paralelo porque esos cambios siguen sin commitear en el working tree, no en el historial.
