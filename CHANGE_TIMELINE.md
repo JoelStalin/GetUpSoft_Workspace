@@ -1162,3 +1162,64 @@ los workers ni las pruebas nuevas sin trackear, asi que no puedo certificar que 
 **Commit de cierre:** ver `git log -1` inmediatamente despues de esta entrada.
 **Para revertir:** `git revert <hash>` solo afecta a `llm-council.mjs` y al test de
 delegacion; no toca el resto del arbol de trabajo.
+
+---
+
+## 2026-08-28 — Conector WhatsApp via Evolution API, gratis y con las mismas guardas que email/formulario (Claude Code)
+
+**Rama:** `careerai/live-browser-run-tracking`
+
+**Contexto:** el usuario compartio un documento de arquitectura (comparativa de frameworks
+de voz/WhatsApp open-source: LiveKit, Dograh, Pipecat, Evolution API, Chatwoot, n8n) y pidio
+una conversacion mas fluida y una conexion de WhatsApp mas real, priorizando servicios
+gratuitos, con el objetivo final de enviar 5-10 postulaciones reales (CV desde su Drive) por
+correo y por formulario derivado de LinkedIn. Se acordo explicitamente con el usuario que
+**cada envio real requiere su aprobacion individual** — no hay loop autonomo que envie sin
+confirmacion humana por accion, siguiendo el mismo patron `prepare -> approval -> confirm`
+que ya usaban `email-apply-sender` y `submit-executor` en `senders.mjs`.
+
+**Que cambio:**
+
+1. `apps/orca/src/careerai/whatsapp.mjs` (nuevo) — conector Evolution API (gratis,
+   autoalojado, Baileys o WhatsApp Cloud API oficial). `prepareWhatsAppMessage` sigue el
+   mismo esqueleto que `prepareEmailApplication`: exige `checkApproval` vigente y especifica
+   de la oportunidad, valida el numero contra una lista permitida, es idempotente, y
+   **nunca** pone `send_performed: true`. `sendWhatsAppMessage` es la unica funcion que toca
+   la red: exige ademas `confirm: true` explicito del llamador (una segunda puerta,
+   independiente de la aprobacion de negocio) y simula presencia "escribiendo..." con una
+   demora aleatoria antes de enviar, siguiendo la mitigacion de bloqueo de cuenta que
+   recomienda el documento para conexiones via Baileys.
+2. `scripts/test_careerai_whatsapp.mjs` (nuevo) — cubre: bloqueo sin aprobacion, bloqueo por
+   numero fuera de lista, que preparar nunca envia, idempotencia, bloqueo sin `confirm:true`,
+   bloqueo sin `EVOLUTION_API_BASE_URL`/instancia configurados, y el envio real con `fetch`
+   simulado (incluye la llamada de presencia).
+3. `apps/orca/docker-compose.orca.yml` — agrega el servicio `evolution-api`
+   (`evoapicloud/evolution-api:latest`) detras de un profile `whatsapp` (no se levanta con
+   `docker compose up` normal; hace falta `docker compose --profile whatsapp up
+   evolution-api`), con `AUTHENTICATION_API_KEY` obligatoria por variable de entorno — sin
+   credenciales embebidas.
+
+**Que NO se hizo (a proposito):**
+- No se desplego ningun contenedor ni se probo contra una instancia real de Evolution API.
+- No se implemento LiveKit/Dograh/Chatwoot ni el resto del stack de voz del documento — el
+  usuario prioriza primero las 5-10 postulaciones reales antes que la infraestructura de voz.
+- No se envio, ni se prepara para enviar automaticamente, ningun mensaje real: falta que el
+  usuario decida las oportunidades concretas, apruebe cada una, y confirme cada envio.
+- No se toco el prototipo anterior de WhatsApp por navegador (perfil de Chrome sobre
+  `web.whatsapp.com`, visible en `apps/orca/chrome_profile/`); el nuevo conector es una
+  alternativa mas robusta, no un reemplazo forzado.
+
+**Regresion offline (`scripts/test_careerai_*.mjs`, 42 scripts):** 39 en verde. Los mismos 3
+fallos preexistentes de la entrada anterior siguen fallando por las mismas razones
+(dependencia de red/credenciales reales o archivo bloqueado), no relacionados con este
+cambio.
+
+**Commit de cierre:** ver `git log -1` inmediatamente despues de esta entrada.
+**Para revertir:** `git revert <hash>` afecta solo a `whatsapp.mjs`, su test y el servicio
+`evolution-api` en el compose (que ademas esta detras de un profile, asi que ni siquiera
+activo revertirlo rompe nada en ejecucion).
+
+**Siguiente paso seguro:** definir `EVOLUTION_API_KEY`/`EVOLUTION_API_INSTANCE` en
+`.env.orca.local`, levantar `evolution-api` con el profile `whatsapp`, vincular una instancia
+por QR, y solo entonces preparar el primer mensaje real de prueba — con aprobacion y
+`confirm: true` explicitos del usuario para ese envio puntual.

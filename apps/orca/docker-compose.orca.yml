@@ -1,0 +1,70 @@
+services:
+  local-gateway:
+    image: nginx:1.27-alpine
+    container_name: getupsoft-orca-gateway
+    restart: unless-stopped
+    depends_on:
+      - orca-core
+      - orca-dns
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    ports:
+      - "127.0.0.1:80:80"
+      - "127.0.0.1:443:443"
+    volumes:
+      - ./docker/nginx.local.conf:/etc/nginx/nginx.conf:ro
+      - ./docker/certs:/etc/nginx/certs:ro
+
+  orca-dns:
+    image: coredns/coredns:1.11.3
+    container_name: getupsoft-orca-dns
+    restart: unless-stopped
+    command: -conf /etc/coredns/Corefile
+    volumes:
+      - ./docker/Corefile:/etc/coredns/Corefile:ro
+    ports:
+      - "127.0.0.1:15353:53/udp"
+      - "127.0.0.1:15353:53/tcp"
+
+  orca-core:
+    build:
+      context: .
+      dockerfile: docker/orca.Dockerfile
+    container_name: getupsoft-orca-core
+    env_file:
+      - .env.orca.local
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    restart: unless-stopped
+    ports:
+      - "4173:4173"
+    environment:
+      ORCA_UI_PORT: "4173"
+      ORCA_TENANT_MODE: "multi_company"
+      HERMES_BASE_URL: "http://host.docker.internal:8642/v1"
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://127.0.0.1:4173/api/n8n/workflows"]
+      interval: 10s
+      timeout: 3s
+      retries: 5
+
+  # Pasarela de WhatsApp gratuita y autoalojada (Baileys o WhatsApp Cloud API oficial),
+  # segun la evaluacion de arquitectura del documento de asistencia virtual. Opcional:
+  # no se activa con `docker compose up` normal, hay que pedirla explicitamente con
+  # `docker compose --profile whatsapp up evolution-api`.
+  evolution-api:
+    image: evoapicloud/evolution-api:latest
+    container_name: getupsoft-orca-evolution-api
+    profiles: ["whatsapp"]
+    restart: unless-stopped
+    env_file:
+      - .env.orca.local
+    environment:
+      AUTHENTICATION_API_KEY: "${EVOLUTION_API_KEY:?falta EVOLUTION_API_KEY en .env.orca.local}"
+    ports:
+      - "127.0.0.1:8081:8080"
+    volumes:
+      - evolution-api-data:/evolution/instances
+
+volumes:
+  evolution-api-data: {}
