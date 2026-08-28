@@ -1108,6 +1108,57 @@ fallan son preexistentes y no relacionados con este cambio:
   `task-ledger/evidence/careerai/canvas-live-browser.png` — el archivo esta bloqueado por
   otro proceso (coincide con el PNG que ya aparecia modificado sin commitear).
 
+### INCOMPLETE — trabajo en curso de codex-orca-restore-20260827, pendiente de auditoria
+
+**Estado:** sin commitear, sin analizar en profundidad, sin verificar por mi (Claude Code).
+No lo tome porque el usuario pidio explicitamente dejar `TASK-ORCA-N8N-PARITY-RUNTIME-20260828`
+para que Codex la retome cuando su limite de uso se restablezca. Registro aqui lo que hay en
+el arbol de trabajo para que el proximo agente no tenga que re-descubrirlo desde cero.
+
+**Archivos trackeados modificados (11, sin commitear):**
+
+| Archivo | Que parece contener |
+|---|---|
+| `apps/orca/src/careerai/graph-layout.mjs` | Nueva estrategia de layout `functional_swimlanes`: cuando todos los nodos declaran `block`, los agrupa en carriles verticales por bloque (A..I) en vez de una rejilla por capas. |
+| `scripts/test_careerai_graph_layout.mjs` | Test agregado para `functional_swimlanes` (carga `node-inventory.json`, valida que existan carriles `D` y `H`). **Este test ya pasa** en la regresion actual. |
+| `data/careerai/node-inventory.json` | Inventario sube de 95 a 99 nodos (58->62 "listo"). Nuevos: `nvidia-heavy-analysis`, `claude-code-review`, `getupsoft-edx-knowledge` (bloque D), `whatsapp-approval-notification` (bloque H, nodo visual n8n-compatible en modo draft-only). |
+| `apps/orca/data/workflow_blueprints.json` | Agrega los mismos 4 nodos anteriores al blueprint `careerai-indeed-agent`. |
+| `apps/orca/src/careerai/runs.mjs` | Cambios grandes: STEPS ahora incluye `nvidia-heavy-analysis`, `claude-code-review`, `getupsoft-edx-knowledge`, `whatsapp-approval-notification`, y separa `llm-council`/`consensus-score` a estado `waiting_for_providers`. Agrega cola de delegaciones (`data/careerai/delegations/<runId>.json` + spawn de `scripts/careerai_delegation_worker.mjs`) y control de ejecucion de runs (`data/careerai/run-control/<runId>.json` + spawn de `scripts/careerai_run_worker.mjs`), mas `tenant_id`, `execute_delegations`, `execute_workflow` como parametros nuevos de `startRun`. **No verifique que los workers referenciados funcionen end-to-end.** |
+| `scripts/start_orca_local.mjs` | Nuevas rutas: `GET /api/careerai/provider-credentials`, `GET /api/careerai/models`, `GET /api/n8n/node-types`, `GET /api/careerai/browser-sessions` (y mas, +182 lineas netas). |
+| `scripts/test_careerai_llm_council.mjs` | Ajuste menor (+8/-algo lineas), coherente con el consejo de proveedores. |
+| `AGENTS.md`, `context/prompts/system_prompt.md`, `docs/agent-state.md` | Cambio identico y de bajo riesgo en los tres: insercion del bloque `<!-- BEGIN:shared-agent-memory-rule -->...<!-- END -->` (protocolo multi-agente), aparenta ser una sincronizacion automatica de Cowork/AGENTS.md, no logica de producto. |
+| `task-ledger/evidence/careerai/canvas-live-browser.png` | Binario regenerado (231020 -> 159295 bytes), consistente con una corrida reciente de `test_careerai_canvas_live_browser.mjs` (que ahora falla por archivo bloqueado, ver arriba). |
+
+**Archivos nuevos sin trackear relacionados (no exhaustivo, vistos con `git status`):**
+`scripts/careerai_delegation_worker.mjs`, `scripts/careerai_run_worker.mjs`,
+`scripts/build_careerai_n8n_parity.mjs`, `scripts/validate_careerai_n8n_parity.mjs`,
+`scripts/careerai_model_review_packet.mjs`, `scripts/careerai_form_audit.py`,
+`scripts/run_careerai_bot.mjs`, `scripts/test_careerai_browser_session_vault.mjs`,
+`scripts/test_careerai_claude_live.mjs`, `scripts/test_careerai_gemini_live.mjs`,
+`scripts/test_careerai_knowledge_context.mjs`, `scripts/test_careerai_node_use_cases.mjs`,
+`scripts/test_careerai_nvidia_live.mjs`, `scripts/test_careerai_provider_credentials.mjs`,
+`scripts/test_careerai_run_lifecycle.mjs` — todos consistentes con la ejecucion real de
+runs (workers, sesiones de navegador, credenciales de proveedor) que describe
+`TASK-ORCA-N8N-PARITY-RUNTIME-20260828`.
+
+**Por que no lo commiteo ni lo completo:** decision explicita del usuario en esta sesion
+("Just update provider priority" / dejar la auditoria de paridad n8n para Codex). No corri
+los workers ni las pruebas nuevas sin trackear, asi que no puedo certificar que funcionen.
+
+**Siguiente paso seguro para quien retome esto (Codex u otro agente):**
+1. Correr las pruebas nuevas sin trackear (`test_careerai_browser_session_vault.mjs`,
+   `test_careerai_knowledge_context.mjs`, `test_careerai_node_use_cases.mjs`,
+   `test_careerai_provider_credentials.mjs`, `test_careerai_run_lifecycle.mjs`) para ver
+   cuales ya pasan.
+2. Verificar que `scripts/careerai_delegation_worker.mjs` y `scripts/careerai_run_worker.mjs`
+   arrancan sin error (`node scripts/careerai_run_worker.mjs <runId-de-prueba>`).
+3. Si todo pasa, commitear en bloques logicos (layout+inventory+blueprint por un lado,
+   runs.mjs+workers por otro, rutas de `start_orca_local.mjs` por otro) en vez de un solo
+   commit gigante, y actualizar `TASKS_LEDGER.json` / `ACTIVE_TASKS.md` a `COMPLETED_QA`.
+4. Retomar literalmente en: "Auditing current node schema, execution state machine,
+   browser-session persistence and n8n equivalents before implementation" (texto ya
+   registrado en `TASKS_LEDGER.json`).
+
 **Commit de cierre:** ver `git log -1` inmediatamente despues de esta entrada.
 **Para revertir:** `git revert <hash>` solo afecta a `llm-council.mjs` y al test de
 delegacion; no toca el resto del arbol de trabajo.
