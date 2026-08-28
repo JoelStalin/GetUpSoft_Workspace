@@ -23,10 +23,24 @@ const maxAttempts = Number(process.env.WHATSAPP_LOGIN_MAX_ATTEMPTS || 3);
 fs.mkdirSync(profileDir, { recursive: true });
 fs.mkdirSync(OUT, { recursive: true });
 
+// Diagnosticado 2026-08-28 (scripts/diagnose_whatsapp_web_qr.mjs, con screenshot y logs de
+// consola/red reales, no adivinado): el Chromium empaquetado de Playwright, con viewport
+// null y sin fijar UA, se quedaba atascado en la pantalla de carga — el QR nunca renderizaba.
+// Causa mas probable: deteccion de automatizacion (navigator.webdriver) + UA por defecto de
+// Chromium que WhatsApp Web no reconoce del todo. Fix confirmado con capturas reales:
+//   - channel: 'chrome' -> usa el Chrome real instalado, no el binario de test de Playwright
+//   - UA de Chrome actual fijado explicitamente
+//   - viewport >= 1366x900 (WhatsApp Web esconde el QR bajo cierto ancho)
+//   - --disable-blink-features=AutomationControlled + navigator.webdriver sobreescrito
 const context = await chromium.launchPersistentContext(profileDir, {
+  channel: 'chrome',
   headless: false,
-  viewport: null,
-  args: ['--start-maximized', '--new-window'],
+  viewport: { width: 1366, height: 900 },
+  userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 Safari/537.36',
+  args: ['--start-maximized', '--disable-blink-features=AutomationControlled'],
+});
+await context.addInitScript(() => {
+  Object.defineProperty(navigator, 'webdriver', { get: () => undefined });
 });
 const page = context.pages().length ? context.pages()[0] : await context.newPage();
 
@@ -59,7 +73,7 @@ while (!loggedIn && attempt < maxAttempts) {
   while (Date.now() < deadline && !loggedIn) {
     await new Promise((r) => setTimeout(r, 3000));
     try {
-      const qrVisible = await page.locator('canvas[aria-label], div[data-testid="qrcode"]').first().isVisible().catch(() => false);
+      const qrVisible = await page.locator('canvas[aria-label*="Scan"], canvas[aria-label*="scan"], div[data-testid="qrcode"]').first().isVisible().catch(() => false);
       const chatListVisible = await page.locator('div[aria-label="Chat list"], div[data-testid="chat-list"]').first().isVisible().catch(() => false);
       if (chatListVisible && !qrVisible) {
         loggedIn = true;
