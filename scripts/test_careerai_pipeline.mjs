@@ -1,4 +1,8 @@
+import fs from 'node:fs';
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
 import { runPipeline } from '../apps/orca/src/careerai/pipeline.mjs';
+import { getExecutionData, getNodeExecutionData } from '../apps/orca/src/careerai/execution-debug.mjs';
 
 const catalogo = {
   families: [
@@ -96,6 +100,24 @@ const segunda = await runPipeline({
 });
 if (segunda.stored_total !== resultado.stored_total) throw new Error('La misma entrada debe dar el mismo almacen');
 
+// --- con runId, el canvas de ORCA puede depurar el run nodo por nodo (n8n-style) --
+const runIdDebug = `test-pipeline-debug-${Date.now()}`;
+const conDebug = await runPipeline({
+  tenantId: 't1', rankedFamilies: ['familia-a', 'familia-b'], opportunities: oportunidades,
+  catalog: catalogo, now, runId: runIdDebug,
+});
+if (!conDebug.ok) throw new Error('El pipeline con runId debe seguir completandose igual');
+const runData = getExecutionData(runIdDebug);
+if (Object.keys(runData.nodes).length !== esperados.length) {
+  throw new Error('Con runId, cada nodo del pipeline debe quedar grabado para el debugger');
+}
+const dedupeDebug = getNodeExecutionData(runIdDebug, 'dedupe-canonical');
+if (!Array.isArray(dedupeDebug.last.output) || dedupeDebug.last.output.length !== 3) {
+  throw new Error('El debugger debe guardar la salida REAL del nodo (3 oportunidades unicas), no solo el contador');
+}
+const execFile = path.join(path.dirname(fileURLToPath(import.meta.url)), '..', 'data', 'careerai', 'executions', `${runIdDebug}.json`);
+fs.rmSync(execFile, { force: true });
+
 console.log(JSON.stringify({
   ok: true,
   node: 'pipeline',
@@ -105,4 +127,5 @@ console.log(JSON.stringify({
   clasificadas: resultado.summary.classified,
   remoto_verificado: resultado.summary.remote_verified,
   submit_performed: false,
+  debuggeable_por_orca_con_runid: true,
 }));

@@ -1489,3 +1489,46 @@ construye nada hasta que el propietario decida ese punto.
 el primer paso (sesion de LinkedIn en el perfil correcto) sigue bloqueado esperando que el
 usuario cierre Chrome. No se simulo ni se fabrico ninguna candidatura para poder reportar
 "10 listas".
+
+### 2026-09-07 — Debug estilo n8n para el pipeline de CareerAI desde ORCA
+
+Pedido: que el workflow de CareerAI se pueda depurar completo desde el canvas de ORCA con los
+mismos metodos que usa n8n (ver input/output real por nodo, fijar/pin datos de un nodo para no
+tener que re-ejecutar lo caro aguas arriba, limpiar una corrida para reintentar).
+
+**Gap encontrado antes de escribir codigo:** `pipeline.mjs` (el ejecutor real de nodos, ya
+construido por otra sesion en paralelo) solo guardaba un RESUMEN por paso
+(`{node, status, unique: 3}`), nunca el input/output real. Suficiente para saber que paso, no
+para inspeccionar por que un nodo concreto dio un resultado raro sin re-correr todo con
+console.log.
+
+**Implementado:**
+- `apps/orca/src/careerai/execution-debug.mjs`: almacen n8n-style por run
+  (`data/careerai/executions/<run_id>.json`). `recordNodeExecution` (acumula, no pisa — un
+  nodo puede correr mas de una vez en un loop), `getExecutionData`/`getNodeExecutionData`,
+  `pinNodeData`/`unpinNodeData` (mientras un pin existe, `resolvedNodeOutput` lo devuelve en
+  vez de la ultima ejecucion real — igual que "Pin data" en n8n, y una ejecucion nueva NO
+  rompe un pin activo), `clearExecutionData` (limpia el historial pero preserva los pines a
+  proposito), `withNodeExecution` (envoltorio para que un ejecutor de nodos futuro grabe
+  timing/error/output sin repetir el try/catch).
+- `pipeline.mjs` instrumentado: si se le pasa `runId`, cada paso ademas graba su input/output
+  REAL (no solo el contador). Sin `runId`, se comporta exactamente igual que antes — no rompe
+  a nadie que ya lo use.
+- `scripts/start_orca_local.mjs`: `POST /api/careerai/pipeline` acepta `run_id` opcional;
+  nuevas rutas `GET/DELETE /api/careerai/runs/:id/executions[?node_id=]` y
+  `POST/DELETE /api/careerai/runs/:id/pin`. Verificado en vivo levantando el servidor real
+  (no solo con tests): corrida completa, lectura de input/output real por nodo, pin y unpin,
+  todo por HTTP.
+- Bug encontrado y corregido en el mismo pase: las rutas nuevas quedaron primero detras de un
+  `getRun()` que exige que el `run_id` sea un run "vivo" registrado en `runs.jsonl` — pero el
+  `run_id` del pipeline es un espacio de IDs distinto (lo define quien llama, no
+  `startRun()`). Se movieron antes de ese guard.
+
+Tests: `scripts/test_careerai_execution_debug.mjs` (nuevo, 6 casos) +
+`scripts/test_careerai_pipeline.mjs` (caso nuevo de integracion con `runId`). Regresion
+completa corrida despues de integrar el trabajo de la sesion paralela (Cloud API/WhatsApp Web,
+ya comiteado por ellos): todo verde.
+
+**Pendiente (fuera de alcance de este pase):** el canvas de ORCA (React) todavia no tiene un
+panel visual que consuma estos endpoints — hoy es solo la capa de datos + API, la parte de
+UI (click en un nodo del canvas -> ver JSON in/out, boton de pin) no esta construida.
