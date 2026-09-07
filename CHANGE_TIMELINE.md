@@ -1660,3 +1660,50 @@ remoto) — confirmado que es la realidad de lo disponible en esta busqueda/cuen
 mismo, no un bug del filtro ni de la paginacion.
 
 Regresion completa en verde (100 nodos, 200 casos funcionales).
+
+### 2026-09-07 (cont. 5) — Nodo external-form-fill para LinkedIn Easy Apply: prepare-only
+
+Corrigiendo la misma instruccion del usuario, se construyo el siguiente nodo real del
+workflow: llenado de formularios (external-form-fill), PREPARE-ONLY, reutilizando el
+clasificador de campos ya construido y probado para Greenhouse/Lever (`buildFillPlan` en
+`ats-adapters.mjs`) en vez de reinventar la politica de "que se rellena solo vs. que necesita
+revision humana" (nunca autorizacion de trabajo, salario, datos demograficos).
+
+**Tres bugs reales encontrados y corregidos en la corrida en vivo contra la unica vacante real
+disponible (Stefanini LATAM), cada uno con evidencia (screenshot/inspeccion de DOM), no
+adivinados:**
+
+1. El selector del boton "Solicitud sencilla" asumia `button[...]`. Inspeccion real del DOM
+   (`_debug_easy_apply_button.mjs`, script de diagnostico descartado despues de usarlo)
+   confirmo que LinkedIn lo implementa como `<a aria-label="Solicitud sencilla">` — un link,
+   no un boton semantico. Corregido: el selector ahora cubre `a[...]` ademas de `button[...]`,
+   con respaldo por texto visible (`:has-text`).
+2. Sin espera activa al modal, el click a veces no alcanzaba a abrirlo antes del timeout fijo
+   de 1.5s. Corregido: `waitFor({state:'visible'})` con 6s de margen antes de intentar leer el
+   formulario.
+3. Bug mas serio: si el modal no se detectaba, el codigo caia a `document` completo y
+   "extraia" el buscador de LinkedIn y otros controles de la pagina como si fueran campos del
+   formulario — **datos falsos que habrian llegado a quien aprueba**. Corregido: sin modal
+   detectado, el nodo devuelve `status: "modal_not_detected"` explicito, cero campos
+   inventados. Nuevo test que fija este comportamiento.
+
+**Resultado real final contra la vacante de Stefanini:** el boton de Easy Apply se detecta y
+se clickea correctamente ahora, pero el modal del formulario aun no se logro leer de forma
+fiable en esta sesion (LinkedIn parece requerir mas tiempo o una interaccion adicional que no
+se termino de diagnosticar). Se decidio DETENER las corridas en vivo repetidas contra LinkedIn
+en este pase — cada intento adicional es una interaccion real con sus servidores y el riesgo
+de deteccion de automatizacion aumenta con cada repeticion, no vale la pena seguir iterando a
+ciegas sobre el mismo formulario.
+
+**No se postulo nada real. `submit_performed: false` en todos los casos, siempre.**
+
+Tests: `test_careerai_linkedin_easy_apply_node.mjs` (nuevo, 6 casos incluyendo el bug real de
+"no inventar campos sin modal"). Regresion completa en verde (100 nodos, 200 casos
+funcionales).
+
+**Estado real de las 10 candidaturas al cierre de este pase:**
+- LinkedIn: 1/5 vacante relevante encontrada (Stefanini LATAM), Easy Apply detectado, MODAL
+  del formulario aun no legible de forma fiable — 0/5 preparadas para revision, 0/5
+  postuladas.
+- OCR/correos: 0/5, Indeed sigue sin sesion activa.
+- Nada se envio. Nada se fabrico para aparentar avance.
