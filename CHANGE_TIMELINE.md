@@ -1793,3 +1793,36 @@ da una señal rapida y gratuita, no reemplaza el analisis real.
 
 Tests: `test_careerai_cv_gap_analyzer.mjs` (nuevo, 7 casos incluyendo el bug real del regex).
 Regresion completa en verde (100 nodos).
+
+### 2026-09-07 (cont. 9) — Panel visual de debug en el canvas de ORCA (n8n-style, real)
+
+El usuario pidio la URL para probar el debug del workflow DESDE la interfaz de ORCA. Se
+verifico que el frontend fuente (`apps/orca/workflow-editor/src`) esta limpio (sin cambios de
+la otra sesion paralela, que trabaja solo en `apps/orca/src/careerai/*.mjs` y datos) — bajo
+riesgo de colision, se procedio a construir el panel visual.
+
+**apps/orca/workflow-editor/src/components/NodeDebugPanel.tsx** (nuevo): campo `run_id`
+(persistido en localStorage), boton "Ver" que llama a
+`GET /api/careerai/runs/:run_id/executions?node_id=...`, muestra estado/tiempo/error de la
+ultima ejecucion, input y output completos como JSON, y boton "Fijar este output" /
+"quitar pin" contra `POST`/`DELETE /api/careerai/runs/:run_id/pin`. Integrado en
+**FloatingPropertiesPanel.tsx** (el panel que ya se abre al hacer clic en un nodo del canvas),
+como seccion nueva antes del boton de borrar — sin tocar el resto del panel existente.
+
+**Verificado real en el navegador, no solo compilado:** `npm run build` (tsc + vite) limpio,
+sin errores de tipos. Servidor reiniciado para servir el bundle nuevo. Con el Browser tool: se
+disparo una corrida real (`panel-verify-1`), se hizo clic en el nodo "Deduplicacion por URL e
+identidad" del canvas real, se escribio el run_id en el campo nuevo y se confirmo por DOM que
+el INPUT real de esa ejecucion (las oportunidades fixture reales) aparece en el panel. Se
+probo tambien pinear el output: el badge "Fijado" aparecio en el panel Y se confirmo
+server-side (`curl` al endpoint) que el pin quedo guardado de verdad.
+
+**Bug real encontrado y corregido en el camino (no de esta feature, arrastrado):**
+`test_careerai_node_runtime_cases.mjs` dio timeout de 250ms en el sandbox VM — diagnosticado
+como contencion de recursos real (~40 procesos de Chrome/Node acumulados de las pruebas de
+LinkedIn de este mismo dia), no un bug de codigo. Confirmado limpiando los procesos huerfanos
+del perfil de automatizacion y re-corriendo: paso limpio. Regresion completa en verde despues
+(100 nodos).
+
+**No comiteado:** `apps/orca/workflow-editor/dist/` (build artifact regenerado por `npm run
+build`, no se comitea) — quien despliegue esto debe correr el build antes de servir.
