@@ -1768,3 +1768,28 @@ se llama).
 
 Tests: `test_careerai_file_upload_handler.mjs` (nuevo, 8 casos) + caso de integracion en
 `test_careerai_linkedin_easy_apply_node.mjs`. Regresion completa en verde (100 nodos).
+
+### 2026-09-07 (cont. 8) — Nodo cv-gap-analyzer: carencias detectadas sin gastar un LLM
+
+Del mismo backlog explicito (status "falta", owner "claude"): "Que pide la oferta que el CV
+no muestra". Trabajo puro, sin navegador, sin LLM, sin costo.
+
+**apps/orca/src/careerai/cv-gap-analyzer.mjs**: `application-tailor.mjs` ya reportaba "gaps",
+pero salian ENTERAMENTE del LLM, sin ninguna verificacion local previa. Este nodo extrae
+terminos de requisito del texto de la oferta con regex puro (prioriza lo que aparece en
+secciones tipo "Requisitos:"/"Required:", reconoce acronimos con digitos pegados como AS400,
+tecnologias con puntuacion como Node.js) y los cruza contra el CV por coincidencia de palabra
+completa (para no confundir "AS" dentro de "Assistant").
+
+**Bug real encontrado por el propio test:** el regex original para acronimos
+(`[A-Z]{2,}(?:\/\d+)?`) exigia una barra antes de los digitos — no reconocia "AS400" escrito
+sin barra (solo "AS/400"). Corregido a `[A-Z]{2,}[A-Z0-9]*` para aceptar digitos pegados
+directamente.
+
+**Limitacion documentada explicitamente (no oculta):** es comparacion de PALABRAS, no
+semantica — un CV que dice "sin experiencia en SQL" cuenta "SQL" como presente igual que uno
+que si tiene la experiencia. La interpretacion del contexto es del LLM/humano; este nodo solo
+da una señal rapida y gratuita, no reemplaza el analisis real.
+
+Tests: `test_careerai_cv_gap_analyzer.mjs` (nuevo, 7 casos incluyendo el bug real del regex).
+Regresion completa en verde (100 nodos).
