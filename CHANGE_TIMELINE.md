@@ -1707,3 +1707,42 @@ funcionales).
   postuladas.
 - OCR/correos: 0/5, Indeed sigue sin sesion activa.
 - Nada se envio. Nada se fabrico para aparentar avance.
+
+### 2026-09-07 (cont. 6) — Extractor de email OCR: trabajo sin tocar LinkedIn en vivo
+
+Se detuvo deliberadamente la iteracion en vivo contra LinkedIn (ver entrada anterior). Se
+avanzo la parte de OCR/correos de la tarea original, que no requiere navegador ni sesion de
+ningun portal — trabajo seguro en paralelo mientras se decide como seguir con LinkedIn/Indeed.
+
+**apps/orca/src/careerai/ocr-email-extractor.mjs**: extrae email de contacto del texto que
+devuelve el OCR nativo de Windows (`scripts/careerai_ocr.ps1`, ya existia). Limitacion real
+dicha explicitamente al usuario antes de empezar: Windows.Media.Ocr NO expone confianza por
+palabra (a diferencia de Tesseract) — se uso una heuristica honesta en su lugar: forma de
+email valida + patrones tipicos de error de OCR conocidos ('rn' por 'm', 'corn' por 'com',
+digitos dentro del dominio) + señales de contexto real (correo/RRHH/enviar CV cerca). Solo
+"high confidence" se puede usar sin revision humana — "low"/"medium" van a revision, nunca se
+redacta ni envia nada con ellos.
+
+**Bug real encontrado por el propio test** (no en produccion, pero real): el email
+`contacto@fundacion-generica.org` se auto-validaba como "alta confianza" porque la ventana de
+contexto incluia el email mismo, y la palabra "contacto" (parte local del email) matcheaba la
+regex de señales de contacto. Corregido: el contexto ahora excluye el texto del email
+coincidente, solo mira lo que esta genuinamente antes/despues.
+
+**Verificado con OCR real, no solo fixtures**: se corrio `careerai_ocr.ps1` sobre un
+screenshot real (la vacante de Stefanini) y se paso el texto real (con los artefactos de OCR
+tipicos, tildes perdidas, etc.) por el extractor — sin email en esa imagen especifica (esta
+vacante no expone un correo, usa Easy Apply), el extractor correctamente no encontro ninguno y
+marco `requires_manual_review: true`, sin inventar nada.
+
+`draftEmailFromOcrContext`: redacta el correo en BORRADOR (`send_performed: false` siempre);
+se niega explicitamente a redactar dirigido a un email que no sea de alta confianza, aunque el
+cuerpo del correo ya este listo.
+
+Tests: `test_careerai_ocr_email_extractor.mjs` (nuevo, 10 casos incluyendo el bug real
+encontrado). Regresion completa en verde.
+
+**Pendiente real:** para completar la parte OCR de las 10 candidaturas hace falta (a) la
+sesion de Indeed activa (o alguna otra fuente de posts-imagen con vacantes), y (b) imagenes
+reales de vacantes que SI muestren un email de contacto — la unica imagen real probada hasta
+ahora no tenia ninguno.
