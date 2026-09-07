@@ -1849,3 +1849,25 @@ alterado despues de aprobarse). Regresion completa en verde (100 nodos).
 **Pendiente de wiring:** este nodo esta listo pero aun no esta conectado como paso previo
 obligatorio antes de `linkedin-easy-apply-node.mjs` en la orquestacion real del run — hoy es
 un modulo probado y disponible, falta enchufarlo en el flujo end-to-end.
+
+### 2026-09-07 (cont. 11) — Nodo run-scheduler: disparo programado por tenant
+
+Del backlog explicito (status "falta", owner "claude"): "Disparo programado por tenant",
+bloque "Tenancy, suscripcion y cuotas". Trabajo puro, sin navegador, sin cron real.
+
+**apps/orca/src/careerai/run-scheduler.mjs**: mismo criterio que rate-limiter.mjs (logica
+pura, `now` inyectado, valor por defecto siempre el mas conservador ante un plan
+desconocido). Dos condiciones independientes para decidir si toca correr: `checkCadence`
+(paso el intervalo minimo desde la ultima corrida segun el plan: free=24h, pro=4h,
+enterprise=30min) y `checkQuota` (no se paso de su cuota diaria: free=1, pro=6,
+enterprise=48). `shouldRunNow` combina ambas y reporta CADA motivo de bloqueo por separado —
+cadencia y cuota tienen soluciones distintas (esperar vs. subir de plan), mezclarlas en un
+solo "no" no ayuda a nadie a decidir que hacer.
+
+Tests: `test_careerai_run_scheduler.mjs` (nuevo, 13 casos incluyendo timestamp corrupto
+tratado como reciente en vez de "hace mucho", y plan desconocido usando siempre el valor mas
+conservador). Regresion completa en verde (100 nodos).
+
+**Pendiente:** este nodo decide SI corresponde correr; no dispara nada por si mismo — un
+orquestador real (cron externo o el propio runs.mjs) tiene que llamarlo periodicamente y
+actuar segun el resultado. Ese wiring no esta hecho todavia.
