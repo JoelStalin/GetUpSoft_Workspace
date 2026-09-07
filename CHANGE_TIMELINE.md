@@ -1573,3 +1573,74 @@ relevante al stack (0/5 utilizables), 0 postulaciones rellenadas (correctamente,
 la postulacion vive detras del nodo `external-form-fill` que aun no esta wireado al pipeline
 real). 0/5 correos OCR (bloqueado por sesion de Indeed pendiente). Sigue sin fabricarse
 ninguna candidatura de relleno para reportar "10 listas".
+
+### 2026-09-07 (cont. 2) — Nodo real linkedin-jobs-search: 1 vacante relevante encontrada
+
+Corrigiendo la instruccion del usuario ("las tareas deben correr automaticas por el workflow,
+monitoria y corregir, no intervenir a mano"): se construyo el nodo real, no otro script suelto.
+
+**apps/orca/src/careerai/linkedin-jobs-node.mjs**: nodo del workflow (discovery-only, nunca
+postula). Separa la logica pura (filtro de relevancia, dedup, deteccion de checkpoint) de la
+parte que toca el navegador — el `page` de Playwright se inyecta, no lo abre el modulo, para
+poder testear el nodo completo con un doble de prueba sin Chrome real.
+
+**Bug real corregido:** la corrida anterior (script suelto) trajo 7 resultados y 0 relevantes
+porque LinkedIn matchea su OR contra cualquier parte de la vacante. El nuevo filtro exige la
+señal en el TITULO (mismo criterio que ya usaba `stack-classifier.mjs` para "java-menciona-
+as400": una mencion de pasada no cuenta). Verificado con los falsos positivos REALES de la
+corrida anterior como casos de test (Incoming Technician, Business Analyst, Lead Mechanical
+Engineer — los tres deben seguir descartandose).
+
+**scripts/run_careerai_linkedin_jobs_node.mjs**: punto de entrada ejecutable — esto es lo que
+un orquestador automatico del workflow dispararia como paso, no un atajo aparte.
+
+**Corrida real contra la sesion activa:** 7 scrapeados, 6 descartados como ruido (reportados,
+no silenciados), **1 relevante: "Desarrollador RPA AS400" — Stefanini LATAM, remoto**
+(https://www.linkedin.com/jobs/view/4457184635/). Registrado via execution-debug.mjs
+(inspeccionable desde el canvas de ORCA). 0 postulaciones (por diseno: nodo de discovery,
+`applied: false` siempre).
+
+Tests: `test_careerai_linkedin_jobs_node.mjs` (nuevo, 8 casos incluyendo los 3 falsos
+positivos reales) + regresion de pipeline/execution-debug sin romperse.
+
+**Estado de las 10 candidaturas: 1/5 de LinkedIn con vacante real encontrada (AS400 en
+Stefanini LATAM), 0/5 postuladas (el llenado de formulario — external-form-fill — sigue sin
+ser un nodo real, sera el siguiente paso), 0/5 correos OCR (Indeed pendiente).** Para llegar a
+5 relevantes de LinkedIn hace falta paginar mas alla de la primera pagina de resultados (7
+vacantes no alcanzan) — pendiente si el usuario quiere eso o prefiere revisar primero la unica
+encontrada.
+
+### 2026-09-07 (cont. 3) — Verificado desde la interfaz real de ORCA, no solo por CLI
+
+El usuario señalo correctamente que todo lo anterior se habia probado por script/curl, nunca
+desde la interfaz visual de ORCA. Se abrio el canvas real (`http://localhost:4173/?workflow=
+careerai-indeed-agent`, servido por `scripts/start_orca_local.mjs`, navegado con el Browser
+tool) y se encontro que el nodo `linkedin-jobs-search` recien construido NO aparecia: existe
+como modulo real y probado, pero nunca se registro en el blueprint del workflow que alimenta
+el canvas.
+
+Corregido: se agrego el nodo (`worker`, "LinkedIn job discovery (AS400/iSeries/RPG)") y sus
+dos edges (`career-command -> linkedin-jobs-search -> normalize-opportunity`, en paralelo a
+`indeed-discovery`) a `apps/orca/data/workflow_blueprints.json`, mas la entrada correspondiente
+en `data/careerai/node-inventory.json` (status "listo", total 99->100). El validador de
+consistencia blueprint-vs-inventario (`validate_careerai_node_inventory.mjs`) lo exigio asi
+— no dejaba pasar un nodo en el canvas sin su entrada en el inventario.
+
+**Verificado visualmente en el navegador real, reiniciando el servidor para que releyera el
+blueprint** (el servidor cachea al arrancar, no basta con editar el JSON): el panel de stats
+paso de "nodes: 62" a "nodes: 63", y `get_page_text` confirma que "Indeed job discovery" y
+"LinkedIn job discovery (AS400/iSeries/RPG)" coexisten como nodos separados en el canvas real
+de React Flow — no se reemplazo ni se rompio el nodo de Indeed.
+
+Efecto colateral encontrado y corregido: `scripts/test_careerai_node_runtime_cases.mjs` tenia
+el conteo total de nodos hardcodeado (`99`) — con el nodo 100 la aserción fallaba. Actualizado
+a 100. Regresion completa corrida de nuevo despues del fix: todo verde (100 nodos, 200 casos
+funcionales, 300 casos de contrato).
+
+**No comiteado en este pase** (mismo criterio ya aplicado varias veces): `workflow_blueprints
+.json` y `node-inventory.json` siguen teniendo, ademas de mi cambio, contenido extenso sin
+commitear de la otra sesion trabajando en paralelo sobre este repo (97 y 53 lineas de diff
+respectivamente, mi cambio real es ~9 lineas en cada uno). El nodo SI esta funcionando en el
+working tree y SI se verifico en vivo en el navegador — solo falta que alguien lo commitee
+cuando esos dos archivos se estabilicen. Si se pierde antes de eso, la evidencia de que
+funciono queda en este archivo y en la captura enviada al usuario.
