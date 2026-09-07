@@ -1532,3 +1532,44 @@ ya comiteado por ellos): todo verde.
 **Pendiente (fuera de alcance de este pase):** el canvas de ORCA (React) todavia no tiene un
 panel visual que consuma estos endpoints — hoy es solo la capa de datos + API, la parte de
 UI (click en un nodo del canvas -> ver JSON in/out, boton de pin) no esta construida.
+
+### 2026-09-07 (cont.) — Descubrimiento AS400 en LinkedIn: resultado real, gap de arquitectura señalado
+
+Login manual de LinkedIn confirmado por el usuario (sesion activa detectada por
+`careerai_login_handoff.mjs`, perfil `chrome_profile/careerai-migrated`). Indeed quedo
+pendiente (el usuario solo confirmo LinkedIn) — no se cerro la ventana esperando Indeed sin
+avisar, se detuvo explicitamente para liberar el lock del perfil y priorizar LinkedIn primero,
+a peticion del usuario ("AS400 PRIMERO").
+
+**Busqueda real ejecutada** (`scripts/careerai_linkedin_jobs_search.mjs`, nuevo, discovery-only
+— no rellena ni postula nada): 7 resultados para
+`"AS400" OR "AS/400" OR iSeries OR "IBM i" OR RPG OR RPGLE OR "System i"`, **0 relevantes al
+stack**. Salieron "Incoming Technician", "Business Analyst", "Lead Mechanical Engineer" — el
+`OR` de LinkedIn matchea de forma muy laxa (probablemente por palabras sueltas en la
+descripcion, no en el titulo/skills). Evidencia completa en
+`task-ledger/evidence/careerai/live-test/linkedin-as400-search.json` y
+`linkedin-as400-search.png`. No se fabrico ni se forzo ningun resultado como "relevante" para
+poder reportar avance.
+
+**Correccion del usuario, importante para todo lo que sigue:** las tareas deben correr
+AUTOMATICAS por el workflow de ORCA; el agente debe monitorear y corregir fallos, no ejecutar
+scripts sueltos a mano. Gap real encontrado al intentar honrar eso: `pipeline.mjs` (el
+ejecutor real instrumentado hoy con `execution-debug.mjs`) solo corre los pasos de datos
+(dedupe, clasificacion, verificacion de remoto, ranking, disparo de analisis). El
+descubrimiento en vivo contra portales (LinkedIn/Indeed) y el llenado de formularios
+(`external-form-fill`, `live-browser-monitor` en el blueprint) siguen sin ser nodos
+ejecutables reales dentro del pipeline — en `runs.mjs` continuan como el arreglo `STEPS`
+fijo/simulado (estado de fixture, no ejecucion real contra un navegador). Por eso la busqueda
+de recien se corrio como script aparte: hoy no existe un nodo del workflow al que delegarsela.
+
+**Decision pendiente del propietario, bloqueante para "todo automatico":** construir un nodo
+real de busqueda LinkedIn como paso ejecutable de `pipeline.mjs` (con su propio registro en
+`execution-debug.mjs`, visible desde el canvas de ORCA) — trabajo de desarrollo real, no
+trivial — vs. seguir con scripts puntuales mientras tanto. No se decidio en este pase; se le
+pregunto al usuario y se espera su respuesta antes de comprometerse a una u otra via.
+
+**Estado de las 10 candidaturas pedidas:** 5 ofertas de LinkedIn encontradas pero NINGUNA
+relevante al stack (0/5 utilizables), 0 postulaciones rellenadas (correctamente, por diseno:
+la postulacion vive detras del nodo `external-form-fill` que aun no esta wireado al pipeline
+real). 0/5 correos OCR (bloqueado por sesion de Indeed pendiente). Sigue sin fabricarse
+ninguna candidatura de relleno para reportar "10 listas".
