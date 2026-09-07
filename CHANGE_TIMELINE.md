@@ -1746,3 +1746,25 @@ encontrado). Regresion completa en verde.
 sesion de Indeed activa (o alguna otra fuente de posts-imagen con vacantes), y (b) imagenes
 reales de vacantes que SI muestren un email de contacto — la unica imagen real probada hasta
 ahora no tenia ninguno.
+
+### 2026-09-07 (cont. 7) — Nodo file-upload-handler: sube el CV con validacion, no a ciegas
+
+Tomado del backlog explicito del inventario (`data/careerai/node-inventory.json`, status
+"falta", owner "claude"): "Sube el CV adaptado; gate propio". Trabajo puro, sin tocar
+LinkedIn ni ningun navegador en vivo (se sigue evitando iterar contra LinkedIn en este pase).
+
+**apps/orca/src/careerai/file-upload-handler.mjs**: hasta ahora, `linkedin-easy-apply-node.mjs`
+llamaba `page.setInputFiles` directamente con lo que `buildFillPlan` le pasara, sin validar
+que el archivo exista, sea del tipo correcto, o no este vacio/corrupto. Nuevo modulo puro:
+`validateAsset` (existencia, extension permitida por campo, no vacio, no mayor a 10MB) +
+`prepareFileUpload` (gate propio completo: aprobacion vigente Y archivo valido, dos motivos
+de bloqueo independientes).
+
+**Integrado en linkedin-easy-apply-node.mjs**: antes de cualquier `setInputFiles`, se valida
+el archivo con `validateAsset`. Un CV en una ruta inexistente, vacio, o con extension
+incorrecta se rechaza ANTES de tocar el navegador — nunca llega a intentar subirse. Nuevo
+caso de test que confirma esto end-to-end (CV con ruta inexistente -> `setInputFiles` nunca
+se llama).
+
+Tests: `test_careerai_file_upload_handler.mjs` (nuevo, 8 casos) + caso de integracion en
+`test_careerai_linkedin_easy_apply_node.mjs`. Regresion completa en verde (100 nodos).

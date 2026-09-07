@@ -115,9 +115,25 @@ const pageFalloRelleno = makeFakePage({ hasEasyApply: true, fields: [{ name: 'em
 const falloRelleno = await prepareLinkedInEasyApply(runIdFalloRelleno, { page: pageFalloRelleno, jobUrl: 'https://www.linkedin.com/jobs/view/1', profile, assets });
 if (!falloRelleno.applied.some((a) => a.ok === false)) throw new Error('Un campo que fallo al rellenarse debe quedar reportado, no silenciado');
 
+// --- integracion con file-upload-handler: un CV con ruta inexistente NUNCA se sube --------
+const runIdUploadMalo = `test-easy-apply-upload-fail-${Date.now()}`;
+const pageUploadMalo = makeFakePage({
+  hasEasyApply: true,
+  fields: [{ name: 'resume', label: 'Resume', type: 'file', required: true, selector: '#resume-upload' }],
+});
+const uploadMalo = await prepareLinkedInEasyApply(runIdUploadMalo, {
+  page: pageUploadMalo, jobUrl: 'https://www.linkedin.com/jobs/view/1', profile,
+  assets: { cv: '/ruta/que/no/existe.pdf' },
+});
+const intentoUpload = uploadMalo.applied.find((a) => a.action === 'upload');
+if (!intentoUpload || intentoUpload.ok !== false || !/no existe|rechazado/.test(intentoUpload.error)) {
+  throw new Error('Un CV en una ruta inexistente debe rechazarse ANTES de intentar subirlo, no fallar silenciosamente en el navegador');
+}
+if (pageUploadMalo._filled.some((f) => f.upload)) throw new Error('setInputFiles jamas debe llamarse con un archivo invalido');
+
 // Limpieza.
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
-for (const id of [runId, runIdSinEasyApply, runIdSinModal, runIdBloqueado, runIdFalloRelleno]) {
+for (const id of [runId, runIdSinEasyApply, runIdSinModal, runIdBloqueado, runIdFalloRelleno, runIdUploadMalo]) {
   fs.rmSync(path.join(root, 'data', 'careerai', 'executions', `${id}.json`), { force: true });
 }
 

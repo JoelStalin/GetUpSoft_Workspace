@@ -11,6 +11,7 @@
 import { withNodeExecution } from './execution-debug.mjs';
 import { buildFillPlan } from './ats-adapters.mjs';
 import { detectBlocked } from './linkedin-jobs-node.mjs';
+import { validateAsset } from './file-upload-handler.mjs';
 
 // Bug real encontrado con evidencia (2026-09-07), diagnosticado con scripts/
 // _debug_easy_apply_button.mjs contra la vacante real de Stefanini LATAM (no adivinado): el
@@ -62,6 +63,12 @@ async function fillPlanIntoPage(page, plan) {
     if (!item.selector) continue;
     try {
       if (item.action === 'upload') {
+        // file-upload-handler.mjs: no se sube nada sin validar existencia/tipo/tamano
+        // primero — subir un CV vacio o de la extension equivocada arruinaria la
+        // postulacion y la revision humana lo descubriria demasiado tarde, ya en el
+        // formulario.
+        const validation = validateAsset(item.value, { fieldKey: item.asset || 'cv' });
+        if (!validation.ok) throw new Error(`archivo rechazado antes de subir: ${validation.reason}`);
         await page.setInputFiles(item.selector, item.value);
       } else {
         await page.fill(item.selector, String(item.value));
