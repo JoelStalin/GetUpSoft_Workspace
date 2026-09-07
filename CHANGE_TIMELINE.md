@@ -1826,3 +1826,26 @@ del perfil de automatizacion y re-corriendo: paso limpio. Regresion completa en 
 
 **No comiteado:** `apps/orca/workflow-editor/dist/` (build artifact regenerado por `npm run
 build`, no se comitea) — quien despliegue esto debe correr el build antes de servir.
+
+### 2026-09-07 (cont. 10) — Nodo asset-human-review: gate real antes de tocar el formulario
+
+Del backlog explicito (status "falta", owner "claude"): "Revision humana antes de tocar el
+formulario". Trabajo puro, sin navegador.
+
+**apps/orca/src/careerai/asset-human-review.mjs**: sin este nodo, un CV/carta generado por
+application-tailor.mjs podia llegar directo al navegador (linkedin-easy-apply-node.mjs) sin
+que nadie lo mirara primero. `buildReviewBundle` arma el paquete que un humano necesita ver
+(resumen del CV adaptado, carta, carencias del cv-gap-analyzer, respuestas del formulario) y
+calcula que falta (carta que fallo, respuestas obligatorias sin resolver). `evaluateReviewGate`
+es el gate real: solo libera (`cleared_to_fill: true`) si el paquete esta completo Y hay una
+aprobacion vigente para ESA oportunidad ESPECIFICA cuyo hash de contenido coincide — mismo
+mecanismo que ya usa `checkApproval` en guards.mjs, aplicado aqui al paquete completo de
+artefactos en vez de a un solo mensaje.
+
+Tests: `test_careerai_asset_human_review.mjs` (nuevo, 11 casos: bundle incompleto por carta/
+respuestas sin resolver, aprobacion vencida, aprobacion de otra oportunidad, contenido
+alterado despues de aprobarse). Regresion completa en verde (100 nodos).
+
+**Pendiente de wiring:** este nodo esta listo pero aun no esta conectado como paso previo
+obligatorio antes de `linkedin-easy-apply-node.mjs` en la orquestacion real del run — hoy es
+un modulo probado y disponible, falta enchufarlo en el flujo end-to-end.
