@@ -57,37 +57,78 @@ if (detectBlocked('https://www.linkedin.com/jobs/search/', 'Jobs you might like'
 }
 
 // --- discoverLinkedInJobs: nodo completo con un page falso (sin Chrome real) ----------
+// Fabrica de page falso consciente de paginacion: cada goto(url) fija la "pagina actual" a
+// partir de &start=, y evaluate() alterna bodyText (1ra llamada tras cada goto) / scrape (2da)
+// segun ESE contador por-goto, no un contador global — asi el comportamiento no depende de
+// cuantas paginas se pidan.
+function makeFakePage(pagesByStart) {
+  const gotoCalls = [];
+  let callsThisPage = 0;
+  const page = {
+    goto: async (url) => { gotoCalls.push(url); callsThisPage = 0; page._lastUrl = url; },
+    url: () => page._lastUrl,
+    evaluate: async () => {
+      callsThisPage += 1;
+      if (callsThisPage === 1) return 'Jobs you might like';
+      const start = Number(new URL(page._lastUrl).searchParams.get('start') || 0);
+      return pagesByStart[start] || [];
+    },
+    screenshot: async () => {},
+  };
+  page.gotoCalls = gotoCalls;
+  return page;
+}
+
 const runId = `test-linkedin-node-${Date.now()}`;
-const gotoCalls = [];
-const fakePage = {
-  goto: async (url) => { gotoCalls.push(url); },
-  url: () => 'https://www.linkedin.com/jobs/search/?keywords=x',
-  evaluate: async (fn) => {
-    // El primer evaluate (bodyText) y el segundo (scrape de tarjetas) usan la misma funcion
-    // inyectada; se distingue por longitud del resultado esperado via un contador simple.
-    fakePage._calls = (fakePage._calls || 0) + 1;
-    if (fakePage._calls === 1) return 'Jobs you might like';
-    return [
-      { title: 'Business Analyst', company: 'SPI', location: 'RD', link: 'https://linkedin.com/jobs/view/99' },
-      { title: 'AS400 RPGLE Developer', company: 'Acme', location: 'Remote', link: 'https://linkedin.com/jobs/view/100' },
-    ];
-  },
-  screenshot: async () => {},
-};
+const fakePage = makeFakePage({
+  0: [
+    { title: 'Business Analyst', company: 'SPI', location: 'RD', link: 'https://linkedin.com/jobs/view/99' },
+    { title: 'AS400 RPGLE Developer', company: 'Acme', location: 'Remote', link: 'https://linkedin.com/jobs/view/100' },
+  ],
+});
 
 const resultado = await discoverLinkedInJobs(runId, { page: fakePage, maxResults: 5 });
 if (resultado.ok !== true || resultado.status !== 'completed') throw new Error('Debe completarse con un page valido y sin bloqueo');
 if (resultado.applied !== false) throw new Error('Un nodo de discovery jamas debe marcar applied:true');
 if (resultado.returned !== 1) throw new Error('Del resultado mixto, solo 1 de 2 es relevante');
 if (resultado.relevant[0].title !== 'AS400 RPGLE Developer') throw new Error('Debe devolver el relevante, no el ruido');
-if (gotoCalls.length !== 1 || !gotoCalls[0].includes('linkedin.com/jobs/search')) {
-  throw new Error('Debe navegar a la busqueda de LinkedIn Jobs');
-}
+// Solo 1 relevante encontrado (< maxResults 5), pero la pagina 2 no trae nada nuevo (no esta
+// en pagesByStart) -> debe parar por "no_more_results", no seguir pidiendo paginas vacias.
+if (resultado.stopped_reason !== 'no_more_results') throw new Error('Sin mas resultados nuevos, debe parar y decir por que, no seguir insistiendo');
+if (fakePage.gotoCalls.length !== 2) throw new Error('Debe intentar una pagina mas antes de concluir que no hay mas, ni una sola de mas');
 
 // Debe quedar grabado via execution-debug.mjs (el canvas de ORCA lo puede inspeccionar).
 const grabado = getNodeExecutionData(runId, 'linkedin-jobs-search');
 if (!grabado.last || grabado.last.status !== 'completed') throw new Error('El nodo debe registrar su ejecucion real');
 if (grabado.last.output.returned !== 1) throw new Error('Lo grabado debe coincidir con lo devuelto');
+
+// --- paginacion real: la pagina 1 no alcanza, la pagina 2 completa maxResults ----------
+const runIdPaginado = `test-linkedin-node-paginado-${Date.now()}`;
+const fakePagePaginado = makeFakePage({
+  0: [{ title: 'AS400 RPGLE Developer', company: 'Acme', link: 'https://linkedin.com/jobs/view/1' }],
+  25: [
+    { title: 'Programador iSeries', company: 'Beta', link: 'https://linkedin.com/jobs/view/2' },
+    { title: 'Business Analyst', company: 'Noise', link: 'https://linkedin.com/jobs/view/3' },
+  ],
+});
+const paginado = await discoverLinkedInJobs(runIdPaginado, { page: fakePagePaginado, maxResults: 2, maxPages: 3 });
+if (paginado.returned !== 2) throw new Error('Debe juntar relevantes a traves de varias paginas hasta llegar a maxResults');
+if (paginado.stopped_reason !== 'max_results_reached') throw new Error('Al llegar a maxResults debe parar por eso, no seguir paginando');
+if (paginado.pages_fetched !== 2) throw new Error('Debe parar en cuanto junta maxResults, sin pedir una tercera pagina de mas');
+if (fakePagePaginado.gotoCalls.length !== 2) throw new Error('No debe navegar mas paginas de las necesarias');
+
+// --- maxPages como tope duro: aunque falten relevantes, no sigue indefinidamente ------
+const runIdTope = `test-linkedin-node-tope-${Date.now()}`;
+const fakePageTope = makeFakePage({
+  0: [{ title: 'Noise A', company: 'X', link: 'https://linkedin.com/jobs/view/a' }],
+  25: [{ title: 'Noise B', company: 'X', link: 'https://linkedin.com/jobs/view/b' }],
+  50: [{ title: 'Noise C', company: 'X', link: 'https://linkedin.com/jobs/view/c' }],
+  75: [{ title: 'AS400 tardio', company: 'X', link: 'https://linkedin.com/jobs/view/d' }],
+});
+const tope = await discoverLinkedInJobs(runIdTope, { page: fakePageTope, maxResults: 5, maxPages: 3 });
+if (tope.stopped_reason !== 'max_pages_reached') throw new Error('Debe respetar el tope de paginas aunque no haya juntado maxResults');
+if (tope.pages_fetched !== 3) throw new Error('No debe pasarse del tope de paginas configurado');
+if (tope.returned !== 0) throw new Error('La vacante relevante de la pagina 4 no debe aparecer: nunca se pidio esa pagina');
 
 // --- caso bloqueado: checkpoint detectado, no revienta, reporta claro -----------------
 const runIdBloqueado = `test-linkedin-node-blocked-${Date.now()}`;
@@ -104,7 +145,7 @@ if (bloqueado.ok !== false || bloqueado.status !== 'blocked' || bloqueado.blocke
 
 // Limpieza de los archivos de ejecucion que crearon estos tests.
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
-for (const id of [runId, runIdBloqueado]) {
+for (const id of [runId, runIdPaginado, runIdTope, runIdBloqueado]) {
   fs.rmSync(path.join(root, 'data', 'careerai', 'executions', `${id}.json`), { force: true });
 }
 

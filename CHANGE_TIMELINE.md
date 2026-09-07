@@ -1644,3 +1644,19 @@ respectivamente, mi cambio real es ~9 lineas en cada uno). El nodo SI esta funci
 working tree y SI se verifico en vivo en el navegador — solo falta que alguien lo commitee
 cuando esos dos archivos se estabilicen. Si se pierde antes de eso, la evidencia de que
 funciono queda en este archivo y en la captura enviada al usuario.
+
+### 2026-09-07 (cont. 4) — Paginacion real: confirmado que LinkedIn no tiene mas resultados
+
+Se agrego paginacion real a `discoverLinkedInJobs` (maxPages/pageSize, throttling 2-4s entre
+paginas, se detiene por `max_results_reached`, `no_more_results` o `max_pages_reached` —
+nunca sigue pidiendo paginas vacias "por si acaso"). 3 tests nuevos cubren los tres motivos de
+parada, con un `page` falso consciente de paginacion (rastrea `&start=` real, no un contador
+global fragil).
+
+**Corrida real contra la sesion activa, con paginacion:** pidio pagina 2 (`start=25`), LinkedIn
+no devolvio tarjetas nuevas -> paro por `no_more_results`, no por limite artificial. Sigue
+siendo **1 vacante relevante de 5 pedidas** ("Desarrollador RPA AS400", Stefanini LATAM,
+remoto) — confirmado que es la realidad de lo disponible en esta busqueda/cuenta/region ahora
+mismo, no un bug del filtro ni de la paginacion.
+
+Regresion completa en verde (100 nodos, 200 casos funcionales).

@@ -67,51 +67,90 @@ export function detectBlocked(url, bodyText) {
 // modulo) y un runId para grabar la ejecucion. `page` puede ser un doble de prueba con
 // goto/url/evaluate/screenshot — eso es lo que permite testear el flujo completo del nodo sin
 // Chrome real.
+async function scrapeCurrentPage(page) {
+  return page.evaluate(() => {
+    const cards = Array.from(document.querySelectorAll('div.job-card-container, li.jobs-search-results__list-item, div[data-job-id]'));
+    return cards.map((card) => {
+      const titleEl = card.querySelector('a.job-card-list__title, a.job-card-container__link, .job-card-list__title');
+      const companyEl = card.querySelector('.job-card-container__primary-description, .artdeco-entity-lockup__subtitle, .job-card-container__company-name');
+      const locationEl = card.querySelector('.job-card-container__metadata-item, .artdeco-entity-lockup__caption');
+      const link = titleEl?.getAttribute('href') || null;
+      return {
+        title: titleEl?.innerText?.trim() || null,
+        company: companyEl?.innerText?.trim() || null,
+        location: locationEl?.innerText?.trim() || null,
+        link: link ? new URL(link, 'https://www.linkedin.com').href.split('?')[0] : null,
+      };
+    });
+  });
+}
+
+function jitter(minMs, maxMs) {
+  return new Promise((r) => setTimeout(r, minMs + Math.random() * (maxMs - minMs)));
+}
+
+// maxPages/pageSize: LinkedIn Jobs pagina con &start=0,25,50,... Se para en cuanto se junta
+// maxResults relevantes, se agota maxPages, o LinkedIn deja de devolver tarjetas nuevas (fin
+// real de resultados) — nunca seguir pidiendo paginas "por si acaso". Throttling real entre
+// paginas (no entre acciones sueltas dentro de una pagina) para no verse como un bot barriendo
+// resultados a maxima velocidad.
 export async function discoverLinkedInJobs(runId, {
   page,
   keywords = DEFAULT_KEYWORDS,
   maxResults = 5,
+  maxPages = 3,
+  pageSize = 25,
   screenshotPath = null,
 } = {}) {
   if (!page) throw new Error('discoverLinkedInJobs necesita un page ya logueado');
-  const searchUrl = `https://www.linkedin.com/jobs/search/?keywords=${encodeURIComponent(keywords)}&sortBy=DD`;
+  const baseUrl = `https://www.linkedin.com/jobs/search/?keywords=${encodeURIComponent(keywords)}&sortBy=DD`;
 
   return withNodeExecution(runId, 'linkedin-jobs-search', async () => {
-    await page.goto(searchUrl, { waitUntil: 'domcontentloaded', timeout: 30000 });
-    const url = typeof page.url === 'function' ? page.url() : searchUrl;
-    const bodyText = await page.evaluate(() => document.body.innerText.slice(0, 2000)).catch(() => '');
+    const allRaw = [];
+    let pagesFetched = 0;
+    let stoppedReason = 'max_results_reached';
 
-    if (detectBlocked(url, bodyText)) {
-      if (screenshotPath) await page.screenshot({ path: screenshotPath }).catch(() => {});
-      return {
-        ok: false, status: 'blocked', blocked_at: 'linkedin_checkpoint',
-        reason: 'LinkedIn pidio verificacion/checkpoint/captcha', url,
-        applied: false,
-      };
+    for (let pageIndex = 0; pageIndex < maxPages; pageIndex += 1) {
+      const start = pageIndex * pageSize;
+      const url = start === 0 ? baseUrl : `${baseUrl}&start=${start}`;
+      await page.goto(url, { waitUntil: 'domcontentloaded', timeout: 30000 });
+      if (pageIndex > 0) await jitter(2000, 4000);
+
+      const currentUrl = typeof page.url === 'function' ? page.url() : url;
+      const bodyText = await page.evaluate(() => document.body.innerText.slice(0, 2000)).catch(() => '');
+      if (detectBlocked(currentUrl, bodyText)) {
+        if (screenshotPath) await page.screenshot({ path: screenshotPath }).catch(() => {});
+        return {
+          ok: false, status: 'blocked', blocked_at: 'linkedin_checkpoint',
+          reason: 'LinkedIn pidio verificacion/checkpoint/captcha', url: currentUrl,
+          pages_fetched: pagesFetched, applied: false,
+        };
+      }
+
+      const rawJobs = await scrapeCurrentPage(page);
+      pagesFetched += 1;
+      const newLinks = rawJobs.filter((j) => j.link && !allRaw.some((existing) => existing.link === j.link));
+      if (newLinks.length === 0 && pageIndex > 0) {
+        // LinkedIn dejo de devolver tarjetas nuevas: es el fin real de resultados, no un
+        // fallo — no tiene sentido seguir pidiendo paginas vacias.
+        stoppedReason = 'no_more_results';
+        break;
+      }
+      allRaw.push(...rawJobs);
+
+      const relevantSoFar = processRawResults(allRaw, { maxResults }).relevant;
+      if (relevantSoFar.length >= maxResults) { stoppedReason = 'max_results_reached'; break; }
+      if (pageIndex === maxPages - 1) stoppedReason = 'max_pages_reached';
     }
 
-    const rawJobs = await page.evaluate(() => {
-      const cards = Array.from(document.querySelectorAll('div.job-card-container, li.jobs-search-results__list-item, div[data-job-id]'));
-      return cards.map((card) => {
-        const titleEl = card.querySelector('a.job-card-list__title, a.job-card-container__link, .job-card-list__title');
-        const companyEl = card.querySelector('.job-card-container__primary-description, .artdeco-entity-lockup__subtitle, .job-card-container__company-name');
-        const locationEl = card.querySelector('.job-card-container__metadata-item, .artdeco-entity-lockup__caption');
-        const link = titleEl?.getAttribute('href') || null;
-        return {
-          title: titleEl?.innerText?.trim() || null,
-          company: companyEl?.innerText?.trim() || null,
-          location: locationEl?.innerText?.trim() || null,
-          link: link ? new URL(link, 'https://www.linkedin.com').href.split('?')[0] : null,
-        };
-      });
-    });
-
-    const processed = processRawResults(rawJobs, { maxResults });
+    const processed = processRawResults(allRaw, { maxResults });
     if (screenshotPath) await page.screenshot({ path: screenshotPath }).catch(() => {});
 
     return {
       ok: true, status: 'completed',
-      keywords, search_url: searchUrl,
+      keywords, search_url: baseUrl,
+      pages_fetched: pagesFetched,
+      stopped_reason: stoppedReason,
       ...processed,
       returned: processed.relevant.length,
       mode: 'discovery_only',
