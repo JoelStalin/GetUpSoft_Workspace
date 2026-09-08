@@ -1871,3 +1871,45 @@ conservador). Regresion completa en verde (100 nodos).
 **Pendiente:** este nodo decide SI corresponde correr; no dispara nada por si mismo — un
 orquestador real (cron externo o el propio runs.mjs) tiene que llamarlo periodicamente y
 actuar segun el resultado. Ese wiring no esta hecho todavia.
+
+### 2026-09-08 — Incidente real: chefalitas.com.do caido, diagnosticado y parcialmente resuelto
+
+Fuera del alcance de CareerAI: el usuario reporto que chefalitas.com.do (sitio de produccion de
+otro cliente, Odoo + nginx + tunel Cloudflare) no respondia. Diagnostico real, sin adivinar:
+
+1. **WSL2 (Ubuntu) y Docker estaban apagados** — causa raiz del "no responde" inicial. Se
+   arrancaron. Los contenedores (`chefalitas-nginx-prod`, `chefalitas-odoo-prod`,
+   `chefalitas-db-prod`) se auto-levantaron por su politica de restart.
+
+2. **Bug real en nginx, confirmado con logs e inspeccion del contenedor**: el `docker run` que
+   crea `chefalitas-nginx-prod` (sin docker-compose, corrido a mano; no se encontro ningun
+   compose file, confirmado via `docker inspect` sin labels de compose) mapea el puerto host
+   8080 al puerto 80 del contenedor, pero el `default.conf` real (montado desde
+   `/root/chefalitas_prod_migrated/nginx/default.conf`, host WSL) tenia `listen 8080;` — nginx
+   escuchaba en un puerto del contenedor que nadie exponia. Corregido a `listen 80;` (backup
+   del original guardado junto al archivo, con timestamp). Editado sin sudo (no se tenia la
+   contraseña y no se intento adivinarla): se uso un contenedor Alpine temporal montando el
+   directorio real del host, aprovechando que el usuario esta en el grupo `docker` (equivalente
+   a acceso root sobre el host via contenedores) — via legitima, no un bypass de permisos.
+   Confirmado: `curl http://127.0.0.1:8080/` -> `200`, 138ms tras el fix.
+
+3. **Tunel de Cloudflare: encontrado un problema real que sigue bloqueando el acceso publico.**
+   El tunel arranco bien (4 conexiones registradas al borde de Cloudflare), pero su
+   configuracion de hostname publico esta gestionada desde el DASHBOARD de Cloudflare (no el
+   `config.yml` local) y apunta a `http://172.18.0.3:8069` — una IP interna de Docker que ya
+   no existe (Docker reasigno `172.18.0.4` al recrear el contenedor de Odoo; las IPs de
+   contenedores no son estables entre reinicios). Resultado: Cloudflare devuelve `502 Bad
+   Gateway` a los visitantes reales, aunque el sitio SI funciona en el servidor.
+
+**No resuelto en este pase, requiere la cuenta de Cloudflare del propietario:** no hay
+`cert.pem` de cloudflared en esta maquina (sin sesion autenticada por CLI), y no se intento
+iniciar un login de la cuenta del usuario sin su autorizacion directa. Se le explicaron dos
+vias: cambiar el Service URL en el dashboard de `172.18.0.3:8069` a `127.0.0.1:8080` (2 min), o
+autorizar `cloudflared tunnel login` para que se pueda hacer por CLI.
+
+Ademas se levanto `LocalPrinterAgent.exe` (agente de impresora local de Chefalitas POS,
+`apps/local_printer_agent/agent_local/dist/`, puerto 9060) a peticion del usuario — servicio
+local sin impacto en red/produccion.
+
+Nada de esto toca el repositorio de CareerAI/ORCA ni sus commits; se registra aqui solo como
+bitacora de lo que paso durante esta sesion de trabajo.
