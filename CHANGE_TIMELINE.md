@@ -1913,3 +1913,28 @@ local sin impacto en red/produccion.
 
 Nada de esto toca el repositorio de CareerAI/ORCA ni sus commits; se registra aqui solo como
 bitacora de lo que paso durante esta sesion de trabajo.
+
+### 2026-09-08 (cont.) — Checkpoint final: token de Cloudflare descartado con la API, todo empujado
+
+Se verifico con la propia API de Cloudflare (no adivinado) que `.env.cloudflare` (unico token
+de Cloudflare en el workspace) NO tiene permiso sobre el tunnel: `GET /accounts` devuelve
+`result: []` (cero cuentas visibles con este token) y `GET .../cfd_tunnel/<id>` devuelve
+`Not authorized`. Se confirmo tambien que `.env.local` no tiene ninguna variable de Cloudflare.
+Bloqueo real, no resuelto: falta un token con permiso `Account -> Cloudflare Tunnel -> Edit`
+sobre la cuenta correcta, o que el propietario edite el Service URL del tunnel desde el
+dashboard directamente, o autorice `cloudflared tunnel login`.
+
+Ademas, separado de los 10 archivos con trabajo real de otra sesion en paralelo (documentado
+varias veces en este archivo), se identificaron 3 archivos (`AGENTS.md`,
+`context/prompts/system_prompt.md`, `docs/agent-state.md`) que solo tenian el bloque mecanico
+"Multi-Agent Shared Memory & Task Ledger Protocol" insertado automaticamente por
+`sync_memory.py` — infraestructura del sistema multi-agente del usuario, no trabajo de feature
+de nadie. Se commitearon aparte (commit `85179a0563`) y se empujaron a origin (confirmado con
+`git fetch` + comparacion de refs tras un corte de red transitorio que hizo falta reintentar).
+
+**Estado al cierre de este pase:** rama `careerai/live-browser-run-tracking` sincronizada con
+origin (0 commits locales pendientes). Bloqueo pendiente: acceso a Cloudflare del propietario
+para terminar de destrabar `chefalitas.com.do` (502 externo confirmado con el navegador; el
+servidor local SI responde 200 OK tras el fix de nginx). PR contra `main` sigue pendiente por
+el problema de historias no relacionadas ya documentado (no resuelto, requiere decision del
+propietario sobre la rama base correcta).
