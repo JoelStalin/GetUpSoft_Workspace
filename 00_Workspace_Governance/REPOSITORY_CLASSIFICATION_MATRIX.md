@@ -33,7 +33,7 @@ Total directories inventoried: 43
 | `apps/ida-pro-mcp/` | Security tooling | `08_Research_Labs/ida-pro-mcp/` | Low | No known runtime consumers | Move after doc update | Pending |
 | `apps/insta-manager-pro/` | AI Worker (Instagram) | `04_Workers/social/insta-manager-pro/` | Medium | scripts/deploy, CI/CD | Audit deploy scripts | Plan sprint |
 | `apps/kaliman-mcp/` | MCP tooling/library | `07_Libraries_Tools/mcp/kaliman/` | Low | mcp-servers.shared.json | Update MCP manifest then move | Pending |
-| `apps/local_printer_agent/` | Worker (printer) | `04_Workers/printer/local-printer-agent/` | Medium | ChefAlitas dependency suspected | Audit client-specific coupling first | Plan sprint |
+| `apps/local_printer_agent/` | Chefalitas product component | `02_Products/Chefalitas/addons/pos_printing_suite/agent_src/local_printer_agent/` | Medium | Chefalitas POS printing suite | Consolidate under Chefalitas; extract only genuinely reusable worker code | Planned in Chefalitas sync |
 | `apps/n8n/` | Worker runtime | `04_Workers/workflow-runtime/n8n/` | Medium | n8n workflows, Docker Compose | Audit workflow configs. Critical runtime | Do not move yet |
 | `apps/nexus/` | Internal tooling | `07_Libraries_Tools/nexus/` | Low | Not confirmed in production | Classify usage, then move | Pending |
 | `apps/notebooklm-py/` | AI worker/library | `08_Research_Labs/notebooklm-py/` | Low | No confirmed runtime consumer | Move after classification | Pending |
@@ -61,7 +61,7 @@ Total directories inventoried: 43
 | `03_AI_Automation/scrapling/` | Web scraping worker | `04_Workers/data/scrapling/` | Low | Not confirmed in production | Move to workers/data | Pending |
 | `03_Client_Solutions/` | Client solutions root | `03_Client_Solutions/` | Low | README only — needs content | Populate with ChefAlitas, GalantesJewelry cards | Active — add content |
 | `06_E_Commerce_Lux/Galantesjewelry/` | Client Solution (active) | `03_Client_Solutions/GalantesJewelry/` | Medium | Active e-commerce, Cloudflare, deploy scripts | Create client card first, then migrate path | Do not move yet |
-| `02_Odoo_ERP/Odoo_Consolidated_Library/v18/Projects/Chefalitas/` | Client Solution (embedded in ERP) | `03_Client_Solutions/ChefAlitas/` | High | Embedded in Odoo v18 library, printer agent | Extract requires ERP module audit | Do not move yet |
+| `02_Odoo_ERP/Odoo_Consolidated_Library/v18/Projects/Chefalitas/` | GetUpSoft B2B SaaS product (embedded legacy copy) | `02_Products/Chefalitas/` | High | Odoo modules, PostgreSQL, Nginx, Cloudflare, POS printer agent | Keep the independent Chefalitas repository canonical and migrate the embedded legacy copy after ERP audit | Canonical snapshot added |
 | `04_Archive_Legacy/` | Archives | `09_Archives/` | Low | No active consumers | Rename/merge with archive/ | Plan sprint |
 | `archive/` | Archives (root) | `09_Archives/` | Low | No active consumers | Merge with 04_Archive_Legacy | Plan sprint |
 | `infra/` | Infrastructure | `06_Infrastructure_Networking/` | Medium | Docker configs, VPN, mail | Merge with 01_Core_Platform/infrastructure | Plan sprint |

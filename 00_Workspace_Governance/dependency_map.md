@@ -19,7 +19,7 @@ EasyCount        -> single canonical product; easycount-core + Easycouting_Refac
 
 ```text
 GalantesJewelry  -> scraping_worker / catalog_worker / reporting_worker / payment_worker
-ChefAlitas       -> Odoo_worker / POS_worker / printer_worker / e-CF_worker
+Chefalitas       -> Odoo_worker / POS_worker / local_printer_agent / e-CF_worker
 GetUpNet         -> payment_worker / Odoo_worker / networking_worker
 AIHub            -> ai_routing_worker / prompt_preprocessing_worker / audit_worker
 ORCA             -> prompt_interpreter_worker / workflow_worker / orchestration_worker
@@ -29,6 +29,6 @@ EasyCount        -> e-CF_worker / Odoo_sync_worker / document_generation_worker 
 
 ## Observaciones del workspace actual
 
-- `local_printer_agent` muestra acoplamiento explícito con `Chefalitas`; requiere extracción para quedar como worker genérico.
+- `local_printer_agent` is an internal Chefalitas component. Only code proven reusable across products may be extracted into a generic worker.
 - `n8n`, `hyperframes` y `notebooklm-py` son candidatos a workers o tooling, pero aún necesitan auditoría funcional.
 - `ORCA` aparece en dos ubicaciones conceptuales (`orca/` y `03_AI_Automation/orca/`), lo que exige un mapa de consolidación antes de mover.
