@@ -1987,3 +1987,87 @@ de forzar la pagina pesada.
 Tests: `test_careerai_job_discovery_core.mjs`, `test_careerai_dice_discovery.mjs`,
 `test_careerai_staffing_agency_discovery.mjs`, `test_careerai_interview_scheduler.mjs` (nuevos,
 27 casos en total). Regresion completa en verde (99 nodos, 198 casos funcionales).
+
+---
+
+## 2026-09-09 — Publicacion automatica tras probar: bootstrap real del canvas + credenciales de proveedor
+
+**Rama:** `careerai/live-browser-run-tracking` (remoto: `origin` =
+`https://github.com/JoelStalin/GetUpSoft_Workspace.git`)
+
+**Commit:** `27767e38d9` — feat(careerai): sesion de canvas en vivo, credenciales de
+proveedor y catalogo n8n (pusheado y confirmado sincronizado con origin, sin commits
+pendientes de push).
+
+**Instruccion del usuario que motivo este checkpoint:** "el proyecto careerai no esta
+abierto al publico asi que necesito que todos los cambios los publiques luego de
+probarlos en automatico" — se corrigio primero el assert de conteo hardcodeado que
+quedaba desactualizado (100 -> ahora se deriva de `parity.nodes.length`, nunca mas un
+literal fijo), se corrio la regresion completa (`npm run careerai:regression`, 40+
+scripts + node-parity) en verde, se verifico en vivo contra el servidor real
+(`npm run orca:start` vía `preview_start`) que `/api/careerai/connectors` responde
+correctamente con los gates reales (indeed prepare-only, linkedin discovery-only), y
+solo entonces se hizo commit + push.
+
+**Que se publico (alcance exacto, revisado archivo por archivo antes de `git add` por
+el patron ya establecido de esta rama: nunca commitear contaminacion de otra sesion
+concurrente):**
+
+- `scripts/start_orca_local.mjs`: bootstrap real del workflow `careerai-indeed-agent` al
+  servir el HTML (`window.__ORCA_BOOTSTRAP_WORKFLOW__`), fusion de nodos del inventario +
+  n8n-parity + catalogo de nodos n8n (`data/orca/n8n-node-catalog.json`), persistencia de
+  estado de canvas por workflow (`data/orca/workflow-state/<id>.json`, merge no destructivo
+  vía `mergeWorkflowState`), proxy hacia el servicio OAuth.
+- `apps/orca/src/careerai/browser-session-vault.mjs`, `knowledge-context.mjs`,
+  `language-detector.mjs` (nuevos): sesiones de navegador reutilizables con expiracion,
+  contexto de conocimiento GetUpSoft/edX (solo metadata publica, sin cookies/credenciales),
+  deteccion de idioma.
+- `apps/orca/src/runtime/node-family-executor.mjs`, `workflow-state-merge.mjs`;
+  `apps/orca/src/security/provider-credential-vault.mjs` (nuevos): ejecutor generico por
+  familia de nodo (usado por `test_careerai_node_runtime_cases.mjs`), merge de estado de
+  workflow que preserva valores editados por el usuario, boveda de credenciales de
+  proveedor cifrada (nunca expone el secreto en claro).
+- `data/careerai/node-inventory.json`, `apps/orca/data/workflow_blueprints.json`: quedaron
+  sincronizados entre si (99 nodos, 70 "listo" en el blueprint).
+- Tests nuevos agregados a `careerai:regression`/`careerai:test-node-parity` en
+  `package.json`: `test_careerai_knowledge_context.mjs` (se verifico standalone antes de
+  cablearlo), `test_careerai_browser_session_vault.mjs`, `test_careerai_node_use_cases.mjs`,
+  `test_careerai_provider_credentials.mjs`, `test_careerai_run_lifecycle.mjs`,
+  `test_careerai_workflow_schema_migration.mjs`.
+
+**Explicitamente NO publicado (se quedo sin commitear en el working tree local, fuera de
+alcance de este checkpoint):**
+
+- `apps/orca/tests/` (suite de Python `test_hermes_*`/`test_gstack_*`): pertenece a otro
+  subsistema (Hermes/gstack), no a CareerAI; no se toco.
+- `apps/orca/src/lib/classification-feedback.ts`: sin referencias encontradas desde codigo
+  CareerAI, no se pudo verificar su proposito real en el tiempo de este checkpoint.
+- `data/careerai/n8n-node-parity.json`, `data/careerai/node-functional-test-report.json`:
+  artefactos generados en cada corrida (`build_careerai_n8n_parity.mjs` los regenera),
+  igual que ya no se versionan otros reportes similares del proyecto.
+- `data/careerai/adaptive_form_adapters.json`, `cv_master_extracted_text.txt`,
+  `delegations/`, `executions/`, `live_sourcing_state.json`, `original_cvs/`,
+  `raw_leads_source.json`, `run-control/`, `unified_run_control.json`: estado de
+  ejecucion local / datos potencialmente personales (CVs), mismo criterio que
+  `data/careerai/runs.jsonl` ya declarado en `.gitignore` como "evidencia local, no
+  versionada".
+- `data/orca/workflow-state/careerai-indeed-agent.json`: snapshot puntual del canvas
+  editado durante la verificacion en el navegador; opcional (el bootstrap cae de vuelta al
+  blueprint base si no existe), no se versiono por ser estado de sesion, no codigo.
+- Decenas de scripts sueltos sin relacion con CareerAI mezclados en el working tree
+  (`scripts/dispatch_all_10_leads.mjs`, `generate_10_real_cv_and_letters.mjs`,
+  `run_real_dispatch.mjs`, etc.) y carpetas enteras de otros productos
+  (`apps/backend-nest/`, `apps/easycount/`, `apps/hyperframes/`, `01_Core_Platform/`, etc.):
+  no forman parte de esta rama/tarea, no se tocaron.
+
+**Como revertir:** `git revert 27767e38d9` (revert limpio, sin dependencias posteriores
+en esta rama todavia) o `git reset --hard <commit-anterior>` seguido de
+`git push --force-with-lease` si el usuario decide descartarlo explicitamente — no
+ejecutado por defecto, requiere autorizacion directa.
+
+**Estado final verificado:** `git status --short --branch` sin marca `ahead`/`behind`,
+`git diff` y `git diff --staged` vacios, regresion completa en verde antes del commit.
+Backlog de nodos asignados a "claude" en `node-inventory.json` sigue vacio (confirmado en
+checkpoint anterior). Pendiente real, no ejecutable sin decision/credencial del usuario:
+tunnel Cloudflare de Chefalitas, PR de esta rama contra `main` (historias no relacionadas),
+items de backlog con owner "joel"/"ambos".
