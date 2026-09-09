@@ -1938,3 +1938,52 @@ para terminar de destrabar `chefalitas.com.do` (502 externo confirmado con el na
 servidor local SI responde 200 OK tras el fix de nginx). PR contra `main` sigue pendiente por
 el problema de historias no relacionadas ya documentado (no resuelto, requiere decision del
 propietario sobre la rama base correcta).
+
+### 2026-09-08 (cont. 2) — Backlog de CareerAI: 4 nodos mas construidos, duplicado eliminado
+
+Retomado "sigue con orca y career ia". Se reviso el backlog explicito completo
+(`node-inventory.json`, owner "claude", status "falta") y se integro lo que faltaba:
+
+1. **`linkedin-discovery` era un duplicado obsoleto**: su proposito ("Discovery-only; Jobs/Apply
+   bloqueado por gate") ya lo cubre `linkedin-jobs-search` (construido y probado en vivo
+   anteriormente). Se elimino la entrada en vez de construir un nodo redundante.
+
+2. **`interview-scheduler`**: agenda entrevista en Google Calendar, mismo patron de dos
+   puertas que el resto del proyecto (aprobacion vigente por oportunidad + `confirm:true`
+   explicito para el POST real). `calendarClient` inyectado (no lo abre el modulo) para poder
+   testear sin credenciales de Google. Bloquea fechas en el pasado, horarios invertidos
+   (fin antes que inicio), y falta de email del candidato — nunca agenda algo mal formado.
+
+3. **`job-discovery-core.mjs`**: se extrajo la logica compartida entre portales (filtro de
+   relevancia por titulo, dedup, deteccion de checkpoint/captcha, paginacion con throttling)
+   DESPUES de construir `linkedin-jobs-node.mjs` (que se dejo intacto, ya probado en vivo, para
+   no arriesgar romperlo) — evita que `dice-discovery` y `staffing-agency-discovery` dupliquen
+   la misma logica con el mismo riesgo de bug (el filtro de relevancia por titulo que corrigio
+   el caso real de LinkedIn: 7 resultados, 0 relevantes).
+
+4. **`dice-discovery`**: discovery-only sobre dice.com. Selectores del DOM segun el markup
+   publico, marcados EXPLICITAMENTE como no verificados contra una sesion real (no hay sesion
+   de Dice disponible en esta sesion) — si devuelve 0 resultados en todas las paginas, el nodo
+   avisa que puede ser un selector desactualizado, no lo reporta como un hecho confiable.
+
+5. **`staffing-agency-discovery`**: a diferencia de los portales fijos, este es configurable
+   por cliente (`buildAgencyPortalConfig`) — sirve para cualquier profesion (probado con
+   enfermeria, no solo tecnologia), y se niega explicitamente a correr sin criterio de
+   relevancia (`termPatterns`) para no aceptar cualquier resultado del portal a ciegas.
+
+**Bug real encontrado y corregido durante la regresion**: el conteo hardcodeado en
+`test_careerai_node_runtime_cases.mjs` seguia en 100 (del commit anterior) tras eliminar
+`linkedin-discovery` (duplicado); corregido a 99, que es el conteo real derivado del array del
+inventario (se cambio tambien mi propio script de actualizacion para derivar totales del
+array en vez de sumar a mano, tras encontrar un error de aritmetica propio).
+
+**Bug real de rendimiento encontrado (no corregido en este pase, fuera de alcance del backlog
+de nodos)**: `/api/n8n/node-types` devuelve ~6.4MB (todos los nodos con sus casos de uso
+completos) y bloquea el hilo principal del navegador al renderizar el canvas — el problema
+crece con cada nodo que se agrega al inventario. Confirmado que el backend SI tiene el conteo
+correcto (`/api/stats` -> 70 nodos "listo", liviano, responde bien) verificando por ahi en vez
+de forzar la pagina pesada.
+
+Tests: `test_careerai_job_discovery_core.mjs`, `test_careerai_dice_discovery.mjs`,
+`test_careerai_staffing_agency_discovery.mjs`, `test_careerai_interview_scheduler.mjs` (nuevos,
+27 casos en total). Regresion completa en verde (99 nodos, 198 casos funcionales).
