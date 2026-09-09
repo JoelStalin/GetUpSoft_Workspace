@@ -977,6 +977,56 @@
         "id": "priority-prompt",
         "type": "approval",
         "label": "El cliente ordena sus profesiones"
+      },
+      {
+        "id": "orca-project-provisioner",
+        "type": "worker",
+        "label": "ORCA project provisioner"
+      },
+      {
+        "id": "browser-session-vault",
+        "type": "worker",
+        "label": "Browser session vault (nivel 3)"
+      },
+      {
+        "id": "oauth-pkce-flow",
+        "type": "action",
+        "label": "OAuth2 + PKCE (nivel 2)"
+      },
+      {
+        "id": "wwr-discovery",
+        "type": "worker",
+        "label": "WeWorkRemotely discovery"
+      },
+      {
+        "id": "scroll-paginator",
+        "type": "worker",
+        "label": "Scroll paginator"
+      },
+      {
+        "id": "ocr-visual-verifier",
+        "type": "worker",
+        "label": "OCR visual verifier"
+      },
+      {
+        "id": "recruiter-contact-extractor",
+        "type": "worker",
+        "label": "Recruiter contact extractor"
+      },
+      {
+        "id": "asset-hash-registry",
+        "type": "worker",
+        "label": "Asset hash registry (SHA-256)"
+      },
+      {
+        "id": "human-takeover",
+        "type": "approval",
+        "label": "Human takeover"
+      },
+      {
+        "id": "whatsapp-summary",
+        "type": "notification",
+        "label": "WhatsApp summary"
       }
     ],
     "edges": [
@@ -1459,6 +1509,70 @@
       {
         "from": "status-tracker",
         "to": "interview-scheduler"
+      },
+      {
+        "from": "career-command",
+        "to": "orca-project-provisioner"
+      },
+      {
+        "from": "connection-strategy-router",
+        "to": "browser-session-vault"
+      },
+      {
+        "from": "connection-strategy-router",
+        "to": "oauth-pkce-flow"
+      },
+      {
+        "from": "career-command",
+        "to": "wwr-discovery"
+      },
+      {
+        "from": "run-scheduler",
+        "to": "wwr-discovery"
+      },
+      {
+        "from": "wwr-discovery",
+        "to": "normalize-opportunity"
+      },
+      {
+        "from": "career-command",
+        "to": "scroll-paginator"
+      },
+      {
+        "from": "scroll-paginator",
+        "to": "normalize-opportunity"
+      },
+      {
+        "from": "bot-wall-detector",
+        "to": "ocr-visual-verifier"
+      },
+      {
+        "from": "ocr-visual-verifier",
+        "to": "blocked-escalation"
+      },
+      {
+        "from": "dedupe-canonical",
+        "to": "recruiter-contact-extractor"
+      },
+      {
+        "from": "recruiter-contact-extractor",
+        "to": "normalize-opportunity"
+      },
+      {
+        "from": "file-upload-handler",
+        "to": "asset-hash-registry"
+      },
+      {
+        "from": "bot-wall-detector",
+        "to": "human-takeover"
+      },
+      {
+        "from": "human-takeover",
+        "to": "blocked-escalation"
+      },
+      {
+        "from": "report-scheduler",
+        "to": "whatsapp-summary"
       }
     ],
     "settings": {

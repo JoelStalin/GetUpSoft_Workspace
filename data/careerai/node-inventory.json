@@ -34,9 +34,9 @@
     }
   },
   "totals": {
-    "total": 99,
-    "listo": 70,
-    "prototipo": 13,
+    "total": 98,
+    "listo": 80,
+    "prototipo": 2,
     "falta": 16
   },
   "nodes": [
@@ -52,9 +52,9 @@
     {
       "id": "orca-project-provisioner",
       "type": "worker",
-      "status": "prototipo",
-      "owner": "claude",
-      "purpose": "Crea el proyecto ORCA del cliente con su URL de monitoreo",
+      "status": "listo",
+      "owner": "-",
+      "purpose": "Crea el proyecto ORCA del cliente con su URL de monitoreo real, deterministico e idempotente por owner+slug",
       "block": "A",
       "block_title": "Tenancy, suscripcion y cuotas"
     },
@@ -176,15 +176,6 @@
       "block_title": "Conexiones del cliente"
     },
     {
-      "id": "cookie-jar-persistence",
-      "type": "worker",
-      "status": "prototipo",
-      "owner": "claude",
-      "purpose": "Persiste sesion y cookies del login manual para operar despues por scraping",
-      "block": "B",
-      "block_title": "Conexiones del cliente"
-    },
-    {
       "id": "scraping-session-guard",
       "type": "decision",
       "status": "listo",
@@ -196,18 +187,18 @@
     {
       "id": "oauth-pkce-flow",
       "type": "action",
-      "status": "prototipo",
-      "owner": "claude",
-      "purpose": "Nivel 2: pantalla OAuth2 con PKCE y vault cifrado por tenant",
+      "status": "listo",
+      "owner": "-",
+      "purpose": "Nivel 2: pantalla OAuth2 con PKCE (S256) y vault cifrado por tenant; intercambio real exige confirm:true",
       "block": "B",
       "block_title": "Conexiones del cliente"
     },
     {
       "id": "browser-session-vault",
       "type": "worker",
-      "status": "prototipo",
-      "owner": "claude",
-      "purpose": "Nivel 3: login manual del usuario en live browser; el perfil conserva la sesion",
+      "status": "listo",
+      "owner": "-",
+      "purpose": "Nivel 3: login manual del usuario en live browser; el perfil conserva la sesion (profile_ref, nunca cookies crudas)",
       "block": "B",
       "block_title": "Conexiones del cliente"
     },
@@ -322,9 +313,9 @@
     {
       "id": "wwr-discovery",
       "type": "worker",
-      "status": "prototipo",
-      "owner": "claude",
-      "purpose": "WeWorkRemotely con extraccion por anclas",
+      "status": "listo",
+      "owner": "-",
+      "purpose": "WeWorkRemotely con extraccion por anclas, sobre el core compartido de discovery",
       "block": "C",
       "block_title": "Descubrimiento (fuentes genericas)"
     },
@@ -358,9 +349,9 @@
     {
       "id": "scroll-paginator",
       "type": "worker",
-      "status": "prototipo",
-      "owner": "claude",
-      "purpose": "Recorre el listado acumulando ofertas unicas",
+      "status": "listo",
+      "owner": "-",
+      "purpose": "Recorre listados de scroll infinito acumulando ofertas unicas hasta agotar novedad o el limite",
       "block": "C",
       "block_title": "Descubrimiento (fuentes genericas)"
     },
@@ -376,9 +367,9 @@
     {
       "id": "ocr-visual-verifier",
       "type": "worker",
-      "status": "prototipo",
-      "owner": "claude",
-      "purpose": "OCR nativo Windows, verifica lo que se ve",
+      "status": "listo",
+      "owner": "-",
+      "purpose": "OCR nativo Windows cruzado contra el DOM: nunca confirma un texto que el DOM afirma pero el OCR no ve renderizado",
       "block": "C",
       "block_title": "Descubrimiento (fuentes genericas)"
     },
@@ -448,9 +439,9 @@
     {
       "id": "recruiter-contact-extractor",
       "type": "worker",
-      "status": "prototipo",
-      "owner": "claude",
-      "purpose": "Extrae correos de contacto de la descripcion",
+      "status": "listo",
+      "owner": "-",
+      "purpose": "Extrae el email de contacto de la descripcion en texto plano, descarta buzones genericos",
       "block": "D",
       "block_title": "Normalizacion y calidad del dato"
     },
@@ -529,9 +520,9 @@
     {
       "id": "asset-hash-registry",
       "type": "worker",
-      "status": "prototipo",
-      "owner": "claude",
-      "purpose": "CV original inmutable por SHA-256; vive en el contrato, aun no es nodo",
+      "status": "listo",
+      "owner": "-",
+      "purpose": "CV original inmutable por SHA-256, registro append-only que detecta si el archivo cambio tras aprobarse",
       "block": "F",
       "block_title": "Generacion de artefactos de postulacion"
     },
@@ -664,9 +655,9 @@
     {
       "id": "human-takeover",
       "type": "approval",
-      "status": "prototipo",
-      "owner": "claude",
-      "purpose": "Cede el teclado ante login o captcha",
+      "status": "listo",
+      "owner": "-",
+      "purpose": "Cede el control ante login manual, captcha o checkpoint; nunca intenta esquivarlo",
       "block": "G",
       "block_title": "Ejecucion en navegador y adaptadores de ATS"
     },
@@ -727,9 +718,9 @@
     {
       "id": "whatsapp-summary",
       "type": "notification",
-      "status": "prototipo",
-      "owner": "claude",
-      "purpose": "Resumen con allowlist e idempotencia; simulador draft-only, aun no es nodo",
+      "status": "listo",
+      "owner": "-",
+      "purpose": "Resumen periodico con allowlist e idempotencia, reusa las guardas de whatsapp.mjs",
       "block": "H",
       "block_title": "Aprobacion, notificacion y evidencia"
     },
