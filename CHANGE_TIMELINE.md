@@ -2162,3 +2162,110 @@ sincronizada con origin.
 "ambos") son decisiones de negocio, credenciales o cuentas de terceros (facturacion,
 Workday/Taleo — requieren cuentas reales para verificar selectores, proxies de pago,
 metricas de negocio) que no se deben asumir sin confirmacion explicita del usuario.
+
+---
+
+## 2026-09-09 (cont.) — Migracion Docker Desktop -> motor nativo en WSL (fuera del repo CareerAI, misma maquina)
+
+**Contexto:** el usuario pidio primero migrar TODOS los contenedores de Docker Desktop
+(Windows) a WSL antes de seguir con la integracion EasyCount/Stripe/Odoo19 que habia
+pedido justo antes ("guarda esto pero me hurge que hagas algo primero"). No es trabajo
+del repo `careerai/live-browser-run-tracking` en si — es infraestructura de la maquina
+compartida por todos los productos de GetUpSoft — pero se documenta aqui porque afecta
+directamente a `ollama-server`/`open-webui` que ORCA usa como proveedor local de IA.
+
+**Diagnostico real (no asumido):** Docker Desktop fallaba al arrancar con
+`exit status 0x40010004` / "backend process exited" repetido. Log real
+(`%LOCALAPPDATA%\Docker\log\host\com.docker.backend.exe.log`): el Inference Manager
+(feature de IA de Docker Desktop) no podia bind-ear su socket porque
+`C:\Users\yoeli\AppData\Local\Docker\run\dockerInference` era un socket huerfano que
+Windows reportaba con stat roto (`-?????????`, `ls` no podia leerlo). Fix: parar Docker
+Desktop, `Remove-Item -Force` sobre toda la carpeta `run\` (solo sockets runtime, se
+recrean solos), relanzar. Arranco limpio.
+
+**Hallazgo clave que cambio el plan:** la distro WSL "Ubuntu" YA tenia Docker Engine
+nativo corriendo con systemd (instalado en una sesion anterior para Chefalitas — ver
+entrada de Chefalitas mas arriba en este mismo archivo). No hizo falta instalar nada;
+solo migrar ahi lo que vivia en Docker Desktop.
+
+**Que se migro (verificado, no solo copiado a ciegas):**
+
+1. `ollama-server` + `open-webui`: ambos con datos en bind-mounts directos a rutas de
+   Windows (`03_AI_Automation/data/ollama`, `03_AI_Automation/data/open-webui`,
+   `.agents/memory`), no en volumenes Docker — la migracion fue trivial (recrear el
+   contenedor con el mismo bind-mount, WSL ve el mismo filesystem de Windows via
+   `/mnt/c/...`). Se reconstruyo `03_AI_Automation/docker-compose.llm-memory.yml` (ya no
+   existia en el repo aunque los contenedores seguian corriendo sin el) a partir de la
+   config real (`docker inspect`). Verificado: `curl http://localhost:11434/api/tags`
+   devuelve el mismo modelo `llama3:latest` que antes de migrar; `open-webui` responde
+   200 con su base de datos SQLite migrada intacta (corrio sus migraciones de Alembic al
+   arrancar por primera vez en el nuevo motor, normal).
+2. Hermes: NO corre en Docker (es un proceso nativo de Windows,
+   `%LOCALAPPDATA%\hermes\gateway-service\Hermes_Gateway.cmd`) — Docker solo lo usa para
+   sandboxes efimeros de tareas (contenedores `hermes-<id>` que se crean y destruyen por
+   tarea). Lo que garantiza que Hermes no pierda esa funcionalidad es que el comando
+   `docker` siga resolviendo en Windows tras quitar Docker Desktop (ver mas abajo).
+3. 17 contenedores mas (todos ya "Exited", de proyectos separados: firecrawl x7,
+   odoo18 x2, dgii-n8n x2, orca-gateway x2, getupsoft-orca-* x3,
+   getupsoft-site-local-web): se exportaron sus 31 volumenes con nombre a
+   `05_Backups/docker-volumes-migration/*.tar.gz` (via contenedor `alpine` +
+   `docker save`/`docker load` para las 6 imagenes construidas localmente que no existen
+   en ningun registry: `getupsoft-site-local-web`, `galantesjewelry-orca-core`,
+   `firecrawl-api`, `firecrawl-playwright-service`, `firecrawl-nuq-postgres`,
+   `deploy-app`), se restauraron como volumenes nativos en WSL, y se recrearon los 17
+   contenedores en estado `Created` (NO iniciados — igual que estaban antes, para no
+   arrancar a ciegas 17 servicios de proyectos distintos con posibles conflictos de
+   puerto/red entre si). Prueba de humo real: se arranco `orca-gateway-redis`, cargo su
+   RDB (`DB loaded from disk`, `PONG` en `redis-cli ping`), se paro de nuevo.
+4. Rutas traducidas: bind-mounts en formato Windows (`C:\Users\...`) y en formato interno
+   de Docker Desktop (`/run/desktop/mnt/host/c/...`, que no existe fuera de Docker
+   Desktop) se reescribieron a `/mnt/c/...` (real en WSL) antes de recrear los
+   contenedores — sin este paso, `odoo18-odoo-1`/`odoo18-db-1` habrian arrancado sin sus
+   configs/addons.
+5. `--add-host=host.docker.internal:host-gateway` agregado a todos los contenedores
+   recreados: `getupsoft-orca-core` dependia de esa resolucion DNS (que Docker Desktop da
+   gratis pero el Docker Engine nativo de Linux no) para llegar a Hermes en el host.
+
+**Como Windows sigue viendo Docker sin Docker Desktop:**
+- Un contenedor `docker-tcp-proxy` (`alpine/socat`, `--restart always`) expone el socket
+  Unix de dockerd de WSL en `127.0.0.1:2375` (TCP) — WSL2 reenvia localhost a Windows por
+  defecto, asi que `curl http://localhost:2375/version` responde desde Windows.
+- `DOCKER_HOST=tcp://localhost:2375` seteado a nivel de usuario de Windows
+  (`[Environment]::SetEnvironmentVariable`), para que cualquier proceso que lo lea
+  (Hermes incluido) hable con el motor de WSL sin saberlo.
+- El uninstaller de Docker Desktop se llevo `docker.exe` del PATH de Windows. En vez de
+  bajar un binario nuevo, se creo `C:\Users\yoeli\bin\docker.cmd` y `docker-compose.cmd`
+  (wrappers de una linea que reenvian a `wsl -d Ubuntu docker/docker-compose %*`),
+  agregados al PATH de usuario. Probado con PowerShell: `docker ps` desde Windows lista
+  los contenedores reales de WSL.
+
+**Desinstalacion:** `Docker Desktop Installer.exe uninstall --quiet`, exit code 0. La
+distro `docker-desktop` desaparecio de `wsl -l -v` (confirma que se llevo su VM/disco
+completo, liberando el espacio de los ~20 contenedores/31 volumenes viejos que ya estaban
+respaldados y migrados).
+
+**Cambios en el repo `careerai/live-browser-run-tracking`** (commit `7df0cbf58b`):
+- `03_AI_Automation/docker-compose.llm-memory.yml` (nuevo, recuperado).
+- `.gitignore`: `05_Backups/docker-volumes-migration/` (los tarballs, ~1.5GB de backup
+  binario local, NUNCA deben versionarse — solo viven en este disco).
+
+**Como revertir:** los datos de ollama/open-webui nunca se tocaron (bind-mount directo,
+intactos en `03_AI_Automation/data/`). Los 31 volumenes + 6 imagenes de los 17
+contenedores viejos estan completos en `05_Backups/docker-volumes-migration/` (no
+borrado, no versionado). Si algo de esto se necesita restaurar tal como estaba en Docker
+Desktop, reinstalar Docker Desktop y usar esos mismos tarballs (`docker volume create` +
+`tar xzf ... | docker run -v vol:/to alpine tar xzf -C /to`, mismo patron usado para
+migrar). El commit del repo se revierte con `git revert 7df0cbf58b`.
+
+**Pendiente real, explicitamente NO iniciado sin decision del usuario:** los 17
+contenedores migrados quedaron en `Created` (parados) a proposito — arrancarlos todos a
+la vez podria chocar puertos/redes entre proyectos que ya no se sabe si siguen en uso
+activo (firecrawl, n8n, odoo18 vs. el lab de Odoo19 ya documentado antes). El usuario
+decide cuales reactivar.
+
+**Siguiente tarea, cuando el usuario lo pida:** retomar la integracion EasyCount + Stripe
++ Odoo 19 remasterizado descrita en el mensaje del usuario justo antes de esta migracion
+(centro de contabilidad global de todos los productos GetUpSoft, EasyCount como proveedor
+de facturas electronicas via API de Stripe, Odoo 19 como ERP generador conectado de forma
+que ORCA entienda su contexto/cambios). No iniciado todavia — requiere planificacion
+propia, no es una continuacion directa del trabajo de nodos CareerAI.
