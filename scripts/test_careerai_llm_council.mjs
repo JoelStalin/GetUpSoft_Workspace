@@ -1,4 +1,4 @@
-import { extractJson, consensusTerms, PROVIDERS } from '../apps/orca/src/careerai/llm-council.mjs';
+import { extractJson, consensusTerms, PROVIDERS, ROLES } from '../apps/orca/src/careerai/llm-council.mjs';
 import { researchFamily, mergeIntoCatalog, buildResearchPrompt } from '../apps/orca/src/careerai/catalog-researcher.mjs';
 
 // --- extraccion de JSON de respuestas en lenguaje natural ---------------------
@@ -13,6 +13,12 @@ if (extractJson('Claro, aqui tienes:' + NL + '{"terms":["termino dos"]}' + NL + 
 }
 if (extractJson('No tengo informacion sobre eso.') !== null) throw new Error('Sin JSON debe devolver null');
 if (extractJson('{"roto": ') !== null) throw new Error('JSON invalido debe devolver null, no lanzar');
+if (!PROVIDERS.nvidia || PROVIDERS.nvidia.env !== 'NVIDIA_NIM_BASE_URL') {
+  throw new Error('NVIDIA NIM debe estar declarado como proveedor configurable');
+}
+if (ROLES.heavy_lifting.primary !== 'nvidia' || ROLES.heavy_lifting.fallback[0] !== 'hermes') {
+  throw new Error('El trabajo pesado debe priorizar NVIDIA y respaldarse con Hermes para economizar tokens');
+}
 
 // --- consenso por votos ------------------------------------------------------
 const votes = consensusTerms([

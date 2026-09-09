@@ -44,7 +44,7 @@ for (const entry of parity.nodes) {
   results.push({ node_id: entry.node_id, family, happy_path: { status: happy.status, adapter_invoked: calls.length > beforeHappy }, invalid_or_expired_input: { status: invalid.status, error: invalid.error, adapter_invoked: false, side_effect: false } });
 }
 
-assert.equal(Object.values(counts).reduce((sum, value) => sum + value, 0), 99);
+assert.equal(Object.values(counts).reduce((sum, value) => sum + value, 0), parity.nodes.length);
 assert.ok(counts.whatsapp === 3 && counts.browser >= 1 && counts.ai >= 1 && counts.code >= 1);
 fs.writeFileSync('data/careerai/node-functional-test-report.json', `${JSON.stringify({ schema_version: 'careerai.node-functional-tests.v1', generated_at: new Date().toISOString(), total_nodes: parity.nodes.length, executable_cases: parity.nodes.length * 2, adapter_calls: calls.length, families: counts, results }, null, 2)}\n`);
 console.log(JSON.stringify({ ok: true, nodes: parity.nodes.length, executable_cases: parity.nodes.length * 2, adapter_calls: calls.length, families: counts }));

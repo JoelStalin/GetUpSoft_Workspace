@@ -115,3 +115,40 @@ diseño de seguridad tiene que ser mucho más riguroso desde el día uno (ver se
 5. Seguridad ya delineada arriba, aplica en ambas opciones con distinto nivel de riesgo.
 
 No se empieza a construir nada de esto hasta que el propietario elija el punto 4.
+
+## 7. Inventario de cuentas/accesos (2026-08-28, verificado, sin cambios en consolas)
+
+Cuenta de referencia pedida: `joelstalin2105@gmail.com`.
+
+| Sistema | Estado verificado | Detalle |
+|---|---|---|
+| **Chrome perfil Default** | ✅ Coincide | El perfil `Default` de `C:\Users\yoeli` tiene sesión de Google iniciada con `joelstalin2105@gmail.com` como cuenta primaria (confirmado leyendo `Preferences` del perfil). Hay una segunda cuenta secundaria (`ing.joelstalinmartinez@gmail.com`) en el mismo navegador — no es un problema, solo a tener en cuenta si algún flujo pregunta "¿con qué cuenta?". |
+| **Sesión LinkedIn en ese perfil** | ⚠️ No verificado todavía | El perfil Default estuvo bloqueado por Chrome abierto durante toda esta verificación (se reabrió varias veces). No se pudo confirmar login real de LinkedIn en este pase — pendiente de reintentar con Chrome cerrado. |
+| **Google Cloud (gcloud)** | 🔴 No coincide | `gcloud auth list` / `gcloud config list` muestran la cuenta activa **`ceo@galantesjewelry.com`**, proyecto `deft-haven-493016-m4` — no es `joelstalin2105@gmail.com`, y no hay proyecto dedicado a CareerAI. Para el OAuth de Google Drive de CareerAI hace falta: `gcloud config set account joelstalin2105@gmail.com` (o `gcloud auth login` con esa cuenta) y decidir si se reutiliza `deft-haven-493016-m4` o se crea un proyecto nuevo. |
+| **Cloudflare (wrangler)** | ⚠️ No concluyente | `npx wrangler whoami` no devolvió respuesta en el tiempo de esta verificación (puede requerir login interactivo la primera vez, o estar descargando el paquete). El `ZONED_ID_GETUPSOFT_COM` ya está en `.env` con un `CLOUDFLARE_API_TOKEN` asociado — el acceso por API parece existir independientemente de si `wrangler` CLI está autenticado localmente. Pendiente confirmar con `wrangler login` si hace falta crear `careerai.getupsoft.com` con la CLI. |
+| **Meta / WhatsApp Cloud API** | ✅ Nombre coincide, cuenta Google no verificable | El WABA en `.env.local` pertenece a la cuenta de negocio **"Joel Stalin Martínez"** (confirmado con `debug_whatsapp_token.mjs`). No hay forma de confirmar desde aquí si esa cuenta de Meta Business está vinculada específicamente a `joelstalin2105@gmail.com` (Meta no expone esa relación vía la Graph API) — para confirmarlo hay que entrar a Meta Business Suite con esa cuenta y verlo directamente. El error 131037 (Display Name sin aprobar) es independiente de qué cuenta Google esté detrás — es de la app de Meta, no se resuelve cambiando de cuenta Google.
+
+**Lo que falta para dejar todo bajo la misma identidad:**
+1. `gcloud config set account joelstalin2105@gmail.com` — pendiente, requiere que el propietario lo autorice (login interactivo de Google).
+2. Confirmar sesión de LinkedIn en el perfil Default — pendiente de que Chrome se mantenga cerrado el tiempo suficiente para verificar.
+3. `wrangler login` si se decide crear el subdominio por CLI en vez de API directa.
+4. Confirmar en Meta Business Suite que el WABA está bajo `joelstalin2105@gmail.com` (no verificable por API).
+
+## 8. Puntos de intervención humana en el flujo — auditoría (mínima interacción posible)
+
+Orca ya existe: es el motor de workflow visual de este mismo repo
+(`apps/orca/data/workflow_blueprints.json`, workflow `careerai-indeed-agent`, servido con
+`npm run orca:start`). No hace falta inventar otro motor — cada pieza nueva ya se modela como
+nodo ahí (ver `data/careerai/node-inventory.json`).
+
+| # | Punto de intervención | Motivo | ¿Eliminable? |
+|---|---|---|---|
+| 1 | Escanear el QR / login inicial (LinkedIn, Indeed, WhatsApp Web) | Sesión de navegador, no hay API oficial para esto | **No, inherente.** Una sola vez por plataforma; la sesión persiste después. |
+| 2 | Aprobación antes de enviar cada candidatura | Pedido explícito del propietario — nunca se envía nada sin aprobación | **No, inherente y deseado.** Es una decisión de producto, no una limitación técnica. |
+| 3 | Cerrar Chrome para liberar el perfil Default | El perfil Default del usuario solo admite una instancia de Chrome a la vez | **Sí, eliminable.** Cambiando a un perfil de automatización dedicado (como ya se hace con WhatsApp Web/LinkedIn-Indeed hoy) se evita depender de que el usuario cierre su navegador — el costo es no reutilizar directamente las cookies del navegador diario. Es un trade-off, no una limitación dura. |
+| 4 | CAPTCHA / verificación anti-bot en un portal | Política del proyecto: nunca se intenta resolver automáticamente (ver `docs/backlog.md`) | **No, inherente por diseño de seguridad**, aunque la *frecuencia* con la que aparece sí se puede reducir (throttling, evitar patrones que lo disparen). |
+| 5 | Aprobar Display Name en Meta para plantillas de Cloud API | Requisito administrativo de Meta, una sola vez por número | **No, inherente**, pero es un paso único, no recurrente. |
+| 6 | Verificación de la app de Google (scopes sensibles de Drive/Gmail) | Requisito de Google para producción con usuarios externos | **No, inherente** mientras el proyecto use esos scopes; en modo test no aplica (límite de usuarios de prueba). |
+| 7 | Confirmar identidad de cuenta (gcloud/Meta/Chrome) | Verificado en la sección 7 — hoy hay cuentas mezcladas (gcloud en `ceo@galantesjewelry.com`) | **Sí, eliminable** una vez se alinee todo a `joelstalin2105@gmail.com` (tarea de configuración única, no un punto recurrente del pipeline). |
+
+**Objetivo real de "mínima interacción":** de los 7 puntos, **2 son inherentes y deseados por diseño** (aprobación de candidaturas, nunca resolver CAPTCHA solo), **2 son inherentes pero de una sola vez** (login inicial, aprobaciones administrativas de Meta/Google), y **2 son eliminables con trabajo de ingeniería** (perfil dedicado en vez de Default, alineación de cuentas). Ningún nodo del flujo debería pedir intervención humana repetida más allá de estos.

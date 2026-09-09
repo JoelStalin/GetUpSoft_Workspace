@@ -34,10 +34,10 @@
     }
   },
   "totals": {
-    "total": 95,
-    "listo": 58,
+    "total": 99,
+    "listo": 70,
     "prototipo": 13,
-    "falta": 24
+    "falta": 16
   },
   "nodes": [
     {
@@ -97,8 +97,8 @@
     {
       "id": "run-scheduler",
       "type": "trigger",
-      "status": "falta",
-      "owner": "claude",
+      "status": "listo",
+      "owner": "-",
       "purpose": "Disparo programado por tenant",
       "block": "A",
       "block_title": "Tenancy, suscripcion y cuotas"
@@ -302,20 +302,20 @@
       "block_title": "Descubrimiento (fuentes genericas)"
     },
     {
-      "id": "dice-discovery",
+      "id": "linkedin-jobs-search",
       "type": "worker",
-      "status": "falta",
-      "owner": "claude",
-      "purpose": "Adaptador de Dice; fuerte en perfiles tecnicos y de contrato",
+      "status": "listo",
+      "owner": "-",
+      "purpose": "Discovery en LinkedIn Jobs (AS400/iSeries/RPG), filtro de relevancia real, nunca postula",
       "block": "C",
       "block_title": "Descubrimiento (fuentes genericas)"
     },
     {
-      "id": "linkedin-discovery",
+      "id": "dice-discovery",
       "type": "worker",
-      "status": "falta",
-      "owner": "claude",
-      "purpose": "Discovery-only; Jobs/Apply bloqueado por gate",
+      "status": "listo",
+      "owner": "-",
+      "purpose": "Adaptador de Dice; fuerte en perfiles tecnicos y de contrato",
       "block": "C",
       "block_title": "Descubrimiento (fuentes genericas)"
     },
@@ -331,8 +331,8 @@
     {
       "id": "staffing-agency-discovery",
       "type": "worker",
-      "status": "falta",
-      "owner": "claude",
+      "status": "listo",
+      "owner": "-",
       "purpose": "Portales de agencias; se configuran por profesion del cliente",
       "block": "C",
       "block_title": "Descubrimiento (fuentes genericas)"
@@ -502,8 +502,8 @@
     {
       "id": "cv-gap-analyzer",
       "type": "intelligence",
-      "status": "falta",
-      "owner": "claude",
+      "status": "listo",
+      "owner": "-",
       "purpose": "Que pide la oferta que el CV no muestra",
       "block": "E",
       "block_title": "Analisis, consenso y priorizacion"
@@ -574,8 +574,8 @@
     {
       "id": "asset-human-review",
       "type": "approval",
-      "status": "falta",
-      "owner": "claude",
+      "status": "listo",
+      "owner": "-",
       "purpose": "Revision humana antes de tocar el formulario",
       "block": "F",
       "block_title": "Generacion de artefactos de postulacion"
@@ -646,8 +646,8 @@
     {
       "id": "file-upload-handler",
       "type": "worker",
-      "status": "falta",
-      "owner": "claude",
+      "status": "listo",
+      "owner": "-",
       "purpose": "Sube el CV adaptado; gate propio",
       "block": "G",
       "block_title": "Ejecucion en navegador y adaptadores de ATS"
@@ -781,8 +781,8 @@
     {
       "id": "interview-scheduler",
       "type": "action",
-      "status": "falta",
-      "owner": "claude",
+      "status": "listo",
+      "owner": "-",
       "purpose": "Agenda en Calendar con aprobacion",
       "block": "I",
       "block_title": "Seguimiento posterior a la postulacion"
@@ -894,15 +894,51 @@
       "purpose": "Cadencia del reporte configurable por el cliente (por hora o a su hora)",
       "block": "I",
       "block_title": "Seguimiento posterior a la postulacion"
+    },
+    {
+      "id": "nvidia-heavy-analysis",
+      "type": "intelligence",
+      "status": "listo",
+      "owner": "-",
+      "purpose": "Trabajo pesado mediante NVIDIA NIM con fallback y limite de tokens",
+      "block": "D",
+      "block_title": "Consejo de modelos y conocimiento"
+    },
+    {
+      "id": "claude-code-review",
+      "type": "intelligence",
+      "status": "listo",
+      "owner": "-",
+      "purpose": "Revision de contenido y cumplimiento mediante Claude CLI aislado al proyecto",
+      "block": "D",
+      "block_title": "Consejo de modelos y conocimiento"
+    },
+    {
+      "id": "getupsoft-edx-knowledge",
+      "type": "worker",
+      "status": "listo",
+      "owner": "-",
+      "purpose": "Carga el contexto publico de cursos edX desde GetUpSoft Knowledge Center",
+      "block": "D",
+      "block_title": "Consejo de modelos y conocimiento"
+    },
+    {
+      "id": "whatsapp-approval-notification",
+      "type": "notification",
+      "status": "listo",
+      "owner": "-",
+      "purpose": "Nodo visual n8n-compatible de WhatsApp en modo draft-only para solicitar aprobacion",
+      "block": "H",
+      "block_title": "Aprobacion y notificaciones"
     }
   ],
   "council_roles": {
-    "heavy_lifting": "hermes (modelos gratuitos, mayor consumo de tokens)",
+    "heavy_lifting": "nvidia-nim (primario economico) -> hermes (respaldo local/gratuito) -> gemini -> openai",
     "code_review": "claude (revision de codigo y cumplimiento)",
     "systems_analysis": "openai (analisis de sistema, documentacion y reportes PDF/Excel)",
     "reporting": "openai",
     "qa_testing": "gemini (testing y QA)",
-    "research": "consejo con voto entre varios"
+    "research": "consejo Hermes + NVIDIA + Gemini + OpenAI; solo consulta proveedores disponibles"
   },
   "apply_flow": {
     "note": "El buscador recorre la lista de plataformas con los perfiles derivados del CV. Cada posicion NUEVA dispara el analizador, que decide la via de postulacion.",

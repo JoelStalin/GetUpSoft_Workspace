@@ -80,6 +80,14 @@ if (haciaAtras > workflow.edges.length * 0.5) {
   throw new Error(`Demasiadas aristas hacia atras (${haciaAtras}/${workflow.edges.length}): el orden del grafo esta mal`);
 }
 
+const inventory = JSON.parse(fs.readFileSync('data/careerai/node-inventory.json', 'utf8'));
+const inventoryById = new Map(inventory.nodes.map((node) => [node.id, node]));
+const enrichedNodes = workflow.nodes.map((node) => ({ ...node, ...(inventoryById.get(node.id) || {}) }));
+const swimlanes = layoutGraph(enrichedNodes, workflow.edges);
+if (swimlanes.strategy !== 'functional_swimlanes') throw new Error('El canvas debe usar swimlanes funcionales');
+if (swimlanes.positions.size !== workflow.nodes.length) throw new Error('Las swimlanes deben colocar todos los nodos');
+if (!swimlanes.lanes.includes('D') || !swimlanes.lanes.includes('H')) throw new Error('Modelos y notificaciones deben tener lanes propias');
+
 console.log(JSON.stringify({
   ok: true,
   node: 'graph-layout',
@@ -89,4 +97,6 @@ console.log(JSON.stringify({
   ancho_px: real.width,
   aristas_de_ciclo: real.back_edges.length,
   aristas_hacia_atras: haciaAtras,
+  estrategia_publica: swimlanes.strategy,
+  carriles_funcionales: swimlanes.lanes,
 }));

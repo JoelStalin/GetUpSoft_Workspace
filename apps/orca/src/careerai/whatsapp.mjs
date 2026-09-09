@@ -86,56 +86,99 @@ export async function evolutionInstanceStatus({ baseUrl = process.env.EVOLUTION_
 const randomDelayMs = (min = 1200, max = 3500) => Math.floor(min + Math.random() * (max - min));
 const wait = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
-// --- envio real: exige aprobacion + confirmacion explicita + instancia conectada ---
-// La demora aleatoria y el estado "escribiendo..." siguen la recomendacion de la
-// investigacion (documento de arquitectura) para no disparar el bloqueo de cuenta de
-// Baileys por enviar como robot.
+// --- envio real: soporte hibrido WhatsApp Cloud API (Meta Oficial) + Evolution API ---
 export async function sendWhatsAppMessage(prepared, {
   confirm = false,
   baseUrl = process.env.EVOLUTION_API_BASE_URL,
   apiKey = process.env.EVOLUTION_API_KEY,
   instance = process.env.EVOLUTION_API_INSTANCE,
+  metaToken = process.env.WHATSAPP_ACCESS_TOKEN,
+  metaPhoneId = process.env.WHATSAPP_PHONE_NUMBER_ID,
+  metaSecret = process.env.META_CLIENT_SECRET,
   fetchImpl = fetch,
 } = {}) {
   if (!prepared?.ok || prepared.status !== 'ready_to_send') {
     return { ok: false, send_performed: false, reason: 'nada preparado y listo para enviar', prepared };
   }
-  // Segunda puerta, independiente de la aprobacion de negocio: quien ejecuta el envio
-  // real tiene que pasarlo explicitamente, nunca un default.
   if (confirm !== true) {
     return { ok: false, send_performed: false, reason: 'falta confirmacion explicita (confirm: true) para el envio real' };
   }
-  if (!baseUrl || !instance) {
-    return { ok: false, send_performed: false, reason: 'sin EVOLUTION_API_BASE_URL o EVOLUTION_API_INSTANCE configurados' };
+
+  // 1. Intento por WhatsApp Cloud API Oficial de Meta
+  if (metaToken && metaPhoneId) {
+    try {
+      let url = `https://graph.facebook.com/v21.0/${metaPhoneId}/messages`;
+      if (metaSecret) {
+        const appsecretProof = crypto.createHmac('sha256', metaSecret).update(metaToken).digest('hex');
+        url += `?appsecret_proof=${appsecretProof}`;
+      }
+
+      const res = await fetchImpl(url, {
+        method: 'POST',
+        headers: {
+          'authorization': `Bearer ${metaToken}`,
+          'content-type': 'application/json',
+        },
+        body: JSON.stringify({
+          messaging_product: 'whatsapp',
+          to: prepared.recipient_phone,
+          type: 'text',
+          text: { body: prepared.text },
+        }),
+      });
+
+      const data = await res.json();
+      if (res.ok && data?.messages?.[0]?.id) {
+        return {
+          ok: true,
+          send_performed: true,
+          channel: 'meta_cloud_api',
+          opportunity_id: prepared.opportunity_id,
+          idempotency_key: prepared.idempotency_key,
+          approval_id: prepared.approval_id,
+          message_id: data.messages[0].id,
+          raw: data,
+        };
+      } else {
+        console.warn('⚠️ Meta Cloud API aviso:', data?.error?.message);
+      }
+    } catch (err) {
+      console.warn('⚠️ Fallo en Meta Cloud API:', err.message);
+    }
   }
 
-  const url = `${baseUrl.replace(/\/$/, '')}/message/sendText/${instance}`;
-  const headers = { 'content-type': 'application/json', ...(apiKey ? { apikey: apiKey } : {}) };
+  // 2. Intento por Evolution API (Self-Hosted / Baileys)
+  if (baseUrl && instance) {
+    const url = `${baseUrl.replace(/\/$/, '')}/message/sendText/${instance}`;
+    const headers = { 'content-type': 'application/json', ...(apiKey ? { apikey: apiKey } : {}) };
 
-  try {
-    // Simula presencia humana antes de enviar (mitigacion de bloqueo recomendada para Baileys).
-    await fetchImpl(`${baseUrl.replace(/\/$/, '')}/chat/presence/${instance}`, {
-      method: 'POST', headers, body: JSON.stringify({ number: prepared.recipient_phone, presence: 'composing' }),
-    }).catch(() => {});
-    await wait(randomDelayMs());
+    try {
+      await fetchImpl(`${baseUrl.replace(/\/$/, '')}/chat/presence/${instance}`, {
+        method: 'POST', headers, body: JSON.stringify({ number: prepared.recipient_phone, presence: 'composing' }),
+      }).catch(() => {});
+      await wait(randomDelayMs());
 
-    const response = await fetchImpl(url, {
-      method: 'POST',
-      headers,
-      body: JSON.stringify({ number: prepared.recipient_phone, text: prepared.text }),
-    });
-    if (!response.ok) return { ok: false, send_performed: false, reason: `HTTP ${response.status}` };
-    const data = await response.json();
-    return {
-      ok: true,
-      send_performed: true,
-      opportunity_id: prepared.opportunity_id,
-      idempotency_key: prepared.idempotency_key,
-      approval_id: prepared.approval_id,
-      message_id: data?.key?.id || null,
-      raw: data,
-    };
-  } catch (error) {
-    return { ok: false, send_performed: false, reason: String(error?.message || error) };
+      const response = await fetchImpl(url, {
+        method: 'POST',
+        headers,
+        body: JSON.stringify({ number: prepared.recipient_phone, text: prepared.text }),
+      });
+      if (!response.ok) return { ok: false, send_performed: false, reason: `HTTP ${response.status}` };
+      const data = await response.json();
+      return {
+        ok: true,
+        send_performed: true,
+        channel: 'evolution_api',
+        opportunity_id: prepared.opportunity_id,
+        idempotency_key: prepared.idempotency_key,
+        approval_id: prepared.approval_id,
+        message_id: data?.key?.id || null,
+        raw: data,
+      };
+    } catch (error) {
+      return { ok: false, send_performed: false, reason: String(error?.message || error) };
+    }
   }
+
+  return { ok: false, send_performed: false, reason: 'sin proveedores de WhatsApp disponibles o credenciales activas' };
 }

@@ -576,7 +576,7 @@
     "id": "careerai-indeed-agent",
     "user_id": "yoeli",
     "name": "CareerAI Indeed Application Agent",
-    "objective": "Descubrir oportunidades en Indeed, analizarlas con Hermes/Gemini/ChatGPT, preparar una solicitud y detenerse para aprobación humana antes de cualquier envío.",
+    "objective": "Descubrir oportunidades, analizarlas con NVIDIA/Hermes/Gemini/Claude/OpenAI, enriquecerlas con GetUpSoft/edX, preparar una solicitud y detenerse para aprobación humana antes de cualquier envío.",
     "status": "ready_to_run",
     "nodes": [
       {
@@ -589,9 +589,44 @@
         }
       },
       {
+        "id": "run-scheduler",
+        "type": "trigger",
+        "label": "Run scheduler (por tenant)"
+      },
+      {
         "id": "indeed-discovery",
         "type": "worker",
         "label": "Indeed job discovery"
+      },
+      {
+        "id": "linkedin-jobs-search",
+        "type": "worker",
+        "label": "LinkedIn job discovery (AS400/iSeries/RPG)"
+      },
+      {
+        "id": "cv-gap-analyzer",
+        "type": "intelligence",
+        "label": "CV gap analyzer"
+      },
+      {
+        "id": "asset-human-review",
+        "type": "approval",
+        "label": "Asset human review (gate)"
+      },
+      {
+        "id": "file-upload-handler",
+        "type": "worker",
+        "label": "File upload handler"
+      },
+      {
+        "id": "dice-discovery",
+        "type": "worker",
+        "label": "Dice job discovery"
+      },
+      {
+        "id": "staffing-agency-discovery",
+        "type": "worker",
+        "label": "Staffing agency discovery (configurable)"
       },
       {
         "id": "normalize-opportunity",
@@ -601,17 +636,38 @@
       {
         "id": "hermes-analysis",
         "type": "intelligence",
-        "label": "Hermes analysis"
+        "label": "Hermes analysis",
+        "integration": "orca-nodes-ai.hermes"
       },
       {
         "id": "gemini-analysis",
         "type": "intelligence",
-        "label": "Gemini analysis"
+        "label": "Gemini analysis",
+        "integration": "orca-nodes-ai.gemini"
       },
       {
         "id": "chatgpt-verification",
         "type": "intelligence",
-        "label": "ChatGPT verification"
+        "label": "OpenAI verification",
+        "integration": "orca-nodes-ai.openai"
+      },
+      {
+        "id": "nvidia-heavy-analysis",
+        "type": "intelligence",
+        "label": "NVIDIA NIM heavy analysis",
+        "integration": "orca-nodes-ai.nvidiaNim"
+      },
+      {
+        "id": "claude-code-review",
+        "type": "intelligence",
+        "label": "Claude application review",
+        "integration": "orca-nodes-ai.claude"
+      },
+      {
+        "id": "getupsoft-edx-knowledge",
+        "type": "worker",
+        "label": "GetUpSoft knowledge · edX courses",
+        "integration": "orca-nodes-knowledge.edx"
       },
       {
         "id": "consensus-score",
@@ -676,7 +732,16 @@
       {
         "id": "gmail-notification",
         "type": "notification",
-        "label": "Gmail approval notification"
+        "label": "Gmail approval notification",
+        "integration": "n8n-nodes-base.gmail"
+      },
+      {
+        "id": "whatsapp-approval-notification",
+        "type": "notification",
+        "label": "WhatsApp approval notification",
+        "integration": "n8n-nodes-base.whatsApp",
+        "mode": "draft-only",
+        "approval_required": true
       },
       {
         "id": "linkedin-gate",
@@ -894,6 +959,11 @@
         "label": "Clasificacion de respuestas del correo"
       },
       {
+        "id": "interview-scheduler",
+        "type": "action",
+        "label": "Interview scheduler (Calendar, gate propio)"
+      },
+      {
         "id": "report-scheduler",
         "type": "trigger",
         "label": "Cadencia del reporte elegida por el cliente"
@@ -915,7 +985,23 @@
         "to": "indeed-discovery"
       },
       {
+        "from": "career-command",
+        "to": "linkedin-jobs-search"
+      },
+      {
+        "from": "run-scheduler",
+        "to": "indeed-discovery"
+      },
+      {
+        "from": "run-scheduler",
+        "to": "linkedin-jobs-search"
+      },
+      {
         "from": "indeed-discovery",
+        "to": "normalize-opportunity"
+      },
+      {
+        "from": "linkedin-jobs-search",
         "to": "normalize-opportunity"
       },
       {
@@ -923,15 +1009,39 @@
         "to": "hermes-analysis"
       },
       {
-        "from": "hermes-analysis",
+        "from": "normalize-opportunity",
         "to": "gemini-analysis"
       },
       {
-        "from": "gemini-analysis",
+        "from": "normalize-opportunity",
         "to": "chatgpt-verification"
       },
       {
+        "from": "normalize-opportunity",
+        "to": "nvidia-heavy-analysis"
+      },
+      {
+        "from": "normalize-opportunity",
+        "to": "claude-code-review"
+      },
+      {
+        "from": "nvidia-heavy-analysis",
+        "to": "llm-council"
+      },
+      {
+        "from": "gemini-analysis",
+        "to": "llm-council"
+      },
+      {
         "from": "chatgpt-verification",
+        "to": "llm-council"
+      },
+      {
+        "from": "claude-code-review",
+        "to": "llm-council"
+      },
+      {
+        "from": "llm-council",
         "to": "consensus-score"
       },
       {
@@ -945,6 +1055,14 @@
       {
         "from": "human-approval",
         "to": "gmail-notification"
+      },
+      {
+        "from": "human-approval",
+        "to": "whatsapp-approval-notification"
+      },
+      {
+        "from": "whatsapp-approval-notification",
+        "to": "evidence-log"
       },
       {
         "from": "human-approval",
@@ -976,7 +1094,7 @@
       },
       {
         "from": "application-draft",
-        "to": "external-form-fill"
+        "to": "asset-human-review"
       },
       {
         "from": "external-form-fill",
@@ -1001,6 +1119,14 @@
       {
         "from": "career-command",
         "to": "cv-ingest"
+      },
+      {
+        "from": "career-command",
+        "to": "getupsoft-edx-knowledge"
+      },
+      {
+        "from": "getupsoft-edx-knowledge",
+        "to": "catalog-researcher"
       },
       {
         "from": "career-command",
@@ -1289,6 +1415,50 @@
       {
         "from": "priority-prompt",
         "to": "search-profile-builder"
+      },
+      {
+        "from": "consensus-score",
+        "to": "cv-gap-analyzer"
+      },
+      {
+        "from": "cv-gap-analyzer",
+        "to": "cv-tailor"
+      },
+      {
+        "from": "asset-human-review",
+        "to": "file-upload-handler"
+      },
+      {
+        "from": "file-upload-handler",
+        "to": "external-form-fill"
+      },
+      {
+        "from": "career-command",
+        "to": "dice-discovery"
+      },
+      {
+        "from": "career-command",
+        "to": "staffing-agency-discovery"
+      },
+      {
+        "from": "run-scheduler",
+        "to": "dice-discovery"
+      },
+      {
+        "from": "run-scheduler",
+        "to": "staffing-agency-discovery"
+      },
+      {
+        "from": "dice-discovery",
+        "to": "normalize-opportunity"
+      },
+      {
+        "from": "staffing-agency-discovery",
+        "to": "normalize-opportunity"
+      },
+      {
+        "from": "status-tracker",
+        "to": "interview-scheduler"
       }
     ],
     "settings": {

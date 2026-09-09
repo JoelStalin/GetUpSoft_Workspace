@@ -59,6 +59,53 @@ export function computeLayers(nodes = [], edges = []) {
 export function layoutGraph(nodes = [], edges = [], { columns = 6 } = {}) {
   const { layers, back_edges, roots } = computeLayers(nodes, edges);
 
+  // Cuando el inventario funcional aporta bloques (A..I), cada bloque se convierte en
+  // una "swimlane" vertical. Esto evita que conectores de notificacion, modelos, gates y
+  // reportes se mezclen en una rejilla arbitraria. Dentro de cada lane se aproxima el
+  // orden de sus predecesores para reducir cruces.
+  const withBlocks = nodes.filter((node) => node.block);
+  if (nodes.length > 0 && withBlocks.length === nodes.length) {
+    const blockIds = [...new Set(nodes.map((node) => node.block))].sort();
+    const index = new Map(nodes.map((node, position) => [node.id, position]));
+    const predecessors = new Map(nodes.map((node) => [node.id, []]));
+    for (const edge of edges) if (predecessors.has(edge.to)) predecessors.get(edge.to).push(edge.from);
+    const groups = new Map(blockIds.map((block) => [block, nodes.filter((node) => node.block === block)]));
+    const rowById = new Map();
+    for (const block of blockIds) {
+      const group = groups.get(block);
+      group.sort((a, b) => {
+        const score = (node) => {
+          const rows = (predecessors.get(node.id) || []).map((id) => rowById.get(id)).filter(Number.isFinite);
+          return rows.length ? rows.reduce((sum, row) => sum + row, 0) / rows.length : index.get(node.id);
+        };
+        return score(a) - score(b);
+      });
+      group.forEach((node, row) => rowById.set(node.id, row));
+    }
+    const posiciones = new Map();
+    blockIds.forEach((block, column) => {
+      groups.get(block).forEach((node, row) => posiciones.set(node.id, {
+        x: MARGIN_X + column * COLUMN_WIDTH,
+        y: MARGIN_Y + row * ROW_HEIGHT,
+      }));
+    });
+    const rows = Math.max(0, ...blockIds.map((block) => groups.get(block).length));
+    return {
+      ok: true,
+      strategy: 'functional_swimlanes',
+      positions: posiciones,
+      order: blockIds.flatMap((block) => groups.get(block).map((node) => node.id)),
+      layer_count: blockIds.length,
+      columns: blockIds.length,
+      rows,
+      back_edges,
+      roots,
+      width: MARGIN_X * 2 + blockIds.length * COLUMN_WIDTH,
+      height: MARGIN_Y * 2 + rows * ROW_HEIGHT,
+      lanes: blockIds,
+    };
+  }
+
   // Orden de lectura: primero por capa, y dentro de la capa por su orden de declaracion,
   // que agrupa los nodos del mismo bloque funcional.
   const indiceOriginal = new Map(nodes.map((node, index) => [node.id, index]));
