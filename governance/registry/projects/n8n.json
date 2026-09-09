@@ -1,0 +1,14 @@
+{
+  "schemaVersion": 1,
+  "slug": "n8n",
+  "architecturePattern": "adapter-instalacion-licenciada",
+  "deploymentAuthority": "integrations-ci",
+  "owner": "joel",
+  "note": "verificar licencia n8n antes de redistribuir/alojar para clientes",
+  "realPathsFound": [],
+  "independentGitCheckout": false,
+  "gitRemotes": [],
+  "verificationStatus": "not-found-in-inventory",
+  "sourceInventory": "governance/migration/inventory/workspace-inventory.json",
+  "generatedAt": "2026-09-09T23:41:46.121Z"
+}

@@ -1,0 +1,19 @@
+{
+  "schemaVersion": 1,
+  "slug": "galantes-jewelry",
+  "architecturePattern": "nextjs-por-funcionalidades",
+  "deploymentAuthority": "client-solutions-ci",
+  "owner": "joel",
+  "note": null,
+  "realPathsFound": [
+    "app",
+    "components",
+    "public",
+    "server"
+  ],
+  "independentGitCheckout": false,
+  "gitRemotes": [],
+  "verificationStatus": "found-not-yet-independent-checkout",
+  "sourceInventory": "governance/migration/inventory/workspace-inventory.json",
+  "generatedAt": "2026-09-09T23:41:46.121Z"
+}

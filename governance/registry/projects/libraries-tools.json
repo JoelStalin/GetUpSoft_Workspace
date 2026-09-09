@@ -1,0 +1,17 @@
+{
+  "schemaVersion": 1,
+  "slug": "libraries-tools",
+  "architecturePattern": "biblioteca-interna",
+  "deploymentAuthority": "libraries-none",
+  "owner": "joel",
+  "note": null,
+  "realPathsFound": [
+    "07_Libraries_Tools",
+    "libs"
+  ],
+  "independentGitCheckout": false,
+  "gitRemotes": [],
+  "verificationStatus": "found-not-yet-independent-checkout",
+  "sourceInventory": "governance/migration/inventory/workspace-inventory.json",
+  "generatedAt": "2026-09-09T23:41:46.121Z"
+}

@@ -1,0 +1,17 @@
+{
+  "schemaVersion": 1,
+  "slug": "backups-archives",
+  "architecturePattern": "archivo-fuera-de-git",
+  "deploymentAuthority": "none",
+  "owner": "joel",
+  "note": null,
+  "realPathsFound": [
+    "05_Backups",
+    "09_Archives"
+  ],
+  "independentGitCheckout": false,
+  "gitRemotes": [],
+  "verificationStatus": "found-not-yet-independent-checkout",
+  "sourceInventory": "governance/migration/inventory/workspace-inventory.json",
+  "generatedAt": "2026-09-09T23:41:46.121Z"
+}

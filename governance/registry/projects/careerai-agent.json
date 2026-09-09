@@ -1,0 +1,14 @@
+{
+  "schemaVersion": 1,
+  "slug": "careerai-agent",
+  "architecturePattern": "worker-pipeline-adapter",
+  "deploymentAuthority": "orca-project-ci",
+  "owner": "claude+joel",
+  "note": "submodulo funcional dentro de orca, no producto independiente",
+  "realPathsFound": [],
+  "independentGitCheckout": false,
+  "gitRemotes": [],
+  "verificationStatus": "not-found-in-inventory",
+  "sourceInventory": "governance/migration/inventory/workspace-inventory.json",
+  "generatedAt": "2026-09-09T23:41:46.121Z"
+}

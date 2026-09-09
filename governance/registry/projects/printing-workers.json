@@ -1,0 +1,14 @@
+{
+  "schemaVersion": 1,
+  "slug": "printing-workers",
+  "architecturePattern": "worker-pipeline",
+  "deploymentAuthority": "workers-ci",
+  "owner": "joel",
+  "note": null,
+  "realPathsFound": [],
+  "independentGitCheckout": false,
+  "gitRemotes": [],
+  "verificationStatus": "not-found-in-inventory",
+  "sourceInventory": "governance/migration/inventory/workspace-inventory.json",
+  "generatedAt": "2026-09-09T23:41:46.121Z"
+}

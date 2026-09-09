@@ -1,0 +1,16 @@
+{
+  "schemaVersion": 1,
+  "slug": "research-labs",
+  "architecturePattern": "biblioteca-o-prototipo-aislado",
+  "deploymentAuthority": "labs-none",
+  "owner": "joel",
+  "note": null,
+  "realPathsFound": [
+    "08_Research_Labs"
+  ],
+  "independentGitCheckout": false,
+  "gitRemotes": [],
+  "verificationStatus": "found-not-yet-independent-checkout",
+  "sourceInventory": "governance/migration/inventory/workspace-inventory.json",
+  "generatedAt": "2026-09-09T23:41:46.121Z"
+}
