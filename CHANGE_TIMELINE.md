@@ -2071,3 +2071,94 @@ Backlog de nodos asignados a "claude" en `node-inventory.json` sigue vacio (conf
 checkpoint anterior). Pendiente real, no ejecutable sin decision/credencial del usuario:
 tunnel Cloudflare de Chefalitas, PR de esta rama contra `main` (historias no relacionadas),
 items de backlog con owner "joel"/"ambos".
+
+---
+
+## 2026-09-09 (cont.) — "continua con los demas nodos": backlog owner=claude completo (11->0)
+
+**Rama:** `careerai/live-browser-run-tracking`. **Commit:** `dc2d660fb9` — feat(careerai):
+completa el backlog de nodos owner=claude (10 nodos, prototipo->listo). Pusheado y
+confirmado sincronizado con origin.
+
+**Instruccion del usuario:** "continua con los demas nodos" — tras el checkpoint anterior
+(nodos "falta" de claude en 0), quedaban 13 nodos "prototipo" en el inventario; 11 con
+owner "claude". Se revisaron uno por uno antes de tocar nada:
+
+- `browser-session-vault`: ya estaba implementado y probado por completo
+  (`test_careerai_browser_session_vault.mjs` pasaba en la regresion de antes) — solo le
+  faltaba la promocion de estado en el inventario, no codigo nuevo.
+- `cookie-jar-persistence`: al leer su proposito ("persiste sesion y cookies del login
+  manual para operar despues por scraping") resulto ser el mismo comportamiento que
+  `browser-session-vault` ya cubre (via `profile_ref`, nunca cookies crudas) — se elimino
+  del inventario como duplicado, mismo criterio que la eliminacion de `linkedin-discovery`
+  en un checkpoint anterior.
+- Los otros 9 (`oauth-pkce-flow`, `orca-project-provisioner`, `wwr-discovery`,
+  `scroll-paginator`, `ocr-visual-verifier`, `recruiter-contact-extractor`,
+  `asset-hash-registry`, `human-takeover`, `whatsapp-summary`) no tenian implementacion
+  real como nodo — se construyeron nuevos, cada uno con su propio test, siguiendo el mismo
+  patron prepare-only / funcion pura ya establecido en el resto del proyecto (nunca ejecuta
+  la accion real sin `confirm:true` + cliente inyectado cuando aplica).
+
+**Detalle de lo nuevo real, no trivial:**
+
+1. `oauth-pkce-flow.mjs`: reimplementa como modulo testeable lo que
+   `scripts/orca_oauth_start.mjs`/`orca_oauth_vault.mjs` ya hacian por CLI (PKCE S256,
+   vault cifrado por tenant) — arma la URL de autorizacion, pero el intercambio del
+   codigo por tokens exige `confirm:true` Y un `tokenClient` inyectado, y rechaza si el
+   `state` no coincide (anti-CSRF).
+2. `orca-project-provisioner.mjs`: extrae `scripts/create_orca_project_link.mjs` a funcion
+   pura para poder probarla sin tocar el filesystem; idempotente por owner+slug.
+3. `wwr-discovery.mjs`: mismo patron que `dice-discovery.mjs` sobre WeWorkRemotely,
+   selectores marcados explicitamente como no verificados contra una sesion real.
+4. `scroll-paginator.mjs`: generico para listados de scroll infinito (sin paginacion por
+   URL) — dedup por key configurable, se detiene tras 2 pasadas seguidas sin novedad para
+   no scrollear indefinidamente sobre el mismo contenido.
+5. `ocr-visual-verifier.mjs`: cruza lo que el DOM afirma contra lo que el OCR nativo de
+   Windows realmente ve renderizado. Motivo real: un elemento puede existir en el DOM
+   (p. ej. "Aplicacion enviada") sin estar visible de verdad (oculto, tapado, inyectado sin
+   render) — este nodo se niega a confirmar algo que solo el DOM dice.
+6. `recruiter-contact-extractor.mjs`: a diferencia de `ocr-email-extractor.mjs` (que lee
+   texto de una imagen via OCR), este lee la descripcion en TEXTO PLANO de la vacante;
+   descarta buzones genericos (`info@`, `noreply@`, `legal@`) cuando no hay contexto de
+   contacto/RRHH cerca, para no elegir el primer email que aparece como si fuera el de
+   reclutamiento.
+7. `asset-hash-registry.mjs`: registro append-only de SHA-256 del CV original. Si el mismo
+   `asset_id` aparece con un hash distinto, lo reporta como `tampered_or_replaced` en vez de
+   sobreescribir el hash guardado en silencio — es justamente el caso que existe para
+   detectar.
+8. `human-takeover.mjs`: reusa `detectBlocked` de `job-discovery-core.mjs` (no duplica el
+   criterio) y agrega la decision de ceder el control — `automated_action_taken: false`
+   siempre, el nodo nunca toca la pagina, solo describe el pedido de pausa.
+9. `whatsapp-summary.mjs`: compone un resumen periodico y llama a `prepareWhatsAppMessage`
+   de `whatsapp.mjs` para reusar sus guardas de allowlist e idempotencia ya probadas, en vez
+   de reimplementarlas (riesgo real si se reimplementa mal: un resumen se manda a un numero
+   fuera de la lista permitida).
+
+**Blueprint (`apps/orca/data/workflow_blueprints.json`):** +10 nodos, +16 aristas, cada uno
+conectado en el bloque logico que le corresponde (p. ej. `connection-strategy-router` ->
+`browser-session-vault`/`oauth-pkce-flow` para los niveles 2/3; `bot-wall-detector` ->
+`human-takeover`/`ocr-visual-verifier` -> `blocked-escalation`; `report-scheduler` ->
+`whatsapp-summary`).
+
+**Estado final:** `data/careerai/node-inventory.json` — 98 nodos totales (99 - 1 duplicado
+eliminado), 80 "listo", 2 "prototipo" restantes (`profession-catalog` y
+`whatsapp-report-sender`, ambos owner "ambos" — fuera de mi scope solo), 16 "falta" (todos
+owner "joel"/"ambos", ya documentados como fuera de scope en el checkpoint anterior).
+`pendiente_por_owner.claude: 0`. Regresion completa (`careerai:regression` +
+`careerai:test-node-parity`) en verde. Verificado en vivo: servidor real levantado con
+`npm run orca:start`, `/api/careerai/connectors` responde correctamente, sin errores en
+`preview_logs`. `git status`/`git diff`/`git diff --staged` limpios tras el push, rama
+sincronizada con origin.
+
+**Como revertir:** `git revert dc2d660fb9`.
+
+**Siguiente tarea segura, si se pide continuar:** ya no queda nada con owner "claude" en
+`node-inventory.json` (`falta` y `prototipo` en 0). Lo que resta (`profession-catalog`,
+`whatsapp-report-sender` con owner "ambos"; 14 nodos "falta" con owner "joel" —
+`subscription-gate`, `quota-meter`, `payment-collector`, `invoice-reconciler`,
+`connection-registry`, `connection-revoke`, `proxy-rotator`, `geo-eligibility-filter`,
+`comp-parser`, `ghost-job-detector`, `workday-adapter`, `taleo-icims-adapter`,
+`followup-writer`, `funnel-metrics`; `easycount-invoice`/`platform-registry` con owner
+"ambos") son decisiones de negocio, credenciales o cuentas de terceros (facturacion,
+Workday/Taleo — requieren cuentas reales para verificar selectores, proxies de pago,
+metricas de negocio) que no se deben asumir sin confirmacion explicita del usuario.
