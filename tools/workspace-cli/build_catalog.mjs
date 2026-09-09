@@ -12,6 +12,7 @@ const inventory = JSON.parse(fs.readFileSync(path.join(root, 'governance/migrati
 // Patron arquitectonico + deploymentAuthority segun la tabla 1.2 del diseno GetUpSoft+ORCA.
 const PROJECTS = {
   orca: { pattern: 'monolito-modular-hexagonal', deploymentAuthority: 'orca-project-ci', owner: 'joel' },
+  'client-gateway': { pattern: 'agente-maquina-estados', deploymentAuthority: 'gateway-project-ci', owner: 'joel', note: 'G02: fuente real recuperada de orca-client-gateway-deploy.tar.gz (apps/orca-client-gateway solo tenia dist/ compilado, .canonical-getupsoft solo tenia docs) -> platform/client-gateway/' },
   'careerai-agent': { pattern: 'worker-pipeline-adapter', deploymentAuthority: 'orca-project-ci', owner: 'claude+joel', note: 'submodulo funcional dentro de orca, no producto independiente' },
   'galantes-jewelry': { pattern: 'nextjs-por-funcionalidades', deploymentAuthority: 'client-solutions-ci', owner: 'joel' },
   chefalitas: { pattern: 'mvc-nativo-odoo', deploymentAuthority: 'product-ci', owner: 'joel' },

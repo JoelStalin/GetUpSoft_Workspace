@@ -1,0 +1,75 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Tenant {
+  id         String   @id @default(cuid())
+  name       String
+  slug       String   @unique
+  status     String   @default("active")
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+  disabledAt DateTime?
+}
+
+model PairingCode {
+  id               String   @id @default(cuid())
+  tenantId         String
+  codeHash         String   @unique
+  displayCodeLast4 String
+  status           String   @default("active")
+  expiresAt        DateTime
+  usedAt           DateTime?
+  usedByDeviceId   String?
+  createdByUserId  String?
+  createdAt        DateTime @default(now())
+  revokedAt        DateTime?
+}
+
+model Device {
+  id          String   @id @default(cuid())
+  tenantId    String
+  deviceName  String
+  os          String
+  arch        String
+  status      String   @default("online")
+  revokedAt   DateTime?
+  lastSeenAt  DateTime?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model AgentCommand {
+  id             String   @id @default(cuid())
+  tenantId       String
+  deviceId       String
+  type           String
+  payloadJson    String
+  idempotencyKey String
+  status         String   @default("pending")
+  expiresAt      DateTime
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  @@unique([deviceId, idempotencyKey])
+}
+
+model AuditEvent {
+  id           String   @id @default(cuid())
+  tenantId     String?
+  deviceId     String?
+  actorUserId  String?
+  actorType    String
+  eventType    String
+  severity     String
+  message      String
+  metadataJson String?
+  ipAddress    String?
+  userAgent    String?
+  createdAt    DateTime @default(now())
+}

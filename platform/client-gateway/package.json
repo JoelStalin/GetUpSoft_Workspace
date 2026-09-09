@@ -1,0 +1,17 @@
+{
+  "name": "@getupsoft/orca-client-gateway",
+  "private": true,
+  "version": "0.1.0",
+  "packageManager": "pnpm@10.10.0",
+  "scripts": {
+    "build": "turbo run build",
+    "dev": "turbo run start:dev --parallel",
+    "lint": "turbo run lint",
+    "test": "turbo run test",
+    "test:e2e": "turbo run test:e2e",
+    "typecheck": "turbo run typecheck"
+  },
+  "devDependencies": {
+    "turbo": "^2.0.12"
+  }
+}

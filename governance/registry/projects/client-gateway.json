@@ -1,0 +1,14 @@
+{
+  "schemaVersion": 1,
+  "slug": "client-gateway",
+  "architecturePattern": "agente-maquina-estados",
+  "deploymentAuthority": "gateway-project-ci",
+  "owner": "joel",
+  "note": "G02: fuente real recuperada de orca-client-gateway-deploy.tar.gz (apps/orca-client-gateway solo tenia dist/ compilado, .canonical-getupsoft solo tenia docs) -> platform/client-gateway/",
+  "realPathsFound": ["apps/orca-client-gateway", "orca-client-gateway-deploy.tar.gz", "platform/client-gateway"],
+  "independentGitCheckout": false,
+  "gitRemotes": [],
+  "verificationStatus": "source-recovered-not-yet-independent-checkout",
+  "sourceInventory": "governance/migration/inventory/workspace-inventory.json",
+  "generatedAt": "2026-09-09T23:48:31.656Z"
+}
