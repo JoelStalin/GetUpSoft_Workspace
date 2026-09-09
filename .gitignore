@@ -11,3 +11,6 @@ data/orca/interactive-chrome-profile/
 data/careerai/runs.jsonl
 apps/orca/chrome_profile/
 data/careerai/harvest.jsonl
+
+# Docker Desktop -> WSL migration backups (binarios locales, no versionados)
+05_Backups/docker-volumes-migration/
