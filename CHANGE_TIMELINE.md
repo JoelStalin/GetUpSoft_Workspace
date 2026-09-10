@@ -2556,3 +2556,45 @@ cada commit de este bloque).
 
 **Como revertir:** `git revert e98f2b6d5c` (K02), `git revert b285be7759` (K03),
 `git revert c55d5dec7f` (E01) -- independientes entre si.
+
+---
+
+## 2026-09-10 (cont.) — E02: idempotencia real, cierre de este bloque del loop
+
+**Commit:** `c774f21ed0`. `accept_run()` distingue lo que el `UNIQUE(idempotency_key)` de
+D03 por si solo no podia: un reintento honesto (misma clave, mismo `input_hash` — la
+respuesta se perdio en la red pero el run ya se creo) de un intento de reusar la clave
+con contenido distinto (debe dar conflicto, regla explicita del diseno seccion 3.5).
+Verificado con 4 casos reales: primera entrega crea, la DOBLE ENTREGA con el mismo
+payload devuelve el mismo `run_id` sin crear una fila nueva (confirmado contando
+directamente la tabla real: 1 fila, no 2), payload distinto con la misma clave dispara
+el conflicto explicito con ambos hashes en el mensaje.
+
+**Progreso acumulado: 17 de 32 tareas completadas y verificadas, todas con Postgres real
+o build+test reales — ninguna "solo escrita".**
+
+Tareas completadas en este loop de autocorreccion (esta sesion, sin pausas por decision
+externa): G01, G02, G03, B01, D01, A01, A02, B02, M01, M02, D03, D02(mitad RLS), K01,
+K02, K03, E01, E02.
+
+**Siguiente candidato real, sin bloqueo:** `U01` ("Chat conectado a ejecucion real")
+depende de E02, K03 y M02 — las tres ya estan completas. Es la primera tarea de
+integracion end-to-end real (interpretar -> autorizar -> compilar contexto -> enrutar a
+modelo -> reservar presupuesto -> aceptar el run de forma idempotente -> outbox). Se deja
+para el proximo bloque del loop en vez de apurarla aqui: cada pieza que la compone se
+construyo y verifico POR SEPARADO en este bloque (A02, K02, K03, M01, M02, E01, E02) —
+integrarlas de verdad, con su propio flujo end-to-end probado (no solo import de
+funciones), merece su propio bloque de trabajo dedicado en vez de quedar apurada al final
+de una sesion ya muy larga.
+
+**Sigue pendiente, bloqueado por decision del usuario o choque con la sesion
+concurrente:** D02 mitad OIDC (Keycloak u otro IdP), F01-F04 (Gateway real, requiere
+decisiones de packaging/pairing y coincide con lo que la otra sesion viene trabajando en
+`tools/workspace-cli`), R01/R02 (mover directorios reales — explicitamente no se toca sin
+confirmacion dado el riesgo real sobre Chefalitas/Galantes/CareerAI en produccion),
+D04 (migrar datos JSON/JSONL reales de CareerAI a Postgres — toca datos de produccion,
+requiere confirmacion antes de tocar).
+
+**Incidente de infraestructura durante este bloque (ya resuelto, documentado arriba):**
+falla transitoria de red WSL2<->Windows, contenedores de produccion nunca se cayeron,
+se restablecio solo.
