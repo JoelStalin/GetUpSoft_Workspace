@@ -2650,3 +2650,48 @@ sesion concurrente termine con F01 antes de poder continuar con F02-F04/P01-P02 
 riesgo de choque.
 
 **Como revertir:** `git revert f6114aacca`.
+
+---
+
+## Checkpoint D04 — 2026-09-10 — Reconciliacion de solo lectura de runs reales de CareerAI
+
+**Commit:** `439a9c36f3` — pusheado a `careerai/live-browser-run-tracking`.
+
+**Decision del usuario que desbloqueo esta tarea:** de los 3 bloqueantes identificados en
+el checkpoint anterior (OIDC/Keycloak, colision con sesion concurrente en F01, y
+R01/R02/D04 por tocar datos reales), el usuario eligio explicitamente D04 en su forma de
+solo lectura: "Autorizas que tome los JSON/JSONL reales de CareerAI... y genere un reporte
+de reconciliacion de SOLO LECTURA contra el esquema nuevo (conteos/hashes), sin escribir
+nada a Postgres ni tocar los archivos originales de CareerAI."
+
+**Que se hizo:**
+- Se enumeraron los valores REALES de estado presentes en los 54 runs de
+  `data/careerai/runs.jsonl` (1 valor a nivel run, 9 a nivel step) antes de escribir
+  ningun mapeo — no se asumio el vocabulario.
+- Se escribio `tools/workspace-cli/reconcile_careerai_runs.mjs`: lee el JSONL real, lo
+  parsea, mapea cada estado real al valor permitido por el `CHECK` constraint real de
+  `automation.runs`/`automation.run_steps` (D03), calcula hashes sha256 de cada registro
+  origen y su representacion destino, y escribe un reporte JSON. **Nunca abre una
+  conexion a Postgres, nunca escribe en `data/careerai/runs.jsonl`.**
+- Resultado real: `reconciledRuns: 54`, `reconciledSteps: 1005`, `parseErrors: 0`,
+  `unmappedRunStatuses: []`, `unmappedStepStatuses: []`, **`losslessMapping: true`**.
+- Se confirmo `sourceUntouched` con evidencia EXTERNA al propio script:
+  `git status --short data/careerai/runs.jsonl` no devolvio ninguna linea despues de
+  correr el script.
+- Documentado en `governance/migration/validations/D04-careerai-runs-reconciliation-report.md`
+  (la tabla completa de mapeo de estados y el razonamiento) y el reporte crudo en
+  `governance/migration/validations/D04-careerai-runs-reconciliation-report.json`.
+
+**Que NO se hizo (fuera de alcance, tal como lo acoto el usuario):** la migracion real —
+ningun INSERT contra una base Postgres productiva. Este reporte solo demuestra que esa
+migracion SERIA posible sin perdida de datos con el mapeo definido; ejecutarla es una
+decision aparte que sigue pendiente.
+
+**Progreso acumulado: 19 de 32 tareas completadas y verificadas.**
+
+**Bloqueantes sin cambios:** OIDC/Keycloak (gatea F01+), colision con la sesion
+concurrente en `platform/client-gateway/src/pairing/` (gatea F01-F04), y la forma REAL de
+R01/R02 (mover directorios de produccion) siguen requiriendo decision del usuario antes de
+avanzar sobre ellos.
+
+**Como revertir:** `git revert 439a9c36f3`.
