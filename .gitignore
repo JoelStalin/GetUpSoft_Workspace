@@ -14,3 +14,10 @@ data/careerai/harvest.jsonl
 
 # Docker Desktop -> WSL migration backups (binarios locales, no versionados)
 05_Backups/docker-volumes-migration/
+
+# Dependencias instaladas -- nunca se versionan (gap preexistente en este .gitignore,
+# confirmado real: node_modules NO estaba cubierto antes de instalar platform/client-gateway)
+node_modules/
+**/node_modules/
+**/dist/
+**/.turbo/

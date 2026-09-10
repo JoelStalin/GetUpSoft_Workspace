@@ -59,14 +59,21 @@ de publicacion de productos Odoo -> tienda de **Galantes Jewelry**, sin relacion
 El diseno original lo mapea a `governance/contracts/` — se mantiene esa clasificacion, pero
 queda documentado aqui para que una futura reconciliacion no lo trate como parte de A01.
 
-## Build reproducible: NO verificado en esta pasada
+## Build reproducible: VERIFICADO (actualizacion posterior, misma sesion)
 
-`platform/client-gateway/` no tiene `node_modules` instalado (`pnpm install` no se corrio
-— instalar un monorepo pnpm/turbo completo con 4 apps + Prisma toma varios minutos y
-depende de red; se deja como siguiente paso explicito, no se fuerza dentro de esta tarea
-para no bloquear el resto del wave). El AC de A01 "build reproducible" queda
-**parcialmente cumplido**: la matriz de compatibilidad es real y completa; el build
-en si es la siguiente accion pendiente, documentada aqui en vez de asumida.
+`pnpm install` (6m48s, 626 paquetes resueltos) + `pnpm exec prisma generate` (el install
+por defecto de pnpm ignora scripts de postinstall de terceros por seguridad — `prisma
+generate` no corrio automaticamente, se ejecuto explicito) + `pnpm run build` (turbo,
+2/2 paquetes: `orca-admin-cli` y `orca-control-plane-api`, **build exitoso sin errores**)
++ `pnpm run test` (`orca-control-plane-api`: 1/1 suite, `AppModule should be defined` —
+confirma que TODO el wiring de dependency injection de los 8 modulos reales carga sin
+error). `pnpm-lock.yaml` generado y commiteado para que el build sea reproducible por
+cualquiera despues. AC de A01 "build reproducible" queda **completamente cumplido**.
+
+Nota operativa real encontrada: pnpm bloquea por defecto los scripts de postinstall de
+paquetes como `@prisma/client`/`prisma`/`esbuild` (mensaje "Ignored build scripts") — B01/
+B03 deberian incorporar `pnpm exec prisma generate` explicito en el flujo de bootstrap de
+cualquier proyecto que use Prisma, en vez de asumir que `pnpm install` sea suficiente.
 
 ## Conclusion para las tareas siguientes (A02, M01)
 
