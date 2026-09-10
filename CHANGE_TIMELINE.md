@@ -2787,3 +2787,46 @@ contenido restante sin trackear de mayor volumen (`platform/orca/src/`,
 de darlo por comiteado.**
 
 **Como revertir:** `git revert 46bc969a81`.
+
+---
+
+## Checkpoint — 2026-09-10 — Hallazgo: R01/R02 real ya en curso en disco, ~294K archivos
+
+**No es un commit — es un hallazgo documentado, sin accion tomada sobre el reorg.**
+
+Tras completar B02-B04, se inspecciono el resto del contenido masivo sin trackear del
+`git status`. Se confirmo que los directorios con nombres del reorg del diseno original
+(`01_Core_Platform/`, `02_Products/`, `02_Odoo_ERP/`, `03_Client_Solutions/`,
+`04_Workers/`, `06_E_Commerce_Lux/`, `07_Libraries_Tools/`, `08_Research_Labs/`) no son
+carpetas vacias de scaffolding -- contienen:
+
+| Directorio | Archivos |
+|---|---|
+| `02_Odoo_ERP/` | 132,046 |
+| `08_Research_Labs/` | 72,937 |
+| `06_E_Commerce_Lux/` | 60,381 |
+| `07_Libraries_Tools/` | 21,402 |
+| `02_Products/` | 7,300 |
+| `03_Client_Solutions/` | 249 |
+| `04_Workers/` | 238 |
+| `01_Core_Platform/` | 3 |
+
+**Total ~294,556 archivos.** Esto es casi con certeza el workspace completo (o gran parte,
+probablemente incluyendo `node_modules`/entornos virtuales/binarios) ya movido o copiado
+a la nueva estructura -- es decir, **R01/R02 en su forma REAL ya esta en progreso a nivel
+de sistema de archivos**, no solo planificado.
+
+**Por que no se toco:** esto es exactamente el escenario que quedo marcado como alto
+riesgo pendiente de confirmacion explicita del usuario en checkpoints anteriores
+("R01/R02 -- mover directorios de produccion -- alto riesgo"). Intentar `git add`/commit
+sobre ~294K archivos seria lento, podria incluir binarios o secretos en el historial de
+git, y no hay contexto de si este movimiento fue autorizado en esta forma exacta, si esta
+completo, o si es obra de un proceso externo todavia en ejecucion.
+
+**Accion tomada:** ninguna sobre el reorg mismo. Se documenta el hallazgo y se deja
+como bloqueante genuino para confirmacion del usuario -- no se fabrica trabajo "seguro"
+sobre datos de este volumen y riesgo sin autorizacion explicita y especifica.
+
+**Estado de push:** todo el trabajo propio de esta sesion (D04, migraciones fleet/metering,
+CLI B02-B04) esta commiteado y pusheado hasta `dd5252be04`. No hay commits locales
+pendientes.
