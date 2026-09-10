@@ -8,6 +8,7 @@ import { AiAutomationModule } from './modules/ai-automation/ai-automation.module
 import { AuthModule } from './modules/auth/auth.module';
 import { EasyCountModule } from './modules/easycount/easycount.module';
 import { GatewayModule } from './modules/gateway/gateway.module';
+import { ModelRoutingModule } from './modules/model-routing/model-routing.module';
 import { PrismaModule } from './common/prisma/prisma.module';
 
 @Module({
@@ -24,6 +25,7 @@ import { PrismaModule } from './common/prisma/prisma.module';
     AuthModule,
     EasyCountModule,
     GatewayModule,
+    ModelRoutingModule,
   ],
 })
 export class AppModule {}
