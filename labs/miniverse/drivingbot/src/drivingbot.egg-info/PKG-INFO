@@ -1,0 +1,107 @@
+Metadata-Version: 2.4
+Name: drivingbot
+Version: 1.0.0
+Summary: inDriver automation bot — reverse engineered from FLASHBOT 5.164.0
+Requires-Python: >=3.11
+Description-Content-Type: text/markdown
+Requires-Dist: httpx>=0.27.0
+Requires-Dist: websockets>=13.0
+Requires-Dist: pydantic>=2.0
+Requires-Dist: pydantic-settings>=2.0
+Requires-Dist: rich>=13.0
+Requires-Dist: typer>=0.12
+Requires-Dist: geopy>=2.4
+Requires-Dist: cryptography>=42.0
+Requires-Dist: python-dotenv>=1.0
+Requires-Dist: anyio>=4.0
+Provides-Extra: dev
+Requires-Dist: pytest>=8.0; extra == "dev"
+Requires-Dist: pytest-asyncio>=0.23; extra == "dev"
+Requires-Dist: ruff>=0.4; extra == "dev"
+
+# drivingbot
+
+> **inDriver automation bot** — Python reimplementation reverse-engineered from FLASHBOT 5.164.0.
+
+---
+
+## What it does
+
+`drivingbot` monitors inDriver's real-time order stream (WebSocket) and automatically accepts passenger orders that match your price and zone filters — the same behaviour implemented by FLASHBOT's native bot layer.
+
+## Architecture
+
+```
+drivingbot/
+├── src/drivingbot/
+│   ├── api/
+│   │   ├── client.py       ← InDriverAuth + InDriverOrderAPI (mirrors AuthManager)
+│   │   └── stream.py       ← WebSocket stream (mirrors FloatingStatus service)
+│   ├── bot/
+│   │   ├── order_handler.py ← Main loop (mirrors SuperbotButton + bot core)
+│   │   └── price_engine.py  ← Price filter (mirrors PricePreference)
+│   ├── config/
+│   │   └── settings.py     ← BotConfig (mirrors ConfigManager + all prefs)
+│   ├── zone/
+│   │   └── zone_manager.py ← Zone filter (mirrors ZoneMapUtility)
+│   └── cli.py              ← Terminal UI (mirrors MainActivity + FloatingStatus)
+├── tests/
+├── ANALYSIS.md             ← Full reverse engineering report
+└── decompiled/             ← jadx output (83,364 files from APK)
+```
+
+## Quick start
+
+```bash
+# Install
+pip install -e ".[dev]"
+
+# Configure
+cp .env.example .env
+# Edit .env: set DRIVINGBOT_PHONE, DRIVINGBOT_CITY_ID, price filters
+
+# Login (OTP)
+drivingbot login
+
+# Start bot
+drivingbot start
+
+# Show config
+drivingbot status
+
+# Add working zone
+drivingbot zone add z1 --name "Zona Colonial" --lat 18.47 --lon -69.95 --radius 5.0
+
+# Run tests
+pytest
+```
+
+## Configuration
+
+All settings via `.env` file (prefix: `DRIVINGBOT_`):
+
+| Variable | Default | Description |
+|----------|---------|-------------|
+| `DRIVINGBOT_PHONE` | — | Driver phone with country code |
+| `DRIVINGBOT_TOKEN` | — | Auth token (set by `login` command) |
+| `DRIVINGBOT_CITY_ID` | 0 | inDriver city ID |
+| `DRIVINGBOT_PRICE__MIN_PRICE` | 0 | Minimum order price (0 = any) |
+| `DRIVINGBOT_PRICE__MAX_PRICE` | 0 | Maximum order price (0 = no limit) |
+| `DRIVINGBOT_PRICE__AUTO_NEGOTIATE` | false | Counter-offer when below min |
+| `DRIVINGBOT_PRICE__NEGOTIATE_INCREMENT_PCT` | 10.0 | Counter-offer increment % |
+| `DRIVINGBOT_ZONE__ENABLED_ZONES` | (all) | Comma-separated zone IDs |
+| `DRIVINGBOT_ZONE__MAX_DISTANCE_KM` | 0 | Max pickup distance (0 = any) |
+| `DRIVINGBOT_ACCEPT_DELAY_MS` | 300 | Delay before accepting (anti-detection) |
+
+## Reverse engineering findings
+
+See [`ANALYSIS.md`](ANALYSIS.md) for:
+- FLASHBOT's JNI injection mechanism
+- Native library architecture
+- Full permission analysis
+- Reconstructed bot workflow
+- Component mapping (FLASHBOT Java class → drivingbot Python module)
+
+## Legal
+
+This project is for **educational and research purposes only**. It documents the architecture of FLASHBOT through reverse engineering of a publicly distributed APK. Do not use this bot against inDriver's Terms of Service.

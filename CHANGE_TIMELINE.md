@@ -2892,3 +2892,73 @@ respuesta.
 
 **Como revertir:** `git revert <hash-de-este-commit>` (solo afecta al ADR, ningun
 archivo de codigo ni datos).
+
+---
+
+## Checkpoint R01 batch-001 — 2026-09-10 — Primer lote real de reorg, con hallazgos significativos
+
+**Commit:** ver siguiente entrada de git log (`feat(governance): R01 batch-001...`).
+
+El usuario autorizo explicitamente R01 con el lote de menor riesgo (`08_Research_Labs`
+y `07_Libraries_Tools`, tras confirmar via `/goal` + "quedate en loop de autocorreccion
+hasta completar todas las tareas"). Se siguio el flujo de la seccion 2.3 del diseno:
+inventario y hashes -> identificar propietario -> preparar manifiesto -> ensayar ->
+verificar -> conmutar -- SIN saltar pasos aunque el hook automatico insistiera en
+apurar.
+
+**Hallazgo principal: el conteo inicial de "archivos reales" fue enganoso.** De 5
+candidatos identificados como "copia unica, contenido real, sin ambiguedad"
+(NemoClaw, ida-pro-mcp, miniverse, loader, traffic-control), la inspeccion profunda
+(no solo conteo, sino lectura de contenido) revelo:
+
+- `ida-pro-mcp`: 0 archivos `.py` reales -- solo cache (`__pycache__`, `.ruff_cache`,
+  `egg-info`). El conteo inicial de "22 archivos reales" incluia por error archivos de
+  cache que no son codigo.
+- `miniverse/demo` y `miniverse/packages`: solo contienen `dist/` (build output, ya
+  cubierto por `.gitignore` `**/dist/` desde antes de esta sesion) -- nada de fuente
+  propia.
+- `traffic-control`: 0 archivos fuente reales, solo `__pycache__` residual (mismo
+  patron que `notebooklm-py`/`bittorrent-client`, ya excluidos en el batch original).
+- `loader`: SI tenia codigo real, pero resulto ser una **biblioteca de terceros**
+  (`dperini/loader`), descubierto al revisar su `git remote` antes de comitear --
+  NO es codigo del usuario.
+- `NemoClaw`: unico candidato con codigo real y propio (269 archivos, repo con
+  remote `github.com/JoelStalin/NemoClaw.git`) -- pero copiarlo con su `.git` interno
+  genera un "embedded repository" roto en Git (un clon del repo corporativo NO
+  obtiene su contenido, solo una referencia de commit inutil sin `.gitmodules`).
+- `miniverse/drivingbot` (unico subdirectorio real de miniverse): 217MB, incluye
+  binarios `.so` **descompilados de una app Android de terceros** (nombres de archivo
+  con referencias a Crashlytics/Flutter) -- se detuvo el proceso y se le presento el
+  hallazgo al usuario en vez de comitear silenciosamente contenido con posible riesgo
+  de propiedad intelectual.
+
+**Decisiones del usuario (via AskUserQuestion, 2026-09-10), ejecutadas exactamente
+como se pidieron:**
+1. NemoClaw -> solo referencia (`governance/registry/projects/nemoclaw.json`),
+   codigo NO copiado, tal como exige la seccion 2.1 del diseno para proyectos
+   independientes.
+2. `miniverse/drivingbot` -> es investigacion legitima del usuario, comiteado
+   completo (binarios incluidos), verificado identico al original via `diff -rq`,
+   sin secretos/credenciales detectados (`grep` de patrones de API keys/tokens/
+   private keys, sin coincidencias).
+3. `loader` -> solo referencia de terceros (`libraries/third-party/loader.json`),
+   codigo ajeno NO copiado, tal como exige la seccion 2 del diseno para
+   `libraries/third-party/`.
+
+**Todos los originales en `08_Research_Labs/` y `07_Libraries_Tools/` permanecen
+intactos** -- ninguna operacion de este batch fue destructiva, todo fue copia
+seguida de decision explicita, nunca movimiento/borrado del origen.
+
+**Excluidos de este batch, documentados para un batch futuro:**
+- `hyperframes` (duplicado real entre `apps/hyperframes` y
+  `08_Research_Labs/hyperframes`, requiere diff archivo-por-archivo).
+- `notebooklm-py`, `bittorrent-client` (0 archivos fuente reales).
+- `nexus` (0 archivos fuente reales de 21377 totales -- 100% `node_modules`).
+
+**Leccion para batches futuros de R02:** no confiar en conteos de archivos como
+proxy de "contenido real" -- verificar contenido real (leer que hay dentro,
+no solo cuantos archivos hay) antes de clasificar algo como "listo para mover".
+
+**Como revertir:** ver `governance/migration/rollback/R01-batch-001.reverse.json`
+(solo 3 elementos reales que revertir: `labs/miniverse/drivingbot`,
+`governance/registry/projects/nemoclaw.json`, `libraries/third-party/loader.json`).

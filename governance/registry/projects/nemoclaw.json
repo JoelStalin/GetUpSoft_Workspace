@@ -1,0 +1,13 @@
+{
+  "slug": "nemoclaw",
+  "kind": "independent-project",
+  "owner": "joel",
+  "architecturePattern": "biblioteca-o-prototipo-aislado",
+  "deploymentAuthority": "project-ci",
+  "repositoryRemote": "https://github.com/JoelStalin/NemoClaw.git",
+  "localCheckoutFound": "08_Research_Labs/NemoClaw",
+  "lastKnownRevision": "5c269c136f5313197f53d1eabcd22b3ad0f676c7",
+  "independentGitCheckout": true,
+  "note": "Registro de solo referencia (seccion 2.1 del diseno integral: 'el Git corporativo no incorpora el contenido como archivos propios: guarda el registro que permite obtenerlos'). El codigo NO se copia al repo corporativo -- se obtiene con git clone del remote indicado. Decision del usuario, 2026-09-10 (R01 batch-001).",
+  "generatedAt": "2026-09-10T00:00:00Z"
+}

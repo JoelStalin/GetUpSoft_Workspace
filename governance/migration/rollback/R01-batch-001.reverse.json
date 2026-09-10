@@ -4,11 +4,9 @@
   "operation": "delete-copies-originals-never-touched",
   "note": "Esta fase solo copio (cp -r), nunca movio ni borro ningun original. Revertir es simplemente eliminar las copias nuevas -- los originales en 08_Research_Labs/ y 07_Libraries_Tools/ quedaron intactos durante toda la operacion.",
   "commands": [
-    "rm -rf labs/NemoClaw",
-    "rm -rf labs/ida-pro-mcp",
-    "rm -rf labs/miniverse",
-    "rm -rf tools/loader",
-    "rm -rf tools/traffic-control"
+    "rm -rf labs/miniverse/drivingbot",
+    "rm -f governance/registry/projects/nemoclaw.json",
+    "rm -f libraries/third-party/loader.json"
   ],
   "verifiedOriginalsIntact": {
     "note": "Verificar antes de revertir: los originales deben seguir presentes y sin cambios en 08_Research_Labs/ y 07_Libraries_Tools/",

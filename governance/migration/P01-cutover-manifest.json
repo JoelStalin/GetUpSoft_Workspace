@@ -1,0 +1,41 @@
+{
+  "plan_id": "CUTOVER-WORKSPACE-FEDERATION-20260910",
+  "policy": "GRADUAL_NON_DESTRUCTIVE",
+  "waves_completed": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7
+  ],
+  "federated_apps": [
+    {
+      "slug": "orca",
+      "path": "apps/orca",
+      "status": "ACTIVE_FEDERATED"
+    },
+    {
+      "slug": "client-gateway",
+      "path": "platform/client-gateway",
+      "status": "ACTIVE_FEDERATED"
+    },
+    {
+      "slug": "galantes-jewelry",
+      "path": "temp-deploy-clone",
+      "status": "STANDALONE_GIT_PRODUCTION"
+    },
+    {
+      "slug": "easycount",
+      "path": "easycount",
+      "status": "STANDALONE_FASTAPI_ACTIVE"
+    }
+  ],
+  "rollback_manifest": {
+    "can_rollback": true,
+    "strategy": "INSTANT_RESTORE_FROM_CANONICAL_GIT",
+    "verified": true
+  }
+}

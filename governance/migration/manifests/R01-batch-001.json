@@ -1,74 +1,76 @@
 {
   "migrationId": "R01-batch-001",
   "createdAt": "2026-09-10T00:00:00Z",
-  "operation": "copy-verified-source-pending-cutover",
-  "note": "Fase 1 de R01: COPIA (no mueve, no borra original) de proyectos de copia unica sin ambiguedad, excluyendo node_modules/.venv/__pycache__ (se reinstalan, no se transportan). Los originales permanecen intactos en 08_Research_Labs/ y 07_Libraries_Tools/ hasta verificacion y decision explicita de conmutacion.",
+  "completedAt": "2026-09-10T01:00:00Z",
+  "operation": "mixed-copy-reference-per-project-decision",
+  "note": "Fase 1 de R01, seccion 2.3 del diseno integral. Tras copiar los 5 candidatos originales e inspeccionar contenido real (no solo conteo de archivos), se descubrio que la mayoria eran cache/metadata vacios de codigo, no fuente real. Se presentaron los hallazgos al usuario y se tomaron 3 decisiones explicitas por proyecto -- documentadas abajo.",
   "entries": [
     {
       "projectId": "nemoclaw",
       "source": "08_Research_Labs/NemoClaw",
-      "destination": "labs/NemoClaw",
       "sourceRepositoryRemote": "https://github.com/JoelStalin/NemoClaw.git",
-      "classification": "single-copy-verified",
-      "excluded": ["node_modules", ".venv", "__pycache__"],
-      "status": "copied-pending-verification"
+      "decision": "solo-referencia",
+      "decidedBy": "usuario, 2026-09-10",
+      "rationale": "Codigo propio con remoto real, pero copiarlo con su .git interno crea un 'embedded repository' roto en el Git corporativo (un clon no obtiene el contenido). El diseno (seccion 2.1) exige que proyectos independientes se referencien, no se copien como archivos propios.",
+      "result": "governance/registry/projects/nemoclaw.json creado. Codigo NO copiado a labs/. Original intacto en 08_Research_Labs/NemoClaw."
     },
     {
       "projectId": "ida-pro-mcp",
       "source": "08_Research_Labs/ida-pro-mcp",
-      "destination": "labs/ida-pro-mcp",
-      "classification": "single-copy-verified",
-      "excluded": ["node_modules", ".venv", "__pycache__"],
-      "status": "copied-pending-verification"
+      "decision": "descartado-sin-contenido-real",
+      "rationale": "Verificacion mas profunda (tras primer intento fallido de commit) revelo que src/ida_pro_mcp/ NO tiene archivos .py reales -- solo __pycache__, .ruff_cache y egg-info (metadata de build). El conteo inicial de '22 archivos reales' incluia por error archivos de cache. No hay nada que mover.",
+      "result": "Ninguna copia conservada. Original intacto en 08_Research_Labs/ida-pro-mcp."
     },
     {
-      "projectId": "miniverse",
-      "source": "08_Research_Labs/miniverse",
-      "destination": "labs/miniverse",
-      "classification": "single-copy-verified",
-      "excluded": ["node_modules", ".venv", "__pycache__"],
-      "status": "copy-in-progress"
+      "projectId": "miniverse-demo-packages",
+      "source": "08_Research_Labs/miniverse/{demo,packages}",
+      "decision": "descartado-solo-build-output",
+      "rationale": "Ambos subdirectorios solo contienen carpetas dist/ (build output), ya cubiertas por la regla **/dist/ del .gitignore corporativo desde antes de esta sesion. No hay fuente propia en ellos.",
+      "result": "Ninguna copia conservada."
+    },
+    {
+      "projectId": "miniverse-drivingbot",
+      "source": "08_Research_Labs/miniverse/drivingbot",
+      "destination": "labs/miniverse/drivingbot",
+      "decision": "comiteado-tal-cual",
+      "decidedBy": "usuario, 2026-09-10",
+      "rationale": "217MB, incluye binarios .so descompilados de una app Android de terceros (referencias a Crashlytics/Flutter encontradas en los nombres de archivo). Se le presento el hallazgo explicitamente al usuario -- confirmo que es investigacion legitima propia y autorizo comitearlo completo, binarios incluidos.",
+      "result": "Copiado y comiteado a labs/miniverse/drivingbot. Verificado identico al original via diff -rq. Original intacto en 08_Research_Labs/miniverse/drivingbot.",
+      "correction": "El primer intento de push fue rechazado por GitHub (GH001, limite de 100MB) por tools/jadx.zip (110.79MB) -- resultaba ser el decompilador JADX de codigo abierto (terceros, github.com/skylot/jadx), no parte de la investigacion propia. Se removio ese archivo especifico (solo ese, nada mas del batch) y se sustituyo por tools/jadx.zip.reference.json con instrucciones para descargarlo de su release oficial si se necesita reproducir el entorno."
     },
     {
       "projectId": "loader",
       "source": "07_Libraries_Tools/loader",
-      "destination": "tools/loader",
-      "classification": "single-copy-verified",
-      "excluded": ["node_modules", ".venv", "__pycache__"],
-      "status": "pending"
-    },
-    {
-      "projectId": "traffic-control",
-      "source": "07_Libraries_Tools/traffic-control",
-      "destination": "tools/traffic-control",
-      "classification": "single-copy-verified",
-      "excluded": ["node_modules", ".venv", "__pycache__"],
-      "status": "pending"
+      "upstreamRemote": "https://github.com/dperini/loader.git",
+      "decision": "solo-referencia-third-party",
+      "decidedBy": "usuario, 2026-09-10",
+      "rationale": "Es una biblioteca de TERCEROS (dperini/loader), no codigo propio -- se descubrio al revisar su remote antes de comitear (no coincidia con ningun remote del usuario). El diseno (seccion 2.1) reserva libraries/third-party/ exactamente para este caso: referencia con remoto/licencia/version, no copia de codigo ajeno.",
+      "result": "libraries/third-party/loader.json creado. Codigo NO copiado a tools/. Original intacto en 07_Libraries_Tools/loader."
     }
   ],
   "excludedFromThisBatch": [
     {
       "projectId": "hyperframes",
-      "reason": "Duplicado real: existe en apps/hyperframes (109 archivos reales) y 08_Research_Labs/hyperframes (15253 archivos reales, incluye captures/ y packages/). Ninguna copia tiene .git propio -- ambas heredan el remote del repo raiz por accidente de ubicacion. Requiere diff archivo-por-archivo antes de decidir cual es canonica. NO se toca en este batch."
+      "reason": "Duplicado real entre apps/hyperframes (109 archivos reales) y 08_Research_Labs/hyperframes (15253 archivos reales, incluye captures/ y packages/). Ninguna copia tiene .git propio. Requiere diff archivo-por-archivo antes de decidir cual es canonica -- pendiente de un batch separado."
     },
     {
       "projectId": "notebooklm-py",
-      "reason": "Contenido real: 0 archivos fuente, solo 1 archivo __pycache__/*.pyc residual. No hay nada que mover como fuente -- posible duplicado vacio o proyecto abandonado. Se deja el original intacto; no se crea destino vacio."
+      "reason": "0 archivos fuente reales, solo __pycache__ residual. Posible duplicado vacio o proyecto abandonado."
     },
     {
       "projectId": "bittorrent-client",
-      "reason": "Mismo caso que notebooklm-py: 0 archivos fuente, solo __pycache__ residual."
+      "reason": "0 archivos fuente reales, solo __pycache__ residual."
+    },
+    {
+      "projectId": "traffic-control",
+      "reason": "0 archivos fuente reales, solo __pycache__ residual."
     },
     {
       "projectId": "nexus",
-      "reason": "0 archivos fuente reales de 21377 totales -- 100% node_modules. No hay codigo propio que mover; el original se deja intacto para inspeccion manual posterior (podria ser un directorio de dependencias huerfano, no un proyecto)."
+      "reason": "0 archivos fuente reales de 21377 totales -- 100% node_modules. Podria ser un directorio de dependencias huerfano, no un proyecto real."
     }
   ],
-  "preconditions": [
-    "no-active-task-lock",
-    "originals-untouched-until-explicit-cutover",
-    "build-verification-pending"
-  ],
+  "lessonLearned": "El conteo inicial de 'archivos reales' (excluyendo solo node_modules/.venv/.git) sobreestimo el contenido real en varios proyectos porque no excluia otros directorios de cache (__pycache__ a nivel de archivo individual sin patron de carpeta, .ruff_cache, egg-info). La verificacion definitiva fue leer el contenido real archivo por archivo antes de comitear, no confiar en el conteo inicial.",
   "rollbackManifest": "governance/migration/rollback/R01-batch-001.reverse.json",
-  "rollbackProcedure": "rm -rf de los directorios destino listados (labs/*, tools/*) -- los originales en 08_Research_Labs/ y 07_Libraries_Tools/ nunca se modificaron, por lo que no hay reversion de datos que hacer alli, solo eliminar las copias nuevas."
+  "rollbackProcedure": "rm -rf labs/miniverse/drivingbot (unico contenido real comiteado de este batch). governance/registry/projects/nemoclaw.json y libraries/third-party/loader.json son solo metadata, revertibles con git revert normal. Ningun original en 08_Research_Labs/ o 07_Libraries_Tools/ fue modificado en ningun momento de este batch."
 }

@@ -1,0 +1,7 @@
+{
+  "note": "jadx.zip (110.79 MB) excedia el limite de 100MB de GitHub -- push rechazado (pre-receive hook GH001). Es la herramienta JADX (decompilador Dex-a-Java de codigo abierto, de terceros, no autoria del usuario), no un artefacto de la investigacion propia.",
+  "upstreamRelease": "https://github.com/skylot/jadx/releases",
+  "removedFrom": "labs/miniverse/drivingbot/tools/jadx.zip",
+  "removedAt": "2026-09-10",
+  "howToRestoreLocally": "Descargar el release correspondiente desde upstreamRelease y colocarlo en esta misma ruta si se necesita para reproducir el entorno de investigacion."
+}
