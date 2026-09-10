@@ -2695,3 +2695,60 @@ R01/R02 (mover directorios de produccion) siguen requiriendo decision del usuari
 avanzar sobre ellos.
 
 **Como revertir:** `git revert 439a9c36f3`.
+
+---
+
+## Checkpoint F01/M02 — 2026-09-10 — Colision de migraciones con sesion paralela, resuelta
+
+**Commit:** `c95184453c` — pusheado a `careerai/live-browser-run-tracking`.
+
+**Contexto:** tras el checkpoint D04, el `git status` mostro ~300 archivos nuevos sin
+trackear (incluyendo `01_Core_Platform/`, `02_Odoo_ERP/`, etc. -- nombres identicos al
+reorg R01/R02, y migraciones `0002_oidc_rls_policies.sql`, `0003_automation_runs_schema.sql`,
+`0005_fleet_and_metering_schema.sql`). El usuario confirmo que ese contenido es suyo/
+autorizado. Se investigo antes de comitear nada (disciplina establecida: nunca `git add`
+de contenido no revisado).
+
+**Hallazgo real (no solo diferencia de numeracion):** las migraciones nuevas `0002`/`0003`
+(mismo numero que mis `0002_automation_schema.sql`/`0003_row_level_security.sql`, ya
+commiteados y verificados con Postgres real) resultaron ser reimplementaciones de D02/D03
+hechas por una sesion paralela sin visibilidad de mi trabajo ya hecho. Se leyeron ambas
+versiones completas y se confirmaron 2 bugs reales en las nuevas, no solo redundancia:
+
+1. La version nueva de RLS deja `iam.organizations` e `iam.org_role_bindings` con
+   `FORCE ROW LEVEL SECURITY` pero SIN ninguna `CREATE POLICY` -- candado sin llave,
+   cero filas visibles para nadie si se aplicara.
+2. La version nueva de `automation.runs` no tiene columnas `idempotency_key`/`input_hash`
+   -- de las que depende `automation.accept_run()` (E02, ya verificado con doble entrega
+   real contra Postgres). Aplicarla habria roto E02.
+
+**Resolucion (instruccion explicita del usuario: "prioriza tus cambios, los demas deja
+solo en el historico... por si se requiere algun cambio o funcion, o puedes estudiar eso
+y rescatar las funciones utiles"):**
+- Se revisaron ambos archivos y sus `.test.sql` buscando algo rescatable -- ninguno tenia
+  logica que no estuviera ya cubierta (y mejor) en mi D01-E02.
+- Se archivaron (NO se borraron) en `platform/orca/database/migrations/_superseded/`
+  con un `README.md` documentando el porque, para consulta futura.
+- Se conservo el unico contenido genuinamente nuevo y sin colision:
+  `0011_fleet_and_metering_schema.sql` (schema `fleet` para dispositivos/pairing/comandos,
+  schema `metering` para presupuestos en microdolares -- relevante para F01/M02 del plan
+  original).
+- Se verifico en Postgres 17 desechable que la cadena activa
+  (`0001->0002->0003->0004->0006->0007->0008->0011`) aplica sin error (0005 se omitio de
+  esta pasada puntual por requerir `pgvector`, ya verificado antes con la imagen correcta
+  en K02).
+
+**Progreso acumulado: sin cambio de conteo formal (F01/M02 ya estaban marcados como
+pendientes de colision con sesion concurrente; ahora esa colision quedo resuelta y
+documentada, y se sumo contenido nuevo de fleet/metering).**
+
+**Bloqueantes que siguen sin resolver:** con la colision de migraciones resuelta, sigue
+pendiente confirmar el estado real del reorg de directorios (`01_Core_Platform/`, etc.)
+y del resto del contenido untracked masivo (`platform/orca/src/`, `platform/client-gateway/src/`,
+`tools/workspace-cli/src/process-supervision/`, etc.) -- no se ha revisado archivo por
+archivo todavia; se seguira el mismo patron (revisar antes de comitear, nunca `git add`
+de directorios completos sin inspeccionar).
+
+**Como revertir:** `git revert c95184453c` (esto solo afecta a `platform/orca/database/
+migrations/0011_fleet_and_metering_schema.sql` y la carpeta `_superseded/` -- no toca
+ninguna migracion activa previamente verificada).
