@@ -36,7 +36,7 @@ export async function executeNodeFamily(entry, config = {}, input = {}, adapters
     const items = Array.isArray(input) ? structuredClone(input) : [{ json: structuredClone(input) }];
     const context = vm.createContext({ items, structuredClone });
     const script = new vm.Script(`(async()=>{${config.jsCode}})()`, { filename: `${entry.node_id}.node.js` });
-    const output = await script.runInContext(context, { timeout: 250 });
+    const output = await script.runInContext(context, { timeout: 1500 });
     if (!Array.isArray(output)) throw new Error('code_node_must_return_items');
     return { ok: true, status: 'completed', output, side_effect: false };
   }

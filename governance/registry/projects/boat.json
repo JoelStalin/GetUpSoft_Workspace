@@ -4,11 +4,15 @@
   "architecturePattern": "pipeline-de-ingenieria",
   "deploymentAuthority": "product-ci",
   "owner": "joel",
-  "note": null,
-  "realPathsFound": [],
+  "note": "Registro confirmado el 2026-09-10. Ficha: 02_Products/GetUpSoftBoat/PROYECTO.md",
+  "realPathsFound": [
+    "02_Products/GetUpSoftBoat"
+  ],
   "independentGitCheckout": false,
   "gitRemotes": [],
-  "verificationStatus": "not-found-in-inventory",
+  "verificationStatus": "local-path-verified",
   "sourceInventory": "governance/migration/inventory/workspace-inventory.json",
-  "generatedAt": "2026-09-09T23:41:46.121Z"
+  "generatedAt": "2026-09-09T23:48:31.656Z",
+  "name": "GetUpSoft Boat — Lancha eléctrica",
+  "description": "Modelado y construcción de una lancha eléctrica"
 }

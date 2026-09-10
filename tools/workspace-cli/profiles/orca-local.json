@@ -1,0 +1,12 @@
+{
+  "name": "ORCA Local Profile",
+  "services": [
+    "orca-api",
+    "workflow-editor"
+  ],
+  "environment": "development",
+  "envOverrides": {
+    "NODE_ENV": "development",
+    "PORT": 8788
+  }
+}

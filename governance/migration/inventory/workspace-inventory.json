@@ -1,13 +1,13 @@
 {
   "schemaVersion": "getupsoft.workspace-inventory.v1",
-  "generatedAt": "2026-09-09T23:33:42.156Z",
+  "generatedAt": "2026-09-10T00:55:17.154Z",
   "root": "C:\\Users\\yoeli\\Documents\\GetUpSoft_Workspace",
-  "totalEntries": 88,
+  "totalEntries": 90,
   "classified": 22,
-  "unclassified": 66,
+  "unclassified": 68,
   "independentGitCheckouts": 1,
   "truncatedScans": 0,
-  "totalApproxBytes": 79409871524,
+  "totalApproxBytes": 79410596442,
   "exclusions": [
     "node_modules",
     ".venv",
@@ -530,8 +530,8 @@
       "independentGitCheckout": false,
       "gitRemote": null,
       "fileCount": 15960,
-      "approxBytes": 7964207417,
-      "lastModified": "2026-09-09T17:30:12.446Z",
+      "approxBytes": 7964207418,
+      "lastModified": "2026-09-10T00:43:10.336Z",
       "scanTruncated": false,
       "identityHash": "d56f6359d240f69e"
     },
@@ -615,7 +615,7 @@
       "gitRemote": null,
       "fileCount": 992,
       "approxBytes": 357779124,
-      "lastModified": "2026-09-09T17:32:25.317Z",
+      "lastModified": "2026-09-10T00:43:20.114Z",
       "scanTruncated": false,
       "identityHash": "3a6eb0790f39ac87"
     },
@@ -678,6 +678,18 @@
       "lastModified": "2026-07-15T18:33:41.745Z",
       "scanTruncated": false,
       "identityHash": "9601a8f6c734c200"
+    },
+    {
+      "path": "governance",
+      "type": "directory",
+      "classification": "unclassified",
+      "independentGitCheckout": false,
+      "gitRemote": null,
+      "fileCount": 24,
+      "approxBytes": 53204,
+      "lastModified": "2026-09-10T00:34:00.820Z",
+      "scanTruncated": false,
+      "identityHash": "bf9422a2a04aad21"
     },
     {
       "path": "graphify-out",
@@ -846,6 +858,18 @@
       "lastModified": "2026-09-09T17:30:22.377Z",
       "scanTruncated": false,
       "identityHash": "7ae45ad102eab3b6"
+    },
+    {
+      "path": "platform",
+      "type": "directory",
+      "classification": "unclassified",
+      "independentGitCheckout": false,
+      "gitRemote": null,
+      "fileCount": 98,
+      "approxBytes": 633271,
+      "lastModified": "2026-09-10T00:54:36.175Z",
+      "scanTruncated": false,
+      "identityHash": "d294fcce0cc88587"
     },
     {
       "path": "postcss.config.mjs",
@@ -1033,9 +1057,9 @@
       "classification": "unclassified",
       "independentGitCheckout": false,
       "gitRemote": null,
-      "fileCount": 2,
-      "approxBytes": 15918,
-      "lastModified": "2026-09-09T23:26:03.905Z",
+      "fileCount": 19,
+      "approxBytes": 54360,
+      "lastModified": "2026-09-10T00:54:55.723Z",
       "scanTruncated": false,
       "identityHash": "f9d35d43770d3909"
     },

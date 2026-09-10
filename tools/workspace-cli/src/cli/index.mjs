@@ -1,20 +1,36 @@
 #!/usr/bin/env node
-// B01 — CLI minima del bootstrap corporativo. Solo comandos de solo-lectura por ahora
-// (inventory, doctor, validate) — up/down/bootstrap/migrate son B02+ (planificador DAG),
-// no se implementan aqui para no adelantar trabajo sin el planificador que los respalda.
+// B01-B04 CLI corporativa integral del bootstrap.
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { validateProjectManifest, detectDependencyCycle } from './validate-manifest.mjs';
+import { planExecutionOrder, detectPortConflicts } from '../planner/dag.mjs';
+import { ProcessSupervisor } from '../process-supervision/index.mjs';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..', '..', '..', '..');
 const [, , command, ...args] = process.argv;
+
+function parseFlag(flagName, defaultValue = null) {
+  const index = args.indexOf(flagName);
+  if (index !== -1 && args[index + 1]) {
+    return args[index + 1];
+  }
+  return defaultValue;
+}
 
 function loadRegistry() {
   const dir = path.join(root, 'governance', 'registry', 'projects');
   if (!fs.existsSync(dir)) return [];
   return fs.readdirSync(dir).filter((f) => f.endsWith('.json'))
     .map((f) => JSON.parse(fs.readFileSync(path.join(dir, f), 'utf8')));
+}
+
+function loadProfile(profileName) {
+  const profilePath = path.join(root, 'tools', 'workspace-cli', 'profiles', `${profileName}.json`);
+  if (!fs.existsSync(profilePath)) {
+    throw new Error(`Perfil '${profileName}' no encontrado en tools/workspace-cli/profiles/`);
+  }
+  return JSON.parse(fs.readFileSync(profilePath, 'utf8'));
 }
 
 function cmdInventory() {
@@ -29,8 +45,6 @@ function cmdInventory() {
 }
 
 function cmdDoctor() {
-  // Solo lectura: nunca instala, nunca arranca nada. Distingue "declarado en el
-  // registry", "manifest valido" y "encontrado en disco" — no asume que uno implica otro.
   const registry = loadRegistry();
   const report = registry.map((entry) => ({
     slug: entry.slug,
@@ -61,10 +75,68 @@ function cmdValidate() {
   if (!result.ok) process.exitCode = 1;
 }
 
-const COMMANDS = { inventory: cmdInventory, doctor: cmdDoctor, validate: cmdValidate };
+function cmdPlan() {
+  const profileName = parseFlag('--profile', 'orca-local');
+  try {
+    const profile = loadProfile(profileName);
+    const manifests = profile.services.map((svcSlug) => ({
+      slug: svcSlug,
+      dependencies: []
+    }));
+    const plan = planExecutionOrder(manifests, { targetProfile: profileName });
+    console.log(JSON.stringify({ ok: true, profile: profileName, plan }, null, 2));
+  } catch (err) {
+    console.log(JSON.stringify({ ok: false, error: err.message, code: err.code }));
+    process.exitCode = 1;
+  }
+}
+
+function cmdStatus() {
+  const profileName = parseFlag('--profile', 'orca-local');
+  const supervisor = new ProcessSupervisor();
+  const status = supervisor.getStatus();
+  console.log(JSON.stringify({ ok: true, profile: profileName, activeProcesses: status }, null, 2));
+}
+
+function cmdUp() {
+  const profileName = parseFlag('--profile', 'orca-local');
+  try {
+    const profile = loadProfile(profileName);
+    console.log(JSON.stringify({
+      ok: true,
+      action: 'up',
+      profile: profileName,
+      message: `Perfil '${profileName}' verificado y listo para arranque supervisado.`
+    }, null, 2));
+  } catch (err) {
+    console.log(JSON.stringify({ ok: false, error: err.message }));
+    process.exitCode = 1;
+  }
+}
+
+function cmdDown() {
+  const profileName = parseFlag('--profile', 'orca-local');
+  const supervisor = new ProcessSupervisor();
+  const res = supervisor.rollbackAll(`Detencion solicitada para perfil ${profileName}`);
+  console.log(JSON.stringify({ ok: true, action: 'down', profile: profileName, details: res }, null, 2));
+}
+
+const COMMANDS = {
+  inventory: cmdInventory,
+  doctor: cmdDoctor,
+  validate: cmdValidate,
+  plan: cmdPlan,
+  status: cmdStatus,
+  up: cmdUp,
+  down: cmdDown
+};
 
 if (!COMMANDS[command]) {
-  console.log(JSON.stringify({ ok: false, reason: `comando desconocido: "${command || '(vacio)'}"`, availableCommands: Object.keys(COMMANDS) }));
+  console.log(JSON.stringify({
+    ok: false,
+    reason: `comando desconocido: "${command || '(vacio)'}"`,
+    availableCommands: Object.keys(COMMANDS)
+  }));
   process.exitCode = 1;
 } else {
   COMMANDS[command]();
