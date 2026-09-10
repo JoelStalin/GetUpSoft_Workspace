@@ -2598,3 +2598,55 @@ requiere confirmacion antes de tocar).
 **Incidente de infraestructura durante este bloque (ya resuelto, documentado arriba):**
 falla transitoria de red WSL2<->Windows, contenedores de produccion nunca se cayeron,
 se restablecio solo.
+
+---
+
+## 2026-09-10 (cont.) — U01 completo: primera integracion end-to-end real, 2 bugs reales encontrados
+
+**Commit:** `f6114aacca`. `ChatOrchestrationUseCase` (modulo `chat` nuevo) integra por
+primera vez en un flujo real todo lo construido por separado: normaliza (K03) -> enruta
+(M01) -> reserva presupuesto si aplica (M02) -> interpreta (A02) -> devuelve resultado
+con `approvalRequired:true` SIEMPRE (regla 3.7, nunca autoriza) + evidencia visible.
+
+**El valor real de un test de integracion end-to-end**: el test recien escrito para U01
+encontro DOS bugs que ningun test unitario aislado de A02/K03/M01/M02 por separado habia
+detectado (todos pasaban individualmente):
+
+1. **M01 bloqueaba el chat entero sin ninguna API key configurada.** El catalogo de
+   capacidades declaraba TODOS los proveedores de `interpret_prompt` como no
+   disponibles si no habia `OLLAMA_BASE_URL`/`NVIDIA_API_KEY`/etc -> el router devolvia
+   `pending` -> `ChatOrchestrationUseCase` se negaba a interpretar CUALQUIER mensaje,
+   aunque el modulo `orca` (A02) siempre tiene un fallback mock funcional para
+   desarrollo. Fix: se registro ese fallback como una capacidad real (tier `rule`,
+   siempre disponible) en el catalogo de M01, con un test de regresion que fija
+   exactamente el escenario que causo el bug (cero variables de entorno configuradas).
+
+2. **`bordes_recortados` en `prompt-normalizer.ts` (K03) era codigo muerto** desde que
+   se escribio esa tarea — el primer paso de normalizacion ya incluia `.trim()`, asi
+   que el segundo paso (que existia especificamente para detectar y reportar el
+   recorte de bordes) nunca podia encontrar una diferencia. Los 21 tests de K03 pasaban
+   igual porque verificaban el texto final, no que cada transformacion individual fuera
+   realmente alcanzable. Se corrigio separando los dos pasos.
+
+Ninguno de estos dos bugs habria aparecido sin conectar las piezas de verdad -- es
+exactamente la razon por la que U01 (la integracion real) es una tarea distinta de
+construir cada pieza por separado, y por la que vale la pena hacerla aunque cada pieza
+ya estuviera "verificada".
+
+Verificado: build 2/2, ChatModule completo cableado por NestJS (no funciones sueltas),
+3 tests de integracion + 1 de regresion + toda la suite de knowledge/chat/model-routing
+re-corrida tras los fixes -- **46/46 en verde**.
+
+**Progreso acumulado: 18 de 32 tareas completadas y verificadas.**
+
+**Estado final del loop de autocorreccion en este punto:** se reviso explicitamente si
+quedaba trabajo seguro disponible antes de reportar bloqueo. Confirmado: `tools/
+workspace-cli/apps/api` no, pero `platform/client-gateway/src/pairing/` SIGUE con
+contenido sin commitear de la sesion concurrente (F01) -- se verifico de nuevo antes de
+declarar el bloqueo, no se asumio. Todo lo que queda del backlog de 32 tareas depende de:
+(a) decision del usuario (Keycloak/OIDC para completar D02, que directorios mover primero
+para R01/R02, autorizacion para tocar datos reales de CareerAI en D04), o (b) que la
+sesion concurrente termine con F01 antes de poder continuar con F02-F04/P01-P02 sin
+riesgo de choque.
+
+**Como revertir:** `git revert f6114aacca`.
