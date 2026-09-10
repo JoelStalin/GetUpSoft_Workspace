@@ -2452,3 +2452,59 @@ D01, A01, B02, A02, M01, M02).
 
 **Como revertir:** `git revert ece89ddab7` (M02) y/o `git revert ef27cb0fac` (M01),
 independientes entre si.
+
+---
+
+## 2026-09-10 (cont.) — "quedate en un loop de autocorreccion hasta terminar todas las tareas": D03, D02(RLS), K01
+
+**El usuario pidio explicitamente no parar.** Se reviso el grafo de dependencias real del
+plan (no solo la lista) para encontrar que seguia disponible sin decision externa ni
+choque con la sesion concurrente:
+
+- **D03** (commit `9f1d5da8bf`): esquema `automation.*` (workflows, workflow_versions,
+  runs, run_steps, step_attempts, run_events, approvals, artifacts). Verificado con
+  Postgres 17 desechable: CHECK de estados, unicidad de idempotency_key, FK compuesta
+  anti-cruce de organizacion (mismo patron de D01) — y el caso que de verdad importaba:
+  **bloqueo optimista probado con DOS PROCESOS `psql` REALES en paralelo** (no
+  secuencial, no mockeado), forzando la interleaving con `pg_sleep(2)` en una de las dos
+  transacciones. La que commiteo primero gano (`UPDATE 1`); la otra encontro
+  `lock_version` ya cambiado y afecto 0 filas — ninguna sobreescribio a la otra en
+  silencio.
+
+- **D02, mitad de base de datos** (commit `13d4aba74f`): se reconocio que D02 en el
+  diseno combina dos cosas independientes — "OIDC" (requiere decidir un proveedor de
+  identidad, Keycloak u otro; eso SI sigue bloqueado por el usuario) y "RLS" (aislamiento
+  a nivel de base de datos, verificable con Postgres puro, sin ningun IdP). Se implemento
+  y verifico SOLO la mitad de RLS: `FORCE ROW LEVEL SECURITY` + politica
+  `organization_id = iam.current_organization_id()` sobre las 13 tablas de
+  `iam.*`/`automation.*`, funcion que lee `current_setting('app.current_organization_id',
+  true)` (la app hace `SET LOCAL` por transaccion). Verificado conectando como un rol
+  REAL sin `BYPASSRLS` (`orca_api_login`, no como superusuario — el error que el propio
+  diseno adivierte evitar): sin contexto ve 0 filas, contexto org-a ve solo org-a, la
+  MISMA conexion en una transaccion nueva sin volver a hacer `SET LOCAL` vuelve a ver 0
+  filas (el contexto NO persiste, exactamente la regla del diseno), contexto org-b ve
+  solo org-b, y pedir por ID EXACTO un proyecto de otra organizacion con el contexto
+  equivocado devuelve 0 filas (invisible, no "denegado" — cierra el vector de ataque mas
+  simple contra un multi-tenant mal aislado).
+
+- **K01** (commit `16babab8de`): esquema `knowledge.*` (sources, source_versions —
+  append-only por GRANT real, no por convencion documentada: `orca_indexer` no tiene
+  `UPDATE`/`DELETE` sobre esa tabla, se probo intentandolo y fallo por permiso real —
+  chunks, embeddings, prompt_templates, prompt_versions) + `decideIngestion()` (funcion
+  pura, 5 tests): `classification:"restricted"` nunca se indexa automaticamente aunque
+  este verificada; solo `verification_status:"verified"` es indexable. Verificado con DOS
+  roles reales distintos (`orca_indexer_login` escribe, `orca_api_login` solo lee) —
+  `orca_api` intento escribir `sources` y fue denegado por permiso real, no por una regla
+  de negocio que se pudiera saltar.
+
+**Patron aplicado en las 3 tareas, ya establecido desde D01:** cada esquema se aplico
+contra un Postgres 17 REAL y DESECHABLE (contenedor `--rm` en el motor Docker de WSL,
+eliminado al terminar cada verificacion) conectando como el rol de aplicacion real (nunca
+como superusuario) para que la prueba sea honesta sobre lo que un atacante o un bug
+realmente podria o no podria hacer — no una prueba que pase "porque el superusuario
+ignora RLS".
+
+**Progreso acumulado: 13 de 32 tareas completadas y verificadas.**
+
+**Como revertir:** cada commit (`9f1d5da8bf`, `13d4aba74f`, `16babab8de`) es
+independiente y revertible con `git revert <hash>`.
