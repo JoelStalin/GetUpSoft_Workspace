@@ -2403,3 +2403,52 @@ mismo, asi que M01 es la opcion mas segura si se continua sin nueva confirmacion
 usuario.
 
 **Como revertir:** `git revert fbb7ae2715`.
+
+---
+
+## 2026-09-10 (cont.) — M01 + M02: router de modelos y presupuesto por hitos
+
+**Commits:** `ef27cb0fac` (M01), `ece89ddab7` (M02). Rama `careerai/live-browser-run-tracking`.
+
+**M01 — router central de capacidades** (modulo nuevo `model-routing` en
+`platform/client-gateway/apps/api`, capas presentation/application/domain/infrastructure):
+`domain/routing-policy.ts` implementa el orden estricto de la seccion 3.8 del diseno
+(reglas -> local -> externo gratuito -> pendiente); los modelos de PAGO nunca se
+seleccionan automaticamente, exigen `allowPaidForMilestoneReview:true` explicito.
+Catalogo inicial (`infrastructure/capability-registry.adapter.ts`): ollama local, nvidia/
+gemini externos gratuitos, openai/claude de pago — disponibilidad calculada por variable
+de entorno real presente, nunca asumida. 7 tests en verde (precedencia de tiers, nunca
+selecciona pago sin autorizacion, capacidad no declarada vs proveedor caido con razon
+explicita, wiring de AppModule con el 9no modulo).
+
+**Alcance deliberadamente acotado, documentado explicitamente en el commit:** el router
+se CREO pero NO se reconecto ningun call-site real de CareerAI o del propio orquestador
+Python de ORCA — hacerlo es una tarea separada, mas riesgosa (toca codigo de CareerAI ya
+en produccion con regresion verde), que exige revision uno por uno.
+
+**M02 — presupuesto y supervision por hitos:** `domain/budget-period.entity.ts` en
+microdolares `BigInt` (nunca float, regla 3.5). Perfiles default US$0/10/25 (los mismos
+que ya declaraba el diseno original, no una decision nueva). `reserveBudget()` pura solo
+acepta si `reservado+gastado+solicitado <= limite`.
+
+**Lo que hace esta tarea genuinamente distinta a las anteriores:** el AC exige "cero
+sobreasignacion en llamadas CONCURRENTES" — no basta con que la logica sea correcta en
+llamadas secuenciales. `infrastructure/budget-store.adapter.ts` serializa las reservas
+por organizacion (cola de promesas, sin ningun `await` entre leer-estado y decidir-reserva)
+para que sea realmente atomico; organizaciones DISTINTAS corren en paralelo sin
+bloquearse (regla explicita del diseno). **Se probo con concurrencia real, no simulada:**
+`Promise.all` de 20 reservas de $1 contra un limite de $10 -> exactamente 10 aceptadas,
+10 rechazadas, jamas se supero el limite. Perfil US$0 -> cero reservas exitosas sin
+importar el monto solicitado. 5/5 tests.
+
+**Estado de la sesion concurrente:** sigue activa sobre `tools/workspace-cli/` (ahora con
+comandos `plan/status/up/down`, `planner/dag.mjs`, `process-supervision/`) — se verifico
+antes de cada commit de este bloque que no hubiera diffs sin commitear en las rutas
+tocadas (`platform/client-gateway/apps/api/src/modules/model-routing` y `app.module.ts`)
+antes de escribir ahi.
+
+**Progreso acumulado: 10 de 32 tareas completadas y verificadas** (G01, G02, G03, B01,
+D01, A01, B02, A02, M01, M02).
+
+**Como revertir:** `git revert ece89ddab7` (M02) y/o `git revert ef27cb0fac` (M01),
+independientes entre si.
