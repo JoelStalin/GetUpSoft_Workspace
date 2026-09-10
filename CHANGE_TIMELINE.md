@@ -2301,3 +2301,59 @@ directorios — sin que el usuario lo pida turno a turno, dado el tamaño y ries
 romper productos en produccion (Chefalitas, Galantes, CareerAI) si se ejecuta a ciegas.
 
 **Como revertir:** no aplica — no hay cambios que revertir.
+
+---
+
+## 2026-09-09/10 (cont.) — "continua sin parar hasta terminar el goal": G01-B02 ejecutados y verificados
+
+**El usuario autorizo explicitamente ejecutar** (no solo planificar) el protocolo `/goal`
+de 32 tareas. Se avanzo real, verificado, publicado — nunca fingiendo completar en una
+sesion lo que es un programa de meses. Commits (rama `careerai/live-browser-run-tracking`):
+
+| Task | Commit | Que se hizo de verdad |
+|---|---|---|
+| G01 | `3b1ad2c31e` | `tools/workspace-cli/inventory.mjs`: cataloga las 88 entradas de primer nivel (73.96GB) con tamano/conteo/ultima-modificacion/clasificacion. 22 clasificadas, 66 "unclassified" honesto. Hallazgo: `temp-deploy-clone` es un checkout independiente de OTRO remoto (`Galantesjewerly.git`). |
+| G02 | `33fed056cc` | Se encontraron 3 copias de "orca-client-gateway": `apps/orca-client-gateway/` (solo `dist/` compilado), `.canonical-getupsoft/...` (solo docs), y `orca-client-gateway-deploy.tar.gz` en la raiz (10MB, **la fuente real**: NestJS+Prisma+agente Java, 74 `.ts`). Se extrajo SOLO la fuente (sin `node_modules`/`dist`) a `platform/client-gateway/`. Nada existente se borro. |
+| G03 | `8d3f1ff34f` | `governance/registry/projects/*.json`: 19 productos catalogados desde el inventario real de G01. `governance/policies/ADR-0001`: arquitectura federada con patrones combinados. |
+| B01 | `eda3b84b03` | CLI (`inventory`/`doctor`/`validate`) sin instalar zod (declarado pero no instalado en esta raiz compartida) — validador propio, 10 tests. |
+| D01 | `b4677314c8` | Esquema IAM (`platform/orca/database/migrations/0001_iam_schema.sql`) **verificado contra un Postgres 17 real** (contenedor `--rm` desechable en WSL, eliminado al terminar): 8/8 casos correctos, incluye la FK compuesta que impide cruzar organizaciones. |
+| A01 | `a0a18b3052` → `1f60894ee2` | ORCA son 3 capas (Python FastAPI archivado, orquestador Python activo via CLI, runtime Node.js CareerAI) + el gateway NestJS ya tiene el puente construido hacia Python. Se instalo `platform/client-gateway` (`pnpm install`, 626 paquetes, 6m48s) y se corrio `prisma generate` (pnpm bloquea postinstall de terceros por defecto) — **build 2/2 paquetes exitoso, test 1/1 exitoso** (AppModule con sus 8 modulos reales carga sin error de DI). `pnpm-lock.yaml` commiteado. |
+| B02 | `2688740a1d` | Planificador DAG (orden topologico Kahn, deteccion de conflicto de puerto/ruta, ciclos) — 7 tests. |
+
+**Fix aplicado durante la ejecucion:** `.gitignore` no tenia `node_modules/` (gap real
+preexistente en todo el repo) — se agrego antes de que la instalacion de
+`platform/client-gateway` pudiera terminar commiteando cientos de MB por accidente.
+
+**Contaminacion cruzada detectada — misma disciplina aplicada toda la sesion:**
+
+1. `tools/workspace-cli/src/planner/dag.mjs` se colo en el commit de B02 porque `git add`
+   se hizo a nivel de directorio (`tools/workspace-cli/src/planner`) y otra sesion
+   concurrente habia dejado ese archivo sin commitear ahi mismo, en el momento exacto del
+   commit. **Se detecto y se corrigio en un commit separado** (`git rm --cached`, el
+   archivo se preserva en disco intacto, no se toco el trabajo de esa otra sesion).
+2. `platform/client-gateway/src/pairing/pairing-service.mjs` — otra sesion (o la misma)
+   esta trabajando F01 ("Pairing y credenciales reales de Gateway") en paralelo, ahora
+   mismo. No se toco, no se commiteo.
+3. Al momento de este checkpoint hay diffs sin commitear en el working tree que NO son de
+   esta sesion: `governance/migration/inventory/workspace-inventory.json` y
+   `governance/registry/projects/*.json` regenerados con timestamps posteriores (90
+   entradas vs las 88 que genero esta sesion — alguien mas corrio `inventory.mjs`/
+   `build_catalog.mjs` de nuevo), y `apps/orca/src/runtime/node-family-executor.mjs`
+   (timeout de VM Script 250ms -> 1500ms, cambio real de CareerAI sin relacion con el
+   plan GetUpSoft). **Ninguno de estos tres se commiteo** — quedan en el working tree para
+   que la sesion que los genero los cierre ella misma.
+
+**Riesgo operativo real, reportado al usuario explicitamente:** hay al menos otra sesion
+trabajando el mismo `/goal` plan en simultaneo sobre el mismo working tree. Mientras eso
+siga, cualquier `git add` debe ser por archivo explicito, nunca por directorio — regla ya
+aplicada en todos los commits de este bloque tras el primer incidente.
+
+**Como revertir:** cada commit de la tabla es independiente y revertible con
+`git revert <hash>`. El Postgres de prueba de D01 ya no existe (contenedor `--rm`).
+`platform/client-gateway/node_modules` es reinstalable con `pnpm install` + `pnpm exec
+prisma generate` (documentado en A01).
+
+**Siguiente tarea propuesta, pendiente de confirmacion del usuario:** A02 (separar
+presentation/application/domain/infrastructure en el modulo `orca` del gateway) — se
+pauso antes de tocar codigo compartido dado el riesgo de choque con la sesion concurrente
+detectada en el punto anterior.
