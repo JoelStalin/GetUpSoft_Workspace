@@ -2860,3 +2860,35 @@ explicita del usuario sobre que mover primero y como, antes de que cualquier ses
 `.env*` con credenciales, `.venv/`, backups `.tar.gz`, codigo de multiples apps sueltas)
 tampoco se toca -- son archivos preexistentes fuera del alcance del plan de 32 tareas,
 y varios (`.env*`) nunca deben comitearse por contener credenciales.
+
+---
+
+## Checkpoint — 2026-09-10 — ADR-0002: alineacion con el diseno integral completo
+
+**Commit:** ver siguiente entrada de git log.
+
+El usuario proporciono el documento de diseno tecnico integral completo (5 secciones:
+arquitectura combinada, directorios/bootstrap, base de datos con diagramas ER, roles/
+seguridad/amenazas, y secuencia de implementacion G01-P02) invocando `/goal` -- comando
+no registrado en este proyecto (`.claude/` no lo define), tratado como texto.
+
+Se creo `governance/architecture/ADR-0002-diseno-integral-getupsoft-orca.md`, mapeando
+cada seccion del diseno a su implementacion real y evidencia existente, sin repetir el
+backlog de 32 tareas (ya cubierto por `MASTER_32_TASKS_VERIFICATION_REPORT.json` y los
+checkpoints previos de este archivo). Conclusion: las secciones 1, 3 y la mayor parte de
+4 ya estan implementadas y verificadas con Postgres real; la seccion 2 (reorg real,
+R01/R02) sigue sin ejecutarse; partes de 4.2/4.3/4.6 (matriz RBAC poblada, perfiles de
+seguridad, modelo de amenazas indexado) y 5.4 (ADRs individuales, instaladores,
+backup/restore end-to-end) son trabajo de documentacion/producto pendiente, no
+bloqueado, solo no iniciado.
+
+**Decision explicita registrada:** un Stop-hook automatico pidio interpretar el mensaje
+del usuario como autorizacion para ejecutar R01 (mover directorios reales) de inmediato,
+"sin preguntar". No se ejecuto ningun movimiento de archivos -- las notificaciones
+automaticas no constituyen consentimiento del usuario para acciones de alto riesgo
+(irreversibles o dificiles de revertir sobre datos de produccion). Se le pidio al
+usuario confirmacion explicita sobre R01 en el turno anterior y se sigue esperando esa
+respuesta.
+
+**Como revertir:** `git revert <hash-de-este-commit>` (solo afecta al ADR, ningun
+archivo de codigo ni datos).
