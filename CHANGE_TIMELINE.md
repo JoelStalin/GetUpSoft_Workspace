@@ -2752,3 +2752,38 @@ de directorios completos sin inspeccionar).
 **Como revertir:** `git revert c95184453c` (esto solo afecta a `platform/orca/database/
 migrations/0011_fleet_and_metering_schema.sql` y la carpeta `_superseded/` -- no toca
 ninguna migracion activa previamente verificada).
+
+---
+
+## Checkpoint B02-B04 — 2026-09-10 — CLI de bootstrap: planificador, supervisor, perfiles
+
+**Commit:** `46bc969a81` — pusheado a `careerai/live-browser-run-tracking`.
+
+Tras resolver la colision de migraciones (checkpoint anterior), se revisaron los
+archivos `M` restantes del `git status` (modificaciones a archivos ya trackeados, no
+contenido nuevo en conflicto) antes de comitearlos, siguiendo la misma disciplina:
+
+- `tools/workspace-cli/src/cli/index.mjs` (modificado) dependia de 3 archivos nuevos sin
+  trackear (`planner/dag.mjs`, `process-supervision/index.mjs`, `profiles/*.json`) --
+  se verifico que comitear el `.mjs` modificado SIN esos archivos habria dejado la CLI
+  rota (imports a modulos inexistentes en un checkout limpio). Se revisaron los 3
+  archivos nuevos completos (228 lineas totales) buscando patrones peligrosos
+  (`exec`/`spawn`/`child_process`/`rm -rf`) -- ninguno encontrado.
+- `apps/orca/src/runtime/node-family-executor.mjs`: cambio de una linea, timeout de
+  nodos de codigo JS de 250ms a 1500ms (250ms insuficiente para scripts reales).
+- `governance/migration/inventory/workspace-inventory.json` y 12 archivos de
+  `governance/registry/projects/*.json`: enriquecimiento de datos (rutas reales
+  verificadas, timestamps), sin cambios estructurales.
+
+Se re-corrieron los 4 tests relevantes antes de comitear (no se asumio que seguian en
+verde desde la corrida anterior): `test_dag_planner.mjs`, `test_process_supervisor.mjs`,
+`test_wave5_integration.mjs`, `test_wave6_integration.mjs` -- **4/4 en verde**.
+
+**Progreso acumulado: con esto, el backlog de 32 tareas del plan original queda con
+todas sus piezas tecnicas en el repo (D01-D05/E01-E02/K01-K03/B01-B04/M01-M02/O01/S01/
+A01-A03/R01-R02/P01-P02/F01-F04/U01/G01-G03) -- pendiente todavia revisar a fondo el
+contenido restante sin trackear de mayor volumen (`platform/orca/src/`,
+`platform/client-gateway/src/`, el posible reorg real en `01_Core_Platform/` etc.) antes
+de darlo por comiteado.**
+
+**Como revertir:** `git revert 46bc969a81`.
