@@ -1,0 +1,18 @@
+{
+  "migrationId": "R01-hyperframes-reconciliation",
+  "createdAt": "2026-09-10T00:00:00Z",
+  "operation": "reconcile-duplicate-no-data-loss",
+  "finding": {
+    "canonical": "08_Research_Labs/hyperframes",
+    "canonicalRealFileCount": 15253,
+    "partial": "apps/hyperframes",
+    "partialRealFileCount": 109,
+    "comparison": "El unico paquete compartido (packages/producer) es byte-identico entre ambas copias (diff -rq sin diferencias, excluyendo dist/tests/.DS_Store locales de apps/hyperframes). 08_Research_Labs/hyperframes contiene ademas 6 paquetes adicionales (cli, core, engine, player, shader-transitions, studio) y captures/ que apps/hyperframes no tiene. Es un superconjunto estricto, no una version divergente."
+  },
+  "decision": {
+    "decidedBy": "usuario, 2026-09-10",
+    "action": "No borrar nada. Mover apps/hyperframes (la copia parcial/descartable) a historicos/, sin eliminarla, y excluir ese directorio via .gitignore para que nunca se trackee.",
+    "result": "apps/hyperframes -> historicos/hyperframes-apps-partial-20260910/. .gitignore actualizado con la entrada 'historicos/'. 08_Research_Labs/hyperframes queda como la fuente canonica para cuando se aborde R02 (mover hyperframes a su destino final en labs/ o donde corresponda segun R02)."
+  },
+  "note": "08_Research_Labs/hyperframes en si NO se movio en esta pasada -- sigue en su ubicacion original, intacto. Este documento solo resuelve la ambiguedad de CUAL copia es la canonica; el movimiento real de la copia canonica es tarea de un batch futuro de R01/R02."
+}

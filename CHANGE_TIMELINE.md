@@ -2962,3 +2962,38 @@ no solo cuantos archivos hay) antes de clasificar algo como "listo para mover".
 **Como revertir:** ver `governance/migration/rollback/R01-batch-001.reverse.json`
 (solo 3 elementos reales que revertir: `labs/miniverse/drivingbot`,
 `governance/registry/projects/nemoclaw.json`, `libraries/third-party/loader.json`).
+
+---
+
+## Checkpoint — 2026-09-10 — Reconciliacion de hyperframes resuelta (sin perdida de datos)
+
+**Commit:** ver siguiente entrada de git log.
+
+Tras completar R01 batch-001, se avanzo la parte de solo lectura de la reconciliacion
+de `hyperframes` (excluida explicitamente del batch anterior por ser un duplicado sin
+resolver) mientras se esperaba confirmacion del usuario sobre el siguiente paso.
+
+**Hallazgo (comparacion real, `diff -rq`):** `08_Research_Labs/hyperframes` (15253
+archivos reales) es un superconjunto ESTRICTO de `apps/hyperframes` (109 archivos) --
+el unico paquete compartido (`packages/producer`) es byte-identico entre ambas copias.
+`08_Research_Labs/hyperframes` tiene ademas 6 paquetes adicionales (cli, core, engine,
+player, shader-transitions, studio) y `captures/` que `apps/hyperframes` no tiene. No
+era una version divergente real, solo una extraccion parcial y desactualizada.
+
+**Decision del usuario:** no borrar nada -- mover la copia descartable
+(`apps/hyperframes`) a un directorio de historicos sin eliminarla, y excluir ese
+directorio de git.
+
+**Ejecutado:**
+- `apps/hyperframes` -> `historicos/hyperframes-apps-partial-20260910/` (movido, no
+  copiado -- el contenido ya vive completo y sin perdida en `08_Research_Labs/hyperframes`,
+  asi que mover en vez de copiar aqui es seguro y no arriesga nada).
+- `.gitignore` actualizado con la entrada `historicos/` -- todo lo que se descarte en
+  futuros batches de R01/R02 va ahi, nunca se trackea, nunca se borra fisicamente.
+- Documentado en `governance/migration/manifests/R01-hyperframes-reconciliation.json`.
+- `08_Research_Labs/hyperframes` (la copia canonica) NO se movio todavia -- queda
+  intacta en su ubicacion original, pendiente de que se aborde su traslado real en un
+  batch futuro de R01/R02.
+
+**Como revertir:** `mv historicos/hyperframes-apps-partial-20260910 apps/hyperframes`
+(el movimiento es reversible con un simple `mv`, nada se perdio).

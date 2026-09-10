@@ -21,3 +21,6 @@ node_modules/
 **/node_modules/
 **/dist/
 **/.turbo/
+
+# Contenido descartado durante reorg R01/R02 -- conservado sin borrar, nunca trackeado
+historicos/
