@@ -9,6 +9,7 @@ import { AuthModule } from './modules/auth/auth.module';
 import { EasyCountModule } from './modules/easycount/easycount.module';
 import { GatewayModule } from './modules/gateway/gateway.module';
 import { ModelRoutingModule } from './modules/model-routing/model-routing.module';
+import { ChatModule } from './modules/chat/chat.module';
 import { PrismaModule } from './common/prisma/prisma.module';
 
 @Module({
@@ -26,6 +27,7 @@ import { PrismaModule } from './common/prisma/prisma.module';
     EasyCountModule,
     GatewayModule,
     ModelRoutingModule,
+    ChatModule,
   ],
 })
 export class AppModule {}

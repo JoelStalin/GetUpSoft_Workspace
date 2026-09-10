@@ -40,7 +40,11 @@ export function normalizePrompt(originalText: string): NormalizationResult {
 
   let normalized = originalText;
 
-  const collapsedSpaces = normalized.replace(/\s+/g, ' ').trim();
+  // Bug real encontrado en U01: version anterior colapsaba Y recortaba en el mismo paso
+  // (el replace ya incluia .trim()), asi que la transformacion "bordes_recortados" nunca
+  // podia dispararse -- era codigo muerto que un test end-to-end detecto. Ahora cada
+  // transformacion es independiente y verificable por separado.
+  const collapsedSpaces = normalized.replace(/[ \t]+/g, ' ').replace(/\n{3,}/g, '\n\n');
   if (collapsedSpaces !== normalized) {
     transformationsApplied.push('espacios_colapsados');
     normalized = collapsedSpaces;

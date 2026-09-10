@@ -17,6 +17,16 @@ export class CapabilityRegistryAdapter {
 
   list(): CapabilityProvider[] {
     return [
+      // Tier "rule": el modulo orca (A02) SIEMPRE tiene un fallback determinista sin
+      // costo (MockOrcaInterpreterAdapter, activo por defecto salvo ORCA_BRIDGE_MODE=
+      // python) -- omitir esta entrada bloquearia el chat entero en cualquier ambiente
+      // sin API keys configuradas, aunque el sistema SI puede responder. Registrarlo
+      // como capacidad real, no como un "silencio" del catalogo que el router
+      // interpretaria incorrectamente como "no hay nada disponible".
+      {
+        tier: 'rule', providerId: 'orca-mock-fallback', capability: 'interpret_prompt',
+        available: true,
+      },
       {
         tier: 'local', providerId: 'ollama', capability: 'interpret_prompt',
         available: this.configured('OLLAMA_BASE_URL'),

@@ -27,5 +27,6 @@ import { MockOrcaInterpreterAdapter } from './infrastructure/adapters/mock-orca-
     InterpretPromptUseCase,
     BuildN8nPayloadUseCase,
   ],
+  exports: [InterpretPromptUseCase, BuildN8nPayloadUseCase],
 })
 export class OrcaModule {}
