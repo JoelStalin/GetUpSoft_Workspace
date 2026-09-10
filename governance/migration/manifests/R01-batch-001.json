@@ -1,0 +1,74 @@
+{
+  "migrationId": "R01-batch-001",
+  "createdAt": "2026-09-10T00:00:00Z",
+  "operation": "copy-verified-source-pending-cutover",
+  "note": "Fase 1 de R01: COPIA (no mueve, no borra original) de proyectos de copia unica sin ambiguedad, excluyendo node_modules/.venv/__pycache__ (se reinstalan, no se transportan). Los originales permanecen intactos en 08_Research_Labs/ y 07_Libraries_Tools/ hasta verificacion y decision explicita de conmutacion.",
+  "entries": [
+    {
+      "projectId": "nemoclaw",
+      "source": "08_Research_Labs/NemoClaw",
+      "destination": "labs/NemoClaw",
+      "sourceRepositoryRemote": "https://github.com/JoelStalin/NemoClaw.git",
+      "classification": "single-copy-verified",
+      "excluded": ["node_modules", ".venv", "__pycache__"],
+      "status": "copied-pending-verification"
+    },
+    {
+      "projectId": "ida-pro-mcp",
+      "source": "08_Research_Labs/ida-pro-mcp",
+      "destination": "labs/ida-pro-mcp",
+      "classification": "single-copy-verified",
+      "excluded": ["node_modules", ".venv", "__pycache__"],
+      "status": "copied-pending-verification"
+    },
+    {
+      "projectId": "miniverse",
+      "source": "08_Research_Labs/miniverse",
+      "destination": "labs/miniverse",
+      "classification": "single-copy-verified",
+      "excluded": ["node_modules", ".venv", "__pycache__"],
+      "status": "copy-in-progress"
+    },
+    {
+      "projectId": "loader",
+      "source": "07_Libraries_Tools/loader",
+      "destination": "tools/loader",
+      "classification": "single-copy-verified",
+      "excluded": ["node_modules", ".venv", "__pycache__"],
+      "status": "pending"
+    },
+    {
+      "projectId": "traffic-control",
+      "source": "07_Libraries_Tools/traffic-control",
+      "destination": "tools/traffic-control",
+      "classification": "single-copy-verified",
+      "excluded": ["node_modules", ".venv", "__pycache__"],
+      "status": "pending"
+    }
+  ],
+  "excludedFromThisBatch": [
+    {
+      "projectId": "hyperframes",
+      "reason": "Duplicado real: existe en apps/hyperframes (109 archivos reales) y 08_Research_Labs/hyperframes (15253 archivos reales, incluye captures/ y packages/). Ninguna copia tiene .git propio -- ambas heredan el remote del repo raiz por accidente de ubicacion. Requiere diff archivo-por-archivo antes de decidir cual es canonica. NO se toca en este batch."
+    },
+    {
+      "projectId": "notebooklm-py",
+      "reason": "Contenido real: 0 archivos fuente, solo 1 archivo __pycache__/*.pyc residual. No hay nada que mover como fuente -- posible duplicado vacio o proyecto abandonado. Se deja el original intacto; no se crea destino vacio."
+    },
+    {
+      "projectId": "bittorrent-client",
+      "reason": "Mismo caso que notebooklm-py: 0 archivos fuente, solo __pycache__ residual."
+    },
+    {
+      "projectId": "nexus",
+      "reason": "0 archivos fuente reales de 21377 totales -- 100% node_modules. No hay codigo propio que mover; el original se deja intacto para inspeccion manual posterior (podria ser un directorio de dependencias huerfano, no un proyecto)."
+    }
+  ],
+  "preconditions": [
+    "no-active-task-lock",
+    "originals-untouched-until-explicit-cutover",
+    "build-verification-pending"
+  ],
+  "rollbackManifest": "governance/migration/rollback/R01-batch-001.reverse.json",
+  "rollbackProcedure": "rm -rf de los directorios destino listados (labs/*, tools/*) -- los originales en 08_Research_Labs/ y 07_Libraries_Tools/ nunca se modificaron, por lo que no hay reversion de datos que hacer alli, solo eliminar las copias nuevas."
+}
