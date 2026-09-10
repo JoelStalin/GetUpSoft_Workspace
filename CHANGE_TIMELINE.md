@@ -2508,3 +2508,51 @@ ignora RLS".
 
 **Como revertir:** cada commit (`9f1d5da8bf`, `13d4aba74f`, `16babab8de`) es
 independiente y revertible con `git revert <hash>`.
+
+---
+
+## 2026-09-10 (cont.) — K02, K03, E01: busqueda semantica, preprocesador, cola durable
+
+**Interrupcion real durante este bloque:** WSL2 tuvo una falla transitoria de red
+(`Wsl/Service/0x8007274c`, "connection attempt failed") que dejo Chefalitas y Ollama
+inalcanzables desde Windows por unos minutos. **Los contenedores nunca se cayeron**
+(`docker ps` mostraba `chefalitas-db-prod` healthy, `chefalitas-nginx-prod` up 32h+
+durante la falla) — fue solo el puente de reenvio de puertos Windows<->WSL2 el que se
+colgo temporalmente. Se verifico con `wsl -d Ubuntu -e echo test` que la VM seguia viva,
+se espero, y el reenvio de puertos se restablecio solo (`curl` a Chefalitas/Ollama volvio
+a responder 200). No se reinicio WSL forzosamente ni se toco ningun contenedor de
+produccion durante el incidente, precisamente para no arriesgar Chefalitas mientras se
+diagnosticaba. El usuario tambien confirmo por separado que el workspace NO fue
+reorganizado (`R01`/`R02` siguen sin ejecutar, deliberadamente — ver nota de alcance en
+cada commit de este bloque).
+
+- **K02** (commit `e98f2b6d5c`): `pgvector` (columna `embeddings.value vector(1536)` +
+  indice HNSW, `chunks.search_vector` GENERADA -- nunca se escribe a mano) +
+  `knowledge.search_chunks()` combinando full-text (40%) y semantico (60%), filtrando
+  por `verification_status='verified'` -- la MISMA politica de K01, no una nueva regla.
+  Verificado con Postgres real (imagen `pgvector/pgvector:pg17`, distinta de la alpine
+  estandar): dos fuentes con el mismo termino, una verified y otra unverified ->
+  `search_chunks()` devolvio EXACTAMENTE 1 fila, la verificada. Ademas,
+  `compileContext()` (presupuesto de 8K tokens, prioriza por relevancia, cada exclusion
+  lleva su razon explicita, nunca trunca en silencio) — 5/5 tests.
+
+- **K03** (commit `b285be7759`): preprocesador (`normalizePrompt`) que detecta y
+  preserva cifras/codigo/rutas/negaciones como spans protegidos, verificado con 15 frases
+  reales en español con errores ortograficos tipicos (muestra representativa del AC "50
+  solicitudes", documentado honestamente como tal). Trigger REAL de inmutabilidad para
+  `prompt_versions` publicadas (a diferencia de `workflow_versions` en D03, que quedo
+  como convencion porque D02 todavia no existia en ese momento) — verificado que bloquea
+  tanto alterar el contenido COMO "despublicar" para evadir la inmutabilidad por la
+  puerta de atras.
+
+- **E01** (commit `c55d5dec7f`): outbox transaccional + `claim_next_outbox_task()` con
+  `SELECT ... FOR UPDATE SKIP LOCKED`. Verificado con dos pruebas que un mock no podria
+  replicar honestamente: (1) durabilidad real -- 2 tareas aceptadas, conexion cerrada
+  (simula crash), conexion NUEVA las sigue viendo `pending`; (2) reclamo sin duplicados
+  con DOS PROCESOS `psql` SEPARADOS corriendo en paralelo real -- cada uno reclamo una
+  tarea distinta, ninguno proceso la misma dos veces.
+
+**Progreso acumulado: 16 de 32 tareas completadas y verificadas.**
+
+**Como revertir:** `git revert e98f2b6d5c` (K02), `git revert b285be7759` (K03),
+`git revert c55d5dec7f` (E01) -- independientes entre si.
