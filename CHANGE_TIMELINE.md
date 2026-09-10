@@ -2357,3 +2357,49 @@ prisma generate` (documentado en A01).
 presentation/application/domain/infrastructure en el modulo `orca` del gateway) — se
 pauso antes de tocar codigo compartido dado el riesgo de choque con la sesion concurrente
 detectada en el punto anterior.
+
+---
+
+## 2026-09-10 (cont.) — A02 ejecutado: modulo `orca` del gateway en capas
+
+**Commit:** `fbb7ae2715`. Antes de tocar codigo se verifico `git status` del directorio
+especifico (`platform/client-gateway/apps/api/src/modules/orca/`) — limpio, sin cambios
+de la sesion concurrente en ese momento, seguro proceder.
+
+Se separo `orca.controller.ts`/`orca.service.ts` (planos) en:
+- `domain/ports/orca-interpreter.port.ts` + `domain/entities/interpretation.entity.ts`
+  (sin imports de NestJS).
+- `infrastructure/adapters/{python-cli,mock}-orca-interpreter.adapter.ts` (movidos tal
+  cual desde el service original, sin cambiar comportamiento — el mock preserva
+  `original_input`/`canonical_language`/`confidence` que el original devolvia).
+- `application/use-cases/{interpret-prompt,build-n8n-payload}.use-case.ts`.
+- `presentation/http/orca.controller.ts` (solo valida `source_type` y delega).
+- `orca.module.ts`: provider factory que elige el adapter segun `ORCA_BRIDGE_MODE` (misma
+  condicion, movida desde el service).
+
+**Verificado real tras el refactor** (no solo escrito): `pnpm run build` 2/2 paquetes
+exitoso, `pnpm run test` — el test de wiring (`AppModule should be defined`) sigue en
+verde con la nueva estructura de DI, **mas 4 tests unitarios nuevos** de los casos de uso
+contra el adapter mock (deteccion de bugfix por palabra clave, shape de scrum/model_prompt,
+transformacion a payload n8n) — cobertura que no existia antes de A02.
+
+Mientras tanto, la sesion concurrente sigue avanzando sobre `tools/workspace-cli/` (CLI con
+comandos `plan/status/up/down`, `planner/dag.mjs`, `process-supervision/`) — no se toco,
+queda documentado que existe para que quien retome ese archivo sepa que hay cambios reales
+sin commitear ahi (no son perdida de trabajo, son progreso de la otra sesion).
+
+**Estado final:** `git status`/`git diff --staged` limpios en todo lo que es de esta
+sesion; los unicos diffs sin commitear en el working tree pertenecen a la sesion
+concurrente (`tools/workspace-cli/src/cli/index.mjs`, `governance/migration/inventory/
+workspace-inventory.json`, `governance/registry/projects/*.json` con timestamps
+regenerados, `apps/orca/src/runtime/node-family-executor.mjs`) y se dejan intactos a
+proposito.
+
+**Progreso acumulado del plan de 32 tareas: 8 completadas y verificadas (G01, G02, G03,
+B01, D01, A01, B02, A02).** Las siguientes tareas sin dependencia de decision externa
+serian M01 (router central de modelos, depende de A02 ya cumplido) o continuar sobre
+`tools/workspace-cli` — pero esto ultimo colisiona con la sesion concurrente activa ahi
+mismo, asi que M01 es la opcion mas segura si se continua sin nueva confirmacion del
+usuario.
+
+**Como revertir:** `git revert fbb7ae2715`.
