@@ -2830,3 +2830,33 @@ sobre datos de este volumen y riesgo sin autorizacion explicita y especifica.
 **Estado de push:** todo el trabajo propio de esta sesion (D04, migraciones fleet/metering,
 CLI B02-B04) esta commiteado y pusheado hasta `dd5252be04`. No hay commits locales
 pendientes.
+
+---
+
+## Correccion — 2026-09-10 — El hallazgo de R01/R02 "en curso" era un error de diagnostico
+
+**Corrige el checkpoint anterior** ("hallazgo de R01/R02 real en curso, ~294K archivos").
+
+Se le pregunto al usuario si el reorg le parecia visible/reciente. Su respuesta ("no lo
+veo, mi directorio sigue desorganizado con archivos sueltos") no coincidia con la
+conclusion anterior -- se verificaron las fechas de modificacion reales de las carpetas
+(`01_Core_Platform/`, `02_Odoo_ERP/`, `02_Products/`, etc.) con `ls -la --time-style=full-iso`:
+
+**Todas tienen fecha de 2026-07-15 a 2026-08-08 -- semanas o meses ANTES de que empezara
+este plan de 32 tareas (todo el trabajo de esta sesion es del 2026-09-09/10).**
+
+Conclusion corregida: este contenido NO es el reorg R01/R02 de este plan en progreso --
+es contenido viejo, suelto, preexistente en la raiz del workspace, sin relacion con la
+tarea planificada. La atribucion anterior ("R01/R02 real ya en curso") fue un error --
+se disculpa y se corrige aqui explicitamente para no dejar informacion incorrecta en el
+historico.
+
+**Estado real de R01/R02: SIGUE SIN EMPEZAR**, tal como estaba documentado en el
+checkpoint U01 (antes del error). Sigue siendo un bloqueante que requiere decision
+explicita del usuario sobre que mover primero y como, antes de que cualquier sesion
+(esta u otra) lo ejecute.
+
+**Nota aparte:** el resto del contenido sin trackear de la raiz del workspace (archivos
+`.env*` con credenciales, `.venv/`, backups `.tar.gz`, codigo de multiples apps sueltas)
+tampoco se toca -- son archivos preexistentes fuera del alcance del plan de 32 tareas,
+y varios (`.env*`) nunca deben comitearse por contener credenciales.
