@@ -2997,3 +2997,22 @@ directorio de git.
 
 **Como revertir:** `mv historicos/hyperframes-apps-partial-20260910 apps/hyperframes`
 (el movimiento es reversible con un simple `mv`, nada se perdio).
+
+---
+
+## Checkpoint — 2026-09-10 — R01: nexus reconciliado, inicio de traslado de hyperframes canonico
+
+Usuario autorizo continuar con lotes de bajo riesgo de R01 ("continua", tras extenso
+periodo esperando decision explicita sobre R02 vs mas R01 -- se interpreto como
+autorizacion para el camino de menor riesgo ya presentado, no para R02 sobre sistemas
+en produccion, que sigue requiriendo confirmacion especifica aparte).
+
+**nexus:** re-verificado (0 archivos fuente, solo `node_modules`, sin `.git`, sin
+`package.json` visible) -- confirmado directorio de dependencias huerfano, no un
+proyecto real. Movido a `historicos/nexus-orphaned-node_modules-20260910/` (no
+borrado), mismo tratamiento que `apps/hyperframes` en el checkpoint anterior.
+
+**hyperframes (copia canonica):** iniciando traslado de `08_Research_Labs/hyperframes`
+a `labs/hyperframes` -- verificando primero archivos >50MB y posibles secretos antes de
+copiar, seguido del mismo patron de esta sesion (copiar, verificar con diff -rq,
+comitear solo si no hay hallazgos que requieran decision del usuario).
