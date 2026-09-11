@@ -24,7 +24,7 @@ const KNOWN_PRODUCTS = [
   { product: 'galantes-jewelry', patterns: [/^06_E_Commerce_Lux\/Galantesjewelry$/, /^historicos\/galantes-root-loose-copy-.*$/] },
   { product: 'chefalitas', patterns: [/^apps\/odoo\/.*Chefalitas/i, /^apps\/local_printer_agent\/Chefalitas/i] },
   { product: 'getupnet', patterns: [/^products\/getupnet$/] },
-  { product: 'smartdoor', patterns: [/^02_Products\/GetUpSoftSmartDoor$/] },
+  { product: 'smartdoor', patterns: [/^products\/smartdoor$/, /^apps\/backend-nest$/] },
   { product: 'boat', patterns: [/^02_Products\/GetUpSoftBoat$/] },
   { product: 'easycount', patterns: [/^products\/easycount$/, /^historicos\/easycount-app-empty-copy-.*$/] },
   { product: 'printing-workers', patterns: [/^apps\/local_printer_agent$/, /^apps\/printer_proxy$/] },
