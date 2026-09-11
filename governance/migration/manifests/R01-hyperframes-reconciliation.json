@@ -14,5 +14,12 @@
     "action": "No borrar nada. Mover apps/hyperframes (la copia parcial/descartable) a historicos/, sin eliminarla, y excluir ese directorio via .gitignore para que nunca se trackee.",
     "result": "apps/hyperframes -> historicos/hyperframes-apps-partial-20260910/. .gitignore actualizado con la entrada 'historicos/'. 08_Research_Labs/hyperframes queda como la fuente canonica para cuando se aborde R02 (mover hyperframes a su destino final en labs/ o donde corresponda segun R02)."
   },
-  "note": "08_Research_Labs/hyperframes en si NO se movio en esta pasada -- sigue en su ubicacion original, intacto. Este documento solo resuelve la ambiguedad de CUAL copia es la canonica; el movimiento real de la copia canonica es tarea de un batch futuro de R01/R02."
+  "note": "08_Research_Labs/hyperframes en si NO se movio en esta pasada -- sigue en su ubicacion original, intacto. Este documento solo resuelve la ambiguedad de CUAL copia es la canonica; el movimiento real de la copia canonica es tarea de un batch futuro de R01/R02.",
+  "followUp2026_09_10_continuacion": {
+    "intento": "Traslado de la copia canonica (08_Research_Labs/hyperframes) a labs/hyperframes.",
+    "hallazgo1_captures_riesgo_real": "captures/ contiene perfiles COMPLETOS de Chrome usados para pruebas automatizadas (chrome-profile-1-copy, interactive-chrome-profile1, etc.), incluyendo archivos reales 'Login Data' (base SQLite de Chrome para contraseñas guardadas, cifradas pero sensibles) y un archivo individual de 202MB (cache de Component Updater de Chrome, no codigo). NO se copio ni se comiteo captures/ bajo ninguna circunstancia -- requiere decision explicita del usuario antes de considerarse siquiera.",
+    "hallazgo2_packages_sin_codigo_real": "Los 15253 archivos 'reales' contados originalmente (excluyendo solo node_modules/.venv/.git) resultaron venir casi en su totalidad de captures/, NO de packages/. Se verifico que CADA carpeta bajo packages/ (cli, core, engine, player, producer, shader-transitions, studio) contiene UNICAMENTE node_modules -- 0 archivos fuente propios en cualquiera de los 7 paquetes.",
+    "conclusion": "hyperframes (ambas copias, apps/hyperframes y 08_Research_Labs/hyperframes) NO tiene codigo fuente propio real que mover. Lo unico con contenido real es captures/ (perfiles de navegador con datos sensibles, no codigo). No hay nada seguro que trasladar a labs/ en este proyecto -- se descarta el traslado.",
+    "accion": "Se elimino la copia vacia intentada en labs/hyperframes (0 archivos tras podar node_modules). 08_Research_Labs/hyperframes permanece intacto en su ubicacion original -- ninguna operacion de esta continuacion lo modifico. No se toco captures/ en ningun momento."
+  }
 }

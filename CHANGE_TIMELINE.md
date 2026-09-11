@@ -3016,3 +3016,39 @@ borrado), mismo tratamiento que `apps/hyperframes` en el checkpoint anterior.
 a `labs/hyperframes` -- verificando primero archivos >50MB y posibles secretos antes de
 copiar, seguido del mismo patron de esta sesion (copiar, verificar con diff -rq,
 comitear solo si no hay hallazgos que requieran decision del usuario).
+
+---
+
+## Checkpoint — 2026-09-10 — hyperframes: sin codigo real, captures/ es riesgo de credenciales
+
+**Continuacion del traslado de la copia canonica de hyperframes.** Al intentar copiar
+`08_Research_Labs/hyperframes/packages` a `labs/hyperframes`, se descubrieron 2
+hallazgos que detuvieron la operacion:
+
+1. **`captures/` contiene perfiles COMPLETOS de Chrome** (`chrome-profile-1-copy`,
+   `interactive-chrome-profile1`, etc.) usados para pruebas automatizadas -- incluyen
+   archivos reales `Login Data` (base SQLite de Chrome donde se guardan contraseñas
+   guardadas, cifradas pero sensibles) y un archivo individual de 202MB (cache del
+   Component Updater de Chrome, no codigo). **NO se copio ni se comiteo `captures/` bajo
+   ninguna circunstancia** -- es exactamente el tipo de hallazgo que requiere parar y
+   pedir confirmacion explicita, no decidir unilateralmente.
+
+2. **`packages/` NO tiene codigo fuente real.** Los "15253 archivos reales" contados en
+   el checkpoint anterior venian casi en su totalidad de `captures/`, no de codigo.
+   Verificado que las 7 carpetas de paquetes (`cli`, `core`, `engine`, `player`,
+   `producer`, `shader-transitions`, `studio`) contienen UNICAMENTE `node_modules` --
+   0 archivos fuente propios en cualquiera de los 7.
+
+**Conclusion:** ni `apps/hyperframes` ni `08_Research_Labs/hyperframes` tienen codigo
+fuente propio real que mover. Lo unico con contenido real es `captures/` (perfiles de
+navegador con datos sensibles, no codigo de investigacion). Se descarta el traslado --
+no hay nada seguro que mover a `labs/`. Se elimino la copia vacia intentada en
+`labs/hyperframes`. `08_Research_Labs/hyperframes` permanece intacto, sin tocar.
+
+**Documentado en:** `governance/migration/manifests/R01-hyperframes-reconciliation.json`
+(campo `followUp2026_09_10_continuacion`).
+
+**Pendiente de decision del usuario (nueva, no la anterior):** que hacer con
+`captures/` -- contiene datos potencialmente sensibles (credenciales de navegador) y
+requiere decidir si se conserva, se limpia, o se trata como evidencia de investigacion
+a proteger de otra forma. No se tomo ninguna accion sobre `captures/` en este checkpoint.
