@@ -24,3 +24,9 @@ node_modules/
 
 # Contenido descartado durante reorg R01/R02 -- conservado sin borrar, nunca trackeado
 historicos/
+
+# Capturas de perfiles de navegador (Chrome) usadas en investigacion de hyperframes --
+# contienen archivos reales "Login Data" (SQLite de contraseñas guardadas de Chrome,
+# cifradas pero sensibles). Se dejan en su ubicacion local, nunca se trackean.
+08_Research_Labs/hyperframes/captures/
+**/hyperframes/captures/
