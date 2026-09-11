@@ -19,14 +19,14 @@ const EXCLUDE_FROM_HEAVY_SCAN = new Set([
 // nivel que indican pertenencia. No es exhaustivo a proposito: lo que no matchea queda
 // "unclassified" en vez de forzarse a una categoria.
 const KNOWN_PRODUCTS = [
-  { product: 'orca', patterns: [/^apps\/orca$/, /^apps\/orca-client-gateway$/, /^apps\/backend-nest$/] },
-  { product: 'careerai', patterns: [/^data\/careerai/, /^scripts\/.*careerai/] },
-  { product: 'galantes-jewelry', patterns: [/^06_E_Commerce_Lux\/Galantesjewelry$/, /^app$/, /^components$/, /^public$/, /^server$/] },
+  { product: 'orca', patterns: [/^apps\/orca$/, /^apps\/orca-client-gateway$/, /^apps\/backend-nest$/, /^platform\/orca\/src$/] },
+  { product: 'careerai', patterns: [/^data\/careerai/, /^scripts\/.*careerai/, /^platform\/orca\/src\/careerai$/] },
+  { product: 'galantes-jewelry', patterns: [/^06_E_Commerce_Lux\/Galantesjewelry$/, /^historicos\/galantes-root-loose-copy-.*$/] },
   { product: 'chefalitas', patterns: [/^apps\/odoo\/.*Chefalitas/i, /^apps\/local_printer_agent\/Chefalitas/i] },
-  { product: 'getupnet', patterns: [/^03_Client_Solutions\/getupnet-api$/] },
+  { product: 'getupnet', patterns: [/^products\/getupnet$/] },
   { product: 'smartdoor', patterns: [/^02_Products\/GetUpSoftSmartDoor$/] },
   { product: 'boat', patterns: [/^02_Products\/GetUpSoftBoat$/] },
-  { product: 'easycount', patterns: [/^apps\/easycount$/, /^libs\/easycount-core$/] },
+  { product: 'easycount', patterns: [/^products\/easycount$/, /^historicos\/easycount-app-empty-copy-.*$/] },
   { product: 'printing-workers', patterns: [/^apps\/local_printer_agent$/, /^apps\/printer_proxy$/] },
   { product: 'odoo-erp', patterns: [/^02_Odoo_ERP$/, /^apps\/odoo$/, /^odoo$/] },
   { product: 'n8n', patterns: [/^apps\/n8n$/] },

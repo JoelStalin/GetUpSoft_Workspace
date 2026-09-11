@@ -30,3 +30,8 @@ historicos/
 # cifradas pero sensibles). Se dejan en su ubicacion local, nunca se trackean.
 08_Research_Labs/hyperframes/captures/
 **/hyperframes/captures/
+
+# Checkouts independientes con su propio .git y remote -- el repo corporativo
+# NUNCA incorpora su contenido (ni como archivos ni como gitlink de submodulo).
+# Se registran en governance/registry/projects/*.json, no se comitean aqui.
+products/getupnet/

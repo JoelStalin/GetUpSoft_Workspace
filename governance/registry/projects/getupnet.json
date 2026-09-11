@@ -5,10 +5,11 @@
   "deploymentAuthority": "product-ci",
   "owner": "joel",
   "note": null,
-  "realPathsFound": [],
-  "independentGitCheckout": false,
-  "gitRemotes": [],
-  "verificationStatus": "not-found-in-inventory",
+  "realPathsFound": ["products/getupnet"],
+  "independentGitCheckout": true,
+  "gitRemotes": ["https://github.com/JoelStalin/getupnet-api.git"],
+  "verificationStatus": "verified-2026-09-11",
   "sourceInventory": "governance/migration/inventory/workspace-inventory.json",
-  "generatedAt": "2026-09-09T23:48:31.656Z"
+  "generatedAt": "2026-09-09T23:48:31.656Z",
+  "reorgNote": "R02: movido de 03_Client_Solutions/getupnet-api a products/getupnet (2026-09-11). Es un checkout git independiente real (4 commits, remote propio) -- NUNCA se agrega como contenido/gitlink al repo corporativo GetUpSoft_Workspace, solo se registra aqui."
 }
