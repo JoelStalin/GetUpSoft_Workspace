@@ -3201,3 +3201,50 @@ Odoo por version, Client Gateway, GetUpNet, SmartDoor (documentos), resto
 del mapa de la seccion 2.2.
 
 **Como revertir:** `git revert 41fec183bd`.
+
+---
+
+## Checkpoint R02 — 2026-09-11 — GetUpNet movido, descubierto como checkout independiente real
+
+**Commit:** `787663cbfd`.
+
+**Movimiento:** `03_Client_Solutions/getupnet-api` -> `products/getupnet`
+(79 archivos, ISP stack sobre Odoo 19). Sin duplicados, credenciales solo
+dev genericas (`odoo/odoo`, `isp_master`, ya advertidas en su propio README).
+
+**Hallazgo importante durante el commit:** `git add` alerto "adding embedded
+git repository" -- `products/getupnet` tiene su PROPIO `.git` con remote
+real (`github.com/JoelStalin/getupnet-api.git`, 4 commits: "Initial commit",
+"Initial Odoo 19 ISP stack", "Add MAC onboarding automation and guides",
+"fix"). Es un checkout independiente genuino, exactamente como describe la
+seccion 2.1 del diseño ("Los subdirectorios de proyectos representan
+checkouts independientes... no incorporara su contenido como archivos
+propios: guardara el registro").
+
+**Correccion aplicada:** se revirtio el intento de `git add` de su
+contenido. Se agrego `products/getupnet/` a `.gitignore` (especificamente
+esa ruta, NO todo `products/` -- `products/easycount` SI se comitea
+normalmente porque no tiene `.git` propio). Se actualizo
+`governance/registry/projects/getupnet.json` con `realPathsFound`,
+`independentGitCheckout: true` y su remote real -- este es el "registro"
+que el diseño pide mantener en vez de embeber el codigo.
+
+**Tambien actualizado:** `tools/workspace-cli/inventory.mjs` -- los patrones
+de deteccion de productos (orca, careerai, galantes-jewelry, getupnet,
+easycount) para reflejar las nuevas rutas tras los movimientos de esta
+sesion. Verificado corriendo los tests individuales del CLI (siguen
+pasando).
+
+**Leccion para los movimientos restantes (Odoo, Client Gateway, Chefalitas
+cuando se desbloquee):** verificar SIEMPRE si el directorio candidato tiene
+su propio `.git` ANTES de intentar `git add` -- el aviso "adding embedded
+git repository" es la señal, pero mejor verificar explicitamente con
+`ls -la <dir>/.git` y `git -C <dir> remote -v` antes, no despues.
+
+**Progreso del reorg:** quinto movimiento real de R02 (ORCA, Galantes,
+EasyCount, GetUpNet). Chefalitas sigue bloqueado por colision activa.
+Quedan: Odoo por version, Client Gateway, SmartDoor (solo 2 documentos).
+
+**Como revertir:** `git revert 787663cbfd` (el revert restauraria el path
+viejo con el contenido -- verificar que no colisione con el .git propio de
+getupnet antes de aplicar el revert).
