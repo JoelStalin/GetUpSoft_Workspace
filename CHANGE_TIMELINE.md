@@ -3162,3 +3162,42 @@ Client Gateway, resto del mapa de la seccion 2.2 -- cada uno requiere el
 mismo proceso de comparacion/confirmacion antes de mover.
 
 **Como revertir:** `git revert 09130d361f`.
+
+---
+
+## Checkpoint R02 — 2026-09-11 — EasyCount consolidado, Chefalitas bloqueado (colision detectada)
+
+**Commit:** `41fec183bd`.
+
+**Bloqueo real detectado y respetado (NO se toco):** Chefalitas tiene un git
+worktree ACTIVO Y BLOQUEADO (`git worktree list` -> "locked") en la rama
+`codex/chefalitas-product-sync-20260908`, con un commit real de hace 2 dias
+("feat: classify and sync Chefalitas SaaS product"). Otro agente (Codex) esta
+trabajando activamente en Chefalitas ahora mismo -- exactamente el tipo de
+colision documentada anteriormente en esta sesion (F01-F04). No se toco
+ningun directorio de Chefalitas.
+
+**EasyCount: 4 copias comparadas, consolidado en products/easycount.**
+- `apps/easycount`: app/ SIN codigo fuente real (0 .py, solo .pyc huerfanos),
+  sin requirements.txt, con una carpeta "c:" corrupta.
+- `.canonical-getupsoft/apps/easycount`: 275 archivos fuente reales +
+  requirements.txt + LICENSE + Makefile + docs de certificacion DGII
+  (Republica Dominicana) -- **fuente real**, confirmado por comparacion
+  directa (`diff` de listados de archivos, excluyendo `__pycache__`).
+- `libs/easycount-core`: solo build de un frontend, no es fuente.
+- `legacy/python-fastapi/easycount-core`: vacio.
+
+**Movimiento:** `.canonical-getupsoft/apps/easycount` -> `products/easycount`
+(fuente real, 275 archivos verificados intactos). `apps/easycount` (vacio de
+codigo) -> `historicos/easycount-app-empty-copy-20260911/` (no se borro).
+
+**SmartDoor: revisado, casi vacio** (solo `README.md` y
+`TECHNICAL_PROPOSAL.md`, sin codigo real) -- no requiere movimiento de
+codigo por ahora, solo consolidacion de esos 2 documentos cuando se aborde.
+
+**Progreso del reorg:** tercer y cuarto movimiento real de R02 (Galantes,
+EasyCount). Chefalitas explicitamente saltado por colision activa. Quedan:
+Odoo por version, Client Gateway, GetUpNet, SmartDoor (documentos), resto
+del mapa de la seccion 2.2.
+
+**Como revertir:** `git revert 41fec183bd`.
