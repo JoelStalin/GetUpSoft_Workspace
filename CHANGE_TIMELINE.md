@@ -3248,3 +3248,34 @@ Quedan: Odoo por version, Client Gateway, SmartDoor (solo 2 documentos).
 **Como revertir:** `git revert 787663cbfd` (el revert restauraria el path
 viejo con el contenido -- verificar que no colisione con el .git propio de
 getupnet antes de aplicar el revert).
+
+---
+
+## Checkpoint R02 — 2026-09-11 — SmartDoor: documentacion consolidada, backend queda pendiente
+
+**Commit:** `450d5296d8`.
+
+**Movimiento:** `README.md` y `TECHNICAL_PROPOSAL.md` de
+`02_Products/GetUpSoftSmartDoor` -> `products/smartdoor` (directorio origen
+quedo vacio, se conserva sin borrar).
+
+**Hallazgo importante:** el propio README de SmartDoor revela que su backend
+real vive PARCIALMENTE en `apps/backend-nest/`, compartido con ORCA -- el
+diseño ya advierte explicitamente no mover `apps/backend-nest` como una
+unidad ("Distribuir modulos por propietario: ORCA, SmartDoor u otro
+producto; no mover todo como una unidad"). Esa separacion de modulos es una
+tarea aparte, mas compleja (requiere identificar que archivos de
+`backend-nest` pertenecen a cada producto) -- NO se hizo en este paso, solo
+se consolido la documentacion de gobernanza.
+
+**Tambien:** actualizado `tools/workspace-cli/inventory.mjs`
+(`products/smartdoor` + `apps/backend-nest`), y regenerado
+`governance/migration/inventory/workspace-inventory.json` corriendo el
+inventario completo tras todos los cambios de esta sesion
+(`ok:true`, 1 checkout independiente detectado correctamente: getupnet).
+
+**Progreso del reorg:** sexto movimiento real de R02. Chefalitas sigue
+bloqueado por colision activa. Quedan: Odoo por version, Client Gateway,
+y la separacion de modulos de `apps/backend-nest` (ORCA vs SmartDoor).
+
+**Como revertir:** `git revert 450d5296d8`.
