@@ -3052,3 +3052,24 @@ no hay nada seguro que mover a `labs/`. Se elimino la copia vacia intentada en
 `captures/` -- contiene datos potencialmente sensibles (credenciales de navegador) y
 requiere decidir si se conserva, se limpia, o se trata como evidencia de investigacion
 a proteger de otra forma. No se tomo ninguna accion sobre `captures/` en este checkpoint.
+
+---
+
+## Checkpoint — 2026-09-10 — captures/ resuelto: queda local, excluida via .gitignore
+
+Decision del usuario sobre el hallazgo de `captures/` (perfiles de Chrome con
+`Login Data` sensible): "las capturas la puedes dejar en local pero colocalas en
+.gitignore" -- se agregaron las entradas `08_Research_Labs/hyperframes/captures/`
+y `**/hyperframes/captures/` a `.gitignore`. No se movio ni se toco el contenido
+de `captures/` en ningun momento -- se confirmo con `git ls-files` que nunca
+estuvo trackeada (0 archivos), asi que esta entrada es documentacion explicita/
+proteccion a futuro, no una correccion de algo ya comiteado.
+
+**Con esto, los 2 bloqueos que quedaban de R01 quedan resueltos:**
+- `nexus` -> reconciliado (huerfano, movido a `historicos/`).
+- `hyperframes` -> investigado a fondo (sin codigo fuente real; `captures/`
+  excluida explicitamente via `.gitignore`, nunca comiteada).
+
+**Unico bloqueo real que sigue pendiente: R02** (mover Odoo/ORCA/Galantes/
+Chefalitas -- sistemas en produccion). Requiere autorizacion explicita y
+especifica del usuario, no inferida de instrucciones genericas de "continuar".
