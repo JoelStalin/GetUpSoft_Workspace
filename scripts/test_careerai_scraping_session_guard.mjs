@@ -1,4 +1,4 @@
-import { checkSessionAlive } from '../apps/orca/src/careerai/scraping-session-guard.mjs';
+import { checkSessionAlive } from '../platform/orca/src/careerai/scraping-session-guard.mjs';
 
 const now = new Date('2026-08-27T12:00:00Z');
 

@@ -1,5 +1,5 @@
-import { buildReviewBundle, evaluateReviewGate } from '../apps/orca/src/careerai/asset-human-review.mjs';
-import { hashPayload } from '../apps/orca/src/careerai/guards.mjs';
+import { buildReviewBundle, evaluateReviewGate } from '../platform/orca/src/careerai/asset-human-review.mjs';
+import { hashPayload } from '../platform/orca/src/careerai/guards.mjs';
 
 const now = new Date('2026-09-07T12:00:00Z');
 const opportunity = { opportunity_id: 'opp-1', title: 'AS400 RPGLE Developer', company: 'Stefanini LATAM' };

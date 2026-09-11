@@ -1,8 +1,8 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { makeRelevanceFilter, processRawResults, detectBlocked, discoverJobsPaginated } from '../apps/orca/src/careerai/job-discovery-core.mjs';
-import { getNodeExecutionData } from '../apps/orca/src/careerai/execution-debug.mjs';
+import { makeRelevanceFilter, processRawResults, detectBlocked, discoverJobsPaginated } from '../platform/orca/src/careerai/job-discovery-core.mjs';
+import { getNodeExecutionData } from '../platform/orca/src/careerai/execution-debug.mjs';
 
 // --- makeRelevanceFilter: solo acepta señal en el titulo -----------------------------
 const filtroAS400 = makeRelevanceFilter([/\bas\s?\/?400\b/i, /\brpg\s?le?\b/i]);

@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict';
-import { saveBrowserSession, getReusableBrowserSession, revokeBrowserSession } from '../apps/orca/src/careerai/browser-session-vault.mjs';
+import { saveBrowserSession, getReusableBrowserSession, revokeBrowserSession } from '../platform/orca/src/careerai/browser-session-vault.mjs';
 
 const now = new Date('2026-08-28T15:00:00Z');
 const saved = saveBrowserSession({

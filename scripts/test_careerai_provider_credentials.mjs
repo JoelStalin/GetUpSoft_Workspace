@@ -4,7 +4,7 @@ import assert from 'node:assert/strict';
 const suffix=`${process.pid}-${Date.now()}`;
 process.env.ORCA_PROVIDER_VAULT=path.resolve(`data/careerai/test-provider-${suffix}.enc.json`);
 process.env.ORCA_PROVIDER_KEY_FILE=path.resolve(`data/careerai/test-provider-${suffix}.key`);
-const {providerCredentialStatus,saveProviderCredential,removeProviderCredential}=await import('../apps/orca/src/security/provider-credential-vault.mjs');
+const {providerCredentialStatus,saveProviderCredential,removeProviderCredential}=await import('../platform/orca/src/security/provider-credential-vault.mjs');
 const secret='sk-test-secret-never-plaintext';
 try{
  assert.equal(providerCredentialStatus().find(p=>p.id==='openai').configured,false);

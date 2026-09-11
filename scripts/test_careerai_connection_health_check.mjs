@@ -1,4 +1,4 @@
-import { checkConnectionHealth } from '../apps/orca/src/careerai/connection-health-check.mjs';
+import { checkConnectionHealth } from '../platform/orca/src/careerai/connection-health-check.mjs';
 
 const now = new Date('2026-08-27T12:00:00Z');
 

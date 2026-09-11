@@ -1,4 +1,4 @@
-import { bindRunToProject } from '../apps/orca/src/careerai/project-run-binding.mjs';
+import { bindRunToProject } from '../platform/orca/src/careerai/project-run-binding.mjs';
 
 const run = { id: 'run-1', tenant_id: 'joel' };
 const project = { project_id: 'proj-joel-careerai', tenant_id: 'joel', monitoring_url: 'https://orca.local/projects/proj-joel-careerai' };

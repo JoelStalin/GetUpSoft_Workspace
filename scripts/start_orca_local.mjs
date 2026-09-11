@@ -3,18 +3,18 @@ import http from 'node:http';
 import path from 'node:path';
 import { spawn } from 'node:child_process';
 import { fileURLToPath } from 'node:url';
-import { prepareOnly, connectorGates } from '../apps/orca/src/careerai/prepare-only.mjs';
-import { indeedStatus } from '../apps/orca/src/careerai/indeed-provider.mjs';
-import { linkedinStatus } from '../apps/orca/src/careerai/linkedin-provider.mjs';
-import { startRun, listRuns, getRun, liveBrowserSession, stopRun, resumeRun } from '../apps/orca/src/careerai/runs.mjs';
-import { saveBrowserSession, getReusableBrowserSession, revokeBrowserSession } from '../apps/orca/src/careerai/browser-session-vault.mjs';
-import { hermesDoctor } from '../apps/orca/src/careerai/hermes-doctor.mjs';
-import { layoutGraph } from '../apps/orca/src/careerai/graph-layout.mjs';
-import { runPipeline } from '../apps/orca/src/careerai/pipeline.mjs';
-import { getExecutionData, getNodeExecutionData, pinNodeData, unpinNodeData, clearExecutionData, clearPinnedData } from '../apps/orca/src/careerai/execution-debug.mjs';
-import { delegationSnapshot } from '../apps/orca/src/careerai/llm-council.mjs';
-import { providerCredentialStatus, saveProviderCredential, removeProviderCredential, testProviderCredential } from '../apps/orca/src/security/provider-credential-vault.mjs';
-import { mergeWorkflowState } from '../apps/orca/src/runtime/workflow-state-merge.mjs';
+import { prepareOnly, connectorGates } from '../platform/orca/src/careerai/prepare-only.mjs';
+import { indeedStatus } from '../platform/orca/src/careerai/indeed-provider.mjs';
+import { linkedinStatus } from '../platform/orca/src/careerai/linkedin-provider.mjs';
+import { startRun, listRuns, getRun, liveBrowserSession, stopRun, resumeRun } from '../platform/orca/src/careerai/runs.mjs';
+import { saveBrowserSession, getReusableBrowserSession, revokeBrowserSession } from '../platform/orca/src/careerai/browser-session-vault.mjs';
+import { hermesDoctor } from '../platform/orca/src/careerai/hermes-doctor.mjs';
+import { layoutGraph } from '../platform/orca/src/careerai/graph-layout.mjs';
+import { runPipeline } from '../platform/orca/src/careerai/pipeline.mjs';
+import { getExecutionData, getNodeExecutionData, pinNodeData, unpinNodeData, clearExecutionData, clearPinnedData } from '../platform/orca/src/careerai/execution-debug.mjs';
+import { delegationSnapshot } from '../platform/orca/src/careerai/llm-council.mjs';
+import { providerCredentialStatus, saveProviderCredential, removeProviderCredential, testProviderCredential } from '../platform/orca/src/security/provider-credential-vault.mjs';
+import { mergeWorkflowState } from '../platform/orca/src/runtime/workflow-state-merge.mjs';
 
 // Registro de proyectos por cliente. La URL de monitoreo apuntaba a un puerto 5174 donde
 // nunca hubo nada escuchando: el script generaba el enlace pero ningun servidor lo servia.

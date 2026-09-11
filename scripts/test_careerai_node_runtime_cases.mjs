@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
-import { executeNodeFamily, nodeFamily } from '../apps/orca/src/runtime/node-family-executor.mjs';
+import { executeNodeFamily, nodeFamily } from '../platform/orca/src/runtime/node-family-executor.mjs';
 
 const parity = JSON.parse(fs.readFileSync('data/careerai/n8n-node-parity.json', 'utf8'));
 const calls = [];

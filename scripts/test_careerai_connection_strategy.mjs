@@ -1,4 +1,4 @@
-import { decideConnectionLevel, getMcpConnectorRegistry } from '../apps/orca/src/careerai/connection-strategy.mjs';
+import { decideConnectionLevel, getMcpConnectorRegistry } from '../platform/orca/src/careerai/connection-strategy.mjs';
 
 // --- nivel 1: MCP ya disponible, no se reinventa -----------------------------
 const gmail = decideConnectionLevel('gmail');

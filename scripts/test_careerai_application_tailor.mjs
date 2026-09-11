@@ -1,4 +1,4 @@
-import { tailorApplication, answerScreeningQuestions, buildTailorPrompt, buildCoverLetterPrompt } from '../apps/orca/src/careerai/application-tailor.mjs';
+import { tailorApplication, answerScreeningQuestions, buildTailorPrompt, buildCoverLetterPrompt } from '../platform/orca/src/careerai/application-tailor.mjs';
 
 const cv = [
   'Perfil profesional con ocho anos coordinando equipos de soporte tecnico en entornos hospitalarios.',

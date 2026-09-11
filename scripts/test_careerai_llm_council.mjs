@@ -1,5 +1,5 @@
-import { extractJson, consensusTerms, PROVIDERS, ROLES } from '../apps/orca/src/careerai/llm-council.mjs';
-import { researchFamily, mergeIntoCatalog, buildResearchPrompt } from '../apps/orca/src/careerai/catalog-researcher.mjs';
+import { extractJson, consensusTerms, PROVIDERS, ROLES } from '../platform/orca/src/careerai/llm-council.mjs';
+import { researchFamily, mergeIntoCatalog, buildResearchPrompt } from '../platform/orca/src/careerai/catalog-researcher.mjs';
 
 // --- extraccion de JSON de respuestas en lenguaje natural ---------------------
 // Las cadenas de abajo son muestras arbitrarias del FORMATO de respuesta, no vocabulario

@@ -1,4 +1,4 @@
-import { extractEmailsFromOcrText, buildOcrJobContext, draftEmailFromOcrContext } from '../apps/orca/src/careerai/ocr-email-extractor.mjs';
+import { extractEmailsFromOcrText, buildOcrJobContext, draftEmailFromOcrContext } from '../platform/orca/src/careerai/ocr-email-extractor.mjs';
 
 // --- caso limpio: email bien formado, con contexto de contacto ---------------------------
 const textoLimpio = 'Buscamos Desarrollador AS400. Interesados enviar CV a rrhh@empresa-real.com. Vacante remota.';

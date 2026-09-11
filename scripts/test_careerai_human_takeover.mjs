@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict';
-import { decideHumanTakeover, resolveHumanTakeover } from '../apps/orca/src/careerai/human-takeover.mjs';
+import { decideHumanTakeover, resolveHumanTakeover } from '../platform/orca/src/careerai/human-takeover.mjs';
 
 const sinBloqueo = decideHumanTakeover({ url: 'https://www.linkedin.com/jobs/view/1', bodyText: 'Senior Developer', sessionId: 's1' });
 assert.equal(sinBloqueo.takeover_required, false);

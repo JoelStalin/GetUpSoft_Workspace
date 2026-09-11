@@ -1,4 +1,4 @@
-import { prepareWebMessage, sendWebMessage, sessionStatus } from '../apps/orca/src/careerai/whatsapp-web-provider.mjs';
+import { prepareWebMessage, sendWebMessage, sessionStatus } from '../platform/orca/src/careerai/whatsapp-web-provider.mjs';
 
 const now = new Date('2026-08-28T12:00:00Z');
 const approval = {

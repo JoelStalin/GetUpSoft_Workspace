@@ -1,4 +1,4 @@
-import { resolveTenantId, bindTenantToRun } from '../apps/orca/src/careerai/tenant-resolver.mjs';
+import { resolveTenantId, bindTenantToRun } from '../platform/orca/src/careerai/tenant-resolver.mjs';
 
 // --- precedencia: request > session > default ---------------------------------
 const explicito = resolveTenantId({ explicit_tenant_id: 'joel', session_tenant_id: 'otro', default_tenant_id: 'dev' });

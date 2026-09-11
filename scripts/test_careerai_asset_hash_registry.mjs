@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict';
-import { registerAssetHash, verifyAssetHash, hashAsset } from '../apps/orca/src/careerai/asset-hash-registry.mjs';
+import { registerAssetHash, verifyAssetHash, hashAsset } from '../platform/orca/src/careerai/asset-hash-registry.mjs';
 
 const original = Buffer.from('CV original de Juan Perez, contenido v1');
 const altered = Buffer.from('CV original de Juan Perez, contenido v2 alterado');

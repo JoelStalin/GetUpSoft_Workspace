@@ -1,8 +1,8 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { discoverWwrJobs, isRelevantToStack } from '../apps/orca/src/careerai/wwr-discovery.mjs';
-import { getNodeExecutionData } from '../apps/orca/src/careerai/execution-debug.mjs';
+import { discoverWwrJobs, isRelevantToStack } from '../platform/orca/src/careerai/wwr-discovery.mjs';
+import { getNodeExecutionData } from '../platform/orca/src/careerai/execution-debug.mjs';
 
 if (!isRelevantToStack({ title: 'Senior AS400 RPGLE Developer' })) throw new Error('Debe reconocer el stack en el titulo');
 if (isRelevantToStack({ title: 'Business Analyst', description: 'AS400 mencionado de pasada' })) {

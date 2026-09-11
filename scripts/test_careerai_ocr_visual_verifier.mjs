@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict';
-import { verifyVisibleText, verifyAnyVisible } from '../apps/orca/src/careerai/ocr-visual-verifier.mjs';
+import { verifyVisibleText, verifyAnyVisible } from '../platform/orca/src/careerai/ocr-visual-verifier.mjs';
 
 const coincide = verifyVisibleText({ domText: 'Aplicacion enviada con exito', ocrText: 'Aplicacion enviada con exito', expectedPhrase: 'aplicacion enviada' });
 assert.equal(coincide.verified, true);

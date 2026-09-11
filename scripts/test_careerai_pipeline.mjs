@@ -1,8 +1,8 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { runPipeline } from '../apps/orca/src/careerai/pipeline.mjs';
-import { getExecutionData, getNodeExecutionData } from '../apps/orca/src/careerai/execution-debug.mjs';
+import { runPipeline } from '../platform/orca/src/careerai/pipeline.mjs';
+import { getExecutionData, getNodeExecutionData } from '../platform/orca/src/careerai/execution-debug.mjs';
 
 const catalogo = {
   families: [

@@ -2,7 +2,7 @@
 // mensaje de verdad al numero pasado como argumento (formato E.164 sin '+', p.ej. 18492600983).
 // Requiere WHATSAPP_ACCESS_TOKEN y WHATSAPP_PHONE_NUMBER_ID en .env.local.
 import fs from 'node:fs';
-import { prepareCloudApiMessage, sendCloudApiMessage, sendCloudApiTemplate, cloudApiStatus } from '../apps/orca/src/careerai/whatsapp-cloud-api.mjs';
+import { prepareCloudApiMessage, sendCloudApiMessage, sendCloudApiTemplate, cloudApiStatus } from '../platform/orca/src/careerai/whatsapp-cloud-api.mjs';
 
 function loadLocalEnv() {
   const text = fs.readFileSync('.env.local', 'utf8');

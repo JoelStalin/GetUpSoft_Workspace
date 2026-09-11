@@ -1,4 +1,4 @@
-import { classifyReply, trackReplies, nextReportAt, shouldSendReport } from '../apps/orca/src/careerai/followup.mjs';
+import { classifyReply, trackReplies, nextReportAt, shouldSendReport } from '../platform/orca/src/careerai/followup.mjs';
 
 // --- clasificacion de respuestas ---------------------------------------------
 const rechazo = classifyReply({ subject: 'Your application', body: 'Unfortunately we have decided to move forward with other candidates.' });

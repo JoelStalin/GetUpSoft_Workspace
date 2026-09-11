@@ -1,7 +1,7 @@
 // Diagnostico: por que el envio headless no aparece confirmado en el DOM aunque
 // sendWebMessage no lanzo error. Instrumenta con screenshot + consola + estado del input en
 // cada paso, en headless real (no visible), para ver que pasa de verdad.
-import { connectForSending } from '../apps/orca/src/careerai/whatsapp-web-browser.mjs';
+import { connectForSending } from '../platform/orca/src/careerai/whatsapp-web-browser.mjs';
 
 const recipient = process.argv[2] || '+18492600983';
 const OUT = 'task-ledger/evidence/careerai/live-test';

@@ -3,8 +3,8 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import {
   isRelevantToStack, processRawResults, detectBlocked, discoverLinkedInJobs,
-} from '../apps/orca/src/careerai/linkedin-jobs-node.mjs';
-import { getNodeExecutionData } from '../apps/orca/src/careerai/execution-debug.mjs';
+} from '../platform/orca/src/careerai/linkedin-jobs-node.mjs';
+import { getNodeExecutionData } from '../platform/orca/src/careerai/execution-debug.mjs';
 
 // --- filtro de relevancia: el bug real de la corrida del 2026-09-07 ------------------
 // 7 resultados, 0 relevantes: "Incoming Technician", "Business Analyst" pasaban el OR de

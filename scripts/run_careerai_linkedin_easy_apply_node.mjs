@@ -5,7 +5,7 @@
 // Uso: node scripts/run_careerai_linkedin_easy_apply_node.mjs <job_url> [run_id]
 import path from 'node:path';
 import { chromium } from '../apps/orca/workflow-editor/node_modules/playwright/index.mjs';
-import { prepareLinkedInEasyApply } from '../apps/orca/src/careerai/linkedin-easy-apply-node.mjs';
+import { prepareLinkedInEasyApply } from '../platform/orca/src/careerai/linkedin-easy-apply-node.mjs';
 
 const jobUrl = process.argv[2];
 if (!jobUrl) throw new Error('Uso: node scripts/run_careerai_linkedin_easy_apply_node.mjs <job_url> [run_id]');

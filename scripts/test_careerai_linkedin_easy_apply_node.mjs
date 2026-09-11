@@ -1,8 +1,8 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { prepareLinkedInEasyApply } from '../apps/orca/src/careerai/linkedin-easy-apply-node.mjs';
-import { getNodeExecutionData } from '../apps/orca/src/careerai/execution-debug.mjs';
+import { prepareLinkedInEasyApply } from '../platform/orca/src/careerai/linkedin-easy-apply-node.mjs';
+import { getNodeExecutionData } from '../platform/orca/src/careerai/execution-debug.mjs';
 
 const profile = { email: 'candidato@example.invalid', phone: '+18095550100', first_name: 'Joel' };
 const assets = { cv: '/tmp/cv.pdf' };

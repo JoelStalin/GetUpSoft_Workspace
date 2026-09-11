@@ -1,4 +1,4 @@
-import { classify, classifyAll } from '../apps/orca/src/careerai/stack-classifier.mjs';
+import { classify, classifyAll } from '../platform/orca/src/careerai/stack-classifier.mjs';
 
 const ranked = ['iseries-core', 'odoo-python', 'fullstack-web'];
 

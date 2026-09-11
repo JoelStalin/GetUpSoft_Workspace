@@ -1,4 +1,4 @@
-import { validateAsset, prepareFileUpload } from '../apps/orca/src/careerai/file-upload-handler.mjs';
+import { validateAsset, prepareFileUpload } from '../platform/orca/src/careerai/file-upload-handler.mjs';
 
 const now = new Date('2026-09-07T12:00:00Z');
 const approval = {

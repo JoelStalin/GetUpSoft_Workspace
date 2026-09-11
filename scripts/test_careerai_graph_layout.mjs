@@ -1,5 +1,5 @@
 import fs from 'node:fs';
-import { computeLayers, layoutGraph, countBackwardEdges } from '../apps/orca/src/careerai/graph-layout.mjs';
+import { computeLayers, layoutGraph, countBackwardEdges } from '../platform/orca/src/careerai/graph-layout.mjs';
 
 // --- capas -------------------------------------------------------------------
 const cadena = {

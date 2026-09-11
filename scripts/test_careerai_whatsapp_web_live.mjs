@@ -4,8 +4,8 @@
 // despues de enviar (no solo confiando en el valor de retorno) para evitar falsos positivos
 // como el que se vio antes con un numero de prueba ambiguo.
 import fs from 'node:fs';
-import { prepareWebMessage, sendWebMessage, sessionStatus } from '../apps/orca/src/careerai/whatsapp-web-provider.mjs';
-import { connectForSending } from '../apps/orca/src/careerai/whatsapp-web-browser.mjs';
+import { prepareWebMessage, sendWebMessage, sessionStatus } from '../platform/orca/src/careerai/whatsapp-web-provider.mjs';
+import { connectForSending } from '../platform/orca/src/careerai/whatsapp-web-browser.mjs';
 
 function loadLocalEnv() {
   if (!fs.existsSync('.env.local')) return;

@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict';
-import { extractRecruiterContact } from '../apps/orca/src/careerai/recruiter-contact-extractor.mjs';
+import { extractRecruiterContact } from '../platform/orca/src/careerai/recruiter-contact-extractor.mjs';
 
 const alto = extractRecruiterContact('Vacante AS400. Envia tu CV a rrhh@empresa.com para postular.');
 assert.equal(alto.found, 1);

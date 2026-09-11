@@ -1,4 +1,4 @@
-import { dispatchToQueue, buildDispatchPlan } from '../apps/orca/src/careerai/queue-dispatcher.mjs';
+import { dispatchToQueue, buildDispatchPlan } from '../platform/orca/src/careerai/queue-dispatcher.mjs';
 
 // --- sin corridas activas: despacha de inmediato -------------------------------
 const libre = dispatchToQueue({ tenant_id: 'joel' }, []);

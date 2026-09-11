@@ -1,8 +1,8 @@
 // Ejecuta cv-ingest + profession-extractor sobre el CV real del cliente.
 // Uso: node scripts/careerai_extract_profile.mjs <ruta-al-cv>
-import { loadLocalEnv } from '../apps/orca/src/careerai/llm-council.mjs';
-import { ingestCv } from '../apps/orca/src/careerai/cv-ingest.mjs';
-import { extractProfessions } from '../apps/orca/src/careerai/profession-extractor.mjs';
+import { loadLocalEnv } from '../platform/orca/src/careerai/llm-council.mjs';
+import { ingestCv } from '../platform/orca/src/careerai/cv-ingest.mjs';
+import { extractProfessions } from '../platform/orca/src/careerai/profession-extractor.mjs';
 
 loadLocalEnv();
 

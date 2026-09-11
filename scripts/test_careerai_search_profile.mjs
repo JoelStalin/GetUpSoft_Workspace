@@ -1,4 +1,4 @@
-import { buildSearchProfiles, matchesNegative, loadCatalog } from '../apps/orca/src/careerai/search-profile.mjs';
+import { buildSearchProfiles, matchesNegative, loadCatalog } from '../platform/orca/src/careerai/search-profile.mjs';
 
 const catalog = loadCatalog();
 

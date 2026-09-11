@@ -1,4 +1,4 @@
-import { canonicalizeUrl, identityKey, dedupe } from '../apps/orca/src/careerai/dedupe.mjs';
+import { canonicalizeUrl, identityKey, dedupe } from '../platform/orca/src/careerai/dedupe.mjs';
 
 // --- URL canonica -----------------------------------------------------------
 const tracked = 'https://www.indeed.com/viewjob?jk=abc123&vjk=52707ab174f65c52&utm_source=alert&from=web';

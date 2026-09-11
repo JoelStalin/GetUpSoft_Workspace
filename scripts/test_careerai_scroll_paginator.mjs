@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict';
-import { paginateByScroll } from '../apps/orca/src/careerai/scroll-paginator.mjs';
+import { paginateByScroll } from '../platform/orca/src/careerai/scroll-paginator.mjs';
 
 // --- caso feliz: 3 pasadas con contenido nuevo, la 4ta y 5ta repiten -> se detiene -------
 const batches = [

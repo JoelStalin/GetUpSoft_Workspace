@@ -1,5 +1,5 @@
-import { extractProfessions, extractByCatalog, buildExtractionPrompt } from '../apps/orca/src/careerai/profession-extractor.mjs';
-import { extractPdfText } from '../apps/orca/src/careerai/cv-ingest.mjs';
+import { extractProfessions, extractByCatalog, buildExtractionPrompt } from '../platform/orca/src/careerai/profession-extractor.mjs';
+import { extractPdfText } from '../platform/orca/src/careerai/cv-ingest.mjs';
 
 // El punto que este test protege: el extractor NO sabe de tecnologia. Se le da un CV de
 // una profesion que no existe en el catalogo y debe devolver esa profesion igualmente.

@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict';
-import { delegationSnapshot, loadLocalEnv } from '../apps/orca/src/careerai/llm-council.mjs';
+import { delegationSnapshot, loadLocalEnv } from '../platform/orca/src/careerai/llm-council.mjs';
 
 loadLocalEnv();
 loadLocalEnv('apps/orca');

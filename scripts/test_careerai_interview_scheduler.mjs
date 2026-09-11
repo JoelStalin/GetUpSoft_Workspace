@@ -1,4 +1,4 @@
-import { buildInterviewEvent, prepareInterviewScheduling, scheduleInterview } from '../apps/orca/src/careerai/interview-scheduler.mjs';
+import { buildInterviewEvent, prepareInterviewScheduling, scheduleInterview } from '../platform/orca/src/careerai/interview-scheduler.mjs';
 
 const now = new Date('2026-09-08T12:00:00Z');
 const opportunity = { opportunity_id: 'opp-1', title: 'AS400 RPGLE Developer', company: 'Acme', canonical_url: 'https://example.invalid/job/1' };

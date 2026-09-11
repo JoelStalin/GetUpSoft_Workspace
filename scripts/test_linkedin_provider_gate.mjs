@@ -1,4 +1,4 @@
-import { assertLinkedInCapability, linkedinStatus } from '../apps/orca/src/careerai/linkedin-provider.mjs';
+import { assertLinkedInCapability, linkedinStatus } from '../platform/orca/src/careerai/linkedin-provider.mjs';
 
 const status = linkedinStatus();
 if (status.mode !== 'discovery-only' || status.capabilities.searchPeople !== true || status.capabilities.prepareApplication !== false) {

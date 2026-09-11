@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict';
-import { startRun, getRun, stopRun } from '../apps/orca/src/careerai/runs.mjs';
+import { startRun, getRun, stopRun } from '../platform/orca/src/careerai/runs.mjs';
 
 const run = startRun({ provider: 'indeed', tenant_id: 'test-lifecycle', execute_delegations: false, execute_workflow: false });
 assert.equal(run.status, 'running');

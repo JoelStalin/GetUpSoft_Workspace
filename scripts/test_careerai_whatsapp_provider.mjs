@@ -1,4 +1,4 @@
-import { selectProviderName, checkOptIn, checkDailyLimit, buildSendPlan } from '../apps/orca/src/careerai/whatsapp-provider.mjs';
+import { selectProviderName, checkOptIn, checkDailyLimit, buildSendPlan } from '../platform/orca/src/careerai/whatsapp-provider.mjs';
 
 // --- seleccion de proveedor: nunca asume un default -----------------------------
 const sinConfigurar = selectProviderName({ provider: undefined });

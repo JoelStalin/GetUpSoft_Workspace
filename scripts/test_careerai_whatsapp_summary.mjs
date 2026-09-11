@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict';
-import { buildSummaryText, prepareWhatsAppSummary } from '../apps/orca/src/careerai/whatsapp-summary.mjs';
+import { buildSummaryText, prepareWhatsAppSummary } from '../platform/orca/src/careerai/whatsapp-summary.mjs';
 
 const texto = buildSummaryText({ periodLabel: 'semana del 1 al 7', applicationsCount: 5, responsesCount: 2, interviewsCount: 1 });
 assert.match(texto, /Postulaciones preparadas: 5/);

@@ -1,4 +1,4 @@
-import { connectForSending } from '../apps/orca/src/careerai/whatsapp-web-browser.mjs';
+import { connectForSending } from '../platform/orca/src/careerai/whatsapp-web-browser.mjs';
 
 const OUT = 'task-ledger/evidence/careerai/live-test';
 const { context, page } = await connectForSending({});

@@ -1,4 +1,4 @@
-import { parseFeed, ingestJobAlert, extractAlertLinks } from '../apps/orca/src/careerai/feed-ingest.mjs';
+import { parseFeed, ingestJobAlert, extractAlertLinks } from '../platform/orca/src/careerai/feed-ingest.mjs';
 
 const NL = String.fromCharCode(10);
 

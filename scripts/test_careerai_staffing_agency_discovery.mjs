@@ -1,8 +1,8 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { buildAgencyPortalConfig, discoverStaffingAgencyJobs } from '../apps/orca/src/careerai/staffing-agency-discovery.mjs';
-import { getNodeExecutionData } from '../apps/orca/src/careerai/execution-debug.mjs';
+import { buildAgencyPortalConfig, discoverStaffingAgencyJobs } from '../platform/orca/src/careerai/staffing-agency-discovery.mjs';
+import { getNodeExecutionData } from '../platform/orca/src/careerai/execution-debug.mjs';
 
 // --- buildAgencyPortalConfig: exige lo minimo para poder leer el DOM real ---------------
 let fallo = null;

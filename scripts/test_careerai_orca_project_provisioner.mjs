@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict';
-import { provisionOrcaProject } from '../apps/orca/src/careerai/orca-project-provisioner.mjs';
+import { provisionOrcaProject } from '../platform/orca/src/careerai/orca-project-provisioner.mjs';
 
 const base = { owner: 'cliente-acme', projectName: 'Migracion Odoo Acme', domain: 'http://127.0.0.1:4173' };
 

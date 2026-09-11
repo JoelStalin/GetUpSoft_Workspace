@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict';
-import { buildAuthorizationRequest, exchangeAuthorizationCode } from '../apps/orca/src/careerai/oauth-pkce-flow.mjs';
+import { buildAuthorizationRequest, exchangeAuthorizationCode } from '../platform/orca/src/careerai/oauth-pkce-flow.mjs';
 
 const base = { platform: 'linkedin', tenantId: 'tenant-1', userId: 'user-1', clientId: 'client-abc', redirectUri: 'http://127.0.0.1:8788/oauth/callback' };
 

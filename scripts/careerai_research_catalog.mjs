@@ -1,8 +1,8 @@
 // Ejecuta el nodo catalog-researcher contra los proveedores reales y fusiona el resultado
 // en el catalogo. Uso: node scripts/careerai_research_catalog.mjs <family_id> [--dry-run]
 import fs from 'node:fs';
-import { loadLocalEnv, availableProviders } from '../apps/orca/src/careerai/llm-council.mjs';
-import { researchFamily, mergeIntoCatalog } from '../apps/orca/src/careerai/catalog-researcher.mjs';
+import { loadLocalEnv, availableProviders } from '../platform/orca/src/careerai/llm-council.mjs';
+import { researchFamily, mergeIntoCatalog } from '../platform/orca/src/careerai/catalog-researcher.mjs';
 
 loadLocalEnv();
 

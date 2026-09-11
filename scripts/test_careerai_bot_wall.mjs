@@ -1,4 +1,4 @@
-import { isBotWall, sanitizeOcrPayload, parseOcrOutput } from '../apps/orca/src/careerai/bot-wall.mjs';
+import { isBotWall, sanitizeOcrPayload, parseOcrOutput } from '../platform/orca/src/careerai/bot-wall.mjs';
 
 // Textos reales capturados por OCR durante las corridas en vivo del 2026-08-26.
 const INDEED_WALL = 'indeed Company Reviews Additional Verification Required Your Ray ID for this request is a3174a01cafcc82c Verifying... CLOUDFLARE';

@@ -5,7 +5,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { execFileSync } from 'node:child_process';
 import { chromium } from '../apps/orca/workflow-editor/node_modules/playwright/index.mjs';
-import { isBotWall, parseOcrOutput } from '../apps/orca/src/careerai/bot-wall.mjs';
+import { isBotWall, parseOcrOutput } from '../platform/orca/src/careerai/bot-wall.mjs';
 
 const OUT = 'task-ledger/evidence/careerai/live-test';
 const STORE = 'data/careerai/harvest.jsonl';

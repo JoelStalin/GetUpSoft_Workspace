@@ -1,4 +1,4 @@
-import { buildConfirmationRequest, applyConfirmation, applyRanking, assertReadyToSearch, ESTADOS } from '../apps/orca/src/careerai/onboarding.mjs';
+import { buildConfirmationRequest, applyConfirmation, applyRanking, assertReadyToSearch, ESTADOS } from '../platform/orca/src/careerai/onboarding.mjs';
 
 // Extraccion de un CV cualquiera: el modulo no sabe de tecnologia ni de oficios concretos.
 const extraccion = {

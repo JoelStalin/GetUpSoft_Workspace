@@ -1,5 +1,5 @@
-import { collectUnsupported, buildReportData, renderPdf, buildWhatsappDelivery } from '../apps/orca/src/careerai/client-report.mjs';
-import { extractPdfText } from '../apps/orca/src/careerai/cv-ingest.mjs';
+import { collectUnsupported, buildReportData, renderPdf, buildWhatsappDelivery } from '../platform/orca/src/careerai/client-report.mjs';
+import { extractPdfText } from '../platform/orca/src/careerai/cv-ingest.mjs';
 
 const analizadas = [
   { opportunity_id: 'a', title: 'Puesto Uno', company: 'Empresa A', classification: { method: 'easy_apply', report_to_client: false } },

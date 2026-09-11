@@ -1,4 +1,4 @@
-import { classifyApplyMethod, triggerAnalysis, APPLY_METHODS } from '../apps/orca/src/careerai/apply-method-classifier.mjs';
+import { classifyApplyMethod, triggerAnalysis, APPLY_METHODS } from '../platform/orca/src/careerai/apply-method-classifier.mjs';
 
 // 1. Boton nativo de la plataforma: la via mas barata.
 const facil = classifyApplyMethod({

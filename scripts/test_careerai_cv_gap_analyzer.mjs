@@ -1,4 +1,4 @@
-import { extractRequirementTerms, analyzeCvGap } from '../apps/orca/src/careerai/cv-gap-analyzer.mjs';
+import { extractRequirementTerms, analyzeCvGap } from '../platform/orca/src/careerai/cv-gap-analyzer.mjs';
 
 // --- extraccion de terminos: prioriza los que aparecen en seccion de requisitos ----------
 const oferta = `

@@ -1,4 +1,4 @@
-import { routeAts, buildFillPlan, getAdapter } from '../apps/orca/src/careerai/ats-adapters.mjs';
+import { routeAts, buildFillPlan, getAdapter } from '../platform/orca/src/careerai/ats-adapters.mjs';
 
 // --- ats-router --------------------------------------------------------------
 const gh = routeAts('https://boards.greenhouse.io/empresa/jobs/123');

@@ -1,4 +1,4 @@
-import { prepareCloudApiMessage, sendCloudApiMessage, sendCloudApiTemplate, cloudApiStatus, idempotencyKey } from '../apps/orca/src/careerai/whatsapp-cloud-api.mjs';
+import { prepareCloudApiMessage, sendCloudApiMessage, sendCloudApiTemplate, cloudApiStatus, idempotencyKey } from '../platform/orca/src/careerai/whatsapp-cloud-api.mjs';
 
 const now = new Date('2026-08-28T12:00:00Z');
 const approval = {

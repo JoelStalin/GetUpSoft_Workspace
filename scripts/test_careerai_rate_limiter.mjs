@@ -1,4 +1,4 @@
-import { checkRateLimit, getMinIntervalMs } from '../apps/orca/src/careerai/rate-limiter.mjs';
+import { checkRateLimit, getMinIntervalMs } from '../platform/orca/src/careerai/rate-limiter.mjs';
 
 // --- sin accion previa: permitido de inmediato ---------------------------------
 const primeraVez = checkRateLimit('indeed', { now: new Date('2026-08-27T10:00:00Z') });

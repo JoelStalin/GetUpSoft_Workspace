@@ -1,8 +1,8 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { discoverDiceJobs, isRelevantToStack } from '../apps/orca/src/careerai/dice-discovery.mjs';
-import { getNodeExecutionData } from '../apps/orca/src/careerai/execution-debug.mjs';
+import { discoverDiceJobs, isRelevantToStack } from '../platform/orca/src/careerai/dice-discovery.mjs';
+import { getNodeExecutionData } from '../platform/orca/src/careerai/execution-debug.mjs';
 
 // --- filtro de relevancia: mismo criterio ya probado en LinkedIn -----------------------
 if (!isRelevantToStack({ title: 'Senior AS400 RPGLE Developer' })) throw new Error('Debe reconocer el stack en el titulo');

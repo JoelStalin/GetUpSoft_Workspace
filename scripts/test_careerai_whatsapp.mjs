@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict';
-import { prepareWhatsAppMessage, sendWhatsAppMessage, idempotencyKey } from '../apps/orca/src/careerai/whatsapp.mjs';
+import { prepareWhatsAppMessage, sendWhatsAppMessage, idempotencyKey } from '../platform/orca/src/careerai/whatsapp.mjs';
 
 const opportunity = { opportunity_id: 'op-1' };
 const approval = { status: 'approved', opportunity_id: 'op-1', expires_at: new Date(Date.now() + 60000).toISOString() };

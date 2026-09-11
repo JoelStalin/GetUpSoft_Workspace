@@ -1,4 +1,4 @@
-import { verifyRemote, checkApproval, sweepExpired, hashPayload } from '../apps/orca/src/careerai/guards.mjs';
+import { verifyRemote, checkApproval, sweepExpired, hashPayload } from '../platform/orca/src/careerai/guards.mjs';
 
 // --- remote-verifier ---------------------------------------------------------
 const remotoReal = verifyRemote({

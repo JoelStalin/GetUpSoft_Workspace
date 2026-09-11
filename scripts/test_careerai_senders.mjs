@@ -1,5 +1,5 @@
-import { prepareEmailApplication, prepareFormSubmit, recordDelivery, idempotencyKey } from '../apps/orca/src/careerai/senders.mjs';
-import { hashPayload } from '../apps/orca/src/careerai/guards.mjs';
+import { prepareEmailApplication, prepareFormSubmit, recordDelivery, idempotencyKey } from '../platform/orca/src/careerai/senders.mjs';
+import { hashPayload } from '../platform/orca/src/careerai/guards.mjs';
 
 const ahora = new Date('2026-08-27T12:00:00Z');
 const oportunidad = { opportunity_id: 'opp-1', title: 'Analista', company: 'Empresa A' };

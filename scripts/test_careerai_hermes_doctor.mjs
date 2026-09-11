@@ -1,7 +1,7 @@
 import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
-import { hermesDoctor } from '../apps/orca/src/careerai/hermes-doctor.mjs';
+import { hermesDoctor } from '../platform/orca/src/careerai/hermes-doctor.mjs';
 
 const original = {
   key: process.env.HERMES_API_KEY,

@@ -1,4 +1,4 @@
-// Punto de entrada ejecutable del nodo real linkedin-jobs-search (apps/orca/src/careerai/
+// Punto de entrada ejecutable del nodo real linkedin-jobs-search (platform/orca/src/careerai/
 // linkedin-jobs-node.mjs). Abre el navegador con la sesion ya persistida y llama al nodo tal
 // como lo haria el orquestador del workflow — este script ES lo que un paso automatico del
 // pipeline dispararia, no un atajo aparte.
@@ -7,7 +7,7 @@
 // Sin run_id, genera uno nuevo (util para pruebas puntuales de este nodo en aislamiento).
 import path from 'node:path';
 import { chromium } from '../apps/orca/workflow-editor/node_modules/playwright/index.mjs';
-import { discoverLinkedInJobs } from '../apps/orca/src/careerai/linkedin-jobs-node.mjs';
+import { discoverLinkedInJobs } from '../platform/orca/src/careerai/linkedin-jobs-node.mjs';
 
 const runId = process.argv[2] || `linkedin-jobs-${Date.now()}`;
 const profileDir = path.resolve(process.env.CAREERAI_PROFILE_DIR || 'apps/orca/chrome_profile/careerai-migrated');

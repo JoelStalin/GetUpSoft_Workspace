@@ -1,4 +1,4 @@
-import { indeedStatus, prepareIndeedApplication } from '../apps/orca/src/careerai/indeed-provider.mjs';
+import { indeedStatus, prepareIndeedApplication } from '../platform/orca/src/careerai/indeed-provider.mjs';
 
 const status = indeedStatus();
 if (status.mode !== 'prepare-only' || status.capabilities.submitApplication !== false) throw new Error('Indeed status gate failed');

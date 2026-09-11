@@ -1,4 +1,4 @@
-import { checkCadence, checkQuota, shouldRunNow, getIntervalMinutes, getDailyQuota } from '../apps/orca/src/careerai/run-scheduler.mjs';
+import { checkCadence, checkQuota, shouldRunNow, getIntervalMinutes, getDailyQuota } from '../platform/orca/src/careerai/run-scheduler.mjs';
 
 const now = new Date('2026-09-07T12:00:00Z');
 
