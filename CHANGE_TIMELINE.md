@@ -3073,3 +3073,62 @@ proteccion a futuro, no una correccion de algo ya comiteado.
 **Unico bloqueo real que sigue pendiente: R02** (mover Odoo/ORCA/Galantes/
 Chefalitas -- sistemas en produccion). Requiere autorizacion explicita y
 especifica del usuario, no inferida de instrucciones genericas de "continuar".
+
+---
+
+## Checkpoint R02 (inicio) — 2026-09-11 — Primer movimiento real: ORCA/CareerAI
+
+**Commit:** `0122ba6b27`.
+
+**Precondicion del usuario cumplida primero:** backup completo del repo via
+`robocopy /MIR` a `C:\Users\yoeli\GetUpSoft_Workspace_BACKUP_20260911\` --
+1,286,028 archivos, 121.4GB, 0 archivos fallidos (40 min de duracion). Log
+completo en `C:\Users\yoeli\GetUpSoft_Workspace_BACKUP_20260911.log`. Se
+verifico explicitamente que `apps/orca/src` (lo que se iba a mover) quedo
+respaldado identico antes de tocarlo (`diff` de listados de archivos).
+
+**Que se movio:** `apps/orca/src` (65 archivos trackeados: `careerai/` 62,
+`runtime/` 2, `security/` 1) -> `platform/orca/src` via `git mv` (historia
+preservada). Se actualizaron 73 referencias `../apps/orca/src` ->
+`../platform/orca/src` en `scripts/*.mjs` (imports reales).
+
+**Verificacion real post-movimiento (no solo revision de texto):** se
+corrieron 3 scripts reales tras el cambio de rutas --
+`test_careerai_dedupe.mjs`, `test_careerai_run_lifecycle.mjs`,
+`test_careerai_pipeline.mjs` -- los 3 devolvieron `ok:true`, confirmando que
+los imports resuelven correctamente en la nueva ubicacion.
+
+**Que NO se movio (deliberado, segun el diseño):** `apps/orca/data`,
+`apps/orca/chrome_profile`, `apps/orca/docker-compose.orca.yml`,
+`apps/orca/tests` (sin trackear), `apps/orca/workflow-editor` -- el diseño
+pide separar fuente de perfiles de navegador/modelos/artefactos, no mover
+todo `apps/orca` como bloque.
+
+**Incidente durante la ejecucion y como se resolvio:**
+1. El primer `git mv apps/orca/src platform/orca/src` anidó el contenido en
+   `platform/orca/src/src/...` porque `platform/orca/src/` YA EXISTIA con
+   contenido sin trackear (`domain/`, `modules/`) de procedencia desconocida
+   -- se corrigio desanidando manualmente (`git mv` de las 3 subcarpetas
+   reales, luego `mv` de los artefactos sin trackear que se habian arrastrado
+   fisicamente: `ai_automation_orchestrator`, `*.egg-info`, `data`, `lib`).
+2. Al comitear, un primer intento con `git add platform/orca/src` (a nivel
+   de directorio) arrastro tambien ese contenido ajeno sin trackear (110
+   archivos, ~2300 lineas) -- se detecto por el tamaño implausible del diff
+   (`git diff --cached --stat`), se reseteo el directorio completo, y se
+   volvio a agregar SOLO por ruta especifica (`careerai/`, `runtime/`,
+   `security/`), disciplina ya establecida en checkpoints anteriores de esta
+   sesion.
+3. Se encontraron 11 scripts adicionales sin trackear (`careerai_delegation_worker.mjs`,
+   `orca_oauth_service.mjs`, etc., probablemente de una sesion concurrente)
+   que tambien referenciaban la ruta vieja -- se corrigieron EN DISCO por
+   correccion funcional, pero NO se comitearon (procedencia desconocida).
+
+**Progreso del reorg (fuera de las 32 tareas base):** primer movimiento real
+de R02 completado y verificado. Quedan pendientes: Odoo (por version),
+Galantes, Chefalitas, Client Gateway, y el resto del mapa de la seccion 2.2
+del diseño -- cada uno requiere el mismo proceso (inventario, identificar
+referencias cruzadas, mover, actualizar referencias, verificar funcionalmente,
+comitear con alcance acotado).
+
+**Como revertir:** `git revert 0122ba6b27`, o restaurar
+`apps/orca/src` desde `C:\Users\yoeli\GetUpSoft_Workspace_BACKUP_20260911\apps\orca\src`.
