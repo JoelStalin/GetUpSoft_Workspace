@@ -3132,3 +3132,33 @@ comitear con alcance acotado).
 
 **Como revertir:** `git revert 0122ba6b27`, o restaurar
 `apps/orca/src` desde `C:\Users\yoeli\GetUpSoft_Workspace_BACKUP_20260911\apps\orca\src`.
+
+---
+
+## Checkpoint R02 — 2026-09-11 — Galantes: reconciliado duplicado de raiz
+
+**Commit:** `09130d361f`.
+
+**Hallazgo:** la copia de `app/components/lib/public` trackeada en la raiz de
+este repo (128 archivos) resulto ser una copia VIEJA (ultimo commit
+2026-07-08, "Restore production baseline files"). El checkout independiente
+`06_E_Commerce_Lux/Galantesjewelry` (remote propio:
+`github.com/JoelStalin/Galantesjewerly.git`) tiene commits hasta 2026-08-05
+(fix funcional real de produccion) y 34 cambios locales activos sin
+commitear -- es la copia viva y la que corresponde usar.
+
+**Decision del usuario:** no borrar -- mover la copia vieja de la raiz a
+`historicos/galantes-root-loose-copy-20260911/` via `git mv` (128 archivos,
+historia preservada, 0 insertions/deletions).
+
+**Verificado:** 0 referencias rotas en codigo trackeado a la ubicacion
+vieja. Queda huerfano `next.config.ts`/`package.json` en la raiz (config de
+Next.js sin su `app/`) -- NO se toco, fuera del alcance confirmado por el
+usuario para este paso.
+
+**Progreso del reorg:** segundo movimiento real de R02 completado
+(ORCA/CareerAI + Galantes-raiz). Quedan: Odoo por version, Chefalitas,
+Client Gateway, resto del mapa de la seccion 2.2 -- cada uno requiere el
+mismo proceso de comparacion/confirmacion antes de mover.
+
+**Como revertir:** `git revert 09130d361f`.
