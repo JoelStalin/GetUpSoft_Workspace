@@ -3376,3 +3376,44 @@ la seccion 2.2: separacion de modulos ORCA/SmartDoor dentro de
 de directorios).
 
 **Como revertir:** `git revert 276696d954` y/o `git revert 4bbfe07740`.
+
+---
+
+## Checkpoint R02 — 2026-09-11 — Ultimo item del mapa: SmartDoor backend consolidado
+
+**Commit:** `2edfaa2889`.
+
+**Hallazgo:** lo que parecia requerir "separacion de modulos ORCA/SmartDoor"
+resulto ser mucho mas simple -- `apps/backend-nest/src` (codigo fuente
+actual real) es **100% de SmartDoor** (6 archivos + 1 test, todos bajo
+`src/modules/smart-door/`). Los modulos `orca`, `easycount`,
+`ai-automation`, `workers`, `workspace` que aparecian en la estructura solo
+existian dentro de `dist/` (build compilado de una version anterior/mas
+amplia del backend) -- no reflejaban el `src/` actual. No hizo falta ninguna
+separacion real de codigo por propietario.
+
+**Movimiento:** `apps/backend-nest/{src,test}` -> `products/smartdoor/
+backend/{src,test}`. Retirado a `historicos/backend-nest-build-artifacts-
+20260911/`: `dist/` (obsoleto), `evidence/` (migracion FastAPI->NestJS),
+`node_modules/`, logs y `.env` -- verificado que los PIDs registrados
+(`nest-dev.pid`, `smartdoor-local.pid`) NO correspondian a procesos activos
+antes de mover nada, y que el `.env` solo tenia credenciales dev genericas
+(localhost/admin), sin secretos reales.
+
+**Incidente durante el commit:** `git.exe` acumulo **45+ procesos** en
+segundo plano (varios con 1.6GB+ de memoria) por el hook `graphify`
+disparandose en cada uno de los muchos commits de esta sesion, agravado
+por el arbol de Odoo Enterprise recien agregado (cientos de miles de
+archivos). Esto causo un `index.lock` bloqueando el primer intento de
+commit. Se espero a que el lock se liberara naturalmente (NO se forzo
+`rm` del lock ni se mataron procesos mientras estaban activos, para evitar
+corromper el indice de git) y se reintento con exito.
+
+**Con esto, el mapa completo de reorg de R02 (seccion 2.2) queda resuelto
+para todo lo que no depende de Chefalitas:** ORCA/CareerAI, Galantes,
+EasyCount, GetUpNet, SmartDoor (docs + backend), Odoo Enterprise
+(compartido), Client Gateway. Unico bloqueo restante: Chefalitas
+(instalacion activa), en espera de que la sesion concurrente
+(`codex/chefalitas-product-sync-20260908`) libere el worktree.
+
+**Como revertir:** `git revert 2edfaa2889`.
