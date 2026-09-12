@@ -69,7 +69,7 @@ archives/source/
 # Checkouts independientes con su propio .git y remote -- el repo corporativo
 # NUNCA incorpora su contenido (ni como archivos ni como gitlink de submodulo).
 # Se registran en governance/registry/projects/*.json, no se comitean aqui.
-products/getupnet/
+apps/getupnet/
 
 # Odoo Enterprise (licencia comercial) -- mirrors/checkouts de terceros con su
 # propio .git y remote real. NUNCA se embeben como contenido/gitlink en el
