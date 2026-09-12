@@ -3417,3 +3417,82 @@ EasyCount, GetUpNet, SmartDoor (docs + backend), Odoo Enterprise
 (`codex/chefalitas-product-sync-20260908`) libere el worktree.
 
 **Como revertir:** `git revert 2edfaa2889`.
+
+---
+
+## Checkpoint R02 — 2026-09-11 — El mapa NO estaba realmente completo: continuacion exhaustiva
+
+**Hallazgo del usuario, confirmado real:** el checkpoint anterior ("mapa completo salvo
+Chefalitas") era incorrecto. Verificacion directa (`ls -d */`) mostro que casi todos los
+directorios viejos seguian existiendo intactos (`01_Core_Platform`, `03_Client_Solutions`,
+`04_Workers`, `07_Libraries_Tools`, `08_Research_Labs`, `apps/`, `odoo/`, `infra/`, `libs/`,
+`src/`, `controllers/`, `server/`, `context/`, `legacy/`). Se retomo el trabajo de forma
+exhaustiva, directorio por directorio, sin detenerse a pedir mas confirmaciones.
+
+**Commits de este bloque:** `8c93bf9f04` (Galantes reubicado), `89b0f7644d` (04_Workers
+reclasificado), `89004320fd` (odoo/ raiz descartado), `5485738f79` (infra/ consolidado),
+y este checkpoint final del bloque.
+
+**Galantes Jewelry -- el gap real:** `client-solutions/galantes-jewelry/` NUNCA se habia
+poblado pese a decirse resuelto. El checkout canonico real (`06_E_Commerce_Lux/
+Galantesjewelry`, checkout git independiente, remote `Galantesjewerly.git`, contiene
+`secrets/` con tokens OAuth de Google Drive y `.env.local`) se reubico fisicamente sin
+incorporar su contenido al git corporativo (por diseno, seccion 2.1: checkouts
+independientes solo se registran). Se compararon y descartaron a `historicos/`:
+- 18 archivos sueltos en la raiz (`src/`, `controllers/`, `server/`, `context/`) --
+  version mas vieja que el checkout canonico (`CartContext.tsx` sin logica de stock).
+- `odoo/` raiz (31 archivos) -- duplicado viejo del `odoo/` que ya vive dentro del
+  checkout canonico (mas desarrollado: `inventory_api.py` adicional).
+
+**04_Workers -- resulto ser 2 checkouts de terceros, no codigo propio:**
+`ai-agents/hermes-agent` (NousResearch/hermes-agent) y `data/scrapling`
+(D4Vinci/Scrapling) -- reclasificados a `libraries/third-party/` con el mismo patron
+de referencia-de-solo-lectura de `loader.json` (R01). `04_Workers` queda vacio.
+
+**infra/ -> infrastructure/:** cloudflare (solo nombres de variables de entorno,
+verificado sin secretos literales), nginx (renombrado `networking-nginx/`), postgres.
+
+**libs/easycount-core y legacy/python-fastapi:** ambos resultaron ser 100% artefactos
+de build (`dist/`, `.tsbuildinfo`) del mismo frontend viejo de EasyCount, cero codigo
+fuente real -- descartados a `historicos/`.
+
+**apps/ -- lote de subdirectorios pequenos:**
+- `apps/odoo`: vacio, eliminado (nada que preservar).
+- `apps/QR_generetor`, `apps/web_qr_generetor`: solo `.venv`, confirma exactamente lo
+  que el diseno ya predecia ("no declararlas proyectos reconstruibles") -- a `historicos/`.
+- `apps/kaliman-mcp`, `apps/n8n`, `apps/printer_proxy`, `apps/notebooklm-py`: cascarones
+  vacios (egg-info/cache/config sin fuente real) -- a `historicos/`.
+- `apps/local_printer_agent`: **NO TOCADO** -- contiene `Chefalitas/.env` y esta bajo el
+  worktree lock activo de la sesion concurrente; ademas confirmado 100% artefactos de
+  build fuera de esa subcarpeta.
+- `apps/insta-manager-pro`: **NO TOCADO** -- cero codigo de motor real, solo un `.env`
+  con credenciales REALES de Instagram (usuario/password) -- se deja intacto en su
+  lugar, sin mover, sin trackear.
+- `apps/research-ai`: 2 experimentos reales de addons Odoo con codigo fuente
+  (`custom_accounting_report.zip`, `pos_printing_suite.zip`) preservados en
+  `labs/research-ai/` conservando procedencia; el resto era solo `node_modules` de una
+  instalacion local de Claude Code.
+
+**apps/site -> products/getupsoft-site (el mas grande, 34155 archivos reales):**
+`src/` resulto ser 12 archivos `.tar` de snapshots historicos de rebranding (v4-v9),
+no codigo vivo -- confirma exactamente la nota del diseno ("separando builds y
+variantes historicas"). **Hallazgo critico de seguridad:** `tests/e2e/.runtime/`
+(28,013 de 28,014 archivos de "tests") resulto ser un perfil COMPLETO de Chrome con
+`Login Data`/`Cookies` reales -- mismo patron que `hyperframes/captures/` de un
+checkpoint anterior. Excluido explicitamente via `.gitignore`
+(`apps/site/tests/e2e/.runtime/`, `**/.runtime/chrome-user-data/`,
+`**/.runtime/headless-user-data/`), NUNCA copiado ni trackeado. El movimiento fisico
+del resto fallo una vez por "Permission denied" (archivo bloqueado dentro del perfil
+de Chrome) -- se reintento excluyendo esa subcarpeta especificamente, exitoso. `apps/
+site/tests/` (el perfil de Chrome) queda en su ubicacion original, intacto, fuera de
+git.
+
+**Como revertir cada pieza:** cada `mv`/`git mv` de este bloque es reversible moviendo
+el contenido de vuelta desde `historicos/` o desde su nueva ubicacion -- nada se borro,
+todo lo descartado esta preservado. Los commits de codigo (Galantes registry, 04_Workers
+registry, infra/) se revierten con `git revert <hash>` individualmente.
+
+**Progreso:** con esto, el mapa de la seccion 2.2 queda realmente exhaustivo salvo:
+Chefalitas (bloqueo tecnico real, worktree lock activo) y los 2 items con credenciales
+reales que se dejan intencionalmente sin tocar (`apps/local_printer_agent/Chefalitas`,
+`apps/insta-manager-pro`).

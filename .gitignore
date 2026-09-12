@@ -31,6 +31,12 @@ historicos/
 08_Research_Labs/hyperframes/captures/
 **/hyperframes/captures/
 
+# Perfiles de Chrome usados por pruebas e2e de apps/site -- mismo motivo que
+# hyperframes/captures/: contienen Login Data/Cookies reales de Chrome.
+apps/site/tests/e2e/.runtime/
+**/.runtime/chrome-user-data/
+**/.runtime/headless-user-data/
+
 # Checkouts independientes con su propio .git y remote -- el repo corporativo
 # NUNCA incorpora su contenido (ni como archivos ni como gitlink de submodulo).
 # Se registran en governance/registry/projects/*.json, no se comitean aqui.
