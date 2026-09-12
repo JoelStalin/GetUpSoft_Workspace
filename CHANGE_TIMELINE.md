@@ -3741,3 +3741,71 @@ con evidencia, y el ajuste del hook `Stop` global.
 **Como revertir:** `git revert <hash de este commit>` -- tambien basta con quitar el
 bloque `UserPromptSubmit` de `.claude/settings.json` para desactivar la captura sin
 perder el codigo ni los datos ya guardados.
+
+---
+
+## Checkpoint — 2026-09-12 — agent-memory: segunda entrega (locks entre agentes + fix Stop hook)
+
+**Commits de este bloque:** ver `git log` (este commit).
+
+**Modulo 2 completado (coordinacion de agentes):**
+- `~/.agents_shared_memory/sync_memory.py` extendido (archivo global, fuera de
+  este repo, compartido entre proyectos -- por eso no aparece en `git diff`
+  de GetUpSoft_Workspace): agrega `mirror_ledger_to_sqlite()`,
+  `acquire_directory_lock()`, `release_directory_lock()`,
+  `wait_for_directory_lock()`. El JSON/MD siguen siendo la fuente de verdad
+  para Codex/Antigravity (sin cambios de comportamiento para ellos); SQLite
+  es un espejo adicional que ORCA y Claude Code pueden consultar.
+- **Bug real encontrado y corregido durante la prueba con datos de
+  produccion:** el primer intento de `mirror_ledger_to_sqlite()` fallaba
+  por completo (`FOREIGN KEY constraint failed`) porque UNA tarea con
+  `agent_id='unassigned'` (no registrado como agente real) abortaba la
+  transaccion entera -- de 4 tareas reales solo se guardaba 1. Se corrigio
+  para que cada fila tenga su propia transaccion (una fila invalida no tumba
+  las demas) y para que un `claimed_by` sin agente real se guarde como
+  `NULL` en vez de fallar. Verificado de nuevo con el ledger real: 21
+  agentes y 4 tareas espejadas correctamente, incluida la que antes rompia
+  todo.
+- **Fix colateral en el mismo archivo:** `update_agent_files()` todavia
+  apuntaba a rutas que el reorg R02 de esta sesion elimino
+  (`06_E_Commerce_Lux/Galantesjewelry`, `context/prompts/system_prompt.md`)
+  -- si alguien corria el script de nuevo, habria recreado carpetas vacias
+  deshaciendo parte de la limpieza. Corregido a `client-solutions/galantes-
+  jewelry`.
+- **Fix colateral #2:** `init_default_ledger()` sobrescribia el ledger real
+  con 3 tareas de demostracion cada vez que se corria
+  `python sync_memory.py` directamente (se ejecutaba incondicionalmente en
+  `__main__`). Ahora se salta si ya hay tareas reales registradas.
+- 6 pruebas nuevas (`tools/agent-memory/tests/test_sync_memory_locks.py`),
+  usando una DB temporal inyectada -- nunca tocan la DB de produccion ni el
+  ledger real durante los tests. Incluye una prueba de regresion especifica
+  para el bug de `unassigned` encontrado arriba.
+
+**check_stop_conditions.py + ajuste del hook Stop global:**
+- `tools/agent-memory/check_stop_conditions.py` -- chequeo determinista
+  (git status/diff/staged/ahead + log_findings sin resolver), sin LLM.
+  Probado contra el repo real: detecto correctamente 2 archivos nuevos sin
+  comitear antes de este mismo commit.
+- El hook `Stop` en `~/.claude\settings.json` (global, afecta TODOS los
+  proyectos -- se edito con cuidado, sin rutas especificas de este repo para
+  no romper otros proyectos) se reformulo: agrega una "regla de confianza en
+  evidencia ya mostrada" que le dice explicitamente al evaluador que NO pida
+  repetir una verificacion (git status/diff/fetch/push) que ya se ejecuto y
+  se mostro con salida real en el turno actual o uno reciente -- esto
+  ataca directamente el patron de +10 mensajes identicos "sigue sin
+  detenerte" que ocurrio en la sesion anterior sobre el mismo trabajo ya
+  verificado.
+
+**Verificado con datos reales, no solo "deberia funcionar":** total de 19/19
+tests unitarios en verde entre las 3 suites de `tools/agent-memory/tests/`
+(capture_prompt: 8, scan_logs: 5, sync_memory_locks: 6).
+
+**Pendiente para la siguiente entrega (sin cambios respecto al checkpoint
+anterior):** timeline en DB como vista de `timeline_events`, regla dura de
+validacion con evidencia real antes de marcar `validated`.
+
+**Como revertir:** este commit de GetUpSoft_Workspace con `git revert
+<hash>`. Los cambios a `~/.agents_shared_memory/sync_memory.py` y
+`~/.claude/settings.json` viven fuera de este repo (compartidos entre
+proyectos) -- no tienen historial de git; si hace falta revertirlos, avisar
+explicitamente ya que afectan a todos los agentes/proyectos de esta maquina.
