@@ -54,6 +54,13 @@ apps/site/tests/e2e/.runtime/
 # fuente versionada.
 /.runtime/
 
+# Perfiles de Chrome activos usados por ORCA/CareerAI para automatizacion real --
+# contienen Login Data/Cookies reales. NUNCA se trackean.
+data/orca/interactive-chrome-profile/
+data/orca/selenium-chrome-profile/
+09_Archives/chrome_profile/
+archives/source/legacy-chrome-profile-20260911/
+
 # archives/source -- contenido historico de 09_Archives (perfil de Chrome, y un
 # refactor de EasyCount con .env/.env.local sustanciales sin auditar linea por linea).
 # Se reubica fisicamente pero NUNCA se trackea sin auditoria explicita de secretos.
