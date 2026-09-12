@@ -37,6 +37,16 @@ apps/site/tests/e2e/.runtime/
 **/.runtime/chrome-user-data/
 **/.runtime/headless-user-data/
 
+# .runtime/ corporativo -- "Fuera de Git" por diseno (seccion 2.1: bootstrap, data,
+# artifacts, logs, models, backups, recovery). Datos regenerables/operacionales, no
+# fuente versionada.
+/.runtime/
+
+# archives/source -- contenido historico de 09_Archives (perfil de Chrome, y un
+# refactor de EasyCount con .env/.env.local sustanciales sin auditar linea por linea).
+# Se reubica fisicamente pero NUNCA se trackea sin auditoria explicita de secretos.
+archives/source/
+
 # Checkouts independientes con su propio .git y remote -- el repo corporativo
 # NUNCA incorpora su contenido (ni como archivos ni como gitlink de submodulo).
 # Se registran en governance/registry/projects/*.json, no se comitean aqui.
