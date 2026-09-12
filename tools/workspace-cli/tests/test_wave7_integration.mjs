@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
-import { WorkflowExecution } from '../../../platform/orca/src/domain/workflow/execution.mjs';
+import { WorkflowExecution } from '../../../services/orca/src/domain/workflow/execution.mjs';
 
 // 1. Verificacion funcional de la entidad
 const exec = new WorkflowExecution({
@@ -16,7 +16,7 @@ exec.complete();
 assert.equal(exec.status, 'COMPLETED');
 
 // 2. Verificacion estricta de Pureza Hexagonal (A03)
-const fileContent = fs.readFileSync('platform/orca/src/domain/workflow/execution.mjs', 'utf8');
+const fileContent = fs.readFileSync('services/orca/src/domain/workflow/execution.mjs', 'utf8');
 const forbidden = [/@nestjs/i, /@prisma/i, /dockerode/i, /openai/i, /axios/i];
 for (const p of forbidden) {
   assert.equal(p.test(fileContent), false, 'La capa de dominio no debe importar dependencias de infraestructura');

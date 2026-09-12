@@ -5,7 +5,7 @@ import {
   recordNodeExecution, getExecutionData, getNodeExecutionData,
   pinNodeData, unpinNodeData, resolvedNodeOutput, clearExecutionData, clearPinnedData,
   withNodeExecution,
-} from '../platform/orca/src/careerai/execution-debug.mjs';
+} from '../apps/careerai/execution-debug.mjs';
 
 const runId = `test-exec-debug-${Date.now()}`;
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');

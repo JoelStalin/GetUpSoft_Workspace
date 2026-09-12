@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
-import { AuditLogger } from '../../../platform/orca/src/modules/observability/audit-logger.mjs';
-import { RateLimiter } from '../../../platform/orca/src/modules/security/rate-limiter.mjs';
-import { WorkflowStateMachine, RunState } from '../../../platform/orca/src/modules/automation/state-machine.mjs';
+import { AuditLogger } from '../../../services/orca/src/modules/observability/audit-logger.mjs';
+import { RateLimiter } from '../../../services/orca/src/modules/security/rate-limiter.mjs';
+import { WorkflowStateMachine, RunState } from '../../../services/orca/src/modules/automation/state-machine.mjs';
 
 // 1. Test O01: Audit Logger
 const audit = new AuditLogger();

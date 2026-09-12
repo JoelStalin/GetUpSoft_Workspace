@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
-import { KnowledgeIngestionService } from '../../../platform/orca/src/modules/knowledge/ingestion.mjs';
-import { ModelRouter } from '../../../platform/orca/src/modules/model-routing/router.mjs';
+import { KnowledgeIngestionService } from '../../../services/orca/src/modules/knowledge/ingestion.mjs';
+import { ModelRouter } from '../../../services/orca/src/modules/model-routing/router.mjs';
 import { GatewayPairingService } from '../../../platform/client-gateway/src/pairing/pairing-service.mjs';
 
 // Test K01: Knowledge Ingestion

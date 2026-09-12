@@ -19,7 +19,7 @@ function testMigrationSQL(filePath, requiredTokens) {
   return true;
 }
 
-testMigrationSQL('platform/orca/database/migrations/0004_knowledge_schema.sql', [
+testMigrationSQL('services/orca/database/migrations/0004_knowledge_schema.sql', [
   'CREATE SCHEMA IF NOT EXISTS knowledge;',
   'CREATE TABLE knowledge.sources',
   'CREATE TABLE knowledge.source_versions',
@@ -30,7 +30,7 @@ testMigrationSQL('platform/orca/database/migrations/0004_knowledge_schema.sql', 
   'ROW LEVEL SECURITY'
 ]);
 
-testMigrationSQL('platform/orca/database/migrations/0005_fleet_and_metering_schema.sql', [
+testMigrationSQL('services/orca/database/migrations/0005_fleet_and_metering_schema.sql', [
   'CREATE SCHEMA IF NOT EXISTS fleet;',
   'CREATE SCHEMA IF NOT EXISTS metering;',
   'CREATE TABLE fleet.devices',

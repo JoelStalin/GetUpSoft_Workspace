@@ -1,8 +1,8 @@
 import assert from 'node:assert/strict';
 import fs from 'node:fs';
-import { OutboxService } from '../../../platform/orca/src/modules/outbox/outbox-service.mjs';
-import { HybridSearchService } from '../../../platform/orca/src/modules/knowledge/hybrid-search.mjs';
-import { BudgetReservationService } from '../../../platform/orca/src/modules/budget/reservation.mjs';
+import { OutboxService } from '../../../services/orca/src/modules/outbox/outbox-service.mjs';
+import { HybridSearchService } from '../../../services/orca/src/modules/knowledge/hybrid-search.mjs';
+import { BudgetReservationService } from '../../../services/orca/src/modules/budget/reservation.mjs';
 
 // Test B04: Profiles exist
 assert.ok(fs.existsSync('tools/workspace-cli/profiles/orca-local.json'));

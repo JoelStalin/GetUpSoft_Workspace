@@ -3,7 +3,7 @@ import { validateProjectManifest, detectDependencyCycle } from '../src/cli/valid
 
 // --- caso feliz ---
 const valido = validateProjectManifest({
-  slug: 'orca', sourcePath: 'platform/orca', runtime: 'node',
+  slug: 'orca', sourcePath: 'services/orca', runtime: 'node',
   dependencies: ['orca-postgres'],
   commands: { build: ['npm', 'run', 'build'] },
   health: { liveness: '/api/health/live' },

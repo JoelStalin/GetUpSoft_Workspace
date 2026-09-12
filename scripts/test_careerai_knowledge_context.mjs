@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict';
-import { getCareerKnowledgeContext } from '../platform/orca/src/careerai/knowledge-context.mjs';
+import { getCareerKnowledgeContext } from '../apps/careerai/knowledge-context.mjs';
 
 const context = getCareerKnowledgeContext();
 assert.equal(context.ok, true);
