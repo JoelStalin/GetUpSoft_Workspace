@@ -5,10 +5,11 @@
   "deploymentAuthority": "gateway-project-ci",
   "owner": "joel",
   "note": "G02: fuente real recuperada de orca-client-gateway-deploy.tar.gz (apps/orca-client-gateway solo tenia dist/ compilado, .canonical-getupsoft solo tenia docs) -> platform/client-gateway/",
-  "realPathsFound": ["apps/orca-client-gateway", "orca-client-gateway-deploy.tar.gz", "platform/client-gateway"],
+  "realPathsFound": ["platform/client-gateway"],
   "independentGitCheckout": false,
   "gitRemotes": [],
-  "verificationStatus": "source-recovered-not-yet-independent-checkout",
+  "verificationStatus": "verified-2026-09-11",
   "sourceInventory": "governance/migration/inventory/workspace-inventory.json",
-  "generatedAt": "2026-09-09T23:48:31.656Z"
+  "generatedAt": "2026-09-09T23:48:31.656Z",
+  "reorgNote": "R02: apps/orca-client-gateway (solo dist/ compilado, sin fuente) y orca-client-gateway-deploy.tar.gz (ya extraido) retirados a historicos/orca-client-gateway-dist-only-20260911/. platform/client-gateway es la unica ubicacion real, verificada intacta (131 archivos)."
 }
