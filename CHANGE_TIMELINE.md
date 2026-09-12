@@ -3809,3 +3809,64 @@ validacion con evidencia real antes de marcar `validated`.
 `~/.claude/settings.json` viven fuera de este repo (compartidos entre
 proyectos) -- no tienen historial de git; si hace falta revertirlos, avisar
 explicitamente ya que afectan a todos los agentes/proyectos de esta maquina.
+
+---
+
+## Checkpoint — 2026-09-12 — Propuesta de reorganizacion interna (docs/estructura_repo.md), sin ejecutar
+
+**Peticion del usuario:** pausar el trabajo de agent-memory y de la auditoria de CareerAI
+para primero revisar la estructura interna del repo (no la reorg corporativa de R01/R02,
+ya hecha en la sesion anterior, sino problemas de organizacion mas finos que persisten).
+Explicitamente: solo propuesta, nada se mueve hasta aprobacion.
+
+**Entregado:** `docs/estructura_repo.md` -- arbol actual real (levantado con comandos
+reales, no memoria), diagnostico con 7 hallazgos concretos (con ejemplos reales del
+repo, no genericos), arbol propuesto, tabla de movimientos origen->destino con nivel
+de riesgo, y resumen de riesgo bajo/medio/alto.
+
+**Hallazgo principal:** el `package.json` de la RAIZ del workspace corporativo tiene
+`"name": "galantesjewelry"` -- la raiz se identifica como la app de Galantes, no como
+raiz corporativa. Esto explica por que `context/`, `06_E_Commerce_Lux/`, `apps/site`
+siguen reapareciendo solos pese a haberse limpiado en R02: cualquier tooling que lea
+`package.json` en la raiz asume que ahi vive esa app.
+
+**Otros hallazgos:** `scripts/` con 220 archivos sueltos sin subcarpetas;
+`apps/orca/` y `platform/orca/` coexistiendo con proposito solapado (el viejo vs el
+consolidado real de R02); `data/` mezclando datos operativos reales (con credenciales)
+con configuracion versionable; `edx_cookies.json` suelto en la raiz sin clasificar;
+`05_Backups/` (830 entradas) sigue sin resolver desde el checkpoint anterior.
+
+**NO se movio nada.** Confirmado con `git status --short` antes y despues: unico
+cambio trackeado es `data/careerai/audit.jsonl` (churn del sistema en vivo, ajeno a
+este trabajo). El documento queda esperando aprobacion del usuario sobre el diagrama
+antes de ejecutar cualquier movimiento.
+
+**Como revertir:** `git revert <hash de este commit>` -- solo afecta al documento de
+propuesta, ningun archivo del repo se reubico.
+
+---
+
+## Corrección — 2026-09-12 — docs/estructura_repo.md usaba un árbol inventado, no el patrón oficial
+
+El usuario senalo que ya habia pasado un patron de estructura de directorios en esta
+misma conversacion (seccion 2.1 del "Diseno tecnico integral de GetUpSoft Workspace y
+ORCA") y que la primera version de `docs/estructura_repo.md` inventaba un arbol propio
+en vez de usar ese patron ya definido.
+
+**Busqueda realizada antes de corregir** (para no adivinar): repo completo (git-tracked),
+`~/.agents_shared_memory` completo, `CLAUDE.md`/`AGENTS.md` globales y locales, la
+carpeta de memoria del usuario, y la base de datos de prompts capturados
+(`tools/agent-memory`). El patron NO esta guardado como archivo aparte en ningun
+sitio -- solo existe resumido (no reproducido) en `governance/architecture/
+ADR-0002-diseno-integral-getupsoft-orca.md`. Se encontro en el propio historial de
+esta conversacion (el usuario lo pego el 2026-09-11).
+
+**Correccion aplicada:** se reescribio la seccion 3 de `docs/estructura_repo.md` con
+el arbol oficial reproducido textualmente (primera vez que queda guardado en un
+archivo), se agrego una tabla de comparacion real (que carpetas del patron ya existen,
+cuales faltan, cuales del repo actual no tienen lugar en el patron en absoluto), y se
+realineo la propuesta de movimientos de bajo riesgo a ese patron real en vez del
+inventado.
+
+**Sigue sin ejecutarse nada** -- el documento sigue siendo una propuesta pendiente de
+aprobacion.
