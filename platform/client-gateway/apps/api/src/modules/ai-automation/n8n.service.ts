@@ -30,8 +30,8 @@ export interface WorkflowExecution {
 @Injectable()
 export class N8nService {
   private readonly workspaceRoot = resolve(process.cwd(), '..', '..');
-  private readonly workflowsPath = resolve(this.workspaceRoot, 'data/n8n_workflows.json');
-  private readonly executionsPath = resolve(this.workspaceRoot, 'data/n8n_executions.json');
+  private readonly workflowsPath = resolve(this.workspaceRoot, '.runtime/data/n8n_workflows.json');
+  private readonly executionsPath = resolve(this.workspaceRoot, '.runtime/data/n8n_executions.json');
   private readonly executionLogs = new Map<string, Array<Record<string, unknown>>>();
 
   private readonly nodeTypeCatalog: Record<string, NodeTypeInfo> = {
