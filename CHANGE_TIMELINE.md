@@ -3279,3 +3279,67 @@ bloqueado por colision activa. Quedan: Odoo por version, Client Gateway,
 y la separacion de modulos de `apps/backend-nest` (ORCA vs SmartDoor).
 
 **Como revertir:** `git revert 450d5296d8`.
+
+---
+
+## Checkpoint R02 — 2026-09-11 — Odoo Enterprise consolidado -- hallazgo critico de secretos y datos de Chefalitas
+
+**Commit:** `f4f5aa84eb`.
+
+**Precondicion del usuario respetada:** "Galantes y Chefalitas tienen su
+propia version de Odoo, deben quedar intactos ya que son repos
+independientes -- solo organiza los directorios." Se organizo UNICAMENTE
+las bibliotecas de addons Odoo Enterprise compartidas (no instalaciones de
+clientes especificos).
+
+**Movimiento:**
+- `02_Odoo_ERP/Odoo_Enterprise_{v16,v17,v18}` -> `integrations/odoo/shared-addons/{v16,v17,v18}`
+- `apps/odoo/Odoo_Enterprise_{v15,v19}` -> `integrations/odoo/shared-addons/{v15,v19}`
+- `apps/odoo/Odoo_Consolidated_Library` (confirmado superconjunto estricto
+  de la copia parcial en `02_Odoo_ERP` via `diff` completo, 0 archivos unicos
+  en la copia vieja) -> `integrations/odoo/shared-addons/consolidated-library`
+- Copia parcial vieja + v19 vacio -> `historicos/odoo-erp-partial-20260911/`
+
+**HALLAZGO CRITICO (detectado y resuelto ANTES de cualquier commit):**
+dentro de `consolidated-library` habia una **copia vieja de Chefalitas**
+completa -- backups de produccion (`prod_sync_2026-03-25`), un `venv/`
+completo, addons POS -- y **multiples archivos `.env` con credenciales
+reales**: API keys, password de MagyCorp/Flai, password de PGAdmin
+(`Pandemia@2020#covid`), URLs de produccion reales. Se detuvo el proceso
+por completo, se pregunto al usuario, quien confirmo: "eso es una copia
+vieja de chefalitas" (no la instalacion activa, que sigue bloqueada por el
+worktree git de la sesion concurrente). Todo ese contenido se retiro a
+`historicos/odoo-chefalitas-old-copy-20260911/` y
+`historicos/odoo-secrets-excluded-20260911/` **antes** de que nada se
+comiteara -- en ningun momento credenciales reales llegaron a git ni a
+GitHub.
+
+**HALLAZGO ADICIONAL:** `v16`, `v17`, `v18` resultaron ser checkouts
+independientes de MIRRORS DE TERCEROS no oficiales de Odoo Enterprise
+(software con licencia comercial): `github.com/tuandase04738/odoo-enterprise`,
+`github.com/LINTOANTONY007/odoo-enterprise-{17,18}.0`. Mismo tratamiento que
+GetUpNet: NO se embeben en el repo corporativo (agregados a `.gitignore`
+especificamente), se registran en
+`governance/registry/projects/odoo-erp.json`.
+
+**Lo que SI se comiteo normalmente:** `v15`, `v19`, y `consolidated-library`
+(ya limpio de Chefalitas y secretos) -- ninguno tiene `.git` propio, son
+addons genuinamente compartidos y libres de contenido sensible (verificado
+con un escaneo final de patrones `.env|secret|credential|password|.pem` que
+solo encontro fixtures de PRUEBA propias del framework Odoo -- certificados
+SSL de test, llaves demo de facturacion electronica -- no secretos reales).
+
+**Limpieza pendiente (no bloqueante):** el directorio original
+`02_Odoo_ERP/Odoo_Enterprise_v16` no pudo borrarse por un error de permisos
+de Windows persistente incluso tras limpiar atributos de solo lectura --
+queda como duplicado inofensivo en disco (ya replicado de forma segura en
+`integrations/`) para que el usuario lo borre manualmente si lo desea.
+
+**Progreso del reorg:** septimo movimiento real de R02, el mas complejo y
+de mayor riesgo hasta ahora. Chefalitas (instalacion activa) sigue
+bloqueado por colision. Queda: Client Gateway, separacion de modulos
+ORCA/SmartDoor en `apps/backend-nest`.
+
+**Como revertir:** `git revert f4f5aa84eb` (nota: el revert restauraria
+rutas viejas -- verificar que `02_Odoo_ERP`/`apps/odoo` no tengan contenido
+nuevo antes de aplicar).
