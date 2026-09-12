@@ -3496,3 +3496,81 @@ registry, infra/) se revierten con `git revert <hash>` individualmente.
 Chefalitas (bloqueo tecnico real, worktree lock activo) y los 2 items con credenciales
 reales que se dejan intencionalmente sin tocar (`apps/local_printer_agent/Chefalitas`,
 `apps/insta-manager-pro`).
+
+---
+
+## Checkpoint R02 — 2026-09-11 — Bloque exhaustivo completo (segunda mitad de sesion)
+
+**Resumen del bloque completo** (commits: `8c93bf9f04`, `89b0f7644d`, `89004320fd`,
+`5485738f79`, `f3c04ec10c` y anteriores + `852e46f754`, `578be9c55a`, `c76a7d3f16`):
+
+Directorios raiz viejos **eliminados por completo** (todos confirmados vacios antes de
+borrar, nada perdido): `09_Archives`, `06_E_Commerce_Lux`, `02_Odoo_ERP`,
+`01_Core_Platform`, `infra`, `libs`, `legacy`, `03_Client_Solutions`, `04_Workers`,
+`02_Products`, `06_Infrastructure_Networking`.
+
+Directorios raiz que **siguen existiendo intencionalmente** (contenido real que no se
+mueve sin autorizacion adicional):
+- `05_Backups` -- catalogado (ver `governance/migration/inventory/05-backups-catalog.md`),
+  contiene una carpeta `secrets_recovery` -- **requiere decision explicita del usuario**
+  antes de tocar cualquier cosa dentro.
+- `07_Libraries_Tools/loader` -- decision previa de R01, se deja en su lugar (solo
+  referenciado, no movido).
+- `08_Research_Labs/hyperframes` -- sin codigo fuente real, `captures/` (perfil de
+  Chrome con credenciales) excluida via `.gitignore`, nunca tocada.
+- `03_AI_Automation/orca-legacy` -- por diseno explicito, se archiva solo despues de
+  retirar consumidores.
+- `apps/local_printer_agent/Chefalitas` -- bajo worktree lock activo de sesion
+  concurrente.
+- `apps/insta-manager-pro` -- credenciales reales de Instagram, se deja intacto.
+
+**Hallazgos criticos de seguridad de este bloque (todos resueltos via .gitignore,
+nunca commiteados):**
+1. `apps/site/tests/e2e/.runtime/` -- perfil completo de Chrome (28,013 archivos,
+   Login Data/Cookies reales).
+2. `data/orca/interactive-chrome-profile` y `data/orca/selenium-chrome-profile` --
+   2 perfiles de Chrome activos con Login Data/Cookies reales.
+3. `09_Archives/chrome_profile` (ahora en `archives/source/legacy-chrome-profile-
+   20260911/`) -- perfil de Chrome mas pequeno.
+4. `apps/insta-manager-pro/engines/.env` -- credenciales reales de Instagram.
+5. Confirmado `.gitignore` NUNCA tuvo reglas para `__pycache__`/`*.pyc`/
+   `.pytest_cache`/`.ruff_cache`/`*.egg-info`/`.venv` -- corregido tras detectar que
+   `git add -A` intento agregar ~30 archivos `.pyc` de bytecode compilado.
+
+**Duplicados de Galantes Jewelry resueltos en este bloque** (todos la version vieja
+descartada a `historicos/`, la canonica ya vive en `client-solutions/galantes-jewelry/`):
+raiz `src/controllers/server/context` (18 archivos), `odoo/` raiz (31 archivos),
+`06_E_Commerce_Lux/scripts` (script duplicado), `tests/` raiz (30 archivos
+TRACKEADOS -- unico caso de este bloque que requirio destrackear del git corporativo).
+
+**Proyectos reubicados correctamente esta vez** (checkouts propios o de terceros,
+fisicamente movidos, nunca incorporados como archivos al git corporativo, solo
+registrados): Galantes Jewelry, NemoClaw (propio), hermes-agent, scrapling,
+mailcow-dockerized (terceros).
+
+**Proyectos con codigo real movido al arbol nuevo:** `products/boat` (8500+ archivos,
+2 reintentos por "Permission denied" en archivos `.blend`), `products/getupsoft-site`
+(34155 archivos reales, `src/` eran solo tars historicos de rebranding).
+
+**Cascarones vacios descartados** (confirmados sin codigo fuente real, solo
+cache/egg-info/.venv): `apps/odoo`, `apps/QR_generetor`, `apps/web_qr_generetor`,
+`apps/kaliman-mcp`, `apps/n8n`, `apps/printer_proxy`, `apps/notebooklm-py`,
+`08_Research_Labs/{ida-pro-mcp,bittorrent-client,notebooklm-py}`,
+`07_Libraries_Tools/traffic-control`, `01_Core_Platform/getupsoft-mail-infra`
+(la copia vacia -- la real vivia en `06_Infrastructure_Networking/infra/mail/`).
+
+**Experimentos preservados con procedencia:** `apps/research-ai` (2 addons Odoo con
+codigo real) -> `labs/research-ai/`.
+
+**Datos operacionales movidos a `.runtime/` (fuera de git):**
+`03_AI_Automation/data/{ollama,open-webui}`, `docker-compose.llm-memory.yml`.
+
+**Como revertir cualquier pieza:** cada commit de este bloque es revertible
+individualmente con `git revert <hash>`; todo lo descartado esta preservado en
+`historicos/` o `archives/source/` sin excepcion -- nada se borro.
+
+**Progreso real de R02:** el mapa de la seccion 2.2 queda exhaustivamente resuelto
+salvo 3 bloqueos genuinos que requieren decision humana: Chefalitas (worktree lock
+tecnico), `05_Backups/secrets_recovery` (contenido sin auditar, nombre sugiere alto
+riesgo), y la redistribucion de `docs/`/`context/` corporativos (tarea de analisis
+de contenido, no de movimiento de directorios, pendiente de alcance mas claro).
