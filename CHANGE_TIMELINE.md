@@ -3683,3 +3683,61 @@ anteriores de este mismo bloque.
 local vs `origin` identicos.
 
 **Como revertir:** `git revert d71459b392` y/o `git revert 95456c0523`.
+
+---
+
+## Checkpoint — 2026-09-12 — agent-memory: primera entrega (captura de prompts + escaner de logs)
+
+**Peticion del usuario:** base de datos local y permanente que guarde automaticamente
+todos los prompts (formato diccionario indexado + codigo hex, enriquecido solo con
+palabras nuevas, generado por script sin gastar tokens de LLM), memoria compartida
+entre agentes, plan+dispatch a agentes gratuitos, timeline en base de datos ligado a
+tareas, validacion obligatoria por agentes de pago con evidencia real, y revision de
+logs por ambiente sin errores/advertencias sin resolver.
+
+**Investigacion previa:** se confirmo que ya existe una base parcial en
+`~/.agents_shared_memory` (`sync_memory.py`, `TASKS_LEDGER.json`, `ACTIVE_SESSION.md`)
+-- el plan aprovecha esa base en vez de duplicarla. Tambien se identifico la causa real
+de los mensajes repetitivos de "Stop hook" de sesiones anteriores: un hook global tipo
+`prompt` en `~/.claude/settings.json` que re-evalua todo desde cero en cada intento de
+parada -- queda documentado como ajuste pendiente (no se toco en esta entrega).
+
+**Plan completo:** `C:\Users\yoeli\.claude\plans\breezy-inventing-conway.md` (aprobado
+por el usuario tras 3 preguntas de clarificacion: motor SQLite con acceso desde ORCA,
+diccionario+hex para ambos -- compresion Y busqueda rapida --, y agentes gratuitos =
+todos los instalados con prioridad Hermes/NVIDIA + un LLM local para aprendizaje,
+recomendado: Ollama con `nomic-embed-text` para embeddings y `qwen2.5:3b-instruct`
+para resumenes).
+
+**Implementado y verificado con datos reales (no solo "compila"):**
+- `tools/agent-memory/schema.sql` -- esquema completo (10 tablas: dictionary,
+  prompts, prompt_tokens, embeddings, agents, tasks, agent_locks, timeline_events,
+  validations, log_findings), WAL activado para lectura concurrente.
+- `tools/agent-memory/db.py`, `embeddings.py` (best-effort, degrada sin error si
+  Ollama no esta corriendo -- confirmado real: Ollama NO esta instalado/corriendo en
+  esta maquina ahora mismo, ni localhost ni el endpoint LAN `getupsoft-lan:11434`).
+- `tools/agent-memory/capture_prompt.py` -- el hook `UserPromptSubmit`. Probado
+  end-to-end con 3 prompts reales via stdin: texto completo preservado, diccionario
+  crecio de 0 a 18 palabras sin duplicar palabras repetidas (`repositorio` aparecio en
+  2 prompts, 1 sola fila en el diccionario, confirmado por consulta SQL directa).
+- `tools/agent-memory/scan_logs.py` -- probado contra los logs REALES del repo (no
+  sinteticos): encontro 168 hallazgos genuinos sin resolver en
+  `.runtime/logs/lab_deployment.log`, `apps/orca/workflow-editor/dev.log`, etc.
+- Prueba real de lectura concurrente (2 threads, uno escribe uno lee) confirmando que
+  ORCA podria leer la DB mientras el hook escribe, sin bloqueos.
+- 13/13 tests unitarios (`unittest`, stdlib) en verde:
+  `tools/agent-memory/tests/test_capture_prompt.py` (8),
+  `tools/agent-memory/tests/test_scan_logs.py` (5).
+- Hook registrado en `.claude/settings.json` (proyecto, no global) --
+  `UserPromptSubmit` ahora invoca `capture_prompt.py` en cada prompt real.
+- Datos de prueba limpiados de la DB antes de activar el hook en produccion (la
+  captura real empieza en blanco desde este commit).
+
+**Pendiente para la siguiente entrega (documentado en `tools/agent-memory/README.md`):**
+extender `sync_memory.py` para escribir tambien en esta DB (locks por directorio real),
+generar `CHANGE_TIMELINE.md` como vista de `timeline_events`, regla dura de validacion
+con evidencia, y el ajuste del hook `Stop` global.
+
+**Como revertir:** `git revert <hash de este commit>` -- tambien basta con quitar el
+bloque `UserPromptSubmit` de `.claude/settings.json` para desactivar la captura sin
+perder el codigo ni los datos ya guardados.
