@@ -3574,3 +3574,79 @@ salvo 3 bloqueos genuinos que requieren decision humana: Chefalitas (worktree lo
 tecnico), `05_Backups/secrets_recovery` (contenido sin auditar, nombre sugiere alto
 riesgo), y la redistribucion de `docs/`/`context/` corporativos (tarea de analisis
 de contenido, no de movimiento de directorios, pendiente de alcance mas claro).
+
+---
+
+## Checkpoint R02 — 2026-09-12 — Cierre del bloque: raiz, Knowledge Center, hallazgo de secreto real
+
+**Commits:** `712f304c61` (integration-contracts + Knowledge Center), `b727016fd4`
+(limpieza final de raiz).
+
+**integration-contracts/ -> governance/contracts/** segun mapa seccion 2.2.
+
+**_Knowledge_Center/ reorganizado internamente** (ya estaba en la ubicacion correcta
+de la raiz, solo hacia falta alinear subcarpetas con el diseno seccion 2.1):
+`Master_Prompts/AI_Automation` -> `prompts/AI_Automation`; `Memory/*` -> `history/`;
+`Orca_Workflows/*` -> `projects/orca/` (ejemplos reales de workflows con nombres de
+clientes en el contenido, sin datos sensibles). `obsidian/` (vacio) se deja igual.
+
+**Raiz del workspace limpiada:**
+- `edx_cookies.json` (cookies de sesion reales de edx.org) -> excluido via
+  `.gitignore`, se deja en su lugar sin trackear.
+- `GetUpSoft_Workspace.backup-20260519_135036.tar.gz` (**21.6GB**) y
+  `orca-deploy-package.zip` -> `archives/source/`, el backup grande excluido via
+  `.gitignore` (mismo criterio "catalogar primero" que `05_Backups`).
+- `SESSION_13_SUMMARY.md`, `TASK_INVENTORY.md` (resumenes historicos may-agosto
+  2026) -> `_Knowledge_Center/history/`.
+
+**Deliberadamente NO tocado en la raiz** (verificado, no es descuido): `package.json`
+tiene 18 scripts `orca:`/`careerai:` activos que ejecutan `scripts/` de la raiz --
+confirma que la raiz del workspace funciona simultaneamente como hub de scripts del
+monorepo Y como raiz de la app Next.js de Galantes, compartiendo `next.config.ts`,
+`tsconfig.json`, `eslint.config.mjs`, `postcss.config.mjs`, `vitest.config.ts`,
+`proxy.ts`, `docker-compose*.yml`, `Dockerfile` con el checkout de
+`client-solutions/galantes-jewelry/`. Mover cualquiera de estos archivos rompería
+el entorno de desarrollo activo -- se verifico esto ANTES de mover nada (comparando
+contra el checkout canonico, encontrando que la mayoria eran identicos pero
+`package.json` resulto tener contenido activo unico). `AGENTS.md`, `workspace.json`,
+`bootstrap.ps1`/`bootstrap.sh` ya estaban en su ubicacion correcta segun el arbol
+objetivo. `uv.lock` y `OrcaAgentServer.spec` se dejan por incertidumbre de su
+proposito exacto (bajo riesgo, tamaño minimo, no bloquean nada).
+
+### Hallazgo de seguridad real (NO relacionado con la reorganizacion en si)
+
+Al comparar `docker-compose.production.yml` de la raiz contra el checkout canonico
+de Galantes (`client-solutions/galantes-jewelry/docker-compose.production.yml`) para
+decidir si era un duplicado descartable, se encontro que **el checkout canonico
+tiene un token real de Cloudflare Tunnel hardcodeado en texto plano** en la linea
+del servicio `cloudflared` (`--token eyJhIjoi...`), mientras que la copia de la raiz
+usa correctamente una variable de entorno (`${CF_TUNNEL_TOKEN_PROD}`).
+
+**Esto significa que el repositorio propio de Galantes Jewelry (`https://github.com/
+JoelStalin/Galantesjewerly.git`, checkout independiente, NO trackeado por el git
+corporativo) probablemente tiene este secreto comiteado en su propio historial.**
+Reportado directamente al usuario en el chat -- **no se tomo ninguna accion de
+remediacion** (ni rotacion del token, ni edicion del archivo, ni reescritura de
+historial) porque:
+1. Es un repositorio externo/independiente, fuera del alcance de este workspace
+   corporativo.
+2. Rotar credenciales y reescribir historial de git son acciones que requieren
+   autorizacion explicita del usuario, no una decision unilateral del agente.
+
+**Accion pendiente del usuario:** rotar el token de Cloudflare Tunnel (asumir
+comprometido) y revisar si `Galantesjewerly.git` tiene ese archivo en su historial
+remoto.
+
+### Nota sobre concurrencia detectada
+
+Durante este bloque se detecto que `.gitignore` fue modificado por otro proceso/
+sesion concurrente (aparecieron reglas para `integrations/odoo/shared-addons/v16-
+v18` y `products/getupnet/` que esta sesion no escribio). Se evito tocar
+`integrations/odoo` y `products/getupnet` durante el resto de este bloque para no
+chocar con ese trabajo en curso.
+
+**Estado final verificado:** `git status`, `git diff`, `git diff --staged` vacios;
+`git fetch` + `rev-parse` confirman hash identico entre local y `origin` (`b727016fd4`).
+
+**Como revertir:** `git revert 712f304c61` y/o `git revert b727016fd4`
+individualmente.
