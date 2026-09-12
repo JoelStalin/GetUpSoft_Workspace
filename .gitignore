@@ -35,3 +35,10 @@ historicos/
 # NUNCA incorpora su contenido (ni como archivos ni como gitlink de submodulo).
 # Se registran en governance/registry/projects/*.json, no se comitean aqui.
 products/getupnet/
+
+# Odoo Enterprise (licencia comercial) -- mirrors/checkouts de terceros con su
+# propio .git y remote real. NUNCA se embeben como contenido/gitlink en el
+# repo corporativo. Se registran en governance/registry/projects/odoo-erp.json.
+integrations/odoo/shared-addons/v16/
+integrations/odoo/shared-addons/v17/
+integrations/odoo/shared-addons/v18/

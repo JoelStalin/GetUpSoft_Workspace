@@ -28,7 +28,7 @@ const KNOWN_PRODUCTS = [
   { product: 'boat', patterns: [/^02_Products\/GetUpSoftBoat$/] },
   { product: 'easycount', patterns: [/^products\/easycount$/, /^historicos\/easycount-app-empty-copy-.*$/] },
   { product: 'printing-workers', patterns: [/^apps\/local_printer_agent$/, /^apps\/printer_proxy$/] },
-  { product: 'odoo-erp', patterns: [/^02_Odoo_ERP$/, /^apps\/odoo$/, /^odoo$/] },
+  { product: 'odoo-erp', patterns: [/^integrations\/odoo\/shared-addons$/, /^odoo$/] },
   { product: 'n8n', patterns: [/^apps\/n8n$/] },
   { product: 'ai-automation', patterns: [/^03_AI_Automation$/] },
   { product: 'research-labs', patterns: [/^08_Research_Labs$/, /^apps\/research-ai$/, /^apps\/hyperframes$/] },

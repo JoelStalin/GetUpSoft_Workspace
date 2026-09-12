@@ -6,12 +6,12 @@
   "owner": "joel",
   "note": null,
   "realPathsFound": [
-    "02_Odoo_ERP",
-    "odoo"
+    "integrations/odoo/shared-addons"
   ],
   "independentGitCheckout": false,
   "gitRemotes": [],
-  "verificationStatus": "found-not-yet-independent-checkout",
+  "verificationStatus": "verified-2026-09-11",
   "sourceInventory": "governance/migration/inventory/workspace-inventory.json",
-  "generatedAt": "2026-09-09T23:48:31.656Z"
+  "generatedAt": "2026-09-09T23:48:31.656Z",
+  "reorgNote": "R02: 02_Odoo_ERP y apps/odoo consolidados en integrations/odoo/shared-addons/{v15,v16,v17,v18,v19,consolidated-library} (2026-09-11). Contenido de Galantes y Chefalitas NO se toco -- son instalaciones propias de esos repos independientes, fuera de este consolidado de addons compartidos."
 }
