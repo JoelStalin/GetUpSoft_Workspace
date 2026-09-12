@@ -11,9 +11,12 @@
     "public",
     "server"
   ],
-  "independentGitCheckout": false,
-  "gitRemotes": [],
-  "verificationStatus": "found-not-yet-independent-checkout",
+  "independentGitCheckout": true,
+  "gitRemotes": ["https://github.com/JoelStalin/Galantesjewerly.git"],
+  "checkoutPath": "client-solutions/galantes-jewelry",
+  "verificationStatus": "relocated-r02-2026-09-11",
+  "note": "R02: reubicado desde 06_E_Commerce_Lux/Galantesjewelry (canonico) a client-solutions/galantes-jewelry. Es un checkout git independiente con remote propio -- por diseno (seccion 2.1), su contenido NO se incorpora como archivos al git corporativo, solo se registra aqui su ubicacion. Contiene secrets/ (tokens OAuth de Google Drive) y .env.local -- motivo adicional para no trackearlo en el repo corporativo. Una copia suelta duplicada de la raiz del workspace (app/, components/, controllers/, server/, context/, src/) ya habia sido comparada y descartada a historicos/galantes-root-loose-copy-20260911/ en un checkpoint anterior.",
   "sourceInventory": "governance/migration/inventory/workspace-inventory.json",
-  "generatedAt": "2026-09-09T23:48:31.656Z"
+  "generatedAt": "2026-09-09T23:48:31.656Z",
+  "updatedAt": "2026-09-11T00:00:00Z"
 }
