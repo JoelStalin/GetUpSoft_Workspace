@@ -347,3 +347,81 @@ mover los 74 `scripts/test_*.mjs` (rutas hardcodeadas conocidas), clasificar
 - Retirar `apps/orca/` (requiere auditoría de consumidores primero)
 - Clasificar `edx_cookies.json`
 - `05_Backups/` completo (ya documentado como pendiente de decisión desde la sesión anterior)
+
+## 8. Propuesta B (Clean Code / lean, diseño emergente) — alternativa a la Propuesta A (ADR-0002)
+
+**No se ejecuta nada.** Esto es una segunda opción para que el usuario elija antes de
+tocar el repo. Propuesta A = el árbol de la sección 3 (ADR-0002 / PLAN.md de
+Downloads, ~12 carpetas de primer nivel). Propuesta B = la idea de este bloque:
+producto/plataforma/worker/client-solution es **metadata en `workspace.json`**, no
+jerarquía de carpetas.
+
+### 8.1. Apps reales verificadas ahora mismo en el repo
+
+Antes de escribir el árbol se verificó contra el repo real (no se inventó ninguna):
+`platform/orca/`, `platform/client-gateway/`, `products/{getupsoft-site,easycount,
+smartdoor,boat,getupnet}/`, `client-solutions/galantes-jewelry/`. **`careerai` NO es
+una app separada** — vive como módulo dentro de `platform/orca/src/careerai/`, así que
+en la Propuesta B no aparece como carpeta propia bajo `apps/`.
+
+```text
+GetUpSoft_Workspace/
+├── README.md
+├── AGENTS.md
+├── workspace.json          # metadata por app: tipo (product|platform|worker|client), owner, estado
+│
+├── apps/
+│   ├── orca/                # incluye careerai/ como modulo interno (src/careerai/)
+│   ├── client-gateway/
+│   ├── getupsoft-site/
+│   ├── easycount/
+│   ├── smartdoor/
+│   ├── boat/
+│   ├── getupnet/
+│   └── galantes-jewelry/    # checkout independiente, solo referencia (igual que hoy)
+│
+├── packages/                 # codigo compartido entre apps (hoy: libraries/third-party)
+├── infra/                    # compose, deploy, observabilidad (hoy: infrastructure/)
+├── docs/                     # ADRs, runbooks, decisiones (absorbe _Knowledge_Center)
+└── .runtime/                 # fuera de git: datos, logs, perfiles de navegador, backups
+```
+
+### 8.2. Tabla de decisión: dónde cae cada carpeta de A en B
+
+| Carpeta en A (ADR-0002) | Dónde cae en B | Por qué |
+|---|---|---|
+| `platform/orca/`, `platform/client-gateway/` | `apps/orca/`, `apps/client-gateway/` | La distinción "plataforma" vs "producto" pasa a ser un campo `type` en `workspace.json`, no una carpeta separada |
+| `products/*` (6 apps) | `apps/*` (mismas 6 carpetas) | Igual que arriba — `type: product` en metadata |
+| `client-solutions/galantes-jewelry/` | `apps/galantes-jewelry/` | Igual — `type: client`. El tratamiento especial (checkout independiente, no trackeado) se mantiene igual en ambas propuestas |
+| `workers/{printing,documents,data,browser,ai}/` | **Elimina la carpeta** — cada worker real (ej. `local_printer_agent`) pasa a ser una app más bajo `apps/` con `type: worker` | En A, `workers/` hoy está completamente vacía (verificado en la sección 4) — B no crea slots especulativos, solo carpetas con contenido real |
+| `integrations/{odoo,n8n}/` | `packages/odoo/`, `packages/n8n/` (si son compartidas por varias apps) o quedan dentro de la app que las usa | Se colapsa "integración" como categoría separada; si el conector lo usa una sola app, vive con ella, no en un directorio aparte |
+| `libraries/{internal,third-party}/` | `packages/` | Mismo concepto, un solo nombre |
+| `infrastructure/*` | `infra/` | Mismo contenido, nombre mas corto, sin subcarpetas especulativas (`hosts/`, `observability/` vacías hoy no se crean hasta que haya contenido) |
+| `tools/{workspace-cli,inventory,migration,verification}/` | `packages/workspace-cli/` (lo único que existe hoy con contenido real) | `inventory/`, `migration/`, `verification/` no existen como carpetas reales todavía — no se crean vacías |
+| `_Knowledge_Center/*` (7 subcarpetas) | `docs/` (una sola carpeta, categorías como archivos/subcarpetas solo si hay contenido) | Menos navegación para llegar a un documento — hoy `_Knowledge_Center` ya existe pero sin la subestructura completa (ver sección 4) |
+| `labs/`, `archives/` | Se quedan igual (o se renombran a `.runtime/labs`, `.runtime/archives` si son material no publicado) | Son experimentales/históricos — encajan en la idea de ".runtime = todo lo que no es código de producto" |
+| `.runtime/*` (7 subcarpetas) | `.runtime/` (una sola carpeta, sin subcarpetas fijas) | Igual que `_Knowledge_Center` — se generan solo las que tengan contenido |
+
+### 8.3. Trade-offs honestos
+
+**Gana A (ADR-0002, 12 carpetas):**
+- Mapeo explícito 1:1 con la visión corporativa ya escrita en el diseño integral (secciones 3 y 4 de ese documento hablan de roles/seguridad/hosting asumiendo esta jerarquía)
+- Separación física entre "plataforma" y "producto" es visible sin abrir ningún archivo — útil si el equipo crece y alguien nuevo navega por carpetas antes de leer documentación
+- Ya tiene trabajo real invertido (R01/R02 de la sesión anterior movieron contenido real a varias de estas carpetas)
+
+**Gana B (lean, ~5 carpetas):**
+- Cero carpetas vacías — hoy `workers/` existe vacía en A; B nunca crea un slot hasta que haya contenido real (principio YAGNI aplicado a la estructura de directorios)
+- Menos saltos de navegación para un agente o desarrollador: `apps/<nombre>` siempre, sin decidir primero si algo es "producto" o "plataforma" o "cliente" antes de encontrarlo
+- Los metadatos en `workspace.json` son consultables por script (exactamente lo que ya usa `tools/workspace-cli/`) — la jerarquía de carpetas no necesita cargar esa información dos veces
+- Encaja mejor con "slice vertical": cada carpeta de `apps/` es una unidad desplegable completa, en vez de estar repartida conceptualmente entre `platform/`, `products/`, `client-solutions/`
+
+### 8.4. Riesgo de migración de cada una (desde el estado actual)
+
+| | Riesgo de migrar desde hoy |
+|---|---|
+| **A** | 🟡 Medio-bajo — gran parte del trabajo YA está hecho (R01/R02); falta sobre todo poblar `workers/` y absorber `docs/`/`scripts/` sueltos, tal como ya lista la sección 6 |
+| **B** | 🔴 Medio-alto — exige un segundo movimiento sobre lo que A ya logró: `platform/orca` → `apps/orca`, `products/*` → `apps/*`, `client-solutions/galantes-jewelry` → `apps/galantes-jewelry`, más escribir el esquema de metadata en `workspace.json` y actualizar todo lo que ya referencia rutas `platform/`/`products/` (scripts, `tools/workspace-cli`, este mismo `CHANGE_TIMELINE.md`) |
+
+**Nota de riesgo explícita:** elegir B ahora significa deshacer parte de R01/R02 (ya
+comiteado y pusheado en la sesión anterior) para volver a moverlo con nombres nuevos —
+no es una migración desde cero, es una segunda migración sobre una primera ya hecha.
