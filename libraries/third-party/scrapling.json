@@ -1,0 +1,10 @@
+{
+  "slug": "scrapling",
+  "kind": "third-party-library",
+  "upstreamRemote": "https://github.com/D4Vinci/Scrapling.git",
+  "localCheckoutFound": "04_Workers/data/scrapling",
+  "relocatedTo": "libraries/third-party/scrapling",
+  "license": "verificar LICENSE en el checkout local antes de cualquier redistribucion",
+  "note": "Referencia de solo lectura (seccion 2 del diseno integral: 'libraries/third-party/ # Referencias a upstream, licencia y version'). Codigo de terceros NO copiado al repo corporativo -- el checkout independiente (con su propio .git) se reubico fisicamente pero su contenido queda fuera del git corporativo. R02, 2026-09-11.",
+  "generatedAt": "2026-09-11T00:00:00Z"
+}
