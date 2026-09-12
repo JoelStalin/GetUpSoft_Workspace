@@ -4,11 +4,13 @@
   "architecturePattern": "capas-hexagonal-existente",
   "deploymentAuthority": "product-ci",
   "owner": "joel",
-  "note": "conservar FastAPI/modelos propios; solo adaptar integracion con ORCA",
-  "realPathsFound": [],
+  "note": "conservar FastAPI/modelos propios; solo adaptar integracion con ORCA. Confirmado en products/easycount (3699 archivos reales sin node_modules/.venv -- ya estaba en la ubicacion correcta antes de R02). libs/easycount-core resulto ser 100% artefactos de build viejos (dist/, .tsbuildinfo) del mismo frontend, sin fuente real -- descartado a historicos/.",
+  "realPathsFound": [
+    "products/easycount"
+  ],
   "independentGitCheckout": false,
   "gitRemotes": [],
-  "verificationStatus": "not-found-in-inventory",
+  "verificationStatus": "path-verified-r02-2026-09-11",
   "sourceInventory": "governance/migration/inventory/workspace-inventory.json",
   "generatedAt": "2026-09-09T23:48:31.656Z"
 }

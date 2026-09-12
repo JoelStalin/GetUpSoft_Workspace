@@ -4,13 +4,13 @@
   "architecturePattern": "pipeline-de-ingenieria",
   "deploymentAuthority": "product-ci",
   "owner": "joel",
-  "note": "Registro confirmado el 2026-09-10. Ficha: 02_Products/GetUpSoftBoat/PROYECTO.md",
+  "note": "Registro confirmado el 2026-09-10. Reubicado en R02 (2026-09-11) desde 02_Products/GetUpSoftBoat a products/boat. Ficha: products/boat/PROYECTO.md",
   "realPathsFound": [
-    "02_Products/GetUpSoftBoat"
+    "products/boat"
   ],
   "independentGitCheckout": false,
   "gitRemotes": [],
-  "verificationStatus": "local-path-verified",
+  "verificationStatus": "relocated-r02-2026-09-11",
   "sourceInventory": "governance/migration/inventory/workspace-inventory.json",
   "generatedAt": "2026-09-09T23:48:31.656Z",
   "name": "GetUpSoft Boat — Lancha eléctrica",

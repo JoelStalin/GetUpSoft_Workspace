@@ -4,11 +4,11 @@
   "architecturePattern": "mvc-nativo-odoo",
   "deploymentAuthority": "product-ci",
   "owner": "joel",
-  "note": null,
+  "note": "BLOQUEADO durante todo R02 (2026-09-10 a 2026-09-12) por worktree lock activo de sesion concurrente (branch codex/chefalitas-product-sync-20260908, worktree C:/Users/yoeli/Documents/GetUpSoft_Workspace-chefalitas-sync). No se toco ningun contenido relacionado con Chefalitas (incluyendo apps/local_printer_agent/Chefalitas/.env) para evitar colision. Requiere que esa sesion libere el worktree antes de continuar R02 para este producto.",
   "realPathsFound": [],
   "independentGitCheckout": false,
   "gitRemotes": [],
-  "verificationStatus": "not-found-in-inventory",
+  "verificationStatus": "blocked-concurrent-worktree-lock",
   "sourceInventory": "governance/migration/inventory/workspace-inventory.json",
   "generatedAt": "2026-09-09T23:48:31.656Z"
 }

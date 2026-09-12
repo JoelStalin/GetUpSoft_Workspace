@@ -4,11 +4,11 @@
   "architecturePattern": "adapter-instalacion-licenciada",
   "deploymentAuthority": "integrations-ci",
   "owner": "joel",
-  "note": "verificar licencia n8n antes de redistribuir/alojar para clientes",
+  "note": "verificar licencia n8n antes de redistribuir/alojar para clientes. R02 (2026-09-11): apps/n8n confirmado cascaron vacio (solo config .vscode/, 0 archivos .ts/.js reales fuera de node_modules/dist, sin remote git propio) -- descartado a historicos/, no era una instalacion real de n8n.",
   "realPathsFound": [],
   "independentGitCheckout": false,
   "gitRemotes": [],
-  "verificationStatus": "not-found-in-inventory",
+  "verificationStatus": "confirmed-empty-r02-2026-09-11",
   "sourceInventory": "governance/migration/inventory/workspace-inventory.json",
   "generatedAt": "2026-09-09T23:48:31.656Z"
 }

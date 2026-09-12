@@ -4,11 +4,13 @@
   "architecturePattern": "worker-pipeline-adapter",
   "deploymentAuthority": "orca-project-ci",
   "owner": "claude+joel",
-  "note": "submodulo funcional dentro de orca, no producto independiente",
-  "realPathsFound": [],
+  "note": "submodulo funcional dentro de orca, no producto independiente. Confirmado en platform/orca/src/careerai (62 archivos TRACKEADOS, activamente desarrollado -- es el foco de la rama careerai/live-browser-run-tracking). Referenciado por ~73 scripts en scripts/ (rutas ../platform/orca/src/careerai/... actualizadas en R02 al mover de apps/orca/src).",
+  "realPathsFound": [
+    "platform/orca/src/careerai"
+  ],
   "independentGitCheckout": false,
   "gitRemotes": [],
-  "verificationStatus": "not-found-in-inventory",
+  "verificationStatus": "path-verified-r02-2026-09-11",
   "sourceInventory": "governance/migration/inventory/workspace-inventory.json",
   "generatedAt": "2026-09-09T23:48:31.656Z"
 }

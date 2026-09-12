@@ -4,11 +4,14 @@
   "architecturePattern": "monolito-modular-hexagonal",
   "deploymentAuthority": "orca-project-ci",
   "owner": "joel",
-  "note": null,
-  "realPathsFound": [],
+  "note": "Fuente core reubicada en R02 de apps/orca/src a platform/orca/src (65 archivos tracked, excluyendo careerai/ que tiene registro propio). apps/orca/ sigue existiendo con perfiles de navegador, docker/, data/, workflow-editor/ y demas artefactos que por diseno NO se mueven junto con la fuente (seccion 2.2: 'separar fuente de perfiles de navegador, modelos y artefactos').",
+  "realPathsFound": [
+    "platform/orca/src",
+    "apps/orca"
+  ],
   "independentGitCheckout": false,
   "gitRemotes": [],
-  "verificationStatus": "not-found-in-inventory",
+  "verificationStatus": "path-verified-r02-2026-09-11",
   "sourceInventory": "governance/migration/inventory/workspace-inventory.json",
   "generatedAt": "2026-09-09T23:48:31.656Z"
 }

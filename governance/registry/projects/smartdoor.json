@@ -4,11 +4,13 @@
   "architecturePattern": "hexagonal-maquina-estados",
   "deploymentAuthority": "product-ci",
   "owner": "joel",
-  "note": null,
-  "realPathsFound": [],
+  "note": "R02 (2026-09-11): backend real encontrado en apps/backend-nest/src -- resulto ser 100% SmartDoor (6 archivos + 1 test bajo src/modules/smart-door/), no requirio separacion de modulos. Reubicado a products/smartdoor/backend.",
+  "realPathsFound": [
+    "products/smartdoor"
+  ],
   "independentGitCheckout": false,
   "gitRemotes": [],
-  "verificationStatus": "not-found-in-inventory",
+  "verificationStatus": "relocated-r02-2026-09-11",
   "sourceInventory": "governance/migration/inventory/workspace-inventory.json",
   "generatedAt": "2026-09-09T23:48:31.656Z"
 }

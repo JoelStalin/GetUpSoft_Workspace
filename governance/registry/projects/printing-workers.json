@@ -4,11 +4,13 @@
   "architecturePattern": "worker-pipeline",
   "deploymentAuthority": "workers-ci",
   "owner": "joel",
-  "note": null,
-  "realPathsFound": [],
+  "note": "R02 (2026-09-11): apps/local_printer_agent y apps/printer_proxy confirmados 100% artefactos de build (.exe, .pyc, dist/) fuera del subdirectorio Chefalitas/ -- sin codigo fuente propio real que mover. apps/local_printer_agent/Chefalitas/ NO tocado (bajo worktree lock, ver chefalitas.json). apps/printer_proxy (solo un .env con URLs de descarga OpenSSL) descartado a historicos/.",
+  "realPathsFound": [
+    "apps/local_printer_agent"
+  ],
   "independentGitCheckout": false,
   "gitRemotes": [],
-  "verificationStatus": "not-found-in-inventory",
+  "verificationStatus": "confirmed-no-source-r02-2026-09-11",
   "sourceInventory": "governance/migration/inventory/workspace-inventory.json",
   "generatedAt": "2026-09-09T23:48:31.656Z"
 }
