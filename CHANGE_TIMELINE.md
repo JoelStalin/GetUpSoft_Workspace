@@ -3343,3 +3343,36 @@ ORCA/SmartDoor en `apps/backend-nest`.
 **Como revertir:** `git revert f4f5aa84eb` (nota: el revert restauraria
 rutas viejas -- verificar que `02_Odoo_ERP`/`apps/odoo` no tengan contenido
 nuevo antes de aplicar).
+
+---
+
+## Checkpoint R02 — 2026-09-11 — Client Gateway ya estaba resuelto; limpieza de remanentes
+
+**Commits:** `4bbfe07740` (retira binarios sueltos de Odoo), `276696d954`
+(retira remanentes de Client Gateway).
+
+**Binarios sueltos en Odoo:** se encontraron 2 instaladores .exe (Wireshark
+92MB, ZISA Stick OLT UPG 42MB) dentro de `integrations/odoo/shared-addons/
+consolidated-library/Infrastructure_and_Tools/documentation_olt/` -- ya
+habian sido pusheados a GitHub en el commit anterior (con advertencia de
+GitHub por superar 50MB). Retirados a `historicos/loose-binaries-20260911/`
+-- esto NO reescribe el historial de git (los commits anteriores aun los
+contienen), solo los remueve del arbol actual hacia adelante. Reescribir
+historial para purgarlos por completo requeriria confirmacion explicita
+aparte (accion mas delicada, `git filter-repo` o similar).
+
+**Client Gateway: resulto que ya estaba resuelto** de una fase anterior de
+esta misma sesion (G02, extraccion de `orca-client-gateway-deploy.tar.gz`).
+`platform/client-gateway/` (131 archivos) verificado intacto. Solo quedaba
+limpieza de remanentes: `apps/orca-client-gateway` (solo `dist/` compilado,
+miles de archivos `.js`/`.d.ts` generados, sin fuente real) y el
+`.tar.gz` ya extraido -- ambos retirados a
+`historicos/orca-client-gateway-dist-only-20260911/`.
+
+**Progreso del reorg:** octavo y noveno movimiento/limpieza de R02. Chefalitas
+sigue bloqueado por colision activa. Unico item real que queda del mapa de
+la seccion 2.2: separacion de modulos ORCA/SmartDoor dentro de
+`apps/backend-nest` (tarea de analisis de codigo, no un simple movimiento
+de directorios).
+
+**Como revertir:** `git revert 276696d954` y/o `git revert 4bbfe07740`.
