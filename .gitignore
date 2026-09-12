@@ -77,3 +77,11 @@ products/getupnet/
 integrations/odoo/shared-addons/v16/
 integrations/odoo/shared-addons/v17/
 integrations/odoo/shared-addons/v18/
+
+# Cookies de sesion reales exportadas (edx.org) -- no son contraseñas pero permiten
+# secuestro de sesion. Nunca se trackean.
+/edx_cookies.json
+
+# Backup completo del workspace (21.6GB, 2026-05-19) -- catalogado, no incorporado
+# al git corporativo. Ver design doc seccion 2.2: "05_Backups... catalogar primero".
+GetUpSoft_Workspace.backup-20260519_135036.tar.gz
