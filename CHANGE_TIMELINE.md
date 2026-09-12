@@ -3870,3 +3870,52 @@ inventado.
 
 **Sigue sin ejecutarse nada** -- el documento sigue siendo una propuesta pendiente de
 aprobacion.
+
+---
+
+## Checkpoint — 2026-09-12 — Reorganizacion aprobada: Fase A completa (bajo riesgo)
+
+**Commits:** `b6d8877aa2` (ESTADO_PENDIENTE.md), `3224009daf` (package.json), `6302fee394`
+(n8n_workflows.json + fix de referencia).
+
+**Paso 1 (obligatorio antes de mover nada):** consolidado `docs/ESTADO_PENDIENTE.md` --
+las 5+5 candidaturas de CareerAI con tabla verde/rojo real, portal
+`careerai.getupsoft.com`, backlog de auto-registro ATS/CAPTCHA, decisiones abiertas
+(Drive CV, Display Name Meta, sesiones del portal), y estado de WhatsApp. `ACTIVE_SESSION.md`
+e `INDEX.md` de `~/.agents_shared_memory` actualizados; tarea registrada en
+`TASKS_LEDGER.json` via `sync_memory.py` para avisar a otros agentes.
+
+**Fase A ejecutada:**
+- Esqueleto creado: `apps/`, `services/`, `packages/`, `infra/`, `config/` (vacias,
+  listas para Fase B).
+- `package.json` raiz: **solo** se cambio `"name"` (`galantesjewelry` ->
+  `getupsoft-workspace-root`). **Hallazgo importante:** ese archivo NO es solo de
+  Galantes -- `npm run careerai:regression` ejecuta realmente 60+
+  `scripts/test_careerai_*.mjs` reales definidos ahi mismo. Scripts y dependencias
+  NO se tocaron en este paso.
+- Cascarones: de los 3 candidatos originales, solo `06_E_Commerce_Lux/` era
+  genuinamente un cascaron vacio (1 archivo, `AGENTS.md`) -- eliminado. Los otros 2
+  candidatos resultaron NO ser cascarones:
+  - `apps/site/tests` es el perfil de Chrome con credenciales reales dejado a
+    proposito en el checkpoint anterior -- NO se toca.
+  - `08_Research_Labs/miniverse` tiene 312 archivos reales (sin node_modules) vs solo
+    49 en `labs/miniverse` -- la copia de `labs/` esta INCOMPLETA, no es un
+    duplicado limpio. Requiere comparacion antes de decidir, no se borra nada.
+- `data/n8n_workflows.json` -> `.runtime/data/n8n_workflows.json`. Se encontro una
+  referencia de codigo real (`platform/client-gateway/apps/api/src/modules/
+  ai-automation/n8n.service.ts`) -- actualizada en el mismo commit junto con
+  `executionsPath` (mismo patron, archivo aun no creado).
+
+**Verificador tras Fase A:**
+- `npx tsc -p tsconfig.build.json --noEmit` en `platform/client-gateway/apps/api` --
+  **sin errores**.
+- 19/19 tests de `tools/agent-memory` en verde (sanity check no relacionado).
+- `npm pkg get name` confirma el cambio real en `package.json`.
+
+**Nada roto. Ningun paso revertido.**
+
+**Desviaciones del plan original que se reportan, no se ocultan:** 2 de los 3
+"cascarones vacios" no lo eran -- se investigaron antes de borrar en vez de asumir.
+
+**Como revertir:** `git revert 6302fee394 3224009daf b6d8877aa2` (en ese orden, o
+individualmente) -- cada commit es independiente y reversible sin afectar a los demas.
