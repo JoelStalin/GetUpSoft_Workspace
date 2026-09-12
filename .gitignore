@@ -21,6 +21,18 @@ node_modules/
 **/node_modules/
 **/dist/
 **/.turbo/
+__pycache__/
+**/__pycache__/
+*.pyc
+**/*.pyc
+.pytest_cache/
+**/.pytest_cache/
+.ruff_cache/
+**/.ruff_cache/
+*.egg-info/
+**/*.egg-info/
+.venv/
+**/.venv/
 
 # Contenido descartado durante reorg R01/R02 -- conservado sin borrar, nunca trackeado
 historicos/
