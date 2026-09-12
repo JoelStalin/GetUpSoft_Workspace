@@ -10,7 +10,7 @@ The strongest commercially viable sequence is:
 2. Optional local gateway for BLE, Zigbee, LAN, and low-latency edge cases.
 3. Future GetUpSoft-owned hardware for strategic independence.
 
-This product should live as a canonical product in `02_Products/GetUpSoftSmartDoor/`, use `apps/backend-nest/` as the API foundation, and integrate with ORCA so workflows can automate onboarding, diagnostics, audit review, QR issuance, expiry, and support operations.
+This product should live as a canonical product in `products/smartdoor/`, use `products/smartdoor/backend/` as the API foundation, and integrate with ORCA so workflows can automate onboarding, diagnostics, audit review, QR issuance, expiry, and support operations.
 
 ---
 

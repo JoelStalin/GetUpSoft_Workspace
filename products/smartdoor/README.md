@@ -12,7 +12,7 @@ GetUpSoft Smart Door is a multi-tenant SaaS + mobile platform for remote smart d
 
 ## Canonical implementation targets
 
-- Backend API: `apps/backend-nest/`
+- Backend API: `products/smartdoor/backend/`
 - ORCA automation integration: `apps/orca/`
 - Product governance: `02_Products/GetUpSoftSmartDoor/`
 - Product card: `_Knowledge_Center/Memory/COMPONENT_CARDS/PRODUCT_CARD_GETUPSOFT_SMART_DOOR.md`
