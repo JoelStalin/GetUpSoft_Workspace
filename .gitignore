@@ -85,3 +85,18 @@ integrations/odoo/shared-addons/v18/
 # Backup completo del workspace (21.6GB, 2026-05-19) -- catalogado, no incorporado
 # al git corporativo. Ver design doc seccion 2.2: "05_Backups... catalogar primero".
 GetUpSoft_Workspace.backup-20260519_135036.tar.gz
+
+# Blender (929MB, binario de terceros redistribuible) -- herramienta de desarrollo
+# local para apps/boat, nunca se versiona. Cada quien instala su propio Blender.
+apps/boat/tools/Blender/
+
+# Carpeta duplicada anidada detectada en la reorg de apps/getupsoft-site (mismo
+# contenido, mismo MD5, que apps/getupsoft-site/) -- artefacto de un movimiento
+# accidental, nunca se trackea.
+apps/getupsoft-site/getupsoft-site/
+
+# Snapshots historicos .tar del rebranding de getupsoft-site (v3-v9 + variantes,
+# ~520MB total) -- backups secuenciales redundantes del mismo sitio, no codigo
+# fuente. Dos de ellos (v8=166MB, v9=249MB) excedian el limite duro de 100MB de
+# GitHub y bloqueaban el push (pre-receive hook declined). Quedan en disco local.
+apps/getupsoft-site/src/*.tar

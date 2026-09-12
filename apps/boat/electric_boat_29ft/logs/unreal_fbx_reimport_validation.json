@@ -1,0 +1,11 @@
+{
+  "source": "C:\\Users\\yoeli\\Documents\\GetUpSoft_Workspace\\02_Products\\GetUpSoftBoat\\electric_boat_29ft\\exports\\BOAT_UNREAL_V0.fbx",
+  "objects": 77,
+  "hull_dimensions": {
+    "loa_m": 8.84000015258789,
+    "beam_m": 2.8000006675720215,
+    "height_m": 0.8799999952316284
+  },
+  "loa_pass": true,
+  "beam_pass": true
+}

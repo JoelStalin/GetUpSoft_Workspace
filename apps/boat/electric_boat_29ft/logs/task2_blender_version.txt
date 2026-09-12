@@ -1,0 +1,4 @@
+﻿Blender version: 5.2.1
+Executable: C:\Users\yoeli\Documents\GetUpSoft_Workspace\02_Products\GetUpSoftBoat\tools\Blender\blender-5.2.1-windows-x64\blender.exe
+Fecha: 09/10/2026 06:15:26
+Background test: OK

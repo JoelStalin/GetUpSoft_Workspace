@@ -1,0 +1,45 @@
+parameter,old_value,new_value,unit,reason,source,date,confidence,status
+LOA,,8.84,m,V0 baseline audit,user brief and verified Blender hull bounds,2026-09-10,HIGH,DEFINED
+LWL,,MISSING,m,V0 baseline audit,hydrostatics required,2026-09-10,NONE,MISSING
+Beam_Max,,2.8,m,V0 baseline audit,user brief and verified Blender hull bounds,2026-09-10,HIGH,DEFINED
+Beam_WL,,MISSING,m,V0 baseline audit,hydrostatics required,2026-09-10,NONE,MISSING
+Draft,,MISSING,m,V0 baseline audit,displacement and hydrostatics required,2026-09-10,NONE,MISSING
+Freeboard_Bow,,MISSING,m,V0 baseline audit,naval geometry definition required,2026-09-10,NONE,MISSING
+Freeboard_Mid,,MISSING,m,V0 baseline audit,naval geometry definition required,2026-09-10,NONE,MISSING
+Freeboard_Transom,,MISSING,m,V0 baseline audit,naval geometry definition required,2026-09-10,NONE,MISSING
+Deadrise_Transom,,MISSING,deg,V0 baseline audit,master prompt preliminary study range,2026-09-10,NONE,MISSING
+Deadrise_Mid,,MISSING,deg,V0 baseline audit,naval geometry definition required,2026-09-10,NONE,MISSING
+Deadrise_Forward,,MISSING,deg,V0 baseline audit,naval geometry definition required,2026-09-10,NONE,MISSING
+Chine_Height,,MISSING,m,V0 baseline audit,parametric hull definition required,2026-09-10,NONE,MISSING
+Chine_Beam,,MISSING,m,V0 baseline audit,parametric hull definition required,2026-09-10,NONE,MISSING
+Keel_Rocker,,MISSING,m,V0 baseline audit,parametric hull definition required,2026-09-10,NONE,MISSING
+Bow_Entry_Angle,,MISSING,deg,V0 baseline audit,parametric hull definition required,2026-09-10,NONE,MISSING
+Transom_Angle,,MISSING,deg,V0 baseline audit,parametric hull definition required,2026-09-10,NONE,MISSING
+Transom_Immersion,,MISSING,m,V0 baseline audit,hydrostatics required,2026-09-10,NONE,MISSING
+LCB,,MISSING,m_from_AP,V0 baseline audit,hydrostatics required,2026-09-10,NONE,MISSING
+LCG,,MISSING,m_from_AP,V0 baseline audit,mass model required,2026-09-10,NONE,MISSING
+VCG,,MISSING,m_above_baseline,V0 baseline audit,mass model required,2026-09-10,NONE,MISSING
+Displacement,,MISSING,kg,V0 baseline audit,weight estimate and hydrostatics required,2026-09-10,NONE,MISSING
+Capacity,,10,persons,V0 baseline audit,master prompt,2026-09-10,MEDIUM,DEFINED
+Hull_Type,,Deep-V monohull,,V0 baseline audit,master prompt V0-MONO,2026-09-10,HIGH,DEFINED
+Hull_Material,,GRP/FRP,,V0 baseline audit,user reference and master prompt,2026-09-10,HIGH,DEFINED
+Hardtop_Length,,3.6,m,V0 baseline audit,existing Blender model,2026-09-10,LOW,ASSUMPTION
+Hardtop_Width,,2.2,m,V0 baseline audit,existing Blender model,2026-09-10,LOW,ASSUMPTION
+Hardtop_Height,,2.15,m_above_deck,V0 baseline audit,existing Blender model report,2026-09-10,LOW,ASSUMPTION
+Solar_Area,,MISSING,m2,V0 baseline audit,panel layout and manufacturer data required,2026-09-10,NONE,MISSING
+Solar_Panel_Count,,8,count,V0 baseline audit,verified existing Blender objects,2026-09-10,MEDIUM,ASSUMPTION
+Battery_Length,,2.8,m,V0 baseline audit,existing Blender model report,2026-09-10,LOW,ASSUMPTION
+Battery_Width,,1.2,m,V0 baseline audit,existing Blender model report,2026-09-10,LOW,ASSUMPTION
+Battery_Height,,0.45,m,V0 baseline audit,existing Blender model report,2026-09-10,LOW,ASSUMPTION
+Battery_Mass,,MISSING,kg,V0 baseline audit,battery architecture and manufacturer data required,2026-09-10,NONE,MISSING
+Battery_Chemistry,,LiFePO4,,V0 baseline audit,master prompt reference chemistry,2026-09-10,LOW,ASSUMPTION
+Nominal_Battery_Energy,,MISSING,kWh,V0 baseline audit,energy model required; 240 kWh explicitly not frozen,2026-09-10,NONE,MISSING
+Motor_Position_X,,MISSING,m_from_AP,V0 baseline audit,coordinate origin migration required,2026-09-10,NONE,MISSING
+Motor_Position_Y,,0.0,m,V0 baseline audit,centerline architecture requirement,2026-09-10,HIGH,DEFINED
+Motor_Position_Z,,MISSING,m_above_baseline,V0 baseline audit,propulsion selection and shaft geometry required,2026-09-10,NONE,MISSING
+Passenger_CG_X,,MISSING,m_from_AP,V0 baseline audit,seating plan required,2026-09-10,NONE,MISSING
+Passenger_CG_Z,,MISSING,m_above_baseline,V0 baseline audit,seating plan required,2026-09-10,NONE,MISSING
+Passenger_Mass,,85,kg_per_person,V0 baseline audit,master prompt preliminary range,2026-09-10,LOW,ASSUMPTION
+Window_Length,,0.8,m,V0 baseline audit,master prompt prior concept,2026-09-10,LOW,ASSUMPTION
+Window_Width,,0.5,m,V0 baseline audit,master prompt prior concept,2026-09-10,LOW,ASSUMPTION
+Window_Thickness,,0.035,m,V0 baseline audit,master prompt prior concept; structural validation required,2026-09-10,LOW,ASSUMPTION

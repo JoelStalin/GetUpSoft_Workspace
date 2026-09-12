@@ -1,0 +1,38 @@
+{
+  "schemaVersion": 1,
+  "packages": [
+    {
+      "name": "Unreal Engine",
+      "version": "5.8.2-56702186",
+      "installedTo": "C:/Program Files/Epic Games/UE_5.8",
+      "epicManifest": "C:/ProgramData/Epic/EpicGamesLauncher/Data/Manifests/9D65BC6B113A438C33AC2F015A0D9BFD.item",
+      "installSizeBytes": 31693779023,
+      "completeInstall": true,
+      "prerequisitesVerified": true,
+      "headlessProjectLaunchVerified": true,
+      "source": "Epic Games Launcher"
+    },
+    {
+      "name": "NVIDIA DLSS 4.5 Plugin for Unreal Engine 5.8",
+      "version": "8.7.2",
+      "published": "2026-07-21",
+      "downloadedTo": "C:/Users/yoeli/Downloads/2026.07.21_UE5.8_DLSS4.5Plugin_v8.7.2.zip",
+      "sizeBytes": 756880781,
+      "sha256": "CAEC541CE620CA60E455151E905E0E17CF01BD7337708FF5D3CAE24FC9038BEF",
+      "archiveVerified": true,
+      "enabled": false,
+      "activationRequirement": "NVIDIA RTX GPU and a verified Unreal Engine 5.8 runtime",
+      "source": "https://developer.nvidia.com/rtx/dlss"
+    },
+    {
+      "name": "Blender 5.2.1 LTS portable for Windows x64",
+      "version": "5.2.1",
+      "downloadedTo": "C:/Users/yoeli/Downloads/blender-5.2.1-windows-x64.zip",
+      "installedTo": "02_Products/GetUpSoftBoat/tools/Blender/blender-5.2.1-windows-x64",
+      "sha256": "0E631DAD7D0CAD6D5D18ABDD2E2550F6C0213215334EDA00DDBD3D22B96ECB2C",
+      "officialChecksumMatched": true,
+      "backgroundLaunchVerified": true,
+      "source": "https://download.blender.org/release/Blender5.2/blender-5.2.1-windows-x64.zip"
+    }
+  ]
+}

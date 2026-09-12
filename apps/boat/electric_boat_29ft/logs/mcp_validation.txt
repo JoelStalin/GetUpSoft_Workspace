@@ -1,0 +1,26 @@
+{
+  "status": "ok",
+  "result": {
+    "blender_version": "5.2.0",
+    "active_scene": "Scene",
+    "collections_count": 18,
+    "objects_count": 66,
+    "queried_object": {
+      "name": "BATTERY_MODULE_01",
+      "dimensions": [
+        0.75,
+        0.550000011920929,
+        0.3499999940395355
+      ],
+      "location": [
+        -0.8999999761581421,
+        -0.3199999928474426,
+        0.3799999952316284
+      ]
+    },
+    "test_cube_created": true,
+    "test_cube_deleted": true,
+    "file_saved": true,
+    "mcp_status": "VERIFIED"
+  }
+}
