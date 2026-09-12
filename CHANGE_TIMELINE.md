@@ -3650,3 +3650,36 @@ chocar con ese trabajo en curso.
 
 **Como revertir:** `git revert 712f304c61` y/o `git revert b727016fd4`
 individualmente.
+
+---
+
+## Checkpoint R02 — 2026-09-12 — docs/ historicos + consistencia de registros de catalogo
+
+**Commits:** `d71459b392` (snapshots de docs/), `95456c0523` (8 registros actualizados).
+
+**docs/:** movidos solo los documentos con fecha explicita en el nombre
+(`docs/plans/2026-07-30-*`, `docs/plans/2026-08-28-*`,
+`docs/orca/PENDING_INVENTORY_2026-08-28.md`, `docs/SESSION_SUMMARY.md`) a
+`_Knowledge_Center/history/`. Deliberadamente NO tocados `docs/agent-state.md`
+y `docs/handoff.md` -- coinciden con el patron de coordinacion multi-agente
+compartida documentado en el `CLAUDE.md` global del usuario, podrian estar
+en uso activo. El resto de `docs/` (deployment/, automation/, development/,
+arquitectura, decision-log, etc.) queda sin reclasificar -- requiere juicio
+de contenido caso por caso fuera del alcance seguro de este bloque.
+
+**Registros de catalogo (G03) actualizados con evidencia real post-R02:**
+`boat`, `smartdoor`, `easycount`, `careerai-agent`, `orca` (rutas reales
+confirmadas); `chefalitas` (documentado como bloqueado por worktree lock,
+no "no encontrado"); `n8n`, `printing-workers` (confirmado que no habia
+codigo fuente real que mover, no simplemente "no encontrado"). Los otros
+11 registros (`agents-shared`, `ai-automation`, `backups-archives`,
+`client-gateway`, `getupnet`, `infrastructure`, `knowledge-center`,
+`libraries-tools`, `odoo-erp`, `research-labs`, `galantes-jewelry`) ya
+tenian `realPathsFound` pobladas o fueron actualizadas en checkpoints
+anteriores de este mismo bloque.
+
+**Estado verificado:** `git status`/`diff`/`diff --staged` vacios; push real
+(no dry-run) confirmado con rango `d71459b392..95456c0523`; `git rev-parse`
+local vs `origin` identicos.
+
+**Como revertir:** `git revert d71459b392` y/o `git revert 95456c0523`.
