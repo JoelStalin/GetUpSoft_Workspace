@@ -6,7 +6,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "python \"C:\\Users\\yoeli\\Documents\\GetUpSoft_Workspace\\tools\\agent-memory\\capture_prompt.py\"",
+            "command": "python \"C:\\Users\\yoeli\\Documents\\GetUpSoft_Workspace\\services\\memory\\capture_prompt.py\"",
             "timeout": 5
           }
         ]
