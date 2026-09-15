@@ -46,7 +46,7 @@ function createPdfBuffer(lines) {
 }
 
 import crypto from 'node:crypto';
-import { detectLanguage } from '../apps/careerai/language-detector.mjs';
+import { detectLanguage } from '../../apps/careerai/language-detector.mjs';
 
 function logNode(nodeId, status, payload = {}, error = null) {
   const entry = {

@@ -1,5 +1,5 @@
-import { getRun, readRunControl, writeRunControl } from '../apps/careerai/runs.mjs';
-import { getReusableBrowserSession, touchBrowserSession } from '../apps/careerai/browser-session-vault.mjs';
+import { getRun, readRunControl, writeRunControl } from '../../apps/careerai/runs.mjs';
+import { getReusableBrowserSession, touchBrowserSession } from '../../apps/careerai/browser-session-vault.mjs';
 
 const runId = process.argv[2];
 const run = getRun(runId);

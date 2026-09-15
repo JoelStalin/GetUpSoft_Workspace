@@ -1,6 +1,6 @@
 import fs from 'node:fs';
 import path from 'node:path';
-import { askCouncil } from '../apps/careerai/llm-council.mjs';
+import { askCouncil } from '../../apps/careerai/llm-council.mjs';
 
 const runId = process.argv[2];
 if (!/^run-[A-Za-z0-9-]+$/.test(runId || '')) process.exit(2);
