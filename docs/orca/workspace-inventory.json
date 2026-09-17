@@ -1,0 +1,396 @@
+{
+  "schema_version": "orca.workspace.inventory.v1",
+  "generated_at": "2026-07-31T12:20:37.687Z",
+  "root": "C:/Users/yoeli/Documents/GetUpSoft_Workspace",
+  "policy": {
+    "read_only_inventory": true,
+    "secrets_included": false,
+    "git_metadata_available": true,
+    "excluded_directories": [
+      ".canonical-getupsoft",
+      ".claude",
+      ".codex",
+      ".git",
+      ".mypy_cache",
+      ".next",
+      ".pytest_cache",
+      ".ruff_cache",
+      ".venv",
+      "__pycache__",
+      "artifacts",
+      "backups",
+      "build",
+      "graphify-out",
+      "logs",
+      "node_modules",
+      "temp-deploy-clone",
+      "temp_venv",
+      "test-results",
+      "tmp"
+    ]
+  },
+  "top_level_domains": [
+    ".env",
+    ".env.backup.1779147247",
+    ".env.cloudflare",
+    ".env.obsidian.example",
+    ".env.orca.partner",
+    ".hermes",
+    "AGENTS.md",
+    "Dockerfile",
+    "GetUpSoft_Workspace.backup-20260519_135036.tar.gz",
+    "OrcaAgentServer.spec",
+    "SESSION_13_SUMMARY.md",
+    "apps",
+    "bot_output.log",
+    "context",
+    "data",
+    "docker-compose.production.yml",
+    "docker-compose.yml",
+    "docs",
+    "edx_cookies.json",
+    "eslint.config.mjs",
+    "lab_deployment.log",
+    "next.config.ts",
+    "orca-client-gateway-deploy.tar.gz",
+    "orca-deploy-package.zip",
+    "package-lock.json",
+    "package.json",
+    "postcss.config.mjs",
+    "proxy.ts",
+    "screenshot_check.txt",
+    "screenshot_debug.txt",
+    "scripts",
+    "task-ledger",
+    "test-output.log",
+    "tests",
+    "tsconfig.json",
+    "uv.lock",
+    "vitest.config.ts"
+  ],
+  "files": 599,
+  "tracked_files": 128,
+  "untracked_or_modified_entries": [
+    {
+      "code": " M",
+      "path": "AGENTS.md"
+    },
+    {
+      "code": " M",
+      "path": "context/prompts/system_prompt.md"
+    },
+    {
+      "code": " M",
+      "path": "docs/agent-state.md"
+    },
+    {
+      "code": "??",
+      "path": ".agents/"
+    },
+    {
+      "code": "??",
+      "path": ".artifacts/"
+    },
+    {
+      "code": "??",
+      "path": ".canonical-getupsoft/"
+    },
+    {
+      "code": "??",
+      "path": ".claude/"
+    },
+    {
+      "code": "??",
+      "path": ".codex/"
+    },
+    {
+      "code": "??",
+      "path": ".env"
+    },
+    {
+      "code": "??",
+      "path": ".env.backup.1779147247"
+    },
+    {
+      "code": "??",
+      "path": ".env.cloudflare"
+    },
+    {
+      "code": "??",
+      "path": ".env.obsidian.example"
+    },
+    {
+      "code": "??",
+      "path": ".env.orca.partner"
+    },
+    {
+      "code": "??",
+      "path": ".hermes/"
+    },
+    {
+      "code": "??",
+      "path": ".traffic-control/"
+    },
+    {
+      "code": "??",
+      "path": ".vscode/"
+    },
+    {
+      "code": "??",
+      "path": "01_Core_Platform/"
+    },
+    {
+      "code": "??",
+      "path": "02_Odoo_ERP/"
+    },
+    {
+      "code": "??",
+      "path": "02_Products/"
+    },
+    {
+      "code": "??",
+      "path": "03_AI_Automation/"
+    },
+    {
+      "code": "??",
+      "path": "03_Client_Solutions/"
+    },
+    {
+      "code": "??",
+      "path": "04_Workers/"
+    },
+    {
+      "code": "??",
+      "path": "05_Backups/"
+    },
+    {
+      "code": "??",
+      "path": "06_E_Commerce_Lux/"
+    },
+    {
+      "code": "??",
+      "path": "06_Infrastructure_Networking/"
+    },
+    {
+      "code": "??",
+      "path": "07_Libraries_Tools/"
+    },
+    {
+      "code": "??",
+      "path": "08_Research_Labs/"
+    },
+    {
+      "code": "??",
+      "path": "09_Archives/"
+    },
+    {
+      "code": "??",
+      "path": "GetUpSoft_Workspace.backup-20260519_135036.tar.gz"
+    },
+    {
+      "code": "??",
+      "path": "OrcaAgentServer.spec"
+    },
+    {
+      "code": "??",
+      "path": "SESSION_13_SUMMARY.md"
+    },
+    {
+      "code": "??",
+      "path": "_Knowledge_Center/"
+    },
+    {
+      "code": "??",
+      "path": "apps/"
+    },
+    {
+      "code": "??",
+      "path": "artifacts/"
+    },
+    {
+      "code": "??",
+      "path": "bot_output.log"
+    },
+    {
+      "code": "??",
+      "path": "data/"
+    },
+    {
+      "code": "??",
+      "path": "docs/INVENTORY_WORKFLOW_PLAN.md"
+    },
+    {
+      "code": "??",
+      "path": "docs/careerai-orca-acceptance-report.md"
+    },
+    {
+      "code": "??",
+      "path": "docs/development/"
+    },
+    {
+      "code": "??",
+      "path": "docs/orca/"
+    },
+    {
+      "code": "??",
+      "path": "docs/plans/"
+    },
+    {
+      "code": "??",
+      "path": "edx_cookies.json"
+    },
+    {
+      "code": "??",
+      "path": "graphify-out/"
+    },
+    {
+      "code": "??",
+      "path": "lab_deployment.log"
+    },
+    {
+      "code": "??",
+      "path": "legacy/"
+    },
+    {
+      "code": "??",
+      "path": "libs/"
+    },
+    {
+      "code": "??",
+      "path": "logs/"
+    },
+    {
+      "code": "??",
+      "path": "orca-client-gateway-deploy.tar.gz"
+    },
+    {
+      "code": "??",
+      "path": "orca-deploy-package.zip"
+    },
+    {
+      "code": "??",
+      "path": "screenshot_check.txt"
+    },
+    {
+      "code": "??",
+      "path": "screenshot_debug.txt"
+    },
+    {
+      "code": "??",
+      "path": "scripts/__pycache__/"
+    },
+    {
+      "code": "??",
+      "path": "scripts/consolidate_skills.py"
+    },
+    {
+      "code": "??",
+      "path": "scripts/enable-amd-gpu-docker.ps1"
+    },
+    {
+      "code": "??",
+      "path": "scripts/extract_captured_cookies.py"
+    },
+    {
+      "code": "??",
+      "path": "scripts/extract_cookies_quick.py"
+    },
+    {
+      "code": "??",
+      "path": "scripts/generate_orca_workspace_inventory.mjs"
+    },
+    {
+      "code": "??",
+      "path": "scripts/graphify_update_all.ps1"
+    },
+    {
+      "code": "??",
+      "path": "scripts/memory/"
+    },
+    {
+      "code": "??",
+      "path": "scripts/node_modules/"
+    },
+    {
+      "code": "??",
+      "path": "scripts/refactor_orca.py"
+    },
+    {
+      "code": "??",
+      "path": "scripts/run_careerai_prepare_only.mjs"
+    },
+    {
+      "code": "??",
+      "path": "scripts/setup_continue_ollama.ps1"
+    },
+    {
+      "code": "??",
+      "path": "scripts/test_careerai_prepare_only_endpoint.mjs"
+    },
+    {
+      "code": "??",
+      "path": "scripts/update_repo_map.py"
+    },
+    {
+      "code": "??",
+      "path": "scripts/update_skills_lock.py"
+    },
+    {
+      "code": "??",
+      "path": "scripts/validate_careerai_fixtures.mjs"
+    },
+    {
+      "code": "??",
+      "path": "scripts/verify_meta_app_config.py"
+    },
+    {
+      "code": "??",
+      "path": "task-ledger/"
+    },
+    {
+      "code": "??",
+      "path": "temp-deploy-clone/"
+    },
+    {
+      "code": "??",
+      "path": "temp_venv/"
+    },
+    {
+      "code": "??",
+      "path": "test-output.log"
+    },
+    {
+      "code": "??",
+      "path": "test-results/"
+    },
+    {
+      "code": "??",
+      "path": "tmp/"
+    },
+    {
+      "code": "??",
+      "path": "tools/"
+    },
+    {
+      "code": "??",
+      "path": "uv.lock"
+    }
+  ],
+  "sensitive_named_files": [
+    ".env",
+    ".env.backup.1779147247",
+    ".env.cloudflare",
+    ".env.obsidian.example",
+    ".env.orca.partner",
+    "apps/backend-nest/.env",
+    "apps/easycount/.env",
+    "apps/easycount/.env.local",
+    "apps/insta-manager-pro/engines/.env",
+    "apps/local_printer_agent/Chefalitas/.env",
+    "apps/orca/.env",
+    "apps/orca/.env.local",
+    "apps/orca/deploy/.env",
+    "apps/orca/workflow-editor/.env.local",
+    "apps/printer_proxy/.env"
+  ]
+}

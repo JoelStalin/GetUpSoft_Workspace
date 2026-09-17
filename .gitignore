@@ -12,6 +12,15 @@
 libraries/third-party/*/
 !libraries/third-party/*.json
 
+# labs/NemoClaw -- checkout independiente con su propio .git y remote real
+# (fork de NVIDIA/NemoClaw). Mismo caso que apps/getupnet: el repo
+# corporativo nunca incorpora su contenido.
+labs/NemoClaw/
+
+# labs/research-ai -- solo 3 .zip empaquetados (no codigo fuente), nunca
+# se versionan binarios sin auditar.
+labs/research-ai/
+
 # Carpetas numeradas legacy de la raiz -- material de scratch/backup nunca
 # incorporado al repo corporativo (05_Backups incluye __pycache__, backups
 # de terceros y contenido sin catalogar; 03_AI_Automation/orca-legacy esta

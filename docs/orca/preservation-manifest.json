@@ -1,0 +1,165 @@
+{
+  "schema_version": "orca.preservation-manifest.v1",
+  "generated_at": "2026-07-31T12:20:37.687Z",
+  "source_inventory": "workspace-inventory.json",
+  "preservation_rules": [
+    "No files are deleted, moved, or overwritten by this inventory.",
+    "Sensitive-named files are listed by path only; contents and values are never copied.",
+    "Existing modifications remain owned by their originating agent or user until explicitly handed off.",
+    "Generated artifacts are evidence-only and must not become production deployment inputs."
+  ],
+  "domains": [
+    {
+      "domain": ".env",
+      "classification": "inventory_only"
+    },
+    {
+      "domain": ".env.backup.1779147247",
+      "classification": "inventory_only"
+    },
+    {
+      "domain": ".env.cloudflare",
+      "classification": "inventory_only"
+    },
+    {
+      "domain": ".env.obsidian.example",
+      "classification": "inventory_only"
+    },
+    {
+      "domain": ".env.orca.partner",
+      "classification": "inventory_only"
+    },
+    {
+      "domain": ".hermes",
+      "classification": "inventory_only"
+    },
+    {
+      "domain": "AGENTS.md",
+      "classification": "inventory_only"
+    },
+    {
+      "domain": "Dockerfile",
+      "classification": "inventory_only"
+    },
+    {
+      "domain": "GetUpSoft_Workspace.backup-20260519_135036.tar.gz",
+      "classification": "inventory_only"
+    },
+    {
+      "domain": "OrcaAgentServer.spec",
+      "classification": "inventory_only"
+    },
+    {
+      "domain": "SESSION_13_SUMMARY.md",
+      "classification": "inventory_only"
+    },
+    {
+      "domain": "apps",
+      "classification": "implemented_or_operational"
+    },
+    {
+      "domain": "bot_output.log",
+      "classification": "inventory_only"
+    },
+    {
+      "domain": "context",
+      "classification": "inventory_only"
+    },
+    {
+      "domain": "data",
+      "classification": "implemented_or_operational"
+    },
+    {
+      "domain": "docker-compose.production.yml",
+      "classification": "inventory_only"
+    },
+    {
+      "domain": "docker-compose.yml",
+      "classification": "inventory_only"
+    },
+    {
+      "domain": "docs",
+      "classification": "implemented_or_operational"
+    },
+    {
+      "domain": "edx_cookies.json",
+      "classification": "inventory_only"
+    },
+    {
+      "domain": "eslint.config.mjs",
+      "classification": "inventory_only"
+    },
+    {
+      "domain": "lab_deployment.log",
+      "classification": "inventory_only"
+    },
+    {
+      "domain": "next.config.ts",
+      "classification": "inventory_only"
+    },
+    {
+      "domain": "orca-client-gateway-deploy.tar.gz",
+      "classification": "inventory_only"
+    },
+    {
+      "domain": "orca-deploy-package.zip",
+      "classification": "inventory_only"
+    },
+    {
+      "domain": "package-lock.json",
+      "classification": "inventory_only"
+    },
+    {
+      "domain": "package.json",
+      "classification": "inventory_only"
+    },
+    {
+      "domain": "postcss.config.mjs",
+      "classification": "inventory_only"
+    },
+    {
+      "domain": "proxy.ts",
+      "classification": "inventory_only"
+    },
+    {
+      "domain": "screenshot_check.txt",
+      "classification": "inventory_only"
+    },
+    {
+      "domain": "screenshot_debug.txt",
+      "classification": "inventory_only"
+    },
+    {
+      "domain": "scripts",
+      "classification": "inventory_only"
+    },
+    {
+      "domain": "task-ledger",
+      "classification": "inventory_only"
+    },
+    {
+      "domain": "test-output.log",
+      "classification": "inventory_only"
+    },
+    {
+      "domain": "tests",
+      "classification": "inventory_only"
+    },
+    {
+      "domain": "tsconfig.json",
+      "classification": "inventory_only"
+    },
+    {
+      "domain": "uv.lock",
+      "classification": "inventory_only"
+    },
+    {
+      "domain": "vitest.config.ts",
+      "classification": "inventory_only"
+    }
+  ],
+  "handoff": {
+    "next_action": "review ownership and classify pending entries before destructive or external changes",
+    "agent_id": "codex-careerai-01"
+  }
+}
