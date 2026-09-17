@@ -36,13 +36,25 @@ data/orca/whatsapp-hermes-state.json
 data/orca/selenium-chrome-profile/
 data/orca/interactive-chrome-profile/
 
-# CareerAI run tracking (evidencia local, no versionada)
-data/careerai/runs.jsonl
+# CareerAI run tracking (evidencia local, no versionada) -- estado de
+# ejecucion generado y datos con PII potencial (CVs, leads, texto
+# extraido). Todo data/careerai/ queda fuera de git salvo fixtures
+# explicitas que se agreguen con !excepcion cuando haga falta.
+data/careerai/
 apps/orca/chrome_profile/
-data/careerai/harvest.jsonl
 
 # Docker Desktop -> WSL migration backups (binarios locales, no versionados)
 05_Backups/docker-volumes-migration/
+
+# task-ledger/evidence -- capturas de pantalla y logs de verificacion
+# (generado, no fuente). task-ledger/*.reg -- backup de registro de
+# Windows con software personal instalado, ruido irrelevante al repo.
+task-ledger/evidence/
+task-ledger/*.reg
+task-ledger/*.err.log
+task-ledger/*.out.log
+task-ledger/*.log
+task-ledger/automation/logs/
 
 # Dependencias instaladas -- nunca se versionan (gap preexistente en este .gitignore,
 # confirmado real: node_modules NO estaba cubierto antes de instalar platform/client-gateway)
