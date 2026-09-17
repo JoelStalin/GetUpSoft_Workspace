@@ -3919,3 +3919,84 @@ e `INDEX.md` de `~/.agents_shared_memory` actualizados; tarea registrada en
 
 **Como revertir:** `git revert 6302fee394 3224009daf b6d8877aa2` (en ese orden, o
 individualmente) -- cada commit es independiente y reversible sin afectar a los demas.
+
+---
+
+## Fase B (correccion) + Fase C (limpieza inicial de raiz) -- 2026-09-16/17
+
+**Fase B -- correccion critica post-push:** el push inicial de Fase B (commits
+`9b6870c80a`..`2c2906f2e8`) se reporto como exitoso pero tenia 3 problemas reales
+descubiertos DESPUES del push, todos corregidos con `git reset --hard` +
+`cherry-pick` sobre commits nunca compartidos + push final (y un `force-push
+--force-with-lease` para el caso ya pusheado):
+
+1. `apps/boat/tools/Blender/` -- instalacion completa de Blender 5.2.1 (929MB,
+   binario de terceros) commiteada por error. Excluida, agregada a `.gitignore`.
+2. `apps/getupsoft-site/getupsoft-site/` -- carpeta duplicada anidada (mismo
+   contenido, mismo MD5) por un movimiento accidental. Excluida.
+3. 12 `.tar` de snapshots de rebranding (~520MB, 2 de ellos excedian el limite
+   de 100MB de GitHub y bloqueaban el push con `pre-receive hook declined`).
+   Excluidos todos (redundantes entre si).
+4. **Hallazgo post-push exitoso, confirmado por el usuario ("en local el repo
+   sigue igual de desorganizado")**: `products/easycount/` (3699 archivos) era
+   una COPIA byte-identica de `services/easycount/` -- el "git mv" original
+   nunca elimino el origen. `platform/orca/` (83 archivos) estaba totalmente
+   superado por `apps/careerai/` + `services/orca/database/` (verificado byte
+   a byte, diff vacio). Ambos corregidos via reset+cherry-pick+`git rm` sobre
+   el commit `56a0de1462` (orca/easycount) y force-pushed.
+
+Commits finales en origin tras la correccion: `9b6870c80a`, `ac82e86693`,
+`c04f3f98df`, `a27f97ed38`, `4bc8221515`, `e81f236ed9`.
+
+**Como revertir Fase B:** `git reset --hard c04f3f98df` (vuelve al ultimo
+commit anterior al movimiento de boat/getupsoft-site/orca/easycount; requiere
+force-push ya que esta compartido). Los commits corregidos originales quedan
+recuperables por hash mientras no corra `git gc`.
+
+**Fase C -- limpieza de raiz (catalogado, no ejecucion completa):**
+
+- `.gitignore`: agregada regla generica `.env`/`.env.*` (protege 7 archivos
+  reales sueltos en raiz que no tenian cobertura, solo existia `.env.local`).
+  `*.example` excluidos explicitamente.
+- `07_Libraries_Tools/loader/` movido a `tools/loader/`, luego **revertido**:
+  `libraries/third-party/loader.json` documentaba una decision del usuario ya
+  tomada (2026-09-10, R01 batch-001) de NO copiar ese codigo de terceros al
+  repo. Corregido con un commit de revert (`bb60e11951` -> `7de956965c`).
+- `libraries/third-party/*` protegido en `.gitignore` (solo quedan versionados
+  los `.json` de referencia upstream).
+- `labs/NemoClaw/` (checkout independiente con `.git` y remote real, fork de
+  `NVIDIA/NemoClaw`) y `labs/research-ai/` (solo 3 `.zip` sin codigo fuente)
+  agregados a `.gitignore`.
+- `data/careerai/` completo agregado a `.gitignore` (antes solo 2 archivos
+  sueltos) -- contenia CVs reales del dueno del repo, texto extraido y estado
+  de ejecucion generado. Los 8 fixtures/config ya trackeados no se vieron
+  afectados.
+- `docs/{automation,development,orca}/` y `docs/INVENTORY_WORKFLOW_PLAN.md`
+  trackeados -- documentacion real sin secretos.
+- `task-ledger/`: 3 `.md` de planificacion + `automation/daemon-state.json` +
+  `automation/getupsoft-smartdoor-orca-workflow.md` trackeados. `evidence/`
+  (capturas/logs de verificacion), `*.reg` (backup de registro de Windows con
+  software personal instalado, sin relacion con el repo) y logs sueltos
+  agregados a `.gitignore`.
+- `03_AI_Automation/` y `05_Backups/` agregados a `.gitignore` (material de
+  scratch/backup, `__pycache__`, contenido explicitamente "legacy"/"clutter").
+
+Commits: `1283df49d9` .. `092e3b4e04` (6 commits, todos pusheados y
+verificados con `git fetch` + `rev-parse` mostrando HEAD == origin).
+
+**Pendiente, requiere decision del usuario (no se toco sin auditar):**
+- `apps/{galantes-jewelry,gate-access,insta-manager-pro,local_printer_agent}/`
+  -- 4 aplicaciones completas nunca trackeadas, contenido no auditado.
+- `apps/orca/` (workspace de desarrollo grande, incluye `chrome_profile/` real
+  con credenciales -- ya protegido) vs `services/orca/` (libreria backend
+  pequena) -- no son duplicados, son capas distintas; falta decidir si
+  `apps/orca` se trackea y que subconjunto.
+- `08_Research_Labs/miniverse` (5255 archivos, completo, incluye APKs
+  decompilados con licencias sin verificar) vs `labs/miniverse` (49 archivos,
+  incompleto) -- ya identificado en un checkpoint anterior, sigue sin resolver.
+- `platform/client-gateway/src/` aparece sin trackear pese a que el resto de
+  `client-gateway` si lo esta -- causa no investigada.
+
+**Como revertir Fase C:** cada commit es independiente y reversible con
+`git revert <hash>` sin afectar a los demas. Ninguno modifico codigo fuente,
+solo `.gitignore` y adiciones de documentacion/config ya existentes en disco.
