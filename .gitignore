@@ -6,6 +6,13 @@
 !.env.*.example
 !*.env.example
 
+# Carpetas numeradas legacy de la raiz -- material de scratch/backup nunca
+# incorporado al repo corporativo (05_Backups incluye __pycache__, backups
+# de terceros y contenido sin catalogar; 03_AI_Automation/orca-legacy esta
+# explicitamente superseded). Se catalogan aparte, no se versionan aqui.
+/03_AI_Automation/
+/05_Backups/
+
 data/orca/oauth-vault.enc.json
 data/orca/oauth-events.jsonl
 data/orca/whatsapp-events.jsonl
