@@ -1,4 +1,11 @@
-.env.local
+# Cualquier .env real (credenciales/secrets) -- protege contra un `git add`
+# accidental a futuro. Los .example quedan excluidos porque son plantillas
+# sin secretos reales, seguras de versionar.
+.env
+.env.*
+!.env.*.example
+!*.env.example
+
 data/orca/oauth-vault.enc.json
 data/orca/oauth-events.jsonl
 data/orca/whatsapp-events.jsonl
