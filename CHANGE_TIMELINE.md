@@ -6072,3 +6072,56 @@ Plus test file updates for account_extended module.
 - Total related files refactored: 51+ files (views, security, tests, manifests)
 - All GetUpSoft custom modules now use unified ORCA naming convention
 - Centralized orca.* namespace ready for backend integration
+
+---
+
+## Fusion de historiales no relacionados + PR -- 2026-09-17
+
+**Hallazgo:** `main` y `careerai/live-browser-run-tracking` no compartian ningun
+commit ancestro comun (dos arboles git independientes en el mismo repo remoto --
+`main` tiene 193,932 archivos trackeados con la estructura pre-reorg
+`00_Workspace_Governance/`, `02_Odoo_ERP/`, etc.; esta rama tenia 5,470 archivos
+con la estructura reorganizada `apps/`, `services/`, etc.). GitHub rechazaba el
+PR con "no history in common".
+
+**Corregido con autorizacion explicita del usuario:**
+1. Backup completo del repo via `robocopy /MIR` a
+   `C:\Users\yoeli\Documents\GetUpSoft_Workspace_backup` (1,500,577 archivos,
+   124.8GB, 0 archivos fallidos) como red de seguridad antes de la fusion.
+2. `git stash push --include-untracked` para despejar el arbol de trabajo
+   (167 items sin trackear, incluyendo `apps/orca/` completo) que bloqueaban
+   el merge con "untracked working tree files would be overwritten".
+3. `git merge origin/main --allow-unrelated-histories` -- 6 conflictos reales
+   resueltos manualmente:
+   - `.gitignore`: combinadas ambas versiones (reglas documentadas de esta
+     sesion + reglas genericas de main: Python, Node, IDE, Obsidian, CouchDB).
+   - `CHANGE_TIMELINE.md`: ambas bitacoras preservadas integras, separadas
+     con encabezado claro (no se elimino ni reescribio historial de ninguna).
+   - `AGENTS.md`: combinadas (reglas de esta sesion + politica multiagente
+     de main, contenido no solapado).
+   - `docker-compose.yml`: combinados ambos stacks (galantes-jewelry web/nginx
+     + Odoo19 lab) en un solo archivo, sin colision de nombres/puertos,
+     usando `profiles: [odoo-lab]` para mantenerlos independientes.
+   - `.github/workflows/ci.yml`: combinado en 2 jobs (test-node + test-python-
+     orca), corrigiendo la ruta obsoleta `orca/**` -> `services/orca/**`.
+   - `apps/orca/workflow-editor/src/components/FloatingPropertiesPanel.tsx`:
+     9 bloques de conflicto de logica divergente -- resuelto tomando la
+     version de esta rama (`git checkout --ours`) dado que `apps/orca/` ya
+     estaba marcado como pendiente de auditoria del usuario; **requiere
+     revision manual posterior**, no se descarto contenido de main a ciegas
+     (queda recuperable via el commit de merge `14498845a4` si se necesita).
+4. Commit de merge: `14498845a4` (628 commits nuevos respecto al ultimo
+   checkpoint, incluye el historial completo de main). Push exitoso,
+   verificado con `git rev-parse HEAD origin/careerai/live-browser-run-tracking`
+   mostrando el mismo hash en ambos.
+5. PR creado: https://github.com/JoelStalin/GetUpSoft_Workspace/pull/16
+   (careerai/live-browser-run-tracking -> main).
+
+**Como revertir:**
+- Revertir solo la fusion de historiales: `git revert 14498845a4` (crea un
+  commit que deshace el merge sin reescribir historial ya pusheado).
+- Si el PR aun no se fusiono y se prefiere rehacer desde cero:
+  `git reset --hard 35e32a58ef` (ultimo commit antes del merge) seguido de
+  `git push --force-with-lease origin careerai/live-browser-run-tracking`.
+- El backup completo en `GetUpSoft_Workspace_backup/` permite comparar o
+  recuperar cualquier archivo del estado previo a toda esta sesion.
