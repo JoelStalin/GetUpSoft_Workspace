@@ -6297,3 +6297,47 @@ pipeline de produccion.
 
 **Como revertir:** `git revert 3e6eb353b2` (commit unico, solo
 documentacion).
+
+---
+
+## 2026-09-18 — Inicio de reorg fisica hacia el esquema de directorios acordado
+
+**Rama:** `reorg/target-schema` (base: `cc9477cbfd` en `careerai/live-browser-run-tracking`, pusheada como rama propia -- no toca `main` ni `careerai/live-browser-run-tracking`)
+
+**Contexto:** el usuario confirmo que, pese al PR #16 (CI + seguridad) ya
+mergeado, el esquema de directorios objetivo (`products/`, `client-solutions/`,
+`workers/`, `infrastructure/`, `platform/{orca,client-gateway}` como unicos
+repos independientes, `.runtime/` fuera de git) nunca se ejecuto fisicamente.
+Se penalizo explicitamente el trabajo "solo documentado, sin mover nada real".
+
+**Commits:**
+
+| Commit | Descripcion |
+|---|---|
+| `a5af74b739` (en `careerai/live-browser-run-tracking`, previo a la rama) | `governance/migration/inventory/target_directory_schema_gap_analysis.md` -- gap analysis carpeta por carpeta del esquema acordado vs estado real |
+| `2f3ed7c1f5` (en `reorg/target-schema`) | `git mv apps/orca -> platform/orca` (4128 archivos trackeados, historial preservado) + actualizacion de 7 archivos con referencias vivas (`scripts/deploy-orca-to-getupsoft-lan.sh`, `scripts/gstack_orca_load_env.sh`, `scripts/gstack_orca_set_key.sh`, `.agents/AGENT_MEMORY_CONFIG.json`, `docs/orca/project-registry.json`, `docs/orca/workspace-inventory.json`, `governance/registry/projects/orca.json`) |
+
+**Bloqueado, no movido (no trackeado por git, no bloquea el reorg):**
+`apps/orca/workflow-editor/{node_modules,dist}` y `apps/orca/libs/tinderbotj-lib`
+quedaron atras por permission-denied de un proceso activo (probablemente el
+rebuild de `graphify` disparado por el propio `git checkout -b`). Son
+regenerables (`npm install` / `npm run build`) o untracked; no requieren
+revert. Limpieza fisica pendiente cuando el proceso que los bloquea libere.
+
+**Explicitamente NO tocado en este bloque (decision separada requerida):**
+`services/orca/` (la fuente core, separada de `apps/orca` por diseno R02
+seccion 2.2) -- pendiente decidir si pasa a `platform/orca/services/` o se
+mantiene donde esta.
+
+**Siguiente paso propuesto:** mover `apps/galantes-jewelry/` (checkout
+independiente) a `client-solutions/galantes-jewelry/`, actualizando en el
+mismo commit `.gitignore`, `docker-compose.yml`, `.github/workflows/deploy.yml`
+y `governance/registry/projects/*.json` -- mayor riesgo por tocar el pipeline
+de deploy productivo, se ejecuta con verificacion de CI antes/despues.
+
+**Como revertir:** `git revert 2f3ed7c1f5` (o si falla por los archivos con
+locks activos: `git checkout cc9477cbfd -- apps/orca platform/orca && git rm -r --cached platform/orca`),
+seguido de `git revert a5af74b739` si tambien se quiere descartar el gap
+analysis. Para descartar toda la rama sin afectar las demas: simplemente no
+mergearla (`reorg/target-schema` es independiente, `main` y
+`careerai/live-browser-run-tracking` no la incluyen).
