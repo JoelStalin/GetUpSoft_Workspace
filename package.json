@@ -22,7 +22,7 @@
     "orca:start": "node scripts/orca/start_orca_local.mjs",
     "careerai:form-audit": "py scripts/careerai_form_audit.py",
     "careerai:model-review": "node scripts/careerai_model_review_packet.mjs",
-    "lint": "eslint app components lib proxy.ts",
+    "lint": "eslint --no-error-on-unmatched-pattern app components lib proxy.ts",
     "test": "vitest run",
     "test:watch": "vitest",
     "test:ui": "vitest --ui",

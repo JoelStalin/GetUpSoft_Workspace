@@ -50,6 +50,43 @@ testpaths = ["tests"]
 [tool.ruff]
 line-length = 100
 target-version = "py311"
+extend-exclude = [
+  "02_Odoo_ERP",
+  "02_Products",
+  "03_AI_Automation",
+  "03_Client_Solutions",
+  "04_Workers",
+  "05_Backups",
+  "06_E_Commerce_Lux",
+  "06_Infrastructure_Networking",
+  "07_Libraries_Tools",
+  "08_Research_Labs",
+  "09_Archives",
+  "00_Workspace_Governance",
+  "_Knowledge_Center",
+  "archives",
+  "docs",
+  "governance",
+  "graphify-out",
+  "historicos",
+  "infra",
+  "integrations",
+  "labs",
+  "libraries",
+  "platform",
+  "task-ledger",
+  "temp-deploy-clone",
+  "tmp",
+  "apps",
+  ".agents",
+  ".codex",
+  ".hermes",
+  ".canonical-getupsoft",
+  ".venv",
+  ".mypy_cache",
+  ".ruff_cache",
+  ".pytest_cache",
+]
 
 [tool.ruff.lint]
 select = ["E", "F", "I", "B", "UP"]
