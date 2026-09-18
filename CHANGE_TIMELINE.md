@@ -6402,3 +6402,54 @@ revertir el `checkoutPath`/`verificationStatus` del registry a
 **Como revertir estos cambios de texto:** `git diff .gitignore governance/registry/projects/galantes-jewelry.json`
 en este checkpoint muestra el diff completo; ningun archivo del checkout
 independiente fue tocado.
+
+---
+
+## 2026-09-18 — Checkpoint menor: `.gitignore` para `graphify-out/`; auditoria de "siguiente tarea segura" sin ejecutar movimientos adicionales (Claude Code)
+
+**Rama:** `reorg/target-schema`
+
+**Que se hizo:** se agrego `graphify-out/` a `.gitignore` (salida generada por
+la skill `graphify`, regenerable, nunca codigo fuente). Commit unico, sin
+riesgo.
+
+**Que se investigo y se decidio NO tocar, con motivo:**
+- `apps/local_printer_agent/Chefalitas/` -- candidato obvio para el siguiente
+  paso del esquema (`workers/`), pero coincide exactamente con la ruta que
+  `TASK-REPO-RESTRUCTURE-20260912` ya marco como "si otro agente esta
+  tocando esto, avisar/coordinar antes de continuar". `ACTIVE_SESSION.md`
+  confirma trabajo de recuperacion de Chefalitas en produccion esta misma
+  semana (`codex-chefalitas-recovery-20260916`, tunel Cloudflare). No se
+  movio para no chocar con esa recuperacion en curso.
+- `tmp/` -- contiene artefactos activos de otros agentes
+  (`chefalitas-origin-bridge.py`, `chefalitas-production-export-20260908`,
+  `odoocontability-review-20260831`), no es scratch propio de esta sesion.
+  No se toco ni se agrego a `.gitignore` sin confirmar que nada lo necesita
+  todavia.
+- `temp-deploy-clone/` -- parece un clon de despliegue relacionado con
+  galantes-jewelry/Chefalitas (contiene `app/`, `components/`, `context/`,
+  `controllers/`). Mismo motivo: posible trabajo en curso de otro agente, no
+  se toco.
+- `uv.lock` -- lockfile real de Python en la raiz, sin dueño claro visible
+  en esta sesion; no se asumio que deba ignorarse ni commitearse sin mas
+  contexto.
+- No se encontraron scripts de validacion de la reorg (`scripts/*reorg*`,
+  `governance/*test*`) que correr como parte de "ejecuta pruebas".
+
+**No se toco** `scripts/sanitize_gemini_plugins.ps1` ni el `AGENTS.md`/
+`scripts/agent_start.ps1` modificados que ya estaban sin commitear al
+iniciar esta sesion (visibles en `git status` desde el arranque, no
+generados por Claude Code en esta rama): ese script hace `Remove-Item
+-Recurse -Force` sobre `$env:USERPROFILE\.gemini\config\plugins` y
+deshabilita hooks por un regex amplio (`"[A-Za-z]:\\`, que matchea casi
+cualquier ruta de Windows) cada vez que corre `agent_start.ps1`. Es un
+cambio de comportamiento no trivial y potencialmente destructivo fuera del
+repo; no es de esta sesion verificar su seguridad ni commitearlo a nombre
+de otro agente sin su contexto.
+
+**Bloqueo real que sigue pendiente:** el movimiento fisico de
+`apps/galantes-jewelry` -> `client-solutions/galantes-jewelry` (ver entrada
+anterior) sigue bloqueado por el clasificador de auto-mode; requiere que el
+usuario lo ejecute o conceda permiso explicito de Bash para esa ruta.
+
+**Como revertir:** `git revert <hash>` (commit unico, solo `.gitignore`).

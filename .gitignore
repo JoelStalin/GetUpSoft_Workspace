@@ -255,3 +255,8 @@ couchdb-credentials.json
 # LiveSync cache
 obsidian/.livesync/
 obsidian/*.db
+
+# graphify-out/ -- salida generada por la skill "graphify" (grafo de
+# conocimiento del codebase: graph.json/graph.html/cache por fecha).
+# Regenerable con la skill, nunca codigo fuente, no se versiona.
+graphify-out/
