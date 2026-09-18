@@ -1,0 +1,30 @@
+{
+  "schemaVersion": 1,
+  "activeProfile": "vega8_editor",
+  "profiles": {
+    "vega8_editor": {
+      "purpose": "Edición local y pruebas funcionales en el equipo actual",
+      "targetHardware": "Scalable",
+      "rhi": "DirectX 11",
+      "screenPercentage": 50,
+      "lumen": false,
+      "hardwareRayTracing": false,
+      "nanite": false,
+      "upscaler": "TSR",
+      "dlss": false,
+      "reason": "AMD Radeon Vega 8 integrada con 2 GB de VRAM; perfil conservador para mantener el editor utilizable"
+    },
+    "rtx_digital_twin": {
+      "purpose": "Visualización realista en una estación futura con NVIDIA RTX",
+      "targetHardware": "Maximum",
+      "rhi": "DirectX 12",
+      "shaderModel": "SM6",
+      "lumen": true,
+      "hardwareRayTracing": true,
+      "naniteStaticMeshesOnly": true,
+      "upscaler": "DLSS",
+      "dlss": "Install only the NVIDIA DLSS plugin matching the exact Unreal Engine version",
+      "status": "BLOCKED_BY_HARDWARE_AND_ENGINE_VERSION"
+    }
+  }
+}

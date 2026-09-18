@@ -1,0 +1,16 @@
+{
+  "schemaVersion": 1,
+  "slug": "careerai-agent",
+  "architecturePattern": "worker-pipeline-adapter",
+  "deploymentAuthority": "orca-project-ci",
+  "owner": "claude+joel",
+  "note": "Reorg Fase B (2026-09-12): promovido de submodulo de orca a app propia -- vive ahora en apps/careerai (62 archivos TRACKEADOS, activamente desarrollado, foco de la rama careerai/live-browser-run-tracking). Referenciado por 70 scripts en scripts/ (rutas ../apps/careerai/... actualizadas en el mismo commit del movimiento). Solo 1 import cruzado real encontrado (whatsapp-web-browser.mjs -> apps/orca/workflow-editor/node_modules/playwright), corregido en el mismo movimiento -- estaba roto desde R02, apuntaba a una ruta relativa que ya no existia.",
+  "realPathsFound": [
+    "apps/careerai"
+  ],
+  "independentGitCheckout": false,
+  "gitRemotes": [],
+  "verificationStatus": "path-verified-faseB-2026-09-12",
+  "sourceInventory": "governance/migration/inventory/workspace-inventory.json",
+  "generatedAt": "2026-09-09T23:48:31.656Z"
+}

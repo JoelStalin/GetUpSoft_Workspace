@@ -1,0 +1,45 @@
+{
+  "blender_version": "5.2.1 LTS",
+  "file": "C:\\Users\\yoeli\\Documents\\GetUpSoft_Workspace\\02_Products\\GetUpSoftBoat\\electric_boat_29ft\\blender\\electric_boat_29ft_FINAL.blend",
+  "objects": 125,
+  "collections": 24,
+  "cameras": 16,
+  "materials": 30,
+  "missing_images": [],
+  "required_objects": {
+    "HULL_MAIN": true,
+    "VESSEL_DATUM": true,
+    "BATTERY_TRAY": true,
+    "BMS_ENCLOSURE": false,
+    "MFD_BMS": true,
+    "MFD_NAV": true
+  },
+  "required_collections": {
+    "07_PROPULSION_INBOARD": {
+      "objects": 6,
+      "hide_render": true
+    },
+    "08_PROPULSION_OUTBOARD": {
+      "objects": 4,
+      "hide_render": false
+    },
+    "SOLAR_SYSTEM": null
+  },
+  "hull_bounds_m": {
+    "x": 8.840000629425049,
+    "y": 2.8000006675720215,
+    "z": 3.2091822624206543,
+    "center_y": 0.0
+  },
+  "solar_panels": [
+    "SOLAR_PANEL_01",
+    "SOLAR_PANEL_02",
+    "SOLAR_PANEL_03",
+    "SOLAR_PANEL_04",
+    "SOLAR_PANEL_05",
+    "SOLAR_PANEL_06",
+    "SOLAR_PANEL_07",
+    "SOLAR_PANEL_08"
+  ],
+  "battery_modules": []
+}

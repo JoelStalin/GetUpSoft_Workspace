@@ -1,0 +1,15 @@
+{
+  "schema_version": "careerai.contracts.v1",
+  "contracts": {
+    "Opportunity": {"required": ["opportunity_id", "tenant_id", "source", "canonical_url", "title", "company", "location", "remote_verified", "description", "published_at", "match_score", "claims", "status"]},
+    "AnalysisResult": {"required": ["provider", "model", "schema_version", "claims", "recommendation", "confidence", "warnings", "evidence_refs"]},
+    "ApprovalRequest": {"required": ["approval_id", "opportunity_id", "action", "payload_hash", "expires_at", "allowed_actor", "status"]},
+    "WorkflowRun": {"required": ["run_id", "workflow_version", "node_states", "checkpoint", "attempt", "last_error", "evidence_refs"]},
+    "NotificationEvent": {"required": ["channel", "template_id", "recipient_ref", "approval_id", "delivery_status", "idempotency_key"]}
+  },
+  "policy": {
+    "external_action_requires_approval": true,
+    "submit_requires_opportunity_specific_approval": true,
+    "secret_fields_forbidden": ["token", "access_token", "cookie", "password", "client_secret"]
+  }
+}

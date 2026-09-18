@@ -1,0 +1,9 @@
+{
+  "slug": "mailcow-dockerized",
+  "kind": "third-party-library",
+  "upstreamRemote": "no confirmado (el .git local devolvio error al leerlo -- verificar contra https://github.com/mailcow/mailcow-dockerized antes de cualquier operacion de git)",
+  "localCheckoutFound": "06_Infrastructure_Networking/infra/mail/getupsoft-mail-infra/vendor/mailcow-dockerized",
+  "relocatedTo": "libraries/third-party/mailcow-dockerized",
+  "note": "Vendorizado dentro de un wrapper 'getupsoft-mail-infra' que en si mismo no tenia codigo propio real (solo __pycache__ huerfano de scripts setup_mailcow.py/start_mailcow.py/send_mailcow_test.py que ya no existen como fuente). El wrapper se descarto a historicos/; el vendor real (mailcow-dockerized) se reubico aqui como referencia de terceros, sin incorporar su contenido al git corporativo. R02, 2026-09-11.",
+  "generatedAt": "2026-09-11T00:00:00Z"
+}

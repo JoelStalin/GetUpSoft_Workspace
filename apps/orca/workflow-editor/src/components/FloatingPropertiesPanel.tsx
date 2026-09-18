@@ -3,6 +3,9 @@ import { useToast } from '../contexts/ToastContext'
 import { Settings, Trash2 } from 'lucide-react'
 import RichTextEditor from './ui/RichTextEditor'
 import ImageUpload from './ui/ImageUpload'
+import N8nNodeConfiguration from './N8nNodeConfiguration'
+import NodeDebugPanel from './NodeDebugPanel'
+import { useEffect, useState } from 'react'
 
 /**
  * MIGRATED: Uses P2 hooks (useWorkflowOperations)
@@ -10,8 +13,11 @@ import ImageUpload from './ui/ImageUpload'
 export default function FloatingPropertiesPanel() {
   const { workflow, selectedNodeId, deleteNode, updateNode } = useWorkflowOperations()
   const { addToast } = useToast()
+  const [announcedNodeId, setAnnouncedNodeId] = useState<string | null>(() => (window as any).__ORCA_SELECTED_NODE_ID__ || null)
+  useEffect(() => { const listener=(event:Event)=>setAnnouncedNodeId((event as CustomEvent<string>).detail); window.addEventListener('orca-node-selected',listener); return()=>window.removeEventListener('orca-node-selected',listener) }, [])
+  const effectiveNodeId = selectedNodeId || announcedNodeId
 
-  if (!selectedNodeId || !workflow) {
+  if (!effectiveNodeId || !workflow) {
     return (
       <div
         style={{
@@ -23,11 +29,12 @@ export default function FloatingPropertiesPanel() {
       >
         <Settings size={24} style={{ margin: '0 auto 12px', opacity: 0.3 }} />
         <p>Select a node to view properties</p>
+        {workflow?.nodes?.length ? <select aria-label="Seleccionar nodo" defaultValue="" onChange={(event) => setAnnouncedNodeId(event.target.value || null)} style={{width:'100%',padding:8,background:'var(--stitch-elevated)',color:'var(--stitch-text)',border:'1px solid var(--stitch-border)',borderRadius:6}}><option value="" disabled>Selecciona un nodo…</option>{workflow.nodes.map((node)=><option key={node.id} value={node.id}>{node.data.label || node.id}</option>)}</select> : null}
       </div>
     )
   }
 
-  const selectedNode = workflow.nodes?.find((n) => n.id === selectedNodeId)
+  const selectedNode = workflow.nodes?.find((n) => n.id === effectiveNodeId)
 
   if (!selectedNode) {
     return (
@@ -74,8 +81,12 @@ export default function FloatingPropertiesPanel() {
     })
   }
 
+  const handleParametersChange = (parameters: Record<string, unknown>) => {
+    updateNode({ ...selectedNode, data: { ...selectedNode.data, parameters } })
+  }
+
   const handleDelete = () => {
-    deleteNode(selectedNodeId)
+    deleteNode(effectiveNodeId)
     addToast(`Node "${selectedNode.data.label}" deleted`, 'success')
   }
 
@@ -141,6 +152,7 @@ export default function FloatingPropertiesPanel() {
             {selectedNode.data.label}
           </span>
         </div>
+        <select aria-label="Cambiar nodo seleccionado" value={effectiveNodeId} onChange={(event) => setAnnouncedNodeId(event.target.value)} style={{width:'100%',marginTop:8,padding:7,background:'var(--stitch-elevated)',color:'var(--stitch-text)',border:'1px solid var(--stitch-border)',borderRadius:6,fontSize:11}}>{workflow.nodes.map((node)=><option key={node.id} value={node.id}>{node.data.label || node.id}</option>)}</select>
       </div>
 
       {/* Properties */}
@@ -162,7 +174,7 @@ export default function FloatingPropertiesPanel() {
           </label>
           <input
             type="text"
-            value={selectedNodeId}
+            value={effectiveNodeId}
             disabled
             style={{
               width: '100%',
@@ -270,6 +282,9 @@ export default function FloatingPropertiesPanel() {
             {selectedNode.data.type || 'unknown'}
           </div>
         </div>
+
+        {/* Position */}
+        <N8nNodeConfiguration node={selectedNode} onChange={handleParametersChange} />
 
         {/* Position */}
         <div style={{ marginBottom: '16px' }}>
@@ -407,6 +422,9 @@ export default function FloatingPropertiesPanel() {
             </div>
           </div>
         )}
+
+        {/* Debug: input/output real de la ultima ejecucion, estilo n8n */}
+        <NodeDebugPanel nodeId={effectiveNodeId} />
       </div>
 
       {/* Delete Button */}

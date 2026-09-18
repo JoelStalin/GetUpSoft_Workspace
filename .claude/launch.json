@@ -1,0 +1,11 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "orca-local",
+      "runtimeExecutable": "node",
+      "runtimeArgs": ["scripts/start_orca_local.mjs"],
+      "port": 4173
+    }
+  ]
+}

@@ -1,0 +1,20 @@
+{
+  "schema_version": "careerai.form-audit.v1",
+  "audited_at": "2026-08-05T22:16:56.612731+00:00",
+  "url": "https://example.com",
+  "forms": [],
+  "submission_performed": false,
+  "review_required": true,
+  "model_review_roles": [
+    "gemini",
+    "chatgpt",
+    "claude"
+  ],
+  "blocked_actions": [
+    "submit",
+    "captcha",
+    "mfa",
+    "file_upload",
+    "unknown_domain"
+  ]
+}

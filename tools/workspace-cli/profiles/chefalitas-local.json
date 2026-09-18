@@ -1,0 +1,11 @@
+{
+  "name": "Chefalitas Local Profile",
+  "services": [
+    "chefalitas-pos",
+    "chefalitas-backend"
+  ],
+  "environment": "development",
+  "envOverrides": {
+    "PORT": 8000
+  }
+}

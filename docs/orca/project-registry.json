@@ -1,0 +1,54 @@
+{
+  "schema_version": "orca.project-registry.v1",
+  "generated_at": "2026-07-31",
+  "projects": [
+    {
+      "id": "orca",
+      "root": "apps/orca",
+      "classification": "orchestrator",
+      "owner": "GetUpSoft",
+      "allowed_dependencies": ["careerai-contracts", "shared-memory", "evidence-store"],
+      "production_deploy_source": "controlled release only"
+    },
+    {
+      "id": "careerai",
+      "root": "data/careerai",
+      "classification": "product-workflow",
+      "owner": "GetUpSoft",
+      "orchestrated_by": "orca",
+      "external_actions": "approval-required",
+      "providers": ["indeed-prepare-only", "linkedin-discovery-only", "gmail-draft-only", "google-drive-read-only", "nvidia-nim", "hermes", "gemini", "claude", "openai"]
+    },
+    {
+      "id": "tinderbotj",
+      "root": "apps/orca/libs/tinderbotj-lib",
+      "classification": "pattern-reference-only",
+      "owner": "separate-product",
+      "reusable_patterns": ["persistent-browser-profile", "live-session-state", "dashboard", "notifications", "memory"],
+      "forbidden_cross_domain_data": ["cookies", "tokens", "profiles", "account-state", "application-data"]
+    },
+    {
+      "id": "galantesjewelry",
+      "root": "06_E_Commerce_Lux/Galantesjewelry",
+      "classification": "client-product",
+      "owner": "Galantes Jewelry",
+      "deployment_source": "Galantesjewerly repository and approved GitHub Actions",
+      "careerai_dependency": "none",
+      "reusable_pattern": "inventory-intake-analysis-review-recovery-evidence only"
+    },
+    {
+      "id": "shared-continuity",
+      "root": ".agents_shared_memory and task-ledger",
+      "classification": "continuity-control-plane",
+      "owner": "shared-agents",
+      "contains_secrets": false,
+      "required_fields": ["agent_id", "status", "source_refs", "files_changed", "tests", "evidence_refs", "next_action", "updated_at"]
+    }
+  ],
+  "isolation_rules": [
+    "ORCA coordinates products; it does not absorb their source code.",
+    "TinderbotJ contributes patterns only, never account data or credentials.",
+    "CareerAI cannot mutate Galantes production or Odoo data.",
+    "External messages, applications, and irreversible actions require an opportunity-specific human approval."
+  ]
+}

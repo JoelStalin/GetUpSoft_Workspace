@@ -1,7 +1,164 @@
-# Secrets - NEVER commit
+# Cualquier .env real (credenciales/secrets) -- protege contra un `git add`
+# accidental a futuro. Los .example quedan excluidos porque son plantillas
+# sin secretos reales, seguras de versionar.
 .env
 .env.*
-!.env.example
+!.env.*.example
+!*.env.example
+
+# Certificados de firma DGII (.p12/.pfx) -- material criptografico real con
+# contrasena, nunca se versiona. Hallazgo de seguridad P1 en PR #16
+# (Codex, 2026-09-17): un .p12 real + su password en texto plano llegaron a
+# git. El .p12 fue removido del tracking; las credenciales viejas quedan
+# comprometidas y deben rotarse independientemente de este .gitignore.
+services/easycount/app/dgii/certf/*.p12
+**/dgii/certf/*.p12
+*.pfx
+
+# libraries/third-party/ -- solo referencias upstream (.json), nunca el
+# codigo de terceros en si. Decision del usuario, 2026-09-10 (R01 batch-001,
+# ver seccion 2 del diseno integral). Los .json quedan versionados.
+libraries/third-party/*/
+!libraries/third-party/*.json
+
+# labs/NemoClaw -- checkout independiente con su propio .git y remote real
+# (fork de NVIDIA/NemoClaw). Mismo caso que apps/getupnet: el repo
+# corporativo nunca incorpora su contenido.
+labs/NemoClaw/
+
+# labs/research-ai -- solo 3 .zip empaquetados (no codigo fuente), nunca
+# se versionan binarios sin auditar.
+labs/research-ai/
+
+# Carpetas numeradas legacy de la raiz -- material de scratch/backup nunca
+# incorporado al repo corporativo (05_Backups incluye __pycache__, backups
+# de terceros y contenido sin catalogar; 03_AI_Automation/orca-legacy esta
+# explicitamente superseded). Se catalogan aparte, no se versionan aqui.
+/03_AI_Automation/
+/05_Backups/
+
+data/orca/oauth-vault.enc.json
+data/orca/oauth-events.jsonl
+data/orca/whatsapp-events.jsonl
+data/orca/whatsapp-hermes-queue.jsonl
+data/orca/whatsapp-hermes-state.json
+data/orca/selenium-chrome-profile/
+data/orca/interactive-chrome-profile/
+
+# CareerAI run tracking (evidencia local, no versionada) -- estado de
+# ejecucion generado y datos con PII potencial (CVs, leads, texto
+# extraido). Todo data/careerai/ queda fuera de git salvo fixtures
+# explicitas que se agreguen con !excepcion cuando haga falta.
+data/careerai/
+apps/orca/chrome_profile/
+
+# Docker Desktop -> WSL migration backups (binarios locales, no versionados)
+05_Backups/docker-volumes-migration/
+
+# task-ledger/evidence -- capturas de pantalla y logs de verificacion
+# (generado, no fuente). task-ledger/*.reg -- backup de registro de
+# Windows con software personal instalado, ruido irrelevante al repo.
+task-ledger/evidence/
+task-ledger/*.reg
+task-ledger/*.err.log
+task-ledger/*.out.log
+task-ledger/*.log
+task-ledger/automation/logs/
+
+# Dependencias instaladas -- nunca se versionan (gap preexistente en este .gitignore,
+# confirmado real: node_modules NO estaba cubierto antes de instalar platform/client-gateway)
+node_modules/
+**/node_modules/
+**/dist/
+**/.turbo/
+__pycache__/
+**/__pycache__/
+*.pyc
+**/*.pyc
+.pytest_cache/
+**/.pytest_cache/
+.ruff_cache/
+**/.ruff_cache/
+*.egg-info/
+**/*.egg-info/
+.venv/
+**/.venv/
+
+# Contenido descartado durante reorg R01/R02 -- conservado sin borrar, nunca trackeado
+historicos/
+
+# Capturas de perfiles de navegador (Chrome) usadas en investigacion de hyperframes --
+# contienen archivos reales "Login Data" (SQLite de contraseñas guardadas de Chrome,
+# cifradas pero sensibles). Se dejan en su ubicacion local, nunca se trackean.
+08_Research_Labs/hyperframes/captures/
+**/hyperframes/captures/
+
+# Perfiles de Chrome usados por pruebas e2e de apps/site -- mismo motivo que
+# hyperframes/captures/: contienen Login Data/Cookies reales de Chrome.
+apps/site/tests/e2e/.runtime/
+**/.runtime/chrome-user-data/
+**/.runtime/headless-user-data/
+
+# .runtime/ corporativo -- "Fuera de Git" por diseno (seccion 2.1: bootstrap, data,
+# artifacts, logs, models, backups, recovery). Datos regenerables/operacionales, no
+# fuente versionada.
+/.runtime/
+
+# Perfiles de Chrome activos usados por ORCA/CareerAI para automatizacion real --
+# contienen Login Data/Cookies reales. NUNCA se trackean.
+data/orca/interactive-chrome-profile/
+data/orca/selenium-chrome-profile/
+09_Archives/chrome_profile/
+archives/source/legacy-chrome-profile-20260911/
+
+# archives/source -- contenido historico de 09_Archives (perfil de Chrome, y un
+# refactor de EasyCount con .env/.env.local sustanciales sin auditar linea por linea).
+# Se reubica fisicamente pero NUNCA se trackea sin auditoria explicita de secretos.
+archives/source/
+
+# Checkouts independientes con su propio .git y remote -- el repo corporativo
+# NUNCA incorpora su contenido (ni como archivos ni como gitlink de submodulo).
+# Se registran en governance/registry/projects/*.json, no se comitean aqui.
+apps/getupnet/
+
+# apps/galantes-jewelry -- mismo caso: checkout independiente con su propio
+# .git y remote real (github.com/JoelStalin/Galantesjewerly.git), confirmado
+# 2026-09-18 al investigar por que el CI "test-node" nunca podia encontrar
+# la app Next.js real (PR #16, hallazgo P1 de Codex). El deploy productivo
+# (.github/workflows/deploy.yml) ya la trata como repo separado.
+apps/galantes-jewelry/
+
+# Odoo Enterprise (licencia comercial) -- mirrors/checkouts de terceros con su
+# propio .git y remote real. NUNCA se embeben como contenido/gitlink en el
+# repo corporativo. Se registran en governance/registry/projects/odoo-erp.json.
+integrations/odoo/shared-addons/v16/
+integrations/odoo/shared-addons/v17/
+integrations/odoo/shared-addons/v18/
+
+# Cookies de sesion reales exportadas (edx.org) -- no son contraseñas pero permiten
+# secuestro de sesion. Nunca se trackean.
+/edx_cookies.json
+
+# Backup completo del workspace (21.6GB, 2026-05-19) -- catalogado, no incorporado
+# al git corporativo. Ver design doc seccion 2.2: "05_Backups... catalogar primero".
+GetUpSoft_Workspace.backup-20260519_135036.tar.gz
+
+# Blender (929MB, binario de terceros redistribuible) -- herramienta de desarrollo
+# local para apps/boat, nunca se versiona. Cada quien instala su propio Blender.
+apps/boat/tools/Blender/
+
+# Carpeta duplicada anidada detectada en la reorg de apps/getupsoft-site (mismo
+# contenido, mismo MD5, que apps/getupsoft-site/) -- artefacto de un movimiento
+# accidental, nunca se trackea.
+apps/getupsoft-site/getupsoft-site/
+
+# Snapshots historicos .tar del rebranding de getupsoft-site (v3-v9 + variantes,
+# ~520MB total) -- backups secuenciales redundantes del mismo sitio, no codigo
+# fuente. Dos de ellos (v8=166MB, v9=249MB) excedian el limite duro de 100MB de
+# GitHub y bloqueaban el push (pre-receive hook declined). Quedan en disco local.
+apps/getupsoft-site/src/*.tar
+
+# --- Reglas heredadas de main (fusion de historiales) ---
 
 # Python
 __pycache__/

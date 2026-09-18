@@ -1,0 +1,94 @@
+{
+  "schemaVersion": "getupsoft.d04-reconciliation.v1",
+  "generatedAt": "2026-09-10T17:42:10.237Z",
+  "source": "data/careerai/runs.jsonl",
+  "sourceUntouched": true,
+  "targetWritten": false,
+  "totalSourceLines": 54,
+  "parseErrors": [],
+  "reconciledRuns": 54,
+  "reconciledSteps": 1005,
+  "unmappedRunStatuses": [],
+  "unmappedStepStatuses": [],
+  "sampleMappedRuns": [
+    {
+      "sourceHash": "3443a55a58d633fe251f4815c4f7e246a2883c5afd3cf6fab636979b6befd204",
+      "target": {
+        "idempotency_key": "run-1787788692216-0a1f8f",
+        "input_hash": "9d966a71785d50f44c5f94a5d6897080f7c730cb242a8f167bcddc870e7f8a57",
+        "status": "running",
+        "stepCount": 15,
+        "sampleSteps": [
+          {
+            "capability": "career-command",
+            "status": "succeeded",
+            "deadline_at": null
+          },
+          {
+            "capability": "indeed-discovery",
+            "status": "succeeded",
+            "deadline_at": null
+          },
+          {
+            "capability": "normalize-opportunity",
+            "status": "succeeded",
+            "deadline_at": null
+          }
+        ]
+      }
+    },
+    {
+      "sourceHash": "f02fdc46dbae54e28798ffa49bfbea3769baaf230dbe8df14baf60cd3c0c6e07",
+      "target": {
+        "idempotency_key": "run-1787788733946-d083e7",
+        "input_hash": "9d966a71785d50f44c5f94a5d6897080f7c730cb242a8f167bcddc870e7f8a57",
+        "status": "running",
+        "stepCount": 15,
+        "sampleSteps": [
+          {
+            "capability": "career-command",
+            "status": "succeeded",
+            "deadline_at": null
+          },
+          {
+            "capability": "indeed-discovery",
+            "status": "succeeded",
+            "deadline_at": null
+          },
+          {
+            "capability": "normalize-opportunity",
+            "status": "succeeded",
+            "deadline_at": null
+          }
+        ]
+      }
+    },
+    {
+      "sourceHash": "d22776c303d505172354c73b8693ac683a63c3a1257ba4d8671d8d3de7d8da46",
+      "target": {
+        "idempotency_key": "run-1787788743387-d74e37",
+        "input_hash": "9d966a71785d50f44c5f94a5d6897080f7c730cb242a8f167bcddc870e7f8a57",
+        "status": "running",
+        "stepCount": 15,
+        "sampleSteps": [
+          {
+            "capability": "career-command",
+            "status": "succeeded",
+            "deadline_at": null
+          },
+          {
+            "capability": "indeed-discovery",
+            "status": "succeeded",
+            "deadline_at": null
+          },
+          {
+            "capability": "normalize-opportunity",
+            "status": "succeeded",
+            "deadline_at": null
+          }
+        ]
+      }
+    }
+  ],
+  "losslessMapping": true
+}

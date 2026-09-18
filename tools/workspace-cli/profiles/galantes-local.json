@@ -1,0 +1,11 @@
+{
+  "name": "Galantes Local Profile",
+  "services": [
+    "galantes-web",
+    "odoo-proxy"
+  ],
+  "environment": "development",
+  "envOverrides": {
+    "PORT": 3000
+  }
+}

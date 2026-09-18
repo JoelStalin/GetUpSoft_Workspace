@@ -1,0 +1,17 @@
+{
+  "step": "apply_form",
+  "opportunity": {
+    "title": "Senior Software Engineer - 9d",
+    "url": "https://weworkremotely.com/remote-jobs/collaboration-ai-senior-software-engineer"
+  },
+  "apply_url": "https://weworkremotely.com/job-seekers/account/login?alert=Sign+in+to+verify+your+eligibility+for+this+geolocked+position.",
+  "submit_performed": false,
+  "landed_on": "https://weworkremotely.com/job-seekers/account/login?alert=Sign+in+to+verify+your+eligibility+for+this+geolocked+position.",
+  "host": "weworkremotely.com",
+  "fields": [],
+  "gates_detected": [],
+  "file_upload_present": false,
+  "screenshot": "task-ledger/evidence/careerai/live-test/apply-form.png",
+  "stopped_at": "human_approval_required",
+  "reason": "submit deshabilitado por diseno; requiere login del usuario y aprobacion por oportunidad"
+}

@@ -1,0 +1,16 @@
+{
+  "ok": true,
+  "profile_dir": "C:\\Users\\yoeli\\Documents\\GetUpSoft_Workspace\\apps\\orca\\chrome_profile\\careerai-migrated",
+  "sessions": {
+    "linkedin": {
+      "logged_in": false,
+      "url": "https://www.linkedin.com/uas/login?session_redirect=https%3A%2F%2Fwww.linkedin.com%2Ffeed%2F"
+    },
+    "indeed": {
+      "logged_in": false,
+      "url": "https://secure.indeed.com/auth?continue=https%3A%2F%2Fmyjobs.indeed.com%2Fsaved&co=US&hl=en_US"
+    }
+  },
+  "credentials_written_by_agent": false,
+  "submit_performed": false
+}
