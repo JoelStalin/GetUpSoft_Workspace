@@ -14,7 +14,9 @@ Como la DGII no ofrece API Pública para declaraciones ni solicitudes, la capa `
 
 ## 2. Gestión de Credenciales y MFA Token
 El sistema almacenará credenciales base, pero el **Token de validación o MFA (Dispositivos de Seguridad)** será procesado de forma dinámica:
-- Credencial de Ejemplo: `225007006423` / `Jm8296861202`
+- Credenciales: ver `DGII_REAL_USERNAME` / `DGII_REAL_PASSWORD` en el gestor
+  de secretos (nunca en este repo; valor previo aqui era una credencial real,
+  no de ejemplo -- redactado 2026-09-18 tras hallazgo P1, requiere rotacion).
 - **Flujo de Token Transaccional:** Si la automatización de Certia se detiene en Odoo/FastAPI debido a un reto de seguridad, el Scraper se pausará y emitirá una alerta WebSockets (Socket.io) al portal `client-portal` solicitando al usuario que ingrese el código de tarjeta de coordenadas/token digital. Una vez recibido el token, el Scraper reanuda el submit.
 
 ## 3. Modelo SaaS y Cobros

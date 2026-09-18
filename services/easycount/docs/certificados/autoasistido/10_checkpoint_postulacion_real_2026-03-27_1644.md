@@ -11,10 +11,18 @@
 - Carpeta de corrida: `tests/artifacts/2026-03-27_16-44-34_dgii_real_postulacion_ofv/`
 
 ## Variables validadas
-- `DGII_REAL_USERNAME=22500706423`
-- `DGII_REAL_PASSWORD=Jm8296861202`
-- `DGII_SIGNING_P12_PATH=C:\Users\yoeli\Documents\dgii_encf\app\dgii\certf\20260327-1854064-YNKAE7HKQ.p12`
-- `DGII_SIGNING_P12_PASSWORD=Jm22500706423` (validada)
+- `DGII_REAL_USERNAME=<ver gestor de secretos>`
+- `DGII_REAL_PASSWORD=<ver gestor de secretos>`
+- `DGII_SIGNING_P12_PATH=app/dgii/certf/` (archivo `.p12` real excluido del repo)
+- `DGII_SIGNING_P12_PASSWORD=<ver gestor de secretos>` (validada)
+
+**Nota de seguridad (2026-09-18):** este archivo contenia originalmente el
+usuario/contrasena reales del Portal OFV de DGII, la ruta local del
+certificado, y la contrasena del `.p12` en texto plano -- redactado tras
+hallazgo de seguridad P1 en PR #16 (Codex). Esas credenciales ya fueron
+pusheadas al remoto antes de esta redaccion y **deben considerarse
+comprometidas**: requieren rotacion inmediata en el portal DGII y
+reemision del certificado.
 
 ## Causa tecnica actual
 El script usa las credenciales OFV para intentar login del Portal de Certificacion. Ese portal no esta aceptando esas credenciales de forma automatica (timeout de transicion post-submit).

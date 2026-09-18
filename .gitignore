@@ -6,6 +6,15 @@
 !.env.*.example
 !*.env.example
 
+# Certificados de firma DGII (.p12/.pfx) -- material criptografico real con
+# contrasena, nunca se versiona. Hallazgo de seguridad P1 en PR #16
+# (Codex, 2026-09-17): un .p12 real + su password en texto plano llegaron a
+# git. El .p12 fue removido del tracking; las credenciales viejas quedan
+# comprometidas y deben rotarse independientemente de este .gitignore.
+services/easycount/app/dgii/certf/*.p12
+**/dgii/certf/*.p12
+*.pfx
+
 # libraries/third-party/ -- solo referencias upstream (.json), nunca el
 # codigo de terceros en si. Decision del usuario, 2026-09-10 (R01 batch-001,
 # ver seccion 2 del diseno integral). Los .json quedan versionados.
@@ -111,6 +120,13 @@ archives/source/
 # NUNCA incorpora su contenido (ni como archivos ni como gitlink de submodulo).
 # Se registran en governance/registry/projects/*.json, no se comitean aqui.
 apps/getupnet/
+
+# apps/galantes-jewelry -- mismo caso: checkout independiente con su propio
+# .git y remote real (github.com/JoelStalin/Galantesjewerly.git), confirmado
+# 2026-09-18 al investigar por que el CI "test-node" nunca podia encontrar
+# la app Next.js real (PR #16, hallazgo P1 de Codex). El deploy productivo
+# (.github/workflows/deploy.yml) ya la trata como repo separado.
+apps/galantes-jewelry/
 
 # Odoo Enterprise (licencia comercial) -- mirrors/checkouts de terceros con su
 # propio .git y remote real. NUNCA se embeben como contenido/gitlink en el

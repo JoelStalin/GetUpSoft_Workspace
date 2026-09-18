@@ -19,7 +19,15 @@ Repetir prueba historica hasta `after_signed_upload` con trazabilidad y control 
 - Capturas automáticas en cada etapa (`*.png/*.html/*.json`).
 
 ## Credenciales y firma validadas
-- OFV user: `22500706423`
-- OFV pass: `Jm8296861202`
-- P12 path: `app/dgii/certf/20260327-1854064-YNKAE7HKQ.p12`
-- P12 pass válida: `Jm22500706423`
+- OFV user: ver `DGII_REAL_USERNAME` (vault/gestor de secretos, no en este repo)
+- OFV pass: ver `DGII_REAL_PASSWORD` (vault/gestor de secretos, no en este repo)
+- P12 path: `app/dgii/certf/` (archivo `.p12` real excluido del repo, ver `.gitignore`)
+- P12 pass: ver `DGII_SIGNING_P12_PASSWORD` (vault/gestor de secretos, no en este repo)
+
+**Nota de seguridad (2026-09-18):** este archivo contenia originalmente el
+usuario/contrasena reales del Portal OFV de DGII y la contrasena del
+certificado `.p12` en texto plano. Fueron redactados tras un hallazgo de
+seguridad P1 en el PR #16 (revision automatica de Codex). Esas credenciales
+**deben considerarse comprometidas** porque ya fueron pusheadas al remoto
+antes de esta redaccion -- requieren rotacion inmediata en el portal DGII y
+reemision del certificado, independientemente de este cambio.
