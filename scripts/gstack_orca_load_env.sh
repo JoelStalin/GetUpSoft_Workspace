@@ -3,11 +3,11 @@ set -euo pipefail
 
 # Loads GSTACK/ORCA variables from a local env file, validates placeholders,
 # and runs the smoke check.
-ENV_FILE="${1:-apps/orca/.env.gstack.local}"
+ENV_FILE="${1:-platform/orca/.env.gstack.local}"
 
 if [[ ! -f "$ENV_FILE" ]]; then
   echo "FAIL: env file not found: $ENV_FILE"
-  echo "Create it from apps/orca/env.gstack.local.example"
+  echo "Create it from platform/orca/env.gstack.local.example"
   exit 1
 fi
 

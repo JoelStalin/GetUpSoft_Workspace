@@ -1,10 +1,10 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-ENV_FILE="${1:-apps/orca/.env.gstack.local}"
+ENV_FILE="${1:-platform/orca/.env.gstack.local}"
 
 if [[ ! -f "$ENV_FILE" ]]; then
-  cp apps/orca/env.gstack.local.example "$ENV_FILE"
+  cp platform/orca/env.gstack.local.example "$ENV_FILE"
 fi
 
 read -rsp "Enter GSTACK_API_KEY: " GSTACK_KEY

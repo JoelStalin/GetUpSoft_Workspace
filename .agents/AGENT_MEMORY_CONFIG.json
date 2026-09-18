@@ -43,7 +43,7 @@
   },
   "project_orca": {
     "name": "ORCA Workflow Editor",
-    "path": "apps/orca/workflow-editor",
+    "path": "platform/orca/workflow-editor",
     "description": "Visual workflow editor with multi-mode support (Workflow, Web, Mobile, AI)",
     "components": {
       "src": {
@@ -80,10 +80,10 @@
       "search": "Use grep or text search in memory files"
     },
     "project_understanding": {
-      "architecture": "Read apps/orca/workflow-editor/README.md",
-      "components": "Explore apps/orca/workflow-editor/src/components/",
-      "state": "Review Zustand stores in apps/orca/workflow-editor/src/stores/",
-      "types": "Check TypeScript definitions in apps/orca/workflow-editor/src/types/"
+      "architecture": "Read platform/orca/workflow-editor/README.md",
+      "components": "Explore platform/orca/workflow-editor/src/components/",
+      "state": "Review Zustand stores in platform/orca/workflow-editor/src/stores/",
+      "types": "Check TypeScript definitions in platform/orca/workflow-editor/src/types/"
     },
     "phase_context": {
       "phase_1": "docs/CHANGE_TIMELINE.md - Obsidian Integration",
@@ -94,7 +94,7 @@
   },
   "documentation": {
     "architecture": [
-      "apps/orca/workflow-editor/WEBGL_EDITOR_GUIDE.md - 3D visual editor",
+      "platform/orca/workflow-editor/WEBGL_EDITOR_GUIDE.md - 3D visual editor",
       "docs/PHASE_3_COMPLETION_SUMMARY.md - Current phase overview",
       "docs/CHANGE_TIMELINE.md - Project timeline and history"
     ],
@@ -105,7 +105,7 @@
     ],
     "setup": [
       "docs/OBSIDIAN_SETUP_CHECKLIST.md - Obsidian integration",
-      "apps/orca/workflow-editor/notebooks/README.md - JupyterLab setup",
+      "platform/orca/workflow-editor/notebooks/README.md - JupyterLab setup",
       "CLAUDE.md - Project-specific rules for agents"
     ]
   },
@@ -113,18 +113,18 @@
     "python": {
       "version": "3.12+",
       "packages": ["jupyterlab", "zustand", "beautifulsoup4", "requests"],
-      "notebooks_dir": "apps/orca/workflow-editor/notebooks"
+      "notebooks_dir": "platform/orca/workflow-editor/notebooks"
     },
     "node": {
       "version": "18+",
       "packages": ["@react-three/fiber", "@react-three/drei", "penpal", "zustand"],
-      "app_dir": "apps/orca/workflow-editor"
+      "app_dir": "platform/orca/workflow-editor"
     },
     "memory_paths": {
       "ORCA_MEMORY_PATH": ".agents/memory",
       "ORCA_WEB_DOCS": ".agents/memory/web-documentation",
       "ORCA_ML_DOCS": ".agents/memory/openml-documentation",
-      "ORCA_PROJECT": "apps/orca/workflow-editor"
+      "ORCA_PROJECT": "platform/orca/workflow-editor"
     }
   },
   "agent_instructions": {
@@ -139,7 +139,7 @@
       "1. Reference memories for technical questions (faster than web search)",
       "2. Use Project memory for ORCA architecture understanding",
       "3. Update Zustand stores using useEditorStore pattern",
-      "4. Follow component structure in apps/orca/workflow-editor/src/",
+      "4. Follow component structure in platform/orca/workflow-editor/src/",
       "5. Test changes with npm run dev"
     ],
     "after_task": [
@@ -160,8 +160,8 @@
   },
   "integration_points": {
     "jupyter": {
-      "path": "apps/orca/workflow-editor/notebooks",
-      "config": "apps/orca/workflow-editor/notebooks/jupyter_config.py",
+      "path": "platform/orca/workflow-editor/notebooks",
+      "config": "platform/orca/workflow-editor/notebooks/jupyter_config.py",
       "use_case": "Interactive memory management and code exploration"
     },
     "obsidian": {
@@ -171,9 +171,9 @@
       "sync_script": "scripts/sync_notebooks_to_obsidian.py"
     },
     "orca": {
-      "app_path": "apps/orca/workflow-editor",
+      "app_path": "platform/orca/workflow-editor",
       "dev_server": "npm run dev -> localhost:5175",
-      "main_component": "apps/orca/workflow-editor/src/App.tsx"
+      "main_component": "platform/orca/workflow-editor/src/App.tsx"
     }
   },
   "quick_commands": {
@@ -181,7 +181,7 @@
     "search_memory": "grep -r <keyword> .agents/memory/",
     "view_orca_status": "git log --oneline -10",
     "check_phase": "head -30 docs/CHANGE_TIMELINE.md",
-    "run_orca_dev": "cd apps/orca/workflow-editor && npm run dev",
+    "run_orca_dev": "cd platform/orca/workflow-editor && npm run dev",
     "update_memory_validation": "python scripts/download_web_docs.py"
   }
 }

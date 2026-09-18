@@ -10,14 +10,14 @@ echo "🚀 Deploying ORCA Workflow Editor to getupsoft-lan..."
 # Configuration
 DEPLOY_HOST="getupsoft-lan"
 REMOTE_PATH="/home/ubuntu/orca"
-LOCAL_BUILD_PATH="apps/orca/workflow-editor/dist"
+LOCAL_BUILD_PATH="platform/orca/workflow-editor/dist"
 TIMESTAMP=$(date +%Y%m%d_%H%M%S)
 BACKUP_DIR="${REMOTE_PATH}_backup_${TIMESTAMP}"
 
 # Check if build exists
 if [ ! -d "$LOCAL_BUILD_PATH" ]; then
     echo "❌ Build not found at $LOCAL_BUILD_PATH"
-    echo "Run 'npm run build' in apps/orca/workflow-editor first"
+    echo "Run 'npm run build' in platform/orca/workflow-editor first"
     exit 1
 fi
 

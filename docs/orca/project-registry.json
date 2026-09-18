@@ -4,7 +4,7 @@
   "projects": [
     {
       "id": "orca",
-      "root": "apps/orca",
+      "root": "platform/orca",
       "classification": "orchestrator",
       "owner": "GetUpSoft",
       "allowed_dependencies": ["careerai-contracts", "shared-memory", "evidence-store"],
@@ -21,7 +21,7 @@
     },
     {
       "id": "tinderbotj",
-      "root": "apps/orca/libs/tinderbotj-lib",
+      "root": "platform/orca/libs/tinderbotj-lib",
       "classification": "pattern-reference-only",
       "owner": "separate-product",
       "reusable_patterns": ["persistent-browser-profile", "live-session-state", "dashboard", "notifications", "memory"],

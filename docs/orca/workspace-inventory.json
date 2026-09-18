@@ -387,10 +387,10 @@
     "apps/easycount/.env.local",
     "apps/insta-manager-pro/engines/.env",
     "apps/local_printer_agent/Chefalitas/.env",
-    "apps/orca/.env",
-    "apps/orca/.env.local",
-    "apps/orca/deploy/.env",
-    "apps/orca/workflow-editor/.env.local",
+    "platform/orca/.env",
+    "platform/orca/.env.local",
+    "platform/orca/deploy/.env",
+    "platform/orca/workflow-editor/.env.local",
     "apps/printer_proxy/.env"
   ]
 }

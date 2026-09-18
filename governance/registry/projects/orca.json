@@ -4,14 +4,14 @@
   "architecturePattern": "monolito-modular-hexagonal",
   "deploymentAuthority": "orca-project-ci",
   "owner": "joel",
-  "note": "Fuente core reubicada en R02 de apps/orca/src a services/orca/src (65 archivos tracked, excluyendo careerai/ que tiene registro propio). apps/orca/ sigue existiendo con perfiles de navegador, docker/, data/, workflow-editor/ y demas artefactos que por diseno NO se mueven junto con la fuente (seccion 2.2: 'separar fuente de perfiles de navegador, modelos y artefactos').",
+  "note": "Fuente core reubicada en R02 de apps/orca/src a services/orca/src (65 archivos tracked, excluyendo careerai/ que tiene registro propio). apps/orca/ (perfiles de navegador, docker/, data/, workflow-editor/ y demas artefactos, por diseno separados de la fuente segun seccion 2.2: 'separar fuente de perfiles de navegador, modelos y artefactos') se reubico en reorg/target-schema (2026-09-18) a platform/orca/ -- unico repo independiente para ORCA segun el esquema de directorios acordado. services/orca/ (fuente) sigue sin moverse: requiere decision separada sobre si tambien pasa a vivir bajo platform/orca/services o se mantiene donde esta.",
   "realPathsFound": [
     "services/orca/src",
-    "apps/orca"
+    "platform/orca"
   ],
   "independentGitCheckout": false,
   "gitRemotes": [],
-  "verificationStatus": "path-verified-r02-2026-09-11",
+  "verificationStatus": "path-updated-reorg-target-schema-2026-09-18",
   "sourceInventory": "governance/migration/inventory/workspace-inventory.json",
   "generatedAt": "2026-09-09T23:48:31.656Z"
 }
