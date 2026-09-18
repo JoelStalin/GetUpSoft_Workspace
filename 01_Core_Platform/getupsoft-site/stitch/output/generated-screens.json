@@ -1,0 +1,118 @@
+{
+  "generatedAt": "2026-05-19T02:50:31.440Z",
+  "outputRoot": "stitch\\output",
+  "total": 10,
+  "complete": 10,
+  "screens": [
+    {
+      "id": "global-ai-agents-desktop",
+      "portal": "global",
+      "htmlPath": "stitch\\output\\global\\global-ai-agents-desktop.html",
+      "imagePath": "stitch\\output\\global\\global-ai-agents-desktop.png",
+      "htmlExists": true,
+      "imageExists": true,
+      "htmlBytes": 19994,
+      "imageBytes": 62564,
+      "qualityPass": true
+    },
+    {
+      "id": "global-contact-desktop",
+      "portal": "global",
+      "htmlPath": "stitch\\output\\global\\global-contact-desktop.html",
+      "imagePath": "stitch\\output\\global\\global-contact-desktop.png",
+      "htmlExists": true,
+      "imageExists": true,
+      "htmlBytes": 18002,
+      "imageBytes": 124671,
+      "qualityPass": true
+    },
+    {
+      "id": "global-home-desktop",
+      "portal": "global",
+      "htmlPath": "stitch\\output\\global\\global-home-desktop.html",
+      "imagePath": "stitch\\output\\global\\global-home-desktop.png",
+      "htmlExists": true,
+      "imageExists": true,
+      "htmlBytes": 29581,
+      "imageBytes": 48584,
+      "qualityPass": true
+    },
+    {
+      "id": "global-home-mobile",
+      "portal": "global",
+      "htmlPath": "stitch\\output\\global\\global-home-mobile.html",
+      "imagePath": "stitch\\output\\global\\global-home-mobile.png",
+      "htmlExists": true,
+      "imageExists": true,
+      "htmlBytes": 22363,
+      "imageBytes": 31782,
+      "qualityPass": true
+    },
+    {
+      "id": "global-products-desktop",
+      "portal": "global",
+      "htmlPath": "stitch\\output\\global\\global-products-desktop.html",
+      "imagePath": "stitch\\output\\global\\global-products-desktop.png",
+      "htmlExists": true,
+      "imageExists": true,
+      "htmlBytes": 17099,
+      "imageBytes": 74066,
+      "qualityPass": true
+    },
+    {
+      "id": "rd-contacto-desktop",
+      "portal": "rd",
+      "htmlPath": "stitch\\output\\rd\\rd-contacto-desktop.html",
+      "imagePath": "stitch\\output\\rd\\rd-contacto-desktop.png",
+      "htmlExists": true,
+      "imageExists": true,
+      "htmlBytes": 18242,
+      "imageBytes": 90776,
+      "qualityPass": true
+    },
+    {
+      "id": "rd-facturacion-desktop",
+      "portal": "rd",
+      "htmlPath": "stitch\\output\\rd\\rd-facturacion-desktop.html",
+      "imagePath": "stitch\\output\\rd\\rd-facturacion-desktop.png",
+      "htmlExists": true,
+      "imageExists": true,
+      "htmlBytes": 19994,
+      "imageBytes": 62564,
+      "qualityPass": true
+    },
+    {
+      "id": "rd-home-desktop",
+      "portal": "rd",
+      "htmlPath": "stitch\\output\\rd\\rd-home-desktop.html",
+      "imagePath": "stitch\\output\\rd\\rd-home-desktop.png",
+      "htmlExists": true,
+      "imageExists": true,
+      "htmlBytes": 29575,
+      "imageBytes": 40428,
+      "qualityPass": true
+    },
+    {
+      "id": "rd-home-mobile",
+      "portal": "rd",
+      "htmlPath": "stitch\\output\\rd\\rd-home-mobile.html",
+      "imagePath": "stitch\\output\\rd\\rd-home-mobile.png",
+      "htmlExists": true,
+      "imageExists": true,
+      "htmlBytes": 19069,
+      "imageBytes": 29420,
+      "qualityPass": true
+    },
+    {
+      "id": "rd-odoo-desktop",
+      "portal": "rd",
+      "htmlPath": "stitch\\output\\rd\\rd-odoo-desktop.html",
+      "imagePath": "stitch\\output\\rd\\rd-odoo-desktop.png",
+      "htmlExists": true,
+      "imageExists": true,
+      "htmlBytes": 19467,
+      "imageBytes": 60902,
+      "qualityPass": true
+    }
+  ]
+}

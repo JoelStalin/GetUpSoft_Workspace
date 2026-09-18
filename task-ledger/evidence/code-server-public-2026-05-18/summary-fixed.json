@@ -1,0 +1,23 @@
+{
+  "timestamp": "2026-05-18T14:42:22.921907+00:00",
+  "results": [
+    {
+      "url": "https://code.getupsoft.com",
+      "current_url": "https://code.getupsoft.com/login",
+      "title": "code-server login",
+      "has_password_input": true,
+      "body_excerpt": "Welcome to code-server\nPlease log in below. Password was set from $PASSWORD.",
+      "screenshot": "C:\\Users\\yoeli\\Documents\\GetUpSoft_Workspace\\task-ledger\\evidence\\code-server-public-2026-05-18\\code-getupsoft-com-fixed-login.png",
+      "html": "C:\\Users\\yoeli\\Documents\\GetUpSoft_Workspace\\task-ledger\\evidence\\code-server-public-2026-05-18\\code-getupsoft-com-fixed-login.html"
+    },
+    {
+      "url": "https://code.getupsoft.com.do",
+      "current_url": "https://code.getupsoft.com.do/login",
+      "title": "code-server login",
+      "has_password_input": true,
+      "body_excerpt": "Welcome to code-server\nPlease log in below. Password was set from $PASSWORD.",
+      "screenshot": "C:\\Users\\yoeli\\Documents\\GetUpSoft_Workspace\\task-ledger\\evidence\\code-server-public-2026-05-18\\code-getupsoft-com-do-fixed-login.png",
+      "html": "C:\\Users\\yoeli\\Documents\\GetUpSoft_Workspace\\task-ledger\\evidence\\code-server-public-2026-05-18\\code-getupsoft-com-do-fixed-login.html"
+    }
+  ]
+}

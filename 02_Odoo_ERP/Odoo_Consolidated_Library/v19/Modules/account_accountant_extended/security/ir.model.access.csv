@@ -1,0 +1,7 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_orca_gl_log_user,General Ledger Log - User Read-Only,model_orca_general_ledger_log,base.group_user,1,0,0,0
+access_orca_gl_log_accountant,General Ledger Log - Accountant Read-Only,model_orca_general_ledger_log,account.group_account_accountant,1,0,0,0
+access_orca_gl_log_manager,General Ledger Log - Manager Full,model_orca_general_ledger_log,account.group_account_manager,1,1,1,0
+access_orca_tb_log_user,Trial Balance Log - User Read-Only,model_orca_trial_balance_log,base.group_user,1,0,0,0
+access_orca_tb_log_accountant,Trial Balance Log - Accountant Read-Only,model_orca_trial_balance_log,account.group_account_accountant,1,0,0,0
+access_orca_tb_log_manager,Trial Balance Log - Manager Full,model_orca_trial_balance_log,account.group_account_manager,1,1,1,0

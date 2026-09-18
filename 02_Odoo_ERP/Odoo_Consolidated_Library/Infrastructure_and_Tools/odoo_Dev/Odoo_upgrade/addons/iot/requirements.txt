@@ -1,0 +1,47 @@
+# Odoo Core dependencies
+odoo18
+
+# Socket y red
+pyzmq
+
+# Bluetooth
+pybluez
+pygatt
+bleak   # Alternativa moderna y más estable para Bluetooth
+
+# Cámara y captura de imágenes
+opencv-python-headless
+pillow
+imageio
+scipy   # Necesario para algunas operaciones con imágenes
+
+# Comunicación serial
+pyserial
+serial-tools   # Utilidad extra para detectar puertos seriales
+
+# Dispositivos de pago (Ingenico y Worldline)
+pycryptodome
+crcmod
+
+# GATT para Bluetooth
+gatt
+gattlib   # Alternativa para mejor soporte en BLE
+
+# Drivers de hardware
+hidapi
+pyusb
+
+# Comunicación en tiempo real
+pyzmq
+
+# Logs y diagnóstico
+loguru
+coloredlogs  # Para logs con colores (más legibles)
+
+# OWL para frontend de Odoo
+odoolib
+httpx   # Mejor alternativa a requests para OWL y RPC
+
+# Librerías del sistema y rendimiento
+psutil   # Monitorización y gestión de procesos
+watchdog   # Para detectar cambios en archivos

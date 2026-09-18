@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- =============================== -->
+    <!--  Kitchen Screen Access Group     -->
+    <!-- =============================== -->
+
+    <!-- Module Category for Kitchen Screen -->
+    <record id="module_category_pos_kitchen_screen_odoo" model="ir.module.category">
+        <field name="name">POS Kitchen Screen</field>
+        <field name="description">Kitchen Access Groups</field>
+        <field name="sequence">20</field>
+    </record>
+
+    <!-- Group for Kitchen Cook -->
+    <record id="kitchen_cook" model="res.groups">
+        <field name="name">Kitchen Cook</field>
+        <field name="category_id" ref="module_category_pos_kitchen_screen_odoo"/>
+    </record>
+</odoo>

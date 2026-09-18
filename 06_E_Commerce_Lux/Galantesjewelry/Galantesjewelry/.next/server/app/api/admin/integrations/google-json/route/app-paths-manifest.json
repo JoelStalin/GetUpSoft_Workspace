@@ -1,0 +1,3 @@
+{
+  "/api/admin/integrations/google-json/route": "app/api/admin/integrations/google-json/route.js"
+}

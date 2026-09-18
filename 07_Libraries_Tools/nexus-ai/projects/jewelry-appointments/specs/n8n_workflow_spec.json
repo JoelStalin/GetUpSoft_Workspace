@@ -1,0 +1,50 @@
+{
+  "workflow": "Agendamiento Joyería Galante",
+  "trigger": {
+    "type": "Webhook",
+    "method": "POST",
+    "path": "v1/appointments/book",
+    "description": "Recibe solicitud de cita desde el frontend."
+  },
+  "steps": [
+    {
+      "node": "AIHUB Translator (Local)",
+      "action": "Classification",
+      "input": "{{$json.body.description}}",
+      "logic": "classify_service_type",
+      "rules_ptr": "projects/jewelry-appointments/specs/classification_rules.json",
+      "description": "Clasifica localmente el tipo de servicio basándose en la descripción del cliente."
+    },
+    {
+      "node": "Google Calendar API",
+      "action": "Events Insert",
+      "payload": {
+        "calendarId": "primary",
+        "resource": {
+          "summary": "Cita {{$node[\"AIHUB Translator\"].json[\"category\"]}} - {{$json.body.clientName}}",
+          "description": "{{$json.body.description}}",
+          "start": {
+            "dateTime": "{{$json.body.requestedDate}}T{{$json.body.requestedTime}}:00Z",
+            "timeZone": "UTC"
+          },
+          "end": {
+            "dateTime": "{{$json.body.requestedDate}}T{{$json.body.requestedTime_end}}:00Z",
+            "timeZone": "UTC"
+          }
+        }
+      },
+      "description": "Crea el evento en el calendario de Google."
+    },
+    {
+      "node": "Email Confirmation (Mock)",
+      "action": "Send",
+      "to": "{{$json.body.clientEmail}}",
+      "subject": "Cita Confirmada - Galante's Jewelry",
+      "body": "Hola {{$json.body.clientName}}, su cita para {{$node[\"AIHUB Translator\"].json[\"category\"]}} ha sido agendada con éxito."
+    }
+  ],
+  "error_handling": {
+    "dead_letter_queue": true,
+    "retry_policy": "exponential_backoff"
+  }
+}

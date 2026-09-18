@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <!-- Maintenance Request ORCA Log List View -->
+    <record id="view_orca_maintenance_request_log_tree" model="ir.ui.view">
+        <field name="name">orca.maintenance.request.log.list</field>
+        <field name="model">orca.maintenance.request.log</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="date"/>
+                <field name="user_id"/>
+                <field name="action"/>
+                <field name="request_reference"/>
+                <field name="equipment_name"/>
+                <field name="maintenance_type"/>
+                <field name="priority"/>
+                <field name="request_status"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Maintenance Request ORCA Log Form View -->
+    <record id="view_orca_maintenance_request_log_form" model="ir.ui.view">
+        <field name="name">orca.maintenance.request.log.form</field>
+        <field name="model">orca.maintenance.request.log</field>
+        <field name="arch" type="xml">
+            <form>
+                <group>
+                    <group string="Log Metadata">
+                        <field name="module_name"/>
+                        <field name="model_name"/>
+                        <field name="record_id"/>
+                        <field name="action"/>
+                        <field name="date"/>
+                        <field name="user_id"/>
+                    </group>
+                    <group string="Maintenance Request Details">
+                        <field name="request_reference"/>
+                        <field name="equipment_name"/>
+                        <field name="maintenance_type"/>
+                        <field name="priority"/>
+                        <field name="request_status"/>
+                        <field name="assigned_to"/>
+                        <field name="scheduled_date"/>
+                        <field name="completion_date"/>
+                    </group>
+                    <group string="Audit Data">
+                        <field name="before_values" widget="ace"/>
+                        <field name="after_values" widget="ace"/>
+                    </group>
+                </group>
+            </form>
+        </field>
+    </record>
+
+    <!-- Menu Items -->
+    <menuitem id="menu_orca_maintenance_logs" name="ORCA Logs" parent="maintenance.maintenance_menu_root"/>
+
+    <menuitem id="menu_orca_maintenance_request_log" name="Maintenance Request Logs"
+              parent="menu_orca_maintenance_logs"
+              action="action_view_orca_maintenance_request_log"/>
+
+    <!-- Actions -->
+    <act_window id="action_view_orca_maintenance_request_log"
+                name="Maintenance Request ORCA Logs"
+                res_model="orca.maintenance.request.log"
+                view_mode="tree,form"/>
+</odoo>

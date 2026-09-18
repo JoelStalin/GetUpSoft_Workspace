@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <!-- Payroll Entry ORCA Log List View -->
+    <record id="view_orca_payroll_entry_log_tree" model="ir.ui.view">
+        <field name="name">orca.payroll.entry.log.list</field>
+        <field name="model">orca.payroll.entry.log</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="date"/>
+                <field name="user_id"/>
+                <field name="action"/>
+                <field name="entry_ref"/>
+                <field name="entry_type"/>
+                <field name="account_code"/>
+                <field name="debit_amount"/>
+                <field name="credit_amount"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Payroll Entry ORCA Log Form View -->
+    <record id="view_orca_payroll_entry_log_form" model="ir.ui.view">
+        <field name="name">orca.payroll.entry.log.form</field>
+        <field name="model">orca.payroll.entry.log</field>
+        <field name="arch" type="xml">
+            <form>
+                <group>
+                    <group string="Log Metadata">
+                        <field name="module_name"/>
+                        <field name="model_name"/>
+                        <field name="record_id"/>
+                        <field name="action"/>
+                        <field name="date"/>
+                        <field name="user_id"/>
+                    </group>
+                    <group string="Payroll Entry Details">
+                        <field name="entry_ref"/>
+                        <field name="entry_type"/>
+                        <field name="account_code"/>
+                        <field name="account_name"/>
+                        <field name="debit_amount"/>
+                        <field name="credit_amount"/>
+                        <field name="entry_status"/>
+                    </group>
+                    <group string="Audit Data">
+                        <field name="before_values" widget="ace"/>
+                        <field name="after_values" widget="ace"/>
+                    </group>
+                </group>
+            </form>
+        </field>
+    </record>
+
+    <!-- Menu Items -->
+    <menuitem id="menu_orca_payroll_accounting_logs" name="ORCA Logs" parent="account.menu_finance"/>
+
+    <menuitem id="menu_orca_payroll_entry_log" name="Payroll Entry Logs"
+              parent="menu_orca_payroll_accounting_logs"
+              action="action_view_orca_payroll_entry_log"/>
+
+    <!-- Actions -->
+    <act_window id="action_view_orca_payroll_entry_log"
+                name="Payroll Entry ORCA Logs"
+                res_model="orca.payroll.entry.log"
+                view_mode="tree,form"/>
+</odoo>

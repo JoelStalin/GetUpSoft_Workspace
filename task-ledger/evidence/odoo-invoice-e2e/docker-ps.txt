@@ -1,0 +1,9 @@
+NAMES                   STATUS
+orca-odoo18             Up 17 minutes
+orca-odoo18-db          Up 27 minutes
+dgii-n8n                Up 51 minutes
+dgii-n8n-postgres       Up 51 minutes
+open-webui              Up 21 hours (healthy)
+ollama-server           Up 21 hours
+orca-gateway-postgres   Up 36 hours
+orca-gateway-redis      Up 36 hours

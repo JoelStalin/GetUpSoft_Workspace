@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jarvis - Orca Voice Interface with Casberry</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: #050505;
+            color: #fff;
+            font-family: 'Space Mono', monospace;
+            overflow: hidden;
+            height: 100vh;
+        }
+
+        .orca-container {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            background: linear-gradient(135deg, #050505 0%, #1a1a2e 100%);
+        }
+
+        /* Casberry Particles Canvas */
+        #particles-canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+        }
+
+        /* Content Overlay */
+        .content {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 40px;
+        }
+
+        /* Orca SVG Container */
+        .orca-logo-container {
+            position: relative;
+            width: 250px;
+            height: 250px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .orca-logo {
+            width: 100%;
+            height: 100%;
+            filter: drop-shadow(0 0 30px rgba(0, 255, 200, 0.6));
+        }
+
+        .orca-logo.speaking {
+            animation: orca-speak 0.3s ease-in-out;
+        }
+
+        @keyframes orca-speak {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.15); }
+        }
+
+        /* Status Text */
+        .status-section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .status-text {
+            font-size: 28px;
+            font-weight: 700;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            color: #00ffff;
+            text-shadow: 0 0 20px rgba(0, 255, 255, 0.8);
+        }
+
+        .listening-dots {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+        }
+
+        .dot {
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            background: #ff0038;
+            animation: dot-pulse 1.5s ease-in-out infinite;
+        }
+
+        .dot:nth-child(2) { animation-delay: 0.2s; }
+        .dot:nth-child(3) { animation-delay: 0.4s; }
+
+        @keyframes dot-pulse {
+            0%, 100% { opacity: 0.3; transform: scale(0.8); }
+            50% { opacity: 1; transform: scale(1.2); }
+        }
+
+        /* Voice Level Indicator */
+        .voice-level {
+            margin-top: 20px;
+            width: 300px;
+            height: 6px;
+            background: rgba(0, 255, 200, 0.2);
+            border-radius: 10px;
+            overflow: hidden;
+            border: 1px solid rgba(0, 255, 200, 0.4);
+        }
+
+        .voice-level-bar {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, #00ffff, #00ff88);
+            box-shadow: 0 0 10px rgba(0, 255, 200, 0.8);
+            transition: width 0.1s ease-out;
+        }
+
+        /* Control Panel */
+        .control-panel {
+            margin-top: 40px;
+            padding: 25px;
+            border: 2px solid rgba(0, 255, 200, 0.3);
+            border-radius: 15px;
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(10px);
+            min-width: 380px;
+        }
+
+        .control-label {
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            color: #888;
+            margin-bottom: 15px;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+        }
+
+        button {
+            padding: 12px 24px;
+            border: 1px solid rgba(0, 255, 200, 0.5);
+            background: rgba(0, 255, 200, 0.1);
+            color: #00ffff;
+            border-radius: 8px;
+            cursor: pointer;
+            font-family: 'Space Mono', monospace;
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            transition: all 0.3s ease;
+        }
+
+        button:hover {
+            background: rgba(0, 255, 200, 0.2);
+            box-shadow: 0 0 15px rgba(0, 255, 200, 0.5);
+        }
+
+        button:active {
+            transform: scale(0.95);
+        }
+
+        .mic-button {
+            padding: 16px 32px;
+            font-size: 14px;
+            background: rgba(255, 0, 56, 0.1);
+            border-color: rgba(255, 0, 56, 0.5);
+            color: #ff0038;
+        }
+
+        .mic-button:hover {
+            background: rgba(255, 0, 56, 0.2);
+            box-shadow: 0 0 15px rgba(255, 0, 56, 0.5);
+        }
+
+        .mic-button.recording {
+            animation: record-pulse 0.6s ease-in-out infinite;
+            background: rgba(255, 0, 56, 0.3);
+        }
+
+        @keyframes record-pulse {
+            0%, 100% { box-shadow: 0 0 10px rgba(255, 0, 56, 0.5); }
+            50% { box-shadow: 0 0 25px rgba(255, 0, 56, 0.8); }
+        }
+
+        /* Info Text */
+        .info-text {
+            margin-top: 30px;
+            font-size: 11px;
+            color: #666;
+            line-height: 1.6;
+            max-width: 400px;
+        }
+
+        .info-text strong {
+            color: #00ffff;
+        }
+
+        /* Speaking State */
+        .speaking .orca-logo {
+            animation: orca-speak 0.3s ease-in-out infinite !important;
+        }
+
+        /* Error State */
+        .error-state .status-text {
+            color: #ff0038;
+            text-shadow: 0 0 20px rgba(255, 0, 56, 0.8);
+        }
+
+        /* Success State */
+        .success-state .status-text {
+            color: #00ff88;
+            text-shadow: 0 0 20px rgba(0, 255, 136, 0.8);
+        }
+    </style>
+</head>
+<body>
+    <div class="orca-container">
+        <canvas id="particles-canvas"></canvas>
+
+        <div class="content">
+            <!-- Orca Logo with Casberry Particles -->
+            <div class="orca-logo-container">
+                <svg class="orca-logo" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+                    <!-- Orca Body -->
+                    <ellipse cx="100" cy="110" rx="60" ry="70" fill="#1a1a1a" stroke="#00ffcc" stroke-width="2"/>
+
+                    <!-- Orca Head -->
+                    <circle cx="100" cy="60" r="45" fill="#1a1a1a" stroke="#00ffcc" stroke-width="2"/>
+
+                    <!-- White Eye Patches -->
+                    <ellipse cx="85" cy="50" rx="12" ry="15" fill="#00ffcc"/>
+                    <ellipse cx="115" cy="50" rx="12" ry="15" fill="#00ffcc"/>
+
+                    <!-- Eyes -->
+                    <circle cx="85" cy="50" r="6" fill="#050505"/>
+                    <circle cx="115" cy="50" r="6" fill="#050505"/>
+                    <circle cx="84" cy="48" r="2" fill="#00ffff"/>
+                    <circle cx="114" cy="48" r="2" fill="#00ffff"/>
+
+                    <!-- Mouth -->
+                    <path d="M 95 70 Q 100 75 105 70" stroke="#00ffcc" stroke-width="2" fill="none" stroke-linecap="round"/>
+
+                    <!-- Dorsal Fin -->
+                    <path d="M 100 45 L 95 20 L 105 20 Z" fill="#00ffcc" stroke="#00ffcc" stroke-width="1"/>
+
+                    <!-- Pectoral Fins -->
+                    <ellipse cx="60" cy="110" rx="15" ry="35" fill="none" stroke="#00ffcc" stroke-width="2" transform="rotate(-30 60 110)"/>
+                    <ellipse cx="140" cy="110" rx="15" ry="35" fill="none" stroke="#00ffcc" stroke-width="2" transform="rotate(30 140 110)"/>
+
+                    <!-- Tail -->
+                    <path d="M 100 175 Q 85 190 75 200 M 100 175 Q 115 190 125 200" stroke="#00ffcc" stroke-width="3" fill="none" stroke-linecap="round"/>
+                </svg>
+            </div>
+
+            <!-- Status Section -->
+            <div class="status-section">
+                <div class="status-text" id="status-text">ESCUCHANDO</div>
+                <div class="listening-dots">
+                    <div class="dot"></div>
+                    <div class="dot"></div>
+                    <div class="dot"></div>
+                </div>
+            </div>
+
+            <!-- Voice Level Indicator -->
+            <div class="voice-level">
+                <div class="voice-level-bar" id="voice-level"></div>
+            </div>
+
+            <!-- Control Panel -->
+            <div class="control-panel">
+                <div class="control-label">CONTROLES DE VOZ</div>
+                <div class="button-group">
+                    <button id="start-btn" class="mic-button">🎤 INICIAR</button>
+                    <button id="stop-btn" class="mic-button">⏹ DETENER</button>
+                </div>
+            </div>
+
+            <!-- Info -->
+            <div class="info-text">
+                <strong>Jarvis Voice Interface</strong><br>
+                Hablando con el orca via <strong>Casberry Particles</strong><br>
+                Presiona ESPACIO para hablar o aplaude para activar
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ============================================================
+        // CASBERRY PARTICLE SYSTEM INITIALIZATION
+        // ============================================================
+        let particleSystem = null;
+        let canvas = document.getElementById('particles-canvas');
+        let ctx = canvas.getContext('2d');
+
+        // Resize canvas to fill window
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        resizeCanvas();
+        window.addEventListener('resize', resizeCanvas);
+
+        // Initialize Casberry-style particle system
+        function initializeCasberry() {
+            const orcaPosX = canvas.width / 2;
+            const orcaPosY = canvas.height / 2 - 100;
+
+            particleSystem = {
+                particles: [],
+                emitterX: orcaPosX,
+                emitterY: orcaPosY,
+                particleCount: 100,
+
+                addParticles(count, type = 'normal') {
+                    for (let i = 0; i < count; i++) {
+                        const angle = Math.random() * Math.PI * 2;
+                        const speed = Math.random() * 3 + 1;
+                        const life = Math.random() * 80 + 40;
+
+                        this.particles.push({
+                            x: this.emitterX + (Math.random() - 0.5) * 30,
+                            y: this.emitterY + (Math.random() - 0.5) * 30,
+                            vx: Math.cos(angle) * speed,
+                            vy: Math.sin(angle) * speed,
+                            life: life,
+                            maxLife: life,
+                            size: Math.random() * 3 + 1,
+                            color: type === 'speaking' ? '#00ffff' : '#00ff88',
+                            opacity: 1
+                        });
+                    }
+                },
+
+                update() {
+                    this.particles = this.particles.filter(p => {
+                        p.x += p.vx;
+                        p.y += p.vy;
+                        p.vy += 0.1;
+                        p.life--;
+                        p.opacity = p.life / p.maxLife;
+                        return p.life > 0;
+                    });
+                },
+
+                draw() {
+                    this.particles.forEach(p => {
+                        ctx.fillStyle = p.color;
+                        ctx.globalAlpha = p.opacity * 0.8;
+                        ctx.beginPath();
+                        ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+                        ctx.fill();
+                    });
+                    ctx.globalAlpha = 1;
+                }
+            };
+        }
+
+        // Animation loop
+        function animate() {
+            ctx.fillStyle = 'rgba(5, 5, 5, 0.1)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            if (particleSystem) {
+                particleSystem.update();
+                particleSystem.draw();
+            }
+
+            requestAnimationFrame(animate);
+        }
+
+        // ============================================================
+        // VOICE INTERACTION SYSTEM
+        // ============================================================
+        class JarvisVoiceInterface {
+            constructor() {
+                this.isListening = false;
+                this.isSpeaking = false;
+                this.mediaRecorder = null;
+                this.audioContext = null;
+                this.analyser = null;
+                this.statusText = document.getElementById('status-text');
+                this.voiceLevel = document.getElementById('voice-level');
+                this.startBtn = document.getElementById('start-btn');
+                this.stopBtn = document.getElementById('stop-btn');
+                this.container = document.querySelector('.orca-container');
+                this.orca = document.querySelector('.orca-logo');
+
+                this.setupEventListeners();
+                this.checkSessionAuth();
+            }
+
+            setupEventListeners() {
+                this.startBtn.addEventListener('click', () => this.startListening());
+                this.stopBtn.addEventListener('click', () => this.stopListening());
+            }
+
+            checkSessionAuth() {
+                fetch('/api/auth/verify-session', { credentials: 'include' })
+                    .then(r => r.json())
+                    .then(data => {
+                        if (!data.valid) {
+                            this.showError('No autenticado - Por favor inicia sesión');
+                        }
+                    })
+                    .catch(() => this.showError('Error de autenticación'));
+            }
+
+            startListening() {
+                if (this.isListening) return;
+                this.isListening = true;
+                this.startBtn.disabled = true;
+                this.stopBtn.disabled = false;
+
+                this.statusText.textContent = 'ESCUCHANDO...';
+                this.container.classList.remove('success-state', 'error-state');
+
+                navigator.mediaDevices.getUserMedia({ audio: true })
+                    .then(stream => {
+                        this.audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                        this.analyser = this.audioContext.createAnalyser();
+                        const microphone = this.audioContext.createMediaStreamAudioSource(stream);
+                        microphone.connect(this.analyser);
+
+                        this.mediaRecorder = new MediaRecorder(stream);
+                        let chunks = [];
+
+                        this.mediaRecorder.ondataavailable = (e) => chunks.push(e.data);
+                        this.mediaRecorder.onstop = () => {
+                            const blob = new Blob(chunks, { type: 'audio/webm' });
+                            this.processAudio(blob);
+                        };
+
+                        this.mediaRecorder.start();
+                        this.monitorAudioLevel();
+                    })
+                    .catch(err => {
+                        this.showError('Error al acceder al micrófono');
+                        this.isListening = false;
+                    });
+            }
+
+            monitorAudioLevel() {
+                if (!this.isListening) return;
+
+                const dataArray = new Uint8Array(this.analyser.frequencyBinCount);
+                this.analyser.getByteFrequencyData(dataArray);
+
+                const level = (dataArray.reduce((a, b) => a + b) / dataArray.length) / 255;
+                this.voiceLevel.style.width = (level * 100) + '%';
+
+                requestAnimationFrame(() => this.monitorAudioLevel());
+            }
+
+            stopListening() {
+                if (!this.isListening) return;
+                this.isListening = false;
+                this.startBtn.disabled = false;
+                this.stopBtn.disabled = true;
+
+                if (this.mediaRecorder && this.mediaRecorder.state === 'recording') {
+                    this.mediaRecorder.stop();
+                }
+
+                this.voiceLevel.style.width = '0%';
+            }
+
+            processAudio(blob) {
+                this.statusText.textContent = 'PROCESANDO...';
+                this.showSpeaking();
+
+                if (particleSystem) {
+                    particleSystem.addParticles(50, 'speaking');
+                }
+
+                const formData = new FormData();
+                formData.append('audio', blob, 'audio.webm');
+
+                fetch('/api/jarvis/command', {
+                    method: 'POST',
+                    body: formData,
+                    credentials: 'include'
+                })
+                .then(r => r.json())
+                .then(data => {
+                    if (data.success) {
+                        this.showSuccess(`Intención: ${data.intent_hint || 'desconocida'}`);
+                        this.speakResponse(data.command_text || 'Comando procesado');
+                    } else {
+                        this.showError('No se reconoció el comando');
+                    }
+                })
+                .catch(err => {
+                    this.showError('Error al procesar comando');
+                    console.error(err);
+                });
+            }
+
+            speakResponse(text) {
+                const words = text.split(' ');
+                words.forEach((word, i) => {
+                    setTimeout(() => {
+                        if (particleSystem) {
+                            particleSystem.addParticles(30, 'speaking');
+                        }
+                        this.orca.classList.add('speaking');
+                        setTimeout(() => this.orca.classList.remove('speaking'), 300);
+                    }, i * 200);
+                });
+
+                if ('speechSynthesis' in window) {
+                    const utterance = new SpeechSynthesisUtterance(text);
+                    utterance.lang = 'es-ES';
+                    utterance.rate = 0.9;
+                    utterance.pitch = 1.2;
+                    speechSynthesis.speak(utterance);
+                }
+
+                setTimeout(() => {
+                    this.statusText.textContent = 'LISTO';
+                    this.container.classList.remove('success-state');
+                }, words.length * 200 + 2000);
+            }
+
+            showSpeaking() {
+                this.orca.classList.add('speaking');
+                this.container.classList.add('speaking');
+            }
+
+            showSuccess(message) {
+                this.statusText.textContent = message;
+                this.container.classList.add('success-state');
+            }
+
+            showError(message) {
+                this.statusText.textContent = 'ERROR: ' + message;
+                this.container.classList.add('error-state');
+            }
+        }
+
+        // ============================================================
+        // INITIALIZATION
+        // ============================================================
+        window.addEventListener('load', () => {
+            initializeCasberry();
+            animate();
+            new JarvisVoiceInterface();
+        });
+
+        // Keyboard controls
+        document.addEventListener('keydown', (e) => {
+            if (e.code === 'Space') {
+                e.preventDefault();
+                const startBtn = document.getElementById('start-btn');
+                if (!startBtn.disabled) startBtn.click();
+            }
+        });
+
+        document.addEventListener('keyup', (e) => {
+            if (e.code === 'Space') {
+                const stopBtn = document.getElementById('stop-btn');
+                if (!stopBtn.disabled) stopBtn.click();
+            }
+        });
+    </script>
+</body>
+</html>

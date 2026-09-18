@@ -1,0 +1,18 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: miniverse-config
+  namespace: getupsoft
+  labels:
+    app.kubernetes.io/name: miniverse
+    app.kubernetes.io/part-of: getupsoft-workspace
+    app.kubernetes.io/component: server
+data:
+  # Server configuration
+  NODE_ENV: "production"
+  PORT: "3000"
+  LOG_LEVEL: "info"
+
+  # Feature flags
+  DEBUG: "false"
+  ENABLE_METRICS: "true"

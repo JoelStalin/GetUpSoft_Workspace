@@ -1,0 +1,65 @@
+{
+  "default_model": "llama3.2-3b-local",
+  "models": [
+    {
+      "id": "llama3.2-3b-local",
+      "provider": "nvidia-openai-compatible",
+      "model": "llama3.2:3b-instruct-q4_K_M",
+      "base_url": "http://getupsoft-lan:11434/v1",
+      "api_key_env": "LOCAL_LLM_API_KEY",
+      "tier": "free",
+      "roles": ["worker"],
+      "default_params": {
+        "temperature": 0.7,
+        "top_p": 0.95,
+        "max_tokens": 4096
+      },
+      "extra_body": {}
+    },
+    {
+      "id": "phi3-mini-local",
+      "provider": "nvidia-openai-compatible",
+      "model": "phi3:mini-4k-instruct-q4",
+      "base_url": "http://getupsoft-lan:11434/v1",
+      "api_key_env": "LOCAL_LLM_API_KEY",
+      "tier": "free",
+      "roles": ["worker"],
+      "default_params": {
+        "temperature": 0.7,
+        "top_p": 0.95,
+        "max_tokens": 4096
+      },
+      "extra_body": {}
+    },
+    {
+      "id": "gemma2-2b-local",
+      "provider": "nvidia-openai-compatible",
+      "model": "gemma2:2b-instruct-q4_K_M",
+      "base_url": "http://getupsoft-lan:11434/v1",
+      "api_key_env": "LOCAL_LLM_API_KEY",
+      "tier": "free",
+      "roles": ["worker"],
+      "default_params": {
+        "temperature": 0.7,
+        "top_p": 0.95,
+        "max_tokens": 4096
+      },
+      "extra_body": {}
+    },
+    {
+      "id": "qwen2.5-3b-local",
+      "provider": "nvidia-openai-compatible",
+      "model": "qwen2.5:3b-instruct-q4_K_M",
+      "base_url": "http://getupsoft-lan:11434/v1",
+      "api_key_env": "LOCAL_LLM_API_KEY",
+      "tier": "free",
+      "roles": ["worker"],
+      "default_params": {
+        "temperature": 0.7,
+        "top_p": 0.95,
+        "max_tokens": 4096
+      },
+      "extra_body": {}
+    }
+  ]
+}

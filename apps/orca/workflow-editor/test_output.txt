@@ -1,0 +1,8 @@
+
+============================================================
+ORCA WORKFLOW EDITOR - COMPREHENSIVE TEST SUITE
+============================================================
+[OK] WebDriver initialized
+
+[TEST 1] Loading ORCA Interface...
+[OK] WebDriver closed

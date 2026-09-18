@@ -1,0 +1,10 @@
+name: "bugfix_skill"
+intents:
+  - "bugfix"
+summary: "Skill enfocada en diagnóstico, causa raíz, corrección y regresión."
+prompt_template: |
+  Diagnose the bug, confirm the likely root cause, implement the smallest safe fix, and add regression coverage.
+definition_of_ready_overrides:
+  - "Error reproducible o descrito con claridad"
+definition_of_done_overrides:
+  - "Prueba de regresión agregada"

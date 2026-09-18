@@ -1,0 +1,23 @@
+{
+  "timestamp": "2026-05-18T13:47:59.102189+00:00",
+  "checks": [
+    {
+      "url": "https://code.getupsoft.com",
+      "title": "code.getupsoft.com",
+      "current_url": "https://code.getupsoft.com/",
+      "body_excerpt": "This code.getupsoft.com page can\u2019t be found\nNo webpage was found for the web address: https://code.getupsoft.com/\nHTTP ERROR 404\nReload",
+      "login_detected": false,
+      "screenshot": "C:\\Users\\yoeli\\Documents\\GetUpSoft_Workspace\\task-ledger\\evidence\\code-server-public-2026-05-18\\code-getupsoft-com-post-reboot.png",
+      "html": "C:\\Users\\yoeli\\Documents\\GetUpSoft_Workspace\\task-ledger\\evidence\\code-server-public-2026-05-18\\code-getupsoft-com-post-reboot.html"
+    },
+    {
+      "url": "https://code.getupsoft.com.do",
+      "title": "code.getupsoft.com.do",
+      "current_url": "https://code.getupsoft.com.do/",
+      "body_excerpt": "This code.getupsoft.com.do page can\u2019t be found\nNo webpage was found for the web address: https://code.getupsoft.com.do/\nHTTP ERROR 404\nReload",
+      "login_detected": false,
+      "screenshot": "C:\\Users\\yoeli\\Documents\\GetUpSoft_Workspace\\task-ledger\\evidence\\code-server-public-2026-05-18\\code-getupsoft-com-do-post-reboot.png",
+      "html": "C:\\Users\\yoeli\\Documents\\GetUpSoft_Workspace\\task-ledger\\evidence\\code-server-public-2026-05-18\\code-getupsoft-com-do-post-reboot.html"
+    }
+  ]
+}

@@ -1,0 +1,39 @@
+{
+  "test_date": "2026-05-26T21:53:57.537260",
+  "mode": "mock",
+  "scenarios_total": 4,
+  "scenarios_passed": 4,
+  "scenarios_failed": 0,
+  "orca_logs_captured": 0,
+  "easycount_syncs": 0,
+  "details": [
+    {
+      "scenario_id": "dgii-submit-success",
+      "status": "PASS",
+      "timing_ms": 0.015099998563528061,
+      "expected_status": 201,
+      "actual_status": 201
+    },
+    {
+      "scenario_id": "dgii-submit-duplicate",
+      "status": "PASS",
+      "timing_ms": 0.007099995855242014,
+      "expected_status": 409,
+      "actual_status": 409
+    },
+    {
+      "scenario_id": "dgii-submit-invalid-format",
+      "status": "PASS",
+      "timing_ms": 0.005199981387704611,
+      "expected_status": 400,
+      "actual_status": 400
+    },
+    {
+      "scenario_id": "dgii-submit-server-error",
+      "status": "PASS",
+      "timing_ms": 0.004399975296109915,
+      "expected_status": 503,
+      "actual_status": 503
+    }
+  ]
+}

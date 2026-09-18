@@ -1,0 +1,158 @@
+{
+  "timestamp": "20260325_202323",
+  "cases": [
+    {
+      "name": "restaurante_local_agent",
+      "url": "http://127.0.0.1:18069/pos/web?config_id=1",
+      "steps": [
+        {
+          "step": "open",
+          "url": "http://127.0.0.1:18069/pos/web?config_id=1"
+        },
+        {
+          "step": "table",
+          "ok": true,
+          "selector": "(//*[contains(@class,'table')])[1]"
+        },
+        {
+          "step": "table_popup",
+          "ok": true
+        },
+        {
+          "step": "product",
+          "ok": true,
+          "selector": ".product"
+        },
+        {
+          "step": "pay",
+          "ok": true,
+          "selector": ".pay-order-button"
+        },
+        {
+          "step": "payment_method",
+          "ok": true,
+          "selector": ".paymentmethods .paymentmethod"
+        },
+        {
+          "step": "validate",
+          "ok": true,
+          "selector": ".button.next"
+        },
+        {
+          "step": "print",
+          "ok": false,
+          "error": "Message: \nStacktrace:\n\tmsedgedriver!GetHandleVerifier [0x7ff7e7031105+da15]\n\tmsedgedriver!GetHandleVerifier [0x7ff7e7031164+da74]\n\tmsedgedriver!GetHandleVerifier [0x7ff7e739f87c+37c18c]\n\tmsedgedriver!(No symbol) [0x7ff7e6da4d26]\n\tmsedgedriver!(No symbol) [0x7ff7e6da4fc5]\n\tmsedgedriver!(No symbol) [0x7ff7e6de2a87]\n\tmsedgedriver!(No symbol) [0x7ff7e6d9b9b7]\n\tmsedgedriver!(No symbol) [0x7ff7e6de07e2]\n\tmsedgedriver!(No symbol) [0x7ff7e6d9b1fc]\n\tmsedgedriver!(No symbol) [0x7ff7e6d9a456]\n\tmsedgedriver!(No symbol) [0x7ff7e6d9b023]\n\tmsedgedriver!(No symbol) [0x7ff7e6e68b69]\n\tmsedgedriver!(No symbol) [0x7ff7e6e65103]\n\tmsedgedriver!(No symbol) [0x7ff7e6e74d14]\n\tmsedgedriver!GetHandleVerifier [0x7ff7e704bf88+28898]\n\tmsedgedriver!GetHandleVerifier [0x7ff7e7054746+31056]\n\tmsedgedriver!GetHandleVerifier [0x7ff7e7038844+15154]\n\tmsedgedriver!GetHandleVerifier [0x7ff7e7038989+15299]\n\tmsedgedriver!GetHandleVerifier [0x7ff7e7025b82+2492]\n\tKERNEL32!BaseThreadInitThunk [0x7ff9139be8d7+17]\n\tntdll!RtlUserThreadStart [0x7ff914e4c3fc+2c]\n"
+        }
+      ],
+      "errors": [],
+      "console": [],
+      "events_9060_before": 0,
+      "events_9068_before": 0,
+      "final_url": "http://127.0.0.1:18069/pos/web?config_id=1",
+      "events_9060_after": 1,
+      "events_9068_after": 0,
+      "events_9060_delta": 1,
+      "events_9068_delta": 0
+    },
+    {
+      "name": "chefalitas_hw_proxy",
+      "url": "http://127.0.0.1:18069/pos/web?config_id=2",
+      "steps": [
+        {
+          "step": "open",
+          "url": "http://127.0.0.1:18069/pos/web?config_id=2"
+        },
+        {
+          "step": "table",
+          "ok": true,
+          "selector": "(//*[contains(@class,'table')])[1]"
+        },
+        {
+          "step": "table_popup",
+          "ok": true
+        },
+        {
+          "step": "product",
+          "ok": true,
+          "selector": ".product"
+        },
+        {
+          "step": "pay",
+          "ok": true,
+          "selector": ".pay-order-button"
+        },
+        {
+          "step": "payment_method",
+          "ok": true,
+          "selector": ".paymentmethods .paymentmethod"
+        },
+        {
+          "step": "validate",
+          "ok": true,
+          "selector": ".button.next"
+        },
+        {
+          "step": "print",
+          "ok": false,
+          "error": "Message: \nStacktrace:\n\tmsedgedriver!GetHandleVerifier [0x7ff7e7031105+da15]\n\tmsedgedriver!GetHandleVerifier [0x7ff7e7031164+da74]\n\tmsedgedriver!GetHandleVerifier [0x7ff7e739f87c+37c18c]\n\tmsedgedriver!(No symbol) [0x7ff7e6da4d26]\n\tmsedgedriver!(No symbol) [0x7ff7e6da4fc5]\n\tmsedgedriver!(No symbol) [0x7ff7e6de2a87]\n\tmsedgedriver!(No symbol) [0x7ff7e6d9b9b7]\n\tmsedgedriver!(No symbol) [0x7ff7e6de07e2]\n\tmsedgedriver!(No symbol) [0x7ff7e6d9b1fc]\n\tmsedgedriver!(No symbol) [0x7ff7e6d9a456]\n\tmsedgedriver!(No symbol) [0x7ff7e6d9b023]\n\tmsedgedriver!(No symbol) [0x7ff7e6e68b69]\n\tmsedgedriver!(No symbol) [0x7ff7e6e65103]\n\tmsedgedriver!(No symbol) [0x7ff7e6e74d14]\n\tmsedgedriver!GetHandleVerifier [0x7ff7e704bf88+28898]\n\tmsedgedriver!GetHandleVerifier [0x7ff7e7054746+31056]\n\tmsedgedriver!GetHandleVerifier [0x7ff7e7038844+15154]\n\tmsedgedriver!GetHandleVerifier [0x7ff7e7038989+15299]\n\tmsedgedriver!GetHandleVerifier [0x7ff7e7025b82+2492]\n\tKERNEL32!BaseThreadInitThunk [0x7ff9139be8d7+17]\n\tntdll!RtlUserThreadStart [0x7ff914e4c3fc+2c]\n"
+        }
+      ],
+      "errors": [],
+      "console": [
+        {
+          "level": "SEVERE",
+          "message": "http://192.168.1.150:8069/hw_proxy/customer_facing_display - Failed to load resource: net::ERR_CONNECTION_TIMED_OUT"
+        },
+        {
+          "level": "SEVERE",
+          "message": "http://192.168.1.150:8069/hw_proxy/customer_facing_display - Failed to load resource: net::ERR_CONNECTION_TIMED_OUT"
+        },
+        {
+          "level": "SEVERE",
+          "message": "http://192.168.1.150:8069/hw_proxy/customer_facing_display - Failed to load resource: net::ERR_CONNECTION_TIMED_OUT"
+        },
+        {
+          "level": "SEVERE",
+          "message": "http://192.168.1.150:8069/hw_proxy/customer_facing_display - Failed to load resource: net::ERR_CONNECTION_TIMED_OUT"
+        },
+        {
+          "level": "SEVERE",
+          "message": "http://192.168.1.150:8069/hw_proxy/customer_facing_display - Failed to load resource: net::ERR_CONNECTION_TIMED_OUT"
+        },
+        {
+          "level": "SEVERE",
+          "message": "http://192.168.1.150:8069/hw_proxy/customer_facing_display - Failed to load resource: net::ERR_CONNECTION_TIMED_OUT"
+        },
+        {
+          "level": "SEVERE",
+          "message": "http://192.168.1.150:8069/hw_proxy/customer_facing_display - Failed to load resource: net::ERR_CONNECTION_TIMED_OUT"
+        },
+        {
+          "level": "SEVERE",
+          "message": "http://192.168.1.150:8069/hw_proxy/customer_facing_display - Failed to load resource: net::ERR_CONNECTION_TIMED_OUT"
+        }
+      ],
+      "events_9060_before": 1,
+      "events_9068_before": 0,
+      "final_url": "http://127.0.0.1:18069/pos/web?config_id=2",
+      "events_9060_after": 1,
+      "events_9068_after": 0,
+      "events_9060_delta": 0,
+      "events_9068_delta": 0
+    }
+  ],
+  "events_9060": [
+    {
+      "path": "/print",
+      "printer": "PDF",
+      "type": "image",
+      "len": 220868
+    }
+  ],
+  "events_9068": [],
+  "auth": {
+    "status": 200,
+    "uid": 2,
+    "has_cookie": true
+  }
+}

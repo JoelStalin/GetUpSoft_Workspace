@@ -1,0 +1,140 @@
+{
+  "name": "GetUpSoft Portals Regression",
+  "nodes": [
+    {
+      "parameters": {},
+      "id": "manual-trigger",
+      "name": "Manual Trigger",
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        260,
+        260
+      ]
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "hours",
+              "hoursInterval": 6
+            }
+          ]
+        }
+      },
+      "id": "schedule-trigger",
+      "name": "Every 6 Hours",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        260,
+        440
+      ]
+    },
+    {
+      "parameters": {
+        "command": "cd C:\\Users\\yoeli\\Documents\\Galantesjewelry && .\\.venv-scrapling\\Scripts\\python.exe scripts/getupsoft_portals_scrapling_smoke.py"
+      },
+      "id": "scrapling-smoke",
+      "name": "Scrapling Smoke",
+      "type": "n8n-nodes-base.executeCommand",
+      "typeVersion": 1,
+      "position": [
+        560,
+        260
+      ]
+    },
+    {
+      "parameters": {
+        "command": "cd C:\\Users\\yoeli\\Documents\\Galantesjewelry && set SELENIUM_HEADLESS=1 && python tests/e2e/getupsoft_portals_suite.py"
+      },
+      "id": "selenium-suite",
+      "name": "Selenium Suite",
+      "type": "n8n-nodes-base.executeCommand",
+      "typeVersion": 1,
+      "position": [
+        560,
+        440
+      ]
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForAllItems",
+        "jsCode": "const scrapling = $input.all()[0]?.json ?? {};\nconst selenium = $input.all()[1]?.json ?? {};\nlet scraplingParsed = {};\nlet seleniumParsed = {};\ntry { scraplingParsed = JSON.parse(scrapling.stdout || '{}'); } catch {}\ntry { seleniumParsed = JSON.parse(selenium.stdout || '{}'); } catch {}\nconst status = [scraplingParsed.status, seleniumParsed.status].every((v) => v === 'pass') ? 'pass' : 'fail';\nreturn [{ json: { status, generatedAt: new Date().toISOString(), scrapling: scraplingParsed, selenium: seleniumParsed } }];"
+      },
+      "id": "merge-report",
+      "name": "Merge Report",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        900,
+        350
+      ]
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Manual Trigger": {
+      "main": [
+        [
+          {
+            "node": "Scrapling Smoke",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Selenium Suite",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Every 6 Hours": {
+      "main": [
+        [
+          {
+            "node": "Scrapling Smoke",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Selenium Suite",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Scrapling Smoke": {
+      "main": [
+        [
+          {
+            "node": "Merge Report",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Selenium Suite": {
+      "main": [
+        [
+          {
+            "node": "Merge Report",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {},
+  "versionId": "getupsoft-portals-regression-v1",
+  "meta": {
+    "templateCredsSetupCompleted": false
+  },
+  "id": "getupsoft-portals-regression"
+}

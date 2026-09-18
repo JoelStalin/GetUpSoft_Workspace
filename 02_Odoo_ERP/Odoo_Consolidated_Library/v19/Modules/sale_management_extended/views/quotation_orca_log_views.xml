@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <!-- Quotation ORCA Log List View -->
+    <record id="view_orca_quotation_log_tree" model="ir.ui.view">
+        <field name="name">orca.quotation.log.list</field>
+        <field name="model">orca.quotation.log</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="date"/>
+                <field name="user_id"/>
+                <field name="action"/>
+                <field name="quotation_ref"/>
+                <field name="customer_name"/>
+                <field name="quotation_status"/>
+                <field name="quotation_amount"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Quotation ORCA Log Form View -->
+    <record id="view_orca_quotation_log_form" model="ir.ui.view">
+        <field name="name">orca.quotation.log.form</field>
+        <field name="model">orca.quotation.log</field>
+        <field name="arch" type="xml">
+            <form>
+                <group>
+                    <group string="Log Metadata">
+                        <field name="module_name"/>
+                        <field name="model_name"/>
+                        <field name="record_id"/>
+                        <field name="action"/>
+                        <field name="date"/>
+                        <field name="user_id"/>
+                    </group>
+                    <group string="Quotation Details">
+                        <field name="quotation_ref"/>
+                        <field name="customer_name"/>
+                        <field name="quotation_status"/>
+                        <field name="validity_date"/>
+                        <field name="quotation_amount"/>
+                        <field name="line_count"/>
+                    </group>
+                    <group string="Audit Data">
+                        <field name="before_values" widget="ace"/>
+                        <field name="after_values" widget="ace"/>
+                    </group>
+                </group>
+            </form>
+        </field>
+    </record>
+
+    <!-- Menu Items -->
+    <menuitem id="menu_orca_sales_management_logs" name="ORCA Logs" parent="sale_management.menu_sale_management_invoiced"/>
+
+    <menuitem id="menu_orca_quotation_log" name="Quotations"
+              parent="menu_orca_sales_management_logs"
+              action="action_view_orca_quotation_log"/>
+
+    <!-- Actions -->
+    <act_window id="action_view_orca_quotation_log"
+                name="Quotation ORCA Logs"
+                res_model="orca.quotation.log"
+                view_mode="tree,form"/>
+</odoo>

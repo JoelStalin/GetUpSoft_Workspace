@@ -1,0 +1,50 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+namespace: getupsoft
+
+resources:
+  - ../../base
+
+namePrefix: miniverse-dev-
+
+commonLabels:
+  environment: development
+
+replicas:
+  - name: miniverse
+    count: 1
+
+patches:
+  - target:
+      kind: Deployment
+      name: miniverse
+    patch: |-
+      - op: replace
+        path: /spec/template/spec/containers/0/resources/requests/cpu
+        value: 50m
+      - op: replace
+        path: /spec/template/spec/containers/0/resources/requests/memory
+        value: 128Mi
+      - op: replace
+        path: /spec/template/spec/containers/0/resources/limits/cpu
+        value: 200m
+      - op: replace
+        path: /spec/template/spec/containers/0/resources/limits/memory
+        value: 512Mi
+      - op: replace
+        path: /spec/template/spec/containers/0/livenessProbe/initialDelaySeconds
+        value: 10
+  - target:
+      kind: ConfigMap
+      name: miniverse-config
+    patch: |-
+      - op: replace
+        path: /data/NODE_ENV
+        value: development
+      - op: replace
+        path: /data/LOG_LEVEL
+        value: debug
+      - op: replace
+        path: /data/DEBUG
+        value: "true"

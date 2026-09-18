@@ -1,0 +1,20 @@
+__pycache__/
+*.pyc
+*.log
+*.swp
+.DS_Store
+*.egg-info/
+.idea/
+.vscode/
+.env
+nginx/ssl/*
+!nginx/ssl/.gitkeep
+backups/*.tgz
+backups/*.sql.gz
+agent_local
+
+# POS Client Printer Agent Build Artifacts
+addons/pos_client_printer/agent/build/
+addons/pos_client_printer/agent/dist/
+addons/pos_client_printer/agent/__pycache__/
+addons/pos_client_printer/agent/*.spec

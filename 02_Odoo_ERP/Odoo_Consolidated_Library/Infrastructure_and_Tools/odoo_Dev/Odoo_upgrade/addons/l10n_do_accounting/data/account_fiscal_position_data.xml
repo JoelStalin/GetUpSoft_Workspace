@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <!-- ============== -->
+        <!-- Agrega los NCF -->
+        <!-- ============== -->
+
+        <!-- P. Física de Servicios -->
+        <record id="l10n_do.position_person" model="account.fiscal.position" forcecreate="1">
+            <field name="name">Consumidor Final</field>
+            <field name="l10n_do_ncf_ids" eval="[(4, ref('l10n_do_accounting.ncf_fiscal_client'))]"/>
+        </record>
+        
+        <!-- P. Jurídica de Servicios -->
+        <record id="l10n_do.position_service_moral" model="account.fiscal.position" forcecreate="1">
+            <field name="name">Persona Jurídica de Servicios</field>
+            <field name="l10n_do_ncf_ids" eval="[(4, ref('l10n_do_accounting.ncf_fiscal_client'))]"/>
+        </record>
+        
+        <!-- P. Jurídica de Vigilancia -->
+        <record id="l10n_do.position_security_moral" model="account.fiscal.position" forcecreate="1">
+            <field name="name">Persona Jurídica de Vigilancia</field>
+            <field name="l10n_do_ncf_ids" eval="[(4, ref('l10n_do_accounting.ncf_fiscal_client'))]"/>
+        </record>
+        
+        <!-- Proveedor Informal de Bienes -->
+        <record id="l10n_do.position_nonformal" model="account.fiscal.position" forcecreate="1">
+            <field name="name">Proveedor Informal de Bienes</field>
+            <field name="l10n_do_ncf_ids" eval="[(4, ref('l10n_do_accounting.ncf_informal_supplier'))]"/>
+        </record>
+        
+        <!-- Servicios del Exterior -->
+        <record id="l10n_do.position_exterior" model="account.fiscal.position" forcecreate="1">
+            <field name="name">Servicios del Exterior</field>
+            <field name="l10n_do_ncf_ids" eval="[ (4, ref('l10n_do_accounting.ncf_export_client')), (4, ref('l10n_do_accounting.ncf_exterior_supplier')) ]"/>
+        </record>
+        
+        <!-- Gubernamental -->
+        <record id="l10n_do.position_gov" model="account.fiscal.position" forcecreate="1">
+            <field name="name">Gubernamental</field>
+            <field name="l10n_do_ncf_ids" eval="[(4, ref('l10n_do_accounting.ncf_gov_client'))]"/>
+        </record>
+        
+        <!-- No Lucrativa de Servicios -->
+        <record id="l10n_do.position_nonprofit" model="account.fiscal.position" forcecreate="1">
+            <field name="name">No Lucrativa de Servicios</field>
+            <field name="l10n_do_ncf_ids" eval="[]"/>
+        </record>
+        
+        <!-- Regímenes Especiales -->
+        <record id="l10n_do.position_especial" model="account.fiscal.position" forcecreate="1">
+            <field name="name">Regímenes Especiales</field>
+            <field name="l10n_do_ncf_ids" eval="[(4, ref('l10n_do_accounting.ncf_special_client'))]"/>
+        </record>
+        
+        <!-- Restaurantes -->
+        <record id="l10n_do.position_restaurant" model="account.fiscal.position" forcecreate="1">
+            <field name="name">Restaurantes</field>
+            <field name="l10n_do_ncf_ids" eval="[ (4, ref('l10n_do_accounting.ncf_fiscal_client')), (4, ref('l10n_do_accounting.ncf_consumer_supplier')) ]"/>
+        </record>
+        
+        <!-- Para Llevar -->
+        <record id="l10n_do.position_restaurant_takeout" model="account.fiscal.position" forcecreate="1">
+            <field name="name">Para Llevar</field>
+            <field name="l10n_do_ncf_ids" eval="[ (4, ref('l10n_do_accounting.ncf_fiscal_client')), (4, ref('l10n_do_accounting.ncf_consumer_supplier')) ]"/>
+        </record>
+
+        <!-- Posiciones propias -->
+        <!-- Aplica para los contactos de RD que no tengan cédula o que no estén registrados en la DGII -->
+        <record id="final_consumer" model="account.fiscal.position" forcecreate="1">
+            <!-- Se elimina la referencia al chart_template_id, ya que la plantilla contable se carga de forma programática en Odoo 18 -->
+            <field name="name">Consumidor Final</field>
+            <field name="l10n_do_ncf_ids" eval="[(4, ref('l10n_do_accounting.ncf_consumer_supplier'))]"/>
+        </record>
+    </data>
+</odoo>

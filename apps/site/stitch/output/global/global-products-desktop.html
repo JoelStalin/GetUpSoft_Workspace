@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Products | GetUpSoft Global</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600&amp;family=Space+Grotesk:wght@300;500;600&amp;family=IBM+Plex+Mono:wght@500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        @keyframes pulse-soft {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.5; transform: scale(1.2); }
+        }
+        .animate-pulse-soft {
+            animation: pulse-soft 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+        .grid-background {
+            background-image: 
+                linear-gradient(to right, rgba(255,255,255,0.03) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(255,255,255,0.03) 1px, transparent 1px);
+            background-size: 40px 40px;
+        }
+        .glass-card {
+            background: rgba(15, 17, 21, 0.7);
+            backdrop-filter: blur(24px);
+            border: 1px solid rgba(255, 255, 255, 0.07);
+            transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+        }
+        .glass-card:hover {
+            border-color: rgba(255, 255, 255, 0.15);
+            background: rgba(22, 25, 32, 0.8);
+            transform: translateY(-4px);
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "tertiary-fixed-dim": "#ddb8ff",
+                        "on-secondary-fixed-variant": "#005046",
+                        "primary": "#c9d1ff",
+                        "on-error-container": "#ffdad6",
+                        "inverse-on-surface": "#303035",
+                        "surface-bright": "#1C2028",
+                        "on-surface-variant": "#c6c5d2",
+                        "error": "#ffb4ab",
+                        "surface-variant": "#343439",
+                        "on-surface": "#e4e1e8",
+                        "outline": "rgba(255, 255, 255, 0.07)",
+                        "outline-variant": "rgba(255, 255, 255, 0.12)",
+                        "on-primary-fixed-variant": "#334282",
+                        "surface-tint": "#b8c4ff",
+                        "on-tertiary-container": "#63279c",
+                        "on-primary-fixed": "#001354",
+                        "surface-container": "#161920",
+                        "on-background": "#e4e1e8",
+                        "tertiary-container": "#d2a4ff",
+                        "inverse-surface": "#e4e1e8",
+                        "on-secondary-container": "#a0fdeb",
+                        "quaternary": "#67E8F9",
+                        "surface-container-lowest": "#0d0e12",
+                        "surface-container-highest": "#343439",
+                        "senary": "#6EE7B7",
+                        "surface-container-low": "#1b1b20",
+                        "inverse-primary": "#4b5a9c",
+                        "quinary": "#F0ABFC",
+                        "primary-fixed-dim": "#b8c4ff",
+                        "background": "#131317",
+                        "surface-container-high": "#292a2e",
+                        "secondary-container": "#00786a",
+                        "on-secondary-fixed": "#00201b",
+                        "primary-fixed": "#dde1ff",
+                        "on-primary-container": "#354484",
+                        "tertiary-fixed": "#f0dbff",
+                        "text-muted": "#64748B",
+                        "on-tertiary": "#490081",
+                        "on-primary": "#1a2b6a",
+                        "surface": "#0F1115",
+                        "on-tertiary-fixed": "#2c0051",
+                        "on-error": "#690005",
+                        "surface-dim": "#131317",
+                        "error-container": "#93000a",
+                        "on-secondary": "#003730",
+                        "on-tertiary-fixed-variant": "#62259b",
+                        "secondary-fixed-dim": "#7ad7c6",
+                        "primary-container": "#a5b4fc",
+                        "secondary": "#7ad7c6",
+                        "tertiary": "#C084FC",
+                        "secondary-fixed": "#96f3e1"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "1rem",
+                        "lg": "2rem",
+                        "xl": "3rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "gutter": "1.5rem",
+                        "section-padding-v": "6rem",
+                        "container-margin": "2rem",
+                        "section-max-width": "80rem"
+                    },
+                    "fontFamily": {
+                        "display-lg": ["Space Grotesk"],
+                        "tag-mono": ["IBM Plex Mono"],
+                        "body-md": ["Plus Jakarta Sans"],
+                        "label-caps": ["IBM Plex Mono"],
+                        "headline-md": ["Space Grotesk"],
+                        "body-lg": ["Plus Jakarta Sans"]
+                    },
+                    "fontSize": {
+                        "tag-mono": ["10px", {"lineHeight": "12px", "letterSpacing": "0.15em", "fontWeight": "600"}],
+                        "body-md": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                        "label-caps": ["12px", {"lineHeight": "16px", "letterSpacing": "0.2em", "fontWeight": "600"}],
+                        "headline-md": ["32px", {"lineHeight": "40px", "fontWeight": "500"}],
+                        "display-lg": ["64px", {"lineHeight": "72px", "letterSpacing": "-0.02em", "fontWeight": "600"}],
+                        "body-lg": ["18px", {"lineHeight": "28px", "fontWeight": "400"}]
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-background text-on-surface selection:bg-primary selection:text-on-primary">
+<!-- Top Navigation Shell -->
+<nav class="fixed top-0 w-full z-50 bg-surface/70 backdrop-blur-xl border-b border-outline">
+<div class="max-w-section-max-width mx-auto flex items-center justify-between px-gutter py-6">
+<span class="text-body-lg font-display-lg tracking-tight text-on-surface">GetUpSoft Global</span>
+<div class="hidden md:flex items-center space-x-8 font-body-md text-body-md">
+<a class="text-on-surface-variant hover:text-on-surface transition-colors duration-300" href="#">AI Agents</a>
+<a class="text-on-surface-variant hover:text-on-surface transition-colors duration-300" href="#">Integration</a>
+<a class="text-primary border-b-2 border-primary pb-1" href="#">Products</a>
+<a class="text-on-surface-variant hover:text-on-surface transition-colors duration-300" href="#">Solutions</a>
+<a class="text-on-surface-variant hover:text-on-surface transition-colors duration-300" href="#">About</a>
+</div>
+<button class="rounded-full bg-primary text-on-primary px-6 py-2 font-label-caps text-label-caps uppercase active:scale-95 transition-transform">
+                Book Strategy
+            </button>
+</div>
+</nav>
+<!-- Main Canvas -->
+<main class="relative min-h-screen pt-24 overflow-hidden">
+<!-- Background Grid Overlay -->
+<div class="absolute inset-0 grid-background pointer-events-none -z-10"></div>
+<div class="absolute inset-0 bg-gradient-to-b from-background via-transparent to-background pointer-events-none -z-10"></div>
+<!-- Header Section -->
+<header class="max-w-section-max-width mx-auto px-gutter pt-20 text-center">
+<span class="font-label-caps text-label-caps text-primary tracking-[0.3em] uppercase block mb-6">ECOSYSTEM</span>
+<h1 class="font-display-lg text-display-lg md:text-7xl mb-6">
+                Our Proprietary <span class="italic font-light">Ecosystem</span>.
+            </h1>
+<p class="font-body-lg text-body-lg text-text-muted max-w-2xl mx-auto">
+                Architectural Intelligence for the Modern Enterprise. A modular stack designed for seamless orchestration and operational precision.
+            </p>
+</header>
+<!-- Product Grid -->
+<section class="max-w-section-max-width mx-auto px-gutter py-section-padding-v">
+<div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+<!-- 1. Orca (Featured) -->
+<div class="md:col-span-2 glass-card rounded-lg p-10 relative group">
+<div class="absolute top-8 right-8 flex items-center space-x-3">
+<span class="font-tag-mono text-tag-mono bg-primary/10 text-primary px-3 py-1 rounded-full border border-primary/20">STABLE</span>
+<div class="w-2 h-2 rounded-full bg-[#A5B4FC] animate-pulse-soft shadow-[0_0_8px_#A5B4FC]"></div>
+</div>
+<div class="flex flex-col md:flex-row md:items-center justify-between gap-10">
+<div class="flex-1">
+<span class="font-tag-mono text-tag-mono text-primary uppercase block mb-4">AI Orchestration</span>
+<h2 class="font-display-lg text-5xl font-light mb-6">Orca</h2>
+<p class="font-body-md text-body-md text-text-muted max-w-xl mb-8">
+                                Operational Real-time Cognitive Orchestrator. Connects agents, workflows and business systems into one intelligent core. Designed for high-frequency enterprise decision making.
+                            </p>
+<a class="inline-flex items-center text-primary font-label-caps text-label-caps tracking-widest hover:translate-x-2 transition-transform duration-300" href="#">
+                                EXPLORE <span class="material-symbols-outlined ml-2 text-sm" data-icon="arrow_forward">arrow_forward</span>
+</a>
+</div>
+<div class="w-full md:w-1/3 aspect-video bg-surface-container rounded-lg overflow-hidden border border-outline relative">
+<div class="absolute inset-0 bg-gradient-to-tr from-primary/10 to-transparent"></div>
+<img class="w-full h-full object-cover opacity-60" data-alt="A sophisticated 3D abstract visualization of a central neural core with dozens of connecting translucent glass lines, representing high-frequency enterprise AI orchestration. The lighting is deep indigo and soft lavender, reflecting a premium dark mode aesthetic with architectural stability. High-tech, minimal, and professional." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCZ3i1NQ0BjQBDh1gpaLLo-ucUirIXmsYCO6ll9zMiqJrXBxRCsbKT4VhvYIGghnoH7HHznqkT6zbgazv_WgBLs5RBuiY3h84OnFdVZU6iCndrrjJ_bsPJpdEn-I97mikZHnOkybk7xuQCAn_UAWiR0ZthKecL-yUir3DJ0hYHfZtUu68rUeXu8qHaITELOX9rDhACtPfZFyMcBxklTDDVNcYV1fZKYrUEo9qmSVVGHB5lLRLg2sdmzFBNZGdH4EHqqZuO2cru7JLM"/>
+</div>
+</div>
+</div>
+<!-- 2. AIHub -->
+<div class="glass-card rounded-lg p-8 relative flex flex-col justify-between">
+<div>
+<div class="flex justify-between items-start mb-10">
+<span class="font-tag-mono text-tag-mono text-tertiary uppercase">Intelligence Library</span>
+<div class="flex items-center space-x-3">
+<span class="font-tag-mono text-tag-mono bg-tertiary/10 text-tertiary px-3 py-1 rounded-full border border-tertiary/20">BETA</span>
+<div class="w-2 h-2 rounded-full bg-[#C084FC] animate-pulse-soft shadow-[0_0_8px_#C084FC]"></div>
+</div>
+</div>
+<h2 class="font-display-lg text-3xl font-light mb-4">AIHub</h2>
+<p class="font-body-md text-body-md text-text-muted mb-8">
+                            Centralized repository of AI blocks, automation patterns, models and workflows for rapid deployment.
+                        </p>
+</div>
+<a class="inline-flex items-center text-primary font-label-caps text-label-caps tracking-widest hover:translate-x-2 transition-transform duration-300" href="#">
+                        EXPLORE <span class="material-symbols-outlined ml-2 text-sm" data-icon="arrow_forward">arrow_forward</span>
+</a>
+</div>
+<!-- 3. GetUpBuilder -->
+<div class="glass-card rounded-lg p-8 relative flex flex-col justify-between">
+<div>
+<div class="flex justify-between items-start mb-10">
+<span class="font-tag-mono text-tag-mono text-quaternary uppercase">Delivery Accelerator</span>
+<div class="flex items-center space-x-3">
+<span class="font-tag-mono text-tag-mono bg-quaternary/10 text-quaternary px-3 py-1 rounded-full border border-quaternary/20">ENTERPRISE</span>
+<div class="w-2 h-2 rounded-full bg-[#67E8F9] animate-pulse-soft shadow-[0_0_8px_#67E8F9]"></div>
+</div>
+</div>
+<h2 class="font-display-lg text-3xl font-light mb-4">GetUpBuilder</h2>
+<p class="font-body-md text-body-md text-text-muted mb-8">
+                            Project generator and accelerator for structured, production-ready software delivery and architecture scaffolding.
+                        </p>
+</div>
+<a class="inline-flex items-center text-primary font-label-caps text-label-caps tracking-widest hover:translate-x-2 transition-transform duration-300" href="#">
+                        EXPLORE <span class="material-symbols-outlined ml-2 text-sm" data-icon="arrow_forward">arrow_forward</span>
+</a>
+</div>
+<!-- 4. Galantes Jewelry -->
+<div class="glass-card rounded-lg p-8 relative flex flex-col justify-between">
+<div>
+<div class="flex justify-between items-start mb-10">
+<span class="font-tag-mono text-tag-mono text-quinary uppercase">Commerce Case</span>
+<div class="flex items-center space-x-3">
+<span class="font-tag-mono text-tag-mono bg-quinary/10 text-quinary px-3 py-1 rounded-full border border-quinary/20">LIVE</span>
+<div class="w-2 h-2 rounded-full bg-[#F0ABFC] animate-pulse-soft shadow-[0_0_8px_#F0ABFC]"></div>
+</div>
+</div>
+<h2 class="font-display-lg text-3xl font-light mb-4">Galantes Jewelry</h2>
+<p class="font-body-md text-body-md text-text-muted mb-8">
+                            Business case: inventory intelligence, sales analytics and digital commerce operations for premium luxury retail.
+                        </p>
+</div>
+<a class="inline-flex items-center text-primary font-label-caps text-label-caps tracking-widest hover:translate-x-2 transition-transform duration-300" href="#">
+                        EXPLORE <span class="material-symbols-outlined ml-2 text-sm" data-icon="arrow_forward">arrow_forward</span>
+</a>
+</div>
+<!-- 5. chefalitas -->
+<div class="glass-card rounded-lg p-8 relative flex flex-col justify-between">
+<div>
+<div class="flex justify-between items-start mb-10">
+<span class="font-tag-mono text-tag-mono text-senary uppercase">Food-Tech Case</span>
+<div class="flex items-center space-x-3">
+<span class="font-tag-mono text-tag-mono bg-senary/10 text-senary px-3 py-1 rounded-full border border-senary/20">LIVE</span>
+<div class="w-2 h-2 rounded-full bg-[#6EE7B7] animate-pulse-soft shadow-[0_0_8px_#6EE7B7]"></div>
+</div>
+</div>
+<h2 class="font-display-lg text-3xl font-light mb-4">chefalitas</h2>
+<p class="font-body-md text-body-md text-text-muted mb-8">
+                            Restaurant operations: orders, kitchen workflow, delivery routing, inventory management and real-time analytics.
+                        </p>
+</div>
+<a class="inline-flex items-center text-primary font-label-caps text-label-caps tracking-widest hover:translate-x-2 transition-transform duration-300" href="#">
+                        EXPLORE <span class="material-symbols-outlined ml-2 text-sm" data-icon="arrow_forward">arrow_forward</span>
+</a>
+</div>
+</div>
+</section>
+</main>
+<!-- Footer Shell -->
+<footer class="w-full bg-surface-container-lowest border-t border-outline">
+<div class="max-w-section-max-width mx-auto flex flex-col md:flex-row justify-between items-center py-section-padding-v px-gutter">
+<div class="mb-8 md:mb-0">
+<span class="text-headline-md font-display-lg text-on-surface block mb-2">GetUpSoft Global</span>
+<p class="font-body-md text-body-md text-text-muted">© 2024 GetUpSoft Global. Architectural AI Intelligence.</p>
+</div>
+<div class="flex space-x-8">
+<a class="text-text-muted hover:text-on-surface transition-colors duration-300 font-body-md text-body-md" href="#">Platform</a>
+<a class="text-text-muted hover:text-on-surface transition-colors duration-300 font-body-md text-body-md" href="#">Documentation</a>
+<a class="text-text-muted hover:text-on-surface transition-colors duration-300 font-body-md text-body-md" href="#">Legal</a>
+<a class="text-primary font-bold transition-colors duration-300 font-body-md text-body-md" href="#">LinkedIn</a>
+</div>
+</div>
+</footer>
+<script>
+        // Micro-interaction for hover glow tracking
+        document.querySelectorAll('.glass-card').forEach(card => {
+            card.addEventListener('mousemove', e => {
+                const rect = card.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                card.style.setProperty('--mouse-x', `${x}px`);
+                card.style.setProperty('--mouse-y', `${y}px`);
+            });
+        });
+    </script>
+</body></html>

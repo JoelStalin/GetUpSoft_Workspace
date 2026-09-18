@@ -1,0 +1,36 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: getupsoft-site-ingress
+  namespace: getupsoft
+  labels:
+    app.kubernetes.io/name: getupsoft-site
+    app.kubernetes.io/part-of: getupsoft-workspace
+  annotations:
+    # nginx-ingress annotations (uncomment if using nginx)
+    # nginx.ingress.kubernetes.io/rewrite-target: /
+    # nginx.ingress.kubernetes.io/ssl-redirect: "true"
+
+    # Traefik annotations (uncomment if using traefik)
+    # traefik.ingress.kubernetes.io/router.entrypoints: websecure
+    # traefik.ingress.kubernetes.io/router.tls: "true"
+
+spec:
+  # TLS configuration (optional)
+  # tls:
+  # - hosts:
+  #   - getupsoft.example.com
+  #   secretName: getupsoft-tls
+
+  rules:
+  # Configure your domain here
+  - host: getupsoft.example.com
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: getupsoft-site
+            port:
+              number: 5173

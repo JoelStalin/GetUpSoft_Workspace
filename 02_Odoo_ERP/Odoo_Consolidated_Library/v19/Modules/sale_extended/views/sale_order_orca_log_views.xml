@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <!-- Sale Order ORCA Log List View -->
+    <record id="view_orca_sale_order_log_tree" model="ir.ui.view">
+        <field name="name">orca.sale.order.log.list</field>
+        <field name="model">orca.sale.order.log</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="date"/>
+                <field name="user_id"/>
+                <field name="action"/>
+                <field name="customer_name"/>
+                <field name="order_state"/>
+                <field name="order_total"/>
+                <field name="product_count"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Sale Order ORCA Log Form View -->
+    <record id="view_orca_sale_order_log_form" model="ir.ui.view">
+        <field name="name">orca.sale.order.log.form</field>
+        <field name="model">orca.sale.order.log</field>
+        <field name="arch" type="xml">
+            <form>
+                <group>
+                    <group string="Log Metadata">
+                        <field name="module_name"/>
+                        <field name="model_name"/>
+                        <field name="record_id"/>
+                        <field name="action"/>
+                        <field name="date"/>
+                        <field name="user_id"/>
+                    </group>
+                    <group string="Order Details">
+                        <field name="customer_name"/>
+                        <field name="order_state"/>
+                        <field name="order_date"/>
+                        <field name="delivery_date"/>
+                        <field name="order_total"/>
+                        <field name="product_count"/>
+                    </group>
+                    <group string="Audit Data">
+                        <field name="before_values" widget="ace"/>
+                        <field name="after_values" widget="ace"/>
+                    </group>
+                </group>
+            </form>
+        </field>
+    </record>
+
+    <!-- Menu Items -->
+    <menuitem id="menu_orca_sales_logs" name="ORCA Logs" parent="sale.menu_sale_config"/>
+
+    <menuitem id="menu_orca_sale_order_log" name="Sale Orders"
+              parent="menu_orca_sales_logs"
+              action="action_view_orca_sale_order_log"/>
+
+    <!-- Actions -->
+    <act_window id="action_view_orca_sale_order_log"
+                name="Sale Order ORCA Logs"
+                res_model="orca.sale.order.log"
+                view_mode="tree,form"/>
+</odoo>

@@ -1,0 +1,10 @@
+var R=require("../../../../../chunks/[turbopack]_runtime.js")("server/app/api/account/orders/[id]/route.js")
+R.c("server/chunks/[root-of-the-server]__10dawn7._.js")
+R.c("server/chunks/Galantesjewelry_lib_integrations_ts_0c1psl-._.js")
+R.c("server/chunks/Galantesjewelry_lib_auth_ts_13vul-v._.js")
+R.c("server/chunks/[root-of-the-server]__09x6ubc._.js")
+R.c("server/chunks/0ucn_next_0u_bfd.._.js")
+R.c("server/chunks/[root-of-the-server]__0ijfr3u._.js")
+R.c("server/chunks/066-__next-internal_server_app_api_account_orders_[id]_route_actions_0fkl~of.js")
+R.m(4231)
+module.exports=R.m(4231).exports

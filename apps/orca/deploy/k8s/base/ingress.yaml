@@ -1,0 +1,40 @@
+# Ingress configuration for ORCA
+# This is OPTIONAL and can be commented out or customized for your cluster
+# Requires an Ingress Controller to be installed (e.g., nginx-ingress, traefik)
+
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: orca-ingress
+  namespace: getupsoft
+  labels:
+    app.kubernetes.io/name: orca
+    app.kubernetes.io/part-of: getupsoft-workspace
+  annotations:
+    # nginx-ingress specific (uncomment if using nginx)
+    # nginx.ingress.kubernetes.io/rewrite-target: /
+    # nginx.ingress.kubernetes.io/proxy-read-timeout: "300"
+
+    # Traefik specific (uncomment if using traefik)
+    # traefik.ingress.kubernetes.io/router.entrypoints: websecure
+    # traefik.ingress.kubernetes.io/router.tls: "true"
+
+spec:
+  # TLS configuration (optional)
+  # tls:
+  # - hosts:
+  #   - orca.example.com
+  #   secretName: orca-tls
+
+  rules:
+  # Configure your domain here
+  - host: orca.example.com
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: orca
+            port:
+              number: 8787

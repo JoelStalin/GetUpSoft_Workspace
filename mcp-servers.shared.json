@@ -1,0 +1,15 @@
+{
+  "mcpServers": {
+    "stitch": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "stitch-mcp-auto"
+      ],
+      "env": {
+        "STITCH_API_KEY": "YOUR_STITCH_API_KEY",
+        "GOOGLE_CLOUD_PROJECT": "YOUR_GOOGLE_CLOUD_PROJECT"
+      }
+    }
+  }
+}

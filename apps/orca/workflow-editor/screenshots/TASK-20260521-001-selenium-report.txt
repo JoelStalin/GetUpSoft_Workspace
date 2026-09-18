@@ -1,0 +1,29 @@
+ORCA Workflow Editor - Selenium Test Report
+============================================================
+Task ID: TASK-20260521-001
+Timestamp: 2026-05-21 15:23:01 UTC
+Frontend: http://localhost:5173
+Backend: http://localhost:8015/api/n8n/workflows
+
+Test Results:
+------------------------------------------------------------
+✓ frontend_loads: PASSED
+✗ canvas_visible: FAILED
+✓ sidebar_renders: PASSED (8 nodes)
+✓ nodes_loaded: PASSED (4/8 found)
+✓ api_responds: PASSED (HTTP 200)
+✓ sidebar_toggle: PASSED
+✓ drag_drop: PASSED
+
+------------------------------------------------------------
+Screenshots (6 captured):
+  - TASK-20260521-001-01-frontend-loaded-20260521-152307.png
+  - TASK-20260521-001-03-sidebar-with-components-20260521-152307.png
+  - TASK-20260521-001-04-nodes-loaded-20260521-152308.png
+  - TASK-20260521-001-05-sidebar-closed-20260521-152311.png
+  - TASK-20260521-001-06-sidebar-opened-20260521-152312.png
+  - TASK-20260521-001-07-after-drag-drop-20260521-152314.png
+
+------------------------------------------------------------
+Errors:
+  - Canvas visibility check: Canvas not displayed

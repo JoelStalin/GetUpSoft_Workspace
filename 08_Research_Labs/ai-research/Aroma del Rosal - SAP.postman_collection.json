@@ -1,0 +1,91 @@
+{
+  "info": {
+    "_postman_id": "8896230a-1042-48bc-b428-f6666cfa4435",
+    "name": "Aroma del Rosal - SAP",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "15407277",
+    "_collection_link": "https://go.postman.co/collection/15407277-8896230a-1042-48bc-b428-f6666cfa4435?source=collection_link"
+  },
+  "item": [
+    {
+      "name": "https://162.248.53.166:50000/b1s/v2/Login",
+      "request": {
+        "auth": {
+          "type": "noauth"
+        },
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"CompanyDB\": \"SBO_AROMADELROSAL\",\n    \"UserName\": \"ar.flai\",\n    \"Password\": \"Ceo12345*\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "https://162.248.53.166:50000/b1s/v2/Login",
+          "protocol": "https",
+          "host": [
+            "162",
+            "248",
+            "53",
+            "166"
+          ],
+          "port": "50000",
+          "path": [
+            "b1s",
+            "v2",
+            "Login"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "https://162.248.53.166:50000/b1s/v2/Invoices?$select=U_Orden_Real,DocEntry,DocNum,UpdateDate,DocDate&$filter=U_Orden_Rea",
+      "request": {
+        "auth": {
+          "type": "noauth"
+        },
+        "method": "GET",
+        "header": [
+          {
+            "key": "Cookie",
+            "value": "B1SESSION=d707a57f-0fee-4b25-9f26-516fc94bbb49-10592",
+            "type": "text",
+            "disabled": true
+          }
+        ],
+        "url": {
+          "raw": "https://162.248.53.166:50000/b1s/v2/Invoices?$select=U_Orden_Real,DocEntry,DocNum,UpdateDate,DocDate,DocumentLines&$filter=U_Orden_Real ne null and CancelStatus eq 'csNo' and DocDate eq '2026-02-02'",
+          "protocol": "https",
+          "host": [
+            "162",
+            "248",
+            "53",
+            "166"
+          ],
+          "port": "50000",
+          "path": [
+            "b1s",
+            "v2",
+            "Invoices"
+          ],
+          "query": [
+            {
+              "key": "$select",
+              "value": "U_Orden_Real,DocEntry,DocNum,UpdateDate,DocDate,DocumentLines"
+            },
+            {
+              "key": "$filter",
+              "value": "U_Orden_Real ne null and CancelStatus eq 'csNo' and DocDate eq '2026-02-02'"
+            }
+          ]
+        }
+      },
+      "response": []
+    }
+  ]
+}

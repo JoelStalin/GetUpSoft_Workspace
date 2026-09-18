@@ -1,0 +1,3 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+orca_log_user_read,ORCA Log - Read Only (Users),orca.log,base.group_user,1,0,0,0
+orca_log_admin_full,ORCA Log - Full Access (Admin),orca.log,base.group_erp_manager,1,1,1,1

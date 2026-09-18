@@ -1,0 +1,64 @@
+{
+  "platform": "Instagram",
+  "url": "https://www.instagram.com/zalesjewelers/",
+  "extraction": {
+    "visible_name": "zalesjewelers",
+    "username": "zalesjewelers",
+    "url": "https://www.instagram.com/zalesjewelers/",
+    "timestamp": "2026-04-09T21:23:01.748376",
+    "confidence": 1.0,
+    "selector_used": "Multi-selector approach"
+  },
+  "steps": [
+    {
+      "name": "Browser Start",
+      "status": "PASS",
+      "message": "Chrome connected",
+      "screenshot_path": null,
+      "timestamp": "2026-04-09T21:22:59.571091"
+    },
+    {
+      "name": "Navigation",
+      "status": "PASS",
+      "message": "Arrived at https://www.instagram.com/zalesjewelers/",
+      "screenshot_path": null,
+      "timestamp": "2026-04-09T21:23:01.595953"
+    },
+    {
+      "name": "Extraction",
+      "status": "PASS",
+      "message": "Visible name: zalesjewelers",
+      "screenshot_path": null,
+      "timestamp": "2026-04-09T21:23:01.748376"
+    },
+    {
+      "name": "Follow Action",
+      "status": "PASS",
+      "message": "User followed (or already following)",
+      "screenshot_path": null,
+      "timestamp": "2026-04-09T21:23:01.861262"
+    },
+    {
+      "name": "Message Builder",
+      "status": "PASS",
+      "message": "Official professional draft ready",
+      "screenshot_path": null,
+      "timestamp": "2026-04-09T21:23:01.861262"
+    },
+    {
+      "name": "Chat Transition",
+      "status": "PASS",
+      "message": "Opened DM window",
+      "screenshot_path": null,
+      "timestamp": "2026-04-09T21:23:06.980191"
+    },
+    {
+      "name": "Type Message",
+      "status": "FAIL",
+      "message": "Could not inject text into composer",
+      "screenshot_path": null,
+      "timestamp": "2026-04-09T21:23:19.319383"
+    }
+  ],
+  "summary": "Full automated invitation cycle completed."
+}

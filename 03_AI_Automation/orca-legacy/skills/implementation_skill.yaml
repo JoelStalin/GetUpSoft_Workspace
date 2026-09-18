@@ -1,0 +1,11 @@
+name: "implementation_skill"
+intents:
+  - "feature"
+summary: "Skill enfocada en implementar funcionalidad nueva con alcance y pruebas."
+prompt_template: |
+  Implement the requested feature using the normalized prompt and Scrum breakdown.
+  Keep the scope bounded to the listed tasks, preserve architecture constraints, and update tests and documentation.
+definition_of_ready_overrides:
+  - "Scope acotado a una funcionalidad"
+definition_of_done_overrides:
+  - "Cobertura de pruebas para la funcionalidad nueva"

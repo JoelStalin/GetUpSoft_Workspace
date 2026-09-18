@@ -1,0 +1,29 @@
+version: '3.8'
+
+services:
+  # Development web server with HMR
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    ports:
+      - "5176:5176"  # Vite dev server
+    environment:
+      - NODE_ENV=development
+      - VITE_ERP_TYPE=mock
+      - VITE_USE_MOCK=true
+      - VITE_USE_MOCK_EMAIL=true
+      - VITE_DEBUG=true
+    volumes:
+      - .:/app
+      - /app/node_modules
+    command: npm run dev
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:5176"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
+
+volumes:
+  node_modules:

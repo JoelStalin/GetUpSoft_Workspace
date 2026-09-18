@@ -1,0 +1,4 @@
+URL=https://mcp.cloudflare.com/authorize?response_type=code&client_id=IHwL6gqQG1EavRDe&state=V2IxvUbGAFnyfIWYSd4kwg&code_challenge=NALY_r1BIVj5XGL5wwMyO-I52OJ6MUJx0oorxPpBISg&code_challenge_method=S256&redirect_uri=http%3A%2F%2F127.0.0.1%3A42215%2Fcallback
+PORT=42215
+LOGIN_PID=2292
+TUNNEL_PID=28496

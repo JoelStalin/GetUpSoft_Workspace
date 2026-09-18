@@ -1,0 +1,49 @@
+name: Bootstrap Deploy SSH Key
+
+on:
+  workflow_dispatch:
+    inputs:
+      deploy_user:
+        description: "Server user that will receive the deploy public key"
+        required: true
+        default: "ubuntu"
+      deploy_public_key:
+        description: "Public SSH key to append in authorized_keys"
+        required: true
+
+jobs:
+  bootstrap-key:
+    runs-on:
+      - self-hosted
+      - getupsoft-lan
+    steps:
+      - name: Validate required secret
+        run: |
+          set -euo pipefail
+          test -n "${{ secrets.SUDO_PASSWORD }}"
+
+      - name: Install deploy public key for target user
+        env:
+          DEPLOY_USER: ${{ github.event.inputs.deploy_user }}
+          DEPLOY_PUBLIC_KEY: ${{ github.event.inputs.deploy_public_key }}
+          SUDO_PASSWORD: ${{ secrets.SUDO_PASSWORD }}
+        run: |
+          set -euo pipefail
+
+          if [ -z "${DEPLOY_PUBLIC_KEY}" ]; then
+            echo "deploy_public_key input is required"
+            exit 1
+          fi
+
+          printf '%s\n' "$SUDO_PASSWORD" | sudo -S -u "$DEPLOY_USER" bash -lc '
+            set -euo pipefail
+            mkdir -p ~/.ssh
+            chmod 700 ~/.ssh
+            touch ~/.ssh/authorized_keys
+            chmod 600 ~/.ssh/authorized_keys
+            if ! grep -qxF "'"$DEPLOY_PUBLIC_KEY"'" ~/.ssh/authorized_keys; then
+              echo "'"$DEPLOY_PUBLIC_KEY"'" >> ~/.ssh/authorized_keys
+            fi
+          '
+
+          echo "Deploy key installed for ${DEPLOY_USER}"

@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <!-- Phone Call ORCA Log List View -->
+    <record id="view_orca_phone_call_log_tree" model="ir.ui.view">
+        <field name="name">orca.phone.call.log.list</field>
+        <field name="model">orca.phone.call.log</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="date"/>
+                <field name="user_id"/>
+                <field name="action"/>
+                <field name="call_reference"/>
+                <field name="contact_name"/>
+                <field name="call_type"/>
+                <field name="call_duration"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Phone Call ORCA Log Form View -->
+    <record id="view_orca_phone_call_log_form" model="ir.ui.view">
+        <field name="name">orca.phone.call.log.form</field>
+        <field name="model">orca.phone.call.log</field>
+        <field name="arch" type="xml">
+            <form>
+                <group>
+                    <group string="Log Metadata">
+                        <field name="module_name"/>
+                        <field name="model_name"/>
+                        <field name="record_id"/>
+                        <field name="action"/>
+                        <field name="date"/>
+                        <field name="user_id"/>
+                    </group>
+                    <group string="Call Details">
+                        <field name="call_reference"/>
+                        <field name="contact_name"/>
+                        <field name="call_type"/>
+                        <field name="call_duration"/>
+                        <field name="call_outcome"/>
+                        <field name="next_action_date"/>
+                    </group>
+                    <group string="Audit Data">
+                        <field name="before_values" widget="ace"/>
+                        <field name="after_values" widget="ace"/>
+                    </group>
+                </group>
+            </form>
+        </field>
+    </record>
+
+    <!-- Menu Items -->
+    <menuitem id="menu_orca_crm_phone_logs" name="ORCA Logs" parent="crm.menu_crm_config_call"/>
+
+    <menuitem id="menu_orca_phone_call_log" name="Phone Calls"
+              parent="menu_orca_crm_phone_logs"
+              action="action_view_orca_phone_call_log"/>
+
+    <!-- Actions -->
+    <act_window id="action_view_orca_phone_call_log"
+                name="Phone Call ORCA Logs"
+                res_model="orca.phone.call.log"
+                view_mode="tree,form"/>
+</odoo>

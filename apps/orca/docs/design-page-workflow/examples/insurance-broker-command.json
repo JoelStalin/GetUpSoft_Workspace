@@ -1,0 +1,95 @@
+{
+  "user_id": "yoeli",
+  "name": "Landing Page - Corredor de Seguros",
+  "objective": "Crear una landing page profesional para un corredor de seguros independiente que necesita captar leads, explicar coberturas y transmitir confianza.",
+  "status": "ready_to_run",
+  "nodes": [
+    {
+      "id": "intake",
+      "type": "trigger",
+      "label": "Comando Orca"
+    },
+    {
+      "id": "research-worker",
+      "type": "research",
+      "label": "Worker: Research"
+    },
+    {
+      "id": "architecture-worker",
+      "type": "architecture",
+      "label": "Worker: Architecture"
+    },
+    {
+      "id": "design-worker",
+      "type": "design",
+      "label": "Worker: Design"
+    },
+    {
+      "id": "backend-worker",
+      "type": "backend",
+      "label": "Worker: Back-end"
+    },
+    {
+      "id": "frontend-worker",
+      "type": "frontend",
+      "label": "Worker: Front-end"
+    },
+    {
+      "id": "testing-worker",
+      "type": "test",
+      "label": "Worker: Testing"
+    },
+    {
+      "id": "memory-worker",
+      "type": "memory",
+      "label": "Worker: Memory"
+    },
+    {
+      "id": "copy",
+      "type": "content",
+      "label": "Copy B2B/B2C"
+    },
+    {
+      "id": "build",
+      "type": "frontend",
+      "label": "Generar HTML"
+    },
+    {
+      "id": "qa",
+      "type": "test",
+      "label": "Functional QA"
+    }
+  ],
+  "edges": [
+    { "from": "intake", "to": "research-worker" },
+    { "from": "research-worker", "to": "architecture-worker" },
+    { "from": "architecture-worker", "to": "design-worker" },
+    { "from": "design-worker", "to": "backend-worker" },
+    { "from": "design-worker", "to": "frontend-worker" },
+    { "from": "frontend-worker", "to": "testing-worker" },
+    { "from": "testing-worker", "to": "memory-worker" },
+    { "from": "memory-worker", "to": "copy" },
+    { "from": "copy", "to": "build" },
+    { "from": "build", "to": "qa" }
+  ],
+  "settings": {
+    "workflow_kind": "professional_page_design",
+    "project": "Ramos & Asociados Seguros",
+    "slug": "ramos-asociados-seguros",
+    "industry": "insurance_broker",
+    "audience": "familias, profesionales independientes y pequenas empresas",
+    "city": "Santo Domingo",
+    "phone": "+1 (809) 555-0145",
+    "email": "asesoria@ramosseguros.local",
+    "primary_cta": "Solicitar evaluacion",
+    "secondary_cta": "Ver coberturas",
+    "project_progress_percent": 100,
+    "project_progress_memory": "outputs/design-pages/ramos-asociados-seguros/progress.json",
+    "animation_stack": ["css", "reduced-motion-safe"],
+    "reference_repositories": [
+      "https://github.com/davidhckh/portfolio-2025",
+      "https://github.com/Zie619/n8n-workflows"
+    ],
+    "output": "outputs/design-pages/ramos-asociados-seguros/index.html"
+  }
+}

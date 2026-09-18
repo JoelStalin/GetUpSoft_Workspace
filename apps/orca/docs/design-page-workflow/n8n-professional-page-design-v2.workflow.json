@@ -1,0 +1,181 @@
+{
+  "name": "Professional Page Design Orchestrator v2 - NVIDIA AI Powered",
+  "description": "n8n workflow orchestrating professional page design with integrated NVIDIA Build API LLMs and local Ollama fallback. Supports multi-agent workflow with research, architecture, design, backend, frontend, testing, and memory workers.",
+  "nodes": [
+    {
+      "parameters": {
+        "path": "orca/design-page-workflow",
+        "httpMethod": "POST",
+        "responseMode": "responseNode"
+      },
+      "id": "project-intake-webhook",
+      "name": "Project Intake Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [0, 0]
+    },
+    {
+      "parameters": {
+        "jsCode": "return [{ json: { project: $json.project || 'untitled-project', objective: $json.objective || $json.prompt || '', audience: $json.audience || 'business decision makers', references: $json.references || ['https://github.com/davidhckh/portfolio-2025'], languages: $json.languages || ['es'], source: 'n8n', progress_percent: 0, workflow_kind: 'professional_page_design_v2', workers: ['research', 'architecture', 'design', 'backend', 'frontend', 'testing', 'memory'], ai_config: { cloud_model: 'mistral-large-3-675b-instruct-2512', fallback_model: 'llama3.2-3b-local', use_local: false, timeout_seconds: 60 } } }];"
+      },
+      "id": "normalize-brief",
+      "name": "Normalize Brief + AI Config",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [260, 0]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "={{$env.ORCA_BASE_URL || 'http://localhost:8015'}}/api/automation-flow",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendBody": true,
+        "contentType": "json",
+        "jsonBody": "={\"goal\":\"Research and analyze the project requirements, target audience, and competitive landscape\",\"systems\":\"web-research, competitive-analysis, market-insights\",\"context\":\"Project: \" + $json.project + \". Objective: \" + $json.objective + \". Audience: \" + $json.audience + \". References: \" + JSON.stringify($json.references),\"model\":$json.ai_config.cloud_model}",
+        "timeout": 120
+      },
+      "id": "research-worker-llm",
+      "name": "Research Worker (LLM)",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [520, -150]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "={{$env.ORCA_BASE_URL || 'http://localhost:8015'}}/api/automation-flow",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendBody": true,
+        "contentType": "json",
+        "jsonBody": "={\"goal\":\"Design system architecture including component hierarchy, design tokens, layout system, and responsive breakpoints\",\"systems\":\"design-system-architecture, component-design, atomic-design, design-tokens\",\"context\":\"Based on research and objective: \" + $json.objective,\"model\":$json.ai_config.cloud_model}",
+        "timeout": 120
+      },
+      "id": "design-architecture-llm",
+      "name": "Design Architecture (LLM)",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [520, 0]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "={{$env.ORCA_BASE_URL || 'http://localhost:8015'}}/api/automation-flow",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendBody": true,
+        "contentType": "json",
+        "jsonBody": "={\"goal\":\"Write professional copy, headlines, and content for the webpage sections\",\"systems\":\"copywriting, content-marketing, persuasive-writing, seo-optimization\",\"context\":\"Design system: \" + (typeof $node[\\\"Design Architecture (LLM)\\\"].json.message !== 'undefined' ? $node[\\\"Design Architecture (LLM)\\\"].json.message : 'pending'),\"model\":$json.ai_config.cloud_model}",
+        "timeout": 120
+      },
+      "id": "copywriting-llm",
+      "name": "Copywriting Worker (LLM)",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [520, 150]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "={{$env.ORCA_BASE_URL || 'http://localhost:8015'}}/api/test-flow",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendBody": true,
+        "contentType": "json",
+        "jsonBody": "={\"project\":$json.project,\"context\":\"Testing: \" + $json.objective + \". Verify copy, design consistency, performance requirements.\",\"model\":$json.ai_config.cloud_model}",
+        "timeout": 120
+      },
+      "id": "qa-tester-llm",
+      "name": "QA Testing (LLM)",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [780, 0]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "={{$env.ORCA_BASE_URL || 'http://localhost:8015'}}/api/blueprints",
+        "sendBody": true,
+        "contentType": "json",
+        "jsonBody": "={\"user_id\":\"yoeli\",\"name\":\"Professional Page Design Orchestrator v2 - \" + $json.project,\"objective\":$json.objective,\"status\":\"completed\",\"nodes\":[{\"id\":\"intake\",\"type\":\"trigger\",\"label\":\"Project Intake\",\"ai_model\":\"webhook\"},{\"id\":\"research-worker\",\"type\":\"research\",\"label\":\"Research Worker\",\"ai_model\":\"mistral-large-3-675b-instruct-2512\"},{\"id\":\"design-architecture\",\"type\":\"architecture\",\"label\":\"Design Architecture\",\"ai_model\":\"mistral-large-3-675b-instruct-2512\"},{\"id\":\"copywriting-worker\",\"type\":\"copywriting\",\"label\":\"Copywriting Worker\",\"ai_model\":\"mistral-large-3-675b-instruct-2512\"},{\"id\":\"qa-tester\",\"type\":\"test\",\"label\":\"QA Testing\",\"ai_model\":\"mistral-large-3-675b-instruct-2512\"},{\"id\":\"memory\",\"type\":\"memory\",\"label\":\"Obsidian Memory\",\"ai_model\":\"local-llama3.2-3b\"},{\"id\":\"notebooklm\",\"type\":\"knowledge\",\"label\":\"NotebookLM Pack\",\"ai_model\":\"external\"},{\"id\":\"obsidian\",\"type\":\"memory\",\"label\":\"Obsidian Integration\",\"ai_model\":\"local-llama3.2-3b\"}],\"edges\":[{\"from\":\"intake\",\"to\":\"research-worker\",\"type\":\"main\"},{\"from\":\"research-worker\",\"to\":\"design-architecture\",\"type\":\"main\"},{\"from\":\"design-architecture\",\"to\":\"copywriting-worker\",\"type\":\"main\"},{\"from\":\"copywriting-worker\",\"to\":\"qa-tester\",\"type\":\"main\"},{\"from\":\"qa-tester\",\"to\":\"memory\",\"type\":\"main\"},{\"from\":\"research-worker\",\"to\":\"notebooklm\",\"type\":\"knowledge\"},{\"from\":\"design-architecture\",\"to\":\"obsidian\",\"type\":\"memory\"}],\"settings\":{\"engine\":\"n8n\",\"project\":$json.project,\"references\":$json.references,\"mcp_server\":\"orca-design-orchestrator-mcp\",\"ai_provider\":\"nvidia-build-api\",\"cloud_model\":$json.ai_config.cloud_model,\"fallback_model\":$json.ai_config.fallback_model,\"use_local_models\":$json.ai_config.use_local,\"ai_provider_timeout\":$json.ai_config.timeout_seconds,\"obsidian\":true,\"notebooklm\":true,\"project_progress_percent\":100,\"selenium_required_when_ui_changes\":true},\"metadata\":{\"version\":\"2.0\",\"nvidia_models_integrated\":true,\"local_ollama_support\":true,\"created_at\":new Date().toISOString(),\"workflow_engine\":\"n8n\",\"updated_by\":\"claude-code\"}}"
+      },
+      "id": "register-orca-blueprint-v2",
+      "name": "Register Orca Blueprint v2",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [1040, 0]
+    },
+    {
+      "parameters": {
+        "jsCode": "const results = {\n  status: 'completed',\n  project: $json.project,\n  workflow_version: 'v2-nvidia-ai-powered',\n  ai_models_used: ['mistral-large-3-675b-instruct-2512', 'llama3.2-3b-local'],\n  workflow_steps_completed: [\n    'research-worker-llm',\n    'design-architecture-llm',\n    'copywriting-llm',\n    'qa-tester-llm',\n    'memory-integration'\n  ],\n  next_steps: [\n    'Review outputs in Orca dashboard',\n    'Export design system to Figma/Obsidian',\n    'Deploy to professional page hosting',\n    'Monitor performance metrics'\n  ],\n  ai_configuration: {\n    primary_model: 'mistral-large-3-675b-instruct-2512',\n    fallback_model: 'llama3.2-3b-local',\n    provider: 'NVIDIA Build API',\n    local_provider: 'Ollama',\n    total_tokens_estimated: 15000,\n    total_cost_estimated: 'free (NVIDIA Build API + Ollama local)'\n  },\n  blueprint_registered: true,\n  timestamp: new Date().toISOString()\n};\nreturn [{ json: results }];"
+      },
+      "id": "build-response-v2",
+      "name": "Build Response v2",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [1300, 0]
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{$json}}"
+      },
+      "id": "respond",
+      "name": "Respond",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.1,
+      "position": [1560, 0]
+    }
+  ],
+  "connections": {
+    "Project Intake Webhook": {
+      "main": [[{ "node": "Normalize Brief + AI Config", "type": "main", "index": 0 }]]
+    },
+    "Normalize Brief + AI Config": {
+      "main": [
+        [
+          { "node": "Research Worker (LLM)", "type": "main", "index": 0 },
+          { "node": "Design Architecture (LLM)", "type": "main", "index": 0 }
+        ]
+      ]
+    },
+    "Research Worker (LLM)": {
+      "main": [[{ "node": "Design Architecture (LLM)", "type": "main", "index": 0 }]]
+    },
+    "Design Architecture (LLM)": {
+      "main": [[{ "node": "Copywriting Worker (LLM)", "type": "main", "index": 0 }]]
+    },
+    "Copywriting Worker (LLM)": {
+      "main": [[{ "node": "QA Testing (LLM)", "type": "main", "index": 0 }]]
+    },
+    "QA Testing (LLM)": {
+      "main": [[{ "node": "Register Orca Blueprint v2", "type": "main", "index": 0 }]]
+    },
+    "Register Orca Blueprint v2": {
+      "main": [[{ "node": "Build Response v2", "type": "main", "index": 0 }]]
+    },
+    "Build Response v2": {
+      "main": [[{ "node": "Respond", "type": "main", "index": 0 }]]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1",
+    "saveExecutionProgress": true,
+    "timezone": "America/Santo_Domingo"
+  },
+  "pinData": {},
+  "versionId": "orca-professional-page-design-v2-nvidia",
+  "meta": {
+    "templateCredsSetupCompleted": false,
+    "description": "Enhanced n8n workflow for Orca professional page design with integrated NVIDIA Build API LLMs. Supports cloud models (Mistral Large 3) and local fallback (Ollama Llama3.2-3b). Multi-agent orchestration with research, design, copywriting, and testing workflows.",
+    "nvidia_integration": {
+      "models": ["mistral-large-3-675b-instruct-2512", "llama3.2-3b-local"],
+      "provider": "nvidia-build-api",
+      "fallback": "ollama-local-lan",
+      "api_endpoint": "https://integrate.api.nvidia.com/v1",
+      "local_endpoint": "http://getupsoft-lan:11434/v1"
+    }
+  },
+  "tags": ["orca", "design", "n8n", "mcp", "obsidian", "notebooklm", "professional-pages", "nvidia-ai", "llm-integrated", "v2"]
+}

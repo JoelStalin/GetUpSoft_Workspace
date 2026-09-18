@@ -1,0 +1,12 @@
+{
+  "chrome_user_data_dir": "C:\\Users\\yoeli\\AppData\\Local\\Google\\Chrome\\User Data",
+  "chrome_profile_directory": "Profile 9",
+  "allowed_domains": ["facebook.com", "instagram.com"],
+  "dry_run": false,
+  "live_demo": true,
+  "manual_approval_required": false,
+  "step_delay_ms": 1200,
+  "screenshots_enabled": true,
+  "artifacts_dir": "./artifacts",
+  "output_dir": "./output"
+}

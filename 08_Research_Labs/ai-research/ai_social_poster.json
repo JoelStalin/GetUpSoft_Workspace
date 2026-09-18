@@ -1,0 +1,81 @@
+{
+  "name": "AI Social Poster",
+  "nodes": [
+    {
+      "parameters": {},
+      "id": "1",
+      "name": "Start",
+      "type": "n8n-nodes-base.start",
+      "typeVersion": 1,
+      "position": [
+        240,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "authentication": "oAuth2",
+        "folderId": "your-folder-id",
+        "options": {}
+      },
+      "id": "2",
+      "name": "Google Drive - Watch Files",
+      "type": "n8n-nodes-base.googleDriveTrigger",
+      "typeVersion": 1,
+      "position": [
+        440,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "functionCode": "return [{ json: { result: \"Analyze image with Vision API\" }}];"
+      },
+      "id": "3",
+      "name": "Analyze Image",
+      "type": "n8n-nodes-base.function",
+      "typeVersion": 1,
+      "position": [
+        640,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "functionCode": "return [{ json: { caption: \"Generated caption by ChatGPT\" }}];"
+      },
+      "id": "4",
+      "name": "Generate Caption",
+      "type": "n8n-nodes-base.function",
+      "typeVersion": 1,
+      "position": [
+        840,
+        300
+      ]
+    }
+  ],
+  "connections": {
+    "Google Drive - Watch Files": {
+      "main": [
+        [
+          {
+            "node": "Analyze Image",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Analyze Image": {
+      "main": [
+        [
+          {
+            "node": "Generate Caption",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  }
+}

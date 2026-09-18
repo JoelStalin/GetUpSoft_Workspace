@@ -1,0 +1,64 @@
+{
+  "platform": "Instagram",
+  "url": "https://www.instagram.com/zalesjewelers/",
+  "extraction": {
+    "visible_name": "zalesjewelers",
+    "username": "zalesjewelers",
+    "url": "https://www.instagram.com/zalesjewelers/",
+    "timestamp": "2026-04-09T17:51:27.935403",
+    "confidence": 1.0,
+    "selector_used": "Multi-selector approach"
+  },
+  "steps": [
+    {
+      "name": "Browser Start",
+      "status": "PASS",
+      "message": "Chrome connected on port 9222",
+      "screenshot_path": null,
+      "timestamp": "2026-04-09T17:51:25.080797"
+    },
+    {
+      "name": "Navigation",
+      "status": "PASS",
+      "message": "Arrived at https://www.instagram.com/zalesjewelers/",
+      "screenshot_path": "./artifacts\\profile_view_175127_362868.png",
+      "timestamp": "2026-04-09T17:51:27.568755"
+    },
+    {
+      "name": "Extraction",
+      "status": "PASS",
+      "message": "Visible name: zalesjewelers",
+      "screenshot_path": null,
+      "timestamp": "2026-04-09T17:51:27.936402"
+    },
+    {
+      "name": "Message Builder",
+      "status": "PASS",
+      "message": "Personalized draft ready",
+      "screenshot_path": null,
+      "timestamp": "2026-04-09T17:51:27.938900"
+    },
+    {
+      "name": "Chat Transition",
+      "status": "PASS",
+      "message": "Opened DM window",
+      "screenshot_path": null,
+      "timestamp": "2026-04-09T17:51:33.167412"
+    },
+    {
+      "name": "Interaction Probe",
+      "status": "PASS",
+      "message": "Message field highlighted",
+      "screenshot_path": "./artifacts\\probe_chat_175134_226890.png",
+      "timestamp": "2026-04-09T17:51:34.417555"
+    },
+    {
+      "name": "Precarga",
+      "status": "PASS",
+      "message": "Text drafted in the textbox",
+      "screenshot_path": null,
+      "timestamp": "2026-04-09T17:51:48.964262"
+    }
+  ],
+  "summary": "Flow completed successfully."
+}

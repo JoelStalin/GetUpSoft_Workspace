@@ -1,0 +1,135 @@
+services:
+  lab_test:
+    image: odoo:19
+    container_name: getupsoft_odoo_lab_test
+    restart: unless-stopped
+    env_file:
+      - /home/ubuntu/.env.getupsoft-apps
+    environment:
+      HOST: getupsoft-shared-postgres
+      PORT: 5432
+      USER: ${GETUPSOFT_ODOO_DB_USER:-odoo}
+      PASSWORD: ${GETUPSOFT_ODOO_DB_PASSWORD}
+    command:
+      - odoo
+      - --proxy-mode
+      - --http-port=8069
+      - --database=${GETUPSOFT_ODOO_DB_LAB}
+      - --db_host=getupsoft-shared-postgres
+      - --db_port=5432
+      - --db_user=${GETUPSOFT_ODOO_DB_USER:-odoo}
+      - --db_password=${GETUPSOFT_ODOO_DB_PASSWORD}
+      - --db-filter=^${GETUPSOFT_ODOO_DB_LAB}$
+      - --addons-path=/usr/lib/python3/dist-packages/odoo/addons,/mnt/enterprise-addons,/mnt/getupsoft-addons
+      - --workers=2
+      - --max-cron-threads=1
+    ports:
+      - "8169:8069"
+      - "8172:8072"
+    volumes:
+      - getupsoft_odoo_lab_data:/var/lib/odoo
+      - ../../02_Odoo_ERP/Odoo_Enterprise_v19:/mnt/enterprise-addons:ro
+      - ../../01_Core_Platform/easycount-core/integration/odoo/odoo19_getupsoft_do_localization:/mnt/getupsoft-addons:ro
+    networks:
+      - getupsoft-network
+    healthcheck:
+      test:
+        - CMD-SHELL
+        - python3 -c "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8069/web/login', timeout=5)"
+      interval: 30s
+      timeout: 10s
+      retries: 10
+      start_period: 90s
+
+  staging:
+    image: odoo:19
+    container_name: getupsoft_odoo_staging
+    restart: unless-stopped
+    env_file:
+      - /home/ubuntu/.env.getupsoft-apps
+    environment:
+      HOST: getupsoft-shared-postgres
+      PORT: 5432
+      USER: ${GETUPSOFT_ODOO_DB_USER:-odoo}
+      PASSWORD: ${GETUPSOFT_ODOO_DB_PASSWORD}
+    command:
+      - odoo
+      - --proxy-mode
+      - --http-port=8069
+      - --database=${GETUPSOFT_ODOO_DB_STAGING}
+      - --db_host=getupsoft-shared-postgres
+      - --db_port=5432
+      - --db_user=${GETUPSOFT_ODOO_DB_USER:-odoo}
+      - --db_password=${GETUPSOFT_ODOO_DB_PASSWORD}
+      - --db-filter=^${GETUPSOFT_ODOO_DB_STAGING}$
+      - --addons-path=/usr/lib/python3/dist-packages/odoo/addons,/mnt/enterprise-addons,/mnt/getupsoft-addons
+      - --workers=2
+      - --max-cron-threads=1
+    ports:
+      - "8179:8069"
+      - "8182:8072"
+    volumes:
+      - getupsoft_odoo_staging_data:/var/lib/odoo
+      - ../../02_Odoo_ERP/Odoo_Enterprise_v19:/mnt/enterprise-addons:ro
+      - ../../01_Core_Platform/easycount-core/integration/odoo/odoo19_getupsoft_do_localization:/mnt/getupsoft-addons:ro
+    networks:
+      - getupsoft-network
+    healthcheck:
+      test:
+        - CMD-SHELL
+        - python3 -c "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8069/web/login', timeout=5)"
+      interval: 30s
+      timeout: 10s
+      retries: 10
+      start_period: 90s
+
+  production:
+    image: odoo:19
+    container_name: getupsoft_odoo_production
+    restart: unless-stopped
+    env_file:
+      - /home/ubuntu/.env.getupsoft-apps
+    environment:
+      HOST: getupsoft-shared-postgres
+      PORT: 5432
+      USER: ${GETUPSOFT_ODOO_DB_USER:-odoo}
+      PASSWORD: ${GETUPSOFT_ODOO_DB_PASSWORD}
+    command:
+      - odoo
+      - --proxy-mode
+      - --http-port=8069
+      - --database=${GETUPSOFT_ODOO_DB_PRODUCTION}
+      - --db_host=getupsoft-shared-postgres
+      - --db_port=5432
+      - --db_user=${GETUPSOFT_ODOO_DB_USER:-odoo}
+      - --db_password=${GETUPSOFT_ODOO_DB_PASSWORD}
+      - --db-filter=^${GETUPSOFT_ODOO_DB_PRODUCTION}$
+      - --addons-path=/usr/lib/python3/dist-packages/odoo/addons,/mnt/enterprise-addons,/mnt/getupsoft-addons
+      - --workers=2
+      - --max-cron-threads=1
+    ports:
+      - "8189:8069"
+      - "8192:8072"
+    volumes:
+      - getupsoft_odoo_production_data:/var/lib/odoo
+      - ../../02_Odoo_ERP/Odoo_Enterprise_v19:/mnt/enterprise-addons:ro
+      - ../../01_Core_Platform/easycount-core/integration/odoo/odoo19_getupsoft_do_localization:/mnt/getupsoft-addons:ro
+    networks:
+      - getupsoft-network
+    healthcheck:
+      test:
+        - CMD-SHELL
+        - python3 -c "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8069/web/login', timeout=5)"
+      interval: 30s
+      timeout: 10s
+      retries: 10
+      start_period: 90s
+
+networks:
+  getupsoft-network:
+    external: true
+
+volumes:
+  getupsoft_odoo_lab_data:
+  getupsoft_odoo_staging_data:
+  getupsoft_odoo_production_data:

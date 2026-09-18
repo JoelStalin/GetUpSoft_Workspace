@@ -1,0 +1,6 @@
+services:
+  db:
+    ports: []
+  pgadmin:
+    ports:
+      - "5051:80"

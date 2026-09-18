@@ -1,0 +1,20 @@
+{
+  "state": {
+    "title": "ORCA | Orchestrator",
+    "text": "ORCA\nExample Workflow\nWeb Design\nWorkflow\nMobile Design\nAI\nRun\nStart Trigger\ntrigger\nFetch Data\nhttp\nProcess AI\nai\nReact Flow",
+    "hasIntro": false,
+    "hasMatrix": true,
+    "bodyWidth": 390,
+    "innerWidth": 390
+  },
+  "errors": [
+    "error: Failed to load resource: the server responded with a status of 500 (Internal Server Error)",
+    "error: Failed to load resource: the server responded with a status of 500 (Internal Server Error)",
+    "error: Failed to load resource: the server responded with a status of 500 (Internal Server Error)",
+    "error: Failed to load resource: the server responded with a status of 500 (Internal Server Error)",
+    "error: Error: <path> attribute d: Expected number, \"MNaN,NaNhNaNvNaNh…\".",
+    "error: Error: <svg> attribute viewBox: Expected number, \"NaN NaN NaN NaN\".",
+    "error: Error: <path> attribute d: Expected number, \"MNaN,NaNhNaNvNaNh…\".",
+    "error: Error: <path> attribute d: Expected number, \"MNaN,NaNhNaNvNaNh…\"."
+  ]
+}

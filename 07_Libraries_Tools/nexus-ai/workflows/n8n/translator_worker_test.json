@@ -1,0 +1,95 @@
+{
+  "name": "AIHUB - Translator Worker Test",
+  "nodes": [
+    {
+      "parameters": {},
+      "id": "1",
+      "name": "Start",
+      "type": "n8n-nodes-base.start",
+      "typeVersion": 1,
+      "position": [
+        250,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "http://host.docker.internal:3000/worker/translator",
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "prompt",
+              "value": "crea un worquer que revize tokesn y apis"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "2",
+      "name": "HTTP Request to AIHUB (Mock)",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 3,
+      "position": [
+        450,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "string": [
+            {
+              "value1": "={{$json.body.correctedPrompt}}",
+              "operation": "contains",
+              "value2": "worker"
+            }
+          ]
+        }
+      },
+      "id": "3",
+      "name": "Validate Result",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [
+        650,
+        300
+      ]
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Start": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request to AIHUB (Mock)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request to AIHUB (Mock)": {
+      "main": [
+        [
+          {
+            "node": "Validate Result",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "1.0",
+  "id": "workflow-aihub-translator",
+  "meta": {
+    "templateCredsSetupCompleted": true
+  }
+}

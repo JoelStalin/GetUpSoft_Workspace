@@ -1,0 +1,64 @@
+{
+  "platform": "Instagram",
+  "url": "https://www.instagram.com/93_stalin/",
+  "extraction": {
+    "visible_name": "Joel Stalin Espinal Martinez",
+    "username": null,
+    "url": "https://www.instagram.com/93_stalin/",
+    "timestamp": "2026-04-09T20:33:15.783517",
+    "confidence": 1.0,
+    "selector_used": "Multi-selector approach"
+  },
+  "steps": [
+    {
+      "name": "Browser Start",
+      "status": "PASS",
+      "message": "Chrome connected",
+      "screenshot_path": null,
+      "timestamp": "2026-04-09T20:33:13.953881"
+    },
+    {
+      "name": "Navigation",
+      "status": "PASS",
+      "message": "Arrived at https://www.instagram.com/93_stalin/",
+      "screenshot_path": null,
+      "timestamp": "2026-04-09T20:33:15.652638"
+    },
+    {
+      "name": "Extraction",
+      "status": "PASS",
+      "message": "Visible name: Joel Stalin Espinal Martinez",
+      "screenshot_path": null,
+      "timestamp": "2026-04-09T20:33:15.783517"
+    },
+    {
+      "name": "Follow Action",
+      "status": "PASS",
+      "message": "User followed (or already following)",
+      "screenshot_path": null,
+      "timestamp": "2026-04-09T20:33:15.858381"
+    },
+    {
+      "name": "Message Builder",
+      "status": "PASS",
+      "message": "Official professional draft ready",
+      "screenshot_path": null,
+      "timestamp": "2026-04-09T20:33:15.858381"
+    },
+    {
+      "name": "Chat Transition",
+      "status": "FAIL",
+      "message": "Message button not found",
+      "screenshot_path": null,
+      "timestamp": "2026-04-09T20:33:31.270029"
+    },
+    {
+      "name": "Interaction Probe",
+      "status": "FAIL",
+      "message": "Message textbox not found",
+      "screenshot_path": null,
+      "timestamp": "2026-04-09T20:33:31.325874"
+    }
+  ],
+  "summary": "Full automated invitation cycle completed."
+}

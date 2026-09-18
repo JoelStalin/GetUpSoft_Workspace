@@ -1,0 +1,27 @@
+{
+  "version": "7",
+  "dialect": "mysql",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "5",
+      "when": 1776627189149,
+      "tag": "0000_strong_rhodey",
+      "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "5",
+      "when": 1776627314648,
+      "tag": "0001_mixed_chamber",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "5",
+      "when": 1777344885350,
+      "tag": "0002_perpetual_zaran",
+      "breakpoints": true
+    }
+  ]
+}

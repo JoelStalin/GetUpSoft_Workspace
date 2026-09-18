@@ -1,0 +1,71 @@
+{
+  "platform": "Instagram",
+  "url": "https://www.instagram.com/zalesjewelers/",
+  "extraction": {
+    "visible_name": "zalesjewelers",
+    "username": "zalesjewelers",
+    "url": "https://www.instagram.com/zalesjewelers/",
+    "timestamp": "2026-04-09T21:22:03.533549",
+    "confidence": 1.0,
+    "selector_used": "Multi-selector approach"
+  },
+  "steps": [
+    {
+      "name": "Browser Start",
+      "status": "PASS",
+      "message": "Chrome connected",
+      "screenshot_path": null,
+      "timestamp": "2026-04-09T21:22:01.441298"
+    },
+    {
+      "name": "Navigation",
+      "status": "PASS",
+      "message": "Arrived at https://www.instagram.com/zalesjewelers/",
+      "screenshot_path": null,
+      "timestamp": "2026-04-09T21:22:03.328208"
+    },
+    {
+      "name": "Extraction",
+      "status": "PASS",
+      "message": "Visible name: zalesjewelers",
+      "screenshot_path": null,
+      "timestamp": "2026-04-09T21:22:03.533549"
+    },
+    {
+      "name": "Follow Action",
+      "status": "PASS",
+      "message": "User followed (or already following)",
+      "screenshot_path": null,
+      "timestamp": "2026-04-09T21:22:03.645294"
+    },
+    {
+      "name": "Message Builder",
+      "status": "PASS",
+      "message": "Official professional draft ready",
+      "screenshot_path": null,
+      "timestamp": "2026-04-09T21:22:03.645294"
+    },
+    {
+      "name": "Chat Transition",
+      "status": "PASS",
+      "message": "Opened DM window",
+      "screenshot_path": null,
+      "timestamp": "2026-04-09T21:22:08.751144"
+    },
+    {
+      "name": "Type Message",
+      "status": "PASS",
+      "message": "Message drafted in textbox",
+      "screenshot_path": null,
+      "timestamp": "2026-04-09T21:22:08.791087"
+    },
+    {
+      "name": "Send Action",
+      "status": "FAIL",
+      "message": "Send button click failed",
+      "screenshot_path": null,
+      "timestamp": "2026-04-09T21:22:09.850518"
+    }
+  ],
+  "summary": "Full automated invitation cycle completed."
+}

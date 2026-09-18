@@ -1,0 +1,14 @@
+[
+  {
+    "url": "https://chefalitas.com.do/pos/web?config_id=1",
+    "final_url": "https://chefalitas.com.do/en/web/login?redirect=%2Fpos%2Fweb%3Fconfig_id%3D1",
+    "title": "Login | Chefalitas",
+    "errors": []
+  },
+  {
+    "url": "https://chefalitas.com.do/pos/web?config_id=1&debug=assets",
+    "final_url": "https://chefalitas.com.do/en/web/login?redirect=%2Fpos%2Fweb%3Fconfig_id%3D1%26debug%3Dassets",
+    "title": "Login | Chefalitas",
+    "errors": []
+  }
+]

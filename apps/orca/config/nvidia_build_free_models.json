@@ -1,0 +1,559 @@
+{
+  "captured_at": "2026-05-15T13:40:20.439793+00:00",
+  "source": "https://build.nvidia.com/models",
+  "total_free_models": 42,
+  "page_count": 1,
+  "items": [
+    {
+      "publisher": "NVIDIA",
+      "name": "nemotron-3-content-safety",
+      "href": "https://build.nvidia.com/nvidia/nemotron-3-content-safety",
+      "slug_path": "nvidia/nemotron-3-content-safety",
+      "badges": [
+        "Free Endpoint"
+      ],
+      "summary": "",
+      "tags": [],
+      "popularity": null,
+      "recency": null
+    },
+    {
+      "publisher": "NVIDIA",
+      "name": "synthetic-video-detector",
+      "href": "https://build.nvidia.com/nvidia/synthetic-video-detector",
+      "slug_path": "nvidia/synthetic-video-detector",
+      "badges": [
+        "Downloadable",
+        "Free Endpoint"
+      ],
+      "summary": "",
+      "tags": [],
+      "popularity": null,
+      "recency": null
+    },
+    {
+      "publisher": "NVIDIA",
+      "name": "Active Speaker Detection",
+      "href": "https://build.nvidia.com/nvidia/active-speaker-detection",
+      "slug_path": "nvidia/active-speaker-detection",
+      "badges": [
+        "Downloadable",
+        "Free Endpoint"
+      ],
+      "summary": "",
+      "tags": [],
+      "popularity": null,
+      "recency": null
+    },
+    {
+      "publisher": "Minimaxai",
+      "name": "minimax-m2.7",
+      "href": "https://build.nvidia.com/minimaxai/minimax-m2.7",
+      "slug_path": "minimaxai/minimax-m2.7",
+      "badges": [
+        "Free Endpoint"
+      ],
+      "summary": "",
+      "tags": [],
+      "popularity": null,
+      "recency": null
+    },
+    {
+      "publisher": "NVIDIA",
+      "name": "nemotron-voicechat",
+      "href": "https://build.nvidia.com/nvidia/nemotron-voicechat",
+      "slug_path": "nvidia/nemotron-voicechat",
+      "badges": [
+        "Free Endpoint"
+      ],
+      "summary": "",
+      "tags": [],
+      "popularity": null,
+      "recency": null
+    },
+    {
+      "publisher": "NVIDIA",
+      "name": "gliner-pii",
+      "href": "https://build.nvidia.com/nvidia/gliner-pii",
+      "slug_path": "nvidia/gliner-pii",
+      "badges": [
+        "Free Endpoint"
+      ],
+      "summary": "",
+      "tags": [],
+      "popularity": null,
+      "recency": null
+    },
+    {
+      "publisher": "NVIDIA",
+      "name": "cosmos-transfer2.5-2b",
+      "href": "https://build.nvidia.com/nvidia/cosmos-transfer2_5-2b",
+      "slug_path": "nvidia/cosmos-transfer2_5-2b",
+      "badges": [
+        "Free Endpoint"
+      ],
+      "summary": "",
+      "tags": [],
+      "popularity": null,
+      "recency": null
+    },
+    {
+      "publisher": "Stepfun-ai",
+      "name": "step-3.5-flash",
+      "href": "https://build.nvidia.com/stepfun-ai/step-3.5-flash",
+      "slug_path": "stepfun-ai/step-3.5-flash",
+      "badges": [
+        "Free Endpoint"
+      ],
+      "summary": "",
+      "tags": [],
+      "popularity": null,
+      "recency": null
+    },
+    {
+      "publisher": "NVIDIA",
+      "name": "nemotron-content-safety-reasoning-4b",
+      "href": "https://build.nvidia.com/nvidia/nemotron-content-safety-reasoning-4b",
+      "slug_path": "nvidia/nemotron-content-safety-reasoning-4b",
+      "badges": [
+        "Free Endpoint"
+      ],
+      "summary": "",
+      "tags": [],
+      "popularity": null,
+      "recency": null
+    },
+    {
+      "publisher": "NVIDIA",
+      "name": "riva-translate-4b-instruct-v1_1",
+      "href": "https://build.nvidia.com/nvidia/riva-translate-4b-instruct-v1_1",
+      "slug_path": "nvidia/riva-translate-4b-instruct-v1_1",
+      "badges": [
+        "Free Endpoint"
+      ],
+      "summary": "",
+      "tags": [],
+      "popularity": null,
+      "recency": null
+    },
+    {
+      "publisher": "Mistral AI",
+      "name": "mistral-large-3-675b-instruct-2512",
+      "href": "https://build.nvidia.com/mistralai/mistral-large-3-675b-instruct-2512",
+      "slug_path": "mistralai/mistral-large-3-675b-instruct-2512",
+      "badges": [
+        "Free Endpoint"
+      ],
+      "summary": "",
+      "tags": [],
+      "popularity": null,
+      "recency": null
+    },
+    {
+      "publisher": "NVIDIA",
+      "name": "streampetr",
+      "href": "https://build.nvidia.com/nvidia/streampetr",
+      "slug_path": "nvidia/streampetr",
+      "badges": [
+        "Free Endpoint"
+      ],
+      "summary": "",
+      "tags": [],
+      "popularity": null,
+      "recency": null
+    },
+    {
+      "publisher": "NVIDIA",
+      "name": "llama-3.1-nemotron-safety-guard-8b-v3",
+      "href": "https://build.nvidia.com/nvidia/llama-3_1-nemotron-safety-guard-8b-v3",
+      "slug_path": "nvidia/llama-3_1-nemotron-safety-guard-8b-v3",
+      "badges": [
+        "Free Endpoint"
+      ],
+      "summary": "",
+      "tags": [],
+      "popularity": null,
+      "recency": null
+    },
+    {
+      "publisher": "ByteDance",
+      "name": "seed-oss-36b-instruct",
+      "href": "https://build.nvidia.com/bytedance/seed-oss-36b-instruct",
+      "slug_path": "bytedance/seed-oss-36b-instruct",
+      "badges": [
+        "Free Endpoint"
+      ],
+      "summary": "",
+      "tags": [],
+      "popularity": null,
+      "recency": null
+    },
+    {
+      "publisher": "Qwen",
+      "name": "qwen3-coder-480b-a35b-instruct",
+      "href": "https://build.nvidia.com/qwen/qwen3-coder-480b-a35b-instruct",
+      "slug_path": "qwen/qwen3-coder-480b-a35b-instruct",
+      "badges": [
+        "Free Endpoint"
+      ],
+      "summary": "",
+      "tags": [],
+      "popularity": null,
+      "recency": null
+    },
+    {
+      "publisher": "NVIDIA",
+      "name": "llama-3_2-nemoretriever-300m-embed-v1",
+      "href": "https://build.nvidia.com/nvidia/llama-3_2-nemoretriever-300m-embed-v1",
+      "slug_path": "nvidia/llama-3_2-nemoretriever-300m-embed-v1",
+      "badges": [
+        "Free Endpoint"
+      ],
+      "summary": "",
+      "tags": [],
+      "popularity": null,
+      "recency": null
+    },
+    {
+      "publisher": "Mistral AI",
+      "name": "magistral-small-2506",
+      "href": "https://build.nvidia.com/mistralai/magistral-small-2506",
+      "slug_path": "mistralai/magistral-small-2506",
+      "badges": [
+        "Deprecated",
+        "Free Endpoint"
+      ],
+      "summary": "",
+      "tags": [],
+      "popularity": null,
+      "recency": null
+    },
+    {
+      "publisher": "Meta",
+      "name": "llama-guard-4-12b",
+      "href": "https://build.nvidia.com/meta/llama-guard-4-12b",
+      "slug_path": "meta/llama-guard-4-12b",
+      "badges": [
+        "Free Endpoint"
+      ],
+      "summary": "",
+      "tags": [],
+      "popularity": null,
+      "recency": null
+    },
+    {
+      "publisher": "Google",
+      "name": "gemma-3n-e4b-it",
+      "href": "https://build.nvidia.com/google/gemma-3n-e4b-it",
+      "slug_path": "google/gemma-3n-e4b-it",
+      "badges": [
+        "Free Endpoint"
+      ],
+      "summary": "",
+      "tags": [],
+      "popularity": null,
+      "recency": null
+    },
+    {
+      "publisher": "Google",
+      "name": "gemma-3n-e2b-it",
+      "href": "https://build.nvidia.com/google/gemma-3n-e2b-it",
+      "slug_path": "google/gemma-3n-e2b-it",
+      "badges": [
+        "Free Endpoint"
+      ],
+      "summary": "",
+      "tags": [],
+      "popularity": null,
+      "recency": null
+    },
+    {
+      "publisher": "NVIDIA",
+      "name": "cosmos-transfer1-7b",
+      "href": "https://build.nvidia.com/nvidia/cosmos-transfer1-7b",
+      "slug_path": "nvidia/cosmos-transfer1-7b",
+      "badges": [
+        "Free Endpoint"
+      ],
+      "summary": "",
+      "tags": [],
+      "popularity": null,
+      "recency": null
+    },
+    {
+      "publisher": "Mistral AI",
+      "name": "mistral-nemotron",
+      "href": "https://build.nvidia.com/mistralai/mistral-nemotron",
+      "slug_path": "mistralai/mistral-nemotron",
+      "badges": [
+        "Free Endpoint"
+      ],
+      "summary": "",
+      "tags": [],
+      "popularity": null,
+      "recency": null
+    },
+    {
+      "publisher": "NVIDIA",
+      "name": "magpie-tts-zeroshot",
+      "href": "https://build.nvidia.com/nvidia/magpie-tts-zeroshot",
+      "slug_path": "nvidia/magpie-tts-zeroshot",
+      "badges": [
+        "Free Endpoint"
+      ],
+      "summary": "",
+      "tags": [],
+      "popularity": null,
+      "recency": null
+    },
+    {
+      "publisher": "Mistral AI",
+      "name": "mistral-medium-3-instruct",
+      "href": "https://build.nvidia.com/mistralai/mistral-medium-3-instruct",
+      "slug_path": "mistralai/mistral-medium-3-instruct",
+      "badges": [
+        "Deprecated",
+        "Free Endpoint"
+      ],
+      "summary": "",
+      "tags": [],
+      "popularity": null,
+      "recency": null
+    },
+    {
+      "publisher": "Meta",
+      "name": "llama-4-maverick-17b-128e-instruct",
+      "href": "https://build.nvidia.com/meta/llama-4-maverick-17b-128e-instruct",
+      "slug_path": "meta/llama-4-maverick-17b-128e-instruct",
+      "badges": [
+        "Free Endpoint"
+      ],
+      "summary": "",
+      "tags": [],
+      "popularity": null,
+      "recency": null
+    },
+    {
+      "publisher": "NVIDIA",
+      "name": "cosmos-predict1-5b",
+      "href": "https://build.nvidia.com/nvidia/cosmos-predict1-5b",
+      "slug_path": "nvidia/cosmos-predict1-5b",
+      "badges": [
+        "Free Endpoint"
+      ],
+      "summary": "",
+      "tags": [],
+      "popularity": null,
+      "recency": null
+    },
+    {
+      "publisher": "NVIDIA",
+      "name": "sparsedrive",
+      "href": "https://build.nvidia.com/nvidia/sparsedrive",
+      "slug_path": "nvidia/sparsedrive",
+      "badges": [
+        "Free Endpoint"
+      ],
+      "summary": "",
+      "tags": [],
+      "popularity": null,
+      "recency": null
+    },
+    {
+      "publisher": "NVIDIA",
+      "name": "bevformer",
+      "href": "https://build.nvidia.com/nvidia/bevformer",
+      "slug_path": "nvidia/bevformer",
+      "badges": [
+        "Free Endpoint"
+      ],
+      "summary": "",
+      "tags": [],
+      "popularity": null,
+      "recency": null
+    },
+    {
+      "publisher": "NVIDIA",
+      "name": "nv-embedcode-7b-v1",
+      "href": "https://build.nvidia.com/nvidia/nv-embedcode-7b-v1",
+      "slug_path": "nvidia/nv-embedcode-7b-v1",
+      "badges": [
+        "Free Endpoint"
+      ],
+      "summary": "",
+      "tags": [],
+      "popularity": null,
+      "recency": null
+    },
+    {
+      "publisher": "Microsoft",
+      "name": "phi-4-multimodal-instruct",
+      "href": "https://build.nvidia.com/microsoft/phi-4-multimodal-instruct",
+      "slug_path": "microsoft/phi-4-multimodal-instruct",
+      "badges": [
+        "Free Endpoint"
+      ],
+      "summary": "",
+      "tags": [],
+      "popularity": null,
+      "recency": null
+    },
+    {
+      "publisher": "NVIDIA",
+      "name": "usdcode",
+      "href": "https://build.nvidia.com/nvidia/usdcode",
+      "slug_path": "nvidia/usdcode",
+      "badges": [
+        "Free Endpoint"
+      ],
+      "summary": "",
+      "tags": [],
+      "popularity": null,
+      "recency": null
+    },
+    {
+      "publisher": "NVIDIA",
+      "name": "studiovoice",
+      "href": "https://build.nvidia.com/nvidia/studiovoice",
+      "slug_path": "nvidia/studiovoice",
+      "badges": [
+        "Downloadable",
+        "Free Endpoint"
+      ],
+      "summary": "",
+      "tags": [],
+      "popularity": null,
+      "recency": null
+    },
+    {
+      "publisher": "Abacus.AI",
+      "name": "dracarys-llama-3.1-70b-instruct",
+      "href": "https://build.nvidia.com/abacusai/dracarys-llama-3_1-70b-instruct",
+      "slug_path": "abacusai/dracarys-llama-3_1-70b-instruct",
+      "badges": [
+        "Free Endpoint"
+      ],
+      "summary": "",
+      "tags": [],
+      "popularity": null,
+      "recency": null
+    },
+    {
+      "publisher": "Meta",
+      "name": "esm2-650m",
+      "href": "https://build.nvidia.com/meta/esm2-650m",
+      "slug_path": "meta/esm2-650m",
+      "badges": [
+        "Free Endpoint"
+      ],
+      "summary": "",
+      "tags": [],
+      "popularity": null,
+      "recency": null
+    },
+    {
+      "publisher": "NVIDIA",
+      "name": "nemotron-mini-4b-instruct",
+      "href": "https://build.nvidia.com/nvidia/nemotron-mini-4b-instruct",
+      "slug_path": "nvidia/nemotron-mini-4b-instruct",
+      "badges": [
+        "Free Endpoint"
+      ],
+      "summary": "",
+      "tags": [],
+      "popularity": null,
+      "recency": null
+    },
+    {
+      "publisher": "Google",
+      "name": "gemma-2-2b-it",
+      "href": "https://build.nvidia.com/google/gemma-2-2b-it",
+      "slug_path": "google/gemma-2-2b-it",
+      "badges": [
+        "Free Endpoint"
+      ],
+      "summary": "",
+      "tags": [],
+      "popularity": null,
+      "recency": null
+    },
+    {
+      "publisher": "NVIDIA",
+      "name": "usdvalidate",
+      "href": "https://build.nvidia.com/nvidia/usdvalidate",
+      "slug_path": "nvidia/usdvalidate",
+      "badges": [
+        "Free Endpoint"
+      ],
+      "summary": "",
+      "tags": [],
+      "popularity": null,
+      "recency": null
+    },
+    {
+      "publisher": "NVIDIA",
+      "name": "nv-embed-v1",
+      "href": "https://build.nvidia.com/nvidia/nv-embed-v1",
+      "slug_path": "nvidia/nv-embed-v1",
+      "badges": [
+        "Free Endpoint"
+      ],
+      "summary": "",
+      "tags": [],
+      "popularity": null,
+      "recency": null
+    },
+    {
+      "publisher": "Upstage",
+      "name": "solar-10.7b-instruct",
+      "href": "https://build.nvidia.com/upstage/solar-10_7b-instruct",
+      "slug_path": "upstage/solar-10_7b-instruct",
+      "badges": [
+        "Free Endpoint"
+      ],
+      "summary": "",
+      "tags": [],
+      "popularity": null,
+      "recency": null
+    },
+    {
+      "publisher": "Google",
+      "name": "paligemma",
+      "href": "https://build.nvidia.com/google/google-paligemma",
+      "slug_path": "google/google-paligemma",
+      "badges": [
+        "Free Endpoint"
+      ],
+      "summary": "",
+      "tags": [],
+      "popularity": null,
+      "recency": null
+    },
+    {
+      "publisher": "NVIDIA",
+      "name": "rerank-qa-mistral-4b",
+      "href": "https://build.nvidia.com/nvidia/rerank-qa-mistral-4b",
+      "slug_path": "nvidia/rerank-qa-mistral-4b",
+      "badges": [
+        "Free Endpoint"
+      ],
+      "summary": "",
+      "tags": [],
+      "popularity": null,
+      "recency": null
+    },
+    {
+      "publisher": "Meta",
+      "name": "esmfold",
+      "href": "https://build.nvidia.com/meta/esmfold",
+      "slug_path": "meta/esmfold",
+      "badges": [
+        "Free Endpoint"
+      ],
+      "summary": "",
+      "tags": [],
+      "popularity": null,
+      "recency": null
+    }
+  ]
+}

@@ -1,0 +1,18 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: getupsoft-site-config
+  namespace: getupsoft
+  labels:
+    app.kubernetes.io/name: getupsoft-site
+    app.kubernetes.io/part-of: getupsoft-workspace
+    app.kubernetes.io/component: web
+data:
+  # Environment configuration
+  VITE_API_URL: "http://orca.getupsoft.svc.cluster.local:8787"
+  NODE_ENV: "production"
+  LOG_LEVEL: "info"
+
+  # Feature flags
+  ENABLE_ANALYTICS: "true"
+  ENABLE_CACHE: "true"

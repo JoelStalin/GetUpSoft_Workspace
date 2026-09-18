@@ -1,0 +1,109 @@
+{
+  "name": "ORCA 24/7 Agent Mode",
+  "description": "Continuous autonomous agent operation mode",
+  "enabled": true,
+  "mode": "continuous",
+  "schedule": {
+    "type": "continuous",
+    "startTime": "00:00",
+    "endTime": "23:59",
+    "daysOfWeek": ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]
+  },
+  "agents": [
+    {
+      "id": "developer",
+      "name": "Developer Agent",
+      "type": "claude-code",
+      "enabled": true,
+      "tasks": [
+        "implement-features",
+        "fix-bugs",
+        "run-tests",
+        "optimize-performance",
+        "refactor-code"
+      ],
+      "maxRounds": 50,
+      "roundTimeout": 3600,
+      "plugins": {
+        "pre": ["system_health", "backup"],
+        "task": ["de_sloppify"],
+        "post": ["git_commit_summary"]
+      }
+    },
+    {
+      "id": "tester",
+      "name": "Tester Agent",
+      "type": "automation",
+      "enabled": true,
+      "tasks": [
+        "run-automated-tests",
+        "validate-features",
+        "check-accessibility",
+        "responsive-testing",
+        "console-validation"
+      ],
+      "maxRounds": 30,
+      "roundTimeout": 1800,
+      "plugins": {
+        "pre": ["system_health"],
+        "task": ["de_sloppify"],
+        "post": ["morning_report"]
+      }
+    },
+    {
+      "id": "reviewer",
+      "name": "Code Reviewer Agent",
+      "type": "automation",
+      "enabled": true,
+      "tasks": [
+        "code-review",
+        "security-check",
+        "performance-audit",
+        "accessibility-audit",
+        "documentation-check"
+      ],
+      "maxRounds": 20,
+      "roundTimeout": 900,
+      "plugins": {
+        "pre": ["system_health"],
+        "task": ["de_sloppify"],
+        "post": ["git_commit_summary"]
+      }
+    }
+  ],
+  "communication": {
+    "type": "file-based",
+    "channels": {
+      "chat": ".agents/chat-log.md",
+      "taskboard": ".agents/task-queue.json",
+      "reports": ".agents/reports"
+    },
+    "updateInterval": 30000
+  },
+  "monitoring": {
+    "enabled": true,
+    "healthCheckInterval": 300000,
+    "logLevel": "info",
+    "reportGenerationTime": "08:00",
+    "metricsEnabled": true
+  },
+  "failover": {
+    "enabled": true,
+    "maxRetries": 3,
+    "retryDelay": 5000,
+    "escalationEnabled": true,
+    "escalationEmail": "joelstalin2105@gmail.com"
+  },
+  "compliance": {
+    "enforceTesting": true,
+    "enforceAccessibility": true,
+    "enforceDocumentation": true,
+    "enforceCodeReview": true,
+    "blockingRules": [
+      "no-ui-change-without-test",
+      "no-merge-without-review",
+      "no-console-errors",
+      "wcag-aa-required"
+    ]
+  }
+}

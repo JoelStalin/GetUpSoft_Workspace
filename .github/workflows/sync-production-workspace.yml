@@ -1,0 +1,71 @@
+name: Sync Production Workspace
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+    inputs:
+      deploy_user:
+        description: "SSH user on ssh.getupsoft.com.do"
+        required: true
+        default: "ubuntu"
+      deploy_path:
+        description: "Workspace path to sync"
+        required: true
+        default: "/home/ubuntu/workspaces/GetUpSoft_Workspace_main_clean"
+
+concurrency:
+  group: production-workspace-sync-main
+  cancel-in-progress: false
+
+jobs:
+  sync:
+    runs-on:
+      - self-hosted
+      - getupsoft-lan
+    steps:
+      - name: Sync production workspace from main
+        env:
+          DEPLOY_HOST: ssh.getupsoft.com.do
+          DEPLOY_USER: ${{ github.event.inputs.deploy_user || 'ubuntu' }}
+          DEPLOY_PATH: ${{ github.event.inputs.deploy_path || '/home/ubuntu/workspaces/GetUpSoft_Workspace_main_clean' }}
+          TARGET_SHA: ${{ github.sha }}
+        run: |
+          set -euo pipefail
+
+          cat > /tmp/sync-production-workspace.sh << 'EOF'
+          set -e
+          test -d "$DEPLOY_PATH/.git"
+          cd "$DEPLOY_PATH"
+          BEFORE_SHA=$(git rev-parse --short HEAD)
+          flock /tmp/getupsoft-workspace-sync.lock bash -lc "git fetch origin main && git reset --hard $TARGET_SHA"
+          AFTER_SHA=$(git rev-parse --short HEAD)
+          FULL_SHA=$(git rev-parse HEAD)
+          echo "before=$BEFORE_SHA"
+          echo "after=$AFTER_SHA"
+          test "$FULL_SHA" = "$TARGET_SHA"
+          git status --short --branch
+          EOF
+
+          if [ -d "$DEPLOY_PATH/.git" ]; then
+            echo "Syncing directly on getupsoft-lan runner"
+            bash /tmp/sync-production-workspace.sh
+            exit 0
+          fi
+
+          for attempt in 1 2 3; do
+            echo "SSH sync attempt ${attempt}/3 to ${DEPLOY_HOST}"
+            if timeout 90 ssh \
+              -o BatchMode=yes \
+              -o StrictHostKeyChecking=accept-new \
+              -o ConnectTimeout=15 \
+              -o ConnectionAttempts=1 \
+              "${DEPLOY_USER}@${DEPLOY_HOST}" "DEPLOY_PATH='$DEPLOY_PATH' TARGET_SHA='$TARGET_SHA' bash -s" < /tmp/sync-production-workspace.sh; then
+              exit 0
+            fi
+            sleep $((attempt * 10))
+          done
+
+          echo "Unable to sync workspace on ${DEPLOY_HOST} after 3 attempts."
+          exit 1

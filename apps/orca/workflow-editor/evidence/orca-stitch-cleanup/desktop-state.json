@@ -1,0 +1,14 @@
+{
+  "state": {
+    "title": "ORCA | Orchestrator",
+    "text": "ORCA\nExample Workflow\nWeb Design\nWorkflow\nMobile Design\nAI\nRun\nStart Trigger\ntrigger\nFetch Data\nhttp\nProcess AI\nai\nReact Flow",
+    "hasMatrix": true,
+    "hasToggleClasses": 4,
+    "bodyWidth": 1440,
+    "innerWidth": 1440
+  },
+  "messages": [
+    "error: Error: <path> attribute d: Expected number, \"MNaN,NaNhNaNvNaNh…\".",
+    "error: Error: <svg> attribute viewBox: Expected number, \"NaN NaN NaN NaN\"."
+  ]
+}

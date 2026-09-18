@@ -1,0 +1,10 @@
+{
+  "workflowNodes": 3,
+  "workflowShowsBaseNodes": true,
+  "webBeforeNodes": 0,
+  "webBeforeHidesWorkflowNodes": true,
+  "webAfterNodes": 1,
+  "webAfterShowsHero": true,
+  "messages": [],
+  "pass": true
+}

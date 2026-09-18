@@ -1,0 +1,71 @@
+{
+  "platform": "Instagram",
+  "url": "https://www.instagram.com/lolita_rnr/",
+  "extraction": {
+    "visible_name": "Joyero/a",
+    "username": null,
+    "url": "https://www.instagram.com/lolita_rnr/",
+    "timestamp": "2026-04-09T21:31:45.136056",
+    "confidence": 0.5,
+    "selector_used": "Multi-selector approach"
+  },
+  "steps": [
+    {
+      "name": "Browser Start",
+      "status": "PASS",
+      "message": "Chrome connected",
+      "screenshot_path": null,
+      "timestamp": "2026-04-09T21:31:43.198449"
+    },
+    {
+      "name": "Navigation",
+      "status": "PASS",
+      "message": "Arrived at https://www.instagram.com/lolita_rnr/",
+      "screenshot_path": null,
+      "timestamp": "2026-04-09T21:31:45.067245"
+    },
+    {
+      "name": "Extraction",
+      "status": "PASS",
+      "message": "Visible name: Joyero/a",
+      "screenshot_path": null,
+      "timestamp": "2026-04-09T21:31:45.136056"
+    },
+    {
+      "name": "Follow Action",
+      "status": "PASS",
+      "message": "User followed (or already following)",
+      "screenshot_path": null,
+      "timestamp": "2026-04-09T21:31:45.224964"
+    },
+    {
+      "name": "Message Builder",
+      "status": "PASS",
+      "message": "Official professional draft ready",
+      "screenshot_path": null,
+      "timestamp": "2026-04-09T21:31:45.224964"
+    },
+    {
+      "name": "Chat Transition",
+      "status": "PASS",
+      "message": "Opened DM window",
+      "screenshot_path": null,
+      "timestamp": "2026-04-09T21:31:50.924534"
+    },
+    {
+      "name": "Type Message",
+      "status": "PASS",
+      "message": "Message drafted in textbox",
+      "screenshot_path": null,
+      "timestamp": "2026-04-09T21:31:53.403657"
+    },
+    {
+      "name": "Send Action",
+      "status": "PASS",
+      "message": "Message SENT to user",
+      "screenshot_path": null,
+      "timestamp": "2026-04-09T21:31:56.583493"
+    }
+  ],
+  "summary": "Full automated invitation cycle completed."
+}

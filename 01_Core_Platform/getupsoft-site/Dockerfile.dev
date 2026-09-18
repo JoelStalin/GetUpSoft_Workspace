@@ -1,0 +1,22 @@
+# Development Dockerfile with HMR support
+FROM node:20-alpine
+
+WORKDIR /app
+
+# Install pnpm
+RUN npm install -g pnpm
+
+# Copy package files
+COPY package.json pnpm-lock.yaml ./
+
+# Install dependencies
+RUN pnpm install --frozen-lockfile
+
+# Copy source
+COPY . .
+
+# Expose Vite dev server port
+EXPOSE 5176
+
+# Run dev server (HMR enabled)
+CMD ["pnpm", "dev"]

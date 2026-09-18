@@ -1,0 +1,143 @@
+# Alert Rules para Prometheus en arquitectura multi-servidor
+# Ubicación: /etc/prometheus/alert_rules.yml
+
+groups:
+  - name: multi_server_alerts
+    interval: 1m
+    rules:
+      # ===== MEMORIA =====
+      - alert: HighMemoryUsage
+        expr: (1 - (node_memory_MemAvailable_bytes / node_memory_MemTotal_bytes)) > 0.80
+        for: 5m
+        annotations:
+          summary: "Alto uso de memoria en {{ $labels.server }}"
+          description: "Servidor {{ $labels.server }} está usando > 80% de memoria"
+
+      - alert: CriticalMemoryUsage
+        expr: (1 - (node_memory_MemAvailable_bytes / node_memory_MemTotal_bytes)) > 0.95
+        for: 2m
+        annotations:
+          summary: "CRÍTICO: Memoria casi llena en {{ $labels.server }}"
+          description: "Servidor {{ $labels.server }} está usando > 95% de memoria"
+
+      # ===== SWAP =====
+      - alert: HighSwapUsage
+        expr: (1 - (node_memory_SwapFree_bytes / node_memory_SwapTotal_bytes)) > 0.70
+        for: 5m
+        annotations:
+          summary: "Alto uso de Swap en {{ $labels.server }}"
+          description: "Servidor {{ $labels.server }} está usando > 70% de swap"
+
+      - alert: SwapFullWarning
+        expr: (1 - (node_memory_SwapFree_bytes / node_memory_SwapTotal_bytes)) > 0.90
+        for: 2m
+        annotations:
+          summary: "CRÍTICO: Swap casi lleno en {{ $labels.server }}"
+          description: "Servidor {{ $labels.server }} está usando > 90% de swap"
+
+      # ===== CPU =====
+      - alert: HighCPUUsage
+        expr: (100 - (avg by (instance) (rate(node_cpu_seconds_total{mode="idle"}[5m])) * 100)) > 85
+        for: 10m
+        annotations:
+          summary: "Alto uso de CPU en {{ $labels.server }}"
+          description: "Servidor {{ $labels.server }} CPU > 85% por 10 minutos"
+
+      # ===== DISCO =====
+      - alert: HighDiskUsage
+        expr: (1 - (node_filesystem_avail_bytes{fstype!="tmpfs"} / node_filesystem_size_bytes)) > 0.80
+        for: 5m
+        annotations:
+          summary: "Disco casi lleno en {{ $labels.server }}"
+          description: "{{ $labels.device }} en {{ $labels.server }} está > 80% lleno"
+
+      # ===== CONECTIVIDAD SERVIDORES =====
+      - alert: ServerDown
+        expr: up{job=~"server.*"} == 0
+        for: 2m
+        annotations:
+          summary: "❌ Servidor {{ $labels.server }} está DOWN"
+          description: "No se puede alcanzar el servidor {{ $labels.server }}"
+
+      # ===== POSTGRESQL =====
+      - alert: PostgreSQLConnectivity
+        expr: pg_up == 0
+        for: 1m
+        annotations:
+          summary: "PostgreSQL no responde en {{ $labels.server }}"
+          description: "Database {{ $labels.database }} no está disponible"
+
+      - alert: TooManyPostgreSQLConnections
+        expr: pg_stat_activity_count > 150
+        for: 5m
+        annotations:
+          summary: "Demasiadas conexiones PostgreSQL"
+          description: "{{ $labels.server }}: {{ $value }} conexiones activas"
+
+      - alert: PostgreSQLSlowQueries
+        expr: pg_stat_statements_mean_exec_time > 5000
+        for: 5m
+        annotations:
+          summary: "Queries lentos en PostgreSQL"
+          description: "Queries promedio > 5 segundos en {{ $labels.server }}"
+
+      # ===== REDIS =====
+      - alert: RedisConnectivity
+        expr: redis_up == 0
+        for: 1m
+        annotations:
+          summary: "Redis no responde en {{ $labels.server }}"
+          description: "Redis en {{ $labels.server }} está down"
+
+      - alert: RedisHighMemory
+        expr: (redis_memory_used_bytes / redis_memory_max_bytes) > 0.85
+        for: 5m
+        annotations:
+          summary: "Redis con memoria alta"
+          description: "Redis en {{ $labels.server }} usando > 85% de memoria"
+
+      # ===== DOCKER =====
+      - alert: ContainerRestartingLoop
+        expr: rate(container_last_seen{status="restarting"}[5m]) > 0.5
+        for: 5m
+        annotations:
+          summary: "Contenedor en restart loop"
+          description: "{{ $labels.name }} en {{ $labels.server }} está restarting continuamente"
+
+      - alert: ContainerDown
+        expr: container_state == 0
+        for: 5m
+        annotations:
+          summary: "Contenedor crítico down"
+          description: "{{ $labels.name }} en {{ $labels.server }} está stopped/down"
+
+      # ===== NGINX =====
+      - alert: NginxDown
+        expr: nginx_up == 0
+        for: 2m
+        annotations:
+          summary: "Nginx no responde"
+          description: "Nginx en {{ $labels.server }} está down"
+
+      - alert: NginxHighErrorRate
+        expr: (rate(nginx_http_requests_total{status=~"5.."}[5m]) / rate(nginx_http_requests_total[5m])) > 0.05
+        for: 5m
+        annotations:
+          summary: "Nginx alta tasa de errores 5xx"
+          description: "{{ $labels.server }}: {{ $value | humanizePercentage }} requests fallando"
+
+      # ===== APLICACIONES ODOO =====
+      - alert: OdooDown
+        expr: up{job=~".*odoo.*"} == 0
+        for: 5m
+        annotations:
+          summary: "Odoo no responde en {{ $labels.server }}"
+          description: "Odoo en {{ $labels.server }} está down"
+
+      # ===== ALERTAS DE SINCRONIZACIÓN =====
+      - alert: DataSyncLagDetected
+        expr: (time() - timestamp(pg_postmaster_start_time{job="postgres-server1"})) > 3600
+        for: 10m
+        annotations:
+          summary: "Posible lag de sincronización de datos"
+          description: "Diferencia de uptime entre servidores > 1 hora"

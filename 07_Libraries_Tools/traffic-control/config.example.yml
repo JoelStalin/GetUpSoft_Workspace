@@ -1,0 +1,19 @@
+allowed_targets:
+  - example.com
+  - 192.0.2.10
+
+# Dominios externos esperados por el navegador.
+# Todo dominio contactado por la pagina que no este aqui se marca como unexpected.
+allowed_client_domains:
+  - example.com
+  - www.googletagmanager.com
+  - fonts.gstatic.com
+
+defaults:
+  output_dir: .traffic-control
+  nmap_args:
+    - -sV
+    - --top-ports
+    - "100"
+  capture_seconds: 60
+  capture_packet_limit: 1000

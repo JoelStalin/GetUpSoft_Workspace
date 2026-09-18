@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Formulario del wizard -->
+    <record id="view_transporter_report_wizard_form" model="ir.ui.view">
+        <field name="name">transporter.report.wizard.form</field>
+        <field name="model">transporter.report.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Generar Reporte de Descuentos">
+                
+                <group>
+                    <p>
+                        Seleccione el rango de fechas y filtre por un producto exacto o escriba parte del nombre.
+                    </p>
+                </group>
+
+                <!-- Sección de fechas -->
+                <group string="Rango de Fechas">
+                    <field name="date_from"/>
+                    <field name="date_to"/>
+                </group>
+
+                <!-- Sección de producto -->
+                <group string="Producto">
+                    <field name="product_id"/>
+                    <field name="product_name"/>
+                </group>
+
+                <!-- Sección de opciones -->
+                <group string="Opciones">
+                    <field name="include_without_discount"/>
+                </group>
+
+                <footer>
+                    <button name="action_generate_report" type="object"
+                            string="Generar Reporte" class="oe_highlight"/>
+                    <button string="Cancelar" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <!-- Acción del wizard -->
+    <record id="action_transporter_report_wizard" model="ir.actions.act_window">
+        <field name="name">Reporte de Descuentos a Transportistas</field>
+        <field name="res_model">transporter.report.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+    <!-- Menú -->
+    <menuitem
+        id="menu_transporter_discount_report"
+        name="Reporte de Descuentos por fecha"
+        parent="benefits_and_discounts"
+        action="action_transporter_report_wizard"
+        sequence="11"/>
+</odoo>

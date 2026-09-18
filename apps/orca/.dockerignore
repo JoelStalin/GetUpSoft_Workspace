@@ -1,0 +1,48 @@
+# Git and version control
+.git
+.gitignore
+.gitattributes
+
+# Python
+.venv
+venv
+env
+__pycache__
+*.pyc
+*.pyo
+*.egg-info
+dist
+build
+.eggs
+*.egg
+.mypy_cache
+.pytest_cache
+.ruff_cache
+*.coverage
+htmlcov/
+
+# IDE and editors
+.vscode
+.idea
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Artifacts and cache (will be mounted as PVC)
+.artifacts/
+.cache/
+
+# Temporary files
+*.tmp
+*.log
+.env
+.env.local
+
+# Documentation (optional, exclude if large)
+docs/
+
+# Tests (optional: exclude if not needed in runtime)
+tests/
+
+# Keep: README.md, config/, src/

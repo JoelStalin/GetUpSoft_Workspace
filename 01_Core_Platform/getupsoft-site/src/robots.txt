@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://getupsoft.com/sitemap.xml
+Sitemap: https://getupsoft.com.do/sitemap.xml

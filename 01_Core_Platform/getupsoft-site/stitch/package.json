@@ -1,0 +1,19 @@
+{
+  "name": "getupsoft-stitch-generator",
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "generate": "tsx generate.ts",
+    "generate:global": "tsx generate.ts --portal global",
+    "generate:rd": "tsx generate.ts --portal rd",
+    "dry-run": "tsx generate.ts --dry-run",
+    "dry-run:global": "tsx generate.ts --portal global --dry-run"
+  },
+  "dependencies": {
+    "@google/stitch-sdk": "latest"
+  },
+  "devDependencies": {
+    "tsx": "^4.0.0",
+    "typescript": "^5.4.0"
+  }
+}

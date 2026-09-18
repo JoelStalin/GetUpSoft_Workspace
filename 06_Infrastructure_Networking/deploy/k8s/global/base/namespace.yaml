@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: getupsoft
+  labels:
+    name: getupsoft
+    environment: production

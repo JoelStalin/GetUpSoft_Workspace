@@ -1,0 +1,196 @@
+# Docker Compose para Server 3 (LAB / DESARROLLO)
+# Ubicación: /home/ubuntu/docker-compose.yml en Server 3
+# Usa: docker-compose up -d
+
+version: '3.9'
+
+services:
+  # PostgreSQL para Lab
+  lab-postgres:
+    image: postgres:17-alpine
+    container_name: getupsoft-lab-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-changeme}
+      POSTGRES_INITDB_ARGS: "-c max_connections=100 -c shared_buffers=128MB"
+    volumes:
+      - lab-postgres-data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    networks:
+      - lab-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Redis para Lab
+  lab-redis:
+    image: redis:7-alpine
+    container_name: lab-redis
+    restart: unless-stopped
+    volumes:
+      - lab-redis-data:/data
+    ports:
+      - "6379:6379"
+    networks:
+      - lab-network
+    command: redis-server --appendonly yes --maxmemory 512mb --maxmemory-policy allkeys-lru
+
+  # GetUpSoft Odoo Lab/Test
+  getupsoft-odoo-lab:
+    image: odoo:17-latest
+    container_name: getupsoft_odoo_lab_test
+    restart: unless-stopped
+    depends_on:
+      lab-postgres:
+        condition: service_healthy
+    environment:
+      HOST: lab-postgres
+      PORT: 5432
+      USER: postgres
+      PASSWORD: ${DB_PASSWORD:-changeme}
+      DB_NAME: getupsoft_lab
+      ADMIN_PASSWORD: ${ODOO_ADMIN:-changeme}
+      WORKERS: 2
+      LIMIT_TIME_CPU: 300
+      LIMIT_TIME_REAL: 600
+    volumes:
+      - getupsoft_odoo_lab_data:/var/lib/odoo
+      - getupsoft_odoo_lab_config:/etc/odoo
+    ports:
+      - "8069:8069"
+      - "8072:8072"
+    networks:
+      - lab-network
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost:8069 || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # Galantes Odoo Lab
+  galantes-odoo-lab:
+    image: odoo:17-latest
+    container_name: galantes_lab_odoo
+    restart: unless-stopped
+    depends_on:
+      lab-postgres:
+        condition: service_healthy
+    environment:
+      HOST: lab-postgres
+      PORT: 5432
+      USER: postgres
+      PASSWORD: ${DB_PASSWORD:-changeme}
+      DB_NAME: galantes_lab
+      ADMIN_PASSWORD: ${ODOO_ADMIN:-changeme}
+      WORKERS: 2
+    volumes:
+      - galantes_lab_odoo_data:/var/lib/odoo
+      - galantes_lab_odoo_config:/etc/odoo
+    ports:
+      - "8070:8069"
+      - "8073:8072"
+    networks:
+      - lab-network
+
+  # Galantes Web Lab
+  galantes-web-lab:
+    image: nginx:1.27-alpine
+    container_name: galantes_lab_web
+    restart: unless-stopped
+    depends_on:
+      - galantes-odoo-lab
+    volumes:
+      - ./nginx-lab-sites:/etc/nginx/sites-available
+      - galantes_lab_web_data:/var/www/html
+    ports:
+      - "8080:80"
+    networks:
+      - lab-network
+
+  # WeKan (Project Management)
+  wekan:
+    image: wekan/wekan:latest
+    container_name: wekan
+    restart: unless-stopped
+    depends_on:
+      - wekan-mongo
+    environment:
+      MONGO_URL: mongodb://wekan-mongo:27017/wekan
+      ROOT_URL: http://192.168.1.235:8081
+    volumes:
+      - wekan-data:/data
+    ports:
+      - "8081:8080"
+    networks:
+      - lab-network
+
+  # MongoDB para WeKan
+  wekan-mongo:
+    image: mongo:5-alpine
+    container_name: wekan-mongo
+    restart: unless-stopped
+    volumes:
+      - wekan-mongo-data:/data/db
+    networks:
+      - lab-network
+
+  # Code-Server (IDE remoto)
+  code-server:
+    image: codercom/code-server:latest
+    container_name: code-server-lab
+    restart: unless-stopped
+    environment:
+      PASSWORD: ${CODE_SERVER_PASSWORD:-changeme}
+    volumes:
+      - ./:/home/coder/project
+      - /var/run/docker.sock:/var/run/docker.sock
+    ports:
+      - "8443:8080"
+    networks:
+      - lab-network
+
+  # Node Exporter (Prometheus metrics)
+  node-exporter:
+    image: prom/node-exporter:latest
+    container_name: node-exporter
+    restart: unless-stopped
+    volumes:
+      - /proc:/host/proc:ro
+      - /sys:/host/sys:ro
+      - /:/rootfs:ro
+    ports:
+      - "9100:9100"
+    networks:
+      - lab-network
+    command:
+      - "--path.procfs=/host/proc"
+      - "--path.sysfs=/host/sys"
+      - "--collector.filesystem.mount-points-exclude=^/(sys|proc|dev|host|etc)($$|/)"
+
+volumes:
+  lab-postgres-data:
+    driver: local
+  lab-redis-data:
+    driver: local
+  getupsoft_odoo_lab_data:
+    driver: local
+  getupsoft_odoo_lab_config:
+    driver: local
+  galantes_lab_odoo_data:
+    driver: local
+  galantes_lab_odoo_config:
+    driver: local
+  galantes_lab_web_data:
+    driver: local
+  wekan-data:
+    driver: local
+  wekan-mongo-data:
+    driver: local
+
+networks:
+  lab-network:
+    driver: bridge

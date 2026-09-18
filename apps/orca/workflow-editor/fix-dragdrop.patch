@@ -1,0 +1,10 @@
+El problema es que ReactFlow tiene su propia captura de eventos.
+La solución: usar un layer intermedio que capture ANTES que ReactFlow.
+
+Estrategia:
+1. Agregar un overlay invisible durante el drag
+2. Este overlay captura el drop event ANTES que ReactFlow
+3. Ejecutar el onDrop y luego dejar que el evento continúe
+
+Esto se hace con event capturing phase (useCapture: true)
+y stopPropagation() DESPUÉS de procesar.

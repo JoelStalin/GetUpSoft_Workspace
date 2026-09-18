@@ -1,0 +1,4 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_orca_quality_point_log_user,Quality Point Log - User Read-Only,model_orca_quality_point_log,base.group_user,1,0,0,0
+access_orca_quality_point_log_manager,Quality Point Log - Manager Read-Only,model_orca_quality_point_log,quality.group_quality_manager,1,0,0,0
+access_orca_quality_point_log_admin,Quality Point Log - Admin Full,model_orca_quality_point_log,quality.group_quality_manager,1,1,1,0

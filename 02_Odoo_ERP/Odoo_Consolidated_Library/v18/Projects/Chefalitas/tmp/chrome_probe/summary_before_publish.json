@@ -1,0 +1,188 @@
+{
+  "results": [
+    {
+      "mode": "nodebug",
+      "url": "https://chefalitas.com.do/pos/web?config_id=1",
+      "steps": [
+        {
+          "table_click": {
+            "ok": true,
+            "selector": "(//*[contains(@class,\"table\")])[1]"
+          }
+        },
+        {
+          "add_product": {
+            "ok": true,
+            "selector": ".product"
+          }
+        },
+        {
+          "go_payment": {
+            "ok": true,
+            "selector": ".pay-order-button"
+          }
+        },
+        {
+          "payment_method": {
+            "ok": true,
+            "selector": ".paymentmethods .paymentmethod"
+          }
+        },
+        {
+          "validate": {
+            "ok": true,
+            "selector": ".button.next"
+          }
+        },
+        {
+          "print_click": {
+            "ok": false,
+            "error": "Message: \nStacktrace:\nSymbols not available. Dumping unresolved backtrace:\n\t0x7ff61a1aaa55\n\t0x7ff619f08630\n\t0x7ff619c9d75d\n\t0x7ff619cf862e\n\t0x7ff619cf893c\n\t0x7ff619d48d87\n\t0x7ff619d4591c\n\t0x7ff619ce9098\n\t0x7ff619ce9f83\n\t0x7ff61a1d7810\n\t0x7ff61a1d1afd\n\t0x7ff61a1f2c1a\n\t0x7ff619f23345\n\t0x7ff619f2b81c\n\t0x7ff619f11924\n\t0x7ff619f11ad6\n\t0x7ff619ef7e47\n\t0x7ff9a492e8d7\n\t0x7ff9a538c48c\n"
+          }
+        }
+      ],
+      "errors": [],
+      "console": [
+        {
+          "level": "SEVERE",
+          "message": "https://chefalitas.com.do/pos/web?config_id=1 - Access to fetch at 'http://127.0.0.1:9060/print' from origin 'https://chefalitas.com.do' has been blocked by CORS policy: Permission was denied for this request to access the `loopback` address space."
+        },
+        {
+          "level": "SEVERE",
+          "message": "http://127.0.0.1:9060/print - Failed to load resource: net::ERR_FAILED"
+        },
+        {
+          "level": "SEVERE",
+          "message": "https://chefalitas.com.do/web/assets/3561003/point_of_sale.assets_prod.min.js 17350:94 \"[pos_printing_suite] Loopback blocked:\" Object"
+        }
+      ],
+      "jobs_before": 0,
+      "final_url": "https://chefalitas.com.do/pos/web?config_id=1",
+      "jobs_after": 0,
+      "jobs_delta": 0
+    },
+    {
+      "mode": "debug",
+      "url": "https://chefalitas.com.do/pos/web?config_id=1&debug=assets",
+      "steps": [
+        {
+          "table_click": {
+            "ok": true,
+            "selector": "(//*[contains(@class,\"table\")])[1]"
+          }
+        },
+        {
+          "add_product": {
+            "ok": true,
+            "selector": ".product"
+          }
+        },
+        {
+          "go_payment": {
+            "ok": true,
+            "selector": ".pay-order-button"
+          }
+        },
+        {
+          "payment_method": {
+            "ok": true,
+            "selector": ".paymentmethods .paymentmethod"
+          }
+        },
+        {
+          "validate": {
+            "ok": true,
+            "selector": ".button.next"
+          }
+        },
+        {
+          "print_click": {
+            "ok": false,
+            "error": "Message: \nStacktrace:\nSymbols not available. Dumping unresolved backtrace:\n\t0x7ff61a1aaa55\n\t0x7ff619f08630\n\t0x7ff619c9d75d\n\t0x7ff619cf862e\n\t0x7ff619cf893c\n\t0x7ff619d48d87\n\t0x7ff619d4591c\n\t0x7ff619ce9098\n\t0x7ff619ce9f83\n\t0x7ff61a1d7810\n\t0x7ff61a1d1afd\n\t0x7ff61a1f2c1a\n\t0x7ff619f23345\n\t0x7ff619f2b81c\n\t0x7ff619f11924\n\t0x7ff619f11ad6\n\t0x7ff619ef7e47\n\t0x7ff9a492e8d7\n\t0x7ff9a538c48c\n"
+          }
+        }
+      ],
+      "errors": [],
+      "console": [
+        {
+          "level": "DEBUG",
+          "message": "https://chefalitas.com.do/web/assets/debug/point_of_sale.assets_prod.js 164575:12 \"[pos_printing_suite] html_to_image_patch loaded\""
+        },
+        {
+          "level": "DEBUG",
+          "message": "https://chefalitas.com.do/web/assets/debug/point_of_sale.assets_prod.js 164606:12 \"[pos_printing_suite] pos_store_patch loaded\""
+        },
+        {
+          "level": "DEBUG",
+          "message": "https://chefalitas.com.do/web/assets/debug/point_of_sale.assets_prod.js 164838:12 \"[pos_printing_suite] self_order_service_patch loaded\""
+        },
+        {
+          "level": "DEBUG",
+          "message": "https://chefalitas.com.do/web/assets/debug/point_of_sale.assets_prod.js 74692:28 \"%c2/27/2026, 8:13:37 PM - [_onWebsocketError]\" \"color: #c6e; font-weight: bold;\""
+        },
+        {
+          "level": "DEBUG",
+          "message": "https://chefalitas.com.do/web/assets/debug/point_of_sale.assets_prod.js 164661:16 \"[pos_printing_suite] HW Proxy URL:\" \"http://127.0.0.1:9060\""
+        },
+        {
+          "level": "DEBUG",
+          "message": "https://chefalitas.com.do/web/assets/debug/point_of_sale.assets_prod.js 164661:16 \"[pos_printing_suite] Local Agent URL:\" \"http://127.0.0.1:9060\""
+        },
+        {
+          "level": "DEBUG",
+          "message": "https://chefalitas.com.do/web/assets/debug/point_of_sale.assets_prod.js 164661:16 \"[pos_printing_suite] Local Agent URL:\" \"http://127.0.0.1:9060\""
+        },
+        {
+          "level": "DEBUG",
+          "message": "https://chefalitas.com.do/web/assets/debug/point_of_sale.assets_prod.js 74692:28 \"%c2/27/2026, 8:13:40 PM - [_onWebsocketError]\" \"color: #c6e; font-weight: bold;\""
+        },
+        {
+          "level": "DEBUG",
+          "message": "https://chefalitas.com.do/web/assets/debug/point_of_sale.assets_prod.js 74692:28 \"%c2/27/2026, 8:13:41 PM - [_onWebsocketError]\" \"color: #c6e; font-weight: bold;\""
+        },
+        {
+          "level": "DEBUG",
+          "message": "https://chefalitas.com.do/web/assets/debug/point_of_sale.assets_prod.js 74692:28 \"%c2/27/2026, 8:13:46 PM - [_onWebsocketError]\" \"color: #c6e; font-weight: bold;\""
+        },
+        {
+          "level": "DEBUG",
+          "message": "https://chefalitas.com.do/web/assets/debug/point_of_sale.assets_prod.js 74692:28 \"%c2/27/2026, 8:13:51 PM - [_onWebsocketError]\" \"color: #c6e; font-weight: bold;\""
+        },
+        {
+          "level": "DEBUG",
+          "message": "https://chefalitas.com.do/web/assets/debug/point_of_sale.assets_prod.js 74692:28 \"%c2/27/2026, 8:14:01 PM - [_onWebsocketError]\" \"color: #c6e; font-weight: bold;\""
+        },
+        {
+          "level": "DEBUG",
+          "message": "https://chefalitas.com.do/web/assets/debug/point_of_sale.assets_prod.js 74692:28 \"%c2/27/2026, 8:14:15 PM - [_onWebsocketError]\" \"color: #c6e; font-weight: bold;\""
+        },
+        {
+          "level": "DEBUG",
+          "message": "https://chefalitas.com.do/web/assets/debug/point_of_sale.assets_prod.js 164387:20 \"[pos_printing_suite] Local Agent payload:\" Object"
+        },
+        {
+          "level": "SEVERE",
+          "message": "https://chefalitas.com.do/pos/web?config_id=1&debug=assets - Access to fetch at 'http://127.0.0.1:9060/print' from origin 'https://chefalitas.com.do' has been blocked by CORS policy: Permission was denied for this request to access the `loopback` address space."
+        },
+        {
+          "level": "SEVERE",
+          "message": "http://127.0.0.1:9060/print - Failed to load resource: net::ERR_FAILED"
+        },
+        {
+          "level": "SEVERE",
+          "message": "https://chefalitas.com.do/web/assets/debug/point_of_sale.assets_prod.js 164416:24 \"[pos_printing_suite] Loopback blocked:\" Object"
+        },
+        {
+          "level": "DEBUG",
+          "message": "https://chefalitas.com.do/web/assets/debug/point_of_sale.assets_prod.js 74692:28 \"%c2/27/2026, 8:14:36 PM - [_onWebsocketError]\" \"color: #c6e; font-weight: bold;\""
+        }
+      ],
+      "jobs_before": 0,
+      "final_url": "https://chefalitas.com.do/pos/web?config_id=1&debug=assets",
+      "jobs_after": 0,
+      "jobs_delta": 0
+    }
+  ],
+  "hits": [],
+  "jobs": []
+}

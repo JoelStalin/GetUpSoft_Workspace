@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, viewport-fit=cover" name="viewport"/>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;family=Plus+Jakarta+Sans:wght@300;400;500;600&amp;family=IBM+Plex+Mono:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "secondary-fixed": "#96f3e1",
+                    "surface-dim": "#111317",
+                    "on-secondary-fixed-variant": "#005046",
+                    "secondary": "#7ad7c6",
+                    "on-secondary-fixed": "#00201b",
+                    "surface-container-high": "#282a2e",
+                    "on-error-container": "#ffdad6",
+                    "tertiary-fixed": "#ffe08e",
+                    "surface-variant": "#333539",
+                    "secondary-container": "#00786a",
+                    "surface-variant": "#333539",
+                    "secondary-container": "#00786a",
+                    "surface-container-low": "#1a1c20",
+                    "on-surface": "#e2e2e8",
+                    "surface-bright": "#37393e",
+                    "tertiary": "#f5d069",
+                    "inverse-on-surface": "#2f3035",
+                    "surface-tint": "#b8c4ff",
+                    "on-primary": "#1a2b6a",
+                    "inverse-surface": "#e2e2e8",
+                    "outline-variant": "#454650",
+                    "on-primary-fixed-variant": "#334282",
+                    "primary": "#c9d1ff",
+                    "on-primary-fixed": "#001354",
+                    "primary-container": "#a5b4fc",
+                    "tertiary-container": "#d7b451",
+                    "surface-container-highest": "#333539",
+                    "on-tertiary-container": "#5a4600",
+                    "inverse-primary": "#4b5a9c",
+                    "outline": "#8f909b",
+                    "surface-container": "#1e2024",
+                    "error-container": "#93000a",
+                    "primary-fixed": "#dde1ff",
+                    "on-secondary-container": "#a0fdeb",
+                    "secondary-fixed-dim": "#7ad7c6",
+                    "on-error": "#690005",
+                    "on-tertiary-fixed": "#241a00",
+                    "primary-fixed-dim": "#b8c4ff",
+                    "on-tertiary": "#3d2e00",
+                    "error": "#ffb4ab",
+                    "on-secondary": "#003730",
+                    "surface": "#111317",
+                    "on-background": "#e2e2e8",
+                    "on-surface-variant": "#c6c5d2",
+                    "on-tertiary-fixed-variant": "#584400"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "spacing": {
+                    "xs": "4px",
+                    "margin-mobile": "20px",
+                    "gutter": "16px",
+                    "unit": "4px",
+                    "md": "16px",
+                    "sm": "8px",
+                    "xl": "40px",
+                    "lg": "24px"
+            },
+            "fontFamily": {
+                    "headline-lg-mobile": ["Space Grotesk"],
+                    "body-sm": ["Plus Jakarta Sans"],
+                    "label-mono": ["IBM Plex Mono"],
+                    "display-xl": ["Space Grotesk"],
+                    "body-md": ["Plus Jakarta Sans"],
+                    "headline-lg": ["Space Grotesk"],
+                    "tag-mono": ["IBM Plex Mono"]
+            },
+            "fontSize": {
+                    "headline-lg-mobile": ["28px", {"lineHeight": "1.2", "fontWeight": "300"}],
+                    "body-sm": ["14px", {"lineHeight": "1.6", "fontWeight": "300"}],
+                    "label-mono": ["10px", {"lineHeight": "12px", "letterSpacing": "0.15em", "fontWeight": "500"}],
+                    "display-xl": ["40px", {"lineHeight": "1.1", "letterSpacing": "-0.04em", "fontWeight": "300"}],
+                    "body-md": ["16px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                    "headline-lg": ["32px", {"lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "300"}],
+                    "tag-mono": ["10px", {"lineHeight": "12px", "letterSpacing": "0.1em", "fontWeight": "600"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        body {
+            background-color: #0c0e12;
+            color: #e2e2e8;
+            -webkit-font-smoothing: antialiased;
+        }
+        .glass-card {
+            background: rgba(22, 25, 32, 0.7);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-top: 1px solid rgba(255, 255, 255, 0.12);
+        }
+        .mint-glow {
+            box-shadow: 0 0 20px rgba(153, 246, 228, 0.1);
+        }
+        .scroll-hide::-webkit-scrollbar {
+            display: none;
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="font-body-md text-body-md overflow-x-hidden">
+<!-- Top Navigation Shell -->
+<header class="fixed top-0 w-full z-50 bg-surface/70 backdrop-blur-xl border-b border-outline-variant/30 flex items-center justify-between px-margin-mobile h-16 w-full">
+<div class="font-headline-lg-mobile text-headline-lg-mobile font-light text-on-surface italic tracking-tight">getupsoft RD</div>
+<div class="flex items-center gap-4">
+<button class="text-primary hover:opacity-80 transition-opacity active:scale-95 transition-transform">
+<span class="material-symbols-outlined" data-icon="search">search</span>
+</button>
+<button class="text-primary hover:opacity-80 transition-opacity active:scale-95 transition-transform">
+<span class="material-symbols-outlined" data-icon="menu">menu</span>
+</button>
+</div>
+</header>
+<main class="pt-24 pb-32">
+<!-- Hero Section -->
+<section class="px-margin-mobile mb-xl">
+<div class="font-label-mono text-label-mono text-secondary mb-sm uppercase tracking-widest">// SOLUCIONES LOCALES</div>
+<h1 class="font-headline-lg-mobile text-headline-lg-mobile text-on-surface mb-md">
+                Infraestructura y gestión para el éxito <span class="italic text-secondary">local</span>
+</h1>
+<p class="font-body-sm text-body-sm text-on-surface-variant mb-lg leading-relaxed">
+                Implementamos Odoo ERP, facturación electrónica e infraestructura empresarial para que tu operación en la República Dominicana sea eficiente y segura.
+            </p>
+<button class="w-full py-4 px-lg bg-secondary text-on-secondary font-tag-mono text-tag-mono rounded-full uppercase tracking-widest hover:opacity-90 active:scale-95 transition-all mb-lg mint-glow">
+                SOLICITAR DIAGNÓSTICO
+            </button>
+<!-- Status Pills -->
+<div class="flex gap-sm overflow-x-auto scroll-hide pb-2">
+<div class="glass-card flex items-center gap-2 px-4 py-2 rounded-full whitespace-nowrap">
+<div class="w-1.5 h-1.5 rounded-full bg-secondary animate-pulse"></div>
+<span class="font-label-mono text-label-mono">Odoo ERP: 92%</span>
+</div>
+<div class="glass-card flex items-center gap-2 px-4 py-2 rounded-full whitespace-nowrap">
+<div class="w-1.5 h-1.5 rounded-full bg-secondary animate-pulse"></div>
+<span class="font-label-mono text-label-mono">Facturación: 88%</span>
+</div>
+<div class="glass-card flex items-center gap-2 px-4 py-2 rounded-full whitespace-nowrap">
+<div class="w-1.5 h-1.5 rounded-full bg-secondary animate-pulse"></div>
+<span class="font-label-mono text-label-mono">Sistemas: 100%</span>
+</div>
+</div>
+</section>
+<!-- The Challenge Section -->
+<section class="px-margin-mobile mb-xl">
+<div class="font-label-mono text-label-mono text-outline mb-sm tracking-widest">// EL RETO</div>
+<h2 class="font-headline-lg-mobile text-headline-lg-mobile text-on-surface mb-lg">
+                Sistemas <span class="italic text-secondary">desconectados</span>
+</h2>
+<div class="space-y-md">
+<div class="glass-card p-lg rounded-xl flex items-center gap-md">
+<span class="material-symbols-outlined text-secondary" data-icon="history">history</span>
+<span class="font-body-md text-body-md text-on-surface">Sistemas legados lentos</span>
+</div>
+<div class="glass-card p-lg rounded-xl flex items-center gap-md">
+<span class="material-symbols-outlined text-secondary" data-icon="hub">hub</span>
+<span class="font-body-md text-body-md text-on-surface">Falta de integración ERP</span>
+</div>
+<div class="glass-card p-lg rounded-xl flex items-center gap-md">
+<span class="material-symbols-outlined text-secondary" data-icon="fact_check">fact_check</span>
+<span class="font-body-md text-body-md text-on-surface">Incumplimiento de e-CF</span>
+</div>
+</div>
+</section>
+<!-- Services Section (Capabilities) -->
+<section class="px-margin-mobile mb-xl">
+<div class="font-label-mono text-label-mono text-outline mb-sm tracking-widest">// CAPACIDADES</div>
+<h2 class="font-headline-lg-mobile text-headline-lg-mobile text-on-surface mb-lg">
+                Ecosistema de <span class="italic text-secondary">Servicios</span>
+</h2>
+<div class="grid grid-cols-1 gap-md">
+<!-- Service 1 -->
+<div class="glass-card p-lg rounded-2xl relative overflow-hidden group">
+<div class="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
+<span class="material-symbols-outlined text-[4rem]" data-icon="settings_suggest">settings_suggest</span>
+</div>
+<div class="font-tag-mono text-tag-mono text-secondary mb-sm uppercase">Odoo ERP</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Gestión centralizada para PyMEs y Corporativos.</p>
+</div>
+<!-- Service 2 -->
+<div class="glass-card p-lg rounded-2xl relative overflow-hidden group">
+<div class="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
+<span class="material-symbols-outlined text-[4rem]" data-icon="receipt_long">receipt_long</span>
+</div>
+<div class="font-tag-mono text-tag-mono text-secondary mb-sm uppercase">Facturación Electrónica</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Certificación nativa ante la DGII.</p>
+</div>
+<!-- Service 3 -->
+<div class="glass-card p-lg rounded-2xl relative overflow-hidden group">
+<div class="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
+<span class="material-symbols-outlined text-[4rem]" data-icon="cloud">cloud</span>
+</div>
+<div class="font-tag-mono text-tag-mono text-secondary mb-sm uppercase">Infraestructura</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Servidores y cloud para alta disponibilidad.</p>
+</div>
+<!-- Service 4 -->
+<div class="glass-card p-lg rounded-2xl relative overflow-hidden group">
+<div class="absolute top-0 right-0 p-4 opacity-10 group-hover:opacity-20 transition-opacity">
+<span class="material-symbols-outlined text-[4rem]" data-icon="lan">lan</span>
+</div>
+<div class="font-tag-mono text-tag-mono text-secondary mb-sm uppercase">Redes</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Conectividad robusta para empresas locales.</p>
+</div>
+</div>
+</section>
+<!-- Sectores Section -->
+<section class="px-margin-mobile mb-xl">
+<div class="font-label-mono text-label-mono text-outline mb-sm tracking-widest">// ESPECIALIZADOS</div>
+<h2 class="font-headline-lg-mobile text-headline-lg-mobile text-on-surface mb-lg">
+                Sectores en <span class="italic text-secondary">RD</span>
+</h2>
+<div class="flex flex-wrap gap-sm">
+<span class="px-4 py-2 border border-outline-variant/30 rounded-full font-label-mono text-label-mono hover:border-secondary transition-colors cursor-default">Distribuidoras</span>
+<span class="px-4 py-2 border border-outline-variant/30 rounded-full font-label-mono text-label-mono hover:border-secondary transition-colors cursor-default">Retail</span>
+<span class="px-4 py-2 border border-outline-variant/30 rounded-full font-label-mono text-label-mono hover:border-secondary transition-colors cursor-default">Ferreterías</span>
+<span class="px-4 py-2 border border-outline-variant/30 rounded-full font-label-mono text-label-mono hover:border-secondary transition-colors cursor-default">Restaurantes</span>
+<span class="px-4 py-2 border border-outline-variant/30 rounded-full font-label-mono text-label-mono hover:border-secondary transition-colors cursor-default">Logística</span>
+<span class="px-4 py-2 border border-outline-variant/30 rounded-full font-label-mono text-label-mono hover:border-secondary transition-colors cursor-default">Servicios</span>
+</div>
+</section>
+<!-- Methodology Section -->
+<section class="px-margin-mobile mb-xl">
+<div class="font-label-mono text-label-mono text-outline mb-sm tracking-widest">// METODOLOGÍA</div>
+<h2 class="font-headline-lg-mobile text-headline-lg-mobile text-on-surface mb-lg">
+                El camino al <span class="italic text-secondary">éxito</span>
+</h2>
+<div class="relative space-y-xl">
+<!-- Visual Vertical Line -->
+<div class="absolute left-[7px] top-4 bottom-4 w-[1px] bg-outline-variant/30"></div>
+<div class="relative flex items-start gap-lg pl-8">
+<div class="absolute left-0 top-1 w-4 h-4 rounded-full border border-secondary bg-surface"></div>
+<div>
+<div class="font-tag-mono text-tag-mono text-secondary mb-xs uppercase">01 Diagnóstico</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Evaluación profunda de procesos y brechas digitales.</p>
+</div>
+</div>
+<div class="relative flex items-start gap-lg pl-8">
+<div class="absolute left-0 top-1 w-4 h-4 rounded-full border border-secondary bg-surface"></div>
+<div>
+<div class="font-tag-mono text-tag-mono text-secondary mb-xs uppercase">02 Diseño</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Arquitectura a medida integrando software y hardware.</p>
+</div>
+</div>
+<div class="relative flex items-start gap-lg pl-8">
+<div class="absolute left-0 top-1 w-4 h-4 rounded-full border border-secondary bg-surface"></div>
+<div>
+<div class="font-tag-mono text-tag-mono text-secondary mb-xs uppercase">03 Implementación</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Puesta en marcha asistida con soporte continuo.</p>
+</div>
+</div>
+</div>
+</section>
+<!-- Final CTA Section -->
+<section class="px-margin-mobile mb-xl">
+<div class="glass-card p-xl rounded-3xl text-center relative overflow-hidden">
+<div class="absolute inset-0 opacity-5 pointer-events-none">
+<div class="absolute top-0 left-0 w-full h-full bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-secondary via-transparent to-transparent"></div>
+</div>
+<h2 class="font-headline-lg-mobile text-headline-lg-mobile text-on-surface mb-lg">
+                    Evalúa tu infraestructura hoy
+                </h2>
+<button class="w-full py-4 px-lg bg-secondary text-on-secondary font-tag-mono text-tag-mono rounded-full uppercase tracking-widest hover:scale-[1.02] active:scale-95 transition-all mint-glow">
+                    EMPEZAR DIAGNÓSTICO GRATUITO
+                </button>
+</div>
+</section>
+</main>
+<!-- Footer Shell -->
+<footer class="w-full mb-20 border-t border-outline-variant/20 bg-surface-container-lowest flex flex-col items-center py-lg px-margin-mobile space-y-md text-center">
+<div class="font-headline-lg-mobile text-headline-lg-mobile text-on-surface italic">getupsoft RD</div>
+<div class="flex gap-md">
+<a class="font-label-mono text-label-mono text-on-surface-variant hover:text-secondary transition-colors" href="#">Privacidad</a>
+<a class="font-label-mono text-label-mono text-on-surface-variant hover:text-secondary transition-colors" href="#">Términos</a>
+<a class="font-label-mono text-label-mono text-on-surface-variant hover:text-secondary transition-colors" href="#">Soporte</a>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant">© 2024 GetUpSoft RD</p>
+</footer>
+<!-- Bottom Navigation Shell -->
+<nav class="fixed bottom-0 w-full z-50 bg-surface-container/80 backdrop-blur-xl border-t border-outline-variant/30 flex justify-around items-center h-20 px-4 pb-safe">
+<div class="flex flex-col items-center justify-center text-secondary bg-secondary/10 rounded-xl px-3 py-1 scale-90 transition-all duration-200">
+<span class="material-symbols-outlined" data-icon="home">home</span>
+<span class="font-label-mono text-label-mono">Inicio</span>
+</div>
+<div class="flex flex-col items-center justify-center text-on-surface-variant hover:bg-surface-variant/50 rounded-xl px-3 py-1 transition-all">
+<span class="material-symbols-outlined" data-icon="settings_suggest">settings_suggest</span>
+<span class="font-label-mono text-label-mono">Odoo</span>
+</div>
+<div class="flex flex-col items-center justify-center text-on-surface-variant hover:bg-surface-variant/50 rounded-xl px-3 py-1 transition-all">
+<span class="material-symbols-outlined" data-icon="lan">lan</span>
+<span class="font-label-mono text-label-mono">Redes</span>
+</div>
+<div class="flex flex-col items-center justify-center text-on-surface-variant hover:bg-surface-variant/50 rounded-xl px-3 py-1 transition-all">
+<span class="material-symbols-outlined" data-icon="groups">groups</span>
+<span class="font-label-mono text-label-mono">Nosotros</span>
+</div>
+</nav>
+<script>
+        // Subtle micro-interactions
+        document.querySelectorAll('.glass-card').forEach(card => {
+            card.addEventListener('touchstart', () => {
+                card.style.transform = 'scale(0.98)';
+                card.style.transition = 'transform 0.2s cubic-bezier(0.4, 0, 0.2, 1)';
+            });
+            card.addEventListener('touchend', () => {
+                card.style.transform = 'scale(1)';
+            });
+        });
+
+        // Simple visibility observer for entrance animations
+        const observerOptions = {
+            threshold: 0.1
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('opacity-100');
+                    entry.target.classList.remove('opacity-0', 'translate-y-4');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('section').forEach(section => {
+            section.classList.add('transition-all', 'duration-700', 'opacity-0', 'translate-y-4');
+            observer.observe(section);
+        });
+    </script>
+</body></html>

@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <!-- Stock Move ORCA Log List View -->
+    <record id="view_orca_stock_move_log_tree" model="ir.ui.view">
+        <field name="name">orca.stock.move.log.list</field>
+        <field name="model">orca.stock.move.log</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="date"/>
+                <field name="user_id"/>
+                <field name="action"/>
+                <field name="product_name"/>
+                <field name="move_type"/>
+                <field name="quantity_moved"/>
+                <field name="source_location"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Stock Move ORCA Log Form View -->
+    <record id="view_orca_stock_move_log_form" model="ir.ui.view">
+        <field name="name">orca.stock.move.log.form</field>
+        <field name="model">orca.stock.move.log</field>
+        <field name="arch" type="xml">
+            <form>
+                <group>
+                    <group string="Log Metadata">
+                        <field name="module_name"/>
+                        <field name="model_name"/>
+                        <field name="record_id"/>
+                        <field name="action"/>
+                        <field name="date"/>
+                        <field name="user_id"/>
+                    </group>
+                    <group string="Movement Details">
+                        <field name="product_name"/>
+                        <field name="move_type"/>
+                        <field name="quantity_moved"/>
+                        <field name="source_location"/>
+                        <field name="destination_location"/>
+                        <field name="reference"/>
+                    </group>
+                    <group string="Audit Data">
+                        <field name="before_values" widget="ace"/>
+                        <field name="after_values" widget="ace"/>
+                    </group>
+                </group>
+            </form>
+        </field>
+    </record>
+
+    <!-- Menu Items -->
+    <menuitem id="menu_orca_stock_logs" name="ORCA Logs" parent="stock.menu_stock_config"/>
+
+    <menuitem id="menu_orca_stock_move_log" name="Stock Movements"
+              parent="menu_orca_stock_logs"
+              action="action_view_orca_stock_move_log"/>
+
+    <!-- Actions -->
+    <act_window id="action_view_orca_stock_move_log"
+                name="Stock Movement ORCA Logs"
+                res_model="orca.stock.move.log"
+                view_mode="tree,form"/>
+</odoo>

@@ -1,0 +1,112 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Industries We Serve | Getupsoft Global</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600&family=Space+Grotesk:wght@300;500&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        bgDeep: '#0F1115',
+                        bgSurface: '#161920',
+                        pastelBlue: '#A5B4FC',
+                        pastelGray: '#94A3B8',
+                        textMain: '#E2E8F0',
+                        textMuted: '#64748B'
+                    },
+                    fontFamily: {
+                        sans: ['Plus Jakarta Sans', 'sans-serif'],
+                        display: ['Space Grotesk', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { background-color: #0F1115; color: #E2E8F0; }
+        .border-muted { border-color: rgba(148, 163, 184, 0.1); }
+    </style>
+</head>
+<body class="antialiased selection:bg-pastelBlue/30 text-sm">
+
+    <!-- Header -->
+    <header class="py-6 border-b border-muted">
+        <div class="container mx-auto px-8 flex justify-between items-center">
+            <a href="index.html" class="flex items-center space-x-3 group">
+                <div class="w-6 h-6 bg-pastelBlue rounded-full opacity-80 group-hover:scale-110 transition-transform"></div>
+                <span class="font-display text-lg tracking-tighter font-medium">getupsoft</span>
+            </a>
+            
+            <nav class="hidden md:flex space-x-10 text-[13px] font-medium text-textMuted">
+                <a href="ai-agents.html" class="hover:text-textMain transition-colors">AI Agents</a>
+                <a href="products.html" class="hover:text-textMain transition-colors">Products</a>
+                <a href="solutions.html" class="hover:text-textMain transition-colors">Solutions</a>
+                <a href="about.html" class="hover:text-textMain transition-colors">About</a>
+            </nav>
+
+            <a href="contact.html" class="text-[13px] font-medium text-pastelBlue hover:text-textMain transition-colors">
+                Book Strategy 
+            </a>
+        </div>
+    </header>
+
+    <main class="container mx-auto px-8 pt-24 pb-48">
+        <div class="max-w-3xl">
+            <div class="text-[11px] font-mono text-pastelBlue mb-8 tracking-widest uppercase opacity-60">Vertical Expertise</div>
+            <h1 class="text-5xl md:text-6xl font-display font-light leading-tight mb-12 tracking-tight">
+                Architecting for <span class="italic text-pastelBlue">every industry</span>.
+            </h1>
+            <p class="text-lg text-textMuted leading-relaxed font-light mb-16">
+                From logistics to professional services, we understand the unique technical and operational requirements of your sector.
+            </p>
+        </div>
+
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mt-24">
+            <!-- Industry 1 -->
+            <div class="p-8 bg-bgSurface rounded-2xl border border-muted hover:border-pastelBlue transition-all">
+                <h3 class="text-lg font-medium mb-4">Retail & E-commerce</h3>
+                <p class="text-textMuted text-xs leading-relaxed font-light">Optimizing the supply chain and customer journey through intelligent automation.</p>
+            </div>
+            <!-- Industry 2 -->
+            <div class="p-8 bg-bgSurface rounded-2xl border border-muted hover:border-pastelBlue transition-all">
+                <h3 class="text-lg font-medium mb-4">Distribution</h3>
+                <p class="text-textMuted text-xs leading-relaxed font-light">Real-time inventory orchestration and logistics monitoring systems.</p>
+            </div>
+            <!-- Industry 3 -->
+            <div class="p-8 bg-bgSurface rounded-2xl border border-muted hover:border-pastelBlue transition-all">
+                <h3 class="text-lg font-medium mb-4">Professional Services</h3>
+                <p class="text-textMuted text-xs leading-relaxed font-light">Streamlining client management and back-office operations for high-efficiency firms.</p>
+            </div>
+            <!-- Industry 4 -->
+            <div class="p-8 bg-bgSurface rounded-2xl border border-muted hover:border-pastelBlue transition-all">
+                <h3 class="text-lg font-medium mb-4">Manufacturing</h3>
+                <p class="text-textMuted text-xs leading-relaxed font-light">Digital twins and process automation for modern production environments.</p>
+            </div>
+            <!-- Industry 5 -->
+            <div class="p-8 bg-bgSurface rounded-2xl border border-muted hover:border-pastelBlue transition-all">
+                <h3 class="text-lg font-medium mb-4">Logistics</h3>
+                <p class="text-textMuted text-xs leading-relaxed font-light">Advanced tracking and fleet orchestration via connected IoT and AI systems.</p>
+            </div>
+        </div>
+    </main>
+
+    <footer class="py-20 border-t border-muted bg-bgSurface/30">
+        <div class="container mx-auto px-8 flex flex-col md:flex-row justify-between items-center gap-8 text-textMuted text-[11px]">
+            <div class="flex items-center space-x-3 grayscale opacity-50">
+                <div class="w-4 h-4 bg-pastelBlue rounded-full"></div>
+                <span class="tracking-widest font-medium uppercase">Getupsoft Global</span>
+            </div>
+            <div class="flex space-x-8 font-medium tracking-wider uppercase">
+                <a href="index.html" class="hover:text-textMain transition-colors">Home</a>
+                <a href="contact.html" class="hover:text-textMain transition-colors italic">Contact</a>
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>
+

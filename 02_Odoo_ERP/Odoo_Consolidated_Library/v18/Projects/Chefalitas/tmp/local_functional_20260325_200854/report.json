@@ -1,0 +1,248 @@
+{
+  "timestamp": "20260325_200854",
+  "remote_base": "https://chefalitas.com.do",
+  "local_base": "http://127.0.0.1:18069",
+  "pages": [
+    {
+      "page": "home",
+      "remote": {
+        "status": 200,
+        "url": "https://chefalitas.com.do/en",
+        "title": "Chefalitas – Comida Dominicana, Catering y Más",
+        "markers": {
+          "inicio": false,
+          "tienda": false,
+          "cont?ctenos": false,
+          "iniciar sesi?n": false
+        },
+        "len": 42591
+      },
+      "local": {
+        "status": 200,
+        "url": "http://127.0.0.1:18069/en",
+        "title": "Chefalitas – Comida Dominicana, Catering y Más",
+        "markers": {
+          "inicio": false,
+          "tienda": false,
+          "cont?ctenos": false,
+          "iniciar sesi?n": false
+        },
+        "len": 42639
+      }
+    },
+    {
+      "page": "shop",
+      "remote": {
+        "status": 200,
+        "url": "https://chefalitas.com.do/en/shop",
+        "title": "Products | Chefalitas",
+        "markers": {
+          "inicio": false,
+          "tienda": false,
+          "cont?ctenos": false,
+          "iniciar sesi?n": false
+        },
+        "len": 36186
+      },
+      "local": {
+        "status": 200,
+        "url": "http://127.0.0.1:18069/en/shop",
+        "title": "Products | Chefalitas",
+        "markers": {
+          "inicio": false,
+          "tienda": false,
+          "cont?ctenos": false,
+          "iniciar sesi?n": false
+        },
+        "len": 36234
+      }
+    },
+    {
+      "page": "contact",
+      "remote": {
+        "status": 200,
+        "url": "https://chefalitas.com.do/en/contactus",
+        "title": "Contact Us | Chefalitas",
+        "markers": {
+          "inicio": false,
+          "tienda": false,
+          "cont?ctenos": false,
+          "iniciar sesi?n": false
+        },
+        "len": 33559
+      },
+      "local": {
+        "status": 200,
+        "url": "http://127.0.0.1:18069/en/contactus",
+        "title": "Contact Us | Chefalitas",
+        "markers": {
+          "inicio": false,
+          "tienda": false,
+          "cont?ctenos": false,
+          "iniciar sesi?n": false
+        },
+        "len": 33607
+      }
+    },
+    {
+      "page": "login",
+      "remote": {
+        "status": 200,
+        "url": "https://chefalitas.com.do/en/web/login?db=chefalitas",
+        "title": "Login | Chefalitas",
+        "markers": {
+          "inicio": false,
+          "tienda": false,
+          "cont?ctenos": false,
+          "iniciar sesi?n": false
+        },
+        "len": 26403
+      },
+      "local": {
+        "status": 200,
+        "url": "http://127.0.0.1:18069/en/web/login?db=chefalitas",
+        "title": "Login | Chefalitas",
+        "markers": {
+          "inicio": false,
+          "tienda": false,
+          "cont?ctenos": false,
+          "iniciar sesi?n": false
+        },
+        "len": 26457
+      }
+    }
+  ],
+  "login": {
+    "status": 200,
+    "uid": 2,
+    "has_session_cookie": true
+  },
+  "pos": [
+    {
+      "name": "restaurante_local_agent",
+      "url": "http://127.0.0.1:18069/pos/web?config_id=1",
+      "expected": "local_agent",
+      "steps": [
+        {
+          "step": "login_submit",
+          "ok": true,
+          "detail": "session already active"
+        },
+        {
+          "step": "open_pos",
+          "ok": true,
+          "url": "http://127.0.0.1:18069/en/web/login?redirect=%2Fpos%2Fweb%3Fconfig_id%3D1"
+        },
+        {
+          "step": "select_table",
+          "ok": false,
+          "error": "Message: \n"
+        },
+        {
+          "step": "table_popup",
+          "ok": false,
+          "detail": "popup not present"
+        },
+        {
+          "step": "add_product",
+          "ok": false,
+          "error": "Message: \nStacktrace:\n\tmsedgedriver!GetHandleVerifier [0x7ff7e7031105+da15]\n\tmsedgedriver!GetHandleVerifier [0x7ff7e7031164+da74]\n\tmsedgedriver!GetHandleVerifier [0x7ff7e739f87c+37c18c]\n\tmsedgedriver!(No symbol) [0x7ff7e6da4d26]\n\tmsedgedriver!(No symbol) [0x7ff7e6da4fc5]\n\tmsedgedriver!(No symbol) [0x7ff7e6de2a87]\n\tmsedgedriver!(No symbol) [0x7ff7e6d9b9b7]\n\tmsedgedriver!(No symbol) [0x7ff7e6de07e2]\n\tmsedgedriver!(No symbol) [0x7ff7e6d9b1fc]\n\tmsedgedriver!(No symbol) [0x7ff7e6d9a456]\n\tmsedgedriver!(No symbol) [0x7ff7e6d9b023]\n\tmsedgedriver!(No symbol) [0x7ff7e6e68b69]\n\tmsedgedriver!(No symbol) [0x7ff7e6e65103]\n\tmsedgedriver!(No symbol) [0x7ff7e6e74d14]\n\tmsedgedriver!GetHandleVerifier [0x7ff7e704bf88+28898]\n\tmsedgedriver!GetHandleVerifier [0x7ff7e7054746+31056]\n\tmsedgedriver!GetHandleVerifier [0x7ff7e7038844+15154]\n\tmsedgedriver!GetHandleVerifier [0x7ff7e7038989+15299]\n\tmsedgedriver!GetHandleVerifier [0x7ff7e7025b82+2492]\n\tKERNEL32!BaseThreadInitThunk [0x7ff9139be8d7+17]\n\tntdll!RtlUserThreadStart [0x7ff914e4c3fc+2c]\n"
+        },
+        {
+          "step": "go_payment",
+          "ok": false,
+          "error": "Message: \nStacktrace:\n\tmsedgedriver!GetHandleVerifier [0x7ff7e7031105+da15]\n\tmsedgedriver!GetHandleVerifier [0x7ff7e7031164+da74]\n\tmsedgedriver!GetHandleVerifier [0x7ff7e739f87c+37c18c]\n\tmsedgedriver!(No symbol) [0x7ff7e6da4d26]\n\tmsedgedriver!(No symbol) [0x7ff7e6da4fc5]\n\tmsedgedriver!(No symbol) [0x7ff7e6de2a87]\n\tmsedgedriver!(No symbol) [0x7ff7e6d9b9b7]\n\tmsedgedriver!(No symbol) [0x7ff7e6de07e2]\n\tmsedgedriver!(No symbol) [0x7ff7e6d9b1fc]\n\tmsedgedriver!(No symbol) [0x7ff7e6d9a456]\n\tmsedgedriver!(No symbol) [0x7ff7e6d9b023]\n\tmsedgedriver!(No symbol) [0x7ff7e6e68b69]\n\tmsedgedriver!(No symbol) [0x7ff7e6e65103]\n\tmsedgedriver!(No symbol) [0x7ff7e6e74d14]\n\tmsedgedriver!GetHandleVerifier [0x7ff7e704bf88+28898]\n\tmsedgedriver!GetHandleVerifier [0x7ff7e7054746+31056]\n\tmsedgedriver!GetHandleVerifier [0x7ff7e7038844+15154]\n\tmsedgedriver!GetHandleVerifier [0x7ff7e7038989+15299]\n\tmsedgedriver!GetHandleVerifier [0x7ff7e7025b82+2492]\n\tKERNEL32!BaseThreadInitThunk [0x7ff9139be8d7+17]\n\tntdll!RtlUserThreadStart [0x7ff914e4c3fc+2c]\n"
+        },
+        {
+          "step": "select_payment_method",
+          "ok": false,
+          "error": "Message: \nStacktrace:\n\tmsedgedriver!GetHandleVerifier [0x7ff7e7031105+da15]\n\tmsedgedriver!GetHandleVerifier [0x7ff7e7031164+da74]\n\tmsedgedriver!GetHandleVerifier [0x7ff7e739f87c+37c18c]\n\tmsedgedriver!(No symbol) [0x7ff7e6da4d26]\n\tmsedgedriver!(No symbol) [0x7ff7e6da4fc5]\n\tmsedgedriver!(No symbol) [0x7ff7e6de2a87]\n\tmsedgedriver!(No symbol) [0x7ff7e6d9b9b7]\n\tmsedgedriver!(No symbol) [0x7ff7e6de07e2]\n\tmsedgedriver!(No symbol) [0x7ff7e6d9b1fc]\n\tmsedgedriver!(No symbol) [0x7ff7e6d9a456]\n\tmsedgedriver!(No symbol) [0x7ff7e6d9b023]\n\tmsedgedriver!(No symbol) [0x7ff7e6e68b69]\n\tmsedgedriver!(No symbol) [0x7ff7e6e65103]\n\tmsedgedriver!(No symbol) [0x7ff7e6e74d14]\n\tmsedgedriver!GetHandleVerifier [0x7ff7e704bf88+28898]\n\tmsedgedriver!GetHandleVerifier [0x7ff7e7054746+31056]\n\tmsedgedriver!GetHandleVerifier [0x7ff7e7038844+15154]\n\tmsedgedriver!GetHandleVerifier [0x7ff7e7038989+15299]\n\tmsedgedriver!GetHandleVerifier [0x7ff7e7025b82+2492]\n\tKERNEL32!BaseThreadInitThunk [0x7ff9139be8d7+17]\n\tntdll!RtlUserThreadStart [0x7ff914e4c3fc+2c]\n"
+        },
+        {
+          "step": "validate_payment",
+          "ok": false,
+          "error": "Message: \nStacktrace:\n\tmsedgedriver!GetHandleVerifier [0x7ff7e7031105+da15]\n\tmsedgedriver!GetHandleVerifier [0x7ff7e7031164+da74]\n\tmsedgedriver!GetHandleVerifier [0x7ff7e739f87c+37c18c]\n\tmsedgedriver!(No symbol) [0x7ff7e6da4d26]\n\tmsedgedriver!(No symbol) [0x7ff7e6da4fc5]\n\tmsedgedriver!(No symbol) [0x7ff7e6de2a87]\n\tmsedgedriver!(No symbol) [0x7ff7e6d9b9b7]\n\tmsedgedriver!(No symbol) [0x7ff7e6de07e2]\n\tmsedgedriver!(No symbol) [0x7ff7e6d9b1fc]\n\tmsedgedriver!(No symbol) [0x7ff7e6d9a456]\n\tmsedgedriver!(No symbol) [0x7ff7e6d9b023]\n\tmsedgedriver!(No symbol) [0x7ff7e6e68b69]\n\tmsedgedriver!(No symbol) [0x7ff7e6e65103]\n\tmsedgedriver!(No symbol) [0x7ff7e6e74d14]\n\tmsedgedriver!GetHandleVerifier [0x7ff7e704bf88+28898]\n\tmsedgedriver!GetHandleVerifier [0x7ff7e7054746+31056]\n\tmsedgedriver!GetHandleVerifier [0x7ff7e7038844+15154]\n\tmsedgedriver!GetHandleVerifier [0x7ff7e7038989+15299]\n\tmsedgedriver!GetHandleVerifier [0x7ff7e7025b82+2492]\n\tKERNEL32!BaseThreadInitThunk [0x7ff9139be8d7+17]\n\tntdll!RtlUserThreadStart [0x7ff914e4c3fc+2c]\n"
+        },
+        {
+          "step": "print_receipt",
+          "ok": false,
+          "error": "Message: \nStacktrace:\n\tmsedgedriver!GetHandleVerifier [0x7ff7e7031105+da15]\n\tmsedgedriver!GetHandleVerifier [0x7ff7e7031164+da74]\n\tmsedgedriver!GetHandleVerifier [0x7ff7e739f87c+37c18c]\n\tmsedgedriver!(No symbol) [0x7ff7e6da4d26]\n\tmsedgedriver!(No symbol) [0x7ff7e6da4fc5]\n\tmsedgedriver!(No symbol) [0x7ff7e6de2a87]\n\tmsedgedriver!(No symbol) [0x7ff7e6d9b9b7]\n\tmsedgedriver!(No symbol) [0x7ff7e6de07e2]\n\tmsedgedriver!(No symbol) [0x7ff7e6d9b1fc]\n\tmsedgedriver!(No symbol) [0x7ff7e6d9a456]\n\tmsedgedriver!(No symbol) [0x7ff7e6d9b023]\n\tmsedgedriver!(No symbol) [0x7ff7e6e68b69]\n\tmsedgedriver!(No symbol) [0x7ff7e6e65103]\n\tmsedgedriver!(No symbol) [0x7ff7e6e74d14]\n\tmsedgedriver!GetHandleVerifier [0x7ff7e704bf88+28898]\n\tmsedgedriver!GetHandleVerifier [0x7ff7e7054746+31056]\n\tmsedgedriver!GetHandleVerifier [0x7ff7e7038844+15154]\n\tmsedgedriver!GetHandleVerifier [0x7ff7e7038989+15299]\n\tmsedgedriver!GetHandleVerifier [0x7ff7e7025b82+2492]\n\tKERNEL32!BaseThreadInitThunk [0x7ff9139be8d7+17]\n\tntdll!RtlUserThreadStart [0x7ff914e4c3fc+2c]\n"
+        }
+      ],
+      "errors": [],
+      "console": [],
+      "final_url": "http://127.0.0.1:18069/en/web/login?redirect=%2Fpos%2Fweb%3Fconfig_id%3D1",
+      "events_9060_before": 0,
+      "events_9068_before": 0,
+      "events_9060_after": 0,
+      "events_9068_after": 0,
+      "events_9060_delta": 0,
+      "events_9068_delta": 0
+    },
+    {
+      "name": "chefalitas_hw_proxy",
+      "url": "http://127.0.0.1:18069/pos/web?config_id=2",
+      "expected": "hw_proxy",
+      "steps": [
+        {
+          "step": "login_submit",
+          "ok": true,
+          "url": "http://127.0.0.1:18069/en/website/search?search=&order=name+asc"
+        },
+        {
+          "step": "open_pos",
+          "ok": true,
+          "url": "http://127.0.0.1:18069/en/web/login?redirect=%2Fpos%2Fweb%3Fconfig_id%3D2"
+        },
+        {
+          "step": "select_table",
+          "ok": false,
+          "error": "Message: \n"
+        },
+        {
+          "step": "table_popup",
+          "ok": false,
+          "detail": "popup not present"
+        },
+        {
+          "step": "add_product",
+          "ok": false,
+          "error": "Message: \nStacktrace:\n\tmsedgedriver!GetHandleVerifier [0x7ff7e7031105+da15]\n\tmsedgedriver!GetHandleVerifier [0x7ff7e7031164+da74]\n\tmsedgedriver!GetHandleVerifier [0x7ff7e739f87c+37c18c]\n\tmsedgedriver!(No symbol) [0x7ff7e6da4d26]\n\tmsedgedriver!(No symbol) [0x7ff7e6da4fc5]\n\tmsedgedriver!(No symbol) [0x7ff7e6de2a87]\n\tmsedgedriver!(No symbol) [0x7ff7e6d9b9b7]\n\tmsedgedriver!(No symbol) [0x7ff7e6de07e2]\n\tmsedgedriver!(No symbol) [0x7ff7e6d9b1fc]\n\tmsedgedriver!(No symbol) [0x7ff7e6d9a456]\n\tmsedgedriver!(No symbol) [0x7ff7e6d9b023]\n\tmsedgedriver!(No symbol) [0x7ff7e6e68b69]\n\tmsedgedriver!(No symbol) [0x7ff7e6e65103]\n\tmsedgedriver!(No symbol) [0x7ff7e6e74d14]\n\tmsedgedriver!GetHandleVerifier [0x7ff7e704bf88+28898]\n\tmsedgedriver!GetHandleVerifier [0x7ff7e7054746+31056]\n\tmsedgedriver!GetHandleVerifier [0x7ff7e7038844+15154]\n\tmsedgedriver!GetHandleVerifier [0x7ff7e7038989+15299]\n\tmsedgedriver!GetHandleVerifier [0x7ff7e7025b82+2492]\n\tKERNEL32!BaseThreadInitThunk [0x7ff9139be8d7+17]\n\tntdll!RtlUserThreadStart [0x7ff914e4c3fc+2c]\n"
+        },
+        {
+          "step": "go_payment",
+          "ok": false,
+          "error": "Message: \nStacktrace:\n\tmsedgedriver!GetHandleVerifier [0x7ff7e7031105+da15]\n\tmsedgedriver!GetHandleVerifier [0x7ff7e7031164+da74]\n\tmsedgedriver!GetHandleVerifier [0x7ff7e739f87c+37c18c]\n\tmsedgedriver!(No symbol) [0x7ff7e6da4d26]\n\tmsedgedriver!(No symbol) [0x7ff7e6da4fc5]\n\tmsedgedriver!(No symbol) [0x7ff7e6de2a87]\n\tmsedgedriver!(No symbol) [0x7ff7e6d9b9b7]\n\tmsedgedriver!(No symbol) [0x7ff7e6de07e2]\n\tmsedgedriver!(No symbol) [0x7ff7e6d9b1fc]\n\tmsedgedriver!(No symbol) [0x7ff7e6d9a456]\n\tmsedgedriver!(No symbol) [0x7ff7e6d9b023]\n\tmsedgedriver!(No symbol) [0x7ff7e6e68b69]\n\tmsedgedriver!(No symbol) [0x7ff7e6e65103]\n\tmsedgedriver!(No symbol) [0x7ff7e6e74d14]\n\tmsedgedriver!GetHandleVerifier [0x7ff7e704bf88+28898]\n\tmsedgedriver!GetHandleVerifier [0x7ff7e7054746+31056]\n\tmsedgedriver!GetHandleVerifier [0x7ff7e7038844+15154]\n\tmsedgedriver!GetHandleVerifier [0x7ff7e7038989+15299]\n\tmsedgedriver!GetHandleVerifier [0x7ff7e7025b82+2492]\n\tKERNEL32!BaseThreadInitThunk [0x7ff9139be8d7+17]\n\tntdll!RtlUserThreadStart [0x7ff914e4c3fc+2c]\n"
+        },
+        {
+          "step": "select_payment_method",
+          "ok": false,
+          "error": "Message: \nStacktrace:\n\tmsedgedriver!GetHandleVerifier [0x7ff7e7031105+da15]\n\tmsedgedriver!GetHandleVerifier [0x7ff7e7031164+da74]\n\tmsedgedriver!GetHandleVerifier [0x7ff7e739f87c+37c18c]\n\tmsedgedriver!(No symbol) [0x7ff7e6da4d26]\n\tmsedgedriver!(No symbol) [0x7ff7e6da4fc5]\n\tmsedgedriver!(No symbol) [0x7ff7e6de2a87]\n\tmsedgedriver!(No symbol) [0x7ff7e6d9b9b7]\n\tmsedgedriver!(No symbol) [0x7ff7e6de07e2]\n\tmsedgedriver!(No symbol) [0x7ff7e6d9b1fc]\n\tmsedgedriver!(No symbol) [0x7ff7e6d9a456]\n\tmsedgedriver!(No symbol) [0x7ff7e6d9b023]\n\tmsedgedriver!(No symbol) [0x7ff7e6e68b69]\n\tmsedgedriver!(No symbol) [0x7ff7e6e65103]\n\tmsedgedriver!(No symbol) [0x7ff7e6e74d14]\n\tmsedgedriver!GetHandleVerifier [0x7ff7e704bf88+28898]\n\tmsedgedriver!GetHandleVerifier [0x7ff7e7054746+31056]\n\tmsedgedriver!GetHandleVerifier [0x7ff7e7038844+15154]\n\tmsedgedriver!GetHandleVerifier [0x7ff7e7038989+15299]\n\tmsedgedriver!GetHandleVerifier [0x7ff7e7025b82+2492]\n\tKERNEL32!BaseThreadInitThunk [0x7ff9139be8d7+17]\n\tntdll!RtlUserThreadStart [0x7ff914e4c3fc+2c]\n"
+        },
+        {
+          "step": "validate_payment",
+          "ok": false,
+          "error": "Message: \nStacktrace:\n\tmsedgedriver!GetHandleVerifier [0x7ff7e7031105+da15]\n\tmsedgedriver!GetHandleVerifier [0x7ff7e7031164+da74]\n\tmsedgedriver!GetHandleVerifier [0x7ff7e739f87c+37c18c]\n\tmsedgedriver!(No symbol) [0x7ff7e6da4d26]\n\tmsedgedriver!(No symbol) [0x7ff7e6da4fc5]\n\tmsedgedriver!(No symbol) [0x7ff7e6de2a87]\n\tmsedgedriver!(No symbol) [0x7ff7e6d9b9b7]\n\tmsedgedriver!(No symbol) [0x7ff7e6de07e2]\n\tmsedgedriver!(No symbol) [0x7ff7e6d9b1fc]\n\tmsedgedriver!(No symbol) [0x7ff7e6d9a456]\n\tmsedgedriver!(No symbol) [0x7ff7e6d9b023]\n\tmsedgedriver!(No symbol) [0x7ff7e6e68b69]\n\tmsedgedriver!(No symbol) [0x7ff7e6e65103]\n\tmsedgedriver!(No symbol) [0x7ff7e6e74d14]\n\tmsedgedriver!GetHandleVerifier [0x7ff7e704bf88+28898]\n\tmsedgedriver!GetHandleVerifier [0x7ff7e7054746+31056]\n\tmsedgedriver!GetHandleVerifier [0x7ff7e7038844+15154]\n\tmsedgedriver!GetHandleVerifier [0x7ff7e7038989+15299]\n\tmsedgedriver!GetHandleVerifier [0x7ff7e7025b82+2492]\n\tKERNEL32!BaseThreadInitThunk [0x7ff9139be8d7+17]\n\tntdll!RtlUserThreadStart [0x7ff914e4c3fc+2c]\n"
+        },
+        {
+          "step": "print_receipt",
+          "ok": false,
+          "error": "Message: \nStacktrace:\n\tmsedgedriver!GetHandleVerifier [0x7ff7e7031105+da15]\n\tmsedgedriver!GetHandleVerifier [0x7ff7e7031164+da74]\n\tmsedgedriver!GetHandleVerifier [0x7ff7e739f87c+37c18c]\n\tmsedgedriver!(No symbol) [0x7ff7e6da4d26]\n\tmsedgedriver!(No symbol) [0x7ff7e6da4fc5]\n\tmsedgedriver!(No symbol) [0x7ff7e6de2a87]\n\tmsedgedriver!(No symbol) [0x7ff7e6d9b9b7]\n\tmsedgedriver!(No symbol) [0x7ff7e6de07e2]\n\tmsedgedriver!(No symbol) [0x7ff7e6d9b1fc]\n\tmsedgedriver!(No symbol) [0x7ff7e6d9a456]\n\tmsedgedriver!(No symbol) [0x7ff7e6d9b023]\n\tmsedgedriver!(No symbol) [0x7ff7e6e68b69]\n\tmsedgedriver!(No symbol) [0x7ff7e6e65103]\n\tmsedgedriver!(No symbol) [0x7ff7e6e74d14]\n\tmsedgedriver!GetHandleVerifier [0x7ff7e704bf88+28898]\n\tmsedgedriver!GetHandleVerifier [0x7ff7e7054746+31056]\n\tmsedgedriver!GetHandleVerifier [0x7ff7e7038844+15154]\n\tmsedgedriver!GetHandleVerifier [0x7ff7e7038989+15299]\n\tmsedgedriver!GetHandleVerifier [0x7ff7e7025b82+2492]\n\tKERNEL32!BaseThreadInitThunk [0x7ff9139be8d7+17]\n\tntdll!RtlUserThreadStart [0x7ff914e4c3fc+2c]\n"
+        }
+      ],
+      "errors": [],
+      "console": [],
+      "final_url": "http://127.0.0.1:18069/en/web/login?redirect=%2Fpos%2Fweb%3Fconfig_id%3D2",
+      "events_9060_before": 0,
+      "events_9068_before": 0,
+      "events_9060_after": 0,
+      "events_9068_after": 0,
+      "events_9060_delta": 0,
+      "events_9068_delta": 0
+    }
+  ],
+  "servers": {
+    "9060_events": [],
+    "9068_events": []
+  }
+}

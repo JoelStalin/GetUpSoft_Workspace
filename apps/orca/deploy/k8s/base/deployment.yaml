@@ -1,0 +1,140 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: orca
+  namespace: getupsoft
+  labels:
+    app.kubernetes.io/name: orca
+    app.kubernetes.io/part-of: getupsoft-workspace
+    app.kubernetes.io/component: prompt-interpreter
+    app.kubernetes.io/version: "0.2.0"
+spec:
+  replicas: 1  # Single replica due to local SQLite state in .artifacts
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 0
+      maxUnavailable: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: orca
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: orca
+        app.kubernetes.io/part-of: getupsoft-workspace
+        app.kubernetes.io/component: prompt-interpreter
+      annotations:
+        prometheus.io/scrape: "false"  # Add Prometheus if monitoring is enabled
+    spec:
+      serviceAccountName: orca
+
+      # Security context for pod
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1000
+        runAsGroup: 1000
+        fsGroup: 1000
+        seccompProfile:
+          type: RuntimeDefault
+
+      # Init container to verify PVC is writable (optional)
+      initContainers:
+      - name: init-artifacts
+        image: busybox:1.35
+        command: ['sh', '-c', 'mkdir -p /artifacts && chmod 755 /artifacts']
+        volumeMounts:
+        - name: artifacts
+          mountPath: /artifacts
+
+      containers:
+      - name: orca
+        image: getupsoft/orca:latest
+        imagePullPolicy: IfNotPresent
+
+        # Container port
+        ports:
+        - name: http
+          containerPort: 8787
+          protocol: TCP
+
+        # Environment variables from ConfigMap
+        envFrom:
+        - configMapRef:
+            name: orca-config
+
+        # Optional: Environment variables from Secret
+        # Uncomment if you create secret.yaml
+        # - secretRef:
+        #     name: orca-secrets
+
+        # Environment overrides (if needed)
+        env:
+        - name: PYTHONUNBUFFERED
+          value: "1"
+        - name: PYTHONDONTWRITEBYTECODE
+          value: "1"
+
+        # Health checks
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: http
+          initialDelaySeconds: 30
+          periodSeconds: 10
+          timeoutSeconds: 5
+          failureThreshold: 3
+
+        readinessProbe:
+          httpGet:
+            path: /health
+            port: http
+          initialDelaySeconds: 10
+          periodSeconds: 5
+          timeoutSeconds: 3
+          failureThreshold: 2
+
+        # Resource requests and limits
+        resources:
+          requests:
+            cpu: 250m
+            memory: 512Mi
+          limits:
+            cpu: 1000m
+            memory: 2Gi
+
+        # Security context for container
+        securityContext:
+          allowPrivilegeEscalation: false
+          readOnlyRootFilesystem: false  # FastAPI needs /tmp for temp files
+          capabilities:
+            drop:
+            - ALL
+          runAsNonRoot: true
+          runAsUser: 1000
+
+        # Volume mounts
+        volumeMounts:
+        - name: artifacts
+          mountPath: /app/.artifacts
+        - name: tmp
+          mountPath: /tmp
+
+      # Volumes
+      volumes:
+      - name: artifacts
+        persistentVolumeClaim:
+          claimName: orca-artifacts-pvc
+      - name: tmp
+        emptyDir:
+          sizeLimit: 1Gi
+
+      # Pod disruption budget (optional, for future multi-replica setups)
+      # podDisruptionBudget:
+      #   minAvailable: 1
+
+      # Restart policy
+      restartPolicy: Always
+
+      # Termination grace period for graceful shutdown
+      terminationGracePeriodSeconds: 30

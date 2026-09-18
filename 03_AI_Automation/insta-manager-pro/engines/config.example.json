@@ -1,0 +1,12 @@
+{
+  "chrome_user_data_dir": "C:\\selenium\\perfil_bot",
+  "chrome_profile_directory": "Default",
+  "allowed_domains": ["galantesjewelry.com", "instagram.com", "facebook.com"],
+  "dry_run": true,
+  "live_demo": true,
+  "manual_approval_required": true,
+  "step_delay_ms": 1200,
+  "screenshots_enabled": true,
+  "artifacts_dir": "./artifacts",
+  "output_dir": "./output"
+}

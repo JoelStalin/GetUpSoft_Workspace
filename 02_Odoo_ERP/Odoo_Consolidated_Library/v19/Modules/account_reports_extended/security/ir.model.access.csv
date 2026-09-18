@@ -1,0 +1,7 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_orca_fin_report_log_user,Financial Report Log - User Read-Only,model_orca_financial_report_log,base.group_user,1,0,0,0
+access_orca_fin_report_log_accountant,Financial Report Log - Accountant Read-Only,model_orca_financial_report_log,account.group_account_accountant,1,0,0,0
+access_orca_fin_report_log_manager,Financial Report Log - Manager Full,model_orca_financial_report_log,account.group_account_manager,1,1,1,0
+access_orca_tax_report_log_user,Tax Report Log - User Read-Only,model_orca_tax_report_log,base.group_user,1,0,0,0
+access_orca_tax_report_log_accountant,Tax Report Log - Accountant Read-Only,model_orca_tax_report_log,account.group_account_accountant,1,0,0,0
+access_orca_tax_report_log_manager,Tax Report Log - Manager Full,model_orca_tax_report_log,account.group_account_manager,1,1,1,0

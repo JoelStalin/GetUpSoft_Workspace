@@ -1,0 +1,9 @@
+
+{
+  "valid": false,
+  "provider": "openai",
+  "mode": "live-provider-validation",
+  "status_code": 401,
+  "elapsed_ms": 263,
+  "error": "Live validation failed for openai with HTTP 401"
+}

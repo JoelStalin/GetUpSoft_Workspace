@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="view_orca_calendar_event_log_tree" model="ir.ui.view">
+            <field name="name">Calendar Event ORCA Log Tree</field>
+            <field name="model">orca.calendar.event.log</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="date"/><field name="user_id"/><field name="action"/><field name="event_title"/><field name="event_date"/><field name="organizer"/><field name="event_type"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_orca_calendar_event_log_form" model="ir.ui.view">
+            <field name="name">Calendar Event ORCA Log Form</field>
+            <field name="model">orca.calendar.event.log</field>
+            <field name="arch" type="xml">
+                <form><sheet><group><group string="Log Metadata"><field name="date"/><field name="user_id"/><field name="action"/></group><group string="Event Details"><field name="event_title"/><field name="event_date"/><field name="organizer"/><field name="event_type"/><field name="attendees_count"/></group></group><group string="Audit Data"><field name="before_values" widget="ace" options="{'mode': 'json'}" nolabel="1"/><field name="after_values" widget="ace" options="{'mode': 'json'}" nolabel="1"/></group></sheet></form>
+            </field>
+        </record>
+
+        <record id="action_orca_calendar_event_log" model="ir.actions.act_window">
+            <field name="name">Calendar Event ORCA Logs</field>
+            <field name="res_model">orca.calendar.event.log</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <menuitem id="menu_orca_calendar_event_log" name="Event Logs" action="action_orca_calendar_event_log" parent="calendar.menu_calendar_configuration"/>
+    </data>
+</odoo>

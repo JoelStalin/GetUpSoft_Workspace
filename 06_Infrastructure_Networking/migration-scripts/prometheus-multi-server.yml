@@ -1,0 +1,129 @@
+# Configuración de Prometheus para monitoreo multi-servidor
+# Ubicación en Server 1: /etc/prometheus/prometheus.yml
+# Reemplaza la sección scrape_configs con esto
+
+global:
+  scrape_interval: 15s
+  evaluation_interval: 15s
+  external_labels:
+    monitor: 'getupsoft-multiserver'
+
+alerting:
+  alertmanagers:
+    - static_configs:
+        - targets: ['192.168.1.233:9093']
+
+rule_files:
+  - "alert_rules.yml"
+
+scrape_configs:
+  # ===== SERVER 1 - PRODUCCIÓN =====
+  - job_name: 'server1-prod'
+    static_configs:
+      - targets: ['192.168.1.233:9100']
+        labels:
+          server: 'Production'
+          environment: 'prod'
+
+  - job_name: 'prometheus-server1'
+    static_configs:
+      - targets: ['192.168.1.233:9090']
+        labels:
+          server: 'Production'
+
+  - job_name: 'docker-server1'
+    static_configs:
+      - targets: ['192.168.1.233:8080']
+        labels:
+          server: 'Production'
+
+  - job_name: 'postgres-server1'
+    static_configs:
+      - targets: ['192.168.1.233:9187']
+        labels:
+          server: 'Production'
+          database: 'jlft-premium'
+
+  - job_name: 'postgres-shared-server1'
+    static_configs:
+      - targets: ['192.168.1.233:9188']
+        labels:
+          server: 'Production'
+          database: 'shared'
+
+  # ===== SERVER 2 - STAGING / CI-CD =====
+  - job_name: 'server2-staging'
+    static_configs:
+      - targets: ['192.168.1.234:9100']
+        labels:
+          server: 'Staging'
+          environment: 'staging'
+
+  - job_name: 'docker-server2'
+    static_configs:
+      - targets: ['192.168.1.234:8080']
+        labels:
+          server: 'Staging'
+
+  - job_name: 'postgres-server2'
+    static_configs:
+      - targets: ['192.168.1.234:9189']
+        labels:
+          server: 'Staging'
+          database: 'staging'
+
+  - job_name: 'redis-server2'
+    static_configs:
+      - targets: ['192.168.1.234:9121']
+        labels:
+          server: 'Staging'
+
+  - job_name: 'code-server-server2'
+    static_configs:
+      - targets: ['192.168.1.234:8443']
+        labels:
+          server: 'Staging'
+          service: 'code-server'
+
+  # ===== SERVER 3 - LAB / DESARROLLO =====
+  - job_name: 'server3-lab'
+    static_configs:
+      - targets: ['192.168.1.235:9100']
+        labels:
+          server: 'Lab'
+          environment: 'lab'
+
+  - job_name: 'docker-server3'
+    static_configs:
+      - targets: ['192.168.1.235:8080']
+        labels:
+          server: 'Lab'
+
+  - job_name: 'postgres-server3'
+    static_configs:
+      - targets: ['192.168.1.235:9190']
+        labels:
+          server: 'Lab'
+          database: 'lab'
+
+  - job_name: 'wekan-server3'
+    static_configs:
+      - targets: ['192.168.1.235:8081']
+        labels:
+          server: 'Lab'
+          service: 'wekan'
+
+  # ===== ALERTAS CRÍTICAS =====
+  # Monitorear uptime de cada servidor
+  - job_name: 'uptime'
+    scrape_interval: 30s
+    metrics_path: /probe
+    params:
+      module: [http_2xx]
+    static_configs:
+      - targets:
+          - 'http://192.168.1.233:9090'
+          - 'http://192.168.1.234:9100'
+          - 'http://192.168.1.235:9100'
+        labels:
+          env: 'critical'

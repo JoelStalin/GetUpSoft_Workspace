@@ -1,0 +1,74 @@
+{
+  "name": "Scrum Backlog - Orca + Instagram",
+  "createdAt": "2026-05-15",
+  "sprint": {
+    "name": "Sprint 1",
+    "goal": "Integrar reglas de analisis Instagram en insta-manager-pro, habilitar catalogo NVIDIA gratuito en Orca, y agregar gestion web de credenciales de proveedores populares.",
+    "status": "done_with_follow_up_note"
+  },
+  "epics": [
+    {
+      "id": "IM",
+      "name": "Insta Manager Pro / Reglas de analisis Instagram",
+      "stories": [
+        {
+          "id": "IM-1",
+          "title": "Guardar reglas del proyecto para analisis estrategico de Instagram",
+          "status": "done"
+        },
+        {
+          "id": "IM-2",
+          "title": "Crear plantilla reusable del prompt maestro",
+          "status": "done"
+        }
+      ]
+    },
+    {
+      "id": "ORC-NV",
+      "name": "Orca / Catalogo NVIDIA Build",
+      "stories": [
+        {
+          "id": "ORC-NV-1",
+          "title": "Crear scraper Selenium para modelos gratuitos de NVIDIA Build",
+          "status": "done"
+        },
+        {
+          "id": "ORC-NV-2",
+          "title": "Transformar snapshot a catalogo compatible con Orca",
+          "status": "done"
+        },
+        {
+          "id": "ORC-NV-3",
+          "title": "Mantener catalogo de ejemplo estable",
+          "status": "done"
+        }
+      ]
+    },
+    {
+      "id": "ORC-SEC",
+      "name": "Orca / Credenciales web de proveedores",
+      "stories": [
+        {
+          "id": "ORC-SEC-1",
+          "title": "Crear almacenamiento mixto de credenciales",
+          "status": "done"
+        },
+        {
+          "id": "ORC-SEC-2",
+          "title": "Agregar seccion web de credenciales",
+          "status": "done"
+        },
+        {
+          "id": "ORC-SEC-3",
+          "title": "Preparar Orca para providers futuros",
+          "status": "done"
+        }
+      ]
+    }
+  ],
+  "reviewNotes": [
+    "Orca unit tests passed.",
+    "NVIDIA Build free snapshot generated with 42 items and 17 compatible catalog entries.",
+    "insta-manager-pro TypeScript check still fails because of a pre-existing error in client/src/pages/Automation.tsx."
+  ]
+}

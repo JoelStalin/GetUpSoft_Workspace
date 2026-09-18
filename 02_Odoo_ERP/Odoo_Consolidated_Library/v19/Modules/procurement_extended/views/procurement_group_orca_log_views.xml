@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="view_orca_procurement_group_log_tree" model="ir.ui.view">
+        <field name="name">orca.procurement.group.log.list</field>
+        <field name="model">orca.procurement.group.log</field>
+        <field name="arch" type="xml">
+            <tree><field name="date"/><field name="user_id"/><field name="action"/><field name="procurement_ref"/><field name="status"/><field name="priority"/><field name="item_count"/></tree>
+        </field>
+    </record>
+    <record id="view_orca_procurement_group_log_form" model="ir.ui.view">
+        <field name="name">orca.procurement.group.log.form</field>
+        <field name="model">orca.procurement.group.log</field>
+        <field name="arch" type="xml">
+            <form><group><group string="Log Metadata"><field name="module_name"/><field name="model_name"/><field name="record_id"/><field name="action"/><field name="date"/><field name="user_id"/></group><group string="Procurement Details"><field name="procurement_ref"/><field name="status"/><field name="priority"/><field name="item_count"/></group><group string="Audit Data"><field name="before_values" widget="ace"/><field name="after_values" widget="ace"/></group></group></form>
+        </field>
+    </record>
+    <menuitem id="menu_orca_procurement_logs" name="ORCA Logs" parent="purchase_stock.menu_purchase_stock_config"/>
+    <menuitem id="menu_orca_procurement_group_log" name="Procurement Groups" parent="menu_orca_procurement_logs" action="action_view_orca_procurement_group_log"/>
+    <act_window id="action_view_orca_procurement_group_log" name="Procurement Group ORCA Logs" res_model="orca.procurement.group.log" view_mode="tree,form"/>
+</odoo>

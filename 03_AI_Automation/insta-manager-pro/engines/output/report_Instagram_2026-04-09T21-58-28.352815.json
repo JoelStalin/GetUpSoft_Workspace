@@ -1,0 +1,64 @@
+{
+  "platform": "Instagram",
+  "url": "https://www.instagram.com/help.instagram.com/?hl=en",
+  "extraction": {
+    "visible_name": "Joyero/a",
+    "username": null,
+    "url": "https://www.instagram.com/help.instagram.com/?hl=en",
+    "timestamp": "2026-04-09T21:58:28.352815",
+    "confidence": 0.5,
+    "selector_used": "Multi-selector approach"
+  },
+  "steps": [
+    {
+      "name": "Browser Start",
+      "status": "PASS",
+      "message": "Chrome connected",
+      "screenshot_path": null,
+      "timestamp": "2026-04-09T21:58:26.298125"
+    },
+    {
+      "name": "Navigation",
+      "status": "PASS",
+      "message": "Arrived at https://www.instagram.com/help.instagram.com/?hl=en",
+      "screenshot_path": null,
+      "timestamp": "2026-04-09T21:58:28.268320"
+    },
+    {
+      "name": "Extraction",
+      "status": "PASS",
+      "message": "Visible name: Joyero/a",
+      "screenshot_path": null,
+      "timestamp": "2026-04-09T21:58:28.352815"
+    },
+    {
+      "name": "Follow Action",
+      "status": "PASS",
+      "message": "User followed (or already following)",
+      "screenshot_path": null,
+      "timestamp": "2026-04-09T21:58:28.456820"
+    },
+    {
+      "name": "Message Builder",
+      "status": "PASS",
+      "message": "Official professional draft ready",
+      "screenshot_path": null,
+      "timestamp": "2026-04-09T21:58:28.456820"
+    },
+    {
+      "name": "Chat Transition",
+      "status": "PASS",
+      "message": "DM window: https://www.instagram.com/direct/inbox/",
+      "screenshot_path": null,
+      "timestamp": "2026-04-09T21:58:35.172884"
+    },
+    {
+      "name": "Interaction Probe",
+      "status": "SKIPPED",
+      "message": "Message textbox not found",
+      "screenshot_path": null,
+      "timestamp": "2026-04-09T21:58:35.286074"
+    }
+  ],
+  "summary": "Full automated invitation cycle completed."
+}

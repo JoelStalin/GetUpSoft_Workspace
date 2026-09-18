@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Search view for POS Order ORCA logs -->
+        <record id="pos_order_orca_log_search" model="ir.ui.view">
+            <field name="name">pos.order.orca.log search</field>
+            <field name="model">pos.order.orca.log</field>
+            <field name="arch" type="xml">
+                <search string="ORCA Logs">
+                    <field name="record_id"/>
+                    <field name="ncf"/>
+                    <field name="action"/>
+                    <field name="user_id"/>
+                    <separator/>
+                    <filter name="filter_create" string="Creates" domain="[('action', '=', 'create')]"/>
+                    <filter name="filter_write" string="Writes" domain="[('action', '=', 'write')]"/>
+                    <filter name="filter_unlink" string="Deletes" domain="[('action', '=', 'unlink')]"/>
+                    <separator/>
+                    <filter name="filter_not_synced" string="Not Synced" domain="[('orca_synced', '=', False)]"/>
+                    <filter name="filter_synced" string="Synced" domain="[('orca_synced', '=', True)]"/>
+                    <filter name="filter_sync_error" string="Sync Errors" domain="[('orca_sync_error', '!=', False)]"/>
+                    <separator/>
+                    <group expand="0" string="Group By">
+                        <filter name="group_by_action" string="Action" context="{'group_by': 'action'}"/>
+                        <filter name="group_by_state" string="State" context="{'group_by': 'order_state'}"/>
+                        <filter name="group_by_user" string="User" context="{'group_by': 'user_id'}"/>
+                        <filter name="group_by_date" string="Date" context="{'group_by': 'date'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <!-- Tree view for POS Order ORCA logs -->
+        <record id="pos_order_orca_log_tree" model="ir.ui.view">
+            <field name="name">pos.order.orca.log tree</field>
+            <field name="model">pos.order.orca.log</field>
+            <field name="arch" type="xml">
+                <tree string="ORCA Logs" sample="1">
+                    <field name="date"/>
+                    <field name="action"/>
+                    <field name="record_id"/>
+                    <field name="ncf"/>
+                    <field name="order_state"/>
+                    <field name="user_id"/>
+                    <field name="orca_synced"/>
+                </tree>
+            </field>
+        </record>
+
+        <!-- Form view for POS Order ORCA logs -->
+        <record id="pos_order_orca_log_form" model="ir.ui.view">
+            <field name="name">pos.order.orca.log form</field>
+            <field name="model">pos.order.orca.log</field>
+            <field name="arch" type="xml">
+                <form string="ORCA Log">
+                    <sheet>
+                        <group col="4">
+                            <field name="date" readonly="1"/>
+                            <field name="action" readonly="1"/>
+                            <field name="record_id" readonly="1"/>
+                            <field name="user_id" readonly="1"/>
+                        </group>
+
+                        <group col="4" string="POS Order Details">
+                            <field name="model_name" readonly="1"/>
+                            <field name="module_name" readonly="1"/>
+                            <field name="ncf" readonly="1"/>
+                            <field name="order_state" readonly="1"/>
+                            <field name="fiscal_type" readonly="1"/>
+                        </group>
+
+                        <group col="4" string="ORCA Sync Status">
+                            <field name="orca_synced" readonly="1"/>
+                            <field name="orca_request_id" readonly="1"/>
+                            <field name="orca_sync_error" readonly="1"/>
+                        </group>
+
+                        <notebook>
+                            <page string="Before Values">
+                                <field name="before_values" widget="ace" options="{'mode': 'json'}" readonly="1"/>
+                            </page>
+                            <page string="After Values">
+                                <field name="after_values" widget="ace" options="{'mode': 'json'}" readonly="1"/>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <!-- Action and menu -->
+        <record id="pos_order_orca_log_action" model="ir.actions.act_window">
+            <field name="name">ORCA Audit Logs (POS Orders)</field>
+            <field name="res_model">pos.order.orca.log</field>
+            <field name="view_mode">tree,form</field>
+            <field name="search_view_id" ref="pos_order_orca_log_search"/>
+            <field name="context">{'search_default_group_by_action': 1}</field>
+        </record>
+
+        <menuitem
+            id="menu_pos_order_orca_log"
+            name="ORCA Audit Logs"
+            parent="point_of_sale.menu_point_of_sale"
+            action="pos_order_orca_log_action"
+            sequence="100"/>
+    </data>
+</odoo>

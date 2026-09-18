@@ -1,0 +1,16 @@
+[
+  {
+    "url": "https://chefalitas.com.do/pos/web?config_id=1",
+    "final_url": "https://chefalitas.com.do/pos/web?config_id=1",
+    "title": "Odoo POS",
+    "log_count": 0,
+    "logs": []
+  },
+  {
+    "url": "https://chefalitas.com.do/pos/web?config_id=1&debug=assets",
+    "final_url": "https://chefalitas.com.do/pos/web?config_id=1&debug=assets",
+    "title": "Odoo POS",
+    "log_count": 0,
+    "logs": []
+  }
+]

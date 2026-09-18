@@ -1,0 +1,12 @@
+{
+  "test_date": "2026-05-26T21:47:01.131517",
+  "total_invoices": 100,
+  "successful_creates": 100,
+  "failed_creates": 0,
+  "total_time_sec": 0.004426240921020508,
+  "average_time_ms": 0.03777399950195104,
+  "min_time_ms": 0.02770003629848361,
+  "max_time_ms": 0.1821999903768301,
+  "orca_logs_created": 100,
+  "performance_status": "PASS"
+}

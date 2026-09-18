@@ -1,0 +1,25 @@
+text,intent,priority,scrum_phase
+"crear una nueva pantalla para clientes premium",feature,high,implementation
+"implementa el modulo de pagos con pruebas",feature,high,implementation
+"agrega soporte para backlog yaml en la herramienta",feature,medium,implementation
+"fix login bug after password reset",bugfix,high,implementation
+"arregla el error de autenticacion en produccion",bugfix,high,implementation
+"hotfix para el fallo del endpoint de usuarios",bugfix,high,implementation
+"refactoriza la capa de servicios del interprete",refactor,medium,implementation
+"limpia el modulo de rutas y separa responsabilidades",refactor,medium,implementation
+"reorganiza los paquetes del dominio orca",refactor,medium,implementation
+"investiga opciones offline para speech to text",research,medium,discovery
+"analiza la mejor estrategia para traduccion local",research,medium,discovery
+"research accuracy tradeoffs for tfidf classifier",research,medium,discovery
+"documenta la arquitectura del pipeline orca",documentation,medium,discovery
+"actualiza el readme del proyecto y el adr",documentation,low,discovery
+"genera documentacion tecnica de backlog y ci",documentation,low,discovery
+"agrega pruebas unitarias para el mapeo scrum",test,medium,verification
+"crea regression tests para el bug del login",test,high,verification
+"pytest coverage para el prompt builder",test,medium,verification
+"prepara el despliegue del servicio en staging",deployment,medium,verification
+"configura el pipeline de release para main",deployment,medium,verification
+"deploy del paquete con validaciones previas",deployment,medium,verification
+"planifica el sprint de backlog del modulo orca",scrum-management,medium,planning
+"convierte este prompt en epica historia y tareas",scrum-management,medium,planning
+"actualiza definition of ready y definition of done",scrum-management,medium,planning

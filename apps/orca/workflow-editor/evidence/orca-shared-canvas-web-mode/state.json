@@ -1,0 +1,10 @@
+{
+  "beforeNodes": 3,
+  "afterNodes": 4,
+  "panelVisible": 1,
+  "workflowStillVisible": true,
+  "webNodeVisible": true,
+  "layoutControlsVisible": true,
+  "messages": [],
+  "pass": true
+}

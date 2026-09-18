@@ -1,0 +1,13 @@
+  {
+    "type": "service_account",
+    "project_id": "deft-haven-493016-m4",
+    "private_key_id": "c0f4f152f436baa71e82b3761a69cf70b871b26e",
+    "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQDAVU9q6R0q1vbu\nuUlR7hmh+Laah0C29XE5zerlVAEtye9Vxc53+GhH9xkorvGPU32K/klftBu9j1eQ\nEsCMNJ35A3zrZjjp6nMifeAd1a2i9mHi3mIpo/Dr336+1qLhyJ9C4z01LykJngUx\nButiFeQtnmQo2ceAIGfXXnqxuVB4pwqEct8IPoF6GzW7TwnnBTNEzVDQIBmJpYwO\nNscWVF5cDZXaffWdVmAiUk4QSYA+9xcP7Z6egIAP+yEGDLs8bCQ9YdoWB90Za8lI\nLVGgk6tx2K9/HwAId32bT/sgKHsll6JVUU1SK8E4nRgEg2o9fCENxGmMHeHPEw/B\nmItncwPFAgMBAAECggEAGKhXQCuWs7FPgxd6EOjnnF5YesMwRsR8uZ5uqOv2Irqq\n1mI/sB3GsMM7FH4pNejMRY+INJ7Ql6LS5QOib9cnEY+i6kL2tPZ7wEZG/0wvsJ7J\nud4s043TC0ph43F8/FlOIbMkW7cqGbOKktiCQNbxo++Ug7A35XNCHNhd/n71lCIN\nFO60dtce94IXYy8s6WMgCJM6kR2Gpcg5BUrAjh0sN7sC06WdwEvyImyKwxfMIhp4\njQf5NeInlYLO6OXDg0awXfStphw4dH6qSo3oBRwyb6ToXi/Ymssz+kd45Vdxu5lV\nb9OOubmLO4Vi5JbjwJziDGEPb1qWb5loevSToya2AQKBgQDyw9ZtfCgM9E+60cxO\nZaS+QjEUFnb2LOKn4SroIQAC+F/8YnvxYvK75d0ClboRZhCOJEUaKl0XxoCSuim9\nqRMYtDx6NW1R+1apKEhsc/ovGDz8AuCoBgxVln0MP1m/qLvzCM2mNDSo5HgjLE6y\nzjsg1Ozl1mAmlgkLHZI4v7F4BQKBgQDK0Z6IqBIia48vbqSMz1CxGqRt1KdBm84z\niCfI/ooYFiCxs7anmuyOSYoJ3BrSTQeaqyuGxg7jNXqqNwaBOwru/0XONjmyKCoA\n04hvWa/dH8xURFtjFKUVsTvkrT5mFPzNq+mlXykYij0DpzfvktKAF5jQqW5V8Dke\n5NSUWsfowQKBgQDdnR97dRLOuJysK+d5Tdq1gJFzCArzMgh7Ptc/bximnXxqVrFU\nq4JxOyalvG9OgMDuMXgPqcqv8Jrg1ydRpy3yqF5pJaq1Y186Lrbmon0qTtMlL69M\nU7Eg1K805gQVLYDeHRQ2/INyBpcRbNou6osZrqbQLgI6V07MIeOhAIWOzQKBgB1F\n4f7RW0Syh4kODBvytC/Lq53aioVyqnFPnoZpDp9pWjCrwpowRyJGRPElXo2p5oYR\nXIfoQC/VAS5eIMc4MVzLZVTdCLjJCT7zSQbhR/u/YitrblE/opAd84oO4ymyr8Yz\noNZohLLxCNtlIDKo2073mOvM+IrY0DXAS1paO+5BAoGBAMbZDCVj2pxJEM5F40e+\nHJXxfadf8yTp8v0LlrwVmzmWhBPYHzfvg9GvDezTimsxtzxzAcq0EIBSah1cp1vn\ntxJOOKwH5wgPgs+KMYow8DmcmcriVCcHvjLebvGGDKYA70QCprrIBIEtnUzlZ7+Q\nOwHxhLgdrfJNQym0uLZCj9Jc\n-----END PRIVATE KEY-----\n",
+    "client_email": "galantesjewelry@deft-haven-493016-m4.iam.gserviceaccount.com",
+    "client_id": "100459562347460098817",
+    "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+    "token_uri": "https://oauth2.googleapis.com/token",
+    "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+    "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/galantesjewelry%40deft-haven-493016-m4.iam.gserviceaccount.com",
+    "universe_domain": "googleapis.com"
+  }

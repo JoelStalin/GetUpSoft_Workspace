@@ -1,0 +1,24 @@
+{
+  "target_domain": "getupsoft.com.do",
+  "opened_target": false,
+  "initial": {
+    "title": "Just a moment...",
+    "url": "https://dash.cloudflare.com/",
+    "body_excerpt": "dash.cloudflare.com\nPerforming security verification\nThis website uses a security service to protect against malicious bots. This page is displayed while the website verifies you are not a bot.\nRay ID: 9f07dbc7ce01b18d\nPerformance and Security by Cloudflare\nPrivacy",
+    "anchors": [
+      {
+        "text": "Cloudflare",
+        "href": "https://www.cloudflare.com/?utm_source=challenge&utm_campaign=m"
+      },
+      {
+        "text": "Privacy",
+        "href": "https://www.cloudflare.com/privacypolicy/"
+      }
+    ],
+    "domain_candidates": [
+      "dash.cloudflare.com",
+      "www.cloudflare.com"
+    ]
+  },
+  "target": null
+}

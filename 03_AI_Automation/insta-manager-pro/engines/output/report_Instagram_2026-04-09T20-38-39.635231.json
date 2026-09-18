@@ -1,0 +1,71 @@
+{
+  "platform": "Instagram",
+  "url": "https://www.instagram.com/93_stalin/",
+  "extraction": {
+    "visible_name": "93_stalin",
+    "username": "93_stalin",
+    "url": "https://www.instagram.com/93_stalin/",
+    "timestamp": "2026-04-09T20:38:39.635231",
+    "confidence": 1.0,
+    "selector_used": "Multi-selector approach"
+  },
+  "steps": [
+    {
+      "name": "Browser Start",
+      "status": "PASS",
+      "message": "Chrome connected",
+      "screenshot_path": null,
+      "timestamp": "2026-04-09T20:38:36.966717"
+    },
+    {
+      "name": "Navigation",
+      "status": "PASS",
+      "message": "Arrived at https://www.instagram.com/93_stalin/",
+      "screenshot_path": null,
+      "timestamp": "2026-04-09T20:38:39.352028"
+    },
+    {
+      "name": "Extraction",
+      "status": "PASS",
+      "message": "Visible name: 93_stalin",
+      "screenshot_path": null,
+      "timestamp": "2026-04-09T20:38:39.635231"
+    },
+    {
+      "name": "Follow Action",
+      "status": "PASS",
+      "message": "User followed (or already following)",
+      "screenshot_path": null,
+      "timestamp": "2026-04-09T20:38:39.721714"
+    },
+    {
+      "name": "Message Builder",
+      "status": "PASS",
+      "message": "Official professional draft ready",
+      "screenshot_path": null,
+      "timestamp": "2026-04-09T20:38:39.721714"
+    },
+    {
+      "name": "Chat Transition",
+      "status": "PASS",
+      "message": "Opened DM window",
+      "screenshot_path": null,
+      "timestamp": "2026-04-09T20:38:44.869902"
+    },
+    {
+      "name": "Type Message",
+      "status": "PASS",
+      "message": "Message drafted in textbox",
+      "screenshot_path": null,
+      "timestamp": "2026-04-09T20:38:44.983473"
+    },
+    {
+      "name": "Send Action",
+      "status": "FAIL",
+      "message": "Send button click failed",
+      "screenshot_path": null,
+      "timestamp": "2026-04-09T20:38:45.237755"
+    }
+  ],
+  "summary": "Full automated invitation cycle completed."
+}

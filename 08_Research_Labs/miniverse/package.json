@@ -1,0 +1,22 @@
+{
+  "name": "miniverse-monorepo",
+  "private": true,
+  "workspaces": [
+    "packages/*",
+    "demo"
+  ],
+  "scripts": {
+    "dev": "npm run dev --workspace=demo",
+    "start": "node packages/server/dist/cli.js",
+    "build": "npm run build --workspace=packages/core && cd packages/server && node build.js",
+    "build:server": "cd packages/server && node build.js",
+    "build:all": "npm run build --workspaces",
+    "lint": "eslint packages/*/src/**/*.ts",
+    "typecheck": "tsc --noEmit --project packages/core/tsconfig.json"
+  },
+  "devDependencies": {
+    "esbuild": "^0.28.0",
+    "sharp": "^0.34.5",
+    "typescript": "^5.4.0"
+  }
+}

@@ -1,0 +1,197 @@
+[
+  {
+    "portal": "global",
+    "id": "global-hero",
+    "type": "hero",
+    "priority": "high",
+    "formats": "21:9, 16:9, 9:16",
+    "expectedFiles": [
+      "public\\assets\\global\\hero\\global-hero.avif",
+      "public\\assets\\global\\hero\\global-hero.webp",
+      "public\\assets\\global\\hero\\global-hero.mp4",
+      "public\\assets\\global\\hero\\global-hero.webm",
+      "public\\assets\\global\\hero\\global-hero-poster.avif"
+    ],
+    "promptCandidates": [
+      {
+        "id": "global-hero",
+        "title": "Hero Background Loop"
+      },
+      {
+        "id": "global-hero",
+        "title": "Global Hero"
+      }
+    ]
+  },
+  {
+    "portal": "global",
+    "id": "global-og",
+    "type": "open_graph",
+    "priority": "high",
+    "formats": "16:9",
+    "expectedFiles": [
+      "public\\assets\\global\\og\\global-og.avif",
+      "public\\assets\\global\\og\\global-og.webp",
+      "public\\assets\\global\\og\\global-og.jpg"
+    ],
+    "promptCandidates": [
+      {
+        "id": "global-og",
+        "title": "Open Graph Image (static)"
+      }
+    ]
+  },
+  {
+    "portal": "global",
+    "id": "orca",
+    "type": "product",
+    "priority": "lazy",
+    "formats": "16:9, 1:1, 4:5",
+    "expectedFiles": [
+      "public\\assets\\global\\product\\orca.avif",
+      "public\\assets\\global\\product\\orca.webp",
+      "public\\assets\\global\\product\\orca.mp4",
+      "public\\assets\\global\\product\\orca-poster.avif"
+    ],
+    "promptCandidates": [
+      {
+        "id": "global-orca",
+        "title": "Orca Product Visual"
+      },
+      {
+        "id": "orca",
+        "title": "Orca"
+      }
+    ]
+  },
+  {
+    "portal": "global",
+    "id": "aihub",
+    "type": "product",
+    "priority": "lazy",
+    "formats": "16:9, 1:1, 4:5",
+    "expectedFiles": [
+      "public\\assets\\global\\product\\aihub.avif",
+      "public\\assets\\global\\product\\aihub.webp",
+      "public\\assets\\global\\product\\aihub.mp4",
+      "public\\assets\\global\\product\\aihub-poster.avif"
+    ],
+    "promptCandidates": [
+      {
+        "id": "global-aihub",
+        "title": "AIHub Product Visual"
+      },
+      {
+        "id": "aihub",
+        "title": "AIHub"
+      }
+    ]
+  },
+  {
+    "portal": "global",
+    "id": "getupbuilder",
+    "type": "product",
+    "priority": "lazy",
+    "formats": "16:9, 1:1, 4:5",
+    "expectedFiles": [
+      "public\\assets\\global\\product\\getupbuilder.avif",
+      "public\\assets\\global\\product\\getupbuilder.webp",
+      "public\\assets\\global\\product\\getupbuilder.mp4",
+      "public\\assets\\global\\product\\getupbuilder-poster.avif"
+    ],
+    "promptCandidates": [
+      {
+        "id": "global-getupbuilder",
+        "title": "GetUpBuilder Product Visual"
+      },
+      {
+        "id": "getupbuilder",
+        "title": "GetUpBuilder"
+      }
+    ]
+  },
+  {
+    "portal": "rd",
+    "id": "rd-hero",
+    "type": "hero",
+    "priority": "high",
+    "formats": "21:9, 16:9, 9:16",
+    "expectedFiles": [
+      "public\\assets\\rd\\hero\\rd-hero.avif",
+      "public\\assets\\rd\\hero\\rd-hero.webp",
+      "public\\assets\\rd\\hero\\rd-hero.mp4",
+      "public\\assets\\rd\\hero\\rd-hero.webm",
+      "public\\assets\\rd\\hero\\rd-hero-poster.avif"
+    ],
+    "promptCandidates": [
+      {
+        "id": "rd-hero",
+        "title": "RD Hero Background Loop"
+      },
+      {
+        "id": "rd-hero",
+        "title": "RD Hero"
+      }
+    ]
+  },
+  {
+    "portal": "rd",
+    "id": "rd-og",
+    "type": "open_graph",
+    "priority": "high",
+    "formats": "16:9",
+    "expectedFiles": [
+      "public\\assets\\rd\\og\\rd-og.avif",
+      "public\\assets\\rd\\og\\rd-og.webp",
+      "public\\assets\\rd\\og\\rd-og.jpg"
+    ],
+    "promptCandidates": [
+      {
+        "id": "rd-og",
+        "title": "Open Graph Image (static)"
+      }
+    ]
+  },
+  {
+    "portal": "rd",
+    "id": "galantes-jewelry",
+    "type": "case_study",
+    "priority": "lazy",
+    "formats": "16:9, 1:1, 4:5",
+    "expectedFiles": [
+      "public\\assets\\rd\\case_study\\galantes-jewelry.avif",
+      "public\\assets\\rd\\case_study\\galantes-jewelry.webp",
+      "public\\assets\\rd\\case_study\\galantes-jewelry.mp4",
+      "public\\assets\\rd\\case_study\\galantes-jewelry-poster.avif"
+    ],
+    "promptCandidates": [
+      {
+        "id": "galantes-jewelry",
+        "title": "Galantes Jewelry"
+      }
+    ]
+  },
+  {
+    "portal": "rd",
+    "id": "chefalitas",
+    "type": "case_study",
+    "priority": "lazy",
+    "formats": "16:9, 1:1, 4:5",
+    "expectedFiles": [
+      "public\\assets\\rd\\case_study\\chefalitas.avif",
+      "public\\assets\\rd\\case_study\\chefalitas.webp",
+      "public\\assets\\rd\\case_study\\chefalitas.mp4",
+      "public\\assets\\rd\\case_study\\chefalitas-poster.avif"
+    ],
+    "promptCandidates": [
+      {
+        "id": "rd-chefalitas",
+        "title": "chefalitas Case Visual"
+      },
+      {
+        "id": "chefalitas",
+        "title": "chefalitas"
+      }
+    ]
+  }
+]

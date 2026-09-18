@@ -1,0 +1,15 @@
+{
+  "mcpServers": {
+    "kaliman-getupsoft": {
+      "command": "uv",
+      "args": [
+        "run",
+        "--directory",
+        "C:\\Users\\yoeli\\Documents\\GetUpSoft_Workspace\\03_AI_Automation\\kaliman-mcp",
+        "kaliman-mcp",
+        "--transport",
+        "stdio"
+      ]
+    }
+  }
+}

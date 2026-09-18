@@ -1,0 +1,3 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+pos_kitchen_core.access_pos_kitchen_orca_log_user,pos_kitchen_core.orca.log access for user,model_pos_kitchen_core_orca_log,base.group_user,1,0,0,0
+pos_kitchen_core.access_pos_kitchen_orca_log_manager,pos_kitchen_core.orca.log access for manager,model_pos_kitchen_core_orca_log,base.group_system,1,1,1,1

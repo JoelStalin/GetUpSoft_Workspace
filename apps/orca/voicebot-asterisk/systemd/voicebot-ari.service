@@ -1,0 +1,17 @@
+[Unit]
+Description=Voicebot ARI Python Service
+After=network.target asterisk.service
+Requires=asterisk.service
+
+[Service]
+Type=simple
+WorkingDirectory=/opt/voicebot-asterisk/bot
+EnvironmentFile=/opt/voicebot-asterisk/bot/.env
+ExecStart=/opt/voicebot-asterisk/bot/venv/bin/python /opt/voicebot-asterisk/bot/bot.py
+Restart=always
+RestartSec=5
+User=asterisk
+Group=asterisk
+
+[Install]
+WantedBy=multi-user.target

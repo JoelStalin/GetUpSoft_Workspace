@@ -1,0 +1,13 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(*)",
+      "Read(**)",
+      "Write(**)",
+      "Edit(**)",
+      "WebFetch(*)",
+      "WebSearch(*)",
+      "Read(//c/Users/yoeli/Documents/Easycouting/labs/**)"
+    ]
+  }
+}

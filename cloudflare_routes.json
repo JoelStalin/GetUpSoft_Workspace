@@ -1,0 +1,95 @@
+{
+  "tunnel": {
+    "name": "getupsoft-lab-tunnel",
+    "description": "GetUpSoft Laboratory Infrastructure Gateway"
+  },
+  "services": [
+    {
+      "name": "Orca Agent API",
+      "hostname": "orca-agent.getupsoft.com",
+      "local_port": 8000,
+      "protocol": "http",
+      "verify_endpoint": "/api/health",
+      "description": "Gateway API for Docker and Odoo access"
+    },
+    {
+      "name": "Odoo v19 Lab",
+      "hostname": "odoo-lab.getupsoft.com",
+      "local_port": 8069,
+      "protocol": "http",
+      "verify_endpoint": "/",
+      "description": "Odoo v19 Laboratory Instance"
+    },
+    {
+      "name": "n8n Workflows",
+      "hostname": "n8n-lab.getupsoft.com",
+      "local_port": 5678,
+      "protocol": "http",
+      "verify_endpoint": "/api/health",
+      "description": "n8n Workflow Automation Engine"
+    },
+    {
+      "name": "ORCA Workflow Editor",
+      "hostname": "editor-lab.getupsoft.com",
+      "local_port": 3000,
+      "protocol": "http",
+      "verify_endpoint": "/api/status",
+      "description": "ORCA Unified Workflow Editor"
+    }
+  ],
+  "warp": {
+    "rules": {
+      "remove": [
+        {
+          "cidr": "192.168.0.0/16",
+          "reason": "Blocking rule - too broad, conflicts with 192.168.1.0/24"
+        }
+      ],
+      "add_include": [
+        {
+          "cidr": "192.168.1.0/24",
+          "mode": "include",
+          "reason": "GetUpSoft local network - specific subnet"
+        }
+      ],
+      "add_exclude": []
+    }
+  },
+  "security": {
+    "authentication": "API Key (X-API-Key header)",
+    "tunnel_auth": "Cloudflare token",
+    "local_binding": "localhost only (127.0.0.1:8000)",
+    "ssl_verification": true,
+    "cors_allowed_origins": [
+      "https://code.getupsoft.com",
+      "https://orca-agent.getupsoft.com"
+    ]
+  },
+  "healthcheck": {
+    "interval_seconds": 30,
+    "timeout_seconds": 10,
+    "services": [
+      {
+        "name": "Orca Agent",
+        "url": "http://localhost:8000/api/health",
+        "expected_status": 200
+      },
+      {
+        "name": "Odoo Lab",
+        "url": "http://localhost:8069/web",
+        "expected_status": 200
+      },
+      {
+        "name": "n8n Lab",
+        "url": "http://localhost:5678/api/health",
+        "expected_status": 200
+      }
+    ]
+  },
+  "fallback": {
+    "retry_count": 3,
+    "retry_delay_seconds": 10,
+    "fallback_service": "orca-agent.getupsoft.com",
+    "fallback_action": "notify_admin"
+  }
+}

@@ -1,0 +1,18 @@
+ M .gitignore
+ M addons/pos_printing_suite/agent_src/local_printer_agent/installer/wix/Product.wxs
+ M addons/pos_printing_suite/controllers/agent.py
+?? AGENTS.md
+?? backups/prod_sync_2026-03-25_18-56-34/
+?? context/
+?? tmp/chrome_probe/
+?? tmp/compare_debug_vs_nodebug.json
+?? tmp/legacy_mode_compare.py
+?? tmp/legacy_mode_compare_report.json
+?? tmp/legacy_print_receiver.py
+?? tmp/pos_cookie_compare.json
+?? tmp/pos_loaded_compare.json
+?? tmp/probe_debug_legacy.py
+?? tmp/probe_debug_legacy_summary.json
+?? tmp/selenium_pos_functional_test.py
+?? tmp/selenium_user_pos_test.py
+?? tmp/selenium_user_report.json

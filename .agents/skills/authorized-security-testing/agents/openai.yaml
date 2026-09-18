@@ -1,0 +1,4 @@
+interface:
+  display_name: "Authorized Security Testing"
+  short_description: "Defensive security audits for owned projects"
+  default_prompt: "Use this skill to assess and harden projects I own with non-destructive checks, review findings, and produce prioritized remediation steps."

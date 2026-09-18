@@ -1,0 +1,17 @@
+meta {
+  name: sap 
+  type: http
+  seq: 4
+}
+
+get {
+  url: https://162.248.53.166:50000/b1s/v2/Invoices?$select=U_Orden_Real,DocEntry,DocNum,UpdateDate,DocDate,DocumentLines&$filter=U_Orden_Real ne null and CancelStatus eq 'csNo' and DocDate ge '2026-04-30' and DocDate le '2026-05-30'&$skip=60
+  body: none
+  auth: inherit
+}
+
+params:query {
+  $select: U_Orden_Real,DocEntry,DocNum,UpdateDate,DocDate,DocumentLines
+  $filter: U_Orden_Real ne null and CancelStatus eq 'csNo' and DocDate ge '2026-04-30' and DocDate le '2026-05-30'
+  $skip: 60
+}

@@ -1,0 +1,28 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: orca-config
+  namespace: getupsoft
+  labels:
+    app.kubernetes.io/name: orca
+    app.kubernetes.io/part-of: getupsoft-workspace
+    app.kubernetes.io/component: prompt-interpreter
+data:
+  # Non-sensitive configuration
+  # Sensitive configs (API keys, credentials) go in Secret
+
+  # Language for prompts
+  ORCA_CANONICAL_LANGUAGE: "es"
+
+  # Confidence threshold for NLP tasks
+  ORCA_LOW_CONFIDENCE_THRESHOLD: "0.7"
+
+  # Enable transcript history
+  ORCA_TRANSCRIPT_HISTORY_ENABLED: "true"
+
+  # Path to models (mapped to volume)
+  # Note: In container, models are downloaded to /app/.artifacts
+  # This is mounted from a PVC
+
+  # Logging
+  LOG_LEVEL: "INFO"

@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: orca
+  namespace: getupsoft
+  labels:
+    app.kubernetes.io/name: orca
+    app.kubernetes.io/part-of: getupsoft-workspace
+spec:
+  type: ClusterIP
+  selector:
+    app.kubernetes.io/name: orca
+  ports:
+  - name: http
+    port: 8787
+    targetPort: http
+    protocol: TCP

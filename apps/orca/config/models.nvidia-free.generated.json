@@ -1,0 +1,669 @@
+{
+  "generated_at": "2026-05-15T13:40:22.701778+00:00",
+  "source": "https://build.nvidia.com/models",
+  "default_model": "minimax-m2-7",
+  "models": [
+    {
+      "id": "minimax-m2-7",
+      "provider": "nvidia-openai-compatible",
+      "model": "minimaxai/minimax-m2.7",
+      "base_url": "https://integrate.api.nvidia.com/v1",
+      "api_key_env": "NVIDIA_API_KEY",
+      "default_params": {
+        "temperature": 0.7,
+        "top_p": 0.95,
+        "max_tokens": 8192
+      },
+      "extra_body": {},
+      "metadata": {
+        "publisher": "Minimaxai",
+        "display_name": "minimax-m2.7",
+        "summary": "",
+        "tags": [],
+        "href": "https://build.nvidia.com/minimaxai/minimax-m2.7",
+        "compatibility_reason": "compatible with Orca chat/completions flow"
+      }
+    },
+    {
+      "id": "step-3-5-flash",
+      "provider": "nvidia-openai-compatible",
+      "model": "stepfun-ai/step-3.5-flash",
+      "base_url": "https://integrate.api.nvidia.com/v1",
+      "api_key_env": "NVIDIA_API_KEY",
+      "default_params": {
+        "temperature": 0.7,
+        "top_p": 0.95,
+        "max_tokens": 8192
+      },
+      "extra_body": {},
+      "metadata": {
+        "publisher": "Stepfun-ai",
+        "display_name": "step-3.5-flash",
+        "summary": "",
+        "tags": [],
+        "href": "https://build.nvidia.com/stepfun-ai/step-3.5-flash",
+        "compatibility_reason": "compatible with Orca chat/completions flow"
+      }
+    },
+    {
+      "id": "mistral-large-3-675b-instruct-2512",
+      "provider": "nvidia-openai-compatible",
+      "model": "mistralai/mistral-large-3-675b-instruct-2512",
+      "base_url": "https://integrate.api.nvidia.com/v1",
+      "api_key_env": "NVIDIA_API_KEY",
+      "default_params": {
+        "temperature": 0.7,
+        "top_p": 0.95,
+        "max_tokens": 8192
+      },
+      "extra_body": {},
+      "metadata": {
+        "publisher": "Mistral AI",
+        "display_name": "mistral-large-3-675b-instruct-2512",
+        "summary": "",
+        "tags": [],
+        "href": "https://build.nvidia.com/mistralai/mistral-large-3-675b-instruct-2512",
+        "compatibility_reason": "compatible with Orca chat/completions flow"
+      }
+    },
+    {
+      "id": "seed-oss-36b-instruct",
+      "provider": "nvidia-openai-compatible",
+      "model": "bytedance/seed-oss-36b-instruct",
+      "base_url": "https://integrate.api.nvidia.com/v1",
+      "api_key_env": "NVIDIA_API_KEY",
+      "default_params": {
+        "temperature": 0.7,
+        "top_p": 0.95,
+        "max_tokens": 8192
+      },
+      "extra_body": {},
+      "metadata": {
+        "publisher": "ByteDance",
+        "display_name": "seed-oss-36b-instruct",
+        "summary": "",
+        "tags": [],
+        "href": "https://build.nvidia.com/bytedance/seed-oss-36b-instruct",
+        "compatibility_reason": "compatible with Orca chat/completions flow"
+      }
+    },
+    {
+      "id": "qwen3-coder-480b-a35b-instruct",
+      "provider": "nvidia-openai-compatible",
+      "model": "qwen/qwen3-coder-480b-a35b-instruct",
+      "base_url": "https://integrate.api.nvidia.com/v1",
+      "api_key_env": "NVIDIA_API_KEY",
+      "default_params": {
+        "temperature": 0.7,
+        "top_p": 0.95,
+        "max_tokens": 8192
+      },
+      "extra_body": {},
+      "metadata": {
+        "publisher": "Qwen",
+        "display_name": "qwen3-coder-480b-a35b-instruct",
+        "summary": "",
+        "tags": [],
+        "href": "https://build.nvidia.com/qwen/qwen3-coder-480b-a35b-instruct",
+        "compatibility_reason": "compatible with Orca chat/completions flow"
+      }
+    },
+    {
+      "id": "magistral-small-2506",
+      "provider": "nvidia-openai-compatible",
+      "model": "mistralai/magistral-small-2506",
+      "base_url": "https://integrate.api.nvidia.com/v1",
+      "api_key_env": "NVIDIA_API_KEY",
+      "default_params": {
+        "temperature": 0.7,
+        "top_p": 0.95,
+        "max_tokens": 8192
+      },
+      "extra_body": {},
+      "metadata": {
+        "publisher": "Mistral AI",
+        "display_name": "magistral-small-2506",
+        "summary": "",
+        "tags": [],
+        "href": "https://build.nvidia.com/mistralai/magistral-small-2506",
+        "compatibility_reason": "compatible with Orca chat/completions flow"
+      }
+    },
+    {
+      "id": "gemma-3n-e4b-it",
+      "provider": "nvidia-openai-compatible",
+      "model": "google/gemma-3n-e4b-it",
+      "base_url": "https://integrate.api.nvidia.com/v1",
+      "api_key_env": "NVIDIA_API_KEY",
+      "default_params": {
+        "temperature": 0.7,
+        "top_p": 0.95,
+        "max_tokens": 8192
+      },
+      "extra_body": {},
+      "metadata": {
+        "publisher": "Google",
+        "display_name": "gemma-3n-e4b-it",
+        "summary": "",
+        "tags": [],
+        "href": "https://build.nvidia.com/google/gemma-3n-e4b-it",
+        "compatibility_reason": "compatible with Orca chat/completions flow"
+      }
+    },
+    {
+      "id": "gemma-3n-e2b-it",
+      "provider": "nvidia-openai-compatible",
+      "model": "google/gemma-3n-e2b-it",
+      "base_url": "https://integrate.api.nvidia.com/v1",
+      "api_key_env": "NVIDIA_API_KEY",
+      "default_params": {
+        "temperature": 0.7,
+        "top_p": 0.95,
+        "max_tokens": 8192
+      },
+      "extra_body": {},
+      "metadata": {
+        "publisher": "Google",
+        "display_name": "gemma-3n-e2b-it",
+        "summary": "",
+        "tags": [],
+        "href": "https://build.nvidia.com/google/gemma-3n-e2b-it",
+        "compatibility_reason": "compatible with Orca chat/completions flow"
+      }
+    },
+    {
+      "id": "mistral-nemotron",
+      "provider": "nvidia-openai-compatible",
+      "model": "mistralai/mistral-nemotron",
+      "base_url": "https://integrate.api.nvidia.com/v1",
+      "api_key_env": "NVIDIA_API_KEY",
+      "default_params": {
+        "temperature": 0.7,
+        "top_p": 0.95,
+        "max_tokens": 8192
+      },
+      "extra_body": {},
+      "metadata": {
+        "publisher": "Mistral AI",
+        "display_name": "mistral-nemotron",
+        "summary": "",
+        "tags": [],
+        "href": "https://build.nvidia.com/mistralai/mistral-nemotron",
+        "compatibility_reason": "compatible with Orca chat/completions flow"
+      }
+    },
+    {
+      "id": "mistral-medium-3-instruct",
+      "provider": "nvidia-openai-compatible",
+      "model": "mistralai/mistral-medium-3-instruct",
+      "base_url": "https://integrate.api.nvidia.com/v1",
+      "api_key_env": "NVIDIA_API_KEY",
+      "default_params": {
+        "temperature": 0.7,
+        "top_p": 0.95,
+        "max_tokens": 8192
+      },
+      "extra_body": {},
+      "metadata": {
+        "publisher": "Mistral AI",
+        "display_name": "mistral-medium-3-instruct",
+        "summary": "",
+        "tags": [],
+        "href": "https://build.nvidia.com/mistralai/mistral-medium-3-instruct",
+        "compatibility_reason": "compatible with Orca chat/completions flow"
+      }
+    },
+    {
+      "id": "llama-4-maverick-17b-128e-instruct",
+      "provider": "nvidia-openai-compatible",
+      "model": "meta/llama-4-maverick-17b-128e-instruct",
+      "base_url": "https://integrate.api.nvidia.com/v1",
+      "api_key_env": "NVIDIA_API_KEY",
+      "default_params": {
+        "temperature": 0.7,
+        "top_p": 0.95,
+        "max_tokens": 8192
+      },
+      "extra_body": {},
+      "metadata": {
+        "publisher": "Meta",
+        "display_name": "llama-4-maverick-17b-128e-instruct",
+        "summary": "",
+        "tags": [],
+        "href": "https://build.nvidia.com/meta/llama-4-maverick-17b-128e-instruct",
+        "compatibility_reason": "compatible with Orca chat/completions flow"
+      }
+    },
+    {
+      "id": "phi-4-multimodal-instruct",
+      "provider": "nvidia-openai-compatible",
+      "model": "microsoft/phi-4-multimodal-instruct",
+      "base_url": "https://integrate.api.nvidia.com/v1",
+      "api_key_env": "NVIDIA_API_KEY",
+      "default_params": {
+        "temperature": 0.7,
+        "top_p": 0.95,
+        "max_tokens": 8192
+      },
+      "extra_body": {},
+      "metadata": {
+        "publisher": "Microsoft",
+        "display_name": "phi-4-multimodal-instruct",
+        "summary": "",
+        "tags": [],
+        "href": "https://build.nvidia.com/microsoft/phi-4-multimodal-instruct",
+        "compatibility_reason": "compatible with Orca chat/completions flow"
+      }
+    },
+    {
+      "id": "dracarys-llama-3-1-70b-instruct",
+      "provider": "nvidia-openai-compatible",
+      "model": "abacusai/dracarys-llama-3_1-70b-instruct",
+      "base_url": "https://integrate.api.nvidia.com/v1",
+      "api_key_env": "NVIDIA_API_KEY",
+      "default_params": {
+        "temperature": 0.7,
+        "top_p": 0.95,
+        "max_tokens": 8192
+      },
+      "extra_body": {},
+      "metadata": {
+        "publisher": "Abacus.AI",
+        "display_name": "dracarys-llama-3.1-70b-instruct",
+        "summary": "",
+        "tags": [],
+        "href": "https://build.nvidia.com/abacusai/dracarys-llama-3_1-70b-instruct",
+        "compatibility_reason": "compatible with Orca chat/completions flow"
+      }
+    },
+    {
+      "id": "nemotron-mini-4b-instruct",
+      "provider": "nvidia-openai-compatible",
+      "model": "nvidia/nemotron-mini-4b-instruct",
+      "base_url": "https://integrate.api.nvidia.com/v1",
+      "api_key_env": "NVIDIA_API_KEY",
+      "default_params": {
+        "temperature": 0.7,
+        "top_p": 0.95,
+        "max_tokens": 8192
+      },
+      "extra_body": {},
+      "metadata": {
+        "publisher": "NVIDIA",
+        "display_name": "nemotron-mini-4b-instruct",
+        "summary": "",
+        "tags": [],
+        "href": "https://build.nvidia.com/nvidia/nemotron-mini-4b-instruct",
+        "compatibility_reason": "compatible with Orca chat/completions flow"
+      }
+    },
+    {
+      "id": "gemma-2-2b-it",
+      "provider": "nvidia-openai-compatible",
+      "model": "google/gemma-2-2b-it",
+      "base_url": "https://integrate.api.nvidia.com/v1",
+      "api_key_env": "NVIDIA_API_KEY",
+      "default_params": {
+        "temperature": 0.7,
+        "top_p": 0.95,
+        "max_tokens": 8192
+      },
+      "extra_body": {},
+      "metadata": {
+        "publisher": "Google",
+        "display_name": "gemma-2-2b-it",
+        "summary": "",
+        "tags": [],
+        "href": "https://build.nvidia.com/google/gemma-2-2b-it",
+        "compatibility_reason": "compatible with Orca chat/completions flow"
+      }
+    },
+    {
+      "id": "solar-10-7b-instruct",
+      "provider": "nvidia-openai-compatible",
+      "model": "upstage/solar-10_7b-instruct",
+      "base_url": "https://integrate.api.nvidia.com/v1",
+      "api_key_env": "NVIDIA_API_KEY",
+      "default_params": {
+        "temperature": 0.7,
+        "top_p": 0.95,
+        "max_tokens": 8192
+      },
+      "extra_body": {},
+      "metadata": {
+        "publisher": "Upstage",
+        "display_name": "solar-10.7b-instruct",
+        "summary": "",
+        "tags": [],
+        "href": "https://build.nvidia.com/upstage/solar-10_7b-instruct",
+        "compatibility_reason": "compatible with Orca chat/completions flow"
+      }
+    },
+    {
+      "id": "google-paligemma",
+      "provider": "nvidia-openai-compatible",
+      "model": "google/google-paligemma",
+      "base_url": "https://integrate.api.nvidia.com/v1",
+      "api_key_env": "NVIDIA_API_KEY",
+      "default_params": {
+        "temperature": 0.7,
+        "top_p": 0.95,
+        "max_tokens": 8192
+      },
+      "extra_body": {},
+      "metadata": {
+        "publisher": "Google",
+        "display_name": "paligemma",
+        "summary": "",
+        "tags": [],
+        "href": "https://build.nvidia.com/google/google-paligemma",
+        "compatibility_reason": "compatible with Orca chat/completions flow"
+      }
+    }
+  ],
+  "excluded_models": [
+    {
+      "publisher": "NVIDIA",
+      "name": "nemotron-3-content-safety",
+      "slug_path": "nvidia/nemotron-3-content-safety",
+      "href": "https://build.nvidia.com/nvidia/nemotron-3-content-safety",
+      "summary": "",
+      "badges": [
+        "Free Endpoint"
+      ],
+      "tags": [],
+      "reason": "safety moderation endpoint, not a general chat model"
+    },
+    {
+      "publisher": "NVIDIA",
+      "name": "synthetic-video-detector",
+      "slug_path": "nvidia/synthetic-video-detector",
+      "href": "https://build.nvidia.com/nvidia/synthetic-video-detector",
+      "summary": "",
+      "badges": [
+        "Downloadable",
+        "Free Endpoint"
+      ],
+      "tags": [],
+      "reason": "detection endpoint is not chat-compatible"
+    },
+    {
+      "publisher": "NVIDIA",
+      "name": "Active Speaker Detection",
+      "slug_path": "nvidia/active-speaker-detection",
+      "href": "https://build.nvidia.com/nvidia/active-speaker-detection",
+      "summary": "",
+      "badges": [
+        "Downloadable",
+        "Free Endpoint"
+      ],
+      "tags": [],
+      "reason": "specialized video detection endpoint"
+    },
+    {
+      "publisher": "NVIDIA",
+      "name": "nemotron-voicechat",
+      "slug_path": "nvidia/nemotron-voicechat",
+      "href": "https://build.nvidia.com/nvidia/nemotron-voicechat",
+      "summary": "",
+      "badges": [
+        "Free Endpoint"
+      ],
+      "tags": [],
+      "reason": "voice endpoint needs a different integration shape"
+    },
+    {
+      "publisher": "NVIDIA",
+      "name": "gliner-pii",
+      "slug_path": "nvidia/gliner-pii",
+      "href": "https://build.nvidia.com/nvidia/gliner-pii",
+      "summary": "",
+      "badges": [
+        "Free Endpoint"
+      ],
+      "tags": [],
+      "reason": "not confidently classifiable as chat or multimodal conversation"
+    },
+    {
+      "publisher": "NVIDIA",
+      "name": "cosmos-transfer2.5-2b",
+      "slug_path": "nvidia/cosmos-transfer2_5-2b",
+      "href": "https://build.nvidia.com/nvidia/cosmos-transfer2_5-2b",
+      "summary": "",
+      "badges": [
+        "Free Endpoint"
+      ],
+      "tags": [],
+      "reason": "not confidently classifiable as chat or multimodal conversation"
+    },
+    {
+      "publisher": "NVIDIA",
+      "name": "nemotron-content-safety-reasoning-4b",
+      "slug_path": "nvidia/nemotron-content-safety-reasoning-4b",
+      "href": "https://build.nvidia.com/nvidia/nemotron-content-safety-reasoning-4b",
+      "summary": "",
+      "badges": [
+        "Free Endpoint"
+      ],
+      "tags": [],
+      "reason": "safety moderation endpoint, not a general chat model"
+    },
+    {
+      "publisher": "NVIDIA",
+      "name": "riva-translate-4b-instruct-v1_1",
+      "slug_path": "nvidia/riva-translate-4b-instruct-v1_1",
+      "href": "https://build.nvidia.com/nvidia/riva-translate-4b-instruct-v1_1",
+      "summary": "",
+      "badges": [
+        "Free Endpoint"
+      ],
+      "tags": [],
+      "reason": "translation endpoint is not chat-compatible"
+    },
+    {
+      "publisher": "NVIDIA",
+      "name": "streampetr",
+      "slug_path": "nvidia/streampetr",
+      "href": "https://build.nvidia.com/nvidia/streampetr",
+      "summary": "",
+      "badges": [
+        "Free Endpoint"
+      ],
+      "tags": [],
+      "reason": "not confidently classifiable as chat or multimodal conversation"
+    },
+    {
+      "publisher": "NVIDIA",
+      "name": "llama-3.1-nemotron-safety-guard-8b-v3",
+      "slug_path": "nvidia/llama-3_1-nemotron-safety-guard-8b-v3",
+      "href": "https://build.nvidia.com/nvidia/llama-3_1-nemotron-safety-guard-8b-v3",
+      "summary": "",
+      "badges": [
+        "Free Endpoint"
+      ],
+      "tags": [],
+      "reason": "guardrail or moderation endpoint is not a general chat model"
+    },
+    {
+      "publisher": "NVIDIA",
+      "name": "llama-3_2-nemoretriever-300m-embed-v1",
+      "slug_path": "nvidia/llama-3_2-nemoretriever-300m-embed-v1",
+      "href": "https://build.nvidia.com/nvidia/llama-3_2-nemoretriever-300m-embed-v1",
+      "summary": "",
+      "badges": [
+        "Free Endpoint"
+      ],
+      "tags": [],
+      "reason": "embedding endpoint is not chat-compatible"
+    },
+    {
+      "publisher": "Meta",
+      "name": "llama-guard-4-12b",
+      "slug_path": "meta/llama-guard-4-12b",
+      "href": "https://build.nvidia.com/meta/llama-guard-4-12b",
+      "summary": "",
+      "badges": [
+        "Free Endpoint"
+      ],
+      "tags": [],
+      "reason": "guardrail or moderation endpoint is not a general chat model"
+    },
+    {
+      "publisher": "NVIDIA",
+      "name": "cosmos-transfer1-7b",
+      "slug_path": "nvidia/cosmos-transfer1-7b",
+      "href": "https://build.nvidia.com/nvidia/cosmos-transfer1-7b",
+      "summary": "",
+      "badges": [
+        "Free Endpoint"
+      ],
+      "tags": [],
+      "reason": "not confidently classifiable as chat or multimodal conversation"
+    },
+    {
+      "publisher": "NVIDIA",
+      "name": "magpie-tts-zeroshot",
+      "slug_path": "nvidia/magpie-tts-zeroshot",
+      "href": "https://build.nvidia.com/nvidia/magpie-tts-zeroshot",
+      "summary": "",
+      "badges": [
+        "Free Endpoint"
+      ],
+      "tags": [],
+      "reason": "text-to-speech endpoint is not chat-compatible"
+    },
+    {
+      "publisher": "NVIDIA",
+      "name": "cosmos-predict1-5b",
+      "slug_path": "nvidia/cosmos-predict1-5b",
+      "href": "https://build.nvidia.com/nvidia/cosmos-predict1-5b",
+      "summary": "",
+      "badges": [
+        "Free Endpoint"
+      ],
+      "tags": [],
+      "reason": "not confidently classifiable as chat or multimodal conversation"
+    },
+    {
+      "publisher": "NVIDIA",
+      "name": "sparsedrive",
+      "slug_path": "nvidia/sparsedrive",
+      "href": "https://build.nvidia.com/nvidia/sparsedrive",
+      "summary": "",
+      "badges": [
+        "Free Endpoint"
+      ],
+      "tags": [],
+      "reason": "not confidently classifiable as chat or multimodal conversation"
+    },
+    {
+      "publisher": "NVIDIA",
+      "name": "bevformer",
+      "slug_path": "nvidia/bevformer",
+      "href": "https://build.nvidia.com/nvidia/bevformer",
+      "summary": "",
+      "badges": [
+        "Free Endpoint"
+      ],
+      "tags": [],
+      "reason": "not confidently classifiable as chat or multimodal conversation"
+    },
+    {
+      "publisher": "NVIDIA",
+      "name": "nv-embedcode-7b-v1",
+      "slug_path": "nvidia/nv-embedcode-7b-v1",
+      "href": "https://build.nvidia.com/nvidia/nv-embedcode-7b-v1",
+      "summary": "",
+      "badges": [
+        "Free Endpoint"
+      ],
+      "tags": [],
+      "reason": "embedding endpoint is not chat-compatible"
+    },
+    {
+      "publisher": "NVIDIA",
+      "name": "usdcode",
+      "slug_path": "nvidia/usdcode",
+      "href": "https://build.nvidia.com/nvidia/usdcode",
+      "summary": "",
+      "badges": [
+        "Free Endpoint"
+      ],
+      "tags": [],
+      "reason": "not confidently classifiable as chat or multimodal conversation"
+    },
+    {
+      "publisher": "NVIDIA",
+      "name": "studiovoice",
+      "slug_path": "nvidia/studiovoice",
+      "href": "https://build.nvidia.com/nvidia/studiovoice",
+      "summary": "",
+      "badges": [
+        "Downloadable",
+        "Free Endpoint"
+      ],
+      "tags": [],
+      "reason": "voice endpoint needs a different integration shape"
+    },
+    {
+      "publisher": "Meta",
+      "name": "esm2-650m",
+      "slug_path": "meta/esm2-650m",
+      "href": "https://build.nvidia.com/meta/esm2-650m",
+      "summary": "",
+      "badges": [
+        "Free Endpoint"
+      ],
+      "tags": [],
+      "reason": "not confidently classifiable as chat or multimodal conversation"
+    },
+    {
+      "publisher": "NVIDIA",
+      "name": "usdvalidate",
+      "slug_path": "nvidia/usdvalidate",
+      "href": "https://build.nvidia.com/nvidia/usdvalidate",
+      "summary": "",
+      "badges": [
+        "Free Endpoint"
+      ],
+      "tags": [],
+      "reason": "not confidently classifiable as chat or multimodal conversation"
+    },
+    {
+      "publisher": "NVIDIA",
+      "name": "nv-embed-v1",
+      "slug_path": "nvidia/nv-embed-v1",
+      "href": "https://build.nvidia.com/nvidia/nv-embed-v1",
+      "summary": "",
+      "badges": [
+        "Free Endpoint"
+      ],
+      "tags": [],
+      "reason": "embedding endpoint is not chat-compatible"
+    },
+    {
+      "publisher": "NVIDIA",
+      "name": "rerank-qa-mistral-4b",
+      "slug_path": "nvidia/rerank-qa-mistral-4b",
+      "href": "https://build.nvidia.com/nvidia/rerank-qa-mistral-4b",
+      "summary": "",
+      "badges": [
+        "Free Endpoint"
+      ],
+      "tags": [],
+      "reason": "reranker endpoint is not chat-compatible"
+    },
+    {
+      "publisher": "Meta",
+      "name": "esmfold",
+      "slug_path": "meta/esmfold",
+      "href": "https://build.nvidia.com/meta/esmfold",
+      "summary": "",
+      "badges": [
+        "Free Endpoint"
+      ],
+      "tags": [],
+      "reason": "not confidently classifiable as chat or multimodal conversation"
+    }
+  ]
+}

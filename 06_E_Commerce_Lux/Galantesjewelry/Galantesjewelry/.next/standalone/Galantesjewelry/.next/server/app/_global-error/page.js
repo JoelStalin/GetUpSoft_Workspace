@@ -1,0 +1,10 @@
+var R=require("../../chunks/ssr/[turbopack]_runtime.js")("server/app/_global-error/page.js")
+R.c("server/chunks/ssr/[root-of-the-server]__09y8-~a._.js")
+R.c("server/chunks/ssr/0ucn_next_dist_0.2hgl6._.js")
+R.c("server/chunks/ssr/0ucn_next_dist_esm_build_templates_app-page_13miz5u.js")
+R.c("server/chunks/ssr/[root-of-the-server]__0i9xkxt._.js")
+R.c("server/chunks/ssr/[root-of-the-server]__03uzob1._.js")
+R.c("server/chunks/ssr/0ucn_next_dist_client_components_builtin_global-error_117~533.js")
+R.c("server/chunks/ssr/Galantesjewelry__next-internal_server_app__global-error_page_actions_0vm5c5j.js")
+R.m(79950)
+module.exports=R.m(79950).exports

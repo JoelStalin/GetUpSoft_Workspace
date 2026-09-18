@@ -1,0 +1,71 @@
+{
+  "platform": "Instagram",
+  "url": "https://www.instagram.com/zalesjewelers/",
+  "extraction": {
+    "visible_name": "zalesjewelers",
+    "username": "zalesjewelers",
+    "url": "https://www.instagram.com/zalesjewelers/",
+    "timestamp": "2026-04-09T18:11:06.719734",
+    "confidence": 1.0,
+    "selector_used": "Multi-selector approach"
+  },
+  "steps": [
+    {
+      "name": "Browser Start",
+      "status": "PASS",
+      "message": "Chrome connected",
+      "screenshot_path": null,
+      "timestamp": "2026-04-09T18:11:04.199701"
+    },
+    {
+      "name": "Navigation",
+      "status": "PASS",
+      "message": "Arrived at https://www.instagram.com/zalesjewelers/",
+      "screenshot_path": null,
+      "timestamp": "2026-04-09T18:11:06.558563"
+    },
+    {
+      "name": "Extraction",
+      "status": "PASS",
+      "message": "Visible name: zalesjewelers",
+      "screenshot_path": null,
+      "timestamp": "2026-04-09T18:11:06.719734"
+    },
+    {
+      "name": "Follow Action",
+      "status": "PASS",
+      "message": "User followed (or already following)",
+      "screenshot_path": null,
+      "timestamp": "2026-04-09T18:11:06.781411"
+    },
+    {
+      "name": "Message Builder",
+      "status": "PASS",
+      "message": "Official professional draft ready",
+      "screenshot_path": null,
+      "timestamp": "2026-04-09T18:11:06.782377"
+    },
+    {
+      "name": "Chat Transition",
+      "status": "PASS",
+      "message": "Opened DM window",
+      "screenshot_path": null,
+      "timestamp": "2026-04-09T18:11:11.980351"
+    },
+    {
+      "name": "Type Message",
+      "status": "PASS",
+      "message": "Message drafted in textbox",
+      "screenshot_path": null,
+      "timestamp": "2026-04-09T18:11:12.264285"
+    },
+    {
+      "name": "Send Action",
+      "status": "PASS",
+      "message": "Message SENT to user",
+      "screenshot_path": null,
+      "timestamp": "2026-04-09T18:11:18.016182"
+    }
+  ],
+  "summary": "Full automated invitation cycle completed."
+}

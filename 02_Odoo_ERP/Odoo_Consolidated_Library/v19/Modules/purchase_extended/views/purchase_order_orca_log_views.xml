@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <!-- Purchase Order ORCA Log List View -->
+    <record id="view_orca_purchase_order_log_tree" model="ir.ui.view">
+        <field name="name">orca.purchase.order.log.list</field>
+        <field name="model">orca.purchase.order.log</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="date"/>
+                <field name="user_id"/>
+                <field name="action"/>
+                <field name="po_reference"/>
+                <field name="vendor_name"/>
+                <field name="po_status"/>
+                <field name="order_amount"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Purchase Order ORCA Log Form View -->
+    <record id="view_orca_purchase_order_log_form" model="ir.ui.view">
+        <field name="name">orca.purchase.order.log.form</field>
+        <field name="model">orca.purchase.order.log</field>
+        <field name="arch" type="xml">
+            <form>
+                <group>
+                    <group string="Log Metadata">
+                        <field name="module_name"/>
+                        <field name="model_name"/>
+                        <field name="record_id"/>
+                        <field name="action"/>
+                        <field name="date"/>
+                        <field name="user_id"/>
+                    </group>
+                    <group string="Purchase Order Details">
+                        <field name="po_reference"/>
+                        <field name="vendor_name"/>
+                        <field name="po_status"/>
+                        <field name="order_date"/>
+                        <field name="order_amount"/>
+                        <field name="line_count"/>
+                    </group>
+                    <group string="Audit Data">
+                        <field name="before_values" widget="ace"/>
+                        <field name="after_values" widget="ace"/>
+                    </group>
+                </group>
+            </form>
+        </field>
+    </record>
+
+    <!-- Menu Items -->
+    <menuitem id="menu_orca_purchase_logs" name="ORCA Logs" parent="purchase.menu_purchase_config"/>
+
+    <menuitem id="menu_orca_purchase_order_log" name="Purchase Orders"
+              parent="menu_orca_purchase_logs"
+              action="action_view_orca_purchase_order_log"/>
+
+    <!-- Actions -->
+    <act_window id="action_view_orca_purchase_order_log"
+                name="Purchase Order ORCA Logs"
+                res_model="orca.purchase.order.log"
+                view_mode="tree,form"/>
+</odoo>

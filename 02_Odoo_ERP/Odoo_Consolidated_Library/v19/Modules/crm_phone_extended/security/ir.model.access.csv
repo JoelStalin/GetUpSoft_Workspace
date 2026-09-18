@@ -1,0 +1,4 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_orca_phone_call_log_user,Phone Call Log - User Read-Only,model_orca_phone_call_log,base.group_user,1,0,0,0
+access_orca_phone_call_log_sales,Phone Call Log - Salesperson Read-Only,model_orca_phone_call_log,sales.group_sale_salesman,1,0,0,0
+access_orca_phone_call_log_manager,Phone Call Log - Manager Full,model_orca_phone_call_log,sales.group_sale_manager,1,1,1,0

@@ -1,0 +1,1 @@
+'# Prompt para Codex (GPT‑5.2) — Arreglar MSI que no funciona (pos_printing_suite)\n\n## Objetivo\nTienes un repo de Odoo (Chefalitas) y un módulo/carpeta **pos_printing_suite/** que incluye o depende de '

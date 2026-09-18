@@ -4,7 +4,7 @@ on:
   pull_request:
     branches: [develop, main]
   push:
-    branches: [develop]
+    branches: [develop, main]
 
 permissions:
   contents: read
@@ -14,7 +14,7 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  test:
+  test-node:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -41,3 +41,28 @@ jobs:
 
       - name: Build
         run: npm run build
+
+  test-python-orca:
+    runs-on: ubuntu-latest
+    # Ruta actualizada tras la reorg: orca/ -> services/orca/ (heredado de main,
+    # fusion de historiales 2026-09-17)
+    if: >-
+      contains(github.event.head_commit.modified, 'services/orca/') ||
+      contains(github.event.head_commit.modified, 'pyproject.toml') ||
+      contains(github.event.head_commit.modified, 'uv.lock') ||
+      github.event_name == 'pull_request'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install
+        run: |
+          python -m pip install --upgrade pip
+          pip install -e .[dev]
+      - name: Ruff
+        run: ruff check .
+      - name: Mypy
+        run: mypy services/orca
+      - name: Pytest
+        run: pytest

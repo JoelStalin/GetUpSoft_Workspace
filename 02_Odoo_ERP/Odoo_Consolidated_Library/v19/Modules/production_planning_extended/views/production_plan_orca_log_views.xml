@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <!-- Production Plan ORCA Log List View -->
+    <record id="view_orca_production_plan_log_tree" model="ir.ui.view">
+        <field name="name">orca.production.plan.log.list</field>
+        <field name="model">orca.production.plan.log</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="date"/>
+                <field name="user_id"/>
+                <field name="action"/>
+                <field name="plan_reference"/>
+                <field name="plan_name"/>
+                <field name="plan_type"/>
+                <field name="plan_status"/>
+                <field name="planned_quantity"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Production Plan ORCA Log Form View -->
+    <record id="view_orca_production_plan_log_form" model="ir.ui.view">
+        <field name="name">orca.production.plan.log.form</field>
+        <field name="model">orca.production.plan.log</field>
+        <field name="arch" type="xml">
+            <form>
+                <group>
+                    <group string="Log Metadata">
+                        <field name="module_name"/>
+                        <field name="model_name"/>
+                        <field name="record_id"/>
+                        <field name="action"/>
+                        <field name="date"/>
+                        <field name="user_id"/>
+                    </group>
+                    <group string="Production Plan Details">
+                        <field name="plan_reference"/>
+                        <field name="plan_name"/>
+                        <field name="planning_period"/>
+                        <field name="plan_type"/>
+                        <field name="plan_status"/>
+                        <field name="planned_quantity"/>
+                        <field name="start_date"/>
+                        <field name="end_date"/>
+                    </group>
+                    <group string="Audit Data">
+                        <field name="before_values" widget="ace"/>
+                        <field name="after_values" widget="ace"/>
+                    </group>
+                </group>
+            </form>
+        </field>
+    </record>
+
+    <!-- Menu Items -->
+    <menuitem id="menu_orca_production_planning_logs" name="ORCA Logs" parent="mrp.menu_mrp_root"/>
+
+    <menuitem id="menu_orca_production_plan_log" name="Production Plan Logs"
+              parent="menu_orca_production_planning_logs"
+              action="action_view_orca_production_plan_log"/>
+
+    <!-- Actions -->
+    <act_window id="action_view_orca_production_plan_log"
+                name="Production Plan ORCA Logs"
+                res_model="orca.production.plan.log"
+                view_mode="tree,form"/>
+</odoo>

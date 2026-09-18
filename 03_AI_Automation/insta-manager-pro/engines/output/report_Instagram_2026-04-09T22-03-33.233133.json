@@ -1,0 +1,64 @@
+{
+  "platform": "Instagram",
+  "url": "https://www.instagram.com/careers/?hl=en",
+  "extraction": {
+    "visible_name": "careers",
+    "username": "careers",
+    "url": "https://www.instagram.com/careers/?hl=en",
+    "timestamp": "2026-04-09T22:03:33.233133",
+    "confidence": 1.0,
+    "selector_used": "Multi-selector approach"
+  },
+  "steps": [
+    {
+      "name": "Browser Start",
+      "status": "PASS",
+      "message": "Chrome connected",
+      "screenshot_path": null,
+      "timestamp": "2026-04-09T22:03:31.167828"
+    },
+    {
+      "name": "Navigation",
+      "status": "PASS",
+      "message": "Arrived at https://www.instagram.com/careers/?hl=en",
+      "screenshot_path": null,
+      "timestamp": "2026-04-09T22:03:33.145124"
+    },
+    {
+      "name": "Extraction",
+      "status": "PASS",
+      "message": "Visible name: careers",
+      "screenshot_path": null,
+      "timestamp": "2026-04-09T22:03:33.233133"
+    },
+    {
+      "name": "Follow Action",
+      "status": "PASS",
+      "message": "User followed (or already following)",
+      "screenshot_path": null,
+      "timestamp": "2026-04-09T22:03:33.315480"
+    },
+    {
+      "name": "Message Builder",
+      "status": "PASS",
+      "message": "Official professional draft ready",
+      "screenshot_path": null,
+      "timestamp": "2026-04-09T22:03:33.315480"
+    },
+    {
+      "name": "Chat Transition",
+      "status": "PASS",
+      "message": "DM window: https://www.instagram.com/careers/?hl=en",
+      "screenshot_path": null,
+      "timestamp": "2026-04-09T22:03:45.282995"
+    },
+    {
+      "name": "Type Message",
+      "status": "FAIL",
+      "message": "Could not inject text into composer",
+      "screenshot_path": null,
+      "timestamp": "2026-04-09T22:03:57.566374"
+    }
+  ],
+  "summary": "Full automated invitation cycle completed."
+}

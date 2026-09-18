@@ -1,0 +1,10 @@
+services:
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "127.0.0.1:3120:5173"
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    restart: unless-stopped

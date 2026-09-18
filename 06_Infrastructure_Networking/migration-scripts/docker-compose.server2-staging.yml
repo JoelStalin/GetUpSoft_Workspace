@@ -1,0 +1,175 @@
+# Docker Compose para Server 2 (STAGING / CI-CD)
+# Ubicación: /home/ubuntu/docker-compose.yml en Server 2
+# Usa: docker-compose up -d
+
+version: '3.9'
+
+services:
+  # PostgreSQL para Staging
+  staging-postgres:
+    image: postgres:17-alpine
+    container_name: getupsoft-shared-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-changeme}
+      POSTGRES_INITDB_ARGS: "-c max_connections=200 -c shared_buffers=256MB"
+    volumes:
+      - getupsoft-shared-postgres-data:/var/lib/postgresql/data
+      - ./backups/postgres-staging-dump.sql.gz:/docker-entrypoint-initdb.d/dump.sql.gz
+    ports:
+      - "5432:5432"
+    networks:
+      - staging-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Redis compartido
+  staging-redis:
+    image: redis:7-alpine
+    container_name: server-redis-1
+    restart: unless-stopped
+    volumes:
+      - staging-redis-data:/data
+    ports:
+      - "6379:6379"
+    networks:
+      - staging-network
+    command: redis-server --appendonly yes
+
+  # GetUpSoft Odoo Staging
+  getupsoft-odoo-staging:
+    image: odoo:17-latest  # Actualizar a la versión correcta
+    container_name: getupsoft_odoo_staging
+    restart: unless-stopped
+    depends_on:
+      staging-postgres:
+        condition: service_healthy
+    environment:
+      HOST: staging-postgres
+      PORT: 5432
+      USER: postgres
+      PASSWORD: ${DB_PASSWORD:-changeme}
+      DB_NAME: getupsoft_staging
+      ADMIN_PASSWORD: ${ODOO_ADMIN:-changeme}
+      WORKERS: 4
+      LIMIT_TIME_CPU: 600
+      LIMIT_TIME_REAL: 1200
+    volumes:
+      - getupsoft_odoo_staging_data:/var/lib/odoo
+      - getupsoft_odoo_staging_config:/etc/odoo
+    ports:
+      - "8069:8069"
+      - "8072:8072"
+    networks:
+      - staging-network
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost:8069 || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # Galantes Odoo Staging
+  galantes-odoo-staging:
+    image: odoo:17-latest
+    container_name: galantes_stg_odoo
+    restart: unless-stopped
+    depends_on:
+      staging-postgres:
+        condition: service_healthy
+    environment:
+      HOST: staging-postgres
+      PORT: 5432
+      USER: postgres
+      PASSWORD: ${DB_PASSWORD:-changeme}
+      DB_NAME: galantes_staging
+      ADMIN_PASSWORD: ${ODOO_ADMIN:-changeme}
+      WORKERS: 4
+    volumes:
+      - galantes_stg_odoo_data:/var/lib/odoo
+      - galantes_stg_odoo_config:/etc/odoo
+    ports:
+      - "8070:8069"
+      - "8073:8072"
+    networks:
+      - staging-network
+
+  # Galantes Web Staging
+  galantes-web-staging:
+    image: nginx:1.27-alpine
+    container_name: galantes_stg_web
+    restart: unless-stopped
+    depends_on:
+      - galantes-odoo-staging
+    volumes:
+      - ./nginx-staging-sites:/etc/nginx/sites-available
+      - galantes_stg_web_data:/var/www/html
+    ports:
+      - "8080:80"
+    networks:
+      - staging-network
+
+  # Code-Server (IDE remoto)
+  code-server:
+    image: codercom/code-server:latest
+    container_name: code-server
+    restart: unless-stopped
+    environment:
+      PASSWORD: ${CODE_SERVER_PASSWORD:-changeme}
+    volumes:
+      - ./:/home/coder/project
+      - /var/run/docker.sock:/var/run/docker.sock
+    ports:
+      - "8443:8080"
+    networks:
+      - staging-network
+
+  # Node Exporter (Prometheus metrics)
+  node-exporter:
+    image: prom/node-exporter:latest
+    container_name: node-exporter
+    restart: unless-stopped
+    volumes:
+      - /proc:/host/proc:ro
+      - /sys:/host/sys:ro
+      - /:/rootfs:ro
+    ports:
+      - "9100:9100"
+    networks:
+      - staging-network
+    command:
+      - "--path.procfs=/host/proc"
+      - "--path.sysfs=/host/sys"
+      - "--collector.filesystem.mount-points-exclude=^/(sys|proc|dev|host|etc)($$|/)"
+
+  # Watchtower (auto-update containers)
+  watchtower:
+    image: containrrr/watchtower:latest
+    restart: unless-stopped
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    networks:
+      - staging-network
+
+volumes:
+  getupsoft-shared-postgres-data:
+    driver: local
+  getupsoft_odoo_staging_data:
+    driver: local
+  getupsoft_odoo_staging_config:
+    driver: local
+  galantes_stg_odoo_data:
+    driver: local
+  galantes_stg_odoo_config:
+    driver: local
+  galantes_stg_web_data:
+    driver: local
+  staging-redis-data:
+    driver: local
+
+networks:
+  staging-network:
+    driver: bridge
