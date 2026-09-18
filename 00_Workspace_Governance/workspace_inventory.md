@@ -3,8 +3,9 @@
 | Current path | Canonical name | Target domain | Worker type | Is client solution | Is GetUpSoft product | Canonical product | Status | Risk | Move allowed | Notes |
 |---|---|---|---|---|---|---|---|---|---|---|
 | `06_E_Commerce_Lux/Galantesjewelry/` | GalantesJewelry | client-solution | — | ✅ | ❌ | — | active | medium | no | Client Solution |
-| `02_Odoo_ERP/Odoo_Consolidated_Library/v18/Projects/Chefalitas/` | ChefAlitas | client-solution | — | ✅ | ❌ | — | active | medium | no | Client Solution localizada; existe ruta relacionada `chefalitas_repo/` como legado |
-| `03_AI_Automation/local_printer_agent/` | local_printer_agent | printer_worker | printer_worker | ❌ | ❌ | — | review-needed | medium | no | Determinar qué parte es reusable y qué parte es ChefAlitas-specific |
+| `02_Products/Chefalitas/` | Chefalitas | product | — | ❌ | ✅ | Chefalitas | active | high | controlled | GetUpSoft B2B SaaS; independent repository is canonical |
+| `02_Odoo_ERP/Odoo_Consolidated_Library/v18/Projects/Chefalitas/` | Chefalitas legacy copy | embedded-product-copy | — | ❌ | ✅ | Chefalitas | legacy | high | no | Reconcile against `02_Products/Chefalitas/` before removal |
+| `03_AI_Automation/local_printer_agent/` | local_printer_agent | product-component | printer_worker | ❌ | ✅ | Chefalitas | consolidate | medium | controlled | Canonical target is inside Chefalitas POS printing suite |
 | `03_AI_Automation/n8n/` | n8n runtime | automation_workers / workflow_runtime | workflow_runtime | ❌ | ❌ | — | active | medium | no | Workflow orchestrator |
 | `03_AI_Automation/hyperframes/` | Hyperframes | ai_automation_tooling / worker_framework | candidate_worker_or_library | ❌ | ❌ | — | review-needed | medium | no | Determinar si es worker o library |
 | `03_AI_Automation/notebooklm-py/` | NotebookLM py | ai_worker / library-tooling | ai_worker_or_tooling | ❌ | ❌ | — | review-needed | low | pending | Determinar uso real |
