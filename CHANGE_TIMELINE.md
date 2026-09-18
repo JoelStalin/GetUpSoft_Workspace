@@ -6276,3 +6276,24 @@ Autofix para comentarios no abordados.
 este commit **vuelve a trackear el `.p12` y las credenciales en texto
 plano** en el estado del working tree -- no hacerlo sin rotar las
 credenciales primero.
+
+---
+
+## Checkpoint menor: documentar ADMIN_* en .env.example (2026-09-18)
+
+Commit `3e6eb353b2`: `.env.example` no documentaba `ADMIN_USERNAME`/
+`ADMIN_PASSWORD`/`ADMIN_SECRET_KEY`, que `deb52a191c` volvio obligatorias
+(sin default inseguro) en `docker-compose.yml`. Sin este ajuste, seguir
+`.env.example` tal cual llevaba a un `docker compose up` fallando sin
+pista de por que. Cambio de documentacion pura, sin riesgo.
+
+**Estado final de este ciclo de trabajo (PR #16):** CI en verde
+(`test-node` pass, `test-python-orca` pass), `mergeStateStatus: CLEAN`.
+Pendiente exclusivamente de decisiones del usuario: rotacion de
+credenciales DGII, reescritura de historial de git, destino de los
+archivos huerfanos de la raiz (`package.json`/`tsconfig.json`/`proxy.ts`),
+y los 2 hallazgos de `deploy.yml`/`deploy-from-github.sh` sobre el
+pipeline de produccion.
+
+**Como revertir:** `git revert 3e6eb353b2` (commit unico, solo
+documentacion).
