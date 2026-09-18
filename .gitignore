@@ -121,11 +121,17 @@ archives/source/
 # Se registran en governance/registry/projects/*.json, no se comitean aqui.
 apps/getupnet/
 
-# apps/galantes-jewelry -- mismo caso: checkout independiente con su propio
-# .git y remote real (github.com/JoelStalin/Galantesjewerly.git), confirmado
-# 2026-09-18 al investigar por que el CI "test-node" nunca podia encontrar
-# la app Next.js real (PR #16, hallazgo P1 de Codex). El deploy productivo
-# (.github/workflows/deploy.yml) ya la trata como repo separado.
+# client-solutions/galantes-jewelry -- mismo caso: checkout independiente con
+# su propio .git y remote real (github.com/JoelStalin/Galantesjewerly.git),
+# confirmado 2026-09-18 al investigar por que el CI "test-node" nunca podia
+# encontrar la app Next.js real (PR #16, hallazgo P1 de Codex). El deploy
+# productivo (.github/workflows/deploy.yml) ya la trata como repo separado.
+# NOTA: governance/registry/projects/galantes-jewelry.json ya declaraba este
+# checkoutPath desde 2026-09-11, pero el directorio fisico seguia en
+# apps/galantes-jewelry hasta que se ejecuto el movimiento (ver
+# CHANGE_TIMELINE.md, entrada 2026-09-18). Mientras el movimiento fisico este
+# pendiente, esta entrada debe listar la ruta REAL en disco, no la declarada.
+client-solutions/galantes-jewelry/
 apps/galantes-jewelry/
 
 # Odoo Enterprise (licencia comercial) -- mirrors/checkouts de terceros con su

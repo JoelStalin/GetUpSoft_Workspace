@@ -6341,3 +6341,64 @@ seguido de `git revert a5af74b739` si tambien se quiere descartar el gap
 analysis. Para descartar toda la rama sin afectar las demas: simplemente no
 mergearla (`reorg/target-schema` es independiente, `main` y
 `careerai/live-browser-run-tracking` no la incluyen).
+
+---
+
+## 2026-09-18 — Hallazgo: `galantes-jewelry` estaba "documentado como movido" sin haberse movido fisicamente; bloqueado el intento de corregirlo (Claude Code)
+
+**Rama:** `reorg/target-schema`
+
+**Contexto:** el usuario reporto "seguimos sin lograr el objetivo" sin mas
+detalle. Se reviso el estado real: `governance/registry/projects/galantes-jewelry.json`
+declaraba `"checkoutPath": "client-solutions/galantes-jewelry"` y
+`"verificationStatus": "relocated-r02-2026-09-11"` desde el 2026-09-11, pero
+al verificar el disco el 2026-09-18 el checkout independiente real (con su
+`.git` anidado, `node_modules`, `secrets/`, `.env.local`, etc.) seguia
+integro en `apps/galantes-jewelry/`. En `client-solutions/galantes-jewelry/`
+solo existia un `AGENTS.md` suelto (contenido ya incluido en el `AGENTS.md`
+real, confirmado por grep) -- ningun otro archivo. Es exactamente el patron
+que el usuario ya habia penalizado antes en esta rama: "trabajo solo
+documentado, sin mover nada real".
+
+**Que se corrigio (cambios de solo texto, sin tocar el checkout):**
+1. `governance/registry/projects/galantes-jewelry.json` -- se corrige
+   `checkoutPath` a la ruta REAL en disco (`apps/galantes-jewelry`), se anade
+   `declaredTargetCheckoutPath` para no perder el destino acordado
+   (`client-solutions/galantes-jewelry`), y `verificationStatus` pasa a
+   `declared-relocated-2026-09-11-BUT-NOT-PHYSICALLY-MOVED` con una nota
+   explicita del hallazgo.
+2. `.gitignore` -- la entrada solo cubria `apps/galantes-jewelry/`; se anade
+   tambien `client-solutions/galantes-jewelry/` (para que, sea cual sea la
+   ruta fisica mientras el movimiento este pendiente, nunca se trackee por
+   accidente) y se documenta la discrepancia en el comentario.
+3. Se verifico `governance/migration/inventory/target_directory_schema_gap_analysis.md`
+   -- esa tabla ya reflejaba la realidad correctamente (`⚠️ Carpeta creada,
+   contenido no movido`), no requirio cambios.
+
+**Que NO se pudo hacer y por que:** el paso que realmente cierra este
+hallazgo -- mover `apps/galantes-jewelry/` a `client-solutions/galantes-jewelry/`
+en disco (despues de descartar el `AGENTS.md` suelto, contenido redundante) --
+fue bloqueado por el clasificador de auto-mode del harness con motivo
+"Irreversible Local Destruction", incluso intentando primero mover (no
+borrar) el `AGENTS.md` suelto a una carpeta de respaldo reversible. El
+bloqueo aplica tanto a `rm` como a `mv` cerca de esta ruta (contiene
+`secrets/` y `.env.local`, probable motivo de la clasificacion conservadora).
+No se intento evadir el bloqueo.
+
+**Accion pendiente para el usuario (requiere su ejecucion o su permiso
+explicito de Bash para esta ruta):**
+```
+cd C:\Users\yoeli\Documents\GetUpSoft_Workspace
+mv client-solutions/galantes-jewelry/AGENTS.md /tmp/galantes-jewelry-stub-AGENTS.md.bak   # opcional, respaldo del stub redundante
+rmdir client-solutions/galantes-jewelry
+mv apps/galantes-jewelry client-solutions/galantes-jewelry
+```
+Despues de mover: correr `git status` (no deberia cambiar nada trackeado,
+ambas rutas estan en `.gitignore`) y confirmar que `client-solutions/galantes-jewelry/.git`
+existe y `apps/galantes-jewelry` ya no existe. Una vez movido fisicamente,
+revertir el `checkoutPath`/`verificationStatus` del registry a
+`client-solutions/galantes-jewelry` / `relocated-2026-09-18-verified`.
+
+**Como revertir estos cambios de texto:** `git diff .gitignore governance/registry/projects/galantes-jewelry.json`
+en este checkpoint muestra el diff completo; ningun archivo del checkout
+independiente fue tocado.
