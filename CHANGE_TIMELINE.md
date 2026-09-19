@@ -6453,3 +6453,58 @@ anterior) sigue bloqueado por el clasificador de auto-mode; requiere que el
 usuario lo ejecute o conceda permiso explicito de Bash para esa ruta.
 
 **Como revertir:** `git revert <hash>` (commit unico, solo `.gitignore`).
+
+---
+
+## 2026-09-19 — Scaffolding `products/`/`workers/`/`infrastructure/` y cierre del `git mv` colgado de `apps/orca` -> `platform/orca` (Claude Code)
+
+**Rama:** `reorg/target-schema`
+
+**Contexto:** el usuario pidio continuar trabajo seguro. Se releyo
+`governance/migration/inventory/target_directory_schema_gap_analysis.md`,
+que proponia como "paso 1, seguro, bajo riesgo, ejecutable ya": crear
+`products/`, `workers/`, `infrastructure/` vacios con README explicando
+destino y advertencias de colision.
+
+**Commit `6cd7ad8ac6`:** `products/README.md`, `workers/README.md`,
+`infrastructure/README.md` -- carpetas creadas vacias, sin mover ningun
+contenido real. `workers/README.md` deja escrito explicitamente que
+`apps/local_printer_agent/Chefalitas/` no se mueve sin coordinar con
+`codex-chefalitas-recovery-20260916` (recuperacion de produccion en curso).
+
+**Investigacion de la "triplicacion" `apps/orca` vs `services/orca` vs
+`platform/orca`** (solo lectura, sin mover nada): `services/orca` NO es un
+duplicado -- es la capa de servicios core, separada por diseno (R02 seccion
+2.2), como ya indicaba una nota anterior. `platform/orca` es la app real
+(4128 archivos, movida en `2f3ed7c1f5`). `apps/orca` solo tenia 24 archivos
+trackeados residuales: el `git mv` original no incluyo dotfiles/directorios
+ocultos (`.dockerignore`, `.env.example`, `.gitattributes`, `.gitignore`,
+`.github/workflows/deploy.yml`, y todo `workflow-editor/.agents/`).
+
+**Commit `<ver git log -1>`:** se completo el `git mv` de esos 24 archivos
+hacia sus rutas equivalentes en `platform/orca/` (sin conflictos en destino,
+verificado antes de mover). Bloqueado inicialmente por el clasificador de
+auto-mode ("Modify Shared Resources", probablemente por incluir
+`.github/workflows/deploy.yml`); el usuario concedio permiso de Bash
+explicito para esta ruta y se re-ejecuto con exito. `apps/orca/` en disco
+solo conserva ahora contenido no trackeado y regenerable/sensible que
+correctamente NO se movio: `.env`, `.env.local` (secretos reales) y `.venv/`
+(entorno Python completo, regenerable).
+
+**Que sigue pendiente, sin tocar en este checkpoint:**
+- El movimiento fisico de `apps/galantes-jewelry` -> `client-solutions/galantes-jewelry`
+  (entrada anterior) sigue sin ejecutarse.
+- `apps/orca/.env`, `.env.local`, `.venv/` siguen fisicamente en `apps/orca/`
+  (correcto dejarlos: no son trackeados, y `.venv/` es voluminoso y
+  regenerable con `uv sync` / `pip install`). Limpieza de la carpeta vacia
+  restante (borrar el directorio `apps/orca/` una vez sin archivos utiles)
+  queda para cuando el usuario confirme que nada mas lo necesita ahi.
+- El resto del gap analysis (`13 carpetas numeradas legacy`, `.runtime/`,
+  contenido real de `products/`/`workers/`/`infrastructure/`) sigue
+  pendiente y requiere el mismo patron: investigar antes de mover, verificar
+  colisiones con `ACTIVE_SESSION.md`, un commit por subsistema.
+
+**Como revertir:** `git revert <hash-del-mv>` restaura los 24 archivos en
+`apps/orca/`; `git revert 6cd7ad8ac6` elimina el scaffolding de las 3
+carpetas nuevas. Ninguno de los dos toca `apps/orca/.env*` ni `.venv/`
+(nunca estuvieron trackeados).
